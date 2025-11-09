@@ -26,7 +26,7 @@ bool MakeRelativePath( const char *pszSrcName, const char *pszDstName, string &s
 	const char *pszs = szTempSrc.c_str();
 	const char *pszd = szTempDst.c_str();
 
-	//Проверяем имя диска
+	//РџСЂРѕРІРµСЂСЏРµРј РёРјСЏ РґРёСЃРєР°
 	if ( pszs[0] != pszd[0] || pszs[1] != pszd[1] || pszs[2] != pszd[2] )
 		return false;
 
@@ -59,7 +59,7 @@ bool MakeSubRelativePath( const char *pszSrcName, const char *pszDstName, string
 		if ( szResult.size() == 0 )
 			return true;
 
-		if ( szResult[0] == '.' )		//тогда не внутри src директории
+		if ( szResult[0] == '.' )		//С‚РѕРіРґР° РЅРµ РІРЅСѓС‚СЂРё src РґРёСЂРµРєС‚РѕСЂРёРё
 		{
 			szResult = "";
 			return false;
@@ -170,7 +170,7 @@ FILETIME GetFileChangeTime( const char *pszFileName )
 	if ( !bRes )
 		return zero;
 	
-	//Возвращаю максимальное время из времени создания и времени последней модификации
+	//Р’РѕР·РІСЂР°С‰Р°СЋ РјР°РєСЃРёРјР°Р»СЊРЅРѕРµ РІСЂРµРјСЏ РёР· РІСЂРµРјРµРЅРё СЃРѕР·РґР°РЅРёСЏ Рё РІСЂРµРјРµРЅРё РїРѕСЃР»РµРґРЅРµР№ РјРѕРґРёС„РёРєР°С†РёРё
 	if ( fileInfo.ftCreationTime > fileInfo.ftLastWriteTime )
 		return fileInfo.ftCreationTime;
 	else
@@ -289,7 +289,7 @@ void CFrameManager::SetActiveFrame( CParentFrame *pNewActiveFrame )
 
 	if ( activeFrameType != pActiveFrame->GetFrameType() && theApp.IsInitFinished() )
 	{
-		theApp.SaveNewFrameTypeToRegister();			//сразу сохраним инфу в реестре
+		theApp.SaveNewFrameTypeToRegister();			//СЃСЂР°Р·Сѓ СЃРѕС…СЂР°РЅРёРј РёРЅС„Сѓ РІ СЂРµРµСЃС‚СЂРµ
 	}
 	activeFrameType = ( CFrameManager::EFrameType ) pActiveFrame->GetFrameType();
 	
@@ -310,7 +310,7 @@ CParentFrame *CFrameManager::GetFrame( int nID )
 
 CParentFrame *CFrameManager::ActivateFrameByExtension( const char *pszExtension )
 {
-	//найдем frame, соответствующий расширению файла
+	//РЅР°Р№РґРµРј frame, СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РёР№ СЂР°СЃС€РёСЂРµРЅРёСЋ С„Р°Р№Р»Р°
 	std::string szExtension = pszExtension;
 	int nTemp = szExtension.rfind( '.' );
 	if ( nTemp == std::string::npos )

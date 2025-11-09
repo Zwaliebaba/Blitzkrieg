@@ -5,9 +5,9 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-//Базовые интерфейсы
+//Р‘Р°Р·РѕРІС‹Рµ РёРЅС‚РµСЂС„РµР№СЃС‹
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//Средство рисования примитивов
+//РЎСЂРµРґСЃС‚РІРѕ СЂРёСЃРѕРІР°РЅРёСЏ РїСЂРёРјРёС‚РёРІРѕРІ
 class IMiniMapDrawTool
 {
 public:
@@ -30,7 +30,7 @@ public:
 	virtual ~IMiniMapDrawTool() { }
 };
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//Примитив
+//РџСЂРёРјРёС‚РёРІ
 class IMiniMapElement : public IRefCount
 {
 public:
@@ -39,15 +39,15 @@ public:
 	virtual void Draw( IMiniMapDrawTool* pTool ) = 0;
 };
 
-//Готовые примитивы
+//Р“РѕС‚РѕРІС‹Рµ РїСЂРёРјРёС‚РёРІС‹
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//Рамка игрового экрана
+//Р Р°РјРєР° РёРіСЂРѕРІРѕРіРѕ СЌРєСЂР°РЅР°
 class CScreenFrame : public IMiniMapElement
 {
 	OBJECT_NORMAL_METHODS( CScreenFrame );
 
 private:
-	//внутренние данные
+	//РІРЅСѓС‚СЂРµРЅРЅРёРµ РґР°РЅРЅС‹Рµ
 	CTPoint<int> point0;
 	CTPoint<int> point1;
 	CTPoint<int> point2;
@@ -58,7 +58,7 @@ private:
 	COLORREF penColor;
 
 public:	
-	//конструктор, конструктор копирования, оператор копирования, деструктор
+	//РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ, РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РєРѕРїРёСЂРѕРІР°РЅРёСЏ, РѕРїРµСЂР°С‚РѕСЂ РєРѕРїРёСЂРѕРІР°РЅРёСЏ, РґРµСЃС‚СЂСѓРєС‚РѕСЂ
 	CScreenFrame( int _penStyle = PS_SOLID, int _penWidth = 1, COLORREF _penColor = RGB( 0xFF, 0xFF, 0xFF ) )
 		: point0( 0, 0 ), point1( 0, 0 ), point2( 0, 0 ), point3( 0, 0 ),
 		  penStyle( _penStyle ), penWidth ( _penWidth ), penColor( _penColor ) { }
@@ -125,7 +125,7 @@ class CFireRangeAreas : public IMiniMapElement
 	OBJECT_NORMAL_METHODS( CFireRangeAreas );
 
 private:
-	//внутренние данные
+	//РІРЅСѓС‚СЂРµРЅРЅРёРµ РґР°РЅРЅС‹Рµ
 	std::vector<SShootAreas> areas;
 
 	int circlePenStyle;
@@ -137,7 +137,7 @@ private:
 	//
 	void DrawShootArea( IMiniMapDrawTool* pTool, const SShootArea &area );
 public:	
-	//конструктор, конструктор копирования, оператор копирования, деструктор
+	//РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ, РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РєРѕРїРёСЂРѕРІР°РЅРёСЏ, РѕРїРµСЂР°С‚РѕСЂ РєРѕРїРёСЂРѕРІР°РЅРёСЏ, РґРµСЃС‚СЂСѓРєС‚РѕСЂ
 	CFireRangeAreas( const int _circlePenStyle = PS_SOLID, const int _circlePenWidth = 1,
 									 const int _sectorPenStyle = PS_SOLID, const int _sectorPenWidth = 1 )
 		: circlePenStyle( _circlePenStyle ), circlePenWidth( _circlePenWidth ),
@@ -159,7 +159,7 @@ class CReservePositions : public IMiniMapElement
 	OBJECT_NORMAL_METHODS( CReservePositions );
 
 private:
-	//внутренние данные
+	//РІРЅСѓС‚СЂРµРЅРЅРёРµ РґР°РЅРЅС‹Рµ
 	std::vector< std::vector<CTPoint<int> > > positions;
 	std::vector<CTPoint<int> > currentPosition;
 
@@ -172,7 +172,7 @@ private:
 	COLORREF sectorPenColor;
 
 public:	
-	//конструктор, конструктор копирования, оператор копирования, деструктор
+	//РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ, РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РєРѕРїРёСЂРѕРІР°РЅРёСЏ, РѕРїРµСЂР°С‚РѕСЂ РєРѕРїРёСЂРѕРІР°РЅРёСЏ, РґРµСЃС‚СЂСѓРєС‚РѕСЂ
 	CFireRangeAreas( int _circlePenStyle = PS_SOLID, 
 									 int _circlePenWidth = 1,
 									 COLORREF _circlePenColor = RGB( 0xFF, 0xFF, 0xFF ),
@@ -242,7 +242,7 @@ class CMiniMapTerrain : public IMiniMapElement
 	OBJECT_NORMAL_METHODS( CMiniMapTerrain );
 
 private:
-	//внутренние данные
+	//РІРЅСѓС‚СЂРµРЅРЅРёРµ РґР°РЅРЅС‹Рµ
 	CDC dc;
 	CBitmap *pBitmap;
 	CBitmap *pOldBitmap;
@@ -274,7 +274,7 @@ private:
 	}
 
 public:	
-	//конструктор, конструктор копирования, оператор копирования, деструктор
+	//РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ, РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РєРѕРїРёСЂРѕРІР°РЅРёСЏ, РѕРїРµСЂР°С‚РѕСЂ РєРѕРїРёСЂРѕРІР°РЅРёСЏ, РґРµСЃС‚СЂСѓРєС‚РѕСЂ
 	CMiniMapTerrain() 
 		: pBitmap( 0 ), pOldBitmap( 0 ), size( 0, 0 ), bGame( false )
 	{
@@ -291,7 +291,7 @@ public:
 	void SetInGame( bool _bGame ) { bGame = _bGame; } 
 	bool GetInGame() { return bGame; } 
 
-	//дополнительные методы
+	//РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹Рµ РјРµС‚РѕРґС‹
 	void UpdateColor();
 
 	//IMiniMapElement interface	
@@ -316,7 +316,7 @@ class CMiniMapTerrainGrid : public IMiniMapElement
 	OBJECT_NORMAL_METHODS( CMiniMapTerrainGrid );
 
 private:
-	//внутренние данные
+	//РІРЅСѓС‚СЂРµРЅРЅРёРµ РґР°РЅРЅС‹Рµ
 	CTPoint<int> size;
 	CTPoint<int> glidLines;
 
@@ -325,7 +325,7 @@ private:
 	COLORREF penColor;
 
 public:	
-	//конструктор, конструктор копирования, оператор копирования, деструктор
+	//РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ, РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РєРѕРїРёСЂРѕРІР°РЅРёСЏ, РѕРїРµСЂР°С‚РѕСЂ РєРѕРїРёСЂРѕРІР°РЅРёСЏ, РґРµСЃС‚СЂСѓРєС‚РѕСЂ
 	CMiniMapTerrainGrid( int _penStyle = PS_SOLID, int _penWidth = 1, COLORREF _penColor = RGB( 0xFF, 0xFF, 0xFF ) )
 		: size( 0, 0 ), glidLines( 0, 0 ),
 		  penStyle( _penStyle ), penWidth ( _penWidth ), penColor( _penColor ) { }

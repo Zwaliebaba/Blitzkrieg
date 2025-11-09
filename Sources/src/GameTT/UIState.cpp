@@ -143,7 +143,7 @@ void CUISelectCampaignState::Show()
 	IDataStorage *pStorage = GetSingleton<IDataStorage>();
 	IUIScreen *pUIScreen = GetMainInterface()->GetUIScreen();
 
-	// CRAP{ êðèâî ó íàñ êàìïàíèè íà óðîâíå èíòåðôåéñà ñäåëàíû...
+	// CRAP{ ÐºÑ€Ð¸Ð²Ð¾ Ñƒ Ð½Ð°Ñ ÐºÐ°Ð¼Ð¿Ð°Ð½Ð¸Ð¸ Ð½Ð° ÑƒÑ€Ð¾Ð²Ð½Ðµ Ð¸Ð½Ñ‚ÐµÑ€Ñ„ÐµÐ¹ÑÐ° ÑÐ´ÐµÐ»Ð°Ð½Ñ‹...
 	const int indices[] = { 10004, 10003, 10002 };
 	// 10004 - german (0), 10003 - russian (1), 10002 - allies (2)
 	// CRAP}
@@ -202,7 +202,7 @@ bool CUISelectCampaignState::ProcessMessage( const SGameMessage &msg )
 				SetGlobalVar( "Campaign.Current", -1 );
 				break;
 			}
-			// ïðîèãðàåì âèäåî
+			// Ð¿Ñ€Ð¾Ð¸Ð³Ñ€Ð°ÐµÐ¼ Ð²Ð¸Ð´ÐµÐ¾
 			SetGlobalVar( "Campaign.Current.Name", pCampaignStats->szParentName.c_str() );
 			GetSingleton<IScenarioTracker>()->StartCampaign( pCampaignStats->szParentName.c_str(), CAMPAIGN_TYPE_SINGLE );
 

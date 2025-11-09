@@ -148,7 +148,7 @@ void C3DRoadFrame::FillRPGStats( SVectorStripeObjectDesc &desc, CTreeItem *pRoot
 	desc.nPriority = pCommonPropsItem->GetPriority();
 	desc.fPassability = pCommonPropsItem->GetPassability();
 
-	//âû÷èñëÿåì AI êëàññû ïðîõîäèìîñòè
+	//Ð²Ñ‹Ñ‡Ð¸ÑÐ»ÑÐµÐ¼ AI ÐºÐ»Ð°ÑÑÑ‹ Ð¿Ñ€Ð¾Ñ…Ð¾Ð´Ð¸Ð¼Ð¾ÑÑ‚Ð¸
 	desc.dwAIClasses = 0;
 	if ( pCommonPropsItem->GetPassForInfantry() )
 		desc.dwAIClasses |= AI_CLASS_HUMAN;
@@ -231,7 +231,7 @@ void C3DRoadFrame::GetRPGStats( const SVectorStripeObjectDesc &desc, CTreeItem *
 
 	if ( desc.bottomBorders.size() > 0 )
 	{
-		//äîáàâèì áîðäþðû
+		//Ð´Ð¾Ð±Ð°Ð²Ð¸Ð¼ Ð±Ð¾Ñ€Ð´ÑŽÑ€Ñ‹
 		C3DRoadLayerPropsItem *pLayerProps = new C3DRoadLayerPropsItem;
 
 		pLayerProps->SetItemName( "Border layer" );

@@ -21,7 +21,7 @@ static const NInput::SRegisterCommandEntry commands[] =
 void CICSingleMedal::Configure( const char *pszConfig )
 {
 	if ( !pszConfig ) return;
-	//получаем параметры из командной строки
+	//РїРѕР»СѓС‡Р°РµРј РїР°СЂР°РјРµС‚СЂС‹ РёР· РєРѕРјР°РЅРґРЅРѕР№ СЃС‚СЂРѕРєРё
 	szName = pszConfig;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -75,7 +75,7 @@ void CInterfaceSingleMedal::Create( const char *pszName )
 	pCaption->SetWindowText( 0, pTextCaption->GetString() );
 
 	
-	//установим правильный размер для картинки
+	//СѓСЃС‚Р°РЅРѕРІРёРј РїСЂР°РІРёР»СЊРЅС‹Р№ СЂР°Р·РјРµСЂ РґР»СЏ РєР°СЂС‚РёРЅРєРё
 	const CVec2 vMedalSize ( pMedalStats->mapImageRect.x1,  pMedalStats->mapImageRect.y1 );
 	CVec2 vStaticSize;
 	CVec2 vStaticPos;
@@ -89,7 +89,7 @@ void CInterfaceSingleMedal::Create( const char *pszName )
 	pPicture->SetWindowPlacement( 0, &size );
 	*/
 	
-	//установим map для картинки
+	//СѓСЃС‚Р°РЅРѕРІРёРј map РґР»СЏ РєР°СЂС‚РёРЅРєРё
 	CTRect<float> rc( 0.0f, 0.0f, pMedalStats->mapImageRect.x2, pMedalStats->mapImageRect.y2 );
 	pPicture->SetWindowMap( rc );
 	
@@ -112,7 +112,7 @@ bool CInterfaceSingleMedal::ProcessMessage( const SGameMessage &msg )
 			return true;
 			
 		case IMC_SHOW_ENCYCLOPEDIA:
-			//вызовем энциклопедию
+			//РІС‹Р·РѕРІРµРј СЌРЅС†РёРєР»РѕРїРµРґРёСЋ
 			const SMedalStats *pMedalStats = NGDB::GetGameStats<SMedalStats>( szMedalName.c_str(), IObjectsDB::MEDAL );
 			NI_ASSERT_TF( pMedalStats != 0, "Invalid medal stats in SingleMedal interface", return true );
 			std::string szTemp = NStr::Format( "%d;", E_MEDAL );

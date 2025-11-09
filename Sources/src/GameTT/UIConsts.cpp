@@ -88,8 +88,8 @@ void CUIConsts::CreateDescription( const struct SChapterStats::SMission *pStats,
 		return;
 	ITextManager *pTM = GetSingleton<ITextManager>();
 	
-	//óñòàíîâèì òóëòèï íà òåìó ÷òî âíóòðè ìèññèè
-	//îáùåå
+	//ÑƒÑÑ‚Ð°Ð½Ð¾Ð²Ð¸Ð¼ Ñ‚ÑƒÐ»Ñ‚Ð¸Ð¿ Ð½Ð° Ñ‚ÐµÐ¼Ñƒ Ñ‡Ñ‚Ð¾ Ð²Ð½ÑƒÑ‚Ñ€Ð¸ Ð¼Ð¸ÑÑÐ¸Ð¸
+	//Ð¾Ð±Ñ‰ÐµÐµ
 	//Mission: Mission Name
 	IText *pText = pTM->GetString( "missiontext" );
 	*pDescription += pText->GetString();
@@ -148,7 +148,7 @@ void CUIConsts::CreateDescription( const struct SChapterStats::SMission *pStats,
 		*pDescription += L"\n";
 	}
 
-	//îáùåå
+	//Ð¾Ð±Ñ‰ÐµÐµ
 	//Mission Description:
 	*pDescription += L"\n";
 	pText = pTM->GetString( "missiondescriptiontext" );
@@ -157,7 +157,7 @@ void CUIConsts::CreateDescription( const struct SChapterStats::SMission *pStats,
 	pText = pTM->GetString( pMissionStats->szDescriptionText.c_str() );
 	*pDescription += pText->GetString();
 
-	//òîëüêî äëÿ random missions
+	//Ñ‚Ð¾Ð»ÑŒÐºÐ¾ Ð´Ð»Ñ random missions
 	if ( pMissionStats->IsTemplate() && bNeedBonuses )
 	{
 		//all available bonuses

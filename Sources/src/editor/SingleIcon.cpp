@@ -77,7 +77,7 @@ void CSingleIcon::LoadBitmap( const char *pszFullFileName, const char *pszInvali
 	if ( m_fB != 0 || m_fC != 0 || m_fG != 0 )
 		pImage = pImageProcessor->CreateGammaCorrection( pImage, m_fB, m_fC, m_fG );
 
-	//Создаем новый image и ресайзируем старый в него
+	//вЂ”РѕР·РґР°РµРј РЅРѕРІС‹Р№ image Рё СЂРµСЃР°Р№Р·РёСЂСѓРµРј СЃС‚Р°СЂС‹Р№ РІ РЅРµРіРѕ
 	int nSizeX = pImage->GetSizeX();
 	int nSizeY = pImage->GetSizeY();
 	double fRateX = (double) m_nSizeX/nSizeX;
@@ -89,7 +89,7 @@ void CSingleIcon::LoadBitmap( const char *pszFullFileName, const char *pszInvali
 	nSizeX = pScaleImage->GetSizeX();
 	nSizeY = pScaleImage->GetSizeY();
 	
-	//Создаем центрированный image чтобы он был посередине картинки
+	//вЂ”РѕР·РґР°РµРј С†РµРЅС‚СЂРёСЂРѕРІР°РЅРЅС‹Р№ image С‡С‚РѕР±С‹ РѕРЅ Р±С‹Р» РїРѕСЃРµСЂРµРґРёРЅРµ РєР°СЂС‚РёРЅРєРё
 	if ( nSizeY < m_nSizeY )
 	{
 		int nUp = (m_nSizeY - nSizeY)/2;
@@ -112,7 +112,7 @@ void CSingleIcon::LoadBitmap( const char *pszFullFileName, const char *pszInvali
 	nSizeX = pScaleImage->GetSizeX();
 	nSizeY = pScaleImage->GetSizeY();
 	
-	//Создаем HBITMAP чтобы прогрузить её в image list
+	//вЂ”РѕР·РґР°РµРј HBITMAP С‡С‚РѕР±С‹ РїСЂРѕРіСЂСѓР·РёС‚СЊ РµР„ РІ image list
 	BITMAPINFO bmi;
 	bmi.bmiHeader.biSize  = sizeof( bmi.bmiHeader );
 	bmi.bmiHeader.biWidth  = nSizeX;

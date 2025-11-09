@@ -16,7 +16,7 @@ int CSinglePlayerTransceiver::operator&( IStructureSaver &ss )
 		pCmdsHistory = GetSingleton<ICommandsHistory>();
 	}
 
-	// чтобы не пересекалась с multiplayer history
+	// С‡С‚РѕР±С‹ РЅРµ РїРµСЂРµСЃРµРєР°Р»Р°СЃСЊ СЃ multiplayer history
 	saver.Add( 101, &nCommonSegment );
 	saver.Add( 102, &bHistoryPlaying );
 

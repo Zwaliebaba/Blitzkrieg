@@ -60,13 +60,13 @@ void CUINumberIndicator::Visit( interface ISceneVisitor *pVisitor )
 		return;
 	CSimpleWindow::Visit( pVisitor );
 	
-	// рисуем информацию
+	// СЂРёСЃСѓРµРј РёРЅС„РѕСЂРјР°С†РёСЋ
 	DWORD dwColor = 0xffffffff;
 	if ( valueColors.size() >= 2 )
 	{
 		do
 		{
-			//интерполируем цвет
+			//РёРЅС‚РµСЂРїРѕР»РёСЂСѓРµРј С†РІРµС‚
 			if ( m_fVal <= valueColors[0].fVal )
 			{
 				dwColor = valueColors[0].dwColor;
@@ -119,14 +119,14 @@ void CUINumberIndicator::Draw( IGFX *pGFX )
 		return;
 	CSimpleWindow::Draw( pGFX );
 	
-	//рисуем информацию
+	//СЂРёСЃСѓРµРј РёРЅС„РѕСЂРјР°С†РёСЋ
 	pGFX->SetShadingEffect( 3 );
 	DWORD dwColor = 0xffffffff;
 	if ( valueColors.size() >= 2 )
 	{
 		do
 		{
-			//интерполируем цвет
+			//РёРЅС‚РµСЂРїРѕР»РёСЂСѓРµРј С†РІРµС‚
 			if ( m_fVal <= valueColors[0].fVal )
 			{
 				dwColor = valueColors[0].dwColor;

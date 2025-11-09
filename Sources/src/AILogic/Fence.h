@@ -21,9 +21,9 @@ class CFence : public CCommonStaticObject
 	enum ETypesOfLife { ETOL_SAFE, ETOL_LEFT, ETOL_RIGHT, ETOL_DESTROYED };
 	ETypesOfLife eLifeType;
 
-	// соседние заборы
+	// СЃРѕСЃРµРґРЅРёРµ Р·Р°Р±РѕСЂС‹
 	std::list< CPtr<CFence> > neighFences;
-	// стороны, у которых ломаются заборы
+	// СЃС‚РѕСЂРѕРЅС‹, Сѓ РєРѕС‚РѕСЂС‹С… Р»РѕРјР°СЋС‚СЃСЏ Р·Р°Р±РѕСЂС‹
 	std::list<ETypesOfLife> dirToBreak;
 
 	//

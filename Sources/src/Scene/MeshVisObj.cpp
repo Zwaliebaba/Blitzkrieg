@@ -74,50 +74,50 @@ inline void GetMinMax( CVec2 *pRes, float x1, float x2, float x3, float x4 )
 inline void GetMinMax( CVec2 *pMinMax1, CVec2 *pMinMax2, const CVec2 &vAxis, const CTRect<float> &rect, 
 							         const CVec3 &pt0, const CVec3 &pt1, const CVec3 &pt2, const CVec3 &pt3 )
 {
-	// проекция rect'а
+	// РїСЂРѕРµРєС†РёВ¤ rect'Р°
 	GetMinMax( pMinMax1, rect.x1*vAxis.x + rect.y1*vAxis.y, rect.x1*vAxis.x + rect.y2*vAxis.y,
 			                 rect.x2*vAxis.x + rect.y1*vAxis.y, rect.x2*vAxis.x + rect.y2*vAxis.y );
-	// проекция произвольного многоугольника
+	// РїСЂРѕРµРєС†РёВ¤ РїСЂРѕРёР·РІРѕР»СЊРЅРѕРіРѕ РјРЅРѕРіРѕСѓРіРѕР»СЊРЅРёРєР°
 	CVec2 vMinMax2;
 	GetMinMax( pMinMax2, pt0.x*vAxis.x + pt0.y*vAxis.y, pt1.x*vAxis.x + pt1.y*vAxis.y,
 			                 pt2.x*vAxis.x + pt2.y*vAxis.y, pt3.x*vAxis.x + pt3.y*vAxis.y );
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// 2 прямоугольника не пересекаются если их проекции хотя-бы на одном из перпендикуляров к их граням не пересекаются
-// проектирование на перпендикуляры к 'screen rect' есть просто выбор 'x' или 'y' координаты
-// при проектировании на произвольную прямую, заданную вектором (x, y), мы просто умножаем каждую компоненту на (x, y)
-// всего есть 6 прямых, на которые надо спроектировать: {1, 0}, {0, 1}, {x1, y1}, {x2, y2}, {x3, y3}, {x4, y4}
+// 2 РїСЂВ¤РјРѕСѓРіРѕР»СЊРЅРёРєР° РЅРµ РїРµСЂРµСЃРµРєР°СЋС‚СЃВ¤ РµСЃР»Рё РёС… РїСЂРѕРµРєС†РёРё С…РѕС‚В¤-Р±С‹ РЅР° РѕРґРЅРѕРј РёР· РїРµСЂРїРµРЅРґРёРєСѓР»В¤СЂРѕРІ Рє РёС… РіСЂР°РЅВ¤Рј РЅРµ РїРµСЂРµСЃРµРєР°СЋС‚СЃВ¤
+// РїСЂРѕРµРєС‚РёСЂРѕРІР°РЅРёРµ РЅР° РїРµСЂРїРµРЅРґРёРєСѓР»В¤СЂС‹ Рє 'screen rect' РµСЃС‚СЊ РїСЂРѕСЃС‚Рѕ РІС‹Р±РѕСЂ 'x' РёР»Рё 'y' РєРѕРѕСЂРґРёРЅР°С‚С‹
+// РїСЂРё РїСЂРѕРµРєС‚РёСЂРѕРІР°РЅРёРё РЅР° РїСЂРѕРёР·РІРѕР»СЊРЅСѓСЋ РїСЂВ¤РјСѓСЋ, Р·Р°РґР°РЅРЅСѓСЋ РІРµРєС‚РѕСЂРѕРј (x, y), РјС‹ РїСЂРѕСЃС‚Рѕ СѓРјРЅРѕР¶Р°РµРј РєР°Р¶РґСѓСЋ РєРѕРјРїРѕРЅРµРЅС‚Сѓ РЅР° (x, y)
+// РІСЃРµРіРѕ РµСЃС‚СЊ 6 РїСЂВ¤РјС‹С…, РЅР° РєРѕС‚РѕСЂС‹Рµ РЅР°РґРѕ СЃРїСЂРѕРµРєС‚РёСЂРѕРІР°С‚СЊ: {1, 0}, {0, 1}, {x1, y1}, {x2, y2}, {x3, y3}, {x4, y4}
 bool IsIntersected( const CTRect<float> &rect, const CVec3 *points, const int *indices )
 {
 	const CVec3 &pt0 = points[ indices[0] ];
 	const CVec3 &pt1 = points[ indices[1] ];
 	const CVec3 &pt2 = points[ indices[2] ];
 	const CVec3 &pt3 = points[ indices[3] ];
-	// {1, 0} (горизонтальная прямая)
+	// {1, 0} (РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅР°В¤ РїСЂВ¤РјР°В¤)
 	{
-		// проекция rect'а
+		// РїСЂРѕРµРєС†РёВ¤ rect'Р°
 		CVec2 vMinMax1( rect.x1, rect.x2 );
-		// проекция произвольного прямоугольника
+		// РїСЂРѕРµРєС†РёВ¤ РїСЂРѕРёР·РІРѕР»СЊРЅРѕРіРѕ РїСЂВ¤РјРѕСѓРіРѕР»СЊРЅРёРєР°
 		CVec2 vMinMax2( Min( Min( pt0.x, pt1.x), Min( pt2.x, pt3.x ) ), 
 			              Max( Max( pt0.x, pt1.x), Max( pt2.x, pt3.x ) ) );
 		//
 		if ( (vMinMax1.x >= vMinMax2.y) || (vMinMax2.x >= vMinMax1.y) )
 			return false;
 	}
-	// {0, 1} (вертикальная прямая)
+	// {0, 1} (РІРµСЂС‚РёРєР°Р»СЊРЅР°В¤ РїСЂВ¤РјР°В¤)
 	{
-		// проекция rect'а
+		// РїСЂРѕРµРєС†РёВ¤ rect'Р°
 		CVec2 vMinMax1( rect.y1, rect.y2 );
-		// проекция произвольного прямоугольника
+		// РїСЂРѕРµРєС†РёВ¤ РїСЂРѕРёР·РІРѕР»СЊРЅРѕРіРѕ РїСЂВ¤РјРѕСѓРіРѕР»СЊРЅРёРєР°
 		CVec2 vMinMax2( Min( Min( pt0.y, pt1.y), Min( pt2.y, pt3.y ) ), 
 			              Max( Max( pt0.y, pt1.y), Max( pt2.y, pt3.y ) ) );
 		//
 		if ( (vMinMax1.x >= vMinMax2.y) || (vMinMax2.x >= vMinMax1.y) )
 			return false;
 	}
-	// {x1, y1} (1я прямая произвольного прямоугольника)
+	// {x1, y1} (1В¤ РїСЂВ¤РјР°В¤ РїСЂРѕРёР·РІРѕР»СЊРЅРѕРіРѕ РїСЂВ¤РјРѕСѓРіРѕР»СЊРЅРёРєР°)
 	{
-		// ось
+		// РѕСЃСЊ
 		const CVec2 vAxis( -(pt1.y - pt0.y), pt1.x - pt0.x );
 		//
 		CVec2 vMinMax1, vMinMax2;
@@ -126,9 +126,9 @@ bool IsIntersected( const CTRect<float> &rect, const CVec3 *points, const int *i
 		if ( (vMinMax1.x >= vMinMax2.y) || (vMinMax2.x >= vMinMax1.y) )
 			return false;
 	}
-	// {x2, y2} (2я прямая произвольного прямоугольника)
+	// {x2, y2} (2В¤ РїСЂВ¤РјР°В¤ РїСЂРѕРёР·РІРѕР»СЊРЅРѕРіРѕ РїСЂВ¤РјРѕСѓРіРѕР»СЊРЅРёРєР°)
 	{
-		// ось
+		// РѕСЃСЊ
 		const CVec2 vAxis( -(pt2.y - pt0.y), pt2.x - pt0.x );
 		//
 		CVec2 vMinMax1, vMinMax2;
@@ -137,9 +137,9 @@ bool IsIntersected( const CTRect<float> &rect, const CVec3 *points, const int *i
 		if ( (vMinMax1.x >= vMinMax2.y) || (vMinMax2.x >= vMinMax1.y) )
 			return false;
 	}
-	// {x3, y3} (3я прямая произвольного прямоугольника)
+	// {x3, y3} (3В¤ РїСЂВ¤РјР°В¤ РїСЂРѕРёР·РІРѕР»СЊРЅРѕРіРѕ РїСЂВ¤РјРѕСѓРіРѕР»СЊРЅРёРєР°)
 	{
-		// ось
+		// РѕСЃСЊ
 		const CVec2 vAxis( -(pt1.y - pt3.y), pt1.x - pt3.x );
 		//
 		CVec2 vMinMax1, vMinMax2;
@@ -148,9 +148,9 @@ bool IsIntersected( const CTRect<float> &rect, const CVec3 *points, const int *i
 		if ( (vMinMax1.x >= vMinMax2.y) || (vMinMax2.x >= vMinMax1.y) )
 			return false;
 	}
-	// {x4, y4} (4я прямая произвольного прямоугольника)
+	// {x4, y4} (4В¤ РїСЂВ¤РјР°В¤ РїСЂРѕРёР·РІРѕР»СЊРЅРѕРіРѕ РїСЂВ¤РјРѕСѓРіРѕР»СЊРЅРёРєР°)
 	{
-		// ось
+		// РѕСЃСЊ
 		const CVec2 vAxis( -(pt2.y - pt3.y), pt2.x - pt3.x );
 		//
 		CVec2 vMinMax1, vMinMax2;
@@ -213,7 +213,7 @@ bool CMeshVisObj::IsHit( const SHMatrix &matTransform, const RECT &rect )
 	return rcDst.IsInside( vScreenSphereCenter.x, vScreenSphereCenter.y );
 	/*
 	rcSrc.Intersect( rcDst );
-	// сделаем более точную проверку
+	// СЃРґРµР»Р°РµРј Р±РѕР»РµРµ С‚РѕС‡РЅСѓСЋ РїСЂРѕРІРµСЂРєСѓ
 	if ( !rcSrc.IsEmpty() )
 		return IsAABBIntersectRect( matrix, pMesh->GetAABB(), rect );
 	else
@@ -386,8 +386,8 @@ inline DWORD CheckLessZero( float fVal )
 inline DWORD CheckForViewVolume( const CVec3 &vCenter, float fRadius, const SPlane *pViewVolumePlanes )
 {
 	DWORD dwClipFlags = 0;
-  // на каждую плоскость две проверки: если расстояние до неё < -radius (т.е. далеко под плоскостью), то невидим
-  // иначе выставить соответствующий бит по факту того, что расстояние до плоскости < radius (т.е. -radius <= dist < radius).
+  // РЅР° РєР°Р¶РґСѓСЋ РїР»РѕСЃРєРѕСЃС‚СЊ РґРІРµ РїСЂРѕРІРµСЂРєРё: РµСЃР»Рё СЂР°СЃСЃС‚РѕВ¤РЅРёРµ РґРѕ РЅРµР„ < -radius (С‚.Рµ. РґР°Р»РµРєРѕ РїРѕРґ РїР»РѕСЃРєРѕСЃС‚СЊСЋ), С‚Рѕ РЅРµРІРёРґРёРј
+  // РёРЅР°С‡Рµ РІС‹СЃС‚Р°РІРёС‚СЊ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РёР№ Р±РёС‚ РїРѕ С„Р°РєС‚Сѓ С‚РѕРіРѕ, С‡С‚Рѕ СЂР°СЃСЃС‚РѕВ¤РЅРёРµ РґРѕ РїР»РѕСЃРєРѕСЃС‚Рё < radius (С‚.Рµ. -radius <= dist < radius).
 	// left
 	float fDist = pViewVolumePlanes[GFXCP_LEFT].GetDistanceToPoint( vCenter );
 	if ( fDist < -fRadius )
@@ -412,7 +412,7 @@ inline DWORD CheckForViewVolume( const CVec3 &vCenter, float fRadius, const SPla
 		return GFXCP_OUT;
 	else
 		dwClipFlags |= CheckLessZero( fDist - fRadius ) >> ( 31 - GFXCP_BOTTOM );
-	// нам не нужна здесь проверка на ближнюю и дальнюю плоскости
+	// РЅР°Рј РЅРµ РЅСѓР¶РЅР° Р·РґРµСЃСЊ РїСЂРѕРІРµСЂРєР° РЅР° Р±Р»РёР¶РЅСЋСЋ Рё РґР°Р»СЊРЅСЋСЋ РїР»РѕСЃРєРѕСЃС‚Рё
 	/*
 	// near
 	fDist = pViewVolumePlanes[GFXCP_NEAR].GetDistanceToPoint( vCenter );

@@ -27,7 +27,7 @@ class CPresizePath : public ISmoothPath
 	CVec2 vEndDir;
 	WORD wDesiredDir;
 
-	// CRAP{ пока не напишемнормальный путь. этот CRAP - претендетн на то, чтобы быть постоянным кодом
+	// CRAP{ РїРѕРєР° РЅРµ РЅР°РїРёС€РµРјРЅРѕСЂРјР°Р»СЊРЅС‹Р№ РїСѓС‚СЊ. СЌС‚РѕС‚ CRAP - РїСЂРµС‚РµРЅРґРµС‚РЅ РЅР° С‚Рѕ, С‡С‚РѕР±С‹ Р±С‹С‚СЊ РїРѕСЃС‚РѕСЏРЅРЅС‹Рј РєРѕРґРѕРј
 	CPtr<ISmoothPath> pPathStandart; 
 	CPtr<ISmoothPath> pPathCheat;
 	// CRAP}

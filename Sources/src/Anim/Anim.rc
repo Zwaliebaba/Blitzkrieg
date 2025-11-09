@@ -49,7 +49,7 @@ BEGIN
             VALUE "FileDescription", "Anim\0"
             VALUE "FileVersion", "1, 2, 0, 0\0"
             VALUE "InternalName", "Anim\0"
-            VALUE "LegalCopyright", "Copyright © 2002\0"
+            VALUE "LegalCopyright", "Copyright ?2002\0"
             VALUE "LegalTrademarks", "\0"
             VALUE "OriginalFilename", "Anim.dll\0"
             VALUE "PrivateBuild", "\0"

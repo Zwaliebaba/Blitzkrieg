@@ -5,7 +5,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-//все диалоги хранятся внутри этого элемента
+//РІСЃРµ РґРёР°Р»РѕРіРё С…СЂР°РЅСЏС‚СЃСЏ РІРЅСѓС‚СЂРё СЌС‚РѕРіРѕ СЌР»РµРјРµРЅС‚Р°
 #include "InputNotifyShortcutBar.h"
 #include "Input3DTabWnd.h"
 

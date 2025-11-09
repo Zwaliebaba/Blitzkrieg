@@ -22,14 +22,14 @@ class CAILogic : public IAILogic
 	bool bSuspended;
 	bool bFirstTime;
 	
-	// мосты
+	// РјРѕСЃС‚С‹
 	typedef std::list< std::list<CPtr<CBridgeSpan> > > Bridges;
 	Bridges bridges;
 
 	//
 	std::list< CObj<CCommonUnit> > garbage;
 
-	// скрипты
+	// СЃРєСЂРёРїС‚С‹
 	CScripts scripts;
 	CPtr<ISegmentTimer> pGameSegment;
 	
@@ -46,13 +46,13 @@ class CAILogic : public IAILogic
 	
 	typedef std::hash_set<CGDBPtr<SMechUnitRPGStats>, SDefaultPtrHash> CAvailTrucks;
 	CAvailTrucks availableTrucks;
-	// проверить, не является ли object грузовиком, подцеплённым к сценарийной артиллерии
-	// если да, ищет подходящий к артиллерии грузовик (в pNewStats) и возвращает true, если артиллерия не найдена - возвращает false
-	// если это не является таким грузовиком, возвращает true
+	// РїСЂРѕРІРµСЂРёС‚СЊ, РЅРµ СЏРІР»СЏРµС‚СЃСЏ Р»Рё object РіСЂСѓР·РѕРІРёРєРѕРј, РїРѕРґС†РµРїР»С‘РЅРЅС‹Рј Рє СЃС†РµРЅР°СЂРёР№РЅРѕР№ Р°СЂС‚РёР»Р»РµСЂРёРё
+	// РµСЃР»Рё РґР°, РёС‰РµС‚ РїРѕРґС…РѕРґСЏС‰РёР№ Рє Р°СЂС‚РёР»Р»РµСЂРёРё РіСЂСѓР·РѕРІРёРє (РІ pNewStats) Рё РІРѕР·РІСЂР°С‰Р°РµС‚ true, РµСЃР»Рё Р°СЂС‚РёР»Р»РµСЂРёСЏ РЅРµ РЅР°Р№РґРµРЅР° - РІРѕР·РІСЂР°С‰Р°РµС‚ false
+	// РµСЃР»Рё СЌС‚Рѕ РЅРµ СЏРІР»СЏРµС‚СЃСЏ С‚Р°РєРёРј РіСЂСѓР·РѕРІРёРєРѕРј, РІРѕР·РІСЂР°С‰Р°РµС‚ true
 	bool CheckForScenarioTruck( const SMapObjectInfo &object, IObjectsDB *pIDB, const SGDBObjectDesc *pDesc, const int nDBIndex, LinkInfo *linksInfo, const SMechUnitRPGStats **pNewStats ) const;
 
 	// Loading
-	// часть инициализации, общая для игры и редактора
+	// С‡Р°СЃС‚СЊ РёРЅРёС†РёР°Р»РёР·Р°С†РёРё, РѕР±С‰Р°СЏ РґР»СЏ РёРіСЂС‹ Рё СЂРµРґР°РєС‚РѕСЂР°
 	void CommonInit( const STerrainInfo &terrainInfo );
 
 	void LoadUnits( const struct SLoadMapInfo &mapInfo, LinkInfo *linksInfo );
@@ -152,9 +152,9 @@ public:
 
 	virtual void STDCALL Segment();
 
-	//CRAP{не надо добавлять артиллеристов в редакторе
+	//CRAP{РЅРµ РЅР°РґРѕ РґРѕР±Р°РІР»СЏС‚СЊ Р°СЂС‚РёР»Р»РµСЂРёСЃС‚РѕРІ РІ СЂРµРґР°РєС‚РѕСЂРµ
 	IRefCount* AddObject( const SMapObjectInfo &object, IObjectsDB *pIDB, LinkInfo *linksInfo, bool bInitialization, bool IsEditor, const SHPObjectRPGStats *pPassedStats );
-	//CRAP}не надо добавлять артиллеристов в редакторе
+	//CRAP}РЅРµ РЅР°РґРѕ РґРѕР±Р°РІР»СЏС‚СЊ Р°СЂС‚РёР»Р»РµСЂРёСЃС‚РѕРІ РІ СЂРµРґР°РєС‚РѕСЂРµ
 	void InitLinks( LinkInfo &linksInfo );
 	void LoadEntrenchments( const std::vector<struct SEntrenchmentInfo> &entrenchments );
 	void LoadBridges( const std::vector< std::vector<int> > &bridgesInfo );
@@ -200,7 +200,7 @@ public:
 			return 0;
 	}
 	
-	// при игре в multiplayer: все игроки загрузились и игра стартовала
+	// РїСЂРё РёРіСЂРµ РІ multiplayer: РІСЃРµ РёРіСЂРѕРєРё Р·Р°РіСЂСѓР·РёР»РёСЃСЊ Рё РёРіСЂР° СЃС‚Р°СЂС‚РѕРІР°Р»Р°
 	virtual void STDCALL NetGameStarted();
 	virtual bool STDCALL IsNetGameStarted() const;
 

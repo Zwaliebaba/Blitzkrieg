@@ -28,7 +28,7 @@ bool MakeRelativePath( const char *pszSrcName, const char *pszDstName, string &s
 	const char *pszs = szTempSrc.c_str();
 	const char *pszd = szTempDst.c_str();
 
-	//Ïðîâåðÿåì èìÿ äèñêà
+	//Ñ•Ñ€Ð¾Ð²ÐµÑ€Â¤ÐµÐ¼ Ð¸Ð¼Â¤ Ð´Ð¸ÑÐºÐ°
 	if ( pszs[0] != pszd[0] || pszs[1] != pszd[1] || pszs[2] != pszd[2] )
 		return false;
 
@@ -62,7 +62,7 @@ bool MakeSubRelativePath( const char *pszSrcName, const char *pszDstName, string
 		if ( szResult.empty() )
 			return true;
 
-		if ( szResult[0] == '.' )		//òîãäà íå âíóòðè src äèðåêòîðèè
+		if ( szResult[0] == '.' )		//Ñ‚Ð¾Ð³Ð´Ð° Ð½Ðµ Ð²Ð½ÑƒÑ‚Ñ€Ð¸ src Ð´Ð¸Ñ€ÐµÐºÑ‚Ð¾Ñ€Ð¸Ð¸
 		{
 			szResult = "";
 			return false;
@@ -152,7 +152,7 @@ FILETIME GetFileChangeTime( const char *pszFileName )
 	if ( !bRes )
 		return zero;
 
-	//Âîçâðàùàþ ìàêñèìàëüíîå âðåìÿ èç âðåìåíè ñîçäàíèÿ è âðåìåíè ïîñëåäíåé ìîäèôèêàöèè
+	//Â¬Ð¾Ð·Ð²Ñ€Ð°Ñ‰Ð°ÑŽ Ð¼Ð°ÐºÑÐ¸Ð¼Ð°Ð»ÑŒÐ½Ð¾Ðµ Ð²Ñ€ÐµÐ¼Â¤ Ð¸Ð· Ð²Ñ€ÐµÐ¼ÐµÐ½Ð¸ ÑÐ¾Ð·Ð´Ð°Ð½Ð¸Â¤ Ð¸ Ð²Ñ€ÐµÐ¼ÐµÐ½Ð¸ Ð¿Ð¾ÑÐ»ÐµÐ´Ð½ÐµÐ¹ Ð¼Ð¾Ð´Ð¸Ñ„Ð¸ÐºÐ°Ñ†Ð¸Ð¸
 	if ( fileInfo.ftCreationTime > fileInfo.ftLastWriteTime )
 		return fileInfo.ftCreationTime;
 	else

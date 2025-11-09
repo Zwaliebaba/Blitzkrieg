@@ -13,7 +13,7 @@ class CInterfaceCutsceneList : public CInterfaceInterMission
 	OBJECT_NORMAL_METHODS( CInterfaceCutsceneList );
 	//
 	NInput::CCommandRegistrator commandMsgs;
-	std::vector<std::string> cutscenesList;		//список видеофайлов
+	std::vector<std::string> cutscenesList;		//СЃРїРёСЃРѕРє РІРёРґРµРѕС„Р°Р№Р»РѕРІ
 	//
 	virtual bool STDCALL ProcessMessage( const SGameMessage &msg );
 	// disable explicit destruction

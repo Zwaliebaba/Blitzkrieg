@@ -82,7 +82,7 @@ bool CMineStaticObject::CheckToDetonate( CAIUnit *pUnit )
 		const bool bGoodUnitToExplode = WillExplodeUnder( pUnit );
 		if ( bGoodUnitToExplode && ( bMatchTiles || rect.IsPointInside( GetCenter() ) ) )
 		{
-			// наступили 
+			// РЅР°СЃС‚СѓРїРёР»Рё 
 			Detonate();
 			return true;
 		}
@@ -128,7 +128,7 @@ void CMineStaticObject::TakeDamage( const float fDamage, const bool bFromExplosi
 void CMineStaticObject::ClearVisibleStatus()
 {
 	mVisibleStatus = 0;
-	bIfRegisteredInCWorld = false; // изначально у Юрика нет мины. 
+	bIfRegisteredInCWorld = false; // РёР·РЅР°С‡Р°Р»СЊРЅРѕ Сѓ С‘СЂРёРєР° РЅРµС‚ РјРёРЅС‹. 
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CMineStaticObject::SetVisible( int nParty, bool bVis ) 

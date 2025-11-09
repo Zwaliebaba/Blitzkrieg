@@ -38,7 +38,7 @@ private:
 	typedef std::hash_map< int, SSimpleUpdate> CSimpleUpdatesSet;
 	typedef std::hash_map< int, CObj<IUpdatableObj> > CComplexUpdatesSet;
 
-	// simpleUpdate - те actions, у которых на конце 1, complexUpdates - те actions, у которых на конце 0
+	// simpleUpdate - С‚Рµ actions, Сѓ РєРѕС‚РѕСЂС‹С… РЅР° РєРѕРЅС†Рµ 1, complexUpdates - С‚Рµ actions, Сѓ РєРѕС‚РѕСЂС‹С… РЅР° РєРѕРЅС†Рµ 0
 	std::vector<CSimpleUpdatesSet> simpleUpdates;
 	std::vector<CComplexUpdatesSet> complexUpdates;
 	
@@ -48,7 +48,7 @@ private:
 	CComplexUpdatesSet garbage;
 	CComplexUpdatesSet updatedPlacements;
 
-	// чтобы удалять updates placement только после того, как они пришли к Юре
+	// С‡С‚РѕР±С‹ СѓРґР°Р»СЏС‚СЊ updates placement С‚РѕР»СЊРєРѕ РїРѕСЃР»Рµ С‚РѕРіРѕ, РєР°Рє РѕРЅРё РїСЂРёС€Р»Рё Рє Р®СЂРµ
 	bool bPlacementsUpdated;
 	bool bDestroying;
 
@@ -56,7 +56,7 @@ private:
 	bool bGameFinishUpdateSend;
 	//
 	void DestroyContents();
-	// в зависимости от типа update добавляет его в нужный массив - simpleUpdates или complexUpdates
+	// РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ С‚РёРїР° update РґРѕР±Р°РІР»СЏРµС‚ РµРіРѕ РІ РЅСѓР¶РЅС‹Р№ РјР°СЃСЃРёРІ - simpleUpdates РёР»Рё complexUpdates
 	void AddUpdate( const EActionNotify updateType, IUpdatableObj *pObj, const int nParam );
 public:
 	CUpdater();
@@ -68,7 +68,7 @@ public:
 	void EndUpdates();
 
 	void Update( const enum EActionNotify updateType, IUpdatableObj *pObj, const int nParam = -1 );
-	// для объекта, который состоит из нескольких частей.
+	// РґР»СЏ РѕР±СЉРµРєС‚Р°, РєРѕС‚РѕСЂС‹Р№ СЃРѕСЃС‚РѕРёС‚ РёР· РЅРµСЃРєРѕР»СЊРєРёС… С‡Р°СЃС‚РµР№.
 	//void UpdateComplexObject( const EActionNotify eAction, IUpdatableObj * pObj );
 	void DelUpdate( const enum EActionNotify updateType, IUpdatableObj *pObj );
 	void DelActionUpdates( IUpdatableObj *pObj );

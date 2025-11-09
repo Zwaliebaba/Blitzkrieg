@@ -23,7 +23,7 @@ class CCamera : public ICamera
 	};
 	//
 	CVec3 vAnchor;												// anchor point on the terrain's surface
-	CVec3 vAnchor1;												// то, на что надо ориентироватьс
+	CVec3 vAnchor1;												// С‚Рѕ, РЅР° С‡С‚Рѕ РЅР°РґРѕ РѕСЂРёРµРЅС‚РёСЂРѕРІР°С‚СЊСЃ
 	float fRod;														// distance from the anchor to the camera
 	float fPitch, fYaw;										// yaw and pitch of the camera
 	CVec3 vPos;														// temporary storage for position

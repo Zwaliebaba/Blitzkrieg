@@ -12,11 +12,11 @@ class CDataTableXML : public IDataTable
 	OBJECT_MINIMAL_METHODS( CDataTableXML );
 	//
 	CPtr<IDataStream> pStream;						// stream, this table was open with
-	IXMLDOMDocumentPtr xmlDocument;				// открытый документ
+	IXMLDOMDocumentPtr xmlDocument;				// РѕС‚РєСЂС‹С‚С‹Р№ РґРѕРєСѓРјРµРЅС‚
 	IXMLDOMNodePtr xmlRootNode;						// root node
 	//
 	bool bModified;
-	// получить текстовый node по имени. Это либо атрибут текущего node, либо single node из текущего.
+	// РїРѕР»СѓС‡РёС‚СЊ С‚РµРєСЃС‚РѕРІС‹Р№ node РїРѕ РёРјРµРЅРё. Р­С‚Рѕ Р»РёР±Рѕ Р°С‚СЂРёР±СѓС‚ С‚РµРєСѓС‰РµРіРѕ node, Р»РёР±Рѕ single node РёР· С‚РµРєСѓС‰РµРіРѕ.
 	IXMLDOMNodePtr GetTextNode( const char *pszRow, const char *pszEntry )
 	{
 		IXMLDOMNodePtr xmlCurrNode = xmlRootNode->selectSingleNode( pszRow );
@@ -55,11 +55,11 @@ public:
 	virtual ~CDataTableXML();
 	//
 	bool Open( IDataStream *pStream, const char *pszBaseNode );
-	// получить имена строк таблицы. каждое имя заканчивается на '\0', с строка в целом на '\0\0'
+	// РїРѕР»СѓС‡РёС‚СЊ РёРјРµРЅР° СЃС‚СЂРѕРє С‚Р°Р±Р»РёС†С‹. РєР°Р¶РґРѕРµ РёРјСЏ Р·Р°РєР°РЅС‡РёРІР°РµС‚СЃСЏ РЅР° '\0', СЃ СЃС‚СЂРѕРєР° РІ С†РµР»РѕРј РЅР° '\0\0'
 	virtual int STDCALL GetRowNames( char *pszBuffer, int nBufferSize );
-	// получить имена колонок таблицы в данной строке. каждое имя заканчивается на '\0', с строка в целом на '\0\0'
+	// РїРѕР»СѓС‡РёС‚СЊ РёРјРµРЅР° РєРѕР»РѕРЅРѕРє С‚Р°Р±Р»РёС†С‹ РІ РґР°РЅРЅРѕР№ СЃС‚СЂРѕРєРµ. РєР°Р¶РґРѕРµ РёРјСЏ Р·Р°РєР°РЅС‡РёРІР°РµС‚СЃСЏ РЅР° '\0', СЃ СЃС‚СЂРѕРєР° РІ С†РµР»РѕРј РЅР° '\0\0'
 	virtual int STDCALL GetEntryNames( const char *pszRow, char *pszBuffer, int nBufferSize );
-	// очистка секции
+	// РѕС‡РёСЃС‚РєР° СЃРµРєС†РёРё
 	virtual void STDCALL ClearRow( const char *pszRowName ) {  }
 	// complete element access
 	// get

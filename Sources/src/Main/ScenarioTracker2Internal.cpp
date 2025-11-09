@@ -405,7 +405,7 @@ static int IsBitSet( struct lua_State *pState )
 static int GetUserProfileVar( struct lua_State *state )
 {
 	Script script(state);
-	NI_ASSERT_T( script.GetTop() == 2, "Script function must have 2 arguments on the stack" );			//два аргумента
+	NI_ASSERT_T( script.GetTop() == 2, "Script function must have 2 arguments on the stack" );			//РґРІР° Р°СЂРіСѓРјРµРЅС‚Р°
 	const std::string szStr = script.GetObject( -2 );
 	const int nValue = script.GetObject( -1 );
 	script.PushNumber( GetSingleton<IUserProfile>()->GetVar( szStr.c_str(), nValue ) );
@@ -415,7 +415,7 @@ static int GetUserProfileVar( struct lua_State *state )
 static int SetUserProfileVar( struct lua_State *state )
 {
 	Script script(state);
-	NI_ASSERT_T( script.GetTop() == 2, "Script function must have 2 arguments on the stack" );			//два аргумента
+	NI_ASSERT_T( script.GetTop() == 2, "Script function must have 2 arguments on the stack" );			//РґРІР° Р°СЂРіСѓРјРµРЅС‚Р°
 	const std::string szStr = script.GetObject( -2 );
 	const int nValue = script.GetObject( -1 );
 	GetSingleton<IUserProfile>()->AddVar( szStr.c_str(), nValue );
@@ -425,7 +425,7 @@ static int SetUserProfileVar( struct lua_State *state )
 static int OutputStringValue( struct lua_State *state )
 {
 	Script script(state);
-	NI_ASSERT_T( script.GetTop() == 2, "Script function must have 2 arguments on the stack" );			//два аргумента
+	NI_ASSERT_T( script.GetTop() == 2, "Script function must have 2 arguments on the stack" );			//РґРІР° Р°СЂРіСѓРјРµРЅС‚Р°
 	std::string szStr = script.GetObject( -2 );
 	int nValue = script.GetObject( -1 );
 	NStr::DebugTrace( "****Debug LUA script: %s %s\n", szStr.c_str(), nValue );
@@ -532,7 +532,7 @@ bool CScenarioTracker2::LoadChapterScript( const std::string &szScriptFileName )
 			pChapterScript->Register( NScenarioScript2::reglist );
 			// read script
 			const int nSize = pStream->GetSize();
-			// +10 на всякий случай
+			// +10 РЅР° РІСЃСЏРєРёР№ СЃР»СѓС‡Р°Р№
 			std::vector<char> buffer( nSize + 10 );
 			pStream->Read( &(buffer[0]), nSize );
 			// run script
@@ -642,7 +642,7 @@ bool RecalcPlayerSkills( CPlayerScenarioInfo *pPlayer )
 	Script script;
 	script.Register( NScenarioScript2::reglist );
 	const int nSize = pStream->GetSize();
-	// +10 на всякий случай
+	// +10 РЅР° РІСЃСЏРєРёР№ СЃР»СѓС‡Р°Р№
 	std::vector<char> buffer( nSize + 10 );
 	pStream->Read( &(buffer[0]), nSize );
 	// run script
@@ -738,7 +738,7 @@ CScenarioTracker2::CScenarioTracker2()
 bool CScenarioTracker2::Init( ISingleton *pSingleton )
 {
 	Zero( guidMission );
-	randomBonuses.resize( 3 ); //по количеству сложностей рандомных миссий
+	randomBonuses.resize( 3 ); //РїРѕ РєРѕР»РёС‡РµСЃС‚РІСѓ СЃР»РѕР¶РЅРѕСЃС‚РµР№ СЂР°РЅРґРѕРјРЅС‹С… РјРёСЃСЃРёР№
 	return true;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

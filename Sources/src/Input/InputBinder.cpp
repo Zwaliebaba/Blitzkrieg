@@ -181,7 +181,7 @@ void CCombo::NotifyControlStateChanged( const bool bActivated, const DWORD time,
 		if ( nSuppressCounter == 0 ) 
 			NotifyBinds( bFormedLocal, time );
 	}
-	else if ( bFormedLocal && (nSuppressCounter == 0) )	// повторная активация с другим значением возможна только для 'rotational axis'
+	else if ( bFormedLocal && (nSuppressCounter == 0) )	// РїРѕРІС‚РѕСЂРЅР°СЏ Р°РєС‚РёРІР°С†РёСЏ СЃ РґСЂСѓРіРёРј Р·РЅР°С‡РµРЅРёРµРј РІРѕР·РјРѕР¶РЅР° С‚РѕР»СЊРєРѕ РґР»СЏ 'rotational axis'
 		NotifyBinds( bFormedLocal, time, true );
 	bFormed = bFormedLocal;
 	//

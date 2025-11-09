@@ -210,7 +210,7 @@ bool CTransportResupplyHumanResourcesState::ServeSquad( CFormation *pSquad )
 	
 	if ( rFormation.order.size() != pSquad->Size() + pSquad->VirtualUnitsSize() )
 	{
-		// определить какого солдата создавать и создать его.
+		// РѕРїСЂРµРґРµР»РёС‚СЊ РєР°РєРѕРіРѕ СЃРѕР»РґР°С‚Р° СЃРѕР·РґР°РІР°С‚СЊ Рё СЃРѕР·РґР°С‚СЊ РµРіРѕ.
 		std::vector<bool> present( rFormation.order.size(), false );
 		for ( int nSold = 0; nSold < pSquad->Size(); ++nSold )
 		{
@@ -222,12 +222,12 @@ bool CTransportResupplyHumanResourcesState::ServeSquad( CFormation *pSquad )
 			const BYTE cSlotInStats = pSquad->GetVirtualUnitSlotInStats( nSold );
 			present[cSlotInStats] = true;
 		}
-		// найдем первого солдата, которого не хватает.
+		// РЅР°Р№РґРµРј РїРµСЂРІРѕРіРѕ СЃРѕР»РґР°С‚Р°, РєРѕС‚РѕСЂРѕРіРѕ РЅРµ С…РІР°С‚Р°РµС‚.
 		int nSlot = 0;
 		while ( nSlot < present.size() && present[nSlot] )
 			++nSlot;
 
-		// создать солдата и послать его к Squad
+		// СЃРѕР·РґР°С‚СЊ СЃРѕР»РґР°С‚Р° Рё РїРѕСЃР»Р°С‚СЊ РµРіРѕ Рє Squad
 		CVec3 vEntrancePoint( pTransport->GetEntrancePoint(), pTransport->GetZ() );	
 
 		const int id = theUnitCreation.AddNewUnit( rFormation.order[nSlot].pSoldier,
@@ -263,7 +263,7 @@ bool CTransportResupplyHumanResourcesState::ServeArtillery( CArtillery *pArtille
 				pArtillery->IsBeingCaptured() )
 		return true;
 
-	// создать squad состоящий из одного солдата и послать работать с артиллерией.
+	// СЃРѕР·РґР°С‚СЊ squad СЃРѕСЃС‚РѕСЏС‰РёР№ РёР· РѕРґРЅРѕРіРѕ СЃРѕР»РґР°С‚Р° Рё РїРѕСЃР»Р°С‚СЊ СЂР°Р±РѕС‚Р°С‚СЊ СЃ Р°СЂС‚РёР»Р»РµСЂРёРµР№.
 	const CVec3 vEntrancePoint( pTransport->GetEntrancePoint(), pTransport->GetZ() );
 
 	if ( pTransport->GetPlayer() == theDipl.GetNeutralPlayer() )
@@ -388,7 +388,7 @@ CTransportLoadRuState::CTransportLoadRuState ( CAITransportUnit *_pTransport, co
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 CBuildingStorage* CTransportLoadRuState::FindNearestSource()
 {
-	// для поиска ближайшего хранилища
+	// РґР»СЏ РїРѕРёСЃРєР° Р±Р»РёР¶Р°Р№С€РµРіРѕ С…СЂР°РЅРёР»РёС‰Р°
 	class CFindNearestConnected : public CStaticObjects::IEnumStoragesPredicate 
 	{
 		CPtr<CBuildingStorage> pNearest;
@@ -396,7 +396,7 @@ CBuildingStorage* CTransportLoadRuState::FindNearestSource()
 	public:
 		CFindNearestConnected() : fPathLength( 0 ) {  }
 		virtual bool OnlyConnected() const { return true; }
-		// true - закончить, то, что нужно уже нашлось
+		// true - Р·Р°РєРѕРЅС‡РёС‚СЊ, С‚Рѕ, С‡С‚Рѕ РЅСѓР¶РЅРѕ СѓР¶Рµ РЅР°С€Р»РѕСЃСЊ
 		virtual bool AddStorage( class CBuildingStorage * pStorage, const float _fPathLength )
 		{
 			if ( pStorage->IsAlive() && ( !pNearest || fPathLength > _fPathLength ) )
@@ -455,7 +455,7 @@ void CTransportLoadRuState::Segment()
 
 			if ( ETLRS_APPROACHING_STORAGE != eState )
 			{
-				// почистить очередь команд у транспорта
+				// РїРѕС‡РёСЃС‚РёС‚СЊ РѕС‡РµСЂРµРґСЊ РєРѕРјР°РЅРґ Сѓ С‚СЂР°РЅСЃРїРѕСЂС‚Р°
 				theGroupLogic.UnitCommand( SAIUnitCmd(ACTION_COMMAND_GUARD), pTransport, false );
 				Interrupt();
 			}
@@ -555,7 +555,7 @@ void CTransportLoadRuState::CreateSquad()
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ETryStateInterruptResult CTransportLoadRuState::TryInterruptState( class CAICommand *pCommand )
 {
-	// если грузчики еще не в транспорте, то послать их догонять.
+	// РµСЃР»Рё РіСЂСѓР·С‡РёРєРё РµС‰Рµ РЅРµ РІ С‚СЂР°РЅСЃРїРѕСЂС‚Рµ, С‚Рѕ РїРѕСЃР»Р°С‚СЊ РёС… РґРѕРіРѕРЅСЏС‚СЊ.
 	if ( pCommand && pTransport->IsAlive() )
 	{
 		if ( IsValidObj( pLoaderSquad ) && !pLoaderSquad->IsInTransport() )
@@ -715,7 +715,7 @@ void CTransportServeState::Segment()
 
 		break;
 	case ETRS_WAIT_FOR_UNIT_TO_SERVE:
-		// стоим и ждем не понадобятся ли услуги еще.
+		// СЃС‚РѕРёРј Рё Р¶РґРµРј РЅРµ РїРѕРЅР°РґРѕР±СЏС‚СЃСЏ Р»Рё СѓСЃР»СѓРіРё РµС‰Рµ.
 		if ( curTime - timeLastUpdate > pTransport->GetBehUpdateDuration() )
 			eState = ETRS_FINDING_UNIT_TO_SERVE;
 
@@ -775,7 +775,7 @@ void CTransportServeState::CreateSquad()
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ETryStateInterruptResult CTransportServeState::TryInterruptState( class CAICommand *pCommand )
 {
-	// если грузчики еще не в транспорте, то послать их догонять.
+	// РµСЃР»Рё РіСЂСѓР·С‡РёРєРё РµС‰Рµ РЅРµ РІ С‚СЂР°РЅСЃРїРѕСЂС‚Рµ, С‚Рѕ РїРѕСЃР»Р°С‚СЊ РёС… РґРѕРіРѕРЅСЏС‚СЊ.
 	if ( pCommand && pTransport->IsValid() && pTransport->IsAlive() )
 	{
 		if ( IsValidObj( pLoaderSquad ) && !pLoaderSquad->IsInTransport() )
@@ -984,14 +984,14 @@ void CTransportBuildLongObjectState::SendTransportToBuildPoint()
 
 	if ( fDist > fMaxRadius )
 	{
-		// подъезжать нужно
+		// РїРѕРґСЉРµР·Р¶Р°С‚СЊ РЅСѓР¶РЅРѕ
 		CPtr<IStaticPath> pPath = CreateStaticPathToPoint( vStartPoint, VNULL2, pUnit, true );
 		if ( pPath )
 			pUnit->SendAlongPath( pPath, VNULL2 );
 	}
 	else if ( fDist <= fRadius )
 	{
-		//нужно отъезжать
+		//РЅСѓР¶РЅРѕ РѕС‚СЉРµР·Р¶Р°С‚СЊ
 		CLine2 line( vStartPoint, vEndPoint );
 		CVec2 vAway( line.a, line.b );
 		Normalize( &vAway );
@@ -1006,7 +1006,7 @@ void CTransportBuildLongObjectState::SendTransportToBuildPoint()
 	}
 	else
 	{
-		// уже на месте.
+		// СѓР¶Рµ РЅР° РјРµСЃС‚Рµ.
 	}
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1082,7 +1082,7 @@ IUnitState* CTransportBuildEntrenchmentState::Instance( class CAITransportUnit *
 CTransportClearMineState::CTransportClearMineState( class CAITransportUnit *pTransport, const class CVec2 & vDestPoint )
 	: CTransportBuildState( pTransport, vDestPoint ), timeLastCheck( curTime ), bWorkDone( false )
 {  
-	// посчитать время, которое нужно для того, чтобы проехать 1 длину грузовичка
+	// РїРѕСЃС‡РёС‚Р°С‚СЊ РІСЂРµРјСЏ, РєРѕС‚РѕСЂРѕРµ РЅСѓР¶РЅРѕ РґР»СЏ С‚РѕРіРѕ, С‡С‚РѕР±С‹ РїСЂРѕРµС…Р°С‚СЊ 1 РґР»РёРЅСѓ РіСЂСѓР·РѕРІРёС‡РєР°
 	const SMechUnitRPGStats * pStats = static_cast<const SMechUnitRPGStats *>(pTransport->GetStats());
 	timeCheckPeriod = SConsts::MINE_VIS_RADIUS / pStats->fSpeed;
 }
@@ -1096,14 +1096,14 @@ void CTransportClearMineState::SendTransportToBuildPoint()
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool CTransportClearMineState::HaveToSendEngeneersNow() 
 {
-	// по дороге поискать мины на которых можно взорваться
-	if ( pUnit->IsIdle() ) // а когда останжовились, то найти хоть какую-нибудь мину
+	// РїРѕ РґРѕСЂРѕРіРµ РїРѕРёСЃРєР°С‚СЊ РјРёРЅС‹ РЅР° РєРѕС‚РѕСЂС‹С… РјРѕР¶РЅРѕ РІР·РѕСЂРІР°С‚СЊСЃСЏ
+	if ( pUnit->IsIdle() ) // Р° РєРѕРіРґР° РѕСЃС‚Р°РЅР¶РѕРІРёР»РёСЃСЊ, С‚Рѕ РЅР°Р№С‚Рё С…РѕС‚СЊ РєР°РєСѓСЋ-РЅРёР±СѓРґСЊ РјРёРЅСѓ
 	{
 		const CVec2 vClearCenter( pUnit->GetCenter() );
 		for ( CStObjCircleIter<false> iter( vClearCenter, SConsts::MINE_CLEAR_RADIUS );
 					!iter.IsFinished(); iter.Iterate() )
 		{
-			// мину никто не собирается удалять и она в радиусе осмотра
+			// РјРёРЅСѓ РЅРёРєС‚Рѕ РЅРµ СЃРѕР±РёСЂР°РµС‚СЃСЏ СѓРґР°Р»СЏС‚СЊ Рё РѕРЅР° РІ СЂР°РґРёСѓСЃРµ РѕСЃРјРѕС‚СЂР°
 			if ( (*iter)->GetObjectType() == ESOT_MINE &&
 					!static_cast<CMineStaticObject*>(*iter)->IsBeingDisarmed() && 
 					fabs2( (*iter)->GetCenter() - vClearCenter ) <= sqr( float(SConsts::MINE_CLEAR_RADIUS) ) )

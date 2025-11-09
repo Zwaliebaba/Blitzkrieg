@@ -196,7 +196,7 @@ bool CTabSimpleObjectsDialog::FilterName( const std::string &rszName )
 	{
 		return false;
 	}
-	//вначале только из comboBox'a
+	//РІРЅР°С‡Р°Р»Рµ С‚РѕР»СЊРєРѕ РёР· comboBox'a
 	CString curFilter;
 	if ( m_filtersCtrl.GetCurSel() != -1 && m_listCheck.GetCheck() == 1 )
 	{
@@ -210,7 +210,7 @@ bool CTabSimpleObjectsDialog::FilterName( const std::string &rszName )
 			}
 		}
 	}
-	//теперь из  из check box'ов
+	//С‚РµРїРµСЂСЊ РёР·  РёР· check box'РѕРІ
 	for( int i = 0; i != m_filters.size(); ++i )
 	{
 		if ( m_checkButtons[i]->GetCheck() == 1 )
@@ -755,7 +755,7 @@ void CTabSimpleObjectsDialog::CreateObjectsImageList()
 				//NStr::DebugTrace( "CTabSimpleObjectsDialog::CreateObjectsImageList(): Objects: %d\n", nImageCount );
 
 				objectsImageList.Create( TEFConsts::THUMBNAILTILE_WIDTH, TEFConsts::THUMBNAILTILE_HEIGHT, ILC_COLOR24, 0, 10 );
-				//для отсутствующих объектов
+				//РґР»СЏ РѕС‚СЃСѓС‚СЃС‚РІСѓСЋС‰РёС… РѕР±СЉРµРєС‚РѕРІ
 				int nImageAdded = 0;
 				{
 					const int nImageAddedIndex = objectsImageList.Add( &defaultObjectBitmap, zeroColor );

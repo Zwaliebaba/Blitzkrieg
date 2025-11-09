@@ -20,14 +20,14 @@ public:
 	CTrenchCommonPropsItem() { nItemType = E_TRENCH_COMMON_PROPS_ITEM; InitDefaultValues(); nImageIndex = 0; }
 	~CTrenchCommonPropsItem() {};
 	
-	//Получение внутренних параметров
+	//С•РѕР»СѓС‡РµРЅРёРµ РІРЅСѓС‚СЂРµРЅРЅРёС… РїР°СЂР°РјРµС‚СЂРѕРІ
 	const char *GetTrenchName() { return values[0].value; }
 	int GetTrenchHealth() { return values[1].value; }
 	int GetTrenchRestSlots() { return values[2].value; }
 	int GetTrenchMedicalSlots() { return values[3].value; }
 	float GetTrenchCover() { return values[4].value; }
 	
-	//установка
+	//СѓСЃС‚Р°РЅРѕРІРєР°
 	void SetTrenchName( const char *pszVal ) { values[0].value = pszVal; }
 	void SetTrenchHealth( int nVal ) { values[1].value = nVal; }
 	void SetTrenchRestSlots( int nVal ) { values[2].value = nVal; }
@@ -86,11 +86,11 @@ public:
 	CTrenchDefencePropsItem() { nItemType = E_TRENCH_DEFENCE_PROPS_ITEM; nImageIndex = 3; InitDefaultValues(); }
 	~CTrenchDefencePropsItem() {};
 	
-	//Получение внутренних параметров
+	//С•РѕР»СѓС‡РµРЅРёРµ РІРЅСѓС‚СЂРµРЅРЅРёС… РїР°СЂР°РјРµС‚СЂРѕРІ
 	int GetMinArmor() { return values[0].value; }
 	int GetMaxArmor() { return values[1].value; }
 	
-	//Установка внутренних параметров
+	//вЂќСЃС‚Р°РЅРѕРІРєР° РІРЅСѓС‚СЂРµРЅРЅРёС… РїР°СЂР°РјРµС‚СЂРѕРІ
 	void SetMinArmor( int nVal ) { values[0].value = nVal; }
 	void SetMaxArmor( int nVal ) { values[1].value = nVal; }
 	

@@ -13,9 +13,9 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 struct SBasicGameStats : public IGDBObject
 {
-	std::string szParentName;							// parent object key name. заполняется динамически при загрузке объекта
+	std::string szParentName;							// parent object key name. Р·Р°РїРѕР»РЅСЏРµС‚СЃСЏ РґРёРЅР°РјРёС‡РµСЃРєРё РїСЂРё Р·Р°РіСЂСѓР·РєРµ РѕР±СЉРµРєС‚Р°
 	std::string szKeyName;								// key name
-	std::string szStatsType;							// тип статсов - mission, chapter, campaign
+	std::string szStatsType;							// С‚РёРї СЃС‚Р°С‚СЃРѕРІ - mission, chapter, campaign
 	//
 	std::string szHeaderText;							// description header (txt)
 	std::string szSubheaderText;					// description sub-header (txt)
@@ -46,7 +46,7 @@ struct SBasicGameStats : public IGDBObject
 struct SCommonGameStats : public SBasicGameStats
 {
 	std::string szMapImage;								// map (tga)
-	CTRect<float> mapImageRect;						// x1 y1 это координаты в пикселах, x2 y2 текстурные координаты
+	CTRect<float> mapImageRect;						// x1 y1 СЌС‚Рѕ РєРѕРѕСЂРґРёРЅР°С‚С‹ РІ РїРёРєСЃРµР»Р°С…, x2 y2 С‚РµРєСЃС‚СѓСЂРЅС‹Рµ РєРѕРѕСЂРґРёРЅР°С‚С‹
 	//
 	SCommonGameStats( const char *pszStatsType ) : SBasicGameStats( pszStatsType ) {  }
 	virtual ~SCommonGameStats() {  }
@@ -207,9 +207,9 @@ struct SCampaignStats : public SCommonGameStats
 struct SMedalStats : public SBasicGameStats
 {
 	std::string szTexture;								// texture with medal's picture
-	CTRect<float> mapImageRect;						// первые две координаты - размеры, вторые - maps
-	CVec2 vPicturePos;										// координаты медальки относительно верхнего окна
-	CVec2 vTextCenterPos;									// координаты центра текста относительно верхнего окна
+	CTRect<float> mapImageRect;						// РїРµСЂРІС‹Рµ РґРІРµ РєРѕРѕСЂРґРёРЅР°С‚С‹ - СЂР°Р·РјРµСЂС‹, РІС‚РѕСЂС‹Рµ - maps
+	CVec2 vPicturePos;										// РєРѕРѕСЂРґРёРЅР°С‚С‹ РјРµРґР°Р»СЊРєРё РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕ РІРµСЂС…РЅРµРіРѕ РѕРєРЅР°
+	CVec2 vTextCenterPos;									// РєРѕРѕСЂРґРёРЅР°С‚С‹ С†РµРЅС‚СЂР° С‚РµРєСЃС‚Р° РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕ РІРµСЂС…РЅРµРіРѕ РѕРєРЅР°
 	//
 	SMedalStats() : SBasicGameStats( "Medal" ), vPicturePos( 0, 0 ), vTextCenterPos( 0, 0 ) {  }
 	virtual ~SMedalStats() {  }

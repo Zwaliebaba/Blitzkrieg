@@ -67,7 +67,7 @@ bool CArtilleryCrewPath::Init( IMemento *pMemento, IBasePathUnit *_pUnit )
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const CVec3 CArtilleryCrewPath::GetPoint( NTimer::STime timeDiff )
 {
-	if ( vEndPoint == vCurPoint || bNotInitialized ) // уже дошли
+	if ( vEndPoint == vCurPoint || bNotInitialized ) // СѓР¶Рµ РґРѕС€Р»Рё
 		fSpeedLen = 0.0f;
 	else
 	{
@@ -77,7 +77,7 @@ const CVec3 CArtilleryCrewPath::GetPoint( NTimer::STime timeDiff )
 		float fPassedLenght = fSpeedLen * timeDiff;
 		CVec2 vDir = vEndPoint - vCurPoint;
 		float fDistToGo = fabs( vDir );
-		if ( fDistToGo >= fPassedLenght )// еще нужно идти
+		if ( fDistToGo >= fPassedLenght )// РµС‰Рµ РЅСѓР¶РЅРѕ РёРґС‚Рё
 		{
 			Normalize( &vDir );	
 			vDir *= fPassedLenght ;

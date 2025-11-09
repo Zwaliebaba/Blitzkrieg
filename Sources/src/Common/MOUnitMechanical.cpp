@@ -38,7 +38,7 @@ CMOUnitMechanical::CMOUnitMechanical()
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 CMOUnitMechanical::~CMOUnitMechanical()
 {
-		// удалить звук движения
+		// СѓРґР°Р»РёС‚СЊ Р·РІСѓРє РґРІРёР¶РµРЅРёСЏ
 	if ( 0 != wMoveSoundID )
 	{
 		GetSingleton<IScene>()->RemoveSound( wMoveSoundID );
@@ -832,11 +832,11 @@ void CMOUnitMechanical::ActionMove( const SAINotifyAction &action, const NTimer:
 			}
 		}
 	}
-	//CRAP{ разобраться
+	//CRAP{ СЂР°Р·РѕР±СЂР°С‚СЊСЃСЏ
 /*	switch ( action.nParam )
 	{
 	case MOVE_TYPE_DIVE:
-		//CRAP{ как задавать звук DiveBomber'a 
+		//CRAP{ РєР°Рє Р·Р°РґР°РІР°С‚СЊ Р·РІСѓРє DiveBomber'a 
 		if ( !bDiveMove )
 		{
 			if ( wMoveSoundID )
@@ -896,9 +896,9 @@ void CMOUnitMechanical::ActionDie( const SAINotifyAction &action, const NTimer::
 	const NTimer::STime timePassed = currTime - timeEffect;
 	const SMechUnitRPGStats *pRPG = GetRPGStats();
 	IMeshVisObj *pObj = GetVisObj();
-	// при смерти удаляем все иконки из объекта
+	// РїСЂРё СЃРјРµСЂС‚Рё СѓРґР°Р»СЏРµРј РІСЃРµ РёРєРѕРЅРєРё РёР· РѕР±СЉРµРєС‚Р°
 	pObj->RemoveIcon( -1 );
-	// при смерти удаляем jogging из объекта
+	// РїСЂРё СЃРјРµСЂС‚Рё СѓРґР°Р»СЏРµРј jogging РёР· РѕР±СЉРµРєС‚Р°
 	if ( !pRPG->platforms.empty() && (pRPG->platforms[0].nModelPart >= 0) )
 		GetAnim()->RemoveEffector( ANIM_EFFECTOR_JOGGING, pRPG->platforms[0].nModelPart );
 	// stop all animations and run death animation
@@ -915,7 +915,7 @@ void CMOUnitMechanical::ActionDie( const SAINotifyAction &action, const NTimer::
 	}
 	else
 		GetAnim()->CutProceduralAnimation( timeEffect );
-	// удалить звук движения
+	// СѓРґР°Р»РёС‚СЊ Р·РІСѓРє РґРІРёР¶РµРЅРёСЏ
 	if ( 0 != wMoveSoundID )
 	{
 		pScene->RemoveSound( wMoveSoundID );
@@ -979,7 +979,7 @@ void CMOUnitMechanical::ActionDie( const SAINotifyAction &action, const NTimer::
 			}
 		}
 	}
-	// добавляем под танчиком 'гавно-после-смерти'
+	// РґРѕР±Р°РІР»СЏРµРј РїРѕРґ С‚Р°РЅС‡РёРєРѕРј 'РіР°РІРЅРѕ-РїРѕСЃР»Рµ-СЃРјРµСЂС‚Рё'
 	if ( ((action.nParam & 0x80000000) != 0) && !pRPG->IsAviation() && !pRPG->deathCraters.empty() )
 	{
 		SetCraterEffect( pRPG->deathCraters[rand() % pRPG->deathCraters.size()], 
@@ -1163,7 +1163,7 @@ void CMOUnitMechanical::AIUpdateShot( const struct SAINotifyBaseShot &_shot, con
 		const SHMatrix *matrices = pObj->GetMatrices();
 		CheckFixedRange( gun.nShootPoint, GetAnim()->GetNumNodes(), pDesc->szPath.c_str() );
 		const SHMatrix &matGlobalShoot = matrices[ gun.nShootPoint ];
-		// трассеры
+		// С‚СЂР°СЃСЃРµСЂС‹
 		if ( shell.trajectory == SWeaponRPGStats::SShell::TRAJECTORY_LINE && NWin32Random::Random( 100 ) + 1 <= shell.fTraceProbability * fTraceProbabilityCoeff * 100.0f )
 		{
 			const CVec3 vStart = matGlobalShoot.GetTrans3();
@@ -1171,7 +1171,7 @@ void CMOUnitMechanical::AIUpdateShot( const struct SAINotifyBaseShot &_shot, con
 			AI2Vis( &vEnd, shot.vDestPos );
 			UpdateGunTraces( vStart, vEnd, AI2VisX(shell.fSpeed) * shell.fTraceSpeedCoeff * fTraceSpeedCoeff, shot.time, pScene );
 		}
-		// эффект вздрагивания техники
+		// СЌС„С„РµРєС‚ РІР·РґСЂР°РіРёРІР°РЅРёСЏ С‚РµС…РЅРёРєРё
 		if ( gun.bRecoil && bProceduralAnimation && (gun.nRecoilShakeTime > 0) )
 		{
 			SHMatrix matInverse; // inverse object's matrix

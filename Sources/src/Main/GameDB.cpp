@@ -414,11 +414,11 @@ const IGDBObject* CObjectsDB::GetRPGStats( const IGDBObject *pGDBObject )
 	NI_ASSERT_SLOW_T( pRPG != 0, NStr::Format("Can't read RPG stats for \"%s\"", pObj->szKey.c_str()) );
 	// set parent name
 	pRPG->szParentName = pObj->szKey;
-	// ïîëó÷èì âñå ññûëêè
+	// Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ð¼ Ð²ÑÐµ ÑÑÑ‹Ð»ÐºÐ¸
 	pRPG->RetrieveShortcuts( this );
-	// ïðîâàëèäèðóåì...
+	// Ð¿Ñ€Ð¾Ð²Ð°Ð»Ð¸Ð´Ð¸Ñ€ÑƒÐµÐ¼...
 	pRPG->Validate();
-	// ïðåîáðàçîâàòü èç ÷åëîâå÷åñêèõ åäèíèö â AI
+	// Ð¿Ñ€ÐµÐ¾Ð±Ñ€Ð°Ð·Ð¾Ð²Ð°Ñ‚ÑŒ Ð¸Ð· Ñ‡ÐµÐ»Ð¾Ð²ÐµÑ‡ÐµÑÐºÐ¸Ñ… ÐµÐ´Ð¸Ð½Ð¸Ñ† Ð² AI
 	_control87( _EM_INVALID | _EM_ZERODIVIDE | _EM_OVERFLOW | _EM_UNDERFLOW | _EM_INEXACT | _EM_DENORMAL | _PC_24, 0xfffff );
 	pRPG->ToAIUnits();
 	// store in the map
@@ -465,7 +465,7 @@ const IGDBObject* CObjectsDB::GetAddStats( const char *pszName, IObjectsDB::EAdd
 	//
 	if ( pStats == 0 )
 		return 0;
-	// ïðåîáðàçîâàòü èç ÷åëîâå÷åñêèõ åäèíèö â AI
+	// Ð¿Ñ€ÐµÐ¾Ð±Ñ€Ð°Ð·Ð¾Ð²Ð°Ñ‚ÑŒ Ð¸Ð· Ñ‡ÐµÐ»Ð¾Ð²ÐµÑ‡ÐµÑÐºÐ¸Ñ… ÐµÐ´Ð¸Ð½Ð¸Ñ† Ð² AI
 	_control87( _EM_INVALID | _EM_ZERODIVIDE | _EM_OVERFLOW | _EM_UNDERFLOW | _EM_INEXACT | _EM_DENORMAL | _PC_24, 0xfffff );
 	pStats->ToAIUnits();
 	// set parent name

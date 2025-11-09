@@ -76,7 +76,7 @@ void CMedalCommonPropsItem::UpdateItemValue( int nItemId, const CVariant &value 
 	
 	if ( nItemId == 1 || nItemId == 2 || nItemId == 3 )
 	{
-		//сконвертим путь к файлу в относительный без расширения
+		//СЃРєРѕРЅРІРµСЂС‚РёРј РїСѓС‚СЊ Рє С„Р°Р№Р»Сѓ РІ РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅС‹Р№ Р±РµР· СЂР°СЃС€РёСЂРµРЅРёСЏ
 		if ( !IsRelatedPath( value ) )
 		{
 			string szValue = value;
@@ -84,7 +84,7 @@ void CMedalCommonPropsItem::UpdateItemValue( int nItemId, const CVariant &value 
 			bool bRes =	MakeSubRelativePath( g_frameManager.GetFrame( CFrameManager::E_MEDAL_FRAME )->GetProjectFileName().c_str(), szValue.c_str(), szRelatedPath );
 			if ( bRes )
 			{
-				//обрежем расширение в конце
+				//РѕР±СЂРµР¶РµРј СЂР°СЃС€РёСЂРµРЅРёРµ РІ РєРѕРЅС†Рµ
 				szRelatedPath = szRelatedPath.substr( 0, szRelatedPath.rfind( '.' ) );
 				CVariant newVal = szRelatedPath;
 				CTreeItem::UpdateItemValue( nItemId, newVal );
@@ -143,7 +143,7 @@ void CMedalPicturePropsItem::UpdateItemValue( int nItemId, const CVariant &value
 	
 	if ( nItemId == 1 )
 	{
-		//сконвертим путь к файлу в относительный без расширения
+		//СЃРєРѕРЅРІРµСЂС‚РёРј РїСѓС‚СЊ Рє С„Р°Р№Р»Сѓ РІ РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅС‹Р№ Р±РµР· СЂР°СЃС€РёСЂРµРЅРёСЏ
 		if ( !IsRelatedPath( value ) )
 		{
 			string szValue = value;
@@ -151,7 +151,7 @@ void CMedalPicturePropsItem::UpdateItemValue( int nItemId, const CVariant &value
 			bool bRes =	MakeSubRelativePath( g_frameManager.GetFrame( CFrameManager::E_MEDAL_FRAME )->GetProjectFileName().c_str(), szValue.c_str(), szRelatedPath );
 			if ( bRes )
 			{
-				//обрежем расширение в конце
+				//РѕР±СЂРµР¶РµРј СЂР°СЃС€РёСЂРµРЅРёРµ РІ РєРѕРЅС†Рµ
 				szRelatedPath = szRelatedPath.substr( 0, szRelatedPath.rfind( '.' ) );
 				CVariant newVal = szRelatedPath;
 				CTreeItem::UpdateItemValue( nItemId, newVal );
@@ -212,7 +212,7 @@ void CMedalTextPropsItem::UpdateItemValue( int nItemId, const CVariant &value )
 	
 	if ( nItemId == 1 )
 	{
-		//сконвертим путь к файлу в относительный без расширения
+		//СЃРєРѕРЅРІРµСЂС‚РёРј РїСѓС‚СЊ Рє С„Р°Р№Р»Сѓ РІ РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅС‹Р№ Р±РµР· СЂР°СЃС€РёСЂРµРЅРёСЏ
 		if ( !IsRelatedPath( value ) )
 		{
 			string szValue = value;
@@ -220,7 +220,7 @@ void CMedalTextPropsItem::UpdateItemValue( int nItemId, const CVariant &value )
 			bool bRes =	MakeSubRelativePath( g_frameManager.GetFrame( CFrameManager::E_MEDAL_FRAME )->GetProjectFileName().c_str(), szValue.c_str(), szRelatedPath );
 			if ( bRes )
 			{
-				//обрежем расширение в конце
+				//РѕР±СЂРµР¶РµРј СЂР°СЃС€РёСЂРµРЅРёРµ РІ РєРѕРЅС†Рµ
 				szRelatedPath = szRelatedPath.substr( 0, szRelatedPath.rfind( '.' ) );
 				CVariant newVal = szRelatedPath;
 				CTreeItem::UpdateItemValue( nItemId, newVal );

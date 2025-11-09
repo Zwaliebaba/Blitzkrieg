@@ -20,7 +20,7 @@ class CStaticMap
 {
 	DECLARE_SERIALIZE;
 
-	CArray2D1Bit entrenchPossibility;		// невозможность строительства окопов на тайле
+	CArray2D1Bit entrenchPossibility;		// РЅРµРІРѕР·РјРѕР¶РЅРѕСЃС‚СЊ СЃС‚СЂРѕРёС‚РµР»СЊСЃС‚РІР° РѕРєРѕРїРѕРІ РЅР° С‚Р°Р№Р»Рµ
 	CArray2D1Bit buf[5];
 	CArray2D<BYTE> unitsBuf;
 	CArray2D4Bit maxes[2][5];
@@ -28,26 +28,26 @@ class CStaticMap
 	CArray2D<BYTE> transparency;
 	CArray2D<BYTE> passTypes;
 	std::vector<float> passabilities;
-	// по типу terrain - его ai проходимость
+	// РїРѕ С‚РёРїСѓ terrain - РµРіРѕ ai РїСЂРѕС…РѕРґРёРјРѕСЃС‚СЊ
 	std::vector<DWORD> passClasses;
-	// по номеру тайла terrain - его тип
+	// РїРѕ РЅРѕРјРµСЂСѓ С‚Р°Р№Р»Р° terrain - РµРіРѕ С‚РёРї
 	std::vector<BYTE> terrSubTypes;
 
 	std::hash_map<int, SRect> unitsRects;
 
-	// высоты по узлам визуальной сетки сетки
+	// РІС‹СЃРѕС‚С‹ РїРѕ СѓР·Р»Р°Рј РІРёР·СѓР°Р»СЊРЅРѕР№ СЃРµС‚РєРё СЃРµС‚РєРё
 	CArray2D<float> heights;
 	CBetaSpline3D betaSpline3D;
-	// высоты по центрам AI тайлов
+	// РІС‹СЃРѕС‚С‹ РїРѕ С†РµРЅС‚СЂР°Рј AI С‚Р°Р№Р»РѕРІ
 	CArray2D<float> tileHeights;
 
 	CArray2D4Bit terrainTypes;
 	
-	int nSizeX, nSizeY;										// размер карты в тайлах
-	int nCellsSizeX, nCellsSizeY;					// --- в ячейках
-	int nBigCellsSizeX, nBigCellsSizeY;		// --- в больших ячейках
+	int nSizeX, nSizeY;										// СЂР°Р·РјРµСЂ РєР°СЂС‚С‹ РІ С‚Р°Р№Р»Р°С…
+	int nCellsSizeX, nCellsSizeY;					// --- РІ В¤С‡РµР№РєР°С…
+	int nBigCellsSizeX, nBigCellsSizeY;		// --- РІ Р±РѕР»СЊС€РёС… В¤С‡РµР№РєР°С…
 
-	// 0 - статич. объекты, 0xff - статич. и динамич. объекты
+	// 0 - СЃС‚Р°С‚РёС‡. РѕР±СЉРµРєС‚С‹, 0xff - СЃС‚Р°С‚РёС‡. Рё РґРёРЅР°РјРёС‡. РѕР±СЉРµРєС‚С‹
 	ELockMode eMode;
 	ELockMode eMemMode;
 
@@ -64,7 +64,7 @@ class CStaticMap
 	std::list<STmpUnlockUnitsBuf> tmpUnlockUnitsBuf;
 
 	CArray2D1Bit bridgeTiles;
-	// типы почвы - можно ли оставлять следы, пылить и т.д.
+	// С‚РёРїС‹ РїРѕС‡РІС‹ - РјРѕР¶РЅРѕ Р»Рё РѕСЃС‚Р°РІР»В¤С‚СЊ СЃР»РµРґС‹, РїС‹Р»РёС‚СЊ Рё С‚.Рґ.
 	CArray2D<BYTE> soil;
 
 	//
@@ -82,18 +82,18 @@ class CStaticMap
 	bool UnitLocksTile( const SVector &tile );
 	bool UnitUnlocksTile( const SVector &tile );
 
-	// залокано только для индеска этого класса, без учёта AI_CLASS_ANY
-	// если проверяется для AI_CLASS_ANY, то учитывается и локание юнитов
+	// Р·Р°Р»РѕРєР°РЅРѕ С‚РѕР»СЊРєРѕ РґР»В¤ РёРЅРґРµСЃРєР° СЌС‚РѕРіРѕ РєР»Р°СЃСЃР°, Р±РµР· СѓС‡Р„С‚Р° AI_CLASS_ANY
+	// РµСЃР»Рё РїСЂРѕРІРµСЂВ¤РµС‚СЃВ¤ РґР»В¤ AI_CLASS_ANY, С‚Рѕ СѓС‡РёС‚С‹РІР°РµС‚СЃВ¤ Рё Р»РѕРєР°РЅРёРµ СЋРЅРёС‚РѕРІ
 	bool IsLocked4Class( const int x, const int y, const BYTE aiClassIndex ) const
 	{ return x < 0 || y < 0 || x >= nSizeX || y >= nSizeY || buf[aiClassIndex].GetData( x, y ) || ( unitsBuf[y][x] * eMode * BYTE( aiClassIndex == classToIndex[AI_CLASS_ANY] ) ) != 0; }
-	// залокано только для этого класса, без учёта AI_CLASS_ANY
+	// Р·Р°Р»РѕРєР°РЅРѕ С‚РѕР»СЊРєРѕ РґР»В¤ СЌС‚РѕРіРѕ РєР»Р°СЃСЃР°, Р±РµР· СѓС‡Р„С‚Р° AI_CLASS_ANY
 	bool IsLocked4Class( const SVector &coord, const BYTE aiClass ) const { return IsLocked4Class( coord.x, coord.y, aiClass ); }
 
 	//
 	void AddRiverTiles( const CTilesSet &tiles );
 	void AddEarthSeaTiles( const CTilesSet &tiles );
 
-	// для отладки
+	// РґР»В¤ РѕС‚Р»Р°РґРєРё
 	bool CanPut( const int x, const int y, const int d, const BYTE aiClass );
 	void GetPoint4Spline( const CVec2 &vPoint, float *pu, float *pv, float ptCtrls[] ) const;
 public:
@@ -124,7 +124,7 @@ public:
 	bool IsTileInside( const int x, const int y ) const { return x >= 0 && y >= 0 && x < nSizeX && y < nSizeY; }
 	bool IsTileInside( const SVector &tile ) const { return IsTileInside( tile.x, tile.y ); }
 
-	// залокать статич. объектом
+	// Р·Р°Р»РѕРєР°С‚СЊ СЃС‚Р°С‚РёС‡. РѕР±СЉРµРєС‚РѕРј
 	void LockTile( const int x, const int y, const BYTE aiClasses )
 	{
 		if ( aiClasses == AI_CLASS_ANY )
@@ -138,7 +138,7 @@ public:
 			}
 		}
 	}
-	// разлокать от статич. объекта
+	// СЂР°Р·Р»РѕРєР°С‚СЊ РѕС‚ СЃС‚Р°С‚РёС‡. РѕР±СЉРµРєС‚Р°
 	void UnlockTile( const int x, const int y, const BYTE aiClasses )
 	{ 
 		if ( aiClasses == AI_CLASS_ANY )
@@ -156,7 +156,7 @@ public:
 	{
 		return IsLocked( x, y, AI_CLASS_HUMAN);
 	}
-	// залокано с учётом eMode
+	// Р·Р°Р»РѕРєР°РЅРѕ СЃ СѓС‡Р„С‚РѕРј eMode
 	bool IsLocked ( const int x, const int y, const BYTE aiClass ) const 
 	{ return x < 0 || y < 0 || x >= nSizeX || y >= nSizeY || buf[classToIndex[aiClass]].GetData( x, y ) || buf[classToIndex[AI_CLASS_ANY]].GetData( x, y ) || ( unitsBuf[y][x] * eMode ) != 0; }
 	void LockTile( const SVector &coord, const BYTE aiClasses )	{ LockTile( coord.x, coord.y, aiClasses ); }
@@ -172,7 +172,7 @@ public:
 
 	BYTE GetTileLockInfo( const SVector &tile ) const { return GetTileLockInfo( tile.x, tile.y ); }
 
-	// залокано конкретно для этого класса статическим объектом
+	// Р·Р°Р»РѕРєР°РЅРѕ РєРѕРЅРєСЂРµС‚РЅРѕ РґР»В¤ СЌС‚РѕРіРѕ РєР»Р°СЃСЃР° СЃС‚Р°С‚РёС‡РµСЃРєРёРј РѕР±СЉРµРєС‚РѕРј
 	bool IsStaticLocked4Class( const int x, const int y, const BYTE aiClass ) const
 	{ return x < 0 || y < 0 || x >= nSizeX || y >= nSizeY || buf[classToIndex[aiClass]].GetData( x, y ); }
 	bool IsStaticLocked4Class( const SVector &coord, const BYTE aiClass ) const { return IsStaticLocked4Class( coord.x, coord.y, aiClass ); }
@@ -283,10 +283,10 @@ public:
 	const ETerrainTypes GetTerrainType( const int nX, const int nY ) const;
 	const ETerrainTypes GetTerrainType( const SVector &tile ) const { return GetTerrainType( tile.x, tile.y ); }
 	
-	// true - если был произведён unlock при вызове, false - если уже до этого был сделан unlock
+	// true - РµСЃР»Рё Р±С‹Р» РїСЂРѕРёР·РІРµРґР„РЅ unlock РїСЂРё РІС‹Р·РѕРІРµ, false - РµСЃР»Рё СѓР¶Рµ РґРѕ СЌС‚РѕРіРѕ Р±С‹Р» СЃРґРµР»Р°РЅ unlock
 	bool TemporaryUnlockUnitRect( const int id );
 	void RemoveTemporaryUnlocking();
-	// если юнит id временно локает тайлы, то удалить
+	// РµСЃР»Рё СЋРЅРёС‚ id РІСЂРµРјРµРЅРЅРѕ Р»РѕРєР°РµС‚ С‚Р°Р№Р»С‹, С‚Рѕ СѓРґР°Р»РёС‚СЊ
 	void RemoveTemporaryUnlockingByUnit( const int id );
 
 	// terrain passability
@@ -306,13 +306,13 @@ public:
 	}
 
 	const int GetTerrainPassabilityType( const int nX, const int nY ) const;
-	// разлокивает тайл в соответствии с проходимостью terrain
+	// СЂР°Р·Р»РѕРєРёРІР°РµС‚ С‚Р°Р№Р» РІ СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРё СЃ РїСЂРѕС…РѕРґРёРјРѕСЃС‚СЊСЋ terrain
 	void RemoveTerrainPassability( const int nX, const int nY );
-	// в прямоугольнике либо убирает террайн, либо ставит старый
+	// РІ РїСЂВ¤РјРѕСѓРіРѕР»СЊРЅРёРєРµ Р»РёР±Рѕ СѓР±РёСЂР°РµС‚ С‚РµСЂСЂР°Р№РЅ, Р»РёР±Рѕ СЃС‚Р°РІРёС‚ СЃС‚Р°СЂС‹Р№
 	void UpdateTerrainPassabilityRect( const int nMinX, const int nMinY, const int nMaxX, const int nMaxY, bool bRemove );
-	// локает тайл и проставаляет проходимость в соответствии с terrain nTerrainType, 
+	// Р»РѕРєР°РµС‚ С‚Р°Р№Р» Рё РїСЂРѕСЃС‚Р°РІР°Р»В¤РµС‚ РїСЂРѕС…РѕРґРёРјРѕСЃС‚СЊ РІ СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРё СЃ terrain nTerrainType, 
 	void SetTerrainPassability( const int nX, const int nY, const int nTerrainType );
-	// по номеру тайла выдаёт тип terrain
+	// РїРѕ РЅРѕРјРµСЂСѓ С‚Р°Р№Р»Р° РІС‹РґР°Р„С‚ С‚РёРї terrain
 	const int GetTerrainPassTypeByTileNum( const int nTile ) { return terrSubTypes[nTile]; }
 	const bool CanDigEntrenchment( const int x, const int y ) const;
 	const void AddUndigableTiles( const CTilesSet &tiles );

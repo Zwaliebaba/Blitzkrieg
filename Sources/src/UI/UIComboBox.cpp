@@ -45,7 +45,7 @@ void CUIComboBox::Reposition( const CTRect<float> &rcParent )
 	NI_ASSERT_T( bComboShown == 0, "Error in CUIComboBox" );
 	int nV = wndRect.Height();
 
-	//перемещаем items
+	//РїРµСЂРµРјРµС‰Р°РµРј items
 	CVec2 vPos, vSize;
 	vPos.x = nItemLeftSpace;
 	for ( CWindowList::const_iterator it=items.begin(); it!=items.end(); ++it )
@@ -66,7 +66,7 @@ void CUIComboBox::SetFocus( bool bFocus )
 {
 	if ( !bFocus && bComboShown )
 	{
-		//тыкнули мышкой вне окошка, теряем фокус
+		//С‚С‹РєРЅСѓР»Рё РјС‹С€РєРѕР№ РІРЅРµ РѕРєРѕС€РєР°, С‚РµСЂСЏРµРј С„РѕРєСѓСЃ
 		ShowCombo( false );
 	}
 }
@@ -86,7 +86,7 @@ void CUIComboBox::ShowCombo( bool bShow )
 		fHeight += vSize.y;
 	}
 
-	//изменим размеры окошка
+	//РёР·РјРµРЅРёРј СЂР°Р·РјРµСЂС‹ РѕРєРѕС€РєР°
 	if ( bShow )
 	{
 		saveRect = wndRect;
@@ -118,7 +118,7 @@ bool CUIComboBox::OnLButtonDown( const CVec2 &vPos, EMouseState mouseState )
 	{
 		if ( bRet )
 		{
-			//Нажали в область окошка, надо раскрыться
+			//РќР°Р¶Р°Р»Рё РІ РѕР±Р»Р°СЃС‚СЊ РѕРєРѕС€РєР°, РЅР°РґРѕ СЂР°СЃРєСЂС‹С‚СЊСЃСЏ
 			ShowCombo( true );
 		}
 		return bRet;
@@ -130,16 +130,16 @@ bool CUIComboBox::OnLButtonDown( const CVec2 &vPos, EMouseState mouseState )
 		return bRet;
 	}
 
-	//найдем область куда был клик
+	//РЅР°Р№РґРµРј РѕР±Р»Р°СЃС‚СЊ РєСѓРґР° Р±С‹Р» РєР»РёРє
 	if ( saveRect.IsInside( vPos ) )
 	{
-		//свернем
+		//СЃРІРµСЂРЅРµРј
 		ShowCombo( false );
 		return bRet;
 	}
 	else
 	{
-		//поищем среди внутренных items
+		//РїРѕРёС‰РµРј СЃСЂРµРґРё РІРЅСѓС‚СЂРµРЅРЅС‹С… items
 		int nV = saveRect.Height();
 		float fY = vPos.y - wndRect.y1;
 		if ( fY < nV )
@@ -159,12 +159,12 @@ bool CUIComboBox::OnLButtonDown( const CVec2 &vPos, EMouseState mouseState )
 		
 		if ( it != items.end() )
 		{
-			//нашли новое выделение
+			//РЅР°С€Р»Рё РЅРѕРІРѕРµ РІС‹РґРµР»РµРЅРёРµ
 			IUIElement *pElement = *it;
 			SetWindowText( 0, pElement->GetWindowText( 0 ) );
 			nSelItem = nTempItem;
 
-			//посылаем наверх сообщение об изменении selection state
+			//РїРѕСЃС‹Р»Р°РµРј РЅР°РІРµСЂС… СЃРѕРѕР±С‰РµРЅРёРµ РѕР± РёР·РјРµРЅРµРЅРёРё selection state
 			SUIMessage msg;
 			msg.nMessageCode = UI_NOTIFY_SELECTION_CHANGED;
 			msg.nFirst = GetWindowID();

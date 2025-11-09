@@ -8,7 +8,7 @@
 #include "..\Anim\Animation.h"
 
 #include "editor.h"
-#include "MainFrm.h"			//для работы с тулбаром
+#include "MainFrm.h"			//РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ С‚СѓР»Р±Р°СЂРѕРј
 #include "SpriteCompose.h"
 #include "BuildCompose.h"
 #include "PropView.h"
@@ -19,8 +19,8 @@
 #include "frames.h"
 
 
-static const float fOX = -622;			//не менять эти значения, подсчитанны экспериментально для совместимости со старыми проектами.
-static const float fOY = 296;				//иначе съедет сетка залоченных AI тайлов
+static const float fOX = -622;			//РЅРµ РјРµРЅСЏС‚СЊ СЌС‚Рё Р·РЅР°С‡РµРЅРёСЏ, РїРѕРґСЃС‡РёС‚Р°РЅРЅС‹ СЌРєСЃРїРµСЂРёРјРµРЅС‚Р°Р»СЊРЅРѕ РґР»СЏ СЃРѕРІРјРµСЃС‚РёРјРѕСЃС‚Рё СЃРѕ СЃС‚Р°СЂС‹РјРё РїСЂРѕРµРєС‚Р°РјРё.
+static const float fOY = 296;				//РёРЅР°С‡Рµ СЃСЉРµРґРµС‚ СЃРµС‚РєР° Р·Р°Р»РѕС‡РµРЅРЅС‹С… AI С‚Р°Р№Р»РѕРІ
 
 static int zeroSizeX = 32;
 static int zeroSizeY = 32;
@@ -30,8 +30,8 @@ static float zeroShiftY = 15.4f;
 static const int MIN_OPACITY = 120;
 static const int MAX_OPACITY = 255;
 
-const CVec3 vCenterPosition( 628.357f, 730.381f, 0 );	//это специальная константа, чтобы центральная часть моста находилась на перекрестии тайлов
-const CVec3 vCenterKrest( 596.657f, 742.038f, 0 );		//это координата центра картинки для нулевой точки центральной части
+const CVec3 vCenterPosition( 628.357f, 730.381f, 0 );	//СЌС‚Рѕ СЃРїРµС†РёР°Р»СЊРЅР°СЏ РєРѕРЅСЃС‚Р°РЅС‚Р°, С‡С‚РѕР±С‹ С†РµРЅС‚СЂР°Р»СЊРЅР°СЏ С‡Р°СЃС‚СЊ РјРѕСЃС‚Р° РЅР°С…РѕРґРёР»Р°СЃСЊ РЅР° РїРµСЂРµРєСЂРµСЃС‚РёРё С‚Р°Р№Р»РѕРІ
+const CVec3 vCenterKrest( 596.657f, 742.038f, 0 );		//СЌС‚Рѕ РєРѕРѕСЂРґРёРЅР°С‚Р° С†РµРЅС‚СЂР° РєР°СЂС‚РёРЅРєРё РґР»СЏ РЅСѓР»РµРІРѕР№ С‚РѕС‡РєРё С†РµРЅС‚СЂР°Р»СЊРЅРѕР№ С‡Р°СЃС‚Рё
 
 
 #ifdef _DEBUG
@@ -245,7 +245,7 @@ void CBridgeFrame::ShowFrameWindows( int nCommand )
 	pCamera->SetAnchor( CVec3(16*fWorldCellSize, 16*fWorldCellSize, 0) );
 	
 	/*
-	//временно было нужно
+	//РІСЂРµРјРµРЅРЅРѕ Р±С‹Р»Рѕ РЅСѓР¶РЅРѕ
 	CVec2 v2;
 	IScene *pScene = GetSingleton<IScene>();
 	pScene->GetPos2( &v2, vCenterPosition );
@@ -440,7 +440,7 @@ void CBridgeFrame::SpecificInit()
 	SpecificClearBeforeBatchMode();
 	CreateKrest();
 	
-	//загрузим направление моста
+	//Р·Р°РіСЂСѓР·РёРј РЅР°РїСЂР°РІР»РµРЅРёРµ РјРѕСЃС‚Р°
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
 	CTreeItem *pRootItem = pTree->GetRootItem();
 	CBridgeCommonPropsItem *pCommonProps = static_cast<CBridgeCommonPropsItem *>( pRootItem->GetChildItem( E_BRIDGE_COMMON_PROPS_ITEM ) );
@@ -493,7 +493,7 @@ BOOL CBridgeFrame::SpecificTranslateMessage( MSG *pMsg )
 		
 		if ( eActiveMode == E_FIRE_POINT && pActiveFirePoint )
 		{
-			//удаляем текущий fire point
+			//СѓРґР°Р»СЏРµРј С‚РµРєСѓС‰РёР№ fire point
 			pActiveFirePoint->pFirePoint->DeleteMeInParentTreeItem();
 			DeleteFirePoint( pActiveFirePoint->pFirePoint );
 			GFXDraw();
@@ -502,7 +502,7 @@ BOOL CBridgeFrame::SpecificTranslateMessage( MSG *pMsg )
 		
 		if ( eActiveMode == E_SMOKE_POINT && pActiveSmokePoint )
 		{
-			//удаляем текущий smoke point
+			//СѓРґР°Р»СЏРµРј С‚РµРєСѓС‰РёР№ smoke point
 			CTreeItem *pTemp = pActiveSmokePoint;
 			DeleteSmokePoint();
 			pTemp->DeleteMeInParentTreeItem();
@@ -520,7 +520,7 @@ bool CBridgeFrame::LoadFramePreExportData( const char *pszProjectFile, CTreeItem
 {
 	CreateKrest();
 
-	//загрузим направление моста
+	//Р·Р°РіСЂСѓР·РёРј РЅР°РїСЂР°РІР»РµРЅРёРµ РјРѕСЃС‚Р°
 	CBridgeCommonPropsItem *pCommonProps = static_cast<CBridgeCommonPropsItem *>( pRootItem->GetChildItem( E_BRIDGE_COMMON_PROPS_ITEM ) );
 	SetBridgeType( pCommonProps->GetDirection() );
 	return true;
@@ -531,7 +531,7 @@ void CBridgeFrame::SaveFrameOwnData( IDataTree *pDT )
 	pDT->StartChunk( "own_data" );
 	CTreeAccessor tree = pDT;
 	
-	//Сохраняем export file name
+	//РЎРѕС…СЂР°РЅСЏРµРј export file name
 	string szPrevExportDir;
 	tree.Add( "export_dir", &szPrevExportDir );
 	if ( szPrevExportDir.size() > 0 )
@@ -555,7 +555,7 @@ void CBridgeFrame::LoadFrameOwnData( IDataTree *pDT )
 	pDT->StartChunk( "own_data" );
 	CTreeAccessor tree = pDT;
 
-	//Загружаем export file name
+	//Р—Р°РіСЂСѓР¶Р°РµРј export file name
 	tree.Add( "export_file_name", &szPrevExportFileName );
 
 	tree.Add( "Begin", &vBeginPos );
@@ -613,19 +613,19 @@ void CBridgeFrame::LoadRPGStats( IDataTree *pDT, CTreeItem *pRootItem )
 			indexSet.insert( pPartsItem->nSpanIndex );
 		}
 		
-		//рассчитываю незаполненные индексы Spans
+		//СЂР°СЃСЃС‡РёС‚С‹РІР°СЋ РЅРµР·Р°РїРѕР»РЅРµРЅРЅС‹Рµ РёРЅРґРµРєСЃС‹ Spans
 		freeSpanIndexes[nDamageIndex].clear();
 		int nPrev = -1;
 		for ( std::set<int>::iterator it=indexSet.begin(); it!=indexSet.end(); ++it )
 		{
-			if ( *it != nPrev + 1 )				//если есть пустые индексы
+			if ( *it != nPrev + 1 )				//РµСЃР»Рё РµСЃС‚СЊ РїСѓСЃС‚С‹Рµ РёРЅРґРµРєСЃС‹
 			{
 				for ( int i=nPrev+1; i!=*it; i++ )
 					freeSpanIndexes[nDamageIndex].push_back( i );
 			}
 			nPrev = *it;
 		}
-		freeSpanIndexes[nDamageIndex].push_back( nPrev + 1 );			//это самый последний индекс
+		freeSpanIndexes[nDamageIndex].push_back( nPrev + 1 );			//СЌС‚Рѕ СЃР°РјС‹Р№ РїРѕСЃР»РµРґРЅРёР№ РёРЅРґРµРєСЃ
 	}
 	
 	ASSERT( pDT->IsReading() );
@@ -655,7 +655,7 @@ int CBridgeFrame::GetFreeBridgeIndex( int nActiveDamage )
 	int nRes = -1;
 	if ( freeSpanIndexes[nActiveDamage].size() == 1 )
 	{
-		//возвращаем самый последний индекс
+		//РІРѕР·РІСЂР°С‰Р°РµРј СЃР°РјС‹Р№ РїРѕСЃР»РµРґРЅРёР№ РёРЅРґРµРєСЃ
 		nRes = freeSpanIndexes[nActiveDamage].back()++;
 	}
 	else
@@ -672,7 +672,7 @@ bool CBridgeFrame::ExportFrameData( IDataTree *pDT, const char *pszProjectName, 
 	NI_ASSERT( pRootItem != 0 );
 	NI_ASSERT( pRootItem->GetItemType() == E_BRIDGE_ROOT_ITEM );
 
-	//Сохраняем RPG stats
+	//РЎРѕС…СЂР°РЅСЏРµРј RPG stats
 	IScene *pSG = GetSingleton<IScene>();
 	IImageProcessor *pIP = GetSingleton<IImageProcessor>();
 
@@ -697,7 +697,7 @@ bool CBridgeFrame::ExportFrameData( IDataTree *pDT, const char *pszProjectName, 
 	string szDir = GetDirectory( pszResultFileName );
 	
 	/*
-	//это главный item, в нем хранится инфа о проходимости и прозрачности
+	//СЌС‚Рѕ РіР»Р°РІРЅС‹Р№ item, РІ РЅРµРј С…СЂР°РЅРёС‚СЃСЏ РёРЅС„Р° Рѕ РїСЂРѕС…РѕРґРёРјРѕСЃС‚Рё Рё РїСЂРѕР·СЂР°С‡РЅРѕСЃС‚Рё
 	CTreeItem *pMainDamagePropsItem = pRootItem->GetChildItem( E_BRIDGE_STAGE_PROPS_ITEM, 0 );
 	*/
 	
@@ -731,7 +731,7 @@ bool CBridgeFrame::ExportFrameData( IDataTree *pDT, const char *pszProjectName, 
 			}
 
 			{
-				//перейдем в центр креста
+				//РїРµСЂРµР№РґРµРј РІ С†РµРЅС‚СЂ РєСЂРµСЃС‚Р°
 				CVec2 v2;
 				pSG->GetPos2( &v2, vPapa );
 				v2.x += zeroShiftX;
@@ -750,7 +750,7 @@ bool CBridgeFrame::ExportFrameData( IDataTree *pDT, const char *pszProjectName, 
 			{
 				nActiveBridgePart++;
 				CBridgePartsItem *pBridgeSpansItem = static_cast<CBridgePartsItem *> ( ext->GetPtr() );
-				//загружаем спрайты
+				//Р·Р°РіСЂСѓР¶Р°РµРј СЃРїСЂР°Р№С‚С‹
 				SetActivePartsItem( pBridgeSpansItem, pszProjectName );
 				
 				CBridgePartPropsItem *pBack = static_cast<CBridgePartPropsItem *> ( pBridgeSpansItem->GetChildItem( E_BRIDGE_PART_PROPS_ITEM, 0 ) );
@@ -760,7 +760,7 @@ bool CBridgeFrame::ExportFrameData( IDataTree *pDT, const char *pszProjectName, 
 				SBridgeRPGStats::SSegmentRPGStats segment;
 				if ( pBack->pSprite )
 				{
-					//запишем back часть
+					//Р·Р°РїРёС€РµРј back С‡Р°СЃС‚СЊ
 					segment.eType = SBridgeRPGStats::SSegmentRPGStats::GIRDER;
 					segment.szModel = szShortName;
 					vTemp = vPapa;
@@ -783,7 +783,7 @@ bool CBridgeFrame::ExportFrameData( IDataTree *pDT, const char *pszProjectName, 
 				
 				if ( pFront->pSprite )
 				{
-					//запишем front часть
+					//Р·Р°РїРёС€РµРј front С‡Р°СЃС‚СЊ
 					segment.eType = SBridgeRPGStats::SSegmentRPGStats::GIRDER;
 					segment.szModel = szShortName;
 					vTemp = vPapa;
@@ -810,14 +810,14 @@ bool CBridgeFrame::ExportFrameData( IDataTree *pDT, const char *pszProjectName, 
 					return false;
 				}
 				
-				//запишем bottom часть
+				//Р·Р°РїРёС€РµРј bottom С‡Р°СЃС‚СЊ
 				segment.eType = SBridgeRPGStats::SSegmentRPGStats::SLAB;
 				segment.szModel = szShortName;
 				segment.vRelPos = VNULL3;
 				AddSpriteAndShadow( pszProjectName, &packs, &shadowPacks, pBottom, vPapa );
 				segment.nFrameIndex = nPackSegmentIndex++;
 				
-				int nUMinX = 0, nUMaxX = 0, nUMinY = 0, nUMaxY = 0;		//unlocked min max для вычисления длины и ширины моста
+				int nUMinX = 0, nUMaxX = 0, nUMinY = 0, nUMaxY = 0;		//unlocked min max РґР»СЏ РІС‹С‡РёСЃР»РµРЅРёСЏ РґР»РёРЅС‹ Рё С€РёСЂРёРЅС‹ РјРѕСЃС‚Р°
 				if ( nActiveDamage == 0 && nActiveBridgePart == 0 )
 				{
 					SaveSegmentInformation( segment, pBridgeSpansItem, &packs, vPapa, nUMinX, nUMaxX, nUMinY, nUMaxY );
@@ -872,11 +872,11 @@ bool CBridgeFrame::ExportFrameData( IDataTree *pDT, const char *pszProjectName, 
 				else
 					NI_ASSERT( 0 );
 			}
-			//конец прохождения по части моста ( по begin, end, span )
+			//РєРѕРЅРµС† РїСЂРѕС…РѕР¶РґРµРЅРёСЏ РїРѕ С‡Р°СЃС‚Рё РјРѕСЃС‚Р° ( РїРѕ begin, end, span )
 		}
-		//прошли по всему nActiveDamage
-		//теперь packs и shadowPacks заполнены массивами картинок моста в данном разрушенном состоянии
-		//надо скомпоновать эти массивы
+		//РїСЂРѕС€Р»Рё РїРѕ РІСЃРµРјСѓ nActiveDamage
+		//С‚РµРїРµСЂСЊ packs Рё shadowPacks Р·Р°РїРѕР»РЅРµРЅС‹ РјР°СЃСЃРёРІР°РјРё РєР°СЂС‚РёРЅРѕРє РјРѕСЃС‚Р° РІ РґР°РЅРЅРѕРј СЂР°Р·СЂСѓС€РµРЅРЅРѕРј СЃРѕСЃС‚РѕСЏРЅРёРё
+		//РЅР°РґРѕ СЃРєРѕРјРїРѕРЅРѕРІР°С‚СЊ СЌС‚Рё РјР°СЃСЃРёРІС‹
 
 		if ( packs.size() > 0 )
 		{
@@ -939,7 +939,7 @@ bool CBridgeFrame::ExportFrameData( IDataTree *pDT, const char *pszProjectName, 
 				for ( int z=0; z<3; z++ )
 				{
 					if ( nActiveDamage == 0 && z == 0 )
-						continue;		//slab в неразрушенном состоянии уже заполнен
+						continue;		//slab РІ РЅРµСЂР°Р·СЂСѓС€РµРЅРЅРѕРј СЃРѕСЃС‚РѕСЏРЅРёРё СѓР¶Рµ Р·Р°РїРѕР»РЅРµРЅ
 
 					int nSegmentIndex = 0;
 					switch ( z )
@@ -974,7 +974,7 @@ bool CBridgeFrame::ExportFrameData( IDataTree *pDT, const char *pszProjectName, 
 				for ( int z=0; z<3; z++ )
 				{
 					if ( nActiveDamage == 0 && z == 0 )
-						continue;		//slab в неразрушенном состоянии уже заполнен
+						continue;		//slab РІ РЅРµСЂР°Р·СЂСѓС€РµРЅРЅРѕРј СЃРѕСЃС‚РѕСЏРЅРёРё СѓР¶Рµ Р·Р°РїРѕР»РЅРµРЅ
 					
 					int nSegmentIndex = 0;
 					switch ( z )
@@ -1009,7 +1009,7 @@ bool CBridgeFrame::ExportFrameData( IDataTree *pDT, const char *pszProjectName, 
 				for ( int z=0; z<3; z++ )
 				{
 					if ( nActiveDamage == 0 && z == 0 )
-						continue;		//slab в неразрушенном состоянии уже заполнен
+						continue;		//slab РІ РЅРµСЂР°Р·СЂСѓС€РµРЅРЅРѕРј СЃРѕСЃС‚РѕСЏРЅРёРё СѓР¶Рµ Р·Р°РїРѕР»РЅРµРЅ
 					
 					int nSegmentIndex = 0;
 					switch ( z )
@@ -1038,8 +1038,8 @@ bool CBridgeFrame::ExportFrameData( IDataTree *pDT, const char *pszProjectName, 
 	}
 	
 	
-	//хз, правильно или нет
-	//заполняю точки (smoke & fire points)
+	//С…Р·, РїСЂР°РІРёР»СЊРЅРѕ РёР»Рё РЅРµС‚
+	//Р·Р°РїРѕР»РЅСЏСЋ С‚РѕС‡РєРё (smoke & fire points)
 //	SavePointsInformation( rpgStats, pRootItem, pszProjectName );	//not used
 	FillRPGStats( rpgStats, pRootItem, pszProjectName );
 	
@@ -1058,7 +1058,7 @@ bool CBridgeFrame::ExportFrameData( IDataTree *pDT, const char *pszProjectName, 
 	if ( bWarning )
 		AfxMessageBox( "Note, that this bridge will be changed on map because of deleted some spans!!!\nYou will need to replace all that bridges by new one\n" );
 	
-	//создадим файл icon.tga с изображением моста
+	//СЃРѕР·РґР°РґРёРј С„Р°Р№Р» icon.tga СЃ РёР·РѕР±СЂР°Р¶РµРЅРёРµРј РјРѕСЃС‚Р°
 	CTreeItem *pDamagePropsItem = pRootItem->GetChildItem( E_BRIDGE_STAGE_PROPS_ITEM );
 	CTreeItem *pBeginSpansItem = pDamagePropsItem->GetChildItem( E_BRIDGE_BEGIN_SPANS_ITEM );
 	CTreeItem *pPartsItem = pBeginSpansItem->GetChildItem( E_BRIDGE_PARTS_ITEM );
@@ -1098,7 +1098,7 @@ void CBridgeFrame::FillRPGStats( SBridgeRPGStats &rpgStats, CTreeItem *pRootItem
 		rpgStats.defences[ nIndex ].nArmorMax = pDefProps->GetMaxArmor();
 		rpgStats.defences[ nIndex ].fSilhouette = pDefProps->GetSilhouette();
 	}
-	//ниже нужно будет подсчитывать 3D координаты по картинке, поэтому загрузим картинку центральной части моста
+	//РЅРёР¶Рµ РЅСѓР¶РЅРѕ Р±СѓРґРµС‚ РїРѕРґСЃС‡РёС‚С‹РІР°С‚СЊ 3D РєРѕРѕСЂРґРёРЅР°С‚С‹ РїРѕ РєР°СЂС‚РёРЅРєРµ, РїРѕСЌС‚РѕРјСѓ Р·Р°РіСЂСѓР·РёРј РєР°СЂС‚РёРЅРєСѓ С†РµРЅС‚СЂР°Р»СЊРЅРѕР№ С‡Р°СЃС‚Рё РјРѕСЃС‚Р°
 	CTreeItem *pDamagePropsItem = pRootItem->GetChildItem( E_BRIDGE_STAGE_PROPS_ITEM );
 	CTreeItem *pCenterSpansItem = pDamagePropsItem->GetChildItem( E_BRIDGE_CENTER_SPANS_ITEM );
 	CTreeItem *pPartsItem = pCenterSpansItem->GetChildItem( E_BRIDGE_PARTS_ITEM );
@@ -1119,7 +1119,7 @@ void CBridgeFrame::FillRPGStats( SBridgeRPGStats &rpgStats, CTreeItem *pRootItem
 		return;
 	CImageAccessor imageAccessor( pBridgeImage );
 	
-	//перейдем в центр креста
+	//РїРµСЂРµР№РґРµРј РІ С†РµРЅС‚СЂ РєСЂРµСЃС‚Р°
 	CVec2 vRealZeroPos2;
 	pSG->GetPos2( &vRealZeroPos2, vCenterKrest );
 	vRealZeroPos2.x += zeroShiftX;
@@ -1137,14 +1137,14 @@ void CBridgeFrame::FillRPGStats( SBridgeRPGStats &rpgStats, CTreeItem *pRootItem
 			continue;
 		
 		fire.vPos = it->pHLine->GetPosition();
-		//теперь вычислим относительную координату
+		//С‚РµРїРµСЂСЊ РІС‹С‡РёСЃР»РёРј РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅСѓСЋ РєРѕРѕСЂРґРёРЅР°С‚Сѓ
 		fire.vPos.x -= vRealZeroPos3.x;
 		fire.vPos.y -= vRealZeroPos3.y;
 		fire.vPos.z = 0;
 		
 		CVec2 vPos2;
 		pSG->GetPos2( &vPos2, it->pSprite->GetPosition() );
-		//теперь вычислим относительную координату
+		//С‚РµРїРµСЂСЊ РІС‹С‡РёСЃР»РёРј РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅСѓСЋ РєРѕРѕСЂРґРёРЅР°С‚Сѓ
 		vPos2.x -= vRealZeroPos2.x;
 		vPos2.y -= vRealZeroPos2.y;
 		fire.vPicturePosition = vPos2;
@@ -1156,7 +1156,7 @@ void CBridgeFrame::FillRPGStats( SBridgeRPGStats &rpgStats, CTreeItem *pRootItem
 		rpgStats.firePoints.push_back( fire );
 	}
 	
-	//Сохраняем позиции для всех smoke points
+	//РЎРѕС…СЂР°РЅСЏРµРј РїРѕР·РёС†РёРё РґР»СЏ РІСЃРµС… smoke points
 	CBridgeSmokesItem *pSmokesItem = (CBridgeSmokesItem *) pRootItem->GetChildItem( E_BRIDGE_SMOKES_ITEM );
 	NI_ASSERT( pSmokesItem != 0 );
 	
@@ -1170,14 +1170,14 @@ void CBridgeFrame::FillRPGStats( SBridgeRPGStats &rpgStats, CTreeItem *pRootItem
 			continue;
 		
 		smokeProps.vPos = pProps->pHLine->GetPosition();
-		//теперь вычислим относительную координату
+		//С‚РµРїРµСЂСЊ РІС‹С‡РёСЃР»РёРј РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅСѓСЋ РєРѕРѕСЂРґРёРЅР°С‚Сѓ
 		smokeProps.vPos.x -= vRealZeroPos3.x;
 		smokeProps.vPos.y -= vRealZeroPos3.y;
 		smokeProps.vPos.z = 0;
 		
 		CVec2 vPos2;
 		pSG->GetPos2( &vPos2, pProps->pSprite->GetPosition() );
-		//теперь вычислим относительную координату
+		//С‚РµРїРµСЂСЊ РІС‹С‡РёСЃР»РёРј РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅСѓСЋ РєРѕРѕСЂРґРёРЅР°С‚Сѓ
 		vPos2.x -= vRealZeroPos2.x;
 		vPos2.y -= vRealZeroPos2.y;
 		smokeProps.vPicturePosition = vPos2;
@@ -1198,7 +1198,7 @@ void CBridgeFrame::GetRPGStats( const SBridgeRPGStats &rpgStats, CTreeItem *pRoo
 	IVisObjBuilder *pVOB = GetSingleton<IVisObjBuilder>();
 	IScene *pSG = GetSingleton<IScene>();
 
-	//перейдем в центр креста
+	//РїРµСЂРµР№РґРµРј РІ С†РµРЅС‚СЂ РєСЂРµСЃС‚Р°
 	CVec2 vRealZeroPos2;
 	pSG->GetPos2( &vRealZeroPos2, vCenterKrest );
 	vRealZeroPos2.x += zeroShiftX;
@@ -1207,7 +1207,7 @@ void CBridgeFrame::GetRPGStats( const SBridgeRPGStats &rpgStats, CTreeItem *pRoo
 	CVec3 vRealZeroPos3;
 	pSG->GetPos3( &vRealZeroPos3, vRealZeroPos2 );
 
-	//Загружаем позиции для всех fire points
+	//Р—Р°РіСЂСѓР¶Р°РµРј РїРѕР·РёС†РёРё РґР»СЏ РІСЃРµС… fire points
 	int nCurrentFire = 0;
 	CTreeItem *pFiresItem = pRootItem->GetChildItem( E_BRIDGE_FIRE_POINTS_ITEM );
 	NI_ASSERT( pFiresItem != 0 );
@@ -1224,7 +1224,7 @@ void CBridgeFrame::GetRPGStats( const SBridgeRPGStats &rpgStats, CTreeItem *pRoo
 		CPtr<IObjVisObj> pObject;
 		{
 			pObject = static_cast<IObjVisObj *> ( pVOB->BuildObject( "editor\\shoot\\1", 0, SGVOT_SPRITE ) );
-			//добавляем спрайт 'точка огня' с такими координатами
+			//РґРѕР±Р°РІР»СЏРµРј СЃРїСЂР°Р№С‚ 'С‚РѕС‡РєР° РѕРіРЅСЏ' СЃ С‚Р°РєРёРјРё РєРѕРѕСЂРґРёРЅР°С‚Р°РјРё
 			CVec2 vPos2 = fire.vPicturePosition;
 			vPos2.x += vRealZeroPos2.x;
 			vPos2.y += vRealZeroPos2.y;
@@ -1241,7 +1241,7 @@ void CBridgeFrame::GetRPGStats( const SBridgeRPGStats &rpgStats, CTreeItem *pRoo
 		}
 		
 		{
-			//создаем спрайт - горизонтальную линию
+			//СЃРѕР·РґР°РµРј СЃРїСЂР°Р№С‚ - РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅСѓСЋ Р»РёРЅРёСЋ
 			pObject = static_cast<IObjVisObj *> ( pVOB->BuildObject( "editor\\shoot_horizontal\\1", 0, SGVOT_SPRITE ) );
 			NI_ASSERT( pObject != 0 );
 			CVec3 vPos3 = fire.vPos;
@@ -1267,11 +1267,11 @@ void CBridgeFrame::GetRPGStats( const SBridgeRPGStats &rpgStats, CTreeItem *pRoo
 	}
 
 	
-	//Загружаем позиции для всех direction explosion points
+	//Р—Р°РіСЂСѓР¶Р°РµРј РїРѕР·РёС†РёРё РґР»СЏ РІСЃРµС… direction explosion points
 	IGameTimer *pTimer = GetSingleton<IGameTimer>();
 	pTimer->Update( timeGetTime() );
 	
-	//Загружаем позиции для всех smoke points
+	//Р—Р°РіСЂСѓР¶Р°РµРј РїРѕР·РёС†РёРё РґР»СЏ РІСЃРµС… smoke points
 	int nCurrentSmoke = 0;
 	CBridgeSmokesItem *pSmokesItem = (CBridgeSmokesItem *) pRootItem->GetChildItem( E_BRIDGE_SMOKES_ITEM );
 	NI_ASSERT( pSmokesItem != 0 );
@@ -1285,7 +1285,7 @@ void CBridgeFrame::GetRPGStats( const SBridgeRPGStats &rpgStats, CTreeItem *pRoo
 		CPtr<IObjVisObj> pObject;
 		{
 			pObject = static_cast<IObjVisObj *> ( pVOB->BuildObject( "editor\\shoot\\1", 0, SGVOT_SPRITE ) );
-			//добавляем спрайт 'точка огня' с такими координатами
+			//РґРѕР±Р°РІР»СЏРµРј СЃРїСЂР°Р№С‚ 'С‚РѕС‡РєР° РѕРіРЅСЏ' СЃ С‚Р°РєРёРјРё РєРѕРѕСЂРґРёРЅР°С‚Р°РјРё
 			CVec2 vPos2 = smoke.vPicturePosition;
 			vPos2.x += vRealZeroPos2.x;
 			vPos2.y += vRealZeroPos2.y;
@@ -1302,7 +1302,7 @@ void CBridgeFrame::GetRPGStats( const SBridgeRPGStats &rpgStats, CTreeItem *pRoo
 		}
 		
 		{
-			//создаем спрайт - горизонтальную линию
+			//СЃРѕР·РґР°РµРј СЃРїСЂР°Р№С‚ - РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅСѓСЋ Р»РёРЅРёСЋ
 			pObject = static_cast<IObjVisObj *> ( pVOB->BuildObject( "editor\\shoot_horizontal\\1", 0, SGVOT_SPRITE ) );
 			NI_ASSERT( pObject != 0 );
 			CVec3 vPos3 = smoke.vPos;
@@ -1348,7 +1348,7 @@ void CBridgeFrame::AddSpriteAndShadow( const char *pszProjectFileName, CSpritesP
 	pack.lockedTilesCenter.x = 0;
 	pack.lockedTilesCenter.y = 0;
 	
-	//получим полный путь спрайта
+	//РїРѕР»СѓС‡РёРј РїРѕР»РЅС‹Р№ РїСѓС‚СЊ СЃРїСЂР°Р№С‚Р°
 	std::string szResultName;
 	MakeFullPath( GetDirectory(pszProjectFileName).c_str(), pProps->GetSpriteName(), szResultName );
 	CPtr<IDataStream> pStream = OpenFileStream( szResultName.c_str(), STREAM_ACCESS_READ );
@@ -1370,7 +1370,7 @@ void CBridgeFrame::AddSpriteAndShadow( const char *pszProjectFileName, CSpritesP
 	pPacks->push_back( pack );
 
 
-	//Записываем тень
+	//Р—Р°РїРёСЃС‹РІР°РµРј С‚РµРЅСЊ
 	std::string szShadowName = szResultName.substr( 0, szResultName.rfind('.') );
 	szShadowName += "s.tga";
 	pStream = OpenFileStream( szShadowName.c_str(), STREAM_ACCESS_READ );
@@ -1390,8 +1390,8 @@ void CBridgeFrame::AddSpriteAndShadow( const char *pszProjectFileName, CSpritesP
 		return;
 	}
 
-	//скомпонуем тень
-	//Тень надо промодулировать альфой из инвертированной картинки здания.
+	//СЃРєРѕРјРїРѕРЅСѓРµРј С‚РµРЅСЊ
+	//РўРµРЅСЊ РЅР°РґРѕ РїСЂРѕРјРѕРґСѓР»РёСЂРѕРІР°С‚СЊ Р°Р»СЊС„РѕР№ РёР· РёРЅРІРµСЂС‚РёСЂРѕРІР°РЅРЅРѕР№ РєР°СЂС‚РёРЅРєРё Р·РґР°РЅРёСЏ.
 	CPtr<IImage> pInverseSprite = pack.pImage->Duplicate();
 	pInverseSprite->SharpenAlpha( 128 );
 	pInverseSprite->InvertAlpha();
@@ -1410,9 +1410,9 @@ void CBridgeFrame::AddSpriteAndShadow( const char *pszProjectFileName, CSpritesP
 	rc.top = 0;
 	rc.right = pInverseSprite->GetSizeX();
 	rc.bottom = pInverseSprite->GetSizeY();
-	// промодулировать тень инверсной альфой из основной картинки
+	// РїСЂРѕРјРѕРґСѓР»РёСЂРѕРІР°С‚СЊ С‚РµРЅСЊ РёРЅРІРµСЂСЃРЅРѕР№ Р°Р»СЊС„РѕР№ РёР· РѕСЃРЅРѕРІРЅРѕР№ РєР°СЂС‚РёРЅРєРё
 	pShadowImage->ModulateAlphaFrom( pInverseSprite, &rc, 0, 0 );
-	// занулить цвет - оставить только альфу
+	// Р·Р°РЅСѓР»РёС‚СЊ С†РІРµС‚ - РѕСЃС‚Р°РІРёС‚СЊ С‚РѕР»СЊРєРѕ Р°Р»СЊС„Сѓ
 	pShadowImage->SetColor( DWORD(0) );
 	pack.pImage = pShadowImage;
 	pShadowPacks->push_back( pack );
@@ -1446,7 +1446,7 @@ void CBridgeFrame::SetActivePartsItem( CBridgePartsItem *pItem, const char *pszP
 	}
 	
 //	pSG->Clear();
-	//загружаю front, back, bottom спрайты
+	//Р·Р°РіСЂСѓР¶Р°СЋ front, back, bottom СЃРїСЂР°Р№С‚С‹
 	int i = 0;
 	for ( CTreeItem::CTreeItemList::const_iterator it=pActiveSpansItem->GetBegin(); it!=pActiveSpansItem->GetEnd(); ++it )
 	{
@@ -1471,7 +1471,7 @@ void CBridgeFrame::SetActivePartsItem( CBridgePartsItem *pItem, const char *pszP
 	{
 		if ( pActiveSpansItem->GetActiveStage() == 0 )
 		{
-			//рассчитываю порядковый номер span'a
+			//СЂР°СЃСЃС‡РёС‚С‹РІР°СЋ РїРѕСЂСЏРґРєРѕРІС‹Р№ РЅРѕРјРµСЂ span'a
 			CTreeItem *pPapa = pItem->GetParentTreeItem();
 			NI_ASSERT( pPapa != 0 );
 			int i = 0;
@@ -1528,7 +1528,7 @@ void CBridgeFrame::LoadSpriteItem( CBridgePartPropsItem *pItem, const char *pszN
 	{
 		pSG->AddObject( pItem->pSprite, SGVOGT_BRIDGE );
 /*
-		//обновляем ноль для этой части, чтобы он лежал на линии
+		//РѕР±РЅРѕРІР»СЏРµРј РЅРѕР»СЊ РґР»СЏ СЌС‚РѕР№ С‡Р°СЃС‚Рё, С‡С‚РѕР±С‹ РѕРЅ Р»РµР¶Р°Р» РЅР° Р»РёРЅРёРё
 		CVec2 vPos2;
 		pSG->GetPos2( &vPos2, pItem->vKrestPos );
 		vPos2.x += zeroShiftX;
@@ -1563,7 +1563,7 @@ void CBridgeFrame::SetActivePartPropsItem( CBridgePartPropsItem *pItem )
 	pActiveSpanPropsItem = pItem;
 	if ( !pActiveSpanPropsItem->bLoaded )
 	{
-		//узнаем порядковый номер, а вместе с ним и имя файла
+		//СѓР·РЅР°РµРј РїРѕСЂСЏРґРєРѕРІС‹Р№ РЅРѕРјРµСЂ, Р° РІРјРµСЃС‚Рµ СЃ РЅРёРј Рё РёРјСЏ С„Р°Р№Р»Р°
 		int i = 1;
 		for ( CTreeItem::CTreeItemList::const_iterator it=pPapa->GetBegin(); it!=pPapa->GetEnd(); ++it )
 		{
@@ -1586,7 +1586,7 @@ void CBridgeFrame::UpdatePartPropsItem()
 	if ( !pActiveSpanPropsItem )
 		return;
 	
-	//узнаем порядковый номер, а вместе с ним и имя файла
+	//СѓР·РЅР°РµРј РїРѕСЂСЏРґРєРѕРІС‹Р№ РЅРѕРјРµСЂ, Р° РІРјРµСЃС‚Рµ СЃ РЅРёРј Рё РёРјСЏ С„Р°Р№Р»Р°
 	int i = 1;
 	CTreeItem *pPapa = pActiveSpanPropsItem->GetParentTreeItem();
 	for ( CTreeItem::CTreeItemList::const_iterator it=pPapa->GetBegin(); it!=pPapa->GetEnd(); ++it )
@@ -1719,7 +1719,7 @@ void CBridgeFrame::OnUpdateSetZeroButton(CCmdUI* pCmdUI)
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
 	if ( pTree != 0 )
 	{
-		//Если уже был создан проект
+		//Р•СЃР»Рё СѓР¶Рµ Р±С‹Р» СЃРѕР·РґР°РЅ РїСЂРѕРµРєС‚
 		if ( m_drawMode == E_DRAW_SPAN_PROPS )
 			pCmdUI->Enable( true );
 		else
@@ -1734,7 +1734,7 @@ void CBridgeFrame::SetZeroCoordinate( POINT point )
 	NI_ASSERT( pActiveSpanPropsItem != 0 );
 	IScene *pSG = GetSingleton<IScene>();
 	
-	//если это нулевая точка у bottom части моста, то она должна лежать на линии
+	//РµСЃР»Рё СЌС‚Рѕ РЅСѓР»РµРІР°СЏ С‚РѕС‡РєР° Сѓ bottom С‡Р°СЃС‚Рё РјРѕСЃС‚Р°, С‚Рѕ РѕРЅР° РґРѕР»Р¶РЅР° Р»РµР¶Р°С‚СЊ РЅР° Р»РёРЅРёРё
 	CVec2 pt;
 	CTreeItem *pPapa = pActiveSpanPropsItem->GetParentTreeItem();
 	CTreeItem *pTopPapa = pPapa->GetParentTreeItem();
@@ -1750,7 +1750,7 @@ void CBridgeFrame::SetZeroCoordinate( POINT point )
 	{
 		if ( pTopPapa->GetItemType() == E_BRIDGE_CENTER_SPANS_ITEM )
 		{
-			//у центральной части slab крест не двигается
+			//Сѓ С†РµРЅС‚СЂР°Р»СЊРЅРѕР№ С‡Р°СЃС‚Рё slab РєСЂРµСЃС‚ РЅРµ РґРІРёРіР°РµС‚СЃСЏ
 			return;
 		}
 
@@ -1781,7 +1781,7 @@ void CBridgeFrame::SetZeroCoordinate( POINT point )
 		}
 		
 		SetChangedFlag( true );
-		//крест у боковых частей может находиться только на линии, перпендикулярной линии моста
+		//РєСЂРµСЃС‚ Сѓ Р±РѕРєРѕРІС‹С… С‡Р°СЃС‚РµР№ РјРѕР¶РµС‚ РЅР°С…РѕРґРёС‚СЊСЃСЏ С‚РѕР»СЊРєРѕ РЅР° Р»РёРЅРёРё, РїРµСЂРїРµРЅРґРёРєСѓР»СЏСЂРЅРѕР№ Р»РёРЅРёРё РјРѕСЃС‚Р°
 		pt.x = point.x - zeroShiftX;
 		pt.y = point.y - zeroShiftY;
 		CVec3 v3;
@@ -1812,7 +1812,7 @@ void CBridgeFrame::SetZeroCoordinate( POINT point )
 void CBridgeFrame::OnLButtonDown(UINT nFlags, CPoint point) 
 {
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
-	if ( pTree == 0 )			//Если проект не был создан
+	if ( pTree == 0 )			//Р•СЃР»Рё РїСЂРѕРµРєС‚ РЅРµ Р±С‹Р» СЃРѕР·РґР°РЅ
 		return;
 
 	if ( tbStyle == E_DRAW_GRID && m_drawMode == E_DRAW_SPANS && pActiveSpansItem != 0 )
@@ -1875,7 +1875,7 @@ void CBridgeFrame::OnLButtonUp(UINT nFlags, CPoint point)
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
 	if ( pTree == 0 )
 	{
-		//Если проект не был создан
+		//Р•СЃР»Рё РїСЂРѕРµРєС‚ РЅРµ Р±С‹Р» СЃРѕР·РґР°РЅ
 		CGridFrame::OnLButtonUp(nFlags, point);
 		return;
 	}
@@ -1890,7 +1890,7 @@ void CBridgeFrame::OnLButtonUp(UINT nFlags, CPoint point)
 void CBridgeFrame::OnRButtonDown(UINT nFlags, CPoint point) 
 {
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
-	if ( pTree == 0 )			//Если проект не был создан
+	if ( pTree == 0 )			//Р•СЃР»Рё РїСЂРѕРµРєС‚ РЅРµ Р±С‹Р» СЃРѕР·РґР°РЅ
 		return;
 	SetChangedFlag( true );
 	
@@ -1927,7 +1927,7 @@ void CBridgeFrame::OnRButtonDown(UINT nFlags, CPoint point)
 void CBridgeFrame::OnMouseMove(UINT nFlags, CPoint point) 
 {
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
-	if ( pTree == 0 )			//Если проект не был создан
+	if ( pTree == 0 )			//Р•СЃР»Рё РїСЂРѕРµРєС‚ РЅРµ Р±С‹Р» СЃРѕР·РґР°РЅ
 		return;
 
 	if ( tbStyle == E_DRAW_GRID && nFlags & MK_RBUTTON && m_drawMode == E_DRAW_SPANS && pActiveSpansItem != 0 )
@@ -2045,8 +2045,8 @@ FILETIME CBridgeFrame::FindMaximalSourceTime( const char *pszProjectName, CTreeI
 
 /*
 	FILETIME current;
-	//этот код не работает, надо переделывать прохождение по дереву
-	//начиная с DamageItems; у меня не было времени фиксить
+	//СЌС‚РѕС‚ РєРѕРґ РЅРµ СЂР°Р±РѕС‚Р°РµС‚, РЅР°РґРѕ РїРµСЂРµРґРµР»С‹РІР°С‚СЊ РїСЂРѕС…РѕР¶РґРµРЅРёРµ РїРѕ РґРµСЂРµРІСѓ
+	//РЅР°С‡РёРЅР°СЏ СЃ DamageItems; Сѓ РјРµРЅСЏ РЅРµ Р±С‹Р»Рѕ РІСЂРµРјРµРЅРё С„РёРєСЃРёС‚СЊ
 	for ( int i=0; i<3; i++ )
 	{
 		CTreeItem *pBridgeParts = 0;
@@ -2066,42 +2066,42 @@ FILETIME CBridgeFrame::FindMaximalSourceTime( const char *pszProjectName, CTreeI
 			CBridgePartPropsItem *pFront = static_cast<CBridgePartPropsItem *> ( pBridgeSpansItem->GetChildItem( E_BRIDGE_PART_PROPS_ITEM, 1 ) );
 			CBridgePartPropsItem *pBottom = static_cast<CBridgePartPropsItem *> ( pBridgeSpansItem->GetChildItem( E_BRIDGE_PART_PROPS_ITEM, 2 ) );
 
-			//back часть
+			//back С‡Р°СЃС‚СЊ
 			MakeFullPath( szProjectDir.c_str(), pBack->GetSpriteName(), szResultName );
 			szSpriteName = szResultName;
 			current = GetFileChangeTime( szResultName.c_str() );
 			if ( current > maxTime )
 				maxTime = current;
 
-			//тень
+			//С‚РµРЅСЊ
 			szShadowName = szSpriteName.substr( 0, szSpriteName.rfind('.') );
 			szShadowName += "s.tga";
 			current = GetFileChangeTime( szShadowName.c_str() );
 			if ( current > maxTime )
 				maxTime = current;
 
-			// front часть
+			// front С‡Р°СЃС‚СЊ
 			MakeFullPath( szProjectDir.c_str(), pFront->GetSpriteName(), szResultName );
 			szSpriteName = szResultName;
 			current = GetFileChangeTime( szResultName.c_str() );
 			if ( current > maxTime )
 				maxTime = current;
 
-			//тень
+			//С‚РµРЅСЊ
 			szShadowName = szSpriteName.substr( 0, szSpriteName.rfind('.') );
 			szShadowName += "s.tga";
 			current = GetFileChangeTime( szShadowName.c_str() );
 			if ( current > maxTime )
 				maxTime = current;
 
-			// bottom часть
+			// bottom С‡Р°СЃС‚СЊ
 			MakeFullPath( szProjectDir.c_str(), pBottom->GetSpriteName(), szResultName );
 			szSpriteName = szResultName;
 			current = GetFileChangeTime( szResultName.c_str() );
 			if ( current > maxTime )
 				maxTime = current;
 			
-			//тень
+			//С‚РµРЅСЊ
 			szShadowName = szSpriteName.substr( 0, szSpriteName.rfind('.') );
 			szShadowName += "s.tga";
 			current = GetFileChangeTime( szShadowName.c_str() );
@@ -2156,7 +2156,7 @@ void CBridgeFrame::SetActiveMode( EActiveMode mode )
 	if ( eActiveMode == mode )
 		return;
 
-	//скрываем старый режим
+	//СЃРєСЂС‹РІР°РµРј СЃС‚Р°СЂС‹Р№ СЂРµР¶РёРј
 	if ( eActiveMode == E_FIRE_POINT )
 	{
 		for ( CListOfFirePoints::iterator it=firePoints.begin(); it!=firePoints.end(); ++it )
@@ -2365,7 +2365,7 @@ void CBridgeFrame::OnUpdateSetSmokePoint(CCmdUI* pCmdUI)
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
 	if ( pTree != 0 )
 	{
-		//Если уже был создан проект
+		//Р•СЃР»Рё СѓР¶Рµ Р±С‹Р» СЃРѕР·РґР°РЅ РїСЂРѕРµРєС‚
 		if ( pActiveSpansItem && !pActiveSpansItem->lockedTiles.empty() )
 			pCmdUI->Enable( true );
 		else
@@ -2380,7 +2380,7 @@ void CBridgeFrame::OnUpdateMovePoint(CCmdUI* pCmdUI)
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
 	if ( pTree != 0 && pActiveSpansItem && eActiveMode == E_FIRE_POINT || eActiveMode == E_SMOKE_POINT )
 	{
-		//Если уже был создан проект
+		//Р•СЃР»Рё СѓР¶Рµ Р±С‹Р» СЃРѕР·РґР°РЅ РїСЂРѕРµРєС‚
 		pCmdUI->Enable( true );
 	}
 	else
@@ -2388,7 +2388,7 @@ void CBridgeFrame::OnUpdateMovePoint(CCmdUI* pCmdUI)
 /*
 	if ( eActiveMode == E_FIRE_POINT )
 	{
-		//Если есть fire points
+		//Р•СЃР»Рё РµСЃС‚СЊ fire points
 		pCmdUI->Enable( true );
 		return;
 	}
@@ -2410,7 +2410,7 @@ void CBridgeFrame::OnUpdateSetHorizontalShoot(CCmdUI* pCmdUI)
 	{
 		if ( pActiveFirePoint != 0 )
 		{
-			//Если есть fire points
+			//Р•СЃР»Рё РµСЃС‚СЊ fire points
 			pCmdUI->Enable( true );
 		}
 		else
@@ -2421,7 +2421,7 @@ void CBridgeFrame::OnUpdateSetHorizontalShoot(CCmdUI* pCmdUI)
 	{
 		if ( pActiveSmokePoint != 0 )
 		{
-			//Если есть smoke points
+			//Р•СЃР»Рё РµСЃС‚СЊ smoke points
 			pCmdUI->Enable( true );
 		}
 		else
@@ -2445,7 +2445,7 @@ void CBridgeFrame::OnUpdateSetShootAngle(CCmdUI* pCmdUI)
 	{
 		if ( pActiveFirePoint != 0 )
 		{
-			//Если есть fire points
+			//Р•СЃР»Рё РµСЃС‚СЊ fire points
 			pCmdUI->Enable( true );
 		}
 		else
@@ -2456,7 +2456,7 @@ void CBridgeFrame::OnUpdateSetShootAngle(CCmdUI* pCmdUI)
 	{
 		if ( pActiveSmokePoint != 0 )
 		{
-			//Если есть smoke points
+			//Р•СЃР»Рё РµСЃС‚СЊ smoke points
 			pCmdUI->Enable( true );
 		}
 		else
@@ -2479,7 +2479,7 @@ void CBridgeFrame::OnUpdateSetFirePoint(CCmdUI* pCmdUI)
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
 	if ( pTree != 0 && pActiveSpansItem )
 	{
-		//Если уже был создан проект
+		//Р•СЃР»Рё СѓР¶Рµ Р±С‹Р» СЃРѕР·РґР°РЅ РїСЂРѕРµРєС‚
 		if ( pActiveSpansItem && !pActiveSpansItem->lockedTiles.empty() )
 			pCmdUI->Enable( true );
 		else
@@ -2500,7 +2500,7 @@ void CBridgeFrame::OnUpdateGeneratePoints(CCmdUI* pCmdUI)
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
 	if ( pTree != 0 && pActiveSpansItem )
 	{
-		//Если уже был создан проект
+		//Р•СЃР»Рё СѓР¶Рµ Р±С‹Р» СЃРѕР·РґР°РЅ РїСЂРѕРµРєС‚
 		if ( ( eActiveMode == E_SMOKE_POINT || eActiveMode == E_FIRE_POINT ) && !pActiveSpansItem->lockedTiles.empty() )
 			pCmdUI->Enable( true );
 		else
@@ -2514,7 +2514,7 @@ void CBridgeFrame::SaveSegmentInformation( SBridgeRPGStats::SSegmentRPGStats &se
 {
 	IScene *pSG = GetSingleton<IScene>();
 
-	// Сохраняем данные о тайловой проходимости
+	// РЎРѕС…СЂР°РЅСЏРµРј РґР°РЅРЅС‹Рµ Рѕ С‚Р°Р№Р»РѕРІРѕР№ РїСЂРѕС…РѕРґРёРјРѕСЃС‚Рё
 	if ( pActiveSpansItem->lockedTiles.empty() && pBridgeSpansItem->unLockedTiles.empty() )
 	{
 		segment.passability.SetSizes( 0, 0 );
@@ -2523,7 +2523,7 @@ void CBridgeFrame::SaveSegmentInformation( SBridgeRPGStats::SSegmentRPGStats &se
 	}
 	else
 	{
-		//Сперва найдем минимальные и максимальные координаты тайлов в pActiveSpansItem->lockedTiles и unLockedTiles
+		//РЎРїРµСЂРІР° РЅР°Р№РґРµРј РјРёРЅРёРјР°Р»СЊРЅС‹Рµ Рё РјР°РєСЃРёРјР°Р»СЊРЅС‹Рµ РєРѕРѕСЂРґРёРЅР°С‚С‹ С‚Р°Р№Р»РѕРІ РІ pActiveSpansItem->lockedTiles Рё unLockedTiles
 		int nTileMinX, nTileMaxX, nTileMinY, nTileMaxY;
 		if ( !pActiveSpansItem->lockedTiles.empty() )
 		{
@@ -2634,7 +2634,7 @@ void CBridgeFrame::SaveSegmentInformation( SBridgeRPGStats::SSegmentRPGStats &se
 	pPacks->back().lockedTilesCenter.x = segment.vOrigin.x;
 	pPacks->back().lockedTilesCenter.y = segment.vOrigin.y;
 	
-	// Сохраняем данные о прозрачности объекта
+	// РЎРѕС…СЂР°РЅСЏРµРј РґР°РЅРЅС‹Рµ Рѕ РїСЂРѕР·СЂР°С‡РЅРѕСЃС‚Рё РѕР±СЉРµРєС‚Р°
 	{
 		if ( pBridgeSpansItem->transeparences.empty() )
 		{
@@ -2644,7 +2644,7 @@ void CBridgeFrame::SaveSegmentInformation( SBridgeRPGStats::SSegmentRPGStats &se
 		}
 		else
 		{
-			//Сперва найдем минимальные и максимальные координаты тайлов в pBridgeSpansItem->transparences
+			//РЎРїРµСЂРІР° РЅР°Р№РґРµРј РјРёРЅРёРјР°Р»СЊРЅС‹Рµ Рё РјР°РєСЃРёРјР°Р»СЊРЅС‹Рµ РєРѕРѕСЂРґРёРЅР°С‚С‹ С‚Р°Р№Р»РѕРІ РІ pBridgeSpansItem->transparences
 			int nTileMinX = pBridgeSpansItem->transeparences.front().nTileX, nTileMaxX = pBridgeSpansItem->transeparences.front().nTileX;
 			int nTileMinY = pBridgeSpansItem->transeparences.front().nTileY, nTileMaxY = pBridgeSpansItem->transeparences.front().nTileY;
 			

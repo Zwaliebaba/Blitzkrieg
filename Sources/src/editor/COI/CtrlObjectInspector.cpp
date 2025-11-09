@@ -693,7 +693,7 @@ void CCtrlObjectInspector::OnLButtonUp( UINT nFlags, CPoint point )
 
 void CCtrlObjectInspector::OnMouseMove(UINT nFlags, CPoint point) 
 {
-	//добавим возможность перетаскивать линеечку
+	//РґРѕР±Р°РІРёРј РІРѕР·РјРѕР¶РЅРѕСЃС‚СЊ РїРµСЂРµС‚Р°СЃРєРёРІР°С‚СЊ Р»РёРЅРµРµС‡РєСѓ
 //	rect = CRect( m_nSplitterPos - 1, 0, m_nSplitterPos + 1, m_sizeClient.cy + 2 );
 	if ( (point.x >= m_nSplitterPos - 2 && point.x <= m_nSplitterPos + 2 &&
 		point.y >= 0 && point.y <= 15) || bDraggingSplitter )
@@ -727,9 +727,9 @@ BOOL CCtrlObjectInspector::PreTranslateMessage( MSG* pMsg )
 	else if ( pMsg->message == WM_KEYDOWN )
 	{
 		//CRAP{
-		//у меня по другому не ходят copy/paste сообщения, какие-то глюки в редкаторе, я не нашел источник
-		//возможно в будущей версии редактора это стоит пофиксить
-		//как способ фикса я вижу создание нового редактора как MDI приложение с нуля
+		//Сѓ РјРµРЅВ¤ РїРѕ РґСЂСѓРіРѕРјСѓ РЅРµ С…РѕРґВ¤С‚ copy/paste СЃРѕРѕР±С‰РµРЅРёВ¤, РєР°РєРёРµ-С‚Рѕ РіР»СЋРєРё РІ СЂРµРґРєР°С‚РѕСЂРµ, В¤ РЅРµ РЅР°С€РµР» РёСЃС‚РѕС‡РЅРёРє
+		//РІРѕР·РјРѕР¶РЅРѕ РІ Р±СѓРґСѓС‰РµР№ РІРµСЂСЃРёРё СЂРµРґР°РєС‚РѕСЂР° СЌС‚Рѕ СЃС‚РѕРёС‚ РїРѕС„РёРєСЃРёС‚СЊ
+		//РєР°Рє СЃРїРѕСЃРѕР± С„РёРєСЃР° В¤ РІРёР¶Сѓ СЃРѕР·РґР°РЅРёРµ РЅРѕРІРѕРіРѕ СЂРµРґР°РєС‚РѕСЂР° РєР°Рє MDI РїСЂРёР»РѕР¶РµРЅРёРµ СЃ РЅСѓР»В¤
 		if ( ( pMsg->wParam == 'C' || pMsg->wParam == 'V' || pMsg->wParam == 'X' || pMsg->wParam == VK_INSERT || pMsg->wParam == VK_DELETE ) && IsCtrlKeyDown() )
 		{
 			TranslateMessage( pMsg );
@@ -764,7 +764,7 @@ BOOL CCtrlObjectInspector::PreTranslateMessage( MSG* pMsg )
 
 void CCtrlObjectInspector::LooseFocus()
 {
-	SelectRow( m_nCurVirtualLine, true );			//ЭТА СТРОЧКА НУЖНА, ИНАЧЕ НЕ ОБНОВЛЯЕТСЯ СОДЕРЖИМОЕ ПРИ ПЕРЕХОДЕ НА НОВЫЙ ITEM
+	SelectRow( m_nCurVirtualLine, true );			//РЃвЂњС вЂ”вЂњвЂ“СњвЂћВ С РЊвЂќв€†РЊС, В»РЊСвЂћв‰€ РЊв‰€ СњР…РЊСњВ¬Р‹СЏв‰€вЂњвЂ”СЏ вЂ”СњЖ’в‰€вЂ“в€†В»С›Сњв‰€ С•вЂ“В» С•в‰€вЂ“в‰€вЂ™СњЖ’в‰€ РЊС РЊСњВ¬СџвЂ¦ ITEM
 //	SelectRow( m_nCurVirtualLine );
 	Invalidate( FALSE );
 }

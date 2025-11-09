@@ -24,26 +24,26 @@ public:
 public:
 	typedef vector< CPtr<IGFXVertices> > CVectorOfVertices;
 	
-	//для редактирования shoot points
+	//РґР»СЏ СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёСЏ shoot points
 	struct SShootPoint
 	{
 		CBuildingSlotPropsItem *pSlot;
 		CPtr<IObjVisObj> pSprite;
 		CPtr<IObjVisObj> pHLine;
 		
-		float fDirection;		//угол направления конуса стрельбы
-		float fAngle;				//полный угол конуса стрельбы
+		float fDirection;		//СѓРіРѕР» РЅР°РїСЂР°РІР»РµРЅРёСЏ РєРѕРЅСѓСЃР° СЃС‚СЂРµР»СЊР±С‹
+		float fAngle;				//РїРѕР»РЅС‹Р№ СѓРіРѕР» РєРѕРЅСѓСЃР° СЃС‚СЂРµР»СЊР±С‹
 	};
 	
-	//для редактирования fire points
+	//РґР»СЏ СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёСЏ fire points
 	struct SFirePoint
 	{
 		CBuildingFirePointPropsItem *pFirePoint;
 		CPtr<IObjVisObj> pSprite;
 		CPtr<IObjVisObj> pHLine;
 		
-		float fDirection;		//угол направления конуса стрельбы
-		//		float fAngle;				//полный угол конуса стрельбы
+		float fDirection;		//СѓРіРѕР» РЅР°РїСЂР°РІР»РµРЅРёСЏ РєРѕРЅСѓСЃР° СЃС‚СЂРµР»СЊР±С‹
+		//		float fAngle;				//РїРѕР»РЅС‹Р№ СѓРіРѕР» РєРѕРЅСѓСЃР° СЃС‚СЂРµР»СЊР±С‹
 	};
 	
 	enum EActiveMode
@@ -73,7 +73,7 @@ public:
 	void SetTranseparenceCombo( CComboBox *pCombo ) { m_pTransparenceCombo = pCombo; }
 	
 	void SetActiveMode( EActiveMode mode );
-	//для редактирования shoot points
+	//РґР»СЏ СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёСЏ shoot points
 	void DeleteShootPoint( CTreeItem *pShoot );
 	void SelectShootPoint( CTreeItem *pShoot );
 	void SetActiveShootPoint( SShootPoint *pShootPoint );
@@ -85,7 +85,7 @@ public:
 	void SetShootPointAngle( const POINT &point );
 	void MoveShootPoint( const POINT &point );
 	
-	//для редактирования fire point
+	//РґР»СЏ СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёСЏ fire point
 	void DeleteFirePoint( CTreeItem *pFire );
 	void SelectFirePoint( CTreeItem *pFire );
 	void SetActiveFirePoint( SFirePoint *pFirePoint );
@@ -96,7 +96,7 @@ public:
 	void SetFirePointAngle( const POINT &point );
 	void MoveFirePoint( const POINT &point );
 	
-	//для редактирования smoke effects
+	//РґР»СЏ СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёСЏ smoke effects
 	void AddOrSelectSmokePoint( const POINT &point );
 	void DeleteSmokePoint();
 	void SelectSmokePoint( CBuildingSmokePropsItem *pSmokePoint );
@@ -107,7 +107,7 @@ public:
 	void GenerateSmokePoints();
 	void CreateSmokeSprites( CBuildingSmokePropsItem *pSmokePoint );
 
-	//для редактирования direction explosions
+	//РґР»СЏ СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёСЏ direction explosions
 	void SelectDirExpPoint( CBuildingDirExplosionPropsItem *pDirExpPoint );
 	void ComputeDirExpDirectionLines();
 	void MoveDirExpPoint( const POINT &point );
@@ -139,20 +139,20 @@ private:
 	EActiveMode eActiveMode;
 	EActiveSubMode eActiveSubMode;
 
-	//для редактирования shoot points
+	//РґР»СЏ СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёСЏ shoot points
 	typedef list<SShootPoint> CListOfShootPoints;
 	CListOfShootPoints shootPoints;
-	SShootPoint *pActiveShootPoint;			//к этой переменной плохо ссылаться напрямую, лучше использовать SetActiveShootPoint()
+	SShootPoint *pActiveShootPoint;			//Рє СЌС‚РѕР№ РїРµСЂРµРјРµРЅРЅРѕР№ РїР»РѕС…Рѕ СЃСЃС‹Р»Р°С‚СЊСЃСЏ РЅР°РїСЂСЏРјСѓСЋ, Р»СѓС‡С€Рµ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ SetActiveShootPoint()
 
-	//для костров
+	//РґР»СЏ РєРѕСЃС‚СЂРѕРІ
 	typedef list<SFirePoint> CListOfFirePoints;
 	CListOfFirePoints firePoints;
-	SFirePoint *pActiveFirePoint;				//к этой переменной плохо ссылаться напрямую, лучше использовать SetActiveFirePoint()
+	SFirePoint *pActiveFirePoint;				//Рє СЌС‚РѕР№ РїРµСЂРµРјРµРЅРЅРѕР№ РїР»РѕС…Рѕ СЃСЃС‹Р»Р°С‚СЊСЃСЏ РЅР°РїСЂСЏРјСѓСЋ, Р»СѓС‡С€Рµ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ SetActiveFirePoint()
 
-	//для дымов при разрушении
+	//РґР»СЏ РґС‹РјРѕРІ РїСЂРё СЂР°Р·СЂСѓС€РµРЅРёРё
 	CBuildingSmokePropsItem *pActiveSmokePoint;
 
-	//для направленных взрывов
+	//РґР»СЏ РЅР°РїСЂР°РІР»РµРЅРЅС‹С… РІР·СЂС‹РІРѕРІ
 	CBuildingDirExplosionPropsItem *pActiveDirExpPoint;
 
 	CPtr<IGFXVertices> pConeVertices;
@@ -166,19 +166,19 @@ private:
 	CComboBox *m_pTransparenceCombo;
 	int m_transValue;
 
-	// для отображения нужного спрайта
+	// РґР»СЏ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ РЅСѓР¶РЅРѕРіРѕ СЃРїСЂР°Р№С‚Р°
 	CTreeItem *pActiveGraphicProps;
 	
 protected:
 	void LoadSprite( const char *pszSpriteFullName );
 
 	void CreateKrest();
-	virtual void SpecificInit();														//для инициализации внутренних данных после загрузки проекта или создании нового
+	virtual void SpecificInit();														//РґР»СЏ РёРЅРёС†РёР°Р»РёР·Р°С†РёРё РІРЅСѓС‚СЂРµРЅРЅРёС… РґР°РЅРЅС‹С… РїРѕСЃР»Рµ Р·Р°РіСЂСѓР·РєРё РїСЂРѕРµРєС‚Р° РёР»Рё СЃРѕР·РґР°РЅРёРё РЅРѕРІРѕРіРѕ
 	virtual void SpecificClearBeforeBatchMode();
 	virtual BOOL SpecificTranslateMessage( MSG *pMsg );
 	
-	virtual void SaveFrameOwnData( IDataTree *pDT );				//для сохранения собственных данных проекта
-	virtual void LoadFrameOwnData( IDataTree *pDT );				//для загрузки
+	virtual void SaveFrameOwnData( IDataTree *pDT );				//РґР»СЏ СЃРѕС…СЂР°РЅРµРЅРёСЏ СЃРѕР±СЃС‚РІРµРЅРЅС‹С… РґР°РЅРЅС‹С… РїСЂРѕРµРєС‚Р°
+	virtual void LoadFrameOwnData( IDataTree *pDT );				//РґР»СЏ Р·Р°РіСЂСѓР·РєРё
 	virtual void SaveRPGStats( IDataTree *pDT, CTreeItem *pRootItem, const char *pszProjectName );
 	virtual void LoadRPGStats( IDataTree *pDT, CTreeItem *pRootItem );
 

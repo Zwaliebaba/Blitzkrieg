@@ -48,11 +48,11 @@ void CUIComplexScroll::Visit( interface ISceneVisitor *pVisitor )
 	if ( !GetCmdShow() )
 		return;
 
-	// эта функция фактически продублирована для некоторых контролов, поэтому при ее изменении надо изменять их, например CUIComplexScroll
+	// СЌС‚Р° С„СѓРЅРєС†РёСЏ С„Р°РєС‚РёС‡РµСЃРєРё РїСЂРѕРґСѓР±Р»РёСЂРѕРІР°РЅР° РґР»СЏ РЅРµРєРѕС‚РѕСЂС‹С… РєРѕРЅС‚СЂРѕР»РѕРІ, РїРѕСЌС‚РѕРјСѓ РїСЂРё РµРµ РёР·РјРµРЅРµРЅРёРё РЅР°РґРѕ РёР·РјРµРЅСЏС‚СЊ РёС…, РЅР°РїСЂРёРјРµСЂ CUIComplexScroll
 	VisitBackground( pVisitor );
 	
 	CWindowList & children = GetChildList();
-	// рисуем детей
+	// СЂРёСЃСѓРµРј РґРµС‚РµР№
 	for ( CWindowList::reverse_iterator ri = children.rbegin(); ri != children.rend(); ++ri )
 		(*ri)->Visit( pVisitor );
 	
@@ -72,7 +72,7 @@ int CUIComplexScroll::operator&( IDataTree &ss )
 
 	if ( saver.IsReading() )
 	{
-		//инициализируем pScrollBar
+		//РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј pScrollBar
 		pScrollBar = dynamic_cast<CUIScrollBar *>( GetChildByID(1) );
 		NI_ASSERT_T( pScrollBar != 0, "can't find scroll bar" );
 		
@@ -131,7 +131,7 @@ void CUIComplexScroll::Reposition( const CTRect<float> &rcParent )
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool CUIComplexScroll::ProcessMessage( const SUIMessage &msg )
 {
-	//Scroll Text обрабатывает NOTIFY сообщения от ScrollBar
+	//Scroll Text РѕР±СЂР°Р±Р°С‚С‹РІР°РµС‚ NOTIFY СЃРѕРѕР±С‰РµРЅРёСЏ РѕС‚ ScrollBar
 	switch( msg.nMessageCode )
 	{
 	case UI_NOTIFY_POSITION_CHANGED:

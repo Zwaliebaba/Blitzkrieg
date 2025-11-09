@@ -12,7 +12,7 @@ CInterfaceCustomCampaign::~CInterfaceCustomCampaign()
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool CInterfaceCustomCampaign::Init()
 {
-	//инициализируем имена
+	//РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј РёРјРµРЅР°
 	fileMasks.clear();
 	fileMasks.push_back( "*.xml" );
 	//	szTopDir = std::string( GetSingleton<IDataStorage>()->GetName() );

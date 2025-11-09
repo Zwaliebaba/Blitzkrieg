@@ -116,7 +116,7 @@ int CGUIFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;
 	}
 
-	//инициализируем уникальное имя для проекта
+	//РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј СѓРЅРёРєР°Р»СЊРЅРѕРµ РёРјСЏ РґР»СЏ РїСЂРѕРµРєС‚Р°
 	GenerateProjectName();
 
 /*
@@ -132,7 +132,7 @@ void CGUIFrame::Init( IGFX *_pGFX )
 {
 	pGFX = _pGFX;
 
-	//инициализируем input
+	//РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј input
 	IInput *pInput = GetSingleton<IInput>();
 	pInput->SetBindSection( "game_mission" );
 	standardMsgs.Init( pInput, stdCommands );
@@ -219,7 +219,7 @@ void CGUIFrame::SpecificInit()
 	int nFirstChildId = m_pScreen->Load( szProjectFileName.c_str(), false );
 	if ( nFirstChildId != 0 )
 	{
-		// попытаемся взять первый child у скрина
+		// РїРѕРїС‹С‚Р°РµРјСЃСЏ РІР·СЏС‚СЊ РїРµСЂРІС‹Р№ child Сѓ СЃРєСЂРёРЅР°
 		IUIElement *pFirstChild = m_pScreen->GetChildByID( nFirstChildId );
 		if ( pFirstChild != 0 )
 		{
@@ -281,7 +281,7 @@ void CGUIFrame::OnUpdateRunButton(CCmdUI* pCmdUI)
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
 	if ( pTree != 0 )
 	{
-		//Если уже был создан проект
+		//Р•СЃР»Рё СѓР¶Рµ Р±С‹Р» СЃРѕР·РґР°РЅ РїСЂРѕРµРєС‚
 		if ( !bRunning )
 			pCmdUI->Enable( true );
 		else
@@ -296,7 +296,7 @@ void CGUIFrame::OnUpdateStopButton(CCmdUI* pCmdUI)
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
 	if ( pTree != 0 )
 	{
-		//Если уже был создан проект
+		//Р•СЃР»Рё СѓР¶Рµ Р±С‹Р» СЃРѕР·РґР°РЅ РїСЂРѕРµРєС‚
 		if ( bRunning )
 			pCmdUI->Enable( true );
 		else
@@ -460,7 +460,7 @@ void CGUIFrame::OnEditCopy()
 	m_copiedList.clear();
 	for ( CWindowList::iterator it=m_selectedList.begin(); it!=m_selectedList.end(); ++it )
 	{
-		//Копируем выделенные компоненты
+		//РљРѕРїРёСЂСѓРµРј РІС‹РґРµР»РµРЅРЅС‹Рµ РєРѕРјРїРѕРЅРµРЅС‚С‹
 		m_copiedList.push_back( (*it).GetPtr() );
 	}
 }
@@ -474,11 +474,11 @@ void CGUIFrame::OnEditCut()
 	
 	for ( CWindowList::iterator it=m_selectedList.begin(); it!=m_selectedList.end(); ++it )
 	{
-		//Копируем выделенные компоненты
+		//РљРѕРїРёСЂСѓРµРј РІС‹РґРµР»РµРЅРЅС‹Рµ РєРѕРјРїРѕРЅРµРЅС‚С‹
 		m_copiedList.push_back( (*it).GetPtr() );
 	}
 	
-	//удаляю все выделенные компоненты
+	//СѓРґР°Р»СЏСЋ РІСЃРµ РІС‹РґРµР»РµРЅРЅС‹Рµ РєРѕРјРїРѕРЅРµРЅС‚С‹
 	for ( CWindowList::iterator it=m_selectedList.begin(); it!=m_selectedList.end(); ++it )
 	{
 		m_pContainer->RemoveChild( *it );
@@ -494,7 +494,7 @@ void CGUIFrame::OnEditPaste()
 	if ( m_copiedList.empty() )
 		return;
 
-	//нахожу самый левый верхний компонент
+	//РЅР°С…РѕР¶Сѓ СЃР°РјС‹Р№ Р»РµРІС‹Р№ РІРµСЂС…РЅРёР№ РєРѕРјРїРѕРЅРµРЅС‚
 	CTRect<float> minRC = GetElementRect( m_copiedList.front() );
 	for ( CCopyWindowList::iterator it=m_copiedList.begin(); it!=m_copiedList.end(); ++it )
 	{
@@ -523,17 +523,17 @@ void CGUIFrame::OnEditPaste()
 		}
 		
 		{
-			//определяем тип записанного элемента
+			//РѕРїСЂРµРґРµР»СЏРµРј С‚РёРї Р·Р°РїРёСЃР°РЅРЅРѕРіРѕ СЌР»РµРјРµРЅС‚Р°
 			CPtr<IDataStream> pStream = pStorage->OpenStream( "element", STREAM_ACCESS_READ );
 			CPtr<IDataTree> pDT = CreateDataTreeSaver( pStream, IDataTree::READ );
 			CTreeAccessor tree = pDT;
 			int nClassTypeID = GetCommonFactory()->GetObjectTypeID( *it );
 
-			//проверяем, чтобы дважды не вставился диалог
+			//РїСЂРѕРІРµСЂСЏРµРј, С‡С‚РѕР±С‹ РґРІР°Р¶РґС‹ РЅРµ РІСЃС‚Р°РІРёР»СЃСЏ РґРёР°Р»РѕРі
 			if ( nClassTypeID == UI_DIALOG )
 			{
 				if ( m_pContainer.GetPtr() != m_pScreen.GetPtr() )
-					return;		//уже создан диалог на экране
+					return;		//СѓР¶Рµ СЃРѕР·РґР°РЅ РґРёР°Р»РѕРі РЅР° СЌРєСЂР°РЅРµ
 			}
 
 			m_undoStack.push_back( new CSaveAllUndo( m_pContainer ) );
@@ -550,7 +550,7 @@ void CGUIFrame::OnEditPaste()
 			m_pContainer->AddChild( pWindow );
 			SetElementRect( pWindow, rc );
 			
-			//выделяем все новосозданные компоненты
+			//РІС‹РґРµР»СЏРµРј РІСЃРµ РЅРѕРІРѕСЃРѕР·РґР°РЅРЅС‹Рµ РєРѕРјРїРѕРЅРµРЅС‚С‹
 			m_selectedList.push_back( pWindow );
 		}
 	}

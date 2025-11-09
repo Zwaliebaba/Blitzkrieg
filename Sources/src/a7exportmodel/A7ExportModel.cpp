@@ -564,7 +564,7 @@ MStatus CA7ExportModel::ProcessMeshes()
 		{
 			CVec2 uv;
 			mesh.getUV( j, uv.u, uv.v );
-			uv.v = 1.0f - uv.v;								// Maya считает за 0 левый нижний угол, а все нормальные пакеты - левый верхний
+			uv.v = 1.0f - uv.v;								// Maya СЃС‡РёС‚Р°РµС‚ Р·Р° 0 Р»РµРІС‹Р№ РЅРёР¶РЅРёР№ СѓРіРѕР», Р° РІСЃРµ РЅРѕСЂРјР°Р»СЊРЅС‹Рµ РїР°РєРµС‚С‹ - Р»РµРІС‹Р№ РІРµСЂС…РЅРёР№
 			NConverter::AddUV( uv );
 		}
 		//
@@ -655,7 +655,7 @@ MStatus CA7ExportModel::ProcessAnimations()
 		for ( int i=0; i<anim->nNumKeys; ++i )
 		{
 			double fFrame = anim->nStart + i;
-			// set global time (в единицах слайдера в Maya, т.е. в кадрах)
+			// set global time (РІ РµРґРёРЅРёС†Р°С… СЃР»Р°Р№РґРµСЂР° РІ Maya, С‚.Рµ. РІ РєР°РґСЂР°С…)
 			MGlobal::viewFrame( fFrame );
 			// extract placement data
 			// iterate through all previously collected transform nodes and extract joints information

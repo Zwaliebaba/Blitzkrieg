@@ -12,27 +12,27 @@ struct SSmokinParticleSourceData : public CTRefCount<ISharedResource>
 public:
 	SSmokinParticleSourceData();
 
-	bool bComplexParticleSource;					//тип источника, если true, complex particle source
-	// параметры генератора
-	int nLifeTime;												// время жизни всего источника
-	float fGravity;												// параметр гравитации (никакого отношения к физике не имеет)
-	CVec3 vWind;                          // ветер
-	CVec3 vDirection;                     // направление источника
-	CTrack trackGenerateArea;							// размер области из которой вылетают партиклы 
-	CTrack trackDensity;									// к-во партиклов рожденных в ед. времени 
-	CTrack trackBeginSpeed;								// начальная скорость частицы при  вылете 
-	CTrack trackBeginSpeedRandomizer;     // ее рандомизатор
-	CTrack trackBeginAngleRandomizer;     // рандомизатор угла вылета
-	// параметры одной частицы
-	CTrack trackSpeed;                    // коэфф. скорости
-	CTrack trackSpeedRnd;                 // рандомизатор коэфф. скорости
-	CTrack trackWeight;										// масса партикла (никакого отношения к физической массе не имеет)
-	int nAreaType;                        // тип области для генерации партиклов
-	float fRadialWind;                    // сила радиального ветра
-	std::string szParticleEffectName;     // название разбрасываемого эффекта
-	CTrack trackIntegralMass;             // первообразная от g*m(t), умноженная на коэффициент скорости (без его рандома)
-	float fDensityCoeff;                  // коэффициент на плотность, берется из сеттингов
-	int nUpdateStep;                      // количество миллисекунд между update'ами
+	bool bComplexParticleSource;					//С‚РёРї РёСЃС‚РѕС‡РЅРёРєР°, РµСЃР»Рё true, complex particle source
+	// РїР°СЂР°РјРµС‚СЂС‹ РіРµРЅРµСЂР°С‚РѕСЂР°
+	int nLifeTime;												// РІСЂРµРјСЏ Р¶РёР·РЅРё РІСЃРµРіРѕ РёСЃС‚РѕС‡РЅРёРєР°
+	float fGravity;												// РїР°СЂР°РјРµС‚СЂ РіСЂР°РІРёС‚Р°С†РёРё (РЅРёРєР°РєРѕРіРѕ РѕС‚РЅРѕС€РµРЅРёСЏ Рє С„РёР·РёРєРµ РЅРµ РёРјРµРµС‚)
+	CVec3 vWind;                          // РІРµС‚РµСЂ
+	CVec3 vDirection;                     // РЅР°РїСЂР°РІР»РµРЅРёРµ РёСЃС‚РѕС‡РЅРёРєР°
+	CTrack trackGenerateArea;							// СЂР°Р·РјРµСЂ РѕР±Р»Р°СЃС‚Рё РёР· РєРѕС‚РѕСЂРѕР№ РІС‹Р»РµС‚Р°СЋС‚ РїР°СЂС‚РёРєР»С‹ 
+	CTrack trackDensity;									// Рє-РІРѕ РїР°СЂС‚РёРєР»РѕРІ СЂРѕР¶РґРµРЅРЅС‹С… РІ РµРґ. РІСЂРµРјРµРЅРё 
+	CTrack trackBeginSpeed;								// РЅР°С‡Р°Р»СЊРЅР°СЏ СЃРєРѕСЂРѕСЃС‚СЊ С‡Р°СЃС‚РёС†С‹ РїСЂРё  РІС‹Р»РµС‚Рµ 
+	CTrack trackBeginSpeedRandomizer;     // РµРµ СЂР°РЅРґРѕРјРёР·Р°С‚РѕСЂ
+	CTrack trackBeginAngleRandomizer;     // СЂР°РЅРґРѕРјРёР·Р°С‚РѕСЂ СѓРіР»Р° РІС‹Р»РµС‚Р°
+	// РїР°СЂР°РјРµС‚СЂС‹ РѕРґРЅРѕР№ С‡Р°СЃС‚РёС†С‹
+	CTrack trackSpeed;                    // РєРѕСЌС„С„. СЃРєРѕСЂРѕСЃС‚Рё
+	CTrack trackSpeedRnd;                 // СЂР°РЅРґРѕРјРёР·Р°С‚РѕСЂ РєРѕСЌС„С„. СЃРєРѕСЂРѕСЃС‚Рё
+	CTrack trackWeight;										// РјР°СЃСЃР° РїР°СЂС‚РёРєР»Р° (РЅРёРєР°РєРѕРіРѕ РѕС‚РЅРѕС€РµРЅРёСЏ Рє С„РёР·РёС‡РµСЃРєРѕР№ РјР°СЃСЃРµ РЅРµ РёРјРµРµС‚)
+	int nAreaType;                        // С‚РёРї РѕР±Р»Р°СЃС‚Рё РґР»СЏ РіРµРЅРµСЂР°С†РёРё РїР°СЂС‚РёРєР»РѕРІ
+	float fRadialWind;                    // СЃРёР»Р° СЂР°РґРёР°Р»СЊРЅРѕРіРѕ РІРµС‚СЂР°
+	std::string szParticleEffectName;     // РЅР°Р·РІР°РЅРёРµ СЂР°Р·Р±СЂР°СЃС‹РІР°РµРјРѕРіРѕ СЌС„С„РµРєС‚Р°
+	CTrack trackIntegralMass;             // РїРµСЂРІРѕРѕР±СЂР°Р·РЅР°СЏ РѕС‚ g*m(t), СѓРјРЅРѕР¶РµРЅРЅР°СЏ РЅР° РєРѕСЌС„С„РёС†РёРµРЅС‚ СЃРєРѕСЂРѕСЃС‚Рё (Р±РµР· РµРіРѕ СЂР°РЅРґРѕРјР°)
+	float fDensityCoeff;                  // РєРѕСЌС„С„РёС†РёРµРЅС‚ РЅР° РїР»РѕС‚РЅРѕСЃС‚СЊ, Р±РµСЂРµС‚СЃСЏ РёР· СЃРµС‚С‚РёРЅРіРѕРІ
+	int nUpdateStep;                      // РєРѕР»РёС‡РµСЃС‚РІРѕ РјРёР»Р»РёСЃРµРєСѓРЅРґ РјРµР¶РґСѓ update'Р°РјРё
 	//
 
 	virtual void STDCALL SwapData( ISharedResource *pResource );

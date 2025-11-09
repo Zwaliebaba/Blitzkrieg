@@ -115,10 +115,10 @@ void CFormationPlaceMine::Segment()
 				if ( pFormation->IsIdle() )
 				{
 					pFormation->StopFormationCenter();
-					// все юниты добежали и встали в строй
+					// РІСЃРµ СЋРЅРёС‚С‹ РґРѕР±РµР¶Р°Р»Рё Рё РІСЃС‚Р°Р»Рё РІ СЃС‚СЂРѕР№
 					if ( pFormation->IsIdle() )
 					{
-						// если был послан один солдат, то нужно положить мину точно куда указали
+						// РµСЃР»Рё Р±С‹Р» РїРѕСЃР»Р°РЅ РѕРґРёРЅ СЃРѕР»РґР°С‚, С‚Рѕ РЅСѓР¶РЅРѕ РїРѕР»РѕР¶РёС‚СЊ РјРёРЅСѓ С‚РѕС‡РЅРѕ РєСѓРґР° СѓРєР°Р·Р°Р»Рё
 						if ( pFormation->Size() == 1 && pFormation->GetGroupShift() == VNULL2 )
 						{
 							if ( SConsts::MINE_RU_PRICE[eType] <= pHomeTransport->GetResursUnitsLeft() )
@@ -233,9 +233,9 @@ bool CFormationRepairUnitState::CFindFirstStorageToRepearPredicate::AddStorage( 
 {
 	const SBuildingRPGStats * pStats = static_cast<const SBuildingRPGStats *>(pStorage->GetStats());
 	if ( SBuildingRPGStats::TYPE_TEMP_RU_STORAGE == pStats->eType &&
-			 pStorage->GetHitPoints() != pStats->fMaxHP ) // нужна починка
+			 pStorage->GetHitPoints() != pStats->fMaxHP ) // РЅСѓР¶РЅР° РїРѕС‡РёРЅРєР°
 	{
-		if ( pStats->fRepairCost <= fMaxRu )						// можем починить хоть немного
+		if ( pStats->fRepairCost <= fMaxRu )						// РјРѕР¶РµРј РїРѕС‡РёРЅРёС‚СЊ С…РѕС‚СЊ РЅРµРјРЅРѕРіРѕ
 			bHasStor = true;
 		else
 			bNotEnoughRu = true;
@@ -268,10 +268,10 @@ bool CFormationRepairUnitState::CheckUnit( CAIUnit *pU, CFormationServeUnitState
 		const EUnitRPGType type = pU->GetStats()->type;
 		const SHPObjectRPGStats * pStats = pU->GetStats();
 		
-		bool bCannotReachUnit = false; // до юнита нельзя дойти
+		bool bCannotReachUnit = false; // РґРѕ СЋРЅРёС‚Р° РЅРµР»СЊР·СЏ РґРѕР№С‚Рё
 		float fTrackHP = 0;
 
-		// у танков - проверить гусеницу.
+		// Сѓ С‚Р°РЅРєРѕРІ - РїСЂРѕРІРµСЂРёС‚СЊ РіСѓСЃРµРЅРёС†Сѓ.
 		if ( ::IsArmor( type ) || ::IsSPG( type ) || ::IsTrain( type ) )
 		{
 			//CRAP{ OTKAZALSA OT PUTI, TORMOZILO
@@ -286,7 +286,7 @@ bool CFormationRepairUnitState::CheckUnit( CAIUnit *pU, CFormationServeUnitState
 			if ( !bCannotReachUnit )
 			{
 				CTank * pTank = static_cast<CTank*>( pU );
-				// повреждена гусеница и хватит ресурсов, чтобы ее починить
+				// РїРѕРІСЂРµР¶РґРµРЅР° РіСѓСЃРµРЅРёС†Р° Рё С…РІР°С‚РёС‚ СЂРµСЃСѓСЂСЃРѕРІ, С‡С‚РѕР±С‹ РµРµ РїРѕС‡РёРЅРёС‚СЊ
 				if ( pTank->IsTrackDamaged() )
 				{
 					if ( pStats->fRepairCost * SConsts::TANK_TRACK_HIT_POINTS <= fResurs )
@@ -356,20 +356,20 @@ void CFormationRepairUnitState::FindUnitToServe( const CVec2 &vCenter,
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CFormationRepairUnitState::Segment()
 {
-	// реакция на смещение юнита
+	// СЂРµР°РєС†РёСЏ РЅР° СЃРјРµС‰РµРЅРёРµ СЋРЅРёС‚Р°
 	if ( EFRUS_WAIT_FOR_HOME_TRANSPORT != eState )
 	{
 		if ( !IsValidObj( pHomeTransport ) )
 			TryInterruptState( 0 );
-		if ( ( !IsValidObj( pUnitInQuiestion ) || 	//реакция на смерть юнита
-				pUnitInQuiestion->GetCenter() != vPointInQuestion ) ) // да пошел! еще бегать за ним.
+		if ( ( !IsValidObj( pUnitInQuiestion ) || 	//СЂРµР°РєС†РёСЏ РЅР° СЃРјРµСЂС‚СЊ СЋРЅРёС‚Р°
+				pUnitInQuiestion->GetCenter() != vPointInQuestion ) ) // РґР° РїРѕС€РµР»! РµС‰Рµ Р±РµРіР°С‚СЊ Р·Р° РЅРёРј.
 		{
 			eState = EFRUS_FIND_UNIT_TO_SERVE;
 		}
 		else if ( pUnitInQuiestion->GetHitPoints() == pUnitInQuiestion->GetStats()->fMaxHP )
 		{
 			const EUnitRPGType type = pUnitInQuiestion->GetStats()->type;
-			// у танков - проверить гусеницу.
+			// Сѓ С‚Р°РЅРєРѕРІ - РїСЂРѕРІРµСЂРёС‚СЊ РіСѓСЃРµРЅРёС†Сѓ.
 			if ( !::IsArmor( type ) && !::IsSPG( type ) && !static_cast_ptr<CTank*>( pUnitInQuiestion )->IsTrackDamaged() )
 			{
 				eState = EFRUS_FIND_UNIT_TO_SERVE;
@@ -475,8 +475,8 @@ void CFormationRepairUnitState::Segment()
 
 			fWorkAccumulator = Min( fWorkAccumulator, fWorkLeft );
 
-			// гусеницу - в первую очередь
-			if ( pTank && pTank->IsTrackDamaged() && // если повреждена и достаточно ресурсов
+			// РіСѓСЃРµРЅРёС†Сѓ - РІ РїРµСЂРІСѓСЋ РѕС‡РµСЂРµРґСЊ
+			if ( pTank && pTank->IsTrackDamaged() && // РµСЃР»Рё РїРѕРІСЂРµР¶РґРµРЅР° Рё РґРѕСЃС‚Р°С‚РѕС‡РЅРѕ СЂРµСЃСѓСЂСЃРѕРІ
 					fWorkLeft >= fRepCost * SConsts::TANK_TRACK_HIT_POINTS ) 
 			{
 				if ( fRepCost * SConsts::TANK_TRACK_HIT_POINTS <= fWorkAccumulator )
@@ -495,7 +495,7 @@ void CFormationRepairUnitState::Segment()
 			
 				const float fNewHP = Heal( maxHP, curHP, fRepCost, &fWorkAccumulator, &fWorkLeft, pHomeTransport );
 				pUnitInQuiestion->IncreaseHitPoints( fNewHP - curHP );
-				if ( pUnitInQuiestion->GetStats()->fMaxHP == pUnitInQuiestion->GetHitPoints() )//починили
+				if ( pUnitInQuiestion->GetStats()->fMaxHP == pUnitInQuiestion->GetHitPoints() )//РїРѕС‡РёРЅРёР»Рё
 				{
 					theSupremeBeing.UnitAskedForResupply( pUnitInQuiestion, ERT_REPAIR, false );
 					eState = EFRUS_FIND_UNIT_TO_SERVE;
@@ -564,11 +564,11 @@ CFormationResupplyUnitState::CFormationResupplyUnitState( class CFormation *pUni
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CFormationResupplyUnitState::Segment()
 {
-	// реакция на смещение юнита
+	// СЂРµР°РєС†РёСЏ РЅР° СЃРјРµС‰РµРЅРёРµ СЋРЅРёС‚Р°
 	if( EFRUS_WAIT_FOR_HOME_TRANSPORT != eState )
 	{
-		if ( !IsValidObj( pUnitInQuiestion ) ||//реакция на смерть юнита
-					vPointInQuestion != pUnitInQuiestion->GetCenter() // да пошел! еще бегать за ним.
+		if ( !IsValidObj( pUnitInQuiestion ) ||//СЂРµР°РєС†РёСЏ РЅР° СЃРјРµСЂС‚СЊ СЋРЅРёС‚Р°
+					vPointInQuestion != pUnitInQuiestion->GetCenter() // РґР° РїРѕС€РµР»! РµС‰Рµ Р±РµРіР°С‚СЊ Р·Р° РЅРёРј.
 				) 
 		{
 			eState = EFRUS_FIND_UNIT_TO_SERVE;
@@ -675,7 +675,7 @@ void CFormationResupplyUnitState::Segment()
 	case EFRUS_SERVICING:
 		if ( curTime - lastResupplyTime > SConsts::TIME_QUANT )
 		{
-			//такую работу произвели инженеры
+			//С‚Р°РєСѓСЋ СЂР°Р±РѕС‚Сѓ РїСЂРѕРёР·РІРµР»Рё РёРЅР¶РµРЅРµСЂС‹
 			fWorkAccumulator += pUnit->Size() * 
 													SConsts::ENGINEER_RESUPPLY_PER_QUANT * 
 													(curTime - lastResupplyTime) / SConsts::TIME_QUANT;
@@ -706,12 +706,12 @@ void CFormationResupplyUnitState::Segment()
 				else
 					++nGunsResupplied;
 			}
-			// забрать ресурсы из транспорта
+			// Р·Р°Р±СЂР°С‚СЊ СЂРµСЃСѓСЂСЃС‹ РёР· С‚СЂР°РЅСЃРїРѕСЂС‚Р°
 			pHomeTransport->DecResursUnitsLeft( fWorkPerformed );
 			fWorkLeft -= fWorkPerformed;
 
-			if ( nGunsResupplied == pUnitInQuiestion->GetNCommonGuns() || // все перезарядили
-					 min1AmmoCost > fWorkLeft )// в транспорте больше не осталось ресурсов
+			if ( nGunsResupplied == pUnitInQuiestion->GetNCommonGuns() || // РІСЃРµ РїРµСЂРµР·Р°СЂСЏРґРёР»Рё
+					 min1AmmoCost > fWorkLeft )// РІ С‚СЂР°РЅСЃРїРѕСЂС‚Рµ Р±РѕР»СЊС€Рµ РЅРµ РѕСЃС‚Р°Р»РѕСЃСЊ СЂРµСЃСѓСЂСЃРѕРІ
 			{
 				if ( nGunsResupplied == pUnitInQuiestion->GetNCommonGuns() )
 				{
@@ -720,7 +720,7 @@ void CFormationResupplyUnitState::Segment()
 						pUnitInQuiestion->SendAcknowledgement( ACK_GETTING_AMMO, true );
 				}
 
-				// если перезаряжали Squad, то взять следующего солдата
+				// РµСЃР»Рё РїРµСЂРµР·Р°СЂСЏР¶Р°Р»Рё Squad, С‚Рѕ РІР·СЏС‚СЊ СЃР»РµРґСѓСЋС‰РµРіРѕ СЃРѕР»РґР°С‚Р°
 				if ( pSquadInQuestion && ++iCurUnitInFormation < pSquadInQuestion->Size() )
 				{
 					pUnitInQuiestion = (*pSquadInQuestion)[iCurUnitInFormation];
@@ -750,8 +750,8 @@ bool CFormationResupplyUnitState::CheckUnit( CAIUnit *pU, CFormationServeUnitSta
 		//if ( pStaticPath && unitRect.IsPointInside( pStaticPath->GetFinishPoint() ) )
 		//CRAP}
 		{
-			float fWorkPresent = 0; //в рублях стоимость снарядов у юнита
-			float fWorkTotal = 0;		// в рублях стоимость максимального боезапаса
+			float fWorkPresent = 0; //РІ СЂСѓР±Р»СЏС… СЃС‚РѕРёРјРѕСЃС‚СЊ СЃРЅР°СЂСЏРґРѕРІ Сѓ СЋРЅРёС‚Р°
+			float fWorkTotal = 0;		// РІ СЂСѓР±Р»СЏС… СЃС‚РѕРёРјРѕСЃС‚СЊ РјР°РєСЃРёРјР°Р»СЊРЅРѕРіРѕ Р±РѕРµР·Р°РїР°СЃР°
 			float fMinReloadCost = 0;
 			for ( int i = 0; i < pU->GetNCommonGuns(); ++i )
 			{
@@ -764,9 +764,9 @@ bool CFormationResupplyUnitState::CheckUnit( CAIUnit *pU, CFormationServeUnitSta
 			}
 			//find unit with lowest ammo percentage.
 			const float curAmmo = fWorkTotal - fWorkPresent;
-			if (  curAmmo > 0.0f )  // юниту нужны патроны
+			if (  curAmmo > 0.0f )  // СЋРЅРёС‚Сѓ РЅСѓР¶РЅС‹ РїР°С‚СЂРѕРЅС‹
 			{
-				if ( fMinReloadCost != 0  && fMinReloadCost > fResurs ) // ne достаточно ресурсов, чтобы дать хотя-бы 1 патрон
+				if ( fMinReloadCost != 0  && fMinReloadCost > fResurs ) // ne РґРѕСЃС‚Р°С‚РѕС‡РЅРѕ СЂРµСЃСѓСЂСЃРѕРІ, С‡С‚РѕР±С‹ РґР°С‚СЊ С…РѕС‚СЏ-Р±С‹ 1 РїР°С‚СЂРѕРЅ
 					pPred->SetNotEnoughRu();
 				//CRAP{ OTKAZALSA OT PUTI, TORMOZILO
 				/*else if ( pPred->SetUnit( pU, curAmmo, pStaticPath->GetLength()) )
@@ -793,7 +793,7 @@ void CFormationResupplyUnitState::FindUnitToServe( const CVec2 &vCenter,
 
 	CUnitsIter<0,2> iter( theDipl.GetNParty(nPlayer), EDI_FRIEND, vCenter, SConsts::RESUPPLY_RADIUS );
 
-	//найти юнит, наиболее требующий перезарядки
+	//РЅР°Р№С‚Рё СЋРЅРёС‚, РЅР°РёР±РѕР»РµРµ С‚СЂРµР±СѓСЋС‰РёР№ РїРµСЂРµР·Р°СЂСЏРґРєРё
 	while ( !iter.IsFinished() )
 	{
 		if ( CheckUnit( (*iter), pPred, fResurs, vCenter ) )
@@ -846,7 +846,7 @@ CFormationLoadRuState::CFormationLoadRuState( class CFormation *pUnit, class CBu
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CFormationLoadRuState::Segment()
 {
-	//реакция на смерть склада
+	//СЂРµР°РєС†РёСЏ РЅР° СЃРјРµСЂС‚СЊ СЃРєР»Р°РґР°
 	if ( !IsValidObj( pStorage ) )
 	{
 		Interrupt();
@@ -890,7 +890,7 @@ void CFormationLoadRuState::Segment()
 	case EFRUS_SERVICING:
 		if ( curTime - lastResupplyTime > SConsts::TIME_QUANT )
 		{
-			//такую работу произвели инженеры
+			//С‚Р°РєСѓСЋ СЂР°Р±РѕС‚Сѓ РїСЂРѕРёР·РІРµР»Рё РёРЅР¶РµРЅРµСЂС‹
 			fWorkAccumulator += pUnit->Size() * 
 													SConsts::ENGINEER_LOAD_RU_PER_QUANT * 
 													(curTime - lastResupplyTime)/SConsts::TIME_QUANT;
@@ -1201,7 +1201,7 @@ void CFormationBuildLongObjectState::Segment()
 
 		break;
 	case FBFS_NEXT_SEGMENT:
-		// если нужно еще строить, то FBFS_ADVANCE_TO_SEGMENT
+		// РµСЃР»Рё РЅСѓР¶РЅРѕ РµС‰Рµ СЃС‚СЂРѕРёС‚СЊ, С‚Рѕ FBFS_ADVANCE_TO_SEGMENT
 		if ( pCreation->GetCurIndex() < pCreation->GetMaxIndex() )
 		{
 			if ( fWorkLeft == 0 )
@@ -1245,10 +1245,10 @@ void CFormationBuildLongObjectState::Segment()
 
 		break;
 	case FBFS_WAIT_FOR_UNITS:
-		// дождаться, когда все мешающие уедут
+		// РґРѕР¶РґР°С‚СЊСЃСЏ, РєРѕРіРґР° РІСЃРµ РјРµС€Р°СЋС‰РёРµ СѓРµРґСѓС‚
 		if ( !pCreation->IsAnyUnitPrevent() )
 			eState = FBFS_START_APPROACH_SEGMENT;
-		else if ( curTime - lastTime > 15000 ) // ждали достаточно
+		else if ( curTime - lastTime > 15000 ) // Р¶РґР°Р»Рё РґРѕСЃС‚Р°С‚РѕС‡РЅРѕ
 			eState = FBFS_CANNOT_BUILD_ANYMORE;
 
 		break;
@@ -1467,13 +1467,13 @@ bool CFormationGunCrewState::ClearState()
 		freeUnits.push_back( SUnit( pSold, VNULL2 ) );
 	}
 
-	// для движения миномета - особый случай
+	// РґР»СЏ РґРІРёР¶РµРЅРёСЏ РјРёРЅРѕРјРµС‚Р° - РѕСЃРѕР±С‹Р№ СЃР»СѓС‡Р°Р№
 	if ( (pStats->type == RPG_TYPE_ART_MORTAR ||pStats->type == RPG_TYPE_ART_HEAVY_MG)&& eGunState == EGSS_MOVE )
 	{
 		pUnit->SetCarryedMortar( pArtillery );
 		pUnit->SetGroupShift( pArtillery->GetGroupShift() );
 		pUnit->SetSubGroup( pArtillery->GetSubGroup() );
-		pUnit->InitWCommands( pArtillery );	// очередь команд миномета скопировать в очередь SQUAD
+		pUnit->InitWCommands( pArtillery );	// РѕС‡РµСЂРµРґСЊ РєРѕРјР°РЅРґ РјРёРЅРѕРјРµС‚Р° СЃРєРѕРїРёСЂРѕРІР°С‚СЊ РІ РѕС‡РµСЂРµРґСЊ SQUAD
 		updater.Update( ACTION_SET_SELECTION_GROUP, pUnit, pArtillery->GetUniqueId() );
 		updater.Update( ACTION_NOTIFY_SELECT_CHECKED, pUnit, pArtillery->GetUniqueId() );
 		pArtillery->Disappear();
@@ -1486,7 +1486,7 @@ bool CFormationGunCrewState::ClearState()
 	else
 	{
 		crew.clear();
-		// определить сколько мест нам нужно, чтобы распределить всю команду
+		// РѕРїСЂРµРґРµР»РёС‚СЊ СЃРєРѕР»СЊРєРѕ РјРµСЃС‚ РЅР°Рј РЅСѓР¶РЅРѕ, С‡С‚РѕР±С‹ СЂР°СЃРїСЂРµРґРµР»РёС‚СЊ РІСЃСЋ РєРѕРјР°РЅРґСѓ
 		NI_ASSERT_T( pStats->vGunners.size() == EGSS_MOVE + 1, NStr::Format("gunners structure has wrong size (%d)", pStats->vGunners.size()) );
 		crew.resize( pStats->vGunners[eGunState].size() );
 		NI_ASSERT_T( !crew.empty(), NStr::Format( "locators for gunner places in artillery %s are not exist", pStats->GetParentName()) );
@@ -1545,14 +1545,14 @@ void CFormationGunCrewState::Segment()
 		return;
 
 
-	// общие действия
+	// РѕР±С‰РёРµ РґРµР№СЃС‚РІРёСЏ
 	if ( bRecalcPoints )
 		RecountPoints( vGunDir, vTurretDir );
 	RefillCrew();
 	const int iUnitsOnPlace = CheckThatAreOnPlace();
 	SendThatAreNotOnPlace( bNoAnimation );
 	
-	// работа с пушкой
+	// СЂР°Р±РѕС‚Р° СЃ РїСѓС€РєРѕР№
 	switch ( eGunState )
 	{
 	case EGSS_OPERATE:
@@ -1573,7 +1573,7 @@ void CFormationGunCrewState::Segment()
 			}
 			if ( bStartReload )
 			{
-				if ( !bReloadInProgress ) // только начали перезарядку
+				if ( !bReloadInProgress ) // С‚РѕР»СЊРєРѕ РЅР°С‡Р°Р»Рё РїРµСЂРµР·Р°СЂСЏРґРєСѓ
 				{
 					bReloadInProgress  = true;
 					fReloadProgress = 0;
@@ -1588,7 +1588,7 @@ void CFormationGunCrewState::Segment()
 				eGunOperateSubState = EGOSS_RELOAD;
 				fReloadProgress += 1.0f * (curTime - startTime) *
 														iUnitsOnPlace / pStats->vGunners[eGunState].size();
-				// 3 фазы прерзарядки ( для анимаций )
+				// 3 С„Р°Р·С‹ РїСЂРµСЂР·Р°СЂСЏРґРєРё ( РґР»СЏ Р°РЅРёРјР°С†РёР№ )
 				nReloadPhaze = int ( fReloadProgress / (fReloadPrice / 3.0f) );
 				if ( fReloadProgress >= fReloadPrice )
 				{
@@ -1627,10 +1627,10 @@ void CFormationGunCrewState::RefillCrew()
 {
 	for ( int i=0; i< crew.size(); ++i )
 	{
-		if ( !crew[i].IsAlive() ) //кого-то убили
+		if ( !crew[i].IsAlive() ) //РєРѕРіРѕ-С‚Рѕ СѓР±РёР»Рё
 		{
 			nFormationSize = pUnit->Size();
-			if ( !freeUnits.empty() ) // если есть запасные, взять из запасных
+			if ( !freeUnits.empty() ) // РµСЃР»Рё РµСЃС‚СЊ Р·Р°РїР°СЃРЅС‹Рµ, РІР·СЏС‚СЊ РёР· Р·Р°РїР°СЃРЅС‹С…
 			{
 				crew[i].pUnit = freeUnits.front().pUnit;
 				freeUnits.pop_front();
@@ -1638,9 +1638,9 @@ void CFormationGunCrewState::RefillCrew()
 				crew[i].ResetAnimation();
 				crew[i].pUnit->SetCurPath( new CArtilleryCrewPath( crew[i].pUnit, crew[i].pUnit->GetCenter(), crew[i].vServePoint, 0 ) );
 			}
-			else	// перераспределить команду.
+			else	// РїРµСЂРµСЂР°СЃРїСЂРµРґРµР»РёС‚СЊ РєРѕРјР°РЅРґСѓ.
 			{
-				for ( int j = crew.size() - 1; j > i; --j ) // найти живого на менее приоритетном месте
+				for ( int j = crew.size() - 1; j > i; --j ) // РЅР°Р№С‚Рё Р¶РёРІРѕРіРѕ РЅР° РјРµРЅРµРµ РїСЂРёРѕСЂРёС‚РµС‚РЅРѕРј РјРµСЃС‚Рµ
 				{
 					if ( crew[j].IsAlive() )
 					{
@@ -1674,7 +1674,7 @@ void CFormationGunCrewState::RecountPoints( const CVec2 &vGunDir, const CVec2 &v
 		crew[i].vServePoint = vCenter + ( pt ^ ( i == 1 ? vGunDir: vTurretDir ) );
 	}
 
-	// свободных слать только если они слишком далеко от точек, где должны быть
+	// СЃРІРѕР±РѕРґРЅС‹С… СЃР»Р°С‚СЊ С‚РѕР»СЊРєРѕ РµСЃР»Рё РѕРЅРё СЃР»РёС€РєРѕРј РґР°Р»РµРєРѕ РѕС‚ С‚РѕС‡РµРє, РіРґРµ РґРѕР»Р¶РЅС‹ Р±С‹С‚СЊ
 	int i = 0;
 	for ( std::list< SUnit >::iterator it = freeUnits.begin(); it != freeUnits.end(); ++it )
 	{
@@ -1790,19 +1790,19 @@ CFormationGunCrewState::SCrewAnimation CFormationGunCrewState::CalcNeededAnimati
 				{
 					switch( nReloadPhaze )
 					{
-					case 0: // достать из ящика патрон
+					case 0: // РґРѕСЃС‚Р°С‚СЊ РёР· СЏС‰РёРєР° РїР°С‚СЂРѕРЅ
 						switch ( iUnitNumber )
 						{
 						case 0: 
 							animation.wDirection = wGunTurretDir; 
-							if ( pStats->type == RPG_TYPE_ART_MORTAR ) // у миномета передают патрон сидя
+							if ( pStats->type == RPG_TYPE_ART_MORTAR ) // Сѓ РјРёРЅРѕРјРµС‚Р° РїРµСЂРµРґР°СЋС‚ РїР°С‚СЂРѕРЅ СЃРёРґСЏ
 								animation.eAction = ACTION_NOTIFY_USE_DOWN; 
 							else
 								animation.eAction = ACTION_NOTIFY_USE_DOWN; 
 							break;
 						case 2: 
 							animation.wDirection = wGunTurretDir; 
-							if ( pStats->type == RPG_TYPE_ART_MORTAR ) // у миномета передают патрон сидя
+							if ( pStats->type == RPG_TYPE_ART_MORTAR ) // Сѓ РјРёРЅРѕРјРµС‚Р° РїРµСЂРµРґР°СЋС‚ РїР°С‚СЂРѕРЅ СЃРёРґСЏ
 								animation.eAction = ACTION_NOTIFY_USE_DOWN;
 							else 
 								animation.eAction = ACTION_NOTIFY_IDLE; 
@@ -1821,28 +1821,28 @@ CFormationGunCrewState::SCrewAnimation CFormationGunCrewState::CalcNeededAnimati
 						}
 
 						break;
-					case 1:	// передать заряжающему
+					case 1:	// РїРµСЂРµРґР°С‚СЊ Р·Р°СЂСЏР¶Р°СЋС‰РµРјСѓ
 						switch ( iUnitNumber )
 						{
 						case 0: 
 							animation.wDirection = wGunTurretDir;
-							if ( pStats->type == RPG_TYPE_ART_MORTAR ) // у миномета передают патрон сидя
+							if ( pStats->type == RPG_TYPE_ART_MORTAR ) // Сѓ РјРёРЅРѕРјРµС‚Р° РїРµСЂРµРґР°СЋС‚ РїР°С‚СЂРѕРЅ СЃРёРґСЏ
 								animation.eAction = ACTION_NOTIFY_USE_DOWN; 
 							else
 								animation.eAction = ACTION_NOTIFY_USE_DOWN; 
 							
 							break;
-						case 2: // заряжаюший
+						case 2: // Р·Р°СЂСЏР¶Р°СЋС€РёР№
 							animation.wDirection = CalcDirFromTo( 2, 1 );
-							if ( pStats->type == RPG_TYPE_ART_MORTAR ) // у миномета передают патрон сидя
+							if ( pStats->type == RPG_TYPE_ART_MORTAR ) // Сѓ РјРёРЅРѕРјРµС‚Р° РїРµСЂРµРґР°СЋС‚ РїР°С‚СЂРѕРЅ СЃРёРґСЏ
 								animation.eAction = ACTION_NOTIFY_USE_DOWN;
 							else
 								animation.eAction = ACTION_NOTIFY_USE_UP;
 
 							break;
-						case 1: // у ящика
+						case 1: // Сѓ СЏС‰РёРєР°
 							animation.wDirection = CalcDirFromTo( 1, 2 );
-							if ( pStats->type == RPG_TYPE_ART_MORTAR ) // у миномета передают патрон сидя
+							if ( pStats->type == RPG_TYPE_ART_MORTAR ) // Сѓ РјРёРЅРѕРјРµС‚Р° РїРµСЂРµРґР°СЋС‚ РїР°С‚СЂРѕРЅ СЃРёРґСЏ
 								animation.eAction = ACTION_NOTIFY_USE_DOWN;
 							else
 								animation.eAction = ACTION_NOTIFY_USE_UP; 
@@ -1856,11 +1856,11 @@ CFormationGunCrewState::SCrewAnimation CFormationGunCrewState::CalcNeededAnimati
 						}
 
 						break;
-					case 2:	// зарядить патрон в пушку
+					case 2:	// Р·Р°СЂСЏРґРёС‚СЊ РїР°С‚СЂРѕРЅ РІ РїСѓС€РєСѓ
 					default:
 						switch ( iUnitNumber )
 						{
-						case 0: // при зарядке миномета встать
+						case 0: // РїСЂРё Р·Р°СЂСЏРґРєРµ РјРёРЅРѕРјРµС‚Р° РІСЃС‚Р°С‚СЊ
 							animation.wDirection = wGunTurretDir; 
 							if ( pStats->type == RPG_TYPE_ART_MORTAR ) 
 								animation.eAction = ACTION_NOTIFY_USE_UP;
@@ -1868,7 +1868,7 @@ CFormationGunCrewState::SCrewAnimation CFormationGunCrewState::CalcNeededAnimati
 								animation.eAction = ACTION_NOTIFY_USE_DOWN; 
 
 							break;
-						case 1: // подающий у миномета сидит
+						case 1: // РїРѕРґР°СЋС‰РёР№ Сѓ РјРёРЅРѕРјРµС‚Р° СЃРёРґРёС‚
 							animation.wDirection = CalcDirToAmmoBox( 1 ); 
 							animation.eAction = ACTION_NOTIFY_USE_DOWN; 
 
@@ -1907,7 +1907,7 @@ CFormationGunCrewState::SCrewAnimation CFormationGunCrewState::CalcNeededAnimati
 					else
 					{
 						if ( pStats->type == RPG_TYPE_ART_MORTAR && iUnitNumber >= 0 && iUnitNumber < 3  )  
-							animation.eAction = ACTION_NOTIFY_USE_DOWN; // у миномета рассчет сидит во время боя
+							animation.eAction = ACTION_NOTIFY_USE_DOWN; // Сѓ РјРёРЅРѕРјРµС‚Р° СЂР°СЃСЃС‡РµС‚ СЃРёРґРёС‚ РІРѕ РІСЂРµРјСЏ Р±РѕСЏ
 						else
 						{
 							switch ( iUnitNumber )
@@ -2087,7 +2087,7 @@ void CFormationGunCrewState::SendThatAreNotOnPlace( const bool bNoAnimation )
 		}
 	}
 	
-	// послать свободных по обычному пути
+	// РїРѕСЃР»Р°С‚СЊ СЃРІРѕР±РѕРґРЅС‹С… РїРѕ РѕР±С‹С‡РЅРѕРјСѓ РїСѓС‚Рё
 	for ( std::list< SUnit >::iterator it = freeUnits.begin(); it != freeUnits.end(); ++it )
 	{
 		const CVec2 &vServePoint =  (*it).vServePoint ;
@@ -2198,7 +2198,7 @@ CFormationInstallMortarState::CFormationInstallMortarState( class CFormation *pU
 	const int id = pUnit->InstallCarryedMortar();
 	if ( id )
 	{
-		// миномету послать апдейт на то, что он анинсталлирован
+		// РјРёРЅРѕРјРµС‚Сѓ РїРѕСЃР»Р°С‚СЊ Р°РїРґРµР№С‚ РЅР° С‚Рѕ, С‡С‚Рѕ РѕРЅ Р°РЅРёРЅСЃС‚Р°Р»Р»РёСЂРѕРІР°РЅ
 		pArt = static_cast<CArtillery *>(units[id]);
 		pArt->InstallAction( ACTION_NOTIFY_INSTALL_MOVE, true );
 	}
@@ -2219,7 +2219,7 @@ void CFormationInstallMortarState::Segment()
 				updater.Update( ACTION_SET_SELECTION_GROUP, pArt, pUnit->GetUniqueId() );
 				updater.Update( ACTION_NOTIFY_SELECT_CHECKED, pArt, pUnit->GetUniqueId() );
 
-				// и команду на начало инсталляции
+				// Рё РєРѕРјР°РЅРґСѓ РЅР° РЅР°С‡Р°Р»Рѕ РёРЅСЃС‚Р°Р»Р»СЏС†РёРё
 				theGroupLogic.UnitCommand( SAIUnitCmd(ACTION_COMMAND_INSTALL), pArt, false );
 			}
 			nStage = 1;
@@ -2415,7 +2415,7 @@ void CFormationCaptureArtilleryState::Segment()
 		if ( pUnit->IsIdle() )
 		{
 			pUnit->SetCommandFinished();
-			pArtillery->SetCrew( pUnit ); // отдались
+			pArtillery->SetCrew( pUnit ); // РѕС‚РґР°Р»РёСЃСЊ
 		}
 		
 		break;
@@ -2441,7 +2441,7 @@ CFormationRepairBridgeState::CFormationRepairBridgeState( class CFormation *pFor
 : pBridgeToRepair( pBridge ), pUnit( pFormation ), eState( FRBS_WAIT_FOR_HOMETRANSPORT )
 {
 	pBridge->EnumSpans( &bridgeSpans );
-	// убрать все непостроенные сегменты ( если команда на починку недостроенного моста )
+	// СѓР±СЂР°С‚СЊ РІСЃРµ РЅРµРїРѕСЃС‚СЂРѕРµРЅРЅС‹Рµ СЃРµРіРјРµРЅС‚С‹ ( РµСЃР»Рё РєРѕРјР°РЅРґР° РЅР° РїРѕС‡РёРЅРєСѓ РЅРµРґРѕСЃС‚СЂРѕРµРЅРЅРѕРіРѕ РјРѕСЃС‚Р° )
 	for( int i = 0; i < bridgeSpans.size(); ++i )
 	{
 		if ( bridgeSpans[i]->GetHitPoints() < 0.0f )
@@ -2597,7 +2597,7 @@ int CFormationRepairBuildingState::SendToNearestEntrance( CCommonUnit *pTranspor
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CFormationRepairBuildingState::Segment()
 {
-		// реакция на смещение юнита
+		// СЂРµР°РєС†РёСЏ РЅР° СЃРјРµС‰РµРЅРёРµ СЋРЅРёС‚Р°
 	if ( EFRBS_WAIT_FOR_HOME_TRANSPORT != eState )
 	{
 		if ( !IsValidObj( pHomeTransport ) )
@@ -2655,7 +2655,7 @@ void CFormationRepairBuildingState::Segment()
 			
 			const float fNewHP = Heal( maxHP, curHP, fRepCost, &fWorkAccumulator, &fWorkLeft, pHomeTransport );
 			pBuilding->SetHitPoints( fNewHP );
-			if ( pBuilding->GetStats()->fMaxHP == pBuilding->GetHitPoints() ||  //починили
+			if ( pBuilding->GetStats()->fMaxHP == pBuilding->GetHitPoints() ||  //РїРѕС‡РёРЅРёР»Рё
 					 fWorkLeft + fWorkAccumulator < fRepCost )
 			{
 				pUnit->SetCommandFinished();

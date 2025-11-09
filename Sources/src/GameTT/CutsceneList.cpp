@@ -46,7 +46,7 @@ void CInterfaceCutsceneList::StartInterface()
 	pUIScreen->Load( "ui\\lists\\IMCutsceneList" );
 	pUIScreen->Reposition( pGFX->GetScreenRect() );
 	
-	//загрузим все items
+	//Р·Р°РіСЂСѓР·РёРј РІСЃРµ items
 	IUIListControl *pList = checked_cast<IUIListControl*>( pUIScreen->GetChildByID( 1000 ) );
 	NI_ASSERT( pList != 0 );
 	
@@ -60,7 +60,7 @@ void CInterfaceCutsceneList::StartInterface()
 		IUIListRow *pRow = pList->GetItem( nSceneIndex );
 		pRow->SetUserData( nSceneIndex );
 		
-		// установим имя для видео
+		// СѓСЃС‚Р°РЅРѕРІРёРј РёРјСЏ РґР»СЏ РІРёРґРµРѕ
 		IUIContainer *pContainer = checked_cast<IUIContainer*> ( pRow->GetElement( 0 ) );
 		std::string szVideoName = *it;
 		cutscenesList.push_back( szVideoName );
@@ -78,7 +78,7 @@ void CInterfaceCutsceneList::StartInterface()
 		
 		IUIElement *pElement = pContainer->GetChildByID( 1 );
 		NI_ASSERT_T( pElement != 0, "Invalid list control name dialog, it should contain icon" );
-		pElement->SetState( 1 );			//файл
+		pElement->SetState( 1 );			//С„Р°Р№Р»
 	}
 	
 	int nSelItem = GetGlobalVar( "LastCutscene", -1 );
@@ -106,16 +106,16 @@ bool CInterfaceCutsceneList::ProcessMessage( const SGameMessage &msg )
 			if ( IUIElement *pElement = pUIScreen->GetChildByID( 1000 ) ) 
 			{
 				// should be List Control
-				// попробуем взять текущий selection из list control
+				// РїРѕРїСЂРѕР±СѓРµРј РІР·СЏС‚СЊ С‚РµРєСѓС‰РёР№ selection РёР· list control
 				IUIListControl *pList = checked_cast<IUIListControl*>( pElement );
 				if ( !pList )
-					return true;			// не нашелся list control
-				int nSelItem = pList->GetSelectionItem();			// индекс в списке
+					return true;			// РЅРµ РЅР°С€РµР»СЃСЏ list control
+				int nSelItem = pList->GetSelectionItem();			// РёРЅРґРµРєСЃ РІ СЃРїРёСЃРєРµ
 				if ( nSelItem == -1 )
 					return true;
 
 				IUIListRow *pSelRow = pList->GetItem( nSelItem );
-				int nSel = pSelRow->GetUserData();						// индекс в массиве
+				int nSel = pSelRow->GetUserData();						// РёРЅРґРµРєСЃ РІ РјР°СЃСЃРёРІРµ
 				std::string szVideo = cutscenesList[ nSel ];
 				szVideo += NStr::Format( ";%d;99", MISSION_COMMAND_MAIN_MENU );
 				IMainLoop *pML = GetSingleton<IMainLoop>();

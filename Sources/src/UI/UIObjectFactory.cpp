@@ -57,12 +57,12 @@ CUIObjectFactory::CUIObjectFactory()
 	REGISTER_CLASS( this, UI_COLOR_TEXT_SCROLL, CUIColorTextScrollBridge );
 	REGISTER_CLASS( this, UI_COMPLEX_TEXT_SCROLL, CUIComplexScrollBridge );
 	
-	//тут регистрируются sort functors
+	//С‚СѓС‚ СЂРµРіРёСЃС‚СЂРёСЂСѓСЋС‚СЃСЏ sort functors
 	REGISTER_CLASS( this, UI_TEXT_SORTER,		CUIListTextSorter );
 	REGISTER_CLASS( this, UI_NUMBER_SORTER, CUIListNumberSorter );
 	REGISTER_CLASS( this, UI_USER_DATA_SORTER, CUIListUserDataSorter );
 
-	//регистрация вспомогательных структур
+	//СЂРµРіРёСЃС‚СЂР°С†РёСЏ РІСЃРїРѕРјРѕРіР°С‚РµР»СЊРЅС‹С… СЃС‚СЂСѓРєС‚СѓСЂ
 	REGISTER_CLASS( this, UI_LIST_ROW, SUIListRow );
 	REGISTER_CLASS( this, UI_LIST_HEADER, SUIListHeader );
 	REGISTER_CLASS( this, UI_COLOR_TEXT_ENTRY, CUIColorTextScroll::CColorTextEntry );

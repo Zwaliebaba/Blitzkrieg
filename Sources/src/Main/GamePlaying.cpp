@@ -388,7 +388,7 @@ void CGamePlaying::DropPlayer( const int nLogicID )
 
 	if ( iter != players.end() )
 	{
-		// ïîñëå óäàëåíèÿ êëèåíòà iter ñòàíåò íåâàëèäíûì
+		// Ð¿Ð¾ÑÐ»Ðµ ÑƒÐ´Ð°Ð»ÐµÐ½Ð¸Ñ ÐºÐ»Ð¸ÐµÐ½Ñ‚Ð° iter ÑÑ‚Ð°Ð½ÐµÑ‚ Ð½ÐµÐ²Ð°Ð»Ð¸Ð´Ð½Ñ‹Ð¼
 		const int nClientID = iter->nClientID;
 
 		RemoveClient( nClientID );

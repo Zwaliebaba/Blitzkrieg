@@ -182,11 +182,11 @@ void BuildLayer( const std::vector<SVectorStripeObjectPoint> &points,
 			}
 		}
 	}
-	// здесь нам нужно разделить вертексы дорог по используемым патчам, 
-	// чтобы в дальнейшем рисовать только те части, которые попадают на экран
+	// Р·РґРµСЃСЊ РЅР°Рј РЅСѓР¶РЅРѕ СЂР°Р·РґРµР»РёС‚СЊ РІРµСЂС‚РµРєСЃС‹ РґРѕСЂРѕРі РїРѕ РёСЃРїРѕР»СЊР·СѓРµРјС‹Рј РїР°С‚С‡Р°Рј, 
+	// С‡С‚РѕР±С‹ РІ РґР°Р»СЊРЅРµР№С€РµРј СЂРёСЃРѕРІР°С‚СЊ С‚РѕР»СЊРєРѕ С‚Рµ С‡Р°СЃС‚Рё, РєРѕС‚РѕСЂС‹Рµ РїРѕРїР°РґР°СЋС‚ РЅР° СЌРєСЂР°РЅ
 	//
 	pLayer->patches.clear();
-	// составим список точек по патчам
+	// СЃРѕСЃС‚Р°РІРёРј СЃРїРёСЃРѕРє С‚РѕС‡РµРє РїРѕ РїР°С‚С‡Р°Рј
 	typedef std::deque<int> SPointsList;
 	typedef std::pair<DWORD, SPointsList> SPatch;
 	typedef std::deque<SPatch> CPatchPointsList;
@@ -212,12 +212,12 @@ void BuildLayer( const std::vector<SVectorStripeObjectPoint> &points,
 			}
 		}
 	}
-	// отсортируем патчи
+	// РѕС‚СЃРѕСЂС‚РёСЂСѓРµРј РїР°С‚С‡Рё
 	std::sort( patchpoints.begin(), patchpoints.end(), SLess1st<DWORD, SPointsList>() );
 	pLayer->patches.reserve( patchpoints.size() );
 	for ( CPatchPointsList::iterator patch = patchpoints.begin(); patch != patchpoints.end(); ++patch )
 	{
-		// добавим новый патч и запишем в него точки
+		// РґРѕР±Р°РІРёРј РЅРѕРІС‹Р№ РїР°С‚С‡ Рё Р·Р°РїРёС€РµРј РІ РЅРµРіРѕ С‚РѕС‡РєРё
 		pLayer->patches.push_back( STVOLayer::SPatch() );
 		STVOLayer::SPatch &layerPatch = pLayer->patches.back();
 		layerPatch.dwPatch = patch->first;

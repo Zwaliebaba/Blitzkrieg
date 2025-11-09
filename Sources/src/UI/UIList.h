@@ -8,8 +8,8 @@ struct SColumnProperties
 {
 	DECLARE_SERIALIZE;
 public:
-	int nWidth;									//ширина столбца
-	std::string szFileName;			//XML файл из которого создаются внутренние элементы
+	int nWidth;									//С€РёСЂРёРЅР° СЃС‚РѕР»Р±С†Р°
+	std::string szFileName;			//XML С„Р°Р№Р» РёР· РєРѕС‚РѕСЂРѕРіРѕ СЃРѕР·РґР°СЋС‚СЃСЏ РІРЅСѓС‚СЂРµРЅРЅРёРµ СЌР»РµРјРµРЅС‚С‹
 	int nSorterType;
 	SColumnProperties() : nWidth( 0 ), nSorterType( 0 ) {}
 	
@@ -66,23 +66,23 @@ public:
 	virtual int  STDCALL GetUserData() const { return nUserData; }
 };
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//Окошко ведет себя как MultipleWindow в плане обработки сообщений (просто передает их childs)
-//Но по другому Serialize, не сохраняет список childs, левая, правая кнопки и элеватор хранятся отдельно
+//РћРєРѕС€РєРѕ РІРµРґРµС‚ СЃРµР±СЏ РєР°Рє MultipleWindow РІ РїР»Р°РЅРµ РѕР±СЂР°Р±РѕС‚РєРё СЃРѕРѕР±С‰РµРЅРёР№ (РїСЂРѕСЃС‚Рѕ РїРµСЂРµРґР°РµС‚ РёС… childs)
+//РќРѕ РїРѕ РґСЂСѓРіРѕРјСѓ Serialize, РЅРµ СЃРѕС…СЂР°РЅСЏРµС‚ СЃРїРёСЃРѕРє childs, Р»РµРІР°СЏ, РїСЂР°РІР°СЏ РєРЅРѕРїРєРё Рё СЌР»РµРІР°С‚РѕСЂ С…СЂР°РЅСЏС‚СЃСЏ РѕС‚РґРµР»СЊРЅРѕ
 class CUIList : public CMultipleWindow
 {
 	DECLARE_SERIALIZE;
 	//
-	CObj<IUIScrollBar> pScrollBar;				//инициализируется во время загрузки и используется для ускорения доступа к компонентам
+	CObj<IUIScrollBar> pScrollBar;				//РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµС‚СЃСЏ РІРѕ РІСЂРµРјСЏ Р·Р°РіСЂСѓР·РєРё Рё РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РґР»СЏ СѓСЃРєРѕСЂРµРЅРёСЏ РґРѕСЃС‚СѓРїР° Рє РєРѕРјРїРѕРЅРµРЅС‚Р°Рј
 
-	int nLeftSpace;												//отступ item слева и справа от края контрола
-	int nTopSpace;												//отступ item от низа header сверху и от низа контрола снизу
-	int nHeaderTopSpace;									//отступ header от верха контрола
-	int nItemHeight;											//высота одного item
-	int nHSubSpace;												//расстояние между двумя subitems по горизонтали
-	int nVSubSpace;												//расстояние между двумя items по вертикали
+	int nLeftSpace;												//РѕС‚СЃС‚СѓРї item СЃР»РµРІР° Рё СЃРїСЂР°РІР° РѕС‚ РєСЂР°СЏ РєРѕРЅС‚СЂРѕР»Р°
+	int nTopSpace;												//РѕС‚СЃС‚СѓРї item РѕС‚ РЅРёР·Р° header СЃРІРµСЂС…Сѓ Рё РѕС‚ РЅРёР·Р° РєРѕРЅС‚СЂРѕР»Р° СЃРЅРёР·Сѓ
+	int nHeaderTopSpace;									//РѕС‚СЃС‚СѓРї header РѕС‚ РІРµСЂС…Р° РєРѕРЅС‚СЂРѕР»Р°
+	int nItemHeight;											//РІС‹СЃРѕС‚Р° РѕРґРЅРѕРіРѕ item
+	int nHSubSpace;												//СЂР°СЃСЃС‚РѕСЏРЅРёРµ РјРµР¶РґСѓ РґРІСѓРјСЏ subitems РїРѕ РіРѕСЂРёР·РѕРЅС‚Р°Р»Рё
+	int nVSubSpace;												//СЂР°СЃСЃС‚РѕСЏРЅРёРµ РјРµР¶РґСѓ РґРІСѓРјСЏ items РїРѕ РІРµСЂС‚РёРєР°Р»Рё
 	bool bLeftScrollBar;
 	bool bScrollBarAlwaysVisible;
-	int nHeaderSize;											//размер header по вертикали, если > 0 то есть заголовок
+	int nHeaderSize;											//СЂР°Р·РјРµСЂ header РїРѕ РІРµСЂС‚РёРєР°Р»Рё, РµСЃР»Рё > 0 С‚Рѕ РµСЃС‚СЊ Р·Р°РіРѕР»РѕРІРѕРє
 	int nScrollBarWidth;
 	int nSelection;
 	int nSortedHeaderIndex;
@@ -92,25 +92,25 @@ class CUIList : public CMultipleWindow
 	CUIListItems listItems;
 	CVectorOfColumnProperties columnProperties;
 
-	//Для отрисовки Selection
+	//Р”Р»СЏ РѕС‚СЂРёСЃРѕРІРєРё Selection
 	std::vector<SWindowSubRect> selSubRects;
-	CPtr<IGFXTexture> pSelectionTexture;				// внешний вид - текстура
+	CPtr<IGFXTexture> pSelectionTexture;				// РІРЅРµС€РЅРёР№ РІРёРґ - С‚РµРєСЃС‚СѓСЂР°
 
-	void UpdateItemsCoordinates();				//Обновляет координаты всех внутренних item
-	void UpdateScrollBarStatus();					//Вызывается чтобы проверить, нужно ли отображать ScrollBar и обновления его состояния
-	void EnsureSelectionVisible();				//Чтобы selection стал полностью видимым, перемещает позицию скроллбара.
+	void UpdateItemsCoordinates();				//РћР±РЅРѕРІР»СЏРµС‚ РєРѕРѕСЂРґРёРЅР°С‚С‹ РІСЃРµС… РІРЅСѓС‚СЂРµРЅРЅРёС… item
+	void UpdateScrollBarStatus();					//Р’С‹Р·С‹РІР°РµС‚СЃСЏ С‡С‚РѕР±С‹ РїСЂРѕРІРµСЂРёС‚СЊ, РЅСѓР¶РЅРѕ Р»Рё РѕС‚РѕР±СЂР°Р¶Р°С‚СЊ ScrollBar Рё РѕР±РЅРѕРІР»РµРЅРёСЏ РµРіРѕ СЃРѕСЃС‚РѕСЏРЅРёСЏ
+	void EnsureSelectionVisible();				//Р§С‚РѕР±С‹ selection СЃС‚Р°Р» РїРѕР»РЅРѕСЃС‚СЊСЋ РІРёРґРёРјС‹Рј, РїРµСЂРµРјРµС‰Р°РµС‚ РїРѕР·РёС†РёСЋ СЃРєСЂРѕР»Р»Р±Р°СЂР°.
 
 	IUIElement* CreateComponent( const char *pszFileName );
-	CVec2 GetComponentSize( const char *pszFileName );		//возвращает размер элемента
-	void InitItemHeight();								//Вызывается из сериализации, чтобы рассчитать высоту строчки
+	CVec2 GetComponentSize( const char *pszFileName );		//РІРѕР·РІСЂР°С‰Р°РµС‚ СЂР°Р·РјРµСЂ СЌР»РµРјРµРЅС‚Р°
+	void InitItemHeight();								//Р’С‹Р·С‹РІР°РµС‚СЃСЏ РёР· СЃРµСЂРёР°Р»РёР·Р°С†РёРё, С‡С‚РѕР±С‹ СЂР°СЃСЃС‡РёС‚Р°С‚СЊ РІС‹СЃРѕС‚Сѓ СЃС‚СЂРѕС‡РєРё
 
-	//посылка сообщения наверх об изменении текущей позиции
+	//РїРѕСЃС‹Р»РєР° СЃРѕРѕР±С‰РµРЅРёСЏ РЅР°РІРµСЂС… РѕР± РёР·РјРµРЅРµРЅРёРё С‚РµРєСѓС‰РµР№ РїРѕР·РёС†РёРё
 	void NotifySelectionChanged();
 	void NotifyDoubleClick( int nItem );
 	void RemoveFocusFromItem( int nIndex );
 	void MoveSelectionItemUp();
 
-	//инициализация функторов сортировки
+	//РёРЅРёС†РёР°Р»РёР·Р°С†РёСЏ С„СѓРЅРєС‚РѕСЂРѕРІ СЃРѕСЂС‚РёСЂРѕРІРєРё
 	void InitSortFunctors();
 public:
 	CUIList();
@@ -138,9 +138,9 @@ public:
 	//Get number of items
 	virtual int STDCALL GetNumberOfItems() { return listItems.size(); }
 	//Add new line of items
-	virtual void STDCALL AddItem( int nData = 0 );			//добавляет новую строчку VectorElements в конец списка
+	virtual void STDCALL AddItem( int nData = 0 );			//РґРѕР±Р°РІР»СЏРµС‚ РЅРѕРІСѓСЋ СЃС‚СЂРѕС‡РєСѓ VectorElements РІ РєРѕРЅРµС† СЃРїРёСЃРєР°
 	//Remove last line of items
-	virtual void STDCALL RemoveItem( int nIndex );			//удаляет строчку из конца списка
+	virtual void STDCALL RemoveItem( int nIndex );			//СѓРґР°Р»СЏРµС‚ СЃС‚СЂРѕС‡РєСѓ РёР· РєРѕРЅС†Р° СЃРїРёСЃРєР°
 	//Get line
 	virtual IUIListRow* STDCALL GetItem( int nIndex );
 	//Get index of item by user data, if no such nID then returns -1

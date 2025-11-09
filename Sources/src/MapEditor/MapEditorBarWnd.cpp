@@ -62,7 +62,7 @@ int CInputControlBar::OnCreate( LPCREATESTRUCT lpCreateStruct )
 			pInput3DTabWindow->AddTab( pTabTerrainFieldsDialog, CTemplateEditorFrame::STATE_TERRAIN_TAB_LABELS[CTemplateEditorFrame::STATE_TERRAIN_FIELDS] );
 		}
 
-		//проверить на количество созданных табов
+		//РїСЂРѕРІРµСЂРёС‚СЊ РЅР° РєРѕР»РёС‡РµСЃС‚РІРѕ СЃРѕР·РґР°РЅРЅС‹С… С‚Р°Р±РѕРІ
 		NI_ASSERT_T( ( pInput3DTabWindow->GetTabCount() == CTemplateEditorFrame::STATE_TERRAIN_COUNT ) &&
 								 ( pInput3DTabWindow->inputTabWindows.size() == CTemplateEditorFrame::STATE_TERRAIN_COUNT ),
 								 NStr::Format( "Wrong tab number: %d\n", pInput3DTabWindow->GetTabCount() ) );
@@ -103,7 +103,7 @@ int CInputControlBar::OnCreate( LPCREATESTRUCT lpCreateStruct )
 			pInput3DTabWindow->AddTab( pBridgeSetupDialog, CTemplateEditorFrame::STATE_SO_TAB_LABELS[CTemplateEditorFrame::STATE_SO_BRIDGES] );
 		}
 
-		//проверить на количество созданных табов
+		//РїСЂРѕРІРµСЂРёС‚СЊ РЅР° РєРѕР»РёС‡РµСЃС‚РІРѕ СЃРѕР·РґР°РЅРЅС‹С… С‚Р°Р±РѕРІ
 		NI_ASSERT_T( ( pInput3DTabWindow->GetTabCount() == CTemplateEditorFrame::STATE_SO_COUNT ) &&
 								 ( pInput3DTabWindow->inputTabWindows.size() == CTemplateEditorFrame::STATE_SO_COUNT ),
 								 NStr::Format( "Wrong tab number: %d\n", pInput3DTabWindow->GetTabCount() ) );
@@ -149,7 +149,7 @@ int CInputControlBar::OnCreate( LPCREATESTRUCT lpCreateStruct )
 			pInput3DTabWindow->AddTab( pTabVOVSODialog, CTemplateEditorFrame::STATE_VO_TAB_LABELS[CTemplateEditorFrame::STATE_VO_RIVERS] );
 		}
 
-		//проверить на количество созданных табов
+		//РїСЂРѕРІРµСЂРёС‚СЊ РЅР° РєРѕР»РёС‡РµСЃС‚РІРѕ СЃРѕР·РґР°РЅРЅС‹С… С‚Р°Р±РѕРІ
 		NI_ASSERT_T( ( pInput3DTabWindow->GetTabCount() == CTemplateEditorFrame::STATE_VO_COUNT ) &&
 								 ( pInput3DTabWindow->inputTabWindows.size() == CTemplateEditorFrame::STATE_VO_COUNT ),
 								 NStr::Format( "Wrong tab number: %d\n", pInput3DTabWindow->GetTabCount() ) );
@@ -183,7 +183,7 @@ int CInputControlBar::OnCreate( LPCREATESTRUCT lpCreateStruct )
 		inputShortcutBar.AddBar( pTabAIGeneralDialog, CTemplateEditorFrame::STATE_TAB_LABELS[CTemplateEditorFrame::STATE_AI_GENERAL], true );
 	}
 
-	//проверить на количество созданных шорткатов
+	//РїСЂРѕРІРµСЂРёС‚СЊ РЅР° РєРѕР»РёС‡РµСЃС‚РІРѕ СЃРѕР·РґР°РЅРЅС‹С… С€РѕСЂС‚РєР°С‚РѕРІ
 	NI_ASSERT_T( ( inputShortcutBar.GetBarCount() == CTemplateEditorFrame::STATE_COUNT ) &&
 							 ( inputShortcutBar.inputTabWindows.size() == CTemplateEditorFrame::STATE_COUNT ),
 							 NStr::Format( "Wrong shortcut number: %d\n", inputShortcutBar.GetBarCount() ) );

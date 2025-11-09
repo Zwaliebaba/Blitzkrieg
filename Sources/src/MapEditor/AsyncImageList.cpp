@@ -158,7 +158,7 @@ bool CAsyncImageList::Create( int nImageCount, const CTPoint<int> &rImageSize )
 	//NStr::DebugTrace( "CAsyncImageList::Create(): bitmap1 %d\n", dwTime );
 	dwTime = GetTickCount();
 
-	//Создаем HBITMAP чтобы прогрузить её в image list
+	//вЂ”РѕР·РґР°РµРј HBITMAP С‡С‚РѕР±С‹ РїСЂРѕРіСЂСѓР·РёС‚СЊ РµР„ РІ image list
 	BITMAPINFO bitmapInfo;
 	bitmapInfo.bmiHeader.biSize  = sizeof( bitmapInfo.bmiHeader );
 	bitmapInfo.bmiHeader.biWidth  = rImageSize.x;

@@ -61,7 +61,7 @@ void CICMainMenu::Configure( const char *pszConfig )
 
 	std::vector<std::string> szStrings;
 	NStr::SplitString( pszConfig, szStrings, ';' );
-	// получаем параметры из командной строки
+	// РїРѕР»СѓС‡Р°РµРј РїР°СЂР°РјРµС‚СЂС‹ РёР· РєРѕРјР°РЅРґРЅРѕР№ СЃС‚СЂРѕРєРё
 	nState = NStr::ToInt( szStrings[0] );
 	if ( szStrings.size() > 1 ) 
 	{
@@ -166,7 +166,7 @@ void CInterfaceMainMenu::OnGetFocus( bool bFocus )
 bool CInterfaceMainMenu::Init()
 {
 	ResetCampaignStatus();
-	//запускаем звук
+	//Р·Р°РїСѓСЃРєР°РµРј Р·РІСѓРє
 	PlayIntermissionSound();
 	//
 	CInterfaceInterMission::Init();

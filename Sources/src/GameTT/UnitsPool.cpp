@@ -15,7 +15,7 @@ enum ECommands
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CICUnitsPool::Configure( const char *pszConfig )
 {
-	//получаем параметры из командной строки
+	//РїРѕР»СѓС‡Р°РµРј РїР°СЂР°РјРµС‚СЂС‹ РёР· РєРѕРјР°РЅРґРЅРѕР№ СЃС‚СЂРѕРєРё
 	if ( pszConfig != 0 && strlen(pszConfig) > 0 )
 		nNewUnits = NStr::ToInt( pszConfig );
 	else
@@ -51,7 +51,7 @@ void CInterfaceUnitsPool::Create( int nNewUnits )
 
 	if ( nNewUnits )
 	{
-		//установим текст заголовка
+		//СѓСЃС‚Р°РЅРѕРІРёРј С‚РµРєСЃС‚ Р·Р°РіРѕР»РѕРІРєР°
 		IUIElement *pHeader = pUIScreen->GetChildByID( 20000 );
 		NI_ASSERT_T( pHeader != 0, "Invalid UnitsPool interface header control" );
 		CPtr<IText> p2 = pTextM->GetString( "newunits" );
@@ -76,11 +76,11 @@ void CInterfaceUnitsPool::Create( int nNewUnits )
 	NI_ASSERT_T( pSB != 0, "ShortcutBar is not initialized" );
 	pSB->Clear();
 
-	// инициализируем вспомогательную структуру
+	// РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј РІСЃРїРѕРјРѕРіР°С‚РµР»СЊРЅСѓСЋ СЃС‚СЂСѓРєС‚СѓСЂСѓ
 	std::vector< std::vector<int> > units( nUnitClassesSize );
 	if ( nNewUnits )
 	{
-		// Отображаем только новые поступления
+		// СњС‚РѕР±СЂР°Р¶Р°РµРј С‚РѕР»СЊРєРѕ РЅРѕРІС‹Рµ РїРѕСЃС‚СѓРїР»РµРЅРёВ¤
 		for ( int i = 0; i < pUserPlayer->GetNumNewUnits(); ++i )
 		{
 			IScenarioUnit *pUnit = pUserPlayer->GetNewUnit( i );
@@ -90,7 +90,7 @@ void CInterfaceUnitsPool::Create( int nNewUnits )
 	}
 	else
 	{
-		// Отображаем всех доступных юнитов
+		// СњС‚РѕР±СЂР°Р¶Р°РµРј РІСЃРµС… РґРѕСЃС‚СѓРїРЅС‹С… СЋРЅРёС‚РѕРІ
 		const int nNumUnits = pUserPlayer->GetNumUnits();
 		for ( int i = 0; i < nNumUnits; ++i )
 		{
@@ -100,7 +100,7 @@ void CInterfaceUnitsPool::Create( int nNewUnits )
 		}
 	}
 
-	// отображаем данные из этой структурки на экране
+	// РѕС‚РѕР±СЂР°Р¶Р°РµРј РґР°РЅРЅС‹Рµ РёР· СЌС‚РѕР№ СЃС‚СЂСѓРєС‚СѓСЂРєРё РЅР° СЌРєСЂР°РЅРµ
 	int nBarIndex = 0;
 	for ( int i=0; i<nUnitClassesSize; i++ )
 	{
@@ -119,14 +119,14 @@ void CInterfaceUnitsPool::Create( int nNewUnits )
 		
 		if ( nNewUnits )
 		{
-			//раскрываю барчик
+			//СЂР°СЃРєСЂС‹РІР°СЋ Р±Р°СЂС‡РёРє
 			pSB->SetBarExpandState( nBarIndex, true );
 		}
 		nBarIndex++;
 		
 		for ( int k=0; k<units[i].size(); k++ )
 		{
-			//добавим item с такими RPG stats
+			//РґРѕР±Р°РІРёРј item СЃ С‚Р°РєРёРјРё RPG stats
 			IUIDialog *pItem = checked_cast<IUIDialog *>( pSB->AddItem() );
 			IScenarioUnit *pUnit = pUserPlayer->GetUnit( units[i][k] );
 			const SUnitBaseRPGStats *pRPG = NGDB::GetRPGStats<SUnitBaseRPGStats>( pUnit->GetRPGStats().c_str() );
@@ -178,7 +178,7 @@ bool CInterfaceUnitsPool::ProcessMessage( const SGameMessage &msg )
 
 	if ( msg.nEventID >= 20000 && msg.nEventID < 21000 )
 	{
-		//вызовем энциклопедию
+		//РІС‹Р·РѕРІРµРј СЌРЅС†РёРєР»РѕРїРµРґРёСЋ
 		IScenarioUnit *pUnit = GetSingleton<IScenarioTracker>()->GetUserPlayer()->GetUnit( msg.nEventID - 20000 );
 		const std::string szTemp = NStr::Format( "%d;%s", E_UNIT, pUnit->GetRPGStats().c_str() );
 		FinishInterface( MISSION_COMMAND_ENCYCLOPEDIA, szTemp.c_str() );

@@ -85,7 +85,7 @@ int CMeshFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;
 	}
 	
-	//инициализируем уникальное имя для проекта
+	//РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј СѓРЅРёРєР°Р»СЊРЅРѕРµ РёРјСЏ РґР»СЏ РїСЂРѕРµРєС‚Р°
 	GenerateProjectName();
 	return 0;
 }
@@ -129,7 +129,7 @@ BOOL CMeshFrame::SpecificTranslateMessage( MSG *pMsg )
 		case WM_ANGLE_CHANGED:
 			if ( !pCombatObject )
 				return true;
-			//надо пересчитать положения всех локаторов
+			//РЅР°РґРѕ РїРµСЂРµСЃС‡РёС‚Р°С‚СЊ РїРѕР»РѕР¶РµРЅРёСЏ РІСЃРµС… Р»РѕРєР°С‚РѕСЂРѕРІ
 			UpdateLocators();
 			
 /*
@@ -157,7 +157,7 @@ void CMeshFrame::UpdateItemType()
 	CTreeItem *pAviaItem = pCommonProps->GetChildItem( E_MESH_AVIA_ITEM );
 	if ( IsAviation( pCommonProps->GetMeshType() ) )
 	{
-		//создадим новый item в дереве, если его еще нет
+		//СЃРѕР·РґР°РґРёРј РЅРѕРІС‹Р№ item РІ РґРµСЂРµРІРµ, РµСЃР»Рё РµРіРѕ РµС‰Рµ РЅРµС‚
 		if ( !pAviaItem )
 		{
 			pAviaItem = new CMeshAviaItem;
@@ -168,7 +168,7 @@ void CMeshFrame::UpdateItemType()
 	}
 	else
 	{
-		//удалим avia item
+		//СѓРґР°Р»РёРј avia item
 		if ( pAviaItem )
 			pCommonProps->RemoveChild( pAviaItem );
 	}
@@ -219,13 +219,13 @@ void CMeshFrame::SelectLocator( CMeshLocatorPropsItem *pLoc )
 		return;
 	}
 	
-	//развыделяем предыдущий локатор
+	//СЂР°Р·РІС‹РґРµР»СЏРµРј РїСЂРµРґС‹РґСѓС‰РёР№ Р»РѕРєР°С‚РѕСЂ
 	if ( pActiveLocator )
 	{
 		pActiveLocator->pSprite->SetOpacity( MIN_OPACITY );
 	}
 	
-	//выделяем локатор
+	//РІС‹РґРµР»СЏРµРј Р»РѕРєР°С‚РѕСЂ
 	pActiveLocator = pLoc;
 	pActiveLocator->pSprite->SetOpacity( MAX_OPACITY );
 	UpdateActiveLocatorLine();
@@ -237,7 +237,7 @@ void CMeshFrame::UpdateActiveLocatorLine()
 	if ( !pActiveLocator )
 		return;
 	
-	//найдем направление локатора
+	//РЅР°Р№РґРµРј РЅР°РїСЂР°РІР»РµРЅРёРµ Р»РѕРєР°С‚РѕСЂР°
 	NI_ASSERT( pModelMatrix != 0 );
 	const SHMatrix &matrix = pModelMatrix[ pActiveLocator->nLocatorID ];
 	
@@ -246,7 +246,7 @@ void CMeshFrame::UpdateActiveLocatorLine()
 	matrix.RotateVector( &v, vZ );
 	v *= 100;
 
-	//у выделенного локатора рисую линию
+	//Сѓ РІС‹РґРµР»РµРЅРЅРѕРіРѕ Р»РѕРєР°С‚РѕСЂР° СЂРёСЃСѓСЋ Р»РёРЅРёСЋ
 	CVec3 vPos3 = pActiveLocator->pSprite->GetPosition();
 	pActiveLocator->lineVertices[0].Setup( vPos3, 0xff0000ff );
 	
@@ -272,7 +272,7 @@ void CMeshFrame::SpecificInit()
 	NI_ASSERT( pPlatforms != 0 );
 	if ( pPlatforms->GetChildsCount() == 0 )
 	{
-		//создаем базовую платформу
+		//СЃРѕР·РґР°РµРј Р±Р°Р·РѕРІСѓСЋ РїР»Р°С‚С„РѕСЂРјСѓ
 		CTreeItem *pItem = new CMeshPlatformPropsItem;
 		pItem->SetItemName( "Base" );
 		pPlatforms->AddChild( pItem );
@@ -337,7 +337,7 @@ void CMeshFrame::FillRPGStats( SMechUnitRPGStats &rpgStats, CTreeItem *pRootItem
 	
 	if ( pszProjectName )
 	{
-		//прогружаю информацию о constraint и о AABB из mod файла
+		//РїСЂРѕРіСЂСѓР¶Р°СЋ РёРЅС„РѕСЂРјР°С†РёСЋ Рѕ constraint Рё Рѕ AABB РёР· mod С„Р°Р№Р»Р°
 		string szRelName, szFullName, szDir;
 		bool bRes = true;
 		szRelName = pGraphicsItem->GetCombatMeshName();
@@ -368,7 +368,7 @@ void CMeshFrame::FillRPGStats( SMechUnitRPGStats &rpgStats, CTreeItem *pRootItem
 		saver.Add( 6, &aabb_ds );
 
 		{
-			//записываю анимации
+			//Р·Р°РїРёСЃС‹РІР°СЋ Р°РЅРёРјР°С†РёРё
 			for ( int i=0; i<animations.size(); i++ )
 			{
 				SUnitBaseRPGStats::SAnimDesc desc;
@@ -405,7 +405,7 @@ void CMeshFrame::FillRPGStats( SMechUnitRPGStats &rpgStats, CTreeItem *pRootItem
 					saver.Add( 6, &aabb_ds );
 				
 				{
-					//записываю анимации
+					//Р·Р°РїРёСЃС‹РІР°СЋ Р°РЅРёРјР°С†РёРё
 					for ( int i=0; i<animations.size(); i++ )
 					{
 						SUnitBaseRPGStats::SAnimDesc desc;
@@ -443,7 +443,7 @@ void CMeshFrame::FillRPGStats( SMechUnitRPGStats &rpgStats, CTreeItem *pRootItem
 					saver.Add( 6, &aabb_ds );
 				
 				{
-					//записываю анимации
+					//Р·Р°РїРёСЃС‹РІР°СЋ Р°РЅРёРјР°С†РёРё
 					for ( int i=0; i<animations.size(); i++ )
 					{
 						SUnitBaseRPGStats::SAnimDesc desc;
@@ -460,7 +460,7 @@ void CMeshFrame::FillRPGStats( SMechUnitRPGStats &rpgStats, CTreeItem *pRootItem
 	}
 
 	{
-		//заполняем AABB информацию
+		//Р·Р°РїРѕР»РЅСЏРµРј AABB РёРЅС„РѕСЂРјР°С†РёСЋ
 		rpgStats.vAABBCenter.x = aabb.vCenter.x;
 		rpgStats.vAABBCenter.y = aabb.vCenter.y;
 
@@ -488,7 +488,7 @@ void CMeshFrame::FillRPGStats( SMechUnitRPGStats &rpgStats, CTreeItem *pRootItem
 		}
 	}
 
-	//Загружаем информацию о матрицах
+	//Р—Р°РіСЂСѓР¶Р°РµРј РёРЅС„РѕСЂРјР°С†РёСЋ Рѕ РјР°С‚СЂРёС†Р°С…
 	pModelMatrix = 0;
 	if ( pCombatObject )
 	{
@@ -648,7 +648,7 @@ void CMeshFrame::FillRPGStats( SMechUnitRPGStats &rpgStats, CTreeItem *pRootItem
 	}
 	
 /*
-	//Находим 3DPointsItem
+	//РќР°С…РѕРґРёРј 3DPointsItem
 	CMesh3DPointsItem *p3DPointsItem = (CMesh3DPointsItem *) pRootItem->GetChildItem( E_MESH_3DPOINTS_ITEM );
 	ASSERT( p3DPointsItem != 0 );
 	
@@ -666,7 +666,7 @@ void CMeshFrame::FillRPGStats( SMechUnitRPGStats &rpgStats, CTreeItem *pRootItem
 	}
 */
 
-	//Тут прогружаю набор всех точек модели
+	//РўСѓС‚ РїСЂРѕРіСЂСѓР¶Р°СЋ РЅР°Р±РѕСЂ РІСЃРµС… С‚РѕС‡РµРє РјРѕРґРµР»Рё
 	int nMyAmmoIndex = -1;
 	int nNumNodes = 0;
 	std::vector<const char*> allNamesVector( nNumNodes );
@@ -734,7 +734,7 @@ void CMeshFrame::FillRPGStats( SMechUnitRPGStats &rpgStats, CTreeItem *pRootItem
 	}
 
 	{
-		//определяю точки Damage, Exhaust, Tow, Entrance пользуясь их именем
+		//РѕРїСЂРµРґРµР»СЏСЋ С‚РѕС‡РєРё Damage, Exhaust, Tow, Entrance РїРѕР»СЊР·СѓСЏСЃСЊ РёС… РёРјРµРЅРµРј
 		for ( int i=0; i<nNumNodes; i++ )
 		{
 			const char *pszTemp = 0;
@@ -783,7 +783,7 @@ void CMeshFrame::FillRPGStats( SMechUnitRPGStats &rpgStats, CTreeItem *pRootItem
 	}
 
 	// weapon settings
-	rpgStats.guns.clear();					//очищаем пушки
+	rpgStats.guns.clear();					//РѕС‡РёС‰Р°РµРј РїСѓС€РєРё
 	CMeshPlatformsItem *pPlatforms = static_cast<CMeshPlatformsItem *> ( pRootItem->GetChildItem( E_MESH_PLATFORMS_ITEM ) );
 	rpgStats.platforms.resize( pPlatforms->GetChildsCount() );
 	int nPlatformIndex = 0;
@@ -795,7 +795,7 @@ void CMeshFrame::FillRPGStats( SMechUnitRPGStats &rpgStats, CTreeItem *pRootItem
 		rpgStats.platforms[nPlatformIndex].fHorizontalRotationSpeed = pPlatformProps->GetHorizontalRotationSpeed();
 		if ( nNumNodes != 0 )
 		{
-			//запишем индекс Model Part для платформы
+			//Р·Р°РїРёС€РµРј РёРЅРґРµРєСЃ Model Part РґР»СЏ РїР»Р°С‚С„РѕСЂРјС‹
 			string szPartName = pPlatformProps->GetPlatformPartName();
 			int i = 0;
 			for ( ; i<nNumNodes; i++ )
@@ -827,7 +827,7 @@ void CMeshFrame::FillRPGStats( SMechUnitRPGStats &rpgStats, CTreeItem *pRootItem
 			}
 
 
-			//запишем индекс carriage part
+			//Р·Р°РїРёС€РµРј РёРЅРґРµРєСЃ carriage part
 			rpgStats.platforms[nPlatformIndex].dwGunCarriageParts = 0xffff0000;
 			rpgStats.platforms[nPlatformIndex].constraintVertical.fMin = 0;
 			rpgStats.platforms[nPlatformIndex].constraintVertical.fMax = 0;
@@ -877,7 +877,7 @@ void CMeshFrame::FillRPGStats( SMechUnitRPGStats &rpgStats, CTreeItem *pRootItem
 				SMechUnitRPGStats::SGun gun;
 				if ( nNumNodes != 0 )
 				{
-					//запишем индекс Shoot Point
+					//Р·Р°РїРёС€РµРј РёРЅРґРµРєСЃ Shoot Point
 					string szPointName = pGunProps->GetShootPointName();
 					int i = 0;
 					for ( ; i<nNumNodes; i++ )
@@ -893,12 +893,12 @@ void CMeshFrame::FillRPGStats( SMechUnitRPGStats &rpgStats, CTreeItem *pRootItem
 
 						if ( pModelMatrix && gun.nShootPoint != -1 )
 						{
-							//запишем направление срельбы для пушки
+							//Р·Р°РїРёС€РµРј РЅР°РїСЂР°РІР»РµРЅРёРµ СЃСЂРµР»СЊР±С‹ РґР»СЏ РїСѓС€РєРё
 							CVec3 vRes;
 							pModelMatrix[ gun.nShootPoint ].RotateVector( &vRes, CVec3(0, 0, 1) );
 							float alpha = atan2( vRes.y, vRes.x );
-							//плюс PI так как угол возвращаемый atan2 [-PI..+PI]
-							//и плюс PI/2 так как начало отсчета угла в игре - ось Y
+							//РїР»СЋСЃ PI С‚Р°Рє РєР°Рє СѓРіРѕР» РІРѕР·РІСЂР°С‰Р°РµРјС‹Р№ atan2 [-PI..+PI]
+							//Рё РїР»СЋСЃ PI/2 С‚Р°Рє РєР°Рє РЅР°С‡Р°Р»Рѕ РѕС‚СЃС‡РµС‚Р° СѓРіР»Р° РІ РёРіСЂРµ - РѕСЃСЊ Y
 							alpha += (float) 3 * FP_PI2;
 							if ( alpha > FP_2PI )
 								alpha -= FP_2PI;
@@ -906,7 +906,7 @@ void CMeshFrame::FillRPGStats( SMechUnitRPGStats &rpgStats, CTreeItem *pRootItem
 						}
 					}
 
-					//запишем индекс Shoot Part
+					//Р·Р°РїРёС€РµРј РёРЅРґРµРєСЃ Shoot Part
 					string szPartName = pGunProps->GetShootPartName();
 					for ( i=0; i<nNumNodes; i++ )
 					{
@@ -981,13 +981,13 @@ void CMeshFrame::FillRPGStats( SMechUnitRPGStats &rpgStats, CTreeItem *pRootItem
 		}
 	}
 	
-	//По новой системе есть 3 разных типа локаторов для перцев обслуживания пушки, с именами LGunner*
-	//поэтому здесь я прохожу по всем моделям и загружаю положения перцев
-	//выше я уже заполнил вектор gunners, запишу его в rpgStats
+	//РџРѕ РЅРѕРІРѕР№ СЃРёСЃС‚РµРјРµ РµСЃС‚СЊ 3 СЂР°Р·РЅС‹С… С‚РёРїР° Р»РѕРєР°С‚РѕСЂРѕРІ РґР»СЏ РїРµСЂС†РµРІ РѕР±СЃР»СѓР¶РёРІР°РЅРёСЏ РїСѓС€РєРё, СЃ РёРјРµРЅР°РјРё LGunner*
+	//РїРѕСЌС‚РѕРјСѓ Р·РґРµСЃСЊ СЏ РїСЂРѕС…РѕР¶Сѓ РїРѕ РІСЃРµРј РјРѕРґРµР»СЏРј Рё Р·Р°РіСЂСѓР¶Р°СЋ РїРѕР»РѕР¶РµРЅРёСЏ РїРµСЂС†РµРІ
+	//РІС‹С€Рµ СЏ СѓР¶Рµ Р·Р°РїРѕР»РЅРёР» РІРµРєС‚РѕСЂ gunners, Р·Р°РїРёС€Сѓ РµРіРѕ РІ rpgStats
 	rpgStats.vGunners.resize( 3 );
 	for ( int k=0; k<3; k++ )
 	{
-		//Загружаем информацию о матрице
+		//Р—Р°РіСЂСѓР¶Р°РµРј РёРЅС„РѕСЂРјР°С†РёСЋ Рѕ РјР°С‚СЂРёС†Рµ
 		CPtr<IObjVisObj> pObject;
 		if ( k == 0 )
 			pObject = pCombatObject;
@@ -1016,7 +1016,7 @@ void CMeshFrame::FillRPGStats( SMechUnitRPGStats &rpgStats, CTreeItem *pRootItem
 			pObject->SetDirection( nOldDirection );
 		}
 
-		//Тут прогружаю набор локаторов LGunners точек модели
+		//РўСѓС‚ РїСЂРѕРіСЂСѓР¶Р°СЋ РЅР°Р±РѕСЂ Р»РѕРєР°С‚РѕСЂРѕРІ LGunners С‚РѕС‡РµРє РјРѕРґРµР»Рё
 		nNumNodes = 0;
 		{
 			IMeshAnimation *pMeshAnim = static_cast<IMeshAnimation *> ( pObject->GetAnimation() );
@@ -1123,11 +1123,11 @@ void CMeshFrame::FillRPGStats( SMechUnitRPGStats &rpgStats, CTreeItem *pRootItem
 	{
 		SMechUnitRPGStats::SPlatform &platform = rpgStats.platforms[p];
 		if ( platform.nModelPart == -1 )
-			continue;		//не найден локатор
+			continue;		//РЅРµ РЅР°Р№РґРµРЅ Р»РѕРєР°С‚РѕСЂ
 		if ( platform.constraintVertical.fMax != 0 )
 			continue;
 
-		//проверим, если вертикальное ограничение у платформы нулевое и типа снаряда баллистический, то вычислим ограничение другим способом
+		//РїСЂРѕРІРµСЂРёРј, РµСЃР»Рё РІРµСЂС‚РёРєР°Р»СЊРЅРѕРµ РѕРіСЂР°РЅРёС‡РµРЅРёРµ Сѓ РїР»Р°С‚С„РѕСЂРјС‹ РЅСѓР»РµРІРѕРµ Рё С‚РёРїР° СЃРЅР°СЂСЏРґР° Р±Р°Р»Р»РёСЃС‚РёС‡РµСЃРєРёР№, С‚Рѕ РІС‹С‡РёСЃР»РёРј РѕРіСЂР°РЅРёС‡РµРЅРёРµ РґСЂСѓРіРёРј СЃРїРѕСЃРѕР±РѕРј
 		bool bBalisticType = false;
 		int nShootPointIndex = 0;
 		for ( int g=platform.nFirstGun; g<platform.nFirstGun + platform.nNumGuns; g++ )
@@ -1157,7 +1157,7 @@ void CMeshFrame::FillRPGStats( SMechUnitRPGStats &rpgStats, CTreeItem *pRootItem
 			CVec3 v;
 			matrix.RotateVector( &v, vZ );
 
-			//найдем угол в радианах между горизонтальной плоскостью и вектором vZ
+			//РЅР°Р№РґРµРј СѓРіРѕР» РІ СЂР°РґРёР°РЅР°С… РјРµР¶РґСѓ РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅРѕР№ РїР»РѕСЃРєРѕСЃС‚СЊСЋ Рё РІРµРєС‚РѕСЂРѕРј vZ
 			double d = sqrt( v.x*v.x + v.y*v.y );
 			double alpha = atan2( fabs(v.z), d );
 			NI_ASSERT_T( alpha >= 0, "Error while calculation angle (angle < 0)" );
@@ -1331,7 +1331,7 @@ void CMeshFrame::GetRPGStats( const SMechUnitRPGStats &rpgStats, CTreeItem *pRoo
 
 	// weapon settings
 //	NI_ASSERT( rpgStats.platforms.size() )
-	//старая загрузка
+	//СЃС‚Р°СЂР°СЏ Р·Р°РіСЂСѓР·РєР°
 	CMeshPlatformsItem *pPlatforms = static_cast<CMeshPlatformsItem *> ( pRootItem->GetChildItem( E_MESH_PLATFORMS_ITEM ) );
 	int nPlatformIndex = 0;
 	int nGunIndex = 0;
@@ -1365,7 +1365,7 @@ void CMeshFrame::LoadRPGStats( IDataTree *pDT, CTreeItem *pRootItem )
 	ASSERT( pDT->IsReading() );
 	
 	SMechUnitRPGStats rpgStats;
-	//	FillRPGStats( rpgStats, pRootItem );			//перед загрузкой инициализирую значениями по умолчанию
+	//	FillRPGStats( rpgStats, pRootItem );			//РїРµСЂРµРґ Р·Р°РіСЂСѓР·РєРѕР№ РёРЅРёС†РёР°Р»РёР·РёСЂСѓСЋ Р·РЅР°С‡РµРЅРёСЏРјРё РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
 	
 	CTreeAccessor tree = pDT;
 	tree.Add( "RPG", &rpgStats );
@@ -1379,7 +1379,7 @@ bool CMeshFrame::ExportFrameData( IDataTree *pDT, const char *pszProjectName, co
 
 	CMeshGraphicsItem *pGraphicsItem = (CMeshGraphicsItem *) pRootItem->GetChildItem( E_MESH_GRAPHICS_ITEM );
 	NI_ASSERT( pGraphicsItem != 0 );
-	//Получим полное имя файла для основного объекта
+	//РџРѕР»СѓС‡РёРј РїРѕР»РЅРѕРµ РёРјСЏ С„Р°Р№Р»Р° РґР»СЏ РѕСЃРЅРѕРІРЅРѕРіРѕ РѕР±СЉРµРєС‚Р°
 	string szRelName, szFullName, szDir;
 	bool bRes = true;
 	szRelName = pGraphicsItem->GetCombatMeshName();
@@ -1391,14 +1391,14 @@ bool CMeshFrame::ExportFrameData( IDataTree *pDT, const char *pszProjectName, co
 	else
 		szFullName = szRelName;
 	string szFilesSourceDir = GetDirectory( szFullName.c_str() );
-	//теперь я считаю, что все файлы .mod и .tga лежат в директории szFilesSourceDir
+	//С‚РµРїРµСЂСЊ СЏ СЃС‡РёС‚Р°СЋ, С‡С‚Рѕ РІСЃРµ С„Р°Р№Р»С‹ .mod Рё .tga Р»РµР¶Р°С‚ РІ РґРёСЂРµРєС‚РѕСЂРёРё szFilesSourceDir
 	
 	string szDestDir = GetDirectory( pszResultFileName );
 	{
-		//Скопируем все .mod файлы в результирующую директорию
+		//РЎРєРѕРїРёСЂСѓРµРј РІСЃРµ .mod С„Р°Р№Р»С‹ РІ СЂРµР·СѓР»СЊС‚РёСЂСѓСЋС‰СѓСЋ РґРёСЂРµРєС‚РѕСЂРёСЋ
 		string szMask = "*.mod";
 		vector<string> files;
-		//Сперва составляю полный список файлов, который потом будет копироваться
+		//РЎРїРµСЂРІР° СЃРѕСЃС‚Р°РІР»СЏСЋ РїРѕР»РЅС‹Р№ СЃРїРёСЃРѕРє С„Р°Р№Р»РѕРІ, РєРѕС‚РѕСЂС‹Р№ РїРѕС‚РѕРј Р±СѓРґРµС‚ РєРѕРїРёСЂРѕРІР°С‚СЊСЃСЏ
 		NFile::EnumerateFiles( szFilesSourceDir.c_str(), szMask.c_str(), NFile::CGetAllFiles( &files ), false );
 
 		for ( int i=0; i<files.size(); i++ )
@@ -1416,7 +1416,7 @@ bool CMeshFrame::ExportFrameData( IDataTree *pDT, const char *pszProjectName, co
 		}
 	}
 
-	//скопируем .tga файлы
+	//СЃРєРѕРїРёСЂСѓРµРј .tga С„Р°Р№Р»С‹
 	string szResFileName;
 	szRelName = pGraphicsItem->GetAliveSummerTexture();
 	if ( szRelName.size() > 0 )
@@ -1491,14 +1491,14 @@ bool CMeshFrame::ExportFrameData( IDataTree *pDT, const char *pszProjectName, co
 	}
 	
 	{
-		//скопируем маленькую иконку
+		//СЃРєРѕРїРёСЂСѓРµРј РјР°Р»РµРЅСЊРєСѓСЋ РёРєРѕРЅРєСѓ
 		szFullName = szDir + "icon.tga";
 //		MyCopyFile( szFullName.c_str(), szResFileName.c_str() );
 
 		do
 		{
 			IImageProcessor *pIP = GetSingleton<IImageProcessor>();
-			//сконвертим маленькую иконку
+			//СЃРєРѕРЅРІРµСЂС‚РёРј РјР°Р»РµРЅСЊРєСѓСЋ РёРєРѕРЅРєСѓ
 			
 			CPtr<IDataStream> pStream = OpenFileStream( szFullName.c_str(), STREAM_ACCESS_READ );
 			if ( !pStream )
@@ -1512,7 +1512,7 @@ bool CMeshFrame::ExportFrameData( IDataTree *pDT, const char *pszProjectName, co
 				break;
 			}
 			
-			//сделаем иконку размером 64*64 на сером фоне
+			//СЃРґРµР»Р°РµРј РёРєРѕРЅРєСѓ СЂР°Р·РјРµСЂРѕРј 64*64 РЅР° СЃРµСЂРѕРј С„РѕРЅРµ
 			{
 				const int nSizeX = 64;
 				const int nSizeY = 64;
@@ -1538,14 +1538,14 @@ bool CMeshFrame::ExportFrameData( IDataTree *pDT, const char *pszProjectName, co
 					AfxMessageBox( (std::string( "Error: can not create icon stream: ") + szResFileName).c_str() );
 			}
 
-			//отмасштабируем иконку до размеров 90*90
+			//РѕС‚РјР°СЃС€С‚Р°Р±РёСЂСѓРµРј РёРєРѕРЅРєСѓ РґРѕ СЂР°Р·РјРµСЂРѕРІ 90*90
 			{
 				const int nSizeX = 90;
 				const int nSizeY = 90;
 				if ( pImage->GetSizeX() != nSizeX || pImage->GetSizeY() != nSizeY )
 					pImage = pIP->CreateScaleBySize( pImage, nSizeX, nSizeY, ISM_LANCZOS3 );
 				
-				//надо создать иконку величиной 128*128
+				//РЅР°РґРѕ СЃРѕР·РґР°С‚СЊ РёРєРѕРЅРєСѓ РІРµР»РёС‡РёРЅРѕР№ 128*128
 				CPtr<IImage> p128Image = pIP->CreateImage( 128, 128 );
 				p128Image->Set( 0 );
 				RECT rc;
@@ -1555,7 +1555,7 @@ bool CMeshFrame::ExportFrameData( IDataTree *pDT, const char *pszProjectName, co
 				rc.bottom = 90;
 				p128Image->CopyFrom( pImage, &rc, 0, 0 );
 				
-				//запишем текстуру
+				//Р·Р°РїРёС€РµРј С‚РµРєСЃС‚СѓСЂСѓ
 				szResFileName = szDestDir;
 				szResFileName += "icon";
 				SaveCompressedTexture( p128Image, szResFileName.c_str() );
@@ -1564,14 +1564,14 @@ bool CMeshFrame::ExportFrameData( IDataTree *pDT, const char *pszProjectName, co
 	}
 	
 	{
-		//сконвертим большую иконку
+		//СЃРєРѕРЅРІРµСЂС‚РёРј Р±РѕР»СЊС€СѓСЋ РёРєРѕРЅРєСѓ
 		szFullName = szDir + "icon512.tga";
 		szResFileName = szDestDir;
 		szResFileName += "icon512";
 		ConvertAndSaveImage( szFullName.c_str(), szResFileName.c_str() );
 	}
 
-	//Скопируем модели пехотинцев для езды на танке
+	//РЎРєРѕРїРёСЂСѓРµРј РјРѕРґРµР»Рё РїРµС…РѕС‚РёРЅС†РµРІ РґР»СЏ РµР·РґС‹ РЅР° С‚Р°РЅРєРµ
 	for ( int i=0; i<3; i++ )
 	{
 		std::string szTemp;
@@ -1597,7 +1597,7 @@ bool CMeshFrame::ExportFrameData( IDataTree *pDT, const char *pszProjectName, co
 		ConvertAndSaveImage( szTemp.c_str(), szResFileName.c_str() );
 	}
 
-	//скопируем локализационные данные
+	//СЃРєРѕРїРёСЂСѓРµРј Р»РѕРєР°Р»РёР·Р°С†РёРѕРЅРЅС‹Рµ РґР°РЅРЅС‹Рµ
 	CLocalizationItem *pLocItem = static_cast<CLocalizationItem *> ( pRootItem->GetChildItem( E_LOCALIZATION_ITEM ) );
 	NI_ASSERT( pLocItem != 0 );
 	
@@ -1630,7 +1630,7 @@ void CMeshFrame::LoadGunPointPropsComboBox( SProp *pPointProp )
 		return;
 	}
 
-	//Тут прогружаю набор локаторов модели
+	//РўСѓС‚ РїСЂРѕРіСЂСѓР¶Р°СЋ РЅР°Р±РѕСЂ Р»РѕРєР°С‚РѕСЂРѕРІ РјРѕРґРµР»Рё
 	IMeshAnimation *pMeshAnim = static_cast<IMeshAnimation *> ( pCombatObject->GetAnimation() );
 	IMeshAnimationEdit *pMeshAnimEdit = dynamic_cast<IMeshAnimationEdit *> ( pMeshAnim );
 	NI_ASSERT( pMeshAnimEdit != 0 );
@@ -1684,7 +1684,7 @@ void CMeshFrame::LoadGunPartPropsComboBox( SProp *pPointProp )
 		return;
 	}
 	
-	//Тут прогружаю набор всех точек модели
+	//РўСѓС‚ РїСЂРѕРіСЂСѓР¶Р°СЋ РЅР°Р±РѕСЂ РІСЃРµС… С‚РѕС‡РµРє РјРѕРґРµР»Рё
 	IMeshAnimation *pMeshAnim = static_cast<IMeshAnimation *> ( pCombatObject->GetAnimation() );
 	int nNumNodes = pMeshAnim->GetNumNodes();
 	if ( nNumNodes == 0 )
@@ -1704,7 +1704,7 @@ void CMeshFrame::LoadGunPartPropsComboBox( SProp *pPointProp )
 	if ( nNumLocators != 0 )
 		pMeshAnimEdit->GetAllLocatorNames( &(locatorNamesVector[0]), nNumLocators );
 	
-	//Теперь составляю список Parts, Parts = allNamesVector - locatorNamesVector
+	//РўРµРїРµСЂСЊ СЃРѕСЃС‚Р°РІР»СЏСЋ СЃРїРёСЃРѕРє Parts, Parts = allNamesVector - locatorNamesVector
 	std::vector<string> partNamesVector;
 	for ( int i=0; i<nNumNodes; i++ )
 	{
@@ -1725,7 +1725,7 @@ void CMeshFrame::LoadGunPartPropsComboBox( SProp *pPointProp )
 	std::string szTemp = "GunCarriage";
 	for ( int i=0; i<partNamesVector.size(); i++ )
 	{
-		//по новому стандарту, я считаю part без буквы L в начале слова
+		//РїРѕ РЅРѕРІРѕРјСѓ СЃС‚Р°РЅРґР°СЂС‚Сѓ, СЏ СЃС‡РёС‚Р°СЋ part Р±РµР· Р±СѓРєРІС‹ L РІ РЅР°С‡Р°Р»Рµ СЃР»РѕРІР°
 		std::string szName = partNamesVector[i];
 		if ( partNamesVector[i][0] != 'L' && szName.compare( 0, szTemp.size(), szTemp ) )
 		{
@@ -1750,7 +1750,7 @@ void CMeshFrame::LoadGunCarriagePropsComboBox( SProp *pPointProp )
 		return;
 	}
 	
-	//Тут прогружаю набор всех точек модели
+	//РўСѓС‚ РїСЂРѕРіСЂСѓР¶Р°СЋ РЅР°Р±РѕСЂ РІСЃРµС… С‚РѕС‡РµРє РјРѕРґРµР»Рё
 	IMeshAnimation *pMeshAnim = static_cast<IMeshAnimation *> ( pCombatObject->GetAnimation() );
 	int nNumNodes = pMeshAnim->GetNumNodes();
 	if ( nNumNodes == 0 )
@@ -1765,7 +1765,7 @@ void CMeshFrame::LoadGunCarriagePropsComboBox( SProp *pPointProp )
 	std::vector<const char*> allNamesVector( nNumNodes );
 	pMeshAnimEdit->GetAllNodeNames( &(allNamesVector[0]), nNumNodes );
 	
-	//Теперь составляю список Carriage props
+	//РўРµРїРµСЂСЊ СЃРѕСЃС‚Р°РІР»СЏСЋ СЃРїРёСЃРѕРє Carriage props
 	pPointProp->szStrings.clear();
 	std::string szTemp = "GunCarriage";
 	for ( int i=0; i<nNumNodes; i++ )
@@ -1790,7 +1790,7 @@ void CMeshFrame::LoadPlatformPropsComboBox( SProp *pPointProp )
 		return;
 	}
 	
-	//Тут прогружаю набор всех точек модели
+	//РўСѓС‚ РїСЂРѕРіСЂСѓР¶Р°СЋ РЅР°Р±РѕСЂ РІСЃРµС… С‚РѕС‡РµРє РјРѕРґРµР»Рё
 	IMeshAnimation *pMeshAnim = static_cast<IMeshAnimation *> ( pCombatObject->GetAnimation() );
 	int nNumNodes = pMeshAnim->GetNumNodes();
 	if ( nNumNodes == 0 )
@@ -1816,7 +1816,7 @@ void CMeshFrame::LoadPlatformPropsComboBox( SProp *pPointProp )
 	if ( nNumLocators != 0 )
 		pMeshAnimEdit->GetAllLocatorNames( &(locatorNamesVector[0]), nNumLocators );
 	
-	//Теперь составляю список Parts, Parts = allNamesVector - locatorNamesVector
+	//РўРµРїРµСЂСЊ СЃРѕСЃС‚Р°РІР»СЏСЋ СЃРїРёСЃРѕРє Parts, Parts = allNamesVector - locatorNamesVector
 	std::vector<string> partNamesVector;
 	for ( int i=0; i<nNumNodes; i++ )
 	{
@@ -1869,7 +1869,7 @@ void CMeshFrame::SetCombatMesh( const char *pszMeshName, const char *pszProjectN
 	pGraphicsItem = static_cast<CMeshGraphicsItem *>( pRootItem->GetChildItem( E_MESH_GRAPHICS_ITEM ) );
 		
 	{
-		//Получим полное имя файла
+		//РџРѕР»СѓС‡РёРј РїРѕР»РЅРѕРµ РёРјСЏ С„Р°Р№Р»Р°
 		string szMeshFullName, szDir;
 		if ( IsRelatedPath( pszMeshName ) )
 		{
@@ -1879,7 +1879,7 @@ void CMeshFrame::SetCombatMesh( const char *pszMeshName, const char *pszProjectN
 		else
 			szMeshFullName = pszMeshName;
 		
-		//Копирую файл .mod в temp директорию редактора
+		//РљРѕРїРёСЂСѓСЋ С„Р°Р№Р» .mod РІ temp РґРёСЂРµРєС‚РѕСЂРёСЋ СЂРµРґР°РєС‚РѕСЂР°
 		string szTempModFile = theApp.GetEditorTempDir();
 		NFile::CreatePath( szTempModFile.c_str() );
 		szTempModFile += "Unit.mod";
@@ -1914,8 +1914,8 @@ void CMeshFrame::SetCombatMesh( const char *pszMeshName, const char *pszProjectN
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
 	if ( pTree )
 	{
-		//для отображения локаторов на экране
-		//Загружаем информацию о матрицах
+		//РґР»СЏ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ Р»РѕРєР°С‚РѕСЂРѕРІ РЅР° СЌРєСЂР°РЅРµ
+		//Р—Р°РіСЂСѓР¶Р°РµРј РёРЅС„РѕСЂРјР°С†РёСЋ Рѕ РјР°С‚СЂРёС†Р°С…
 		IMeshAnimation *pMeshAnim = static_cast<IMeshAnimation *> ( pCombatObject->GetAnimation() );
 		pModelMatrix = 0;
 		{
@@ -1946,7 +1946,7 @@ void CMeshFrame::SetCombatMesh( const char *pszMeshName, const char *pszProjectN
 				CVec3 vTrans = matrix.GetTrans3();
 				vTrans += CVec3( 12*fWorldCellSize, 12*fWorldCellSize, 0 );
 
-				//создаем спрайт - визуальное отображение локатора
+				//СЃРѕР·РґР°РµРј СЃРїСЂР°Р№С‚ - РІРёР·СѓР°Р»СЊРЅРѕРµ РѕС‚РѕР±СЂР°Р¶РµРЅРёРµ Р»РѕРєР°С‚РѕСЂР°
 				IVisObjBuilder *pVOB = GetSingleton<IVisObjBuilder>();
 				CPtr<IObjVisObj> pObject = static_cast<IObjVisObj *> ( pVOB->BuildObject( "editor\\locator\\1", 0, SGVOT_SPRITE ) );
 				NI_ASSERT( pObject != 0 );
@@ -2032,7 +2032,7 @@ pSG->Update( )
 		}
 	}
 
-	//Обновляем линию у текущего локатора
+	//РћР±РЅРѕРІР»СЏРµРј Р»РёРЅРёСЋ Сѓ С‚РµРєСѓС‰РµРіРѕ Р»РѕРєР°С‚РѕСЂР°
 	UpdateActiveLocatorLine();
 	GFXDraw();
 }
@@ -2053,7 +2053,7 @@ void CMeshFrame::UpdateLocatorVisibility()
 		while ( pSG->ToggleShow( SCENE_SHOW_BBS ) )
 			;
 
-	//выставляю прозрачность для всех локаторов в зависимости от bShowLocators
+	//РІС‹СЃС‚Р°РІР»СЏСЋ РїСЂРѕР·СЂР°С‡РЅРѕСЃС‚СЊ РґР»СЏ РІСЃРµС… Р»РѕРєР°С‚РѕСЂРѕРІ РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ bShowLocators
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
 	CTreeItem *pRootItem = pTree->GetRootItem();
 	
@@ -2113,7 +2113,7 @@ void CMeshFrame::SetInstallMesh( const char *pszMeshName, const char *pszProject
 	}
 
 	{
-		//Получим полное имя файла
+		//РџРѕР»СѓС‡РёРј РїРѕР»РЅРѕРµ РёРјСЏ С„Р°Р№Р»Р°
 		string szMeshFullName, szDir;
 		if ( IsRelatedPath( pszMeshName ) )
 		{
@@ -2124,7 +2124,7 @@ void CMeshFrame::SetInstallMesh( const char *pszMeshName, const char *pszProject
 			szMeshFullName = pszMeshName;
 		szDir = GetDirectory( szMeshFullName.c_str() );
 		
-		//Копирую файл .mod в temp директорию редактора
+		//РљРѕРїРёСЂСѓСЋ С„Р°Р№Р» .mod РІ temp РґРёСЂРµРєС‚РѕСЂРёСЋ СЂРµРґР°РєС‚РѕСЂР°
 		string szTempModFile = theApp.GetEditorTempDir();
 		szTempModFile += "2.mod";
 		if ( !CopyFile( szMeshFullName.c_str(), szTempModFile.c_str(), FALSE ) )
@@ -2177,7 +2177,7 @@ void CMeshFrame::SetTransportableMesh( const char *pszMeshName, const char *pszP
 	}
 
 	{
-		//Получим полное имя файла
+		//РџРѕР»СѓС‡РёРј РїРѕР»РЅРѕРµ РёРјСЏ С„Р°Р№Р»Р°
 		string szMeshFullName, szDir;
 		if ( IsRelatedPath( pszMeshName ) )
 		{
@@ -2188,7 +2188,7 @@ void CMeshFrame::SetTransportableMesh( const char *pszMeshName, const char *pszP
 			szMeshFullName = pszMeshName;
 		szDir = GetDirectory( szMeshFullName.c_str() );
 
-		//Копирую файл .mod в temp директорию редактора
+		//РљРѕРїРёСЂСѓСЋ С„Р°Р№Р» .mod РІ temp РґРёСЂРµРєС‚РѕСЂРёСЋ СЂРµРґР°РєС‚РѕСЂР°
 		string szTempModFile = theApp.GetEditorTempDir();
 		szTempModFile += "3.mod";
 		if ( !CopyFile( szMeshFullName.c_str(), szTempModFile.c_str(), FALSE ) )
@@ -2241,7 +2241,7 @@ FILETIME CMeshFrame::FindMaximalSourceTime( const char *pszProjectName, CTreeIte
 
 	CMeshGraphicsItem *pGraphicsItem = (CMeshGraphicsItem *) pRootItem->GetChildItem( E_MESH_GRAPHICS_ITEM );
 	NI_ASSERT( pGraphicsItem != 0 );
-	//Получим полное имя файла для боевого объекта
+	//РџРѕР»СѓС‡РёРј РїРѕР»РЅРѕРµ РёРјСЏ С„Р°Р№Р»Р° РґР»СЏ Р±РѕРµРІРѕРіРѕ РѕР±СЉРµРєС‚Р°
 	string szRelName, szFullName;
 	string szProjectDir = GetDirectory( pszProjectName );
 	bool bRes = true;
@@ -2252,7 +2252,7 @@ FILETIME CMeshFrame::FindMaximalSourceTime( const char *pszProjectName, CTreeIte
 		szFullName = szRelName;
 	maxTime = GetFileChangeTime( szFullName.c_str() );
 	
-	//Получим полное имя файла для install объекта
+	//РџРѕР»СѓС‡РёРј РїРѕР»РЅРѕРµ РёРјСЏ С„Р°Р№Р»Р° РґР»СЏ install РѕР±СЉРµРєС‚Р°
 	szRelName = pGraphicsItem->GetInstallMeshName();
 	if ( IsRelatedPath( szRelName.c_str() ) )
 		MakeFullPath( szProjectDir.c_str(), szRelName.c_str(), szFullName );
@@ -2262,7 +2262,7 @@ FILETIME CMeshFrame::FindMaximalSourceTime( const char *pszProjectName, CTreeIte
 	if ( currentTime > maxTime )
 		maxTime = currentTime;
 	
-	//Получим полное имя файла для объекта в транспортабельном состоянии
+	//РџРѕР»СѓС‡РёРј РїРѕР»РЅРѕРµ РёРјСЏ С„Р°Р№Р»Р° РґР»СЏ РѕР±СЉРµРєС‚Р° РІ С‚СЂР°РЅСЃРїРѕСЂС‚Р°Р±РµР»СЊРЅРѕРј СЃРѕСЃС‚РѕСЏРЅРёРё
 	szRelName = pGraphicsItem->GetTransMeshName();
 	if ( IsRelatedPath( szRelName.c_str() ) )
 		MakeFullPath( szProjectDir.c_str(), szRelName.c_str(), szFullName );
@@ -2272,7 +2272,7 @@ FILETIME CMeshFrame::FindMaximalSourceTime( const char *pszProjectName, CTreeIte
 	if ( currentTime > maxTime )
 		maxTime = currentTime;
 	
-	//Проверим время создания текстур
+	//РџСЂРѕРІРµСЂРёРј РІСЂРµРјСЏ СЃРѕР·РґР°РЅРёСЏ С‚РµРєСЃС‚СѓСЂ
 	szRelName = pGraphicsItem->GetAliveSummerTexture();
 	if ( IsRelatedPath( szRelName.c_str() ) )
 		MakeFullPath( szProjectDir.c_str(), szRelName.c_str(), szFullName );

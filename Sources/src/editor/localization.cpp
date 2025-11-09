@@ -40,7 +40,7 @@ void CLocalizationItem::UpdateItemValue( int nItemId, const CVariant &value )
 {
 	CTreeItem::UpdateItemValue( nItemId, value );
 
-	//преобразуем к относительному пути
+	//РїСЂРµРѕР±СЂР°Р·СѓРµРј Рє РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕРјСѓ РїСѓС‚Рё
 	if ( !IsRelatedPath( value ) )
 	{
 		string szValue = value;
@@ -49,7 +49,7 @@ void CLocalizationItem::UpdateItemValue( int nItemId, const CVariant &value )
 		if ( bRes )
 		{
 /*
-			//обрежем расширение в конце
+			//РѕР±СЂРµР¶РµРј СЂР°СЃС€РёСЂРµРЅРёРµ РІ РєРѕРЅС†Рµ
 			szRelatedPath = szRelatedPath.substr( 0, szRelatedPath.rfind( '.' ) );
 */
 

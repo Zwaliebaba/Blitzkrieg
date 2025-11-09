@@ -26,7 +26,7 @@ public:
 public:
 	float GetAngle() { return fAngle; }
 	void SetAngle( float fVal ) { fAngle = fVal; Invalidate(); }
-	int GetQuadrant();			//возвращает один из восьми квадрантов в котором находится текущий угол
+	int GetQuadrant();			//РІРѕР·РІСЂР°С‰Р°РµС‚ РѕРґРёРЅ РёР· РІРѕСЃСЊРјРё РєРІР°РґСЂР°РЅС‚РѕРІ РІ РєРѕС‚РѕСЂРѕРј РЅР°С…РѕРґРёС‚СЃСЏ С‚РµРєСѓС‰РёР№ СѓРіРѕР»
 
 // Overrides
 

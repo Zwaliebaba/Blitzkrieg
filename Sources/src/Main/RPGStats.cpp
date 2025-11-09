@@ -6,17 +6,17 @@
 #include "..\Common\Actions.h"
 #include "..\Misc\CheckSums.h"
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// преобразовать из человеческих единиц в AI
+// РїСЂРµРѕР±СЂР°Р·РѕРІР°С‚СЊ РёР· С‡РµР»РѕРІРµС‡РµСЃРєРёС… РµРґРёРЅРёС† РІ AI
 bool SWeaponRPGStats::SShell::ToAIUnits()
 {
-	// метры <=> AI точки
+	// РјРµС‚СЂС‹ <=> AI С‚РѕС‡РєРё
 	fArea *= float( SAIConsts::TILE_SIZE );
 	fArea2 *= float( SAIConsts::TILE_SIZE );
-	// метры/секунду <=> AI точки/тик
+	// РјРµС‚СЂС‹/СЃРµРєСѓРЅРґСѓ <=> AI С‚РѕС‡РєРё/С‚РёРє
 	fSpeed *= float( SAIConsts::TILE_SIZE ) / 1000.0f;
-	// пули/минуту <=> ticks между вылетами пуль в очереди
+	// РїСѓР»Рё/РјРёРЅСѓС‚Сѓ <=> ticks РјРµР¶РґСѓ РІС‹Р»РµС‚Р°РјРё РїСѓР»СЊ РІ РѕС‡РµСЂРµРґРё
 	nFireRate = int( 60000.0f / fFireRate );
-	// секунды <=> ticks
+	// СЃРµРєСѓРЅРґС‹ <=> ticks
 	nRelaxTime = int( fRelaxTime * 1000.0f );
 	// [0..100] <=> [0..1]
 	fBrokeTrackProbability *= 0.01f;
@@ -26,14 +26,14 @@ bool SWeaponRPGStats::SShell::ToAIUnits()
 void SWeaponRPGStats::ToAIUnits() 
 { 
 	SCommonRPGStats::ToAIUnits();
-	// секунды <=> ticks
+	// СЃРµРєСѓРЅРґС‹ <=> ticks
 	nAimingTime = int( fAimingTime * 1000.0f );
-	// метры <=> AI точки
+	// РјРµС‚СЂС‹ <=> AI С‚РѕС‡РєРё
 	fDispersion *= float( SAIConsts::TILE_SIZE );
 	fRangeMax *= float( SAIConsts::TILE_SIZE );
 	fRangeMin *= float( SAIConsts::TILE_SIZE );
 	fRevealRadius *= float( SAIConsts::TILE_SIZE );
-	// градусы <=> градусы65535
+	// РіСЂР°РґСѓСЃС‹ <=> РіСЂР°РґСѓСЃС‹65535
 	wDeltaAngle = ( DWORD( float( wDeltaAngle / 2 ) * (65536.0f / 360.0f) ) ) % 65536;
 	// shell types
 	std::for_each( shells.begin(), shells.end(), std::mem_fun_ref(SShell::ToAIUnits) ); 
@@ -484,7 +484,7 @@ const uLong STerraObjSetRPGStats::CalculateCheckSum() const
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // ************************************************************************************************************************ //
 // **
-// ** объекты (не-юниты)
+// ** РѕР±СЉРµРєС‚С‹ (РЅРµ-СЋРЅРёС‚С‹)
 // **
 // **
 // **
@@ -695,11 +695,11 @@ int SBuildingRPGStats::SSlot::operator&( IDataTree &ss )
 	saver.Add( "ShowFlashes", &bShowFlashes );
 	saver.Add( "PicturePosition", &vPicturePosition );
 	saver.Add( "WorldPosition", &vWorldPosition );
-	// CRAP{ disable "generic" weapon - тяжёлое наследие "автоматических" статсов
+	// CRAP{ disable "generic" weapon - С‚СЏР¶С‘Р»РѕРµ РЅР°СЃР»РµРґРёРµ "Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРёС…" СЃС‚Р°С‚СЃРѕРІ
 	if ( saver.IsReading() && (gun.szWeapon == "generic") ) 
 		gun.szWeapon.clear();
 	// CRAP}
-	// CRAP{ выпрямляем кривые статсы
+	// CRAP{ РІС‹РїСЂСЏРјР»СЏРµРј РєСЂРёРІС‹Рµ СЃС‚Р°С‚СЃС‹
 	if ( (fSightMultiplier < 0) || (fSightMultiplier > 3) )
 		fSightMultiplier = 1;
 	// CRAP}
@@ -854,7 +854,7 @@ int SBuildingRPGStats::operator&( IDataTree &ss )
 	//ambient sounds
 	saver.Add( "AmbientSound", &szAmbientSound );
 	//
-	// CRAP{ выправим кривые данные
+	// CRAP{ РІС‹РїСЂР°РІРёРј РєСЂРёРІС‹Рµ РґР°РЅРЅС‹Рµ
 	if ( nRestSlots > 100 )
 		nRestSlots = 0;
 	if ( nMedicalSlots > 100 )
@@ -875,7 +875,7 @@ void SBuildingRPGStats::ToAIUnits()
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // ************************************************************************************************************************ //
 // **
-// ** описание оружия
+// ** РѕРїРёСЃР°РЅРёРµ РѕСЂСѓР¶РёСЏ
 // **
 // **
 // **
@@ -899,7 +899,7 @@ int SWeaponRPGStats::SShell::operator&( IDataTree &ss )
 	saver.Add( "DetonationPower", &fDetonationPower );
 	saver.Add( "Specials", &specials );
 	saver.Add( "BrokeTrackProbability", &fBrokeTrackProbability );
-	// параметры для визуализации и озвучивания эффектов
+	// РїР°СЂР°РјРµС‚СЂС‹ РґР»СЏ РІРёР·СѓР°Р»РёР·Р°С†РёРё Рё РѕР·РІСѓС‡РёРІР°РЅРёСЏ СЌС„С„РµРєС‚РѕРІ
 	saver.Add( "InfantryFireSound", &szFireSound );
 	saver.Add( "EffectGunFire", &szEffectGunFire );
 	saver.Add( "EffectTrajectory", &szEffectTrajectory );
@@ -1214,9 +1214,9 @@ void SUnitBaseRPGStats::ToAIUnits()
 {
 	SHPObjectRPGStats::ToAIUnits();
 	fSight *= 1.0f;
-	// киломерты/час <=> точки/тик
+	// РєРёР»РѕРјРµСЂС‚С‹/С‡Р°СЃ <=> С‚РѕС‡РєРё/С‚РёРє
 	fSpeed *= float( ( 1000.0 * double( SAIConsts::TILE_SIZE ) ) / ( 3600.0 * 1000.0 ) );
-	// сек. <=> тик
+	// СЃРµРє. <=> С‚РёРє
 	nUninstallRotate = fUninstallRotate * 1000.0f;
 	nUninstallTransport = fUninstallTransport * 1000.0f;
 	fCamouflage /= 100.0f;
@@ -1324,7 +1324,7 @@ const uLong SUnitBaseRPGStats::CalculateCheckSum() const
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // ************************************************************************************************************************ //
 // **
-// ** mech unit (пушки, танки, и т.д. - вся техника)RPG stats
+// ** mech unit (РїСѓС€РєРё, С‚Р°РЅРєРё, Рё С‚.Рґ. - РІСЃСЏ С‚РµС…РЅРёРєР°)RPG stats
 // **
 // **
 // **
@@ -1431,7 +1431,7 @@ bool SMechUnitRPGStats::SPlatform::ToAIUnits()
 {
 	constraint.ToAIUnits();
 	constraintVertical.ToAIUnits();
-	// (секунды на полный оборот <=> градусы65535/тик)
+	// (СЃРµРєСѓРЅРґС‹ РЅР° РїРѕР»РЅС‹Р№ РѕР±РѕСЂРѕС‚ <=> РіСЂР°РґСѓСЃС‹65535/С‚РёРє)
 	fHorizontalRotationSpeed = 1.0f / fHorizontalRotationSpeed * 65535.0f / 1000.0f;
 	if ( fHorizontalRotationSpeed != 0 )
 		fHorizontalRotationSpeed = Max( 1.0f, fHorizontalRotationSpeed );
@@ -1446,9 +1446,9 @@ bool SMechUnitRPGStats::SPlatform::ToAIUnits()
 void SMechUnitRPGStats::ToAIUnits()
 {
 	SUnitBaseRPGStats::ToAIUnits();
-	// градусы/сек <=> угол 65536/тик
+	// РіСЂР°РґСѓСЃС‹/СЃРµРє <=> СѓРіРѕР» 65536/С‚РёРє
 	fRotateSpeed *= float( (65536.0 / 360.0) / 1000.0 );
-	// метры <=> AI точки
+	// РјРµС‚СЂС‹ <=> AI С‚РѕС‡РєРё
 	fTurnRadius *= float( SAIConsts::TILE_SIZE );
 	// Vis points <=> AI points
 	Vis2AI( &vTowPoint );
@@ -1463,12 +1463,12 @@ void SMechUnitRPGStats::ToAIUnits()
 	{
 		for ( std::vector<CVec2>::iterator place = gunners->begin(); place != gunners->end(); ++place )
 			Vis2AI( &(*place) );
-		//if ( gunners->size() >= 3 ) // исправления кривостей, котрые сделали художники.
+		//if ( gunners->size() >= 3 ) // РёСЃРїСЂР°РІР»РµРЅРёСЏ РєСЂРёРІРѕСЃС‚РµР№, РєРѕС‚СЂС‹Рµ СЃРґРµР»Р°Р»Рё С…СѓРґРѕР¶РЅРёРєРё.
 			//std::swap( (*gunners)[1], (*gunners)[2] );
 	}
 	// armor
 	std::for_each( &(armors[0]), &(armors[6]), std::mem_fun_ref(SArmor::ToAIUnits) ); 
-	// проинициализировать min/max Armor
+	// РїСЂРѕРёРЅРёС†РёР°Р»РёР·РёСЂРѕРІР°С‚СЊ min/max Armor
 	{
 		nMinArmor = armors[0].nMin;
 		nMaxArmor = armors[0].nMax;
@@ -1797,7 +1797,7 @@ const uLong SMechUnitRPGStats::CalculateCheckSum() const
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // ************************************************************************************************************************ //
 // **
-// ** пехотинец
+// ** РїРµС…РѕС‚РёРЅРµС†
 // **
 // **
 // **
@@ -2303,7 +2303,7 @@ void SSquadRPGStats::ToAIUnits()
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool SSquadRPGStats::Validate()
 {
-	// проверить, что в каждой формации присутствуют все юниты из взвода
+	// РїСЂРѕРІРµСЂРёС‚СЊ, С‡С‚Рѕ РІ РєР°Р¶РґРѕР№ С„РѕСЂРјР°С†РёРё РїСЂРёСЃСѓС‚СЃС‚РІСѓСЋС‚ РІСЃРµ СЋРЅРёС‚С‹ РёР· РІР·РІРѕРґР°
 	// 
 	std::vector<std::string> squad = memberNames;
 	std::sort( squad.begin(), squad.end() );
@@ -2513,7 +2513,7 @@ void SBridgeRPGStats::ToAIUnits()
 	std::for_each( firePoints.begin(), firePoints.end(), std::mem_fun_ref(SFirePoint::ToAIUnits) ); 
 	std::for_each( smokePoints.begin(), smokePoints.end(), std::mem_fun_ref(SFirePoint::ToAIUnits) ); 
 	std::for_each( dirExplosions.begin(), dirExplosions.end(), std::mem_fun_ref(SDirectionExplosion::ToAIUnits) ); 
-	// CRAP{ сейчас не проставляется AIclasses для мостов
+	// CRAP{ СЃРµР№С‡Р°СЃ РЅРµ РїСЂРѕСЃС‚Р°РІР»СЏРµС‚СЃСЏ AIclasses РґР»СЏ РјРѕСЃС‚РѕРІ
 	dwAIClasses = 0;
 	// CRAP}
 }

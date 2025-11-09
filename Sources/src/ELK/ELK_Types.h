@@ -43,10 +43,10 @@ struct SELKTextProperty
 
 struct SELKDescription
 {
-	std::string szName;					// имя в дереве
-	std::string szPAKName;			// относительное имя файла, куда необходимо автоматичесаи запаковывать файл
-	std::string szUPDPrefix;		// префикс в именах UPD файлов
-	bool bGenerateFonts;				// генерить или нет фонты
+	std::string szName;					// РёРјСЏ РІ РґРµСЂРµРІРµ
+	std::string szPAKName;			// РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕРµ РёРјСЏ С„Р°Р№Р»Р°, РєСѓРґР° РЅРµРѕР±С…РѕРґРёРјРѕ Р°РІС‚РѕРјР°С‚РёС‡РµСЃР°Рё Р·Р°РїР°РєРѕРІС‹РІР°С‚СЊ С„Р°Р№Р»
+	std::string szUPDPrefix;		// РїСЂРµС„РёРєСЃ РІ РёРјРµРЅР°С… UPD С„Р°Р№Р»РѕРІ
+	bool bGenerateFonts;				// РіРµРЅРµСЂРёС‚СЊ РёР»Рё РЅРµС‚ С„РѕРЅС‚С‹
 
 	SELKDescription() : bGenerateFonts( false ) {}
 	// serializing...
@@ -61,14 +61,14 @@ public:
 	static const TCHAR DATA_BASE_FOLDER[];
 	static const TCHAR DATA_BASE_RESERVE_FOLDER[];
 
-	//получить каталог с базой по статистике
+	//РїРѕР»СѓС‡РёС‚СЊ РєР°С‚Р°Р»РѕРі СЃ Р±Р°Р·РѕР№ РїРѕ СЃС‚Р°С‚РёСЃС‚РёРєРµ
 	static void GetDataBaseFolder( const std::string &rszELKPath, std::string *pszDataBaseFolder );
 	static void GetDataBaseReserveFolder( const std::string &rszELKPath, std::string *pszDataBaseReserveFolder );
 	void GetDataBaseFolder( std::string *pszDataBaseFolder ) const;
 	void GetDataBaseReserveFolder( std::string *pszDataBaseReserveFolder ) const;
 
 	SELKDescription description;
-	std::string szPath;					//без расширения!
+	std::string szPath;					//Р±РµР· СЂР°СЃС€РёСЂРµРЅРёСЏ!
 	std::string szVersion;
 	int nLastUpdateNumber;
 
@@ -126,7 +126,7 @@ struct SELKElementStatistic
 		virtual int STDCALL operator&( IDataTree &ss );
 	};
 
-	std::vector<SState> states; //по стейтам
+	std::vector<SState> states; //РїРѕ СЃС‚РµР№С‚Р°Рј
 
 	SELKElementStatistic()
 	{
@@ -154,8 +154,8 @@ struct SELKElementStatistic
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 struct SELKStatistic
 {
-	std::vector<SELKElementStatistic> original; //по элементам
-	std::vector<SELKElementStatistic> translation; //по элементам
+	std::vector<SELKElementStatistic> original; //РїРѕ СЌР»РµРјРµРЅС‚Р°Рј
+	std::vector<SELKElementStatistic> translation; //РїРѕ СЌР»РµРјРµРЅС‚Р°Рј
 	bool bValid;
 
 	SELKStatistic() : bValid( false ) {}
@@ -221,37 +221,37 @@ public:
 
 public:
 	std::vector<SELKElement> elements;
-	std::hash_map<std::string, int> elementNames; //не сериализуется, заполняется в Open
-	std::string szPath;	//с расширением
-	SELKStatistic statistic; //статистика получаемая во время игры.
-	SELKStatistic previousStatistic; //предыдущая статистика
+	std::hash_map<std::string, int> elementNames; //РЅРµ СЃРµСЂРёР°Р»РёР·СѓРµС‚СЃСЏ, Р·Р°РїРѕР»РЅСЏРµС‚СЃСЏ РІ Open
+	std::string szPath;	//СЃ СЂР°СЃС€РёСЂРµРЅРёРµРј
+	SELKStatistic statistic; //СЃС‚Р°С‚РёСЃС‚РёРєР° РїРѕР»СѓС‡Р°РµРјР°СЏ РІРѕ РІСЂРµРјСЏ РёРіСЂС‹.
+	SELKStatistic previousStatistic; //РїСЂРµРґС‹РґСѓС‰Р°СЏ СЃС‚Р°С‚РёСЃС‚РёРєР°
 	SEnumFolderStructureParameter enumFolderStructureParameter;
 	
 public:
-	//работа со статистикой
+	//СЂР°Р±РѕС‚Р° СЃРѕ СЃС‚Р°С‚РёСЃС‚РёРєРѕР№
 	bool IsOpened() { return ( !szPath.empty() ); }
 	bool Open( const std::string &rszELKPath, bool bEnumFiles );
 	bool Save();
 	void Close();
 	
-	//расширения необходимо откинуть!!
+	//СЂР°СЃС€РёСЂРµРЅРёСЏ РЅРµРѕР±С…РѕРґРёРјРѕ РѕС‚РєРёРЅСѓС‚СЊ!!
 	//std::string szFileName = szFileName.substr( 0, szFileName.rfind( '.' ) );
-	//получить различный тексты в UNICODE
+	//РїРѕР»СѓС‡РёС‚СЊ СЂР°Р·Р»РёС‡РЅС‹Р№ С‚РµРєСЃС‚С‹ РІ UNICODE
 	static void GetOriginalText  ( const std::string &rszTextPath, CString *pstrText, int nCodePage, bool bRemove_0D = false );
 	static void GetTranslatedText( const std::string &rszTextPath, CString *pstrText, int nCodePage, bool bRemove_0D = false );
 	static void GetDescription   ( const std::string &rszTextPath, CString *pstrText, int nCodePage, bool bRemove_0D = false );
 	static int GetState( const std::string &rszTextPath, bool *pbTranslated );
 
-	//расширения необходимо откинуть!!
+	//СЂР°СЃС€РёСЂРµРЅРёСЏ РЅРµРѕР±С…РѕРґРёРјРѕ РѕС‚РєРёРЅСѓС‚СЊ!!
 	//std::string szFileName = szFileName.substr( 0, szFileName.rfind( '.' ) );
-	//установить различные тексты в UNICODE
+	//СѓСЃС‚Р°РЅРѕРІРёС‚СЊ СЂР°Р·Р»РёС‡РЅС‹Рµ С‚РµРєСЃС‚С‹ РІ UNICODE
 	static void SetTranslatedText( const std::string &rszTextPath, const CString &rstrText, int nCodePage, bool bAdd_0D = false );
-	static int SetState( const std::string &rszTextPath, int nState, bool *pbTranslated ); //возвращает предыдущий стейт
+	static int SetState( const std::string &rszTextPath, int nState, bool *pbTranslated ); //РІРѕР·РІСЂР°С‰Р°РµС‚ РїСЂРµРґС‹РґСѓС‰РёР№ СЃС‚РµР№С‚
 	
-	//создать PAK файл
+	//СЃРѕР·РґР°С‚СЊ PAK С„Р°Р№Р»
 	static bool CreatePAK( const std::string &rszGamePath, const std::string &rszFilePath, const std::string &rszZIPToolPath, class CProgressDialog* pwndProgressDialog = 0 );
-	//запаковать переведенные тексты ( APPROVED )
-	//только для SELKElement
+	//Р·Р°РїР°РєРѕРІР°С‚СЊ РїРµСЂРµРІРµРґРµРЅРЅС‹Рµ С‚РµРєСЃС‚С‹ ( APPROVED )
+	//С‚РѕР»СЊРєРѕ РґР»СЏ SELKElement
 	static bool ExportToPAK( const std::string &rszELKPath,
 													 const std::string &rszPAKPath,
 													 const std::string &rszZIPToolPath,
@@ -266,16 +266,16 @@ public:
 													 const struct SSimpleFilter *pELKFilter = 0 );
 	static bool ImportFromPAK( const std::string &rszPAKPath, const std::string &rszELKPath, bool bAbsolute, std::string *pszNewVersion, class CProgressDialog* pwndProgressDialog = 0 );
 
-	//распаковать PAK в ELK c апдейтом состояний
-	//для всего CELK ( впереди ставится номер SELKElement )
+	//СЂР°СЃРїР°РєРѕРІР°С‚СЊ PAK РІ ELK c Р°РїРґРµР№С‚РѕРј СЃРѕСЃС‚РѕСЏРЅРёР№
+	//РґР»СЏ РІСЃРµРіРѕ CELK ( РІРїРµСЂРµРґРё СЃС‚Р°РІРёС‚СЃСЏ РЅРѕРјРµСЂ SELKElement )
 	static bool ExportToXLS( const CELK &rELK, const std::string &rszXLSPath, class CELKTreeWindow *pwndELKTreeWindow, int nCodePage, class CProgressDialog* pwndProgressDialog = 0 );
 	static bool ImportFromXLS( const CELK &rELK, const std::string &rszXLSPath, std::string *pszNewVersion, int nCodePage, class CProgressDialog* pwndProgressDialog = 0 );
 
 	static bool CreateStatistic( SELKStatistic *pStatistic, class CELKTreeWindow *pwndELKTreeWindow, int nCodePage, class CProgressDialog* pwndProgressDialog = 0 );
 
-	//взять и проапдейтить все паки, начиная с указанного
+	//РІР·СЏС‚СЊ Рё РїСЂРѕР°РїРґРµР№С‚РёС‚СЊ РІСЃРµ РїР°РєРё, РЅР°С‡РёРЅР°СЏ СЃ СѓРєР°Р·Р°РЅРЅРѕРіРѕ
 	static bool UpdateELK( const std::string &rszPath, const std::string &rszPAKFileName, class CProgressDialog* pwndProgressDialog = 0 );
-	//взять базу из указанного места и положить ее в игру, при этом запускать игру или нет
+	//РІР·СЏС‚СЊ Р±Р°Р·Сѓ РёР· СѓРєР°Р·Р°РЅРЅРѕРіРѕ РјРµСЃС‚Р° Рё РїРѕР»РѕР¶РёС‚СЊ РµРµ РІ РёРіСЂСѓ, РїСЂРё СЌС‚РѕРј Р·Р°РїСѓСЃРєР°С‚СЊ РёРіСЂСѓ РёР»Рё РЅРµС‚
 	static void UpdateGame( const CELK &rELK,
 													const std::string &rszZIPToolPath,
 													class CELKTreeWindow *pwndELKTreeWindow,

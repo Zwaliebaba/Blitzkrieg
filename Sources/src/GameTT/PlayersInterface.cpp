@@ -123,8 +123,8 @@ void CPlayersInterface::Create( const bool _bAfterMission )
 
 	if ( 0 != GetGlobalVar( "History.Playing", 0 ) )
 	{
-		//перейдем в экран просмотра replays
-		// чтобы второй раз не было открытия и закрытия шторок
+		//РїРµСЂРµР№РґРµРј РІ СЌРєСЂР°РЅ РїСЂРѕСЃРјРѕС‚СЂР° replays
+		// С‡С‚РѕР±С‹ РІС‚РѕСЂРѕР№ СЂР°Р· РЅРµ Р±С‹Р»Рѕ РѕС‚РєСЂС‹С‚РёСЏ Рё Р·Р°РєСЂС‹С‚РёСЏ С€С‚РѕСЂРѕРє
 		SetGlobalVar( "CurtainsClosed", 1 );
 
 		pML->RestoreScenarioTracker();
@@ -287,16 +287,16 @@ void CPlayersInterface::Create( const bool _bAfterMission )
 
 	if ( bAfterMission )
 	{
-		//запустим музыку
+		//Р·Р°РїСѓСЃС‚РёРј РјСѓР·С‹РєСѓ
 		const int nCampaign = GetGlobalVar( "Campaign.Current", -1 );
 		if ( nCampaign >= 0 )
 		{
-			//мы играем в кампанию, запускаем соответствующую музыку
+			//РјС‹ РёРіСЂР°РµРј РІ РєР°РјРїР°РЅРёСЋ, Р·Р°РїСѓСЃРєР°РµРј СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰СѓСЋ РјСѓР·С‹РєСѓ
 			CInterfaceCampaign::PlayCampaignMusic();
 		}
 		else
 		{
-			//запустим межмиссионную музыку
+			//Р·Р°РїСѓСЃС‚РёРј РјРµР¶РјРёСЃСЃРёРѕРЅРЅСѓСЋ РјСѓР·С‹РєСѓ
 			CInterfaceMainMenu::PlayIntermissionSound();
 		}
 	}

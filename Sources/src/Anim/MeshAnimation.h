@@ -73,14 +73,14 @@ struct SProcAnimNode
 	DWORD startTime;											// absolute start time
 	DWORD endTime;												// absolute end time
 	float fValue;													// absolute value to reac at 'endTime'
-	float fAtom;													// элементарное приращение
+	float fAtom;													// СЌР»РµРјРµРЅС‚Р°СЂРЅРѕРµ РїСЂРёСЂР°С‰РµРЅРёРµ
 	// serialization
 	int operator&( IStructureSaver &ss );
 	//
 	SProcAnimNode( DWORD _startTime = 0, DWORD _endTime = 1, float _fValue = 0 )
 		: startTime( _startTime ), endTime( _endTime ), fValue( _fValue ), fAtom( 0 ) {  }
 	//
-	// пересчитать элементарное приращение
+	// РїРµСЂРµСЃС‡РёС‚Р°С‚СЊ СЌР»РµРјРµРЅС‚Р°СЂРЅРѕРµ РїСЂРёСЂР°С‰РµРЅРёРµ
 	void CalcTransAtom( float fCurrVal ) { fAtom = ( fValue - fCurrVal ) / float( endTime - startTime ); }
 	void CalcRotAtom( float fCurrVal )
 	{ 
@@ -90,7 +90,7 @@ struct SProcAnimNode
 		fAtom = fAngle / float( endTime - startTime ); 
 	}
 	float GetAtom() const { return fAtom; }
-	// отрезать этот node начиная со времени time
+	// РѕС‚СЂРµР·Р°С‚СЊ СЌС‚РѕС‚ node РЅР°С‡РёРЅР°СЏ СЃРѕ РІСЂРµРјРµРЅРё time
 	void CutoffFrom( float fCurrValue, DWORD lastTime, DWORD currTime )
 	{
 		const DWORD stime = Max( lastTime, startTime );
@@ -143,7 +143,7 @@ struct SSkeletonNode
 	// serialization
 	int operator&( IStructureSaver &ss );
 	//
-	// пересчитать атом для нода исходя из текущего значения
+	// РїРµСЂРµСЃС‡РёС‚Р°С‚СЊ Р°С‚РѕРј РґР»СЏ РЅРѕРґР° РёСЃС…РѕРґСЏ РёР· С‚РµРєСѓС‰РµРіРѕ Р·РЅР°С‡РµРЅРёСЏ
 	void CalcAtom( SProcAnimNode *pNode ) const
 	{
 		if ( nAnimType == 1 )
@@ -151,26 +151,26 @@ struct SSkeletonNode
 		else
 			pNode->CalcTransAtom( fValue );
 	}
-	// отмотать время до 'time'
+	// РѕС‚РјРѕС‚Р°С‚СЊ РІСЂРµРјСЏ РґРѕ 'time'
 	void RollTo( DWORD time )
 	{
 		for ( CProcAnimNodesList::iterator it = procNodes.begin(); it != procNodes.end(); )
 		{
 			if ( it->startTime < time )
 			{
-				if ( it->endTime <= time )			// если время этого нода прошло совсем
+				if ( it->endTime <= time )			// РµСЃР»Рё РІСЂРµРјСЏ СЌС‚РѕРіРѕ РЅРѕРґР° РїСЂРѕС€Р»Рѕ СЃРѕРІСЃРµРј
 				{
 					fValue = it->fValue;
 					lastTime = it->endTime;
-					// удалим его нафиг
+					// СѓРґР°Р»РёРј РµРіРѕ РЅР°С„РёРі
 					it = procNodes.erase( it );
-					// пересчитаем атом для следующего нода
+					// РїРµСЂРµСЃС‡РёС‚Р°РµРј Р°С‚РѕРј РґР»СЏ СЃР»РµРґСѓСЋС‰РµРіРѕ РЅРѕРґР°
 					if ( it != procNodes.end() )
 						CalcAtom( &(*it) );
 				}
-				else														// если мы находимся где-то внутри этого node
+				else														// РµСЃР»Рё РјС‹ РЅР°С…РѕРґРёРјСЃСЏ РіРґРµ-С‚Рѕ РІРЅСѓС‚СЂРё СЌС‚РѕРіРѕ node
 				{
-					// проинтерполируем до текущего времени от последнего update'а
+					// РїСЂРѕРёРЅС‚РµСЂРїРѕР»РёСЂСѓРµРј РґРѕ С‚РµРєСѓС‰РµРіРѕ РІСЂРµРјРµРЅРё РѕС‚ РїРѕСЃР»РµРґРЅРµРіРѕ update'Р°
 					fValue += it->GetAtom() * ( time - Max(lastTime, it->startTime) );
 					lastTime = time;
 					break;
@@ -183,7 +183,7 @@ struct SSkeletonNode
 			}
 		}
 	}
-	// скипнуть все ноды начиная с 'time'
+	// СЃРєРёРїРЅСѓС‚СЊ РІСЃРµ РЅРѕРґС‹ РЅР°С‡РёРЅР°СЏ СЃ 'time'
 	void SkipFrom( DWORD time )
 	{
 		for ( CProcAnimNodesList::iterator it = procNodes.begin(); it != procNodes.end(); ++it )

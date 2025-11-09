@@ -13,7 +13,7 @@ class CMOEntrenchmentSegment : public CTRefCount<SMapObject>
 	OBJECT_SERVICE_METHODS( CMOEntrenchmentSegment );
 	DECLARE_SERIALIZE;
 	//
-	mutable CPtr<IText> pLocalName;				// localized name of this object (ZB "Гавно на дороге")
+	mutable CPtr<IText> pLocalName;				// localized name of this object (ZB "в€љР°РІРЅРѕ РЅР° РґРѕСЂРѕРіРµ")
 	//
 	const SEntrenchmentRPGStats* GetRPGStats() const { return static_cast_gdb<const SEntrenchmentRPGStats*>( pRPG ); }
 	IMeshVisObj* GetVisObj() { return static_cast_ptr<IMeshVisObj*>( pVisObj ); }

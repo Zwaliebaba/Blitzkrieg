@@ -12,7 +12,7 @@ class CMOObject : public CTRefCount<SMapObject>
 	DECLARE_SERIALIZE;
 	//
 	DWORD actions[2];											// actions, this object can do
-	mutable CPtr<IText> pLocalName;				// localized name of this object (ZB "Гавно на дороге")
+	mutable CPtr<IText> pLocalName;				// localized name of this object (ZB "в€љР°РІРЅРѕ РЅР° РґРѕСЂРѕРіРµ")
 	bool bDead;														// is object already dead?
 	std::string szFlagSide;
 	static int nLastMarkerID;

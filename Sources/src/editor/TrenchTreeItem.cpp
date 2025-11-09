@@ -193,10 +193,10 @@ void CTrenchSourcePropsItem::UpdateItemValue( int nItemId, const CVariant &value
 	
 	if ( nItemId == 1 )
 	{
-		//Èçìåíèëîñü çíà÷åíèå èìåíè ôàéëà, êîíâåðòèðóåì åãî â îòíîñèòåëüíûé ïóòü
+		//Â»Ð·Ð¼ÐµÐ½Ð¸Ð»Ð¾ÑÑŒ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ Ð¸Ð¼ÐµÐ½Ð¸ Ñ„Ð°Ð¹Ð»Ð°, ÐºÐ¾Ð½Ð²ÐµÑ€Ñ‚Ð¸Ñ€ÑƒÐµÐ¼ ÐµÐ³Ð¾ Ð² Ð¾Ñ‚Ð½Ð¾ÑÐ¸Ñ‚ÐµÐ»ÑŒÐ½Ñ‹Ð¹ Ð¿ÑƒÑ‚ÑŒ
 		if ( !IsRelatedPath( value ) )
 		{
-			//Òóò âû÷èñëÿåòñÿ îòíîñèòåëüíûé ïóòü, îòíîñèòåëüíî ôàéëà ñ ïðîåêòîì
+			//â€œÑƒÑ‚ Ð²Ñ‹Ñ‡Ð¸ÑÐ»Â¤ÐµÑ‚ÑÂ¤ Ð¾Ñ‚Ð½Ð¾ÑÐ¸Ñ‚ÐµÐ»ÑŒÐ½Ñ‹Ð¹ Ð¿ÑƒÑ‚ÑŒ, Ð¾Ñ‚Ð½Ð¾ÑÐ¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ Ñ„Ð°Ð¹Ð»Ð° Ñ Ð¿Ñ€Ð¾ÐµÐºÑ‚Ð¾Ð¼
 			string szProjectName = g_frameManager.GetFrame( CFrameManager::E_TRENCH_FRAME )->GetProjectFileName();
 			string szValue = value;
 			string szRelatedPath;

@@ -31,7 +31,7 @@ FILETIME GetFileChangeTime( const char *pszFileName )
 	if ( !bRes )
 		return zero;
 	
-	//Возвращаю максимальное время из времени создания и времени последней модификации
+	//Р’РѕР·РІСЂР°С‰Р°СЋ РјР°РєСЃРёРјР°Р»СЊРЅРѕРµ РІСЂРµРјСЏ РёР· РІСЂРµРјРµРЅРё СЃРѕР·РґР°РЅРёСЏ Рё РІСЂРµРјРµРЅРё РїРѕСЃР»РµРґРЅРµР№ РјРѕРґРёС„РёРєР°С†РёРё
 	if ( fileInfo.ftCreationTime > fileInfo.ftLastWriteTime )
 		return fileInfo.ftCreationTime;
 	else
@@ -42,7 +42,7 @@ std::string GetFileChangeTimeString( const char *pszFileName )
 {
 	FILETIME fTime = GetFileChangeTime( pszFileName );
 	if ( fTime.dwHighDateTime == 0 && fTime.dwLowDateTime == 0 )
-		return "";		//не нашли файл или это директория
+		return "";		//РЅРµ РЅР°С€Р»Рё С„Р°Р№Р» РёР»Рё СЌС‚Рѕ РґРёСЂРµРєС‚РѕСЂРёСЏ
 
 	FileTimeToLocalFileTime( &fTime, &fTime );
 	SYSTEMTIME st;

@@ -41,7 +41,7 @@ private:
 		ACKT_SELECTION,
 		ACKT_NOTIFY,
 		ACKT_BORED,
-		ACKT_VOID,									// не играется вообще
+		ACKT_VOID,									// РЅРµ РёРіСЂР°РµС‚СЃСЏ РІРѕРѕР±С‰Рµ
 	};
 	//
 	class CBoredUnitsContainer
@@ -49,7 +49,7 @@ private:
 		DECLARE_SERIALIZE;
 		typedef std::hash_map<CPtr<IMOUnit>, bool, SPtrHash> CBoredUnits;
 		CBoredUnits boredUnits;							
-		int nCounter;												// для оптимизации - размер boredUnits
+		int nCounter;												// РґР»СЏ РѕРїС‚РёРјРёР·Р°С†РёРё - СЂР°Р·РјРµСЂ boredUnits
 		NTimer::STime timeLastBored;				// time for last bored sound
 		void Copy( const CBoredUnitsContainer &cp );
 	public:
@@ -61,8 +61,8 @@ private:
 
 		void AddUnit( interface IMOUnit *pUnit );
 		void DelUnit( interface IMOUnit *pUnit );
-		// если время подошло, то заставляет рандомного юнита послать Ack. 
-		//Если ack послали, то true;
+		// РµСЃР»Рё РІСЂРµРјСЏ РїРѕРґРѕС€Р»Рѕ, С‚Рѕ Р·Р°СЃС‚Р°РІР»СЏРµС‚ СЂР°РЅРґРѕРјРЅРѕРіРѕ СЋРЅРёС‚Р° РїРѕСЃР»Р°С‚СЊ Ack. 
+		//Р•СЃР»Рё ack РїРѕСЃР»Р°Р»Рё, С‚Рѕ true;
 		bool SendAck( const NTimer::STime curTime, 
 									const EUnitAckType eBored, 
 									IClientAckManager *pAckManager,
@@ -144,10 +144,10 @@ private:
 	{
 		DECLARE_SERIALIZE;
 	public:
-		CAcks acks;													// очередь Ack, которые еще проигрывать
-		WORD wSoundID;											// этот звук играет
-		int /*EUnitAckType*/ eCurrentAck;		// этот  Ack сейчас играет
-		NTimer::STime timeRun;							// время когда можно проиграть AckPisitive
+		CAcks acks;													// РѕС‡РµСЂРµРґСЊ Ack, РєРѕС‚РѕСЂС‹Рµ РµС‰Рµ РїСЂРѕРёРіСЂС‹РІР°С‚СЊ
+		WORD wSoundID;											// СЌС‚РѕС‚ Р·РІСѓРє РёРіСЂР°РµС‚
+		int /*EUnitAckType*/ eCurrentAck;		// СЌС‚РѕС‚  Ack СЃРµР№С‡Р°СЃ РёРіСЂР°РµС‚
+		NTimer::STime timeRun;							// РІСЂРµРјСЏ РєРѕРіРґР° РјРѕР¶РЅРѕ РїСЂРѕРёРіСЂР°С‚СЊ AckPisitive
 		SUnitAck()
 			:wSoundID( 0 ), eCurrentAck( -1 ), timeRun( 0 ) { }
 	};
@@ -169,7 +169,7 @@ private:
 	typedef std::hash_map< CPtr<IMOUnit>, SUnitAck, SDefaultPtrHash > CUnitsAcks;
 	typedef std::list< SDeathAck > CDeathAcks;
 
-	//для выбора заданного типа асков
+	//РґР»СЏ РІС‹Р±РѕСЂР° Р·Р°РґР°РЅРЅРѕРіРѕ С‚РёРїР° Р°СЃРєРѕРІ
 	class CAckPredicate
 	{
 		const EAcknowledgementType eType;
@@ -189,19 +189,19 @@ private:
 	CPtr<IMOUnit> pLastSelected;
 	int nSelectionCounter;
 	
-	// тут инфо о юнитах, зарегистрированных в bored состояниях
+	// С‚СѓС‚ РёРЅС„Рѕ Рѕ СЋРЅРёС‚Р°С…, Р·Р°СЂРµРіРёСЃС‚СЂРёСЂРѕРІР°РЅРЅС‹С… РІ bored СЃРѕСЃС‚РѕСЏРЅРёСЏС…
 	typedef std::hash_map<int, CBoredUnitsContainer> BoredUnits;
 	BoredUnits boredUnits;	
 
-	CUnitAcksPresence acksPresence;				// наличие в даный момент в звучании данного Ack'а 
-	CUnitsAcks				unitAcks;						// для хранения всех текущих Ack'ов
+	CUnitAcksPresence acksPresence;				// РЅР°Р»РёС‡РёРµ РІ РґР°РЅС‹Р№ РјРѕРјРµРЅС‚ РІ Р·РІСѓС‡Р°РЅРёРё РґР°РЅРЅРѕРіРѕ Ack'Р° 
+	CUnitsAcks				unitAcks;						// РґР»СЏ С…СЂР°РЅРµРЅРёСЏ РІСЃРµС… С‚РµРєСѓС‰РёС… Ack'РѕРІ
 	CDeathAcks				deathAcks;					// for death acknowledgements;
 	NTimer::STime timeLastDeath;
 	
-	// не сериалайзится.
-	CUnitAcksInfo			acksInfo;						// данные об Ack'ах
+	// РЅРµ СЃРµСЂРёР°Р»Р°Р№Р·РёС‚СЃСЏ.
+	CUnitAcksInfo			acksInfo;						// РґР°РЅРЅС‹Рµ РѕР± Ack'Р°С…
 	std::hash_map<std::string,int> loadHelper;
-	// константы
+	// РєРѕРЅСЃС‚Р°РЅС‚С‹
 	int MIN_ACK_RADIUS;
 	int MAX_ACK_RADIUS;
 	int TIME_ACK_WAIT;

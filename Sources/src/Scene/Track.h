@@ -33,7 +33,7 @@ class CTrack
 	typedef std::vector<SKey> CKeysList;
 	CKeysList keys;												// keys
 	//
-	float fScale;                         // масштаб времени
+	float fScale;                         // РјР°СЃС€С‚Р°Р± РІСЂРµРјРµРЅРё
 	//
 	CKeysList::iterator FindKey( const float fTime ) { return std::upper_bound( keys.begin(), keys.end(), SKey(fTime, 0) ); }
 	CKeysList::const_iterator FindKey( const float fTime ) const { return std::upper_bound( keys.begin(), keys.end(), SKey(fTime, 0) ); }

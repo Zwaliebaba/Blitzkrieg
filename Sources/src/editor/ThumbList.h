@@ -8,9 +8,9 @@
 //
 
 #define IDC_LIST_THUMB_CONTROL 1015
-const UINT WM_THUMB_LIST_SELECT	= WM_USER + 25;		// изменился выделенный item в Thumb List control, посылается родителю
-const UINT WM_THUMB_LIST_DBLCLK = WM_USER + 26;		// double click on the Thumb List control, посылается родителю
-const UINT WM_THUMB_LIST_DELETE = WM_USER + 27;		// пользователь нажал delete в контроле Thumb List
+const UINT WM_THUMB_LIST_SELECT	= WM_USER + 25;		// РёР·РјРµРЅРёР»СЃСЏ РІС‹РґРµР»РµРЅРЅС‹Р№ item РІ Thumb List control, РїРѕСЃС‹Р»Р°РµС‚СЃСЏ СЂРѕРґРёС‚РµР»СЋ
+const UINT WM_THUMB_LIST_DBLCLK = WM_USER + 26;		// double click on the Thumb List control, РїРѕСЃС‹Р»Р°РµС‚СЃСЏ СЂРѕРґРёС‚РµР»СЋ
+const UINT WM_THUMB_LIST_DELETE = WM_USER + 27;		// РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ РЅР°Р¶Р°Р» delete РІ РєРѕРЅС‚СЂРѕР»Рµ Thumb List
 
 const int THUMBNAIL_WIDTH  = 100;
 const int THUMBNAIL_HEIGHT = 100;
@@ -21,9 +21,9 @@ const int THUMBNAIL_SPACE_Y  = 20;
 using namespace std;
 struct SThumbData
 {
-	int nImageId;							//индекс item в image list
-	DWORD dwData;							//здесь будут храниться пользовательские данные, lParam
-	string szThumbName;				//имя item
+	int nImageId;							//РёРЅРґРµРєСЃ item РІ image list
+	DWORD dwData;							//Р·РґРµСЃСЊ Р±СѓРґСѓС‚ С…СЂР°РЅРёС‚СЊСЃСЏ РїРѕР»СЊР·РѕРІР°С‚РµР»СЊСЃРєРёРµ РґР°РЅРЅС‹Рµ, lParam
+	string szThumbName;				//РёРјСЏ item
 
 	SThumbData() : nImageId(-1), dwData(0), szThumbName("") {}
 };
@@ -56,43 +56,43 @@ private:
 
 // Operations
 public:
-	//Устанавливает текущие ThumbItems и пересоздает элементы ThumbList
+	//РЈСЃС‚Р°РЅР°РІР»РёРІР°РµС‚ С‚РµРєСѓС‰РёРµ ThumbItems Рё РїРµСЂРµСЃРѕР·РґР°РµС‚ СЌР»РµРјРµРЅС‚С‹ ThumbList
 //	void ChangeActiveImageList( CImageList *pIML );
 	void SetActiveThumbItems( SThumbItems *pNewActiveThumbs, CImageList *pIML );
-	//Загружает все images .tga из данной директории в pThumbItems
+	//Р—Р°РіСЂСѓР¶Р°РµС‚ РІСЃРµ images .tga РёР· РґР°РЅРЅРѕР№ РґРёСЂРµРєС‚РѕСЂРёРё РІ pThumbItems
 	void LoadAllImagesFromDir( SThumbItems *pThumbItems, CImageList *pIML, const char *szDir, bool bShowAlpha = false );
-	//Загружает один файл в image list и возвращает индекс созданного item
+	//Р—Р°РіСЂСѓР¶Р°РµС‚ РѕРґРёРЅ С„Р°Р№Р» РІ image list Рё РІРѕР·РІСЂР°С‰Р°РµС‚ РёРЅРґРµРєСЃ СЃРѕР·РґР°РЅРЅРѕРіРѕ item
 	int LoadImageToImageList( CImageList *pIML, char *szFileName, const char *szDir, bool bShowAlpha = false );
 
 /*
-	//Загружает images с именами из списка имен внутри pThumbItems из данной директории в pThumbItems
+	//Р—Р°РіСЂСѓР¶Р°РµС‚ images СЃ РёРјРµРЅР°РјРё РёР· СЃРїРёСЃРєР° РёРјРµРЅ РІРЅСѓС‚СЂРё pThumbItems РёР· РґР°РЅРЅРѕР№ РґРёСЂРµРєС‚РѕСЂРёРё РІ pThumbItems
 	void LoadImagesFromFileNameList( SThumbItems *pThumbItems, const char *szDir );
 */
 
-	//Прохожу по текущему списку и изменяю image index для всех элементов в этом списке, пользуясь соответствием имен в текущем и в pAllItems
+	//РџСЂРѕС…РѕР¶Сѓ РїРѕ С‚РµРєСѓС‰РµРјСѓ СЃРїРёСЃРєСѓ Рё РёР·РјРµРЅСЏСЋ image index РґР»СЏ РІСЃРµС… СЌР»РµРјРµРЅС‚РѕРІ РІ СЌС‚РѕРј СЃРїРёСЃРєРµ, РїРѕР»СЊР·СѓСЏСЃСЊ СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРµРј РёРјРµРЅ РІ С‚РµРєСѓС‰РµРј Рё РІ pAllItems
 	void LoadImageIndexFromThumbs( SThumbItems *pAllItems, CImageList *pIML );
 
 
-	//Вставляет новый item в конец ThumbList
+	//Р’СЃС‚Р°РІР»СЏРµС‚ РЅРѕРІС‹Р№ item РІ РєРѕРЅРµС† ThumbList
 	int InsertItemToEnd( const char *szItemName, int nImageIndex );
 
-	//Вставляет новый item после текущего выделенного элемента ThumbList
+	//Р’СЃС‚Р°РІР»СЏРµС‚ РЅРѕРІС‹Р№ item РїРѕСЃР»Рµ С‚РµРєСѓС‰РµРіРѕ РІС‹РґРµР»РµРЅРЅРѕРіРѕ СЌР»РµРјРµРЅС‚Р° ThumbList
 //	int InsertItemAfterSelection( char *szFileName, const char *szDir );
 
 	bool HasValidImageList() { return bValidIML; }
-	//Возвращает текущий ImageList
+	//Р’РѕР·РІСЂР°С‰Р°РµС‚ С‚РµРєСѓС‰РёР№ ImageList
 	CImageList *GetCurrentImageList() { return m_ListThumbnail.GetImageList(LVSIL_NORMAL); }
-	//Находит среди ThumbItems item с заданными пользовательскими данными, возвращает index если нашла, иначе -1
+	//РќР°С…РѕРґРёС‚ СЃСЂРµРґРё ThumbItems item СЃ Р·Р°РґР°РЅРЅС‹РјРё РїРѕР»СЊР·РѕРІР°С‚РµР»СЊСЃРєРёРјРё РґР°РЅРЅС‹РјРё, РІРѕР·РІСЂР°С‰Р°РµС‚ index РµСЃР»Рё РЅР°С€Р»Р°, РёРЅР°С‡Рµ -1
 	int GetItemIndexWithUserData( DWORD dwData );
-	//Возвращает index выделенного item
+	//Р’РѕР·РІСЂР°С‰Р°РµС‚ index РІС‹РґРµР»РµРЅРЅРѕРіРѕ item
 	int GetSelectedItemIndex();
-	//Возвращает имя item
+	//Р’РѕР·РІСЂР°С‰Р°РµС‚ РёРјСЏ item
 	string GetItemName( int nIndex );
-	//Возвращает image index данного item
+	//Р’РѕР·РІСЂР°С‰Р°РµС‚ image index РґР°РЅРЅРѕРіРѕ item
 	int GetItemImageIndex( int nIndex );
-	//Выделяет item с nIndex
+	//Р’С‹РґРµР»СЏРµС‚ item СЃ nIndex
 	void SelectItem( int nIndex );
-	//Удаляет item с данным index
+	//РЈРґР°Р»СЏРµС‚ item СЃ РґР°РЅРЅС‹Рј index
 	void DeleteItem( int nIndex );
 	
 	void  SetUserDataForItem( int nItemIndex, DWORD dwData );
@@ -101,7 +101,7 @@ public:
 	int GetThumbsCount() { return m_ListThumbnail.GetItemCount(); }
 
 	void TestInsertSomeItems();
-	//Выдает наружу list control
+	//Р’С‹РґР°РµС‚ РЅР°СЂСѓР¶Сѓ list control
 //	CListCtrl *GetListCtrl() { return &m_ListThumbnail; }
 
 protected:

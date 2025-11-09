@@ -115,7 +115,7 @@ static int Sqrt( struct lua_State *pState )
 static int OutputStringValue( struct lua_State *state )
 {
 	Script script(state);
-	NI_ASSERT_T( script.GetTop() == 2, "Script function must have 2 arguments on the stack" );			//два аргумента
+	NI_ASSERT_T( script.GetTop() == 2, "Script function must have 2 arguments on the stack" );			//РґРІР° Р°СЂРіСѓРјРµРЅС‚Р°
 	std::string szStr = script.GetObject( -2 );
 	int nValue = script.GetObject( -1 );
 	NStr::DebugTrace( "****Debug LUA script: %s %s\n", szStr.c_str(), nValue );
@@ -159,7 +159,7 @@ int CMessageReactions::operator&( IDataTree &ss )
 		
 			script.Register( NMessageReactionScript::reglist );
 			const int nSize = pStream->GetSize();
-			// +10 на всякий случай
+			// +10 РЅР° РІСЃСЏРєРёР№ СЃР»СѓС‡Р°Р№
 			std::vector<char> buffer( nSize + 10 );
 			pStream->Read( &(buffer[0]), nSize );
 			if ( script.DoBuffer( &(buffer[0]), nSize, "Script" ) == 0 ) 

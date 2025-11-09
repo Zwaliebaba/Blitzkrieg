@@ -94,7 +94,7 @@ void CGeneralAirForce::Segment()
 				InitCheckPeriod();
 				
 				
-				if ( !bReservedByFighters && IsTimePossible( nPlayer, curTime ) ) // ждем времени, когда нужно выпустить истребителей
+				if ( !bReservedByFighters && IsTimePossible( nPlayer, curTime ) ) // Р¶РґРµРј РІСЂРµРјРµРЅРё, РєРѕРіРґР° РЅСѓР¶РЅРѕ РІС‹РїСѓСЃС‚РёС‚СЊ РёСЃС‚СЂРµР±РёС‚РµР»РµР№
 				{
 					if ( theUnitCreation.IsAviaEnabled( nPlayer, SUCAviation::AT_BATTLEPLANE ) )
 						LaunchByRequest( nPlayer, SUCAviation::AT_BATTLEPLANE, &requests[FT_AIR_GUNPLANE - _FT_AIR_BEGIN] );
@@ -131,7 +131,7 @@ bool CGeneralAirForce::IsTimePossible( const int nPlayer, const NTimer::STime ti
 
 	for ( int i = 0; i < reservedTimes.size(); ++i )
 	{
-		// найти можно ли уже посылать самолеты и отрегенерят ли они к нужному сроку
+		// РЅР°Р№С‚Рё РјРѕР¶РЅРѕ Р»Рё СѓР¶Рµ РїРѕСЃС‹Р»Р°С‚СЊ СЃР°РјРѕР»РµС‚С‹ Рё РѕС‚СЂРµРіРµРЅРµСЂСЏС‚ Р»Рё РѕРЅРё Рє РЅСѓР¶РЅРѕРјСѓ СЃСЂРѕРєСѓ
 		const NTimer::STime reservedRegenerate = reservedTimes[i] + regenerateTime / 2;
 		if ( 
 					(
@@ -151,11 +151,11 @@ bool CGeneralAirForce::IsTimePossible( const int nPlayer, const NTimer::STime ti
 void CGeneralAirForce::LaunchByRequest( const int nPlayer, const int nAvia, Requests *pRequest )
 {
 	if ( pRequest->empty() ) return;
-	std::list<CVec2> vPoints;							// точки вызова штурмовиков
+	std::list<CVec2> vPoints;							// С‚РѕС‡РєРё РІС‹Р·РѕРІР° С€С‚СѓСЂРјРѕРІРёРєРѕРІ
 	for ( Requests::iterator it = pRequest->begin(); it != pRequest->end(); ++it )
 		vPoints.push_back( it->second.vPoint );
 
-	// проредить.
+	// РїСЂРѕСЂРµРґРёС‚СЊ.
 	SSameEnemyPointPredicate pr1;
 	std::list<CVec2>::iterator firstSame = std::unique( vPoints.begin(), vPoints.end(), pr1 );
 	vPoints.erase( firstSame, vPoints.end() );
@@ -163,7 +163,7 @@ void CGeneralAirForce::LaunchByRequest( const int nPlayer, const int nAvia, Requ
 	const float fFlyHeight( theUnitCreation.GetPlaneFlyHeight( nPlayer, nAvia ) );
 
 	theUnitCreation.LockAppearPoint( nPlayer, true );
-	// проверить каждую линию на безопасность.
+	// РїСЂРѕРІРµСЂРёС‚СЊ РєР°Р¶РґСѓСЋ Р»РёРЅРёСЋ РЅР° Р±РµР·РѕРїР°СЃРЅРѕСЃС‚СЊ.
 	CVec2 vCurStartPoint = theUnitCreation.GetRandomAppearPoint( nPlayer );
 	for ( std::list<CVec2>::iterator it = vPoints.begin(); it != vPoints.end();  )
 	{
@@ -196,7 +196,7 @@ void CGeneralAirForce::LaunchByRequest( const int nPlayer, const int nAvia, Requ
 void CGeneralAirForce::LaunchFighters( const int nPlayer )
 {
 	bReservedByFighters = false;
-	// послать истребители в оговоренную точку. 
+	// РїРѕСЃР»Р°С‚СЊ РёСЃС‚СЂРµР±РёС‚РµР»Рё РІ РѕРіРѕРІРѕСЂРµРЅРЅСѓСЋ С‚РѕС‡РєСѓ. 
 	LaunchPlane( SUCAviation::AT_FIGHTER, vFighterPoints, nPlayer );
 	vFighterPoints.clear();
 	theUnitCreation.LockAppearPoint( nPlayer, false );
@@ -206,8 +206,8 @@ void CGeneralAirForce::PrepeareFighters( const int nPlayer )
 {
 	theUnitCreation.LockAppearPoint( nPlayer, true );
 
-	// поискать врагов, которые могут вторгнуться в наше пространство
-	// найти первого, к кому успеем.
+	// РїРѕРёСЃРєР°С‚СЊ РІСЂР°РіРѕРІ, РєРѕС‚РѕСЂС‹Рµ РјРѕРіСѓС‚ РІС‚РѕСЂРіРЅСѓС‚СЊСЃСЏ РІ РЅР°С€Рµ РїСЂРѕСЃС‚СЂР°РЅСЃС‚РІРѕ
+	// РЅР°Р№С‚Рё РїРµСЂРІРѕРіРѕ, Рє РєРѕРјСѓ СѓСЃРїРµРµРј.
 	for ( CPlanesIter iter; !iter.IsFinished(); iter.Iterate() )
 	{
 		CAviation *pPlane = *iter;
@@ -230,7 +230,7 @@ void CGeneralAirForce::PrepeareFighters( const int nPlayer )
 			for ( CIter<CLineIter> iter( nParty, EDI_FRIEND, CLineIter( vCurrentPoint, vPurposePoint ) );
 						!iter.IsFinished(); iter.Iterate() )
 			{
-				// найти первого нашего юнита, над которым пролетит вражеский самолет
+				// РЅР°Р№С‚Рё РїРµСЂРІРѕРіРѕ РЅР°С€РµРіРѕ СЋРЅРёС‚Р°, РЅР°Рґ РєРѕС‚РѕСЂС‹Рј РїСЂРѕР»РµС‚РёС‚ РІСЂР°Р¶РµСЃРєРёР№ СЃР°РјРѕР»РµС‚
 				CAIUnit * pUnit = *iter;
 				if ( pUnit->IsAlive() && !pUnit->GetStats()->IsAviation() )
 				{
@@ -262,7 +262,7 @@ void CGeneralAirForce::PrepeareFighters( const int nPlayer )
 				// there is no AA gun.
 				const float fTimeToFly = fAllowedPathLenght / fSpeed;
 
-				// посчитать за сколько нащи истребители долетят до точки перехвата
+				// РїРѕСЃС‡РёС‚Р°С‚СЊ Р·Р° СЃРєРѕР»СЊРєРѕ РЅР°С‰Рё РёСЃС‚СЂРµР±РёС‚РµР»Рё РґРѕР»РµС‚СЏС‚ РґРѕ С‚РѕС‡РєРё РїРµСЂРµС…РІР°С‚Р°
 				const SMechUnitRPGStats *pOurStats = theUnitCreation.GetPlaneStats( nPlayer, SUCAviation::AT_FIGHTER );
 				
 				const float fOurTimeToFly = 
@@ -307,7 +307,7 @@ float CGeneralAirForce::CheckLineForSafety( const CVec2 &vStart, const CVec2 &vF
 				const float fDist1 = fabs2( vStart - vCenter );
 				float fMinDist;
 
-				if ( fDistToCenter > fDist1 ) // нормаль от точки не падает на отрезок
+				if ( fDistToCenter > fDist1 ) // РЅРѕСЂРјР°Р»СЊ РѕС‚ С‚РѕС‡РєРё РЅРµ РїР°РґР°РµС‚ РЅР° РѕС‚СЂРµР·РѕРє
 					fMinDist = fDist1;
 				else 
 				{
@@ -356,10 +356,10 @@ void CGeneralAirForce::LaunchPlane( const int /*SUCAviation::AIRCRAFT_TYPE*/ nTy
 		break;
 	}
 
-	// добавить команду Call(plane)
+	// РґРѕР±Р°РІРёС‚СЊ РєРѕРјР°РЅРґСѓ Call(plane)
 	pAILogic->UnitCommand( &cmd, nGroupID, nPlayer );
 	
-	// если вызвались
+	// РµСЃР»Рё РІС‹Р·РІР°Р»РёСЃСЊ
 	for ( ; it != vPoints.end(); ++it )
 	{
 
@@ -431,7 +431,7 @@ void CGeneralAirForce::LaunchScoutFree( const int nPlayer )
 			}
 		}
 	}
-	// вообще-то круто было бы проверить и возврат, но это невозможно
+	// РІРѕРѕР±С‰Рµ-С‚Рѕ РєСЂСѓС‚Рѕ Р±С‹Р»Рѕ Р±С‹ РїСЂРѕРІРµСЂРёС‚СЊ Рё РІРѕР·РІСЂР°С‚, РЅРѕ СЌС‚Рѕ РЅРµРІРѕР·РјРѕР¶РЅРѕ
 	if ( !vPointsToFly.empty() )
 	{
 		LaunchPlane( SUCAviation::AT_SCOUT, vPointsToFly, nPlayer );
@@ -487,7 +487,7 @@ void CGeneralAirForce::SetAAVisible( CAIUnit *pUnit, const bool bVisible )
 	AntiAviation::iterator it = antiAviation.find( pUnit->GetUniqueId() );
 	if (  it == antiAviation.end() )
 	{
-		// создать
+		// СЃРѕР·РґР°С‚СЊ
 		CEnemyRememberer *pEnemy = new CEnemyRememberer( SGeneralConsts::TIME_SONT_SEE_AA_BEFORE_FORGET );
 		antiAviation[pUnit->GetUniqueId()] = pEnemy;
 	}

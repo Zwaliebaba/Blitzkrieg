@@ -5,8 +5,8 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 struct SPlayerRank
 {
-	std::string szCurrentRank;						// key to local rank name (короткое имя) ( leutenant, general )
-	std::string szFullTextKey;						// key to full text (длинный текст описания полученного звания)
+	std::string szCurrentRank;						// key to local rank name (РєРѕСЂРѕС‚РєРѕРµ РёРјСЏ) ( leutenant, general )
+	std::string szFullTextKey;						// key to full text (РґР»РёРЅРЅС‹Р№ С‚РµРєСЃС‚ РѕРїРёСЃР°РЅРёСЏ РїРѕР»СѓС‡РµРЅРЅРѕРіРѕ Р·РІР°РЅРёСЏ)
 	std::string szRankPicture;						// rank picture resource (packed as if it is a medal)
 	float fValue;													// 0 - just recieved current rank, 1 - near next rank.
 	float fFormerValue;										// former rank value

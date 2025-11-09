@@ -20,7 +20,7 @@
 class CMiniMapDialog : public CDialog
 {
 ///////////////////////////////////
-//автоматическиая генерация методов
+//Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРёР°СЏ РіРµРЅРµСЂР°С†РёСЏ РјРµС‚РѕРґРѕРІ
 	// Construction
 public:
 	CMiniMapDialog(CWnd* pParent = NULL);   // standard constructor
@@ -60,7 +60,7 @@ public:
 	void UpdateMinimapEditor( bool bUpdateUnits );
 
 ///////////////////////////////////
-//специфика
+//СЃРїРµС†РёС„РёРєР°
 protected:
 	const static int vID[];
 	
@@ -87,7 +87,7 @@ public:
 	class CTemplateEditorFrame* m_frame;
 	bool m_isCreating;
 
-	// зовется из недр редактора
+	// Р·РѕРІРµС‚СЃСЏ РёР· РЅРµРґСЂ СЂРµРґР°РєС‚РѕСЂР°
 	void UpdateScreenFrame();
 	void UpdateControls();
 };

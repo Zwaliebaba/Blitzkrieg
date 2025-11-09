@@ -183,7 +183,7 @@ class CScene : public IScene
 	CSpritesArea shadowObjectsArea;				// shadow objects
 	//
 	CMeshObjList outboundObjects;					// objects, which are out of map bounds
-	CMeshObjList outboundObjects2;				// береговая артиллерия и иже с нею
+	CMeshObjList outboundObjects2;				// Р±РµСЂРµРіРѕРІР°СЏ Р°СЂС‚РёР»Р»РµСЂРёСЏ Рё РёР¶Рµ СЃ РЅРµСЋ
 	CEffectObjList outboundEffects;				// outbound effect objects
 	CSpritesObjList outboundSprites;			// outbound sprite units
 	CMechTraceArea mechTracesArea;			  // mech traces
@@ -282,7 +282,7 @@ class CScene : public IScene
 	bool bEnableHaze;											// depth of field emulation through haze
 	DWORD dwHazeColorTop;									// haze color at the top of the area
 	DWORD dwHazeColorBottom;							// haze color at the bottom of the area
-	DWORD dwGunTraceColor;                // цвет трассеров
+	DWORD dwGunTraceColor;                // С†РІРµС‚ С‚СЂР°СЃСЃРµСЂРѕРІ
 	float fTraceLen;
 	float fHazeHeight;										// haze height
 	// enables:
@@ -296,18 +296,18 @@ class CScene : public IScene
 	bool bEnableGrid;											// grid on the terrain
 	bool bEnableWarFog;										// fog'o'war
 	bool bEnableDepthComplexity;					// scene depth complexity. VERY SLOW
-	bool bEnableShowBorder;               // рисование полоски по краям
+	bool bEnableShowBorder;               // СЂРёСЃРѕРІР°РЅРёРµ РїРѕР»РѕСЃРєРё РїРѕ РєСЂР°СЏРј
 	bool bShowUI;													// show user interface
 	// sprites drawing pipeline
 	float fZBias;													// vertical z-bias to keep z-buffer happy
 	float fZBias2;												// horizontal z-bias to keep z-buffer happy
 	SHMatrix matTransform;								// world => screen transformation matrix
 	NTimer::STime tTransformUpdateTime;		// last time of the transformation matrix update
-	// CRAP{ // надо придумать систему освещени
+	// CRAP{ // РЅР°РґРѕ РїСЂРёРґСѓРјР°С‚СЊ СЃРёСЃС‚РµРјСѓ РѕСЃРІРµС‰РµРЅРё
 	SGFXLightDirectional sunlight;
 	SGFXMaterial material;
 	// CRAP}
-	CPtr<IGFXTexture> pTrackTexture;      // текстура для следов от танков
+	CPtr<IGFXTexture> pTrackTexture;      // С‚РµРєСЃС‚СѓСЂР° РґР»СЏ СЃР»РµРґРѕРІ РѕС‚ С‚Р°РЅРєРѕРІ
 	bool AddSpriteObject( ISpriteVisObj *pObj, EObjGameType eGameType );
 	bool AddMeshObject( IMeshVisObj *pObj, EObjGameType eGameType );
 	bool AddEffectObject( IVisObj *pObj, EObjGameType eGameType );
@@ -380,7 +380,7 @@ public:
 	virtual bool STDCALL AddObject( IVisObj *pObject, EObjGameType eGameType, const SGDBObjectDesc *pDesc );
 	virtual bool STDCALL AddCraterObject( IVisObj *pObject, EObjGameType eGameType );
 	virtual bool STDCALL AddOutboundObject( IVisObj *pObject, EObjGameType eGameType );
-	// CRAP{ вот такая вот херня из-за береговой артиллерии
+	// CRAP{ РІРѕС‚ С‚Р°РєР°СЏ РІРѕС‚ С…РµСЂРЅСЏ РёР·-Р·Р° Р±РµСЂРµРіРѕРІРѕР№ Р°СЂС‚РёР»Р»РµСЂРёРё
 	virtual bool STDCALL AddOutboundObject2( IVisObj *pObject, EObjGameType eGameType );
 	// CRAP}
 	virtual void STDCALL AddMechTrace( const SMechTrace &trace );

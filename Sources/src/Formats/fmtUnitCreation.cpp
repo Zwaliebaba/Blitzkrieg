@@ -24,7 +24,7 @@ void SUnitCreationInfo::Validate()
 	}
 	for ( int nUnitTypeIndex = 0; nUnitTypeIndex <  units.size(); ++nUnitTypeIndex )
 	{
-		//ñàìîëåòû
+		//ÑÐ°Ð¼Ð¾Ð»ÐµÑ‚Ñ‹
 		for ( int nAircraftIndex = SUCAviation::AT_SCOUT; nAircraftIndex < SUCAviation::AT_COUNT; ++nAircraftIndex )
 		{
 			if ( units[nUnitTypeIndex].aviation.aircrafts[nAircraftIndex].szName.empty() )

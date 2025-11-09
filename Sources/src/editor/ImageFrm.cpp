@@ -110,7 +110,7 @@ void CImageFrame::LoadImageTexture( const char *pszFileName )
 	string szTempFile = theApp.GetEditorTempDir();
 	szTempFile += szComposerName;
 //	szTempFile += ".tga";
-	//Íàäî ñêîìïîíîâàòü êàðòèíêó, ÷òîáû îíà çàãðóæàëàñü èç òåêñòóðû
+	//ÐÐ°Ð´Ð¾ ÑÐºÐ¾Ð¼Ð¿Ð¾Ð½Ð¾Ð²Ð°Ñ‚ÑŒ ÐºÐ°Ñ€Ñ‚Ð¸Ð½ÐºÑƒ, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð¾Ð½Ð° Ð·Ð°Ð³Ñ€ÑƒÐ¶Ð°Ð»Ð°ÑÑŒ Ð¸Ð· Ñ‚ÐµÐºÑÑ‚ÑƒÑ€Ñ‹
 	if ( !ComposeImageToTexture( pszFileName, szTempFile.c_str(), false ) )
 	{
 		if ( (pImageTexture = pTM->GetTexture( pszFileName )) == 0 )

@@ -125,12 +125,12 @@ struct SBattlePosition
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 struct SMapSoundInfo
 {
-	std::string szName;										// название звука 
-	CVec3 vPos;														// точка приписки
-	NTimer::STime timeRepeat;							// время между повторами
+	std::string szName;										// РЅР°Р·РІР°РЅРёРµ Р·РІСѓРєР° 
+	CVec3 vPos;														// С‚РѕС‡РєР° РїСЂРёРїРёСЃРєРё
+	NTimer::STime timeRepeat;							// РІСЂРµРјСЏ РјРµР¶РґСѓ РїРѕРІС‚РѕСЂР°РјРё
 	NTimer::STime timeRepeatRandom;
-	bool bMuteDuringCombat;								// звук должен замолкнуть во время боя
-	int nMinRadius;												// параметры слышимости vis tiles
+	bool bMuteDuringCombat;								// Р·РІСѓРє РґРѕР»Р¶РµРЅ Р·Р°РјРѕР»РєРЅСѓС‚СЊ РІРѕ РІСЂРµРјСЏ Р±РѕСЏ
+	int nMinRadius;												// РїР°СЂР°РјРµС‚СЂС‹ СЃР»С‹С€РёРјРѕСЃС‚Рё vis tiles
 	int nMaxRadius;
 
 	int operator&( IDataTree &ss )
@@ -293,12 +293,12 @@ struct STerrainInfo
 	//std::string szRoadsetDesc;						// roadset descriptor name
 	std::string szNoise;									// noise texture
 	CArray2D<STerrainPatchInfo> patches;	// all patches of this terrain
-	CArray2D<SMainTileInfo> tiles;				// all tiles of this terrain. тайлы не принадлежат патчам по причине того, что на границе патча он должен гладко стыковаться с террейном
+	CArray2D<SMainTileInfo> tiles;				// all tiles of this terrain. С‚Р°Р№Р»С‹ РЅРµ РїСЂРёРЅР°РґР»РµР¶Р°С‚ РїР°С‚С‡Р°Рј РїРѕ РїСЂРёС‡РёРЅРµ С‚РѕРіРѕ, С‡С‚Рѕ РЅР° РіСЂР°РЅРёС†Рµ РїР°С‚С‡Р° РѕРЅ РґРѕР»Р¶РµРЅ РіР»Р°РґРєРѕ СЃС‚С‹РєРѕРІР°С‚СЊСЃСЏ СЃ С‚РµСЂСЂРµР№РЅРѕРј
 	//std::vector<SRoadItem> roads;					// vector road information
 	TVSOList rivers;											// rivers information
 	TVSOList roads3;											// 3D roads information
-	//CArray2D<float> heights;						// высота
-	TVertexAltitudeArray2D altitudes;			// вертексные высоты и затенения (на 1 больше чем тайлов по каждому измерению!)
+	//CArray2D<float> heights;						// РІС‹СЃРѕС‚Р°
+	TVertexAltitudeArray2D altitudes;			// РІРµСЂС‚РµРєСЃРЅС‹Рµ РІС‹СЃРѕС‚С‹ Рё Р·Р°С‚РµРЅРµРЅРёСЏ (РЅР° 1 Р±РѕР»СЊС€Рµ С‡РµРј С‚Р°Р№Р»РѕРІ РїРѕ РєР°Р¶РґРѕРјСѓ РёР·РјРµСЂРµРЅРёСЋ!)
 	//
 	float X2World( float x ) const { return x; }
 	float Y2World( float y ) const { return tiles.GetSizeY() - y - 1; }
@@ -352,9 +352,9 @@ struct SScriptArea
 
 	std::string szName;
 
-	CVec2 center;						// центр объекта
-	CVec2 vAABBHalfSize;    // для прямоугольника, стороны прямоугольника параллельны осям координат
-	float fR;								// для окружности
+	CVec2 center;						// С†РµРЅС‚СЂ РѕР±СЉРµРєС‚Р°
+	CVec2 vAABBHalfSize;    // РґР»СЏ РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРєР°, СЃС‚РѕСЂРѕРЅС‹ РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРєР° РїР°СЂР°Р»Р»РµР»СЊРЅС‹ РѕСЃСЏРј РєРѕРѕСЂРґРёРЅР°С‚
+	float fR;								// РґР»СЏ РѕРєСЂСѓР¶РЅРѕСЃС‚Рё
 	
 	SScriptArea() : eType( EAT_CIRCLE ), center( VNULL2 ), vAABBHalfSize( VNULL2 ), fR( 0.0f ) { }
 	//
@@ -454,32 +454,32 @@ struct SLoadMapInfo
 	std::vector<SMapObjectInfo> objects;													// map objects
 	std::vector<SMapObjectInfo> scenarioObjects;									// map scenarioObjects
 	std::vector<SEntrenchmentInfo> entrenchments;									// entrenchemnt
-	std::vector< std::vector<int> > bridges;											// мосты
+	std::vector< std::vector<int> > bridges;											// РјРѕСЃС‚С‹
 	SReinforcementGroupInfo reinforcements;												// reinforcements
 	std::string szScriptFile;																			// file with mission's scripts
-	std::vector<SScriptArea> scriptAreas;													// скриптовые области
+	std::vector<SScriptArea> scriptAreas;													// СЃРєСЂРёРїС‚РѕРІС‹Рµ РѕР±Р»Р°СЃС‚Рё
 	CVec3 vCameraAnchor;																					// camera start position
-	std::vector<CVec3> playersCameraAnchors;											// камеры для плееров
-	int	nSeason;																									// сезон (лето/зима/африка :)
-	std::string szSeasonFolder;																		// каталог со специфической информацией о сезоне
-	std::vector<BYTE> diplomacies;																// дипломатии, 0, 1 - враждующие стороны, 2 - нейтралы
-	SUnitCreationInfo unitCreation;																// для каждого игрока в карте свой набор параметров авиации и других юнитов
-	TStartCommandsList startCommandsList;													// команды, которые отдаются юнитам при старте карты
-	TReservePositionsList reservePositionsList;										// резервные позиции для артиллерии
-	TMapSoundInfoList soundsList;																	// для звуков прописанных в карте
-	std::string szForestCircleSounds;															// для создания звуков леса
-	std::string szForestAmbientSounds;														// для создания звуков леса
-	// CRAP{ для обратной связи с описанием миссии - только для E3
-	std::string szChapterName;																		// имя главы
-	int nMissionIndex;																						// номер миссии в этой главе
+	std::vector<CVec3> playersCameraAnchors;											// РєР°РјРµСЂС‹ РґР»СЏ РїР»РµРµСЂРѕРІ
+	int	nSeason;																									// СЃРµР·РѕРЅ (Р»РµС‚Рѕ/Р·РёРјР°/Р°С„СЂРёРєР° :)
+	std::string szSeasonFolder;																		// РєР°С‚Р°Р»РѕРі СЃРѕ СЃРїРµС†РёС„РёС‡РµСЃРєРѕР№ РёРЅС„РѕСЂРјР°С†РёРµР№ Рѕ СЃРµР·РѕРЅРµ
+	std::vector<BYTE> diplomacies;																// РґРёРїР»РѕРјР°С‚РёРё, 0, 1 - РІСЂР°Р¶РґСѓСЋС‰РёРµ СЃС‚РѕСЂРѕРЅС‹, 2 - РЅРµР№С‚СЂР°Р»С‹
+	SUnitCreationInfo unitCreation;																// РґР»СЏ РєР°Р¶РґРѕРіРѕ РёРіСЂРѕРєР° РІ РєР°СЂС‚Рµ СЃРІРѕР№ РЅР°Р±РѕСЂ РїР°СЂР°РјРµС‚СЂРѕРІ Р°РІРёР°С†РёРё Рё РґСЂСѓРіРёС… СЋРЅРёС‚РѕРІ
+	TStartCommandsList startCommandsList;													// РєРѕРјР°РЅРґС‹, РєРѕС‚РѕСЂС‹Рµ РѕС‚РґР°СЋС‚СЃСЏ СЋРЅРёС‚Р°Рј РїСЂРё СЃС‚Р°СЂС‚Рµ РєР°СЂС‚С‹
+	TReservePositionsList reservePositionsList;										// СЂРµР·РµСЂРІРЅС‹Рµ РїРѕР·РёС†РёРё РґР»СЏ Р°СЂС‚РёР»Р»РµСЂРёРё
+	TMapSoundInfoList soundsList;																	// РґР»СЏ Р·РІСѓРєРѕРІ РїСЂРѕРїРёСЃР°РЅРЅС‹С… РІ РєР°СЂС‚Рµ
+	std::string szForestCircleSounds;															// РґР»СЏ СЃРѕР·РґР°РЅРёСЏ Р·РІСѓРєРѕРІ Р»РµСЃР°
+	std::string szForestAmbientSounds;														// РґР»СЏ СЃРѕР·РґР°РЅРёСЏ Р·РІСѓРєРѕРІ Р»РµСЃР°
+	// CRAP{ РґР»СЏ РѕР±СЂР°С‚РЅРѕР№ СЃРІСЏР·Рё СЃ РѕРїРёСЃР°РЅРёРµРј РјРёСЃСЃРёРё - С‚РѕР»СЊРєРѕ РґР»СЏ E3
+	std::string szChapterName;																		// РёРјСЏ РіР»Р°РІС‹
+	int nMissionIndex;																						// РЅРѕРјРµСЂ РјРёСЃСЃРёРё РІ СЌС‚РѕР№ РіР»Р°РІРµ
 	// CRAP}
-	int nType;																										//тип карты ( см. CMapInfo )
-	int nAttackingSide;																						//атакующая сторона ( для малтиплеера ( 0 - 1 ) )
+	int nType;																										//С‚РёРї РєР°СЂС‚С‹ ( СЃРј. CMapInfo )
+	int nAttackingSide;																						//Р°С‚Р°РєСѓСЋС‰Р°СЏ СЃС‚РѕСЂРѕРЅР° ( РґР»СЏ РјР°Р»С‚РёРїР»РµРµСЂР° ( 0 - 1 ) )
 	
-	// CRAP{ надо удалить
-	SSoundInfo sounds;																						// для звуков прописанных в карте
+	// CRAP{ РЅР°РґРѕ СѓРґР°Р»РёС‚СЊ
+	SSoundInfo sounds;																						// РґР»СЏ Р·РІСѓРєРѕРІ РїСЂРѕРїРёСЃР°РЅРЅС‹С… РІ РєР°СЂС‚Рµ
 	// CRAP}
-	SAIGeneralMapInfo aiGeneralMapInfo;														// информация для генерала
+	SAIGeneralMapInfo aiGeneralMapInfo;														// РёРЅС„РѕСЂРјР°С†РёСЏ РґР»СЏ РіРµРЅРµСЂР°Р»Р°
 
 	//MOD support
 	std::string szMODName;																				//MOD Name

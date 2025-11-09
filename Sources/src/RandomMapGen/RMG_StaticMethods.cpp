@@ -32,7 +32,7 @@ bool SRMPlacedPatch::GetAndRemoveClosestVSOPoints( int nType,
 	
 	bool bOneMismatch = false;
 	
-	//точки на одном патче
+	//С‚РѕС‡РєРё РЅР° РѕРґРЅРѕРј РїР°С‚С‡Рµ
 	std::list<std::list<SVSOPoint>::iterator> beginIterators;
 	for ( std::list<SVSOPoint>::iterator pointIterator = ( ( nType != SRMGraphLink::TYPE_ROAD ) ? rBeginPlacedPatch.riversPoints.begin() : rBeginPlacedPatch.roadsPoints.begin() );
 				pointIterator != ( ( nType != SRMGraphLink::TYPE_ROAD ) ? rBeginPlacedPatch.riversPoints.end() : rBeginPlacedPatch.roadsPoints.end() );
@@ -65,7 +65,7 @@ bool SRMPlacedPatch::GetAndRemoveClosestVSOPoints( int nType,
 		}
 	}
 	
-	//точки на другом патче
+	//С‚РѕС‡РєРё РЅР° РґСЂСѓРіРѕРј РїР°С‚С‡Рµ
 	std::list<std::list<SVSOPoint>::iterator> endIterators;
 	for ( std::list<SVSOPoint>::iterator pointIterator = ( ( nType != SRMGraphLink::TYPE_ROAD ) ? rEndPlacedPatch.riversPoints.begin() : rEndPlacedPatch.roadsPoints.begin() );
 				pointIterator != ( ( nType != SRMGraphLink::TYPE_ROAD ) ? rEndPlacedPatch.riversPoints.end() : rEndPlacedPatch.roadsPoints.end() );
@@ -105,7 +105,7 @@ bool SRMPlacedPatch::GetAndRemoveClosestVSOPoints( int nType,
 	NI_ASSERT_T( ( !beginIterators.empty() ) && ( ! endIterators.empty() ),
 							 NStr::Format( "SRMPlacedPatch::GetAndRemoveClosestVSOPoints, Can't get points, desc: %s", rVSODescFileName.c_str() ) );
 
-	//находим ближайщие точки
+	//РЅР°С…РѕРґРёРј Р±Р»РёР¶Р°Р№С‰РёРµ С‚РѕС‡РєРё
 	std::list<SVSOPoint>::iterator beginIteratorToReturn = beginIterators.front();
 	std::list<SVSOPoint>::iterator endIteratorToReturn = endIterators.front();
 	for ( std::list<std::list<SVSOPoint>::iterator>::iterator beginIterator = beginIterators.begin(); beginIterator != beginIterators.end(); ++beginIterator )
@@ -120,12 +120,12 @@ bool SRMPlacedPatch::GetAndRemoveClosestVSOPoints( int nType,
 		}		
 	}
 	
-	//получаем интересующие нас точки
+	//РїРѕР»СѓС‡Р°РµРј РёРЅС‚РµСЂРµСЃСѓСЋС‰РёРµ РЅР°СЃ С‚РѕС‡РєРё
 	( *pBeginVSOPoint ) = ( *beginIteratorToReturn );
 	( *pEndVSOPoint ) = ( *endIteratorToReturn );
 	
-	//удаляем их из дальнейшего рассмотрения
-	//удаляем их из дальнейшего рассмотрения
+	//СѓРґР°Р»СЏРµРј РёС… РёР· РґР°Р»СЊРЅРµР№С€РµРіРѕ СЂР°СЃСЃРјРѕС‚СЂРµРЅРёСЏ
+	//СѓРґР°Р»СЏРµРј РёС… РёР· РґР°Р»СЊРЅРµР№С€РµРіРѕ СЂР°СЃСЃРјРѕС‚СЂРµРЅРёСЏ
 	if( nType != SRMGraphLink::TYPE_ROAD )
 	{
 		rBeginPlacedPatch.riversPoints.erase( beginIteratorToReturn );

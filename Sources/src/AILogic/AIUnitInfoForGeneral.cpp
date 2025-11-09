@@ -27,7 +27,7 @@ CAIUnitInfoForGeneral::CAIUnitInfoForGeneral( CAIUnit *_pOwner )
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CAIUnitInfoForGeneral::Segment()
 {
-	// åñëè ýòî þíèò íå óïðàâëÿåìûé AI è ïðèøëî âðåìÿ ðàññêàçàòü ãåíåðàëó î ñâî¸ì ñîñòîÿíèè
+	// ÐµÑÐ»Ð¸ ÑÑ‚Ð¾ ÑŽÐ½Ð¸Ñ‚ Ð½Ðµ ÑƒÐ¿Ñ€Ð°Ð²Ð»ÑÐµÐ¼Ñ‹Ð¹ AI Ð¸ Ð¿Ñ€Ð¸ÑˆÐ»Ð¾ Ð²Ñ€ÐµÐ¼Ñ Ñ€Ð°ÑÑÐºÐ°Ð·Ð°Ñ‚ÑŒ Ð³ÐµÐ½ÐµÑ€Ð°Ð»Ñƒ Ð¾ ÑÐ²Ð¾Ñ‘Ð¼ ÑÐ¾ÑÑ‚Ð¾ÑÐ½Ð¸Ð¸
 	if ( curTime >= nextTimeToReportGeneral && theDipl.GetNeutralPlayer() != pOwner->GetPlayer() )
 	{
 		nextTimeToReportGeneral = curTime + Random( 2000, 5000 );

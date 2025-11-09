@@ -15,10 +15,10 @@ class CShadeEditorWnd : public CResizeDialog
 public:
 	enum LEVEL_TO
 	{
-		LEVEL_TO_0 = 0, //к нулю 
-		LEVEL_TO_1 = 1, //к выделенному тайлу
-		LEVEL_TO_2 = 2, //к мгновенной средней высое
-		LEVEL_TO_3 = 3, //к выделенной средней высоте
+		LEVEL_TO_0 = 0, //Рє РЅСѓР»СЋ 
+		LEVEL_TO_1 = 1, //Рє РІС‹РґРµР»РµРЅРЅРѕРјСѓ С‚Р°Р№Р»Сѓ
+		LEVEL_TO_2 = 2, //Рє РјРіРЅРѕРІРµРЅРЅРѕР№ СЃСЂРµРґРЅРµР№ РІС‹СЃРѕРµ
+		LEVEL_TO_3 = 3, //Рє РІС‹РґРµР»РµРЅРЅРѕР№ СЃСЂРµРґРЅРµР№ РІС‹СЃРѕС‚Рµ
 	};
 
 	SVAPattern m_currentPattern;

@@ -8,7 +8,7 @@
 #include "..\Main\rpgstats.h"
 
 #include "editor.h"
-#include "BuildCompose.h"			//для компоновки картинки в текстуру
+#include "BuildCompose.h"			//РґР»СЏ РєРѕРјРїРѕРЅРѕРІРєРё РєР°СЂС‚РёРЅРєРё РІ С‚РµРєСЃС‚СѓСЂСѓ
 #include "TreeDockWnd.h"
 #include "PropView.h"
 #include "TreeItem.h"
@@ -149,7 +149,7 @@ bool CMedalFrame::ExportFrameData( IDataTree *pDT, const char *pszProjectName, c
 */
 
 	szPrefix = szAddDir + szPrevExportFileName.substr( 0, szPrevExportFileName.rfind('\\') + 1 );
-	//Сохраняем RPG stats
+	//РЎРѕС…СЂР°РЅСЏРµРј RPG stats
 	SaveRPGStats( pDT, pRootItem, pszProjectName );
 	szPrefix = "";
 

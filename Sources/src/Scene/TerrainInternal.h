@@ -211,7 +211,7 @@ public:
 	virtual bool STDCALL Load( const char *pszName, const struct STerrainInfo &terrainInfo );
 	// markers
 	virtual void STDCALL SetAIMarker( SAIPassabilityInfo *infos, int nNumInfos );
-	// import/export в картинку
+	// import/export РІ РєР°СЂС‚РёРЅРєСѓ
 	virtual bool STDCALL Import( interface IImage *pImage );
 	virtual interface IImage* STDCALL Export();
 	// editor part
@@ -236,9 +236,9 @@ public:
 	virtual int STDCALL AddRoad( const struct SVectorStripeObject &road );
 	virtual bool STDCALL UpdateRoad( const int nID );
 	virtual bool STDCALL RemoveRoad( const int nID );
-	// получить внутренний описатель террейна для редактора
+	// РїРѕР»СѓС‡РёС‚СЊ РІРЅСѓС‚СЂРµРЅРЅРёР№ РѕРїРёСЃР°С‚РµР»СЊ С‚РµСЂСЂРµР№РЅР° РґР»СЏ СЂРµРґР°РєС‚РѕСЂР°
 	virtual const struct STerrainInfo& STDCALL GetTerrainInfo() const { return terrainInfo; }
-	// описатели сетов
+	// РѕРїРёСЃР°С‚РµР»Рё СЃРµС‚РѕРІ
 	virtual const struct STilesetDesc& STDCALL GetTilesetDesc() const { return tilesetDesc; }
 	virtual const struct SCrossetDesc& STDCALL GetCrossetDesc() const { return crossetDesc; }
 	//virtual const struct SRoadsetDesc& STDCALL GetRoadsetDesc() const { return roadsetDesc; }

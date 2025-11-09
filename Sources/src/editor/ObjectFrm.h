@@ -68,14 +68,14 @@ private:
 		int operator&( IDataTree &ss );
 	};
 	typedef list<STransLine> CTransLineList;
-	STransLine currentLine;			//для отображения текущей перетаскиваемой линии
+	STransLine currentLine;			//РґР»СЏ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ С‚РµРєСѓС‰РµР№ РїРµСЂРµС‚Р°СЃРєРёРІР°РµРјРѕР№ Р»РёРЅРёРё
 	CTransLineList transLines;
 	bool bDrawRect;
 	CPtr<IGFXVertices> pRectVertices;
 	int m_nSelected;
 	CListOfNormalTiles dirTiles;
 
-	// для отображения нужного спрайта
+	// РґР»СЏ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ РЅСѓР¶РЅРѕРіРѕ СЃРїСЂР°Р№С‚Р°
 	CTreeItem *pActiveGraphicProps;
 	
 protected:
@@ -83,12 +83,12 @@ protected:
 
 	void CreateKrest();
 	int UpdateNormalForSelectedLine();
-	virtual void SpecificInit();														//для инициализации внутренних данных после загрузки проекта или создании нового
+	virtual void SpecificInit();														//РґР»СЏ РёРЅРёС†РёР°Р»РёР·Р°С†РёРё РІРЅСѓС‚СЂРµРЅРЅРёС… РґР°РЅРЅС‹С… РїРѕСЃР»Рµ Р·Р°РіСЂСѓР·РєРё РїСЂРѕРµРєС‚Р° РёР»Рё СЃРѕР·РґР°РЅРёРё РЅРѕРІРѕРіРѕ
 	virtual void SpecificClearBeforeBatchMode();
 	virtual BOOL SpecificTranslateMessage( MSG *pMsg );
 		
-	virtual void SaveFrameOwnData( IDataTree *pDT );				//для сохранения собственных данных проекта
-	virtual void LoadFrameOwnData( IDataTree *pDT );				//для загрузки
+	virtual void SaveFrameOwnData( IDataTree *pDT );				//РґР»СЏ СЃРѕС…СЂР°РЅРµРЅРёСЏ СЃРѕР±СЃС‚РІРµРЅРЅС‹С… РґР°РЅРЅС‹С… РїСЂРѕРµРєС‚Р°
+	virtual void LoadFrameOwnData( IDataTree *pDT );				//РґР»СЏ Р·Р°РіСЂСѓР·РєРё
 	virtual void SaveRPGStats( IDataTree *pDT, CTreeItem *pRootItem, const char *pszProjectName );
 	virtual void LoadRPGStats( IDataTree *pDT, CTreeItem *pRootItem );
 	

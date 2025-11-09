@@ -67,7 +67,7 @@ public:
 	}
 };
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//		двигаем rect вниз пока он не станет не скем пересекатся
+//		РґРІРёРіР°РµРј rect РІРЅРёР· РїРѕРєР° РѕРЅ РЅРµ СЃС‚Р°РЅРµС‚ РЅРµ СЃРєРµРј РїРµСЂРµСЃРµРєР°С‚СЃСЏ
 //	
 //
 //
@@ -95,7 +95,7 @@ void SliceRectToDown( const std::vector<SRectOptimizeStructure> &rects, SRectOpt
 	}
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//оптимизируем для заданной ширины
+//РѕРїС‚РёРјРёР·РёСЂСѓРµРј РґР»СЏ Р·Р°РґР°РЅРЅРѕР№ С€РёСЂРёРЅС‹
 void OptimizeRectsByWidth( std::vector<SRectOptimizeStructure> &rects, int textureWidth )
 {
 	const int TEXTUREWIDTH = textureWidth;
@@ -141,7 +141,7 @@ void OptimizeRectsByWidth( std::vector<SRectOptimizeStructure> &rects, int textu
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void OptimizeRects( std::vector< SRectOptimizeStructure > &rects )
 {
-	// вычислим самый широкий Rect
+	// РІС‹С‡РёСЃР»РёРј СЃР°РјС‹Р№ С€РёСЂРѕРєРёР№ Rect
 	CFindFillRectHelper hlp;
 	hlp = std::for_each( rects.begin(), rects.end(), hlp );
 	hlp.dx = GetNextPow2 ( hlp.dx + 1) ;
@@ -244,13 +244,13 @@ IImage* CImageProcessor::ComposeImages( IImage **pImages, RECT *pRects, RECT *pR
 
 	std::vector<RECT> rectsTemp( nNumImages );
 	//******************
-	//cформируем rects
+	//cС„РѕСЂРјРёСЂСѓРµРј rects
 	for ( int i =0 ; i != nNumImages; ++i )
 	{
 		CImageAccessor image = pImages[i];
 		pRects[ i ] = AnalyzeSubrect( image, GRect(0, 0, pImages[ i ]->GetSizeX() - 1, pImages[ i ]->GetSizeY() - 1) );
 		pRectsMain[ i ] = GRect( 0, 0, pImages[ i ]->GetSizeX() - 1, pImages[ i ]->GetSizeY() - 1 );		
-		// CRAP{ для картинок шириной или длиной в 1 pixel расширить на 1
+		// CRAP{ РґР»СЏ РєР°СЂС‚РёРЅРѕРє С€РёСЂРёРЅРѕР№ РёР»Рё РґР»РёРЅРѕР№ РІ 1 pixel СЂР°СЃС€РёСЂРёС‚СЊ РЅР° 1
 		if ( (pRects[i].left == pRects[i].right) && (pRects[i].left != 0) )
 			pRects[i].right += 1;
 		if ( (pRects[i].top == pRects[i].bottom) && (pRects[i].top != 0) )
@@ -283,7 +283,7 @@ IImage* CImageProcessor::ComposeImages( IImage **pImages, RECT *pRects, RECT *pR
 			pDst +=  texRect.width();
 		}
 	}
-	//теперь надо подвинуть большие rect'ы
+	//С‚РµРїРµСЂСЊ РЅР°РґРѕ РїРѕРґРІРёРЅСѓС‚СЊ Р±РѕР»СЊС€РёРµ rect'С‹
 	for ( int i =0 ; i != nNumImages; ++i )
 	{
 		pRectsMain[ i ].top = pRects[ i ].top - ( rectsTemp[ i ].top - pRectsMain[ i ].top );

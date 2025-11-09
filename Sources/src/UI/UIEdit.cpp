@@ -15,8 +15,8 @@ bool CUIEditBox::OnMouseMove( const CVec2 &vPos, EMouseState mouseState )
 	if ( mouseState == E_MOUSE_FREE )
 		return bRes;
 
-	//тут считаю, что bRes true когда движение мышки было обработано, а значит мышка или внутри окошка, или окошко захватывает мышь
-	//Если левая кнопка мышки нажата
+	//С‚СѓС‚ СЃС‡РёС‚Р°СЋ, С‡С‚Рѕ bRes true РєРѕРіРґР° РґРІРёР¶РµРЅРёРµ РјС‹С€РєРё Р±С‹Р»Рѕ РѕР±СЂР°Р±РѕС‚Р°РЅРѕ, Р° Р·РЅР°С‡РёС‚ РјС‹С€РєР° РёР»Рё РІРЅСѓС‚СЂРё РѕРєРѕС€РєР°, РёР»Рё РѕРєРѕС€РєРѕ Р·Р°С…РІР°С‚С‹РІР°РµС‚ РјС‹С€СЊ
+	//Р•СЃР»Рё Р»РµРІР°СЏ РєРЅРѕРїРєР° РјС‹С€РєРё РЅР°Р¶Р°С‚Р°
 	if ( mouseState & E_LBUTTONDOWN )
 	{
 		nCursorPos = GetSelection( vPos.x );
@@ -42,8 +42,8 @@ bool CUIEditBox::OnLButtonDown( const CVec2 &vPos, EMouseState mouseState )
 	if ( !bRes )
 		return bRes;
 	
-	//тут считаю, что bRes true когда движение мышки было обработано, а значит мышка или внутри окошка, или окошко захватывает мышь
-	//Если левая кнопка мышки нажата
+	//С‚СѓС‚ СЃС‡РёС‚Р°СЋ, С‡С‚Рѕ bRes true РєРѕРіРґР° РґРІРёР¶РµРЅРёРµ РјС‹С€РєРё Р±С‹Р»Рѕ РѕР±СЂР°Р±РѕС‚Р°РЅРѕ, Р° Р·РЅР°С‡РёС‚ РјС‹С€РєР° РёР»Рё РІРЅСѓС‚СЂРё РѕРєРѕС€РєР°, РёР»Рё РѕРєРѕС€РєРѕ Р·Р°С…РІР°С‚С‹РІР°РµС‚ РјС‹С€СЊ
+	//Р•СЃР»Рё Р»РµРІР°СЏ РєРЅРѕРїРєР° РјС‹С€РєРё РЅР°Р¶Р°С‚Р°
 	if ( mouseState & E_LBUTTONDOWN )
 	{
 		NI_ASSERT( IsInside( vPos ) );
@@ -59,8 +59,8 @@ bool CUIEditBox::OnRButtonDown( const CVec2 &vPos, EMouseState mouseState )
 	if ( !bRes )
 		return bRes;
 	
-	//тут считаю, что bRes true когда движение мышки было обработано, а значит мышка или внутри окошка, или окошко захватывает мышь
-	//Если правая кнопка мышки нажата
+	//С‚СѓС‚ СЃС‡РёС‚Р°СЋ, С‡С‚Рѕ bRes true РєРѕРіРґР° РґРІРёР¶РµРЅРёРµ РјС‹С€РєРё Р±С‹Р»Рѕ РѕР±СЂР°Р±РѕС‚Р°РЅРѕ, Р° Р·РЅР°С‡РёС‚ РјС‹С€РєР° РёР»Рё РІРЅСѓС‚СЂРё РѕРєРѕС€РєР°, РёР»Рё РѕРєРѕС€РєРѕ Р·Р°С…РІР°С‚С‹РІР°РµС‚ РјС‹С€СЊ
+	//Р•СЃР»Рё РїСЂР°РІР°СЏ РєРЅРѕРїРєР° РјС‹С€РєРё РЅР°Р¶Р°С‚Р°
 	if ( mouseState & E_LBUTTONDOWN )
 	{
 		NI_ASSERT( IsInside( vPos ) );
@@ -82,14 +82,14 @@ int CUIEditBox::GetSelection( int nX )
 		nCur += wndRect.left + vTextPos.x;
 		if ( nCur > nX )
 		{
-			if ( nX - nPrev < nCur - nX && i > 0 )			//ближе к левой букве чем к правой
+			if ( nX - nPrev < nCur - nX && i > 0 )			//Р±Р»РёР¶Рµ Рє Р»РµРІРѕР№ Р±СѓРєРІРµ С‡РµРј Рє РїСЂР°РІРѕР№
 				i--;
 			break;
 		}
 		nPrev = nCur;
 	}
 
-	if ( nCur <= nX )		//нажато правее края текста
+	if ( nCur <= nX )		//РЅР°Р¶Р°С‚Рѕ РїСЂР°РІРµРµ РєСЂР°СЏ С‚РµРєСЃС‚Р°
 		i--;
 	NI_ASSERT_T( i >= 0 && i <= wszFullText.size(), "Error in CUIEditBox::GetSelection()" );
 	return i;
@@ -105,7 +105,7 @@ void CUIEditBox::SetCursor( int nPos )
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CUIEditBox::SetFocus( bool bFocus )
 {
-	//Информируем о смене фокуса
+	//РРЅС„РѕСЂРјРёСЂСѓРµРј Рѕ СЃРјРµРЅРµ С„РѕРєСѓСЃР°
 	CSimpleWindow::SetFocus( bFocus );
 /*
 	if ( bFocus )
@@ -119,23 +119,23 @@ void CUIEditBox::SetFocus( bool bFocus )
 	}
 */
 
-	//посылаем наверх сообщение чтобы переключился TEXT_MODE
+	//РїРѕСЃС‹Р»Р°РµРј РЅР°РІРµСЂС… СЃРѕРѕР±С‰РµРЅРёРµ С‡С‚РѕР±С‹ РїРµСЂРµРєР»СЋС‡РёР»СЃСЏ TEXT_MODE
 	SUIMessage msg;
 	if ( bFocus )
 	{
 		bFocused = true;
-		//устанавливаю text mode
+		//СѓСЃС‚Р°РЅР°РІР»РёРІР°СЋ text mode
 		msg.nMessageCode = MC_SET_TEXT_MODE | PROCESSED_FLAG;
 		msg.nFirst = GetWindowID();
 	}
 	else
 	{
 		bFocused = false;
-		//Снимаю text mode
+		//РЎРЅРёРјР°СЋ text mode
 		msg.nMessageCode = MC_CANCEL_TEXT_MODE | PROCESSED_FLAG;
 		msg.nFirst = GetWindowID();
 		
-		//Сбрасываю selection
+		//РЎР±СЂР°СЃС‹РІР°СЋ selection
 		m_nBeginSel = m_nEndSel = -1;
 	}
 	GetParent()->ProcessMessage( msg );
@@ -166,7 +166,7 @@ bool CUIEditBox::IsValidSymbol( int nAsciiCode )
 	
 	if ( bGameSpySymbols )
 	{
-		//проверим, что символ удовлетворяет требованиям GameSpy NickName
+		//РїСЂРѕРІРµСЂРёРј, С‡С‚Рѕ СЃРёРјРІРѕР» СѓРґРѕРІР»РµС‚РІРѕСЂСЏРµС‚ С‚СЂРµР±РѕРІР°РЅРёСЏРј GameSpy NickName
 		static const char szValidSymbols[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789[]\\`_^{|}-";
 		static const int nLen = strlen( szValidSymbols );
 		for ( int i=0; i<nLen; i++ )
@@ -179,7 +179,7 @@ bool CUIEditBox::IsValidSymbol( int nAsciiCode )
 	
 	if ( bFileNameSymbols )
 	{
-		//проверим, что символ удовлетворяет требованиям FileName symbols
+		//РїСЂРѕРІРµСЂРёРј, С‡С‚Рѕ СЃРёРјРІРѕР» СѓРґРѕРІР»РµС‚РІРѕСЂСЏРµС‚ С‚СЂРµР±РѕРІР°РЅРёСЏРј FileName symbols
 		static const char szValidSymbols[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789[]`_^{}-!@#$%^&()+=~";
 		static const int nLen = strlen( szValidSymbols );
 		for ( int i=0; i<nLen; i++ )
@@ -227,7 +227,7 @@ bool CUIEditBox::OnChar( int nAsciiCode, int nVirtualKey, bool bPressed, DWORD k
 		return false;
 	NotifyTextChanged();
 
-	//Если печатный символ, то просто выводим его
+	//Р•СЃР»Рё РїРµС‡Р°С‚РЅС‹Р№ СЃРёРјРІРѕР», С‚Рѕ РїСЂРѕСЃС‚Рѕ РІС‹РІРѕРґРёРј РµРіРѕ
 	//	if ( isprint( nAsciiCode ) )
 	std::wstring wszOldText = wszFullText;
 	int nOldCursorPos = nCursorPos;
@@ -260,13 +260,13 @@ bool CUIEditBox::OnChar( int nAsciiCode, int nVirtualKey, bool bPressed, DWORD k
 	}
 	
 	SUIMessage msg;
-	//Если не печатный символ, то обрабатываем дополнительное управление
+	//Р•СЃР»Рё РЅРµ РїРµС‡Р°С‚РЅС‹Р№ СЃРёРјРІРѕР», С‚Рѕ РѕР±СЂР°Р±Р°С‚С‹РІР°РµРј РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅРѕРµ СѓРїСЂР°РІР»РµРЅРёРµ
 	switch( nVirtualKey )
 	{
 	case VK_RETURN:
 		if ( E_KEYBOARD_FREE == keyState )
 		{
-			SetFocus( false );		//сбрасываю фокус и заодно выключаю text mode 
+			SetFocus( false );		//СЃР±СЂР°СЃС‹РІР°СЋ С„РѕРєСѓСЃ Рё Р·Р°РѕРґРЅРѕ РІС‹РєР»СЋС‡Р°СЋ text mode 
 			msg.nMessageCode = UI_NOTIFY_EDIT_BOX_RETURN;
 			msg.nFirst = GetWindowID();
 			msg.nSecond = 0;
@@ -297,13 +297,13 @@ bool CUIEditBox::OnChar( int nAsciiCode, int nVirtualKey, bool bPressed, DWORD k
 			break;
 		if ( keyState == E_KEYBOARD_FREE )
 		{
-			//на одну позицию влево
+			//РЅР° РѕРґРЅСѓ РїРѕР·РёС†РёСЋ РІР»РµРІРѕ
 			nCursorPos--;
 			EnsureCursorVisible();
 		}
 		if ( keyState & E_CTRL_KEY_DOWN )
 		{
-			//Если нажата crtl и стрелка влево, то сдвигаемся влево на одно слово
+			//Р•СЃР»Рё РЅР°Р¶Р°С‚Р° crtl Рё СЃС‚СЂРµР»РєР° РІР»РµРІРѕ, С‚Рѕ СЃРґРІРёРіР°РµРјСЃСЏ РІР»РµРІРѕ РЅР° РѕРґРЅРѕ СЃР»РѕРІРѕ
 			while( nBeginText+nCursorPos > 0 && isspace(wszFullText[nBeginText+nCursorPos-1]) )
 				nCursorPos--;
 			if ( nBeginText+nCursorPos > 0 )
@@ -325,12 +325,12 @@ bool CUIEditBox::OnChar( int nAsciiCode, int nVirtualKey, bool bPressed, DWORD k
 			break;
 		if ( keyState == E_KEYBOARD_FREE )
 		{
-			//на одну позицию вправо
+			//РЅР° РѕРґРЅСѓ РїРѕР·РёС†РёСЋ РІРїСЂР°РІРѕ
 			nCursorPos++;
 		}
 		else if ( keyState & E_CTRL_KEY_DOWN )
 		{
-			//Если нажата crtl и стрелка вправо, то сдвигаемся вправо на одно слово
+			//Р•СЃР»Рё РЅР°Р¶Р°С‚Р° crtl Рё СЃС‚СЂРµР»РєР° РІРїСЂР°РІРѕ, С‚Рѕ СЃРґРІРёРіР°РµРјСЃСЏ РІРїСЂР°РІРѕ РЅР° РѕРґРЅРѕ СЃР»РѕРІРѕ
 			if ( nBeginText+nCursorPos < wszFullText.size() )
 			{
 				if ( isalpha(wszFullText[nBeginText+nCursorPos]) )
@@ -351,7 +351,7 @@ bool CUIEditBox::OnChar( int nAsciiCode, int nVirtualKey, bool bPressed, DWORD k
 		m_nBeginSel = m_nEndSel = -1;
 		if ( keyState == E_KEYBOARD_FREE )
 		{
-			//на начало строки
+			//РЅР° РЅР°С‡Р°Р»Рѕ СЃС‚СЂРѕРєРё
 			nBeginText = 0;
 			nCursorPos = 0;
 			EnsureCursorVisible();
@@ -362,7 +362,7 @@ bool CUIEditBox::OnChar( int nAsciiCode, int nVirtualKey, bool bPressed, DWORD k
 		m_nBeginSel = m_nEndSel = -1;
 		if ( keyState == E_KEYBOARD_FREE )
 		{
-			//на конец строки
+			//РЅР° РєРѕРЅРµС† СЃС‚СЂРѕРєРё
 			nCursorPos = wszFullText.size() - nBeginText;
 			EnsureCursorVisible();
 		}
@@ -370,7 +370,7 @@ bool CUIEditBox::OnChar( int nAsciiCode, int nVirtualKey, bool bPressed, DWORD k
 		
 	case VK_ESCAPE:
 		m_nBeginSel = m_nEndSel = -1;
-		SetFocus( false );		//сбрасываю фокус и заодно выключаю text mode 
+		SetFocus( false );		//СЃР±СЂР°СЃС‹РІР°СЋ С„РѕРєСѓСЃ Рё Р·Р°РѕРґРЅРѕ РІС‹РєР»СЋС‡Р°СЋ text mode 
 		msg.nMessageCode = UI_NOTIFY_EDIT_BOX_ESCAPE;
 		msg.nFirst = GetWindowID();
 		msg.nSecond = 0;
@@ -408,7 +408,7 @@ int CUIEditBox::operator&( IDataTree &ss )
 	
 	if ( saver.IsReading() )
 	{
-		//Создаем IText и прогружаем его в pGfxText
+		//РЎРѕР·РґР°РµРј IText Рё РїСЂРѕРіСЂСѓР¶Р°РµРј РµРіРѕ РІ pGfxText
 		for ( int i=0; i<states.size(); i++ )
 		{
 			IText *pText = CreateObject<IText>( TEXT_STRING );
@@ -441,7 +441,7 @@ int CUIEditBox::operator&( IStructureSaver &ss )
 	
 	if ( saver.IsReading() )
 	{
-		//Создаем IText и прогружаем его в pGfxText
+		//РЎРѕР·РґР°РµРј IText Рё РїСЂРѕРіСЂСѓР¶Р°РµРј РµРіРѕ РІ pGfxText
 		for ( int i=0; i<states.size(); i++ )
 		{
 			IText *pText = CreateObject<IText>( TEXT_STRING );
@@ -458,7 +458,7 @@ void CUIEditBox::Visit( interface ISceneVisitor *pVisitor )
 
 	VisitBackground( pVisitor );
 	
-	// рисуем выделение
+	// СЂРёСЃСѓРµРј РІС‹РґРµР»РµРЅРёРµ
 	if ( m_nBeginSel != -1 && m_nBeginSel != m_nEndSel )
 	{
 		int nBegin = 0;
@@ -490,7 +490,7 @@ void CUIEditBox::Visit( interface ISceneVisitor *pVisitor )
 		
 		if ( bBounded )
 		{
-			//проверим, вдруг видно только часть выделения
+			//РїСЂРѕРІРµСЂРёРј, РІРґСЂСѓРі РІРёРґРЅРѕ С‚РѕР»СЊРєРѕ С‡Р°СЃС‚СЊ РІС‹РґРµР»РµРЅРёСЏ
 			float fTemp;
 			fTemp = rcBound.y1 - rc.rect.y1;
 			if ( fTemp > 0 )
@@ -510,10 +510,10 @@ void CUIEditBox::Visit( interface ISceneVisitor *pVisitor )
 		pVisitor->VisitUIRects( 0, 3, &rc, 1 );
 	}
 	
-	// рисуем текст
+	// СЂРёСЃСѓРµРј С‚РµРєСЃС‚
 	VisitText( pVisitor );
 
-	// рисуем курсор
+	// СЂРёСЃСѓРµРј РєСѓСЂСЃРѕСЂ
 	if ( bFocused && bShowCursor )
 	{
 		int nWidth = states[nCurrentState].pGfxText->GetWidth( nCursorPos );
@@ -522,7 +522,7 @@ void CUIEditBox::Visit( interface ISceneVisitor *pVisitor )
 		rc.rect.right = rc.rect.left + 2;
 		if ( rc.rect.left < wndRect.right - 1 )
 		{
-			//курсор не выходит за край экрана
+			//РєСѓСЂСЃРѕСЂ РЅРµ РІС‹С…РѕРґРёС‚ Р·Р° РєСЂР°Р№ СЌРєСЂР°РЅР°
 			int nH = states[nCurrentState].pGfxText->GetLineSpace();
 			switch ( nTextAlign & 0xf0 )
 			{
@@ -542,7 +542,7 @@ void CUIEditBox::Visit( interface ISceneVisitor *pVisitor )
 			
 			if ( bBounded )
 			{
-				// проверим, вдруг видно только часть курсора
+				// РїСЂРѕРІРµСЂРёРј, РІРґСЂСѓРі РІРёРґРЅРѕ С‚РѕР»СЊРєРѕ С‡Р°СЃС‚СЊ РєСѓСЂСЃРѕСЂР°
 				float fTemp = rcBound.y1 - rc.rect.y1;
 				if ( fTemp > 0 )
 				{
@@ -574,7 +574,7 @@ void CUIEditBox::Draw( IGFX *pGFX )
 	pGFX->SetShadingEffect( 3 );
 	DrawBackground( pGFX );
 	
-	//рисуем выделение
+	//СЂРёСЃСѓРµРј РІС‹РґРµР»РµРЅРёРµ
 	if ( m_nBeginSel != -1 && m_nBeginSel != m_nEndSel )
 	{
 		int nBegin = 0;
@@ -606,7 +606,7 @@ void CUIEditBox::Draw( IGFX *pGFX )
 		
 		if ( bBounded )
 		{
-			//проверим, вдруг видно только часть выделения
+			//РїСЂРѕРІРµСЂРёРј, РІРґСЂСѓРі РІРёРґРЅРѕ С‚РѕР»СЊРєРѕ С‡Р°СЃС‚СЊ РІС‹РґРµР»РµРЅРёСЏ
 			float fTemp;
 			fTemp = rcBound.y1 - rc.rect.y1;
 			if ( fTemp > 0 )
@@ -627,10 +627,10 @@ void CUIEditBox::Draw( IGFX *pGFX )
 		pGFX->DrawRects( &rc, 1 );
 	}
 	
-	//рисуем текст
+	//СЂРёСЃСѓРµРј С‚РµРєСЃС‚
 	DrawText( pGFX );
 
-	//рисуем курсор
+	//СЂРёСЃСѓРµРј РєСѓСЂСЃРѕСЂ
 	if ( bFocused && bShowCursor )
 	{
 		int nWidth = states[nCurrentState].pGfxText->GetWidth( nCursorPos );
@@ -639,7 +639,7 @@ void CUIEditBox::Draw( IGFX *pGFX )
 		rc.rect.right = rc.rect.left + 2;
 		if ( rc.rect.left < wndRect.right - 1 )
 		{
-			//курсор не выходит за край экрана
+			//РєСѓСЂСЃРѕСЂ РЅРµ РІС‹С…РѕРґРёС‚ Р·Р° РєСЂР°Р№ СЌРєСЂР°РЅР°
 			int nH = states[nCurrentState].pGfxText->GetLineSpace();
 			switch ( nTextAlign & 0xf0 )
 			{
@@ -659,7 +659,7 @@ void CUIEditBox::Draw( IGFX *pGFX )
 			
 			if ( bBounded )
 			{
-				//проверим, вдруг видно только часть курсора
+				//РїСЂРѕРІРµСЂРёРј, РІРґСЂСѓРі РІРёРґРЅРѕ С‚РѕР»СЊРєРѕ С‡Р°СЃС‚СЊ РєСѓСЂСЃРѕСЂР°
 				float fTemp;
 				fTemp = rcBound.y1 - rc.rect.y1;
 				if ( fTemp > 0 )
@@ -720,7 +720,7 @@ void CUIEditBox::EnsureCursorVisible()
 	if ( nCursorPos <= 0 && nBeginText > 0 )
 	{
 		NI_ASSERT_T( bTextScroll, "Edit box error: nCursorPos < 0 and bTextScroll == true" );
-		//курсор левее левого края edit box, подвинем текст вправо, чтобы курсор стал видимым
+		//РєСѓСЂСЃРѕСЂ Р»РµРІРµРµ Р»РµРІРѕРіРѕ РєСЂР°СЏ edit box, РїРѕРґРІРёРЅРµРј С‚РµРєСЃС‚ РІРїСЂР°РІРѕ, С‡С‚РѕР±С‹ РєСѓСЂСЃРѕСЂ СЃС‚Р°Р» РІРёРґРёРјС‹Рј
 		nBeginText += nCursorPos;
 		nCursorPos = 0;
 		if ( nBeginText < 0 )
@@ -740,7 +740,7 @@ void CUIEditBox::EnsureCursorVisible()
 	}
 	else if ( pGFXText->GetWidth( nCursorPos ) > wndRect.Width() - vTextPos.x - 2 )
 	{
-		//курсор правее правого края edit box, подвинем текст влево, чтобы курсор стал видимым
+		//РєСѓСЂСЃРѕСЂ РїСЂР°РІРµРµ РїСЂР°РІРѕРіРѕ РєСЂР°СЏ edit box, РїРѕРґРІРёРЅРµРј С‚РµРєСЃС‚ РІР»РµРІРѕ, С‡С‚РѕР±С‹ РєСѓСЂСЃРѕСЂ СЃС‚Р°Р» РІРёРґРёРјС‹Рј
 		while ( pGFXText->GetWidth( nCursorPos ) > wndRect.Width() - vTextPos.x - 2 )		//2 is the width of cursor
 		{
 			if ( bTextScroll )
@@ -760,7 +760,7 @@ void CUIEditBox::EnsureCursorVisible()
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool CUIEditBox::IsTextInsideEditBox()
 {
-	//сперва проверим ограничение на максимальную длину текста
+	//СЃРїРµСЂРІР° РїСЂРѕРІРµСЂРёРј РѕРіСЂР°РЅРёС‡РµРЅРёРµ РЅР° РјР°РєСЃРёРјР°Р»СЊРЅСѓСЋ РґР»РёРЅСѓ С‚РµРєСЃС‚Р°
 	if ( nMaxLength != -1 && wszFullText.size() > nMaxLength )
 		return false;
 

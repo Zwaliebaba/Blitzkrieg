@@ -10,7 +10,7 @@ inline bool GetTileIndexLocal( const CVec3 &point, int *pnX, int *pnY,
 															 const float fCellSize,
 															 bool bTerrainCoords, bool isExact )
 {
-	// это базисные линии (X, Y) системы координат ландшафта
+	// СЌС‚Рѕ Р±Р°Р·РёСЃРЅС‹Рµ Р»РёРЅРёРё (X, Y) СЃРёСЃС‚РµРјС‹ РєРѕРѕСЂРґРёРЅР°С‚ Р»Р°РЅРґС€Р°С„С‚Р°
 	CVec3 vAxisX, vAxisY;
 	GetLineEq( 0, 0, 1, 0, &vAxisX.x, &vAxisX.y, &vAxisX.z );
 	GetLineEq( 0, 1, 0, 0, &vAxisY.x, &vAxisY.y, &vAxisY.z );
@@ -148,22 +148,22 @@ void CTerrain::Update( const CTRect<int> &rcPatches )
 				{
 					builder.CopyCrosses( &terrainInfo.patches[i][j], newCrosses );
 					/*
-					// убираем старые cross'ы и вставляем новые
+					// СѓР±РёСЂР°РµРј СЃС‚Р°СЂС‹Рµ cross'С‹ Рё РІСЃС‚Р°РІР»СЏРµРј РЅРѕРІС‹Рµ
 					STerrainPatchInfo::CCrossesList &oldCrosses = terrainInfo.patches[i][j].crosses;
-					// если старый кросс есть в старом списке, заменяем 'cross' на старый
+					// РµСЃР»Рё СЃС‚Р°СЂС‹Р№ РєСЂРѕСЃСЃ РµСЃС‚СЊ РІ СЃС‚Р°СЂРѕРј СЃРїРёСЃРєРµ, Р·Р°РјРµРЅСЏРµРј 'cross' РЅР° СЃС‚Р°СЂС‹Р№
 //					for ( STerrainPatchInfo::CCrossesList::const_iterator it = oldCrosses.begin(); it != oldCrosses.end(); ++it )
 //					{
 //						CTerrainBuilder::CCrossesList::iterator pos = std::find_if( newCrosses.begin(), newCrosses.end(), CCrossTileEqualFunctional(*it) );
 //						if ( pos != newCrosses.end() )
 //							pos->cross = it->cross;
 //					}
-					// копируем результат в патч
+					// РєРѕРїРёСЂСѓРµРј СЂРµР·СѓР»СЊС‚Р°С‚ РІ РїР°С‚С‡
 					terrainInfo.patches[i][j].crosses.clear();
 					terrainInfo.patches[i][j].crosses.reserve( newCrosses.size() );
 					for ( CTerrainBuilder::CCrossesList::const_iterator it = newCrosses.begin(); it != newCrosses.end(); ++it )
 						terrainInfo.patches[i][j].crosses.push_back( *it );
 						*/
-					// убиваем этот патч и пересобираем ландшафт
+					// СѓР±РёРІР°РµРј СЌС‚РѕС‚ РїР°С‚С‡ Рё РїРµСЂРµСЃРѕР±РёСЂР°РµРј Р»Р°РЅРґС€Р°С„С‚
 					for ( std::list<STerrainPatch>::iterator it = patches.begin(); it != patches.end(); ++it )
 					{
 						if ( (it->nX == j) && (it->nY == i) )

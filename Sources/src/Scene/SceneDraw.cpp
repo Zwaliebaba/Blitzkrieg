@@ -330,7 +330,7 @@ void CScene::Draw( ICamera *pCamera )
 		if ( bEnableShadows )
 		{
 			pGFX->SetShadingEffect( 110 );
-			// для рендеринга теней для отсечения пересечений ставим режим z-buffer'а в '!=', т.е. чтобы рисовать с незаполненой области только
+			// РґР»СЏ СЂРµРЅРґРµСЂРёРЅРіР° С‚РµРЅРµР№ РґР»СЏ РѕС‚СЃРµС‡РµРЅРёСЏ РїРµСЂРµСЃРµС‡РµРЅРёР№ СЃС‚Р°РІРёРј СЂРµР¶РёРј z-buffer'Р° РІ '!=', С‚.Рµ. С‡С‚РѕР±С‹ СЂРёСЃРѕРІР°С‚СЊ СЃ РЅРµР·Р°РїРѕР»РЅРµРЅРѕР№ РѕР±Р»Р°СЃС‚Рё С‚РѕР»СЊРєРѕ
 			//pGFX->SetDepthBufferMode( GFXDB_USE_Z, GFXCMP_NOTEQUAL );
 			if ( !pDrawVisitor->shadowObjects.empty() )
 			{
@@ -1776,7 +1776,7 @@ void CScene::FormVisibilityLists( ICamera *pCamera, ISceneVisitor *pVisitor )
 				(*it)->Visit( pVisitor, SGVOGT_SHADOW );
 		}
 		// mech trace objects
-		// CRAP{ к сожалению нет времени на хорошее продумывание...
+		// CRAP{ Рє СЃРѕР¶Р°Р»РµРЅРёСЋ РЅРµС‚ РІСЂРµРјРµРЅРё РЅР° С…РѕСЂРѕС€РµРµ РїСЂРѕРґСѓРјС‹РІР°РЅРёРµ...
 		{
 			CMechTraceArea::CDataList &data = mechTracesArea[pos->second][pos->first];
 			for ( CMechTraceArea::CDataList::iterator it = data.begin(); it != data.end(); )
@@ -1792,7 +1792,7 @@ void CScene::FormVisibilityLists( ICamera *pCamera, ISceneVisitor *pVisitor )
 		}
 		// CRAP}
 		// gun trace objects
-		// CRAP{ к сожалению нет времени на хорошее продумывание...
+		// CRAP{ Рє СЃРѕР¶Р°Р»РµРЅРёСЋ РЅРµС‚ РІСЂРµРјРµРЅРё РЅР° С…РѕСЂРѕС€РµРµ РїСЂРѕРґСѓРјС‹РІР°РЅРёРµ...
 		{
 			CGunTraceArea::CDataList &data = gunTracesArea[pos->second][pos->first];
 			for ( CGunTraceArea::CDataList::iterator it = data.begin(); it != data.end(); )
@@ -1886,8 +1886,8 @@ void CScene::SelectPatches( ICamera *pCamera, float fPatchesX, float fPatchesY, 
 	const CVec3 vCamera = pCamera->GetAnchor();
 	//
 	const float fPatchHalfAxis = fPatchSize * FP_SQRT_2 / 2.0f; //fCellSizeX * STerrainPatchInfo::nSizeX;
-	// выделить патчи, которые попадают в обзор
-	// это базисные линии (X, Y) системы координат ландшафта
+	// РІС‹РґРµР»РёС‚СЊ РїР°С‚С‡Рё, РєРѕС‚РѕСЂС‹Рµ РїРѕРїР°РґР°СЋС‚ РІ РѕР±Р·РѕСЂ
+	// СЌС‚Рѕ Р±Р°Р·РёСЃРЅС‹Рµ Р»РёРЅРёРё (X, Y) СЃРёСЃС‚РµРјС‹ РєРѕРѕСЂРґРёРЅР°С‚ Р»Р°РЅРґС€Р°С„С‚Р°
 	CVec3 vAxisX, vAxisY;
 	GetLineEq( 0, 0, 1, 0, &vAxisX.x, &vAxisX.y, &vAxisX.z );
 	GetLineEq( 0, 1, 0, 0, &vAxisY.x, &vAxisY.y, &vAxisY.z );
@@ -1896,13 +1896,13 @@ void CScene::SelectPatches( ICamera *pCamera, float fPatchesX, float fPatchesY, 
 	// half-width and half-height
 	const float fWidth = ( rcScreen.right - rcScreen.left ) / 2;
 	const float fHeight = rcScreen.bottom - rcScreen.top;					// height * 2 due to camera yaw = 30 degrees
-	// оси камеры в мировой системе координат:
+	// РѕСЃРё РєР°РјРµСЂС‹ РІ РјРёСЂРѕРІРѕР№ СЃРёСЃС‚РµРјРµ РєРѕРѕСЂРґРёРЅР°С‚:
 	CVec2 vCameraX( fWidth / FP_SQRT_2, fWidth / FP_SQRT_2 ), vCameraY( -fHeight / FP_SQRT_2, fHeight / FP_SQRT_2 );
 	//
 	//
-	// определим грубый прямоугольник (в мировой системе координат, в целых патчах), в который вписывается экран
-	// определение производим на основании расстояния от углов экрана до координатных осей мировой системы 
-	// NOTE: границы по принципу [min, max)
+	// РѕРїСЂРµРґРµР»РёРј РіСЂСѓР±С‹Р№ РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРє (РІ РјРёСЂРѕРІРѕР№ СЃРёСЃС‚РµРјРµ РєРѕРѕСЂРґРёРЅР°С‚, РІ С†РµР»С‹С… РїР°С‚С‡Р°С…), РІ РєРѕС‚РѕСЂС‹Р№ РІРїРёСЃС‹РІР°РµС‚СЃСЏ СЌРєСЂР°РЅ
+	// РѕРїСЂРµРґРµР»РµРЅРёРµ РїСЂРѕРёР·РІРѕРґРёРј РЅР° РѕСЃРЅРѕРІР°РЅРёРё СЂР°СЃСЃС‚РѕСЏРЅРёСЏ РѕС‚ СѓРіР»РѕРІ СЌРєСЂР°РЅР° РґРѕ РєРѕРѕСЂРґРёРЅР°С‚РЅС‹С… РѕСЃРµР№ РјРёСЂРѕРІРѕР№ СЃРёСЃС‚РµРјС‹ 
+	// NOTE: РіСЂР°РЅРёС†С‹ РїРѕ РїСЂРёРЅС†РёРїСѓ [min, max)
 	const CVec2 vCameraO( vCamera.x, vCamera.y );
 	CTRect<int> rcL0Rect;								// level 0 of roughness rect
 	{
@@ -1932,7 +1932,7 @@ void CScene::SelectPatches( ICamera *pCamera, float fPatchesX, float fPatchesY, 
 	rcL0Rect.Normalize();
 	//
 	//
-	// найдём расстояние (в патчах) от нуля мира до горизонтальных границ экрана (по Y) и до вертикальных (по X)
+	// РЅР°Р№РґС‘Рј СЂР°СЃСЃС‚РѕСЏРЅРёРµ (РІ РїР°С‚С‡Р°С…) РѕС‚ РЅСѓР»СЏ РјРёСЂР° РґРѕ РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅС‹С… РіСЂР°РЅРёС† СЌРєСЂР°РЅР° (РїРѕ Y) Рё РґРѕ РІРµСЂС‚РёРєР°Р»СЊРЅС‹С… (РїРѕ X)
 	CTRect<int> rcL1Rect;								// level 1 of roughness rect
 	const CVec3 vTerraOX( 0, 0, 0 );
 	const CVec3 vTerraOY( 0, fPatchesY * fPatchSize, 0 );
@@ -1971,9 +1971,9 @@ void CScene::SelectPatches( ICamera *pCamera, float fPatchesX, float fPatchesY, 
 	}
 	rcL1Rect.Normalize();
 	//
-	// теперь из полученного прямоугольника (rcL0Rect) проверим все патчи на предмет следующих условий:
-	// сумма индексов патча (x, y) должна быть >= rcL1Rect.miny, <= rcL1Rect.maxy
-	// сумма индексов патча (x, y - num patches Y) должна быть >= rcL1Rect.minx, <= rcL1Rect.maxx
+	// С‚РµРїРµСЂСЊ РёР· РїРѕР»СѓС‡РµРЅРЅРѕРіРѕ РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРєР° (rcL0Rect) РїСЂРѕРІРµСЂРёРј РІСЃРµ РїР°С‚С‡Рё РЅР° РїСЂРµРґРјРµС‚ СЃР»РµРґСѓСЋС‰РёС… СѓСЃР»РѕРІРёР№:
+	// СЃСѓРјРјР° РёРЅРґРµРєСЃРѕРІ РїР°С‚С‡Р° (x, y) РґРѕР»Р¶РЅР° Р±С‹С‚СЊ >= rcL1Rect.miny, <= rcL1Rect.maxy
+	// СЃСѓРјРјР° РёРЅРґРµРєСЃРѕРІ РїР°С‚С‡Р° (x, y - num patches Y) РґРѕР»Р¶РЅР° Р±С‹С‚СЊ >= rcL1Rect.minx, <= rcL1Rect.maxx
 	rcL0Rect.x1 = Clamp( rcL0Rect.x1, 0, int(fPatchesX) );
 	rcL0Rect.y1 = Clamp( rcL0Rect.y1, 0, int(fPatchesY) );
 	rcL0Rect.x2 = Clamp( rcL0Rect.x2 + 3, 0, int(fPatchesX) );

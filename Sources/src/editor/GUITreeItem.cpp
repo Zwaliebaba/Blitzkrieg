@@ -104,7 +104,7 @@ int CTemplatesTreeItem::operator&( IDataTree &ss )
 		szFullDirectory += "editor\\UI\\";
 		szFullDirectory += szDirectory;
 		
-		//Сперва составляю полный список XML файлов
+		//вЂ”РїРµСЂРІР° СЃРѕСЃС‚Р°РІР»В¤СЋ РїРѕР»РЅС‹Р№ СЃРїРёСЃРѕРє XML С„Р°Р№Р»РѕРІ
 		NFile::EnumerateFiles( szFullDirectory.c_str(), szMask.c_str(), CGetAllFiles( &files ), false );
 		for ( int i=0; i<files.size(); i++ )
 		{
@@ -124,7 +124,7 @@ void CTemplatesTreeItem::InsertChildItems()
 	szFullDirectory += "editor\\UI\\";
 	szFullDirectory += szDirectory;
 	
-	//Сперва составляю полный список XML файлов
+	//вЂ”РїРµСЂРІР° СЃРѕСЃС‚Р°РІР»В¤СЋ РїРѕР»РЅС‹Р№ СЃРїРёСЃРѕРє XML С„Р°Р№Р»РѕРІ
 	NFile::EnumerateFiles( szFullDirectory.c_str(), szMask.c_str(), NFile::CGetAllFiles( &files ), false );
 	IObjectFactory *pFactory = GetCommonFactory();
 	for ( int i=0; i<files.size(); i++ )
@@ -134,7 +134,7 @@ void CTemplatesTreeItem::InsertChildItems()
 		if ( szName == "1.xml" )
 			continue;
 */
-		//прогружаю все items
+		//РїСЂРѕРіСЂСѓР¶Р°СЋ РІСЃРµ items
 		CPtr<IDataStream> pStream = CreateFileStream( szName.c_str(), STREAM_ACCESS_READ );
 		CPtr<IDataTree> pDT = CreateDataTreeSaver( pStream, IDataTree::READ );
 		CTreeAccessor saver = pDT;
@@ -183,7 +183,7 @@ void CTemplatePropsTreeItem::MyKeyDown( int nChar )
 			int nRes = AfxMessageBox( "Do you want to delete template item?", MB_YESNO );
 			if ( nRes == IDYES )
 			{
-				//удаляем template с диска
+				//СѓРґР°Р»В¤РµРј template СЃ РґРёСЃРєР°
 				remove( szXMLFile.c_str() );
 				DeleteMeInParentTreeItem();
 			}

@@ -148,7 +148,7 @@ int APIENTRY WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdL
 			NStr::ToLower( szDataDir );
 			if ( szDataDir == "s:\\versions\\current" )
 			{
-				::MessageBox( 0, "Сказано же, что нельзя использовать ресурсы с \"s:\\versions\\current\"!", "ERROR", MB_OK | MB_ICONEXCLAMATION );
+				::MessageBox( 0, "вЂ”РєР°Р·Р°РЅРѕ Р¶Рµ, С‡С‚Рѕ РЅРµР»СЊР·В¤ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ СЂРµСЃСѓСЂСЃС‹ СЃ \"s:\\versions\\current\"!", "ERROR", MB_OK | MB_ICONEXCLAMATION );
 				return 0xDEAD;
 			}
 			else
@@ -347,7 +347,7 @@ int APIENTRY WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdL
 			}
 		}
 	}
-	// всё через жопу
+	// РІСЃР„ С‡РµСЂРµР· Р¶РѕРїСѓ
 	{
 		std::string szGameSpyServer = GetGlobalVar( "Options.Multiplayer.GameSpyServerName", "" );
 		if ( !szGameSpyServer.empty() )

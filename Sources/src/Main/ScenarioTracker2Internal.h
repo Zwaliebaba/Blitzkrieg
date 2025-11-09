@@ -49,9 +49,9 @@ class CScenarioTracker2 : public CTRefCount<IScenarioTracker>
 	struct SNameUsageStats
 	{
 		std::string szName;									// name file name
-		NTimer::STime timeLastUsage;				// время последнего использования этого имени
-		int nUsedCounter;										// сколько раз это имя использовали
-		int nUsage;													// сколько его используют сейчас
+		NTimer::STime timeLastUsage;				// РІСЂРµРјСЏ РїРѕСЃР»РµРґРЅРµРіРѕ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ СЌС‚РѕРіРѕ РёРјРµРЅРё
+		int nUsedCounter;										// СЃРєРѕР»СЊРєРѕ СЂР°Р· СЌС‚Рѕ РёРјСЏ РёСЃРїРѕР»СЊР·РѕРІР°Р»Рё
+		int nUsage;													// СЃРєРѕР»СЊРєРѕ РµРіРѕ РёСЃРїРѕР»СЊР·СѓСЋС‚ СЃРµР№С‡Р°СЃ
 		//
 		SNameUsageStats() 
 			: timeLastUsage( 0 ), nUsedCounter( 0 ), nUsage( 0 ) {  }
@@ -174,11 +174,11 @@ public:
 	// get template by number
 	const std::string& STDCALL GetTemplateName( const int nIndex ) const;
 	
-	//удаляет все рандомные бонуса
+	//СѓРґР°Р»СЏРµС‚ РІСЃРµ СЂР°РЅРґРѕРјРЅС‹Рµ Р±РѕРЅСѓСЃР°
 	virtual void STDCALL ClearRandomBonuses( int nDifficulty );
-	//добавляет рандомный бонус
+	//РґРѕР±Р°РІР»СЏРµС‚ СЂР°РЅРґРѕРјРЅС‹Р№ Р±РѕРЅСѓСЃ
 	virtual bool STDCALL AddRandomBonus( int nDifficulty, const std::string &rszRandomBonus );
-	//возвращает рандомный бонус, удаляя его из списка
+	//РІРѕР·РІСЂР°С‰Р°РµС‚ СЂР°РЅРґРѕРјРЅС‹Р№ Р±РѕРЅСѓСЃ, СѓРґР°Р»СЏСЏ РµРіРѕ РёР· СЃРїРёСЃРєР°
 	virtual std::string STDCALL GetRandomBonus( int nDifficulty );
 
 	//

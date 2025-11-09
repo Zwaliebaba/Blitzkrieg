@@ -40,7 +40,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 
 ///////////////////////////////////
-//специфика
+//СЃРїРµС†РёС„РёРєР°
 protected:
 	const static int vID[];
 

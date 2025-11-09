@@ -74,7 +74,7 @@ load game
 options
 help
 show objectives
-end mission…
+end mission?
 return to mission
 finish mission
 restart mission

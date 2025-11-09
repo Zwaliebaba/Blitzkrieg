@@ -220,7 +220,7 @@ void CAIStartCommandsDialog::OnScpEditButton()
 		if ( pListCtrl )
 		{
 			int item = -1;
-			//ïîìåòèì ýëåìåíòû ê óäàëåíèþ
+			//Ð¿Ð¾Ð¼ÐµÑ‚Ð¸Ð¼ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ñ‹ Ðº ÑƒÐ´Ð°Ð»ÐµÐ½Ð¸ÑŽ
 
 			m_frame->dlg = new CPropertieDialog;
 			m_frame->dlg->Create( CPropertieDialog::IDD, m_frame );
@@ -271,7 +271,7 @@ void CAIStartCommandsDialog::OnScpDeleteButton()
 		if ( pListCtrl )
 		{
 			int item = -1;
-			//ïîìåòèì ýëåìåíòû ê óäàëåíèþ
+			//Ð¿Ð¾Ð¼ÐµÑ‚Ð¸Ð¼ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ñ‹ Ðº ÑƒÐ´Ð°Ð»ÐµÐ½Ð¸ÑŽ
 			while ( ( item = pListCtrl->GetNextItem( item, LVNI_SELECTED ) ) != ( -1 ) )
 			{
 				int nCount = pListCtrl->GetItemData( item );
@@ -286,7 +286,7 @@ void CAIStartCommandsDialog::OnScpDeleteButton()
 					++nIndex;
 				}
 			}
-			//óäàëèì ïîìå÷åííûå
+			//ÑƒÐ´Ð°Ð»Ð¸Ð¼ Ð¿Ð¾Ð¼ÐµÑ‡ÐµÐ½Ð½Ñ‹Ðµ
 			for ( TMutableAIStartCommandList::iterator it = m_startCommands.begin(); it != m_startCommands.end(); )
 			{
 				if ( it->pMapObjects.empty() )

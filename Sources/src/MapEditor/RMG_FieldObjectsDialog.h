@@ -84,8 +84,8 @@ protected:
 protected:
 	bool bCreateControls;
 	class CRMGCreateFieldDialog *pRMGCreateFieldDialog;
-	struct SRMFieldSet *pRMFieldSet;						//главный
-	std::vector<struct SRMFieldSet*> fieldSets;	//довавочные ( для изменения сезона и других вещей ( кроме шеллзов ) )
+	struct SRMFieldSet *pRMFieldSet;						//РіР»Р°РІРЅС‹Р№
+	std::vector<struct SRMFieldSet*> fieldSets;	//РґРѕРІР°РІРѕС‡РЅС‹Рµ ( РґР»СЏ РёР·РјРµРЅРµРЅРёСЏ СЃРµР·РѕРЅР° Рё РґСЂСѓРіРёС… РІРµС‰РµР№ ( РєСЂРѕРјРµ С€РµР»Р»Р·РѕРІ ) )
 	
 	int nSortColumn;
 	int nCurrentShell;

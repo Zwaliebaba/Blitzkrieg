@@ -49,7 +49,7 @@ BEGIN
             VALUE "FileDescription", "Scene\0"
             VALUE "FileVersion", "1, 2, 0, 0\0"
             VALUE "InternalName", "Scene\0"
-            VALUE "LegalCopyright", "Copyright © 2002\0"
+            VALUE "LegalCopyright", "Copyright ?2002\0"
             VALUE "LegalTrademarks", "\0"
             VALUE "OriginalFilename", "Scene.dll\0"
             VALUE "PrivateBuild", "\0"

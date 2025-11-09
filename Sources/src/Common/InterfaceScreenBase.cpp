@@ -287,7 +287,7 @@ bool CInterfaceScreenBase::ProcessTextMessage( const STextMessage &msg )
 	if ( pUIScreen )
 	{
 		pUIScreen->OnChar( msg.wChars[0], msg.nVirtualKey, msg.bPressed, E_KEYBOARD_FREE );
-		// Screen ìîã ñãåíåðèòü ñîîáùåíèå, íàïðèìåð î ïðåêðàöåíèè TEXT_MODE, åãî íàäî ñðàçó îáðàáîòàòü
+		// Screen Ð¼Ð¾Ð³ ÑÐ³ÐµÐ½ÐµÑ€Ð¸Ñ‚ÑŒ ÑÐ¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ðµ, Ð½Ð°Ð¿Ñ€Ð¸Ð¼ÐµÑ€ Ð¾ Ð¿Ñ€ÐµÐºÑ€Ð°Ñ†ÐµÐ½Ð¸Ð¸ TEXT_MODE, ÐµÐ³Ð¾ Ð½Ð°Ð´Ð¾ ÑÑ€Ð°Ð·Ñƒ Ð¾Ð±Ñ€Ð°Ð±Ð¾Ñ‚Ð°Ñ‚ÑŒ
 		SGameMessage uiMessage;
 		while ( pUIScreen->GetMessage( &uiMessage) )
 			ProcessMessage( uiMessage );
@@ -335,7 +335,7 @@ bool CInterfaceScreenBase::ProcessUIMessage( const SGameMessage &msg )
 		switch ( msg.nEventID )
 		{
 
-			//÷àñòíûé ñëó÷àé, îáðàáîòêà íàæàòèé ìûøêè, äîëæíà ïî äðóãîìó îáðàáîòàòüñÿ UI
+			//Ñ‡Ð°ÑÑ‚Ð½Ñ‹Ð¹ ÑÐ»ÑƒÑ‡Ð°Ð¹, Ð¾Ð±Ñ€Ð°Ð±Ð¾Ñ‚ÐºÐ° Ð½Ð°Ð¶Ð°Ñ‚Ð¸Ð¹ Ð¼Ñ‹ÑˆÐºÐ¸, Ð´Ð¾Ð»Ð¶Ð½Ð° Ð¿Ð¾ Ð´Ñ€ÑƒÐ³Ð¾Ð¼Ñƒ Ð¾Ð±Ñ€Ð°Ð±Ð¾Ñ‚Ð°Ñ‚ÑŒÑÑ UI
 		case CMD_MOUSE0_DBLCLK:
 			if ( pUIScreen->OnLButtonDblClk( GetPosFromMsg(pCursor, msg) ) == false )
 				ProcessAndAdd( msg );
@@ -348,7 +348,7 @@ bool CInterfaceScreenBase::ProcessUIMessage( const SGameMessage &msg )
 				if ( pUIScreen->OnLButtonUp( GetPosFromMsg(pCursor, msg), E_MOUSE_FREE ) == false )
 					ProcessAndAdd( msg );
 				break;
-			//ïðàâàÿ ìûøà
+			//Ð¿Ñ€Ð°Ð²Ð°Ñ Ð¼Ñ‹ÑˆÐ°
 			case CMD_BEGIN_ACTION2:
 				if ( pUIScreen->OnRButtonDown( GetPosFromMsg(pCursor, msg), E_RBUTTONDOWN ) == false )
 					ProcessAndAdd( msg );
@@ -357,10 +357,10 @@ bool CInterfaceScreenBase::ProcessUIMessage( const SGameMessage &msg )
 				if ( pUIScreen->OnRButtonUp( GetPosFromMsg(pCursor, msg), E_MOUSE_FREE ) == false )
 					ProcessAndAdd( msg );
 				break;
-			// ñïåöèàëüíûé ñëó÷àé - íàäî îáðàáîòàòü ìåññàãè, êîòîðûå áûëè ñãåíåðåíû âíóòðè UI screen
+			// ÑÐ¿ÐµÑ†Ð¸Ð°Ð»ÑŒÐ½Ñ‹Ð¹ ÑÐ»ÑƒÑ‡Ð°Ð¹ - Ð½Ð°Ð´Ð¾ Ð¾Ð±Ñ€Ð°Ð±Ð¾Ñ‚Ð°Ñ‚ÑŒ Ð¼ÐµÑÑÐ°Ð³Ð¸, ÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ðµ Ð±Ñ‹Ð»Ð¸ ÑÐ³ÐµÐ½ÐµÑ€ÐµÐ½Ñ‹ Ð²Ð½ÑƒÑ‚Ñ€Ð¸ UI screen
 			case -1:
 				break;
-				//âñå îñòàëüíûå ñëó÷àè
+				//Ð²ÑÐµ Ð¾ÑÑ‚Ð°Ð»ÑŒÐ½Ñ‹Ðµ ÑÐ»ÑƒÑ‡Ð°Ð¸
 			default:
 				pUIScreen->ProcessGameMessage( msg );
 		}

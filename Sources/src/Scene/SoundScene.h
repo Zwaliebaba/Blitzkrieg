@@ -12,15 +12,15 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 struct SSoundSceneConsts
 {
-	static int SS_SOUND_CELL_SIZE;									// длина стороны в порции
-	static NTimer::STime SS_MIX_DELTA;							// максимальная разница во времени 
-																									// появления звуков при SFX_MIX_IF_TIME_EQUALS
-	static NTimer::STime SS_UPDATE_PERIOD;					// в милисекундах
-	static NTimer::STime SS_SOUND_DIM_TIME;								// время затухания звука при удалении
-	static NTimer::STime SS_COMBAT_MUSIC_PLAY_WO_NOTIFY;	// сколько должно длиться перемирие чтобы замолчала комбатная музыка
-	static NTimer::STime SS_COMBAT_MUSIC_FADE;						//время затухания комбатной музыки в милисекундах.
+	static int SS_SOUND_CELL_SIZE;									// РґР»РёРЅР° СЃС‚РѕСЂРѕРЅС‹ РІ РїРѕСЂС†РёРё
+	static NTimer::STime SS_MIX_DELTA;							// РјР°РєСЃРёРјР°Р»СЊРЅР°СЏ СЂР°Р·РЅРёС†Р° РІРѕ РІСЂРµРјРµРЅРё 
+																									// РїРѕСЏРІР»РµРЅРёСЏ Р·РІСѓРєРѕРІ РїСЂРё SFX_MIX_IF_TIME_EQUALS
+	static NTimer::STime SS_UPDATE_PERIOD;					// РІ РјРёР»РёСЃРµРєСѓРЅРґР°С…
+	static NTimer::STime SS_SOUND_DIM_TIME;								// РІСЂРµРјСЏ Р·Р°С‚СѓС…Р°РЅРёСЏ Р·РІСѓРєР° РїСЂРё СѓРґР°Р»РµРЅРёРё
+	static NTimer::STime SS_COMBAT_MUSIC_PLAY_WO_NOTIFY;	// СЃРєРѕР»СЊРєРѕ РґРѕР»Р¶РЅРѕ РґР»РёС‚СЊСЃСЏ РїРµСЂРµРјРёСЂРёРµ С‡С‚РѕР±С‹ Р·Р°РјРѕР»С‡Р°Р»Р° РєРѕРјР±Р°С‚РЅР°СЏ РјСѓР·С‹РєР°
+	static NTimer::STime SS_COMBAT_MUSIC_FADE;						//РІСЂРµРјСЏ Р·Р°С‚СѓС…Р°РЅРёСЏ РєРѕРјР±Р°С‚РЅРѕР№ РјСѓР·С‹РєРё РІ РјРёР»РёСЃРµРєСѓРЅРґР°С….
 	
-	static NTimer::STime SS_STREAMING_SILENT_PAUSE;				// для вычисления времени тишины после Combat перед запуском 
+	static NTimer::STime SS_STREAMING_SILENT_PAUSE;				// РґР»СЏ РІС‹С‡РёСЃР»РµРЅРёСЏ РІСЂРµРјРµРЅРё С‚РёС€РёРЅС‹ РїРѕСЃР»Рµ Combat РїРµСЂРµРґ Р·Р°РїСѓСЃРєРѕРј 
 	static NTimer::STime SS_STREAMING_SILENT_PAUSE_RND;		// IDLE
 	static NTimer::STime SS_IDLE_PAUSE; 
 
@@ -49,7 +49,7 @@ struct SSoundSceneConsts
 
 	static int MIN_SOUND_COUNT_TO_PLAY_LOOPED;
 };
-	// для звуков, прописанных в точке карты
+	// РґР»СЏ Р·РІСѓРєРѕРІ, РїСЂРѕРїРёСЃР°РЅРЅС‹С… РІ С‚РѕС‡РєРµ РєР°СЂС‚С‹
 class CMapSounds
 {
 	DECLARE_SERIALIZE;
@@ -86,14 +86,14 @@ class CMapSounds
 			void Clear() { wInstanceID = 0; wSceneID = 0; wSoundTypeID = 0; }
 		};
 
-		SPlaying playingLoopedSound;							// текущий играющий тип звука (зацикленный)
-		SPlaying playingSound;										// текущий незацикленный звук
+		SPlaying playingLoopedSound;							// С‚РµРєСѓС‰РёР№ РёРіСЂР°СЋС‰РёР№ С‚РёРї Р·РІСѓРєР° (Р·Р°С†РёРєР»РµРЅРЅС‹Р№)
+		SPlaying playingSound;										// С‚РµРєСѓС‰РёР№ РЅРµР·Р°С†РёРєР»РµРЅРЅС‹Р№ Р·РІСѓРє
 
-		// по типам звука списки
+		// РїРѕ С‚РёРїР°Рј Р·РІСѓРєР° СЃРїРёСЃРєРё
 		typedef std::hash_map<WORD, SMapSounds> CellSounds;
 		CellSounds cellSounds;
 		CellSounds cellLoopedSounds;
-		NTimer::STime timeNextRun;			// время следующего проигрыша звука
+		NTimer::STime timeNextRun;			// РІСЂРµРјСЏ СЃР»РµРґСѓСЋС‰РµРіРѕ РїСЂРѕРёРіСЂС‹С€Р° Р·РІСѓРєР°
 
 		void RemoveSound( CellSounds *pCellSounds, const WORD wInstanceID );
 	public:
@@ -104,9 +104,9 @@ class CMapSounds
 		void Update( class CSoundScene * pScene, const RegisteredSounds &registeredSounds );
 	};
 
-	CFreeIds soundIDs;									// для регистрации звуков
-	CFreeIds instanceIDs;								// каждый звук будет миеть уникальный ID
-	RegisteredSounds registeredSounds;	// список названий звуков, которые есть в сцене
+	CFreeIds soundIDs;									// РґР»СЏ СЂРµРіРёСЃС‚СЂР°С†РёРё Р·РІСѓРєРѕРІ
+	CFreeIds instanceIDs;								// РєР°Р¶РґС‹Р№ Р·РІСѓРє Р±СѓРґРµС‚ РјРёРµС‚СЊ СѓРЅРёРєР°Р»СЊРЅС‹Р№ ID
+	RegisteredSounds registeredSounds;	// СЃРїРёСЃРѕРє РЅР°Р·РІР°РЅРёР№ Р·РІСѓРєРѕРІ, РєРѕС‚РѕСЂС‹Рµ РµСЃС‚СЊ РІ СЃС†РµРЅРµ
 
 	// 2d map of sound cells
 	CArray2D< CMapSoundCell > mapCells;
@@ -133,12 +133,12 @@ class CSoundScene : public IRefCount
 	OBJECT_COMPLETE_METHODS( CSoundScene );
 public:
 
-	static const NTimer::STime &GetCurTime();		// чтобы не передавать всюду
-	// для определения лежит ли звук в пределах карты
+	static const NTimer::STime &GetCurTime();		// С‡С‚РѕР±С‹ РЅРµ РїРµСЂРµРґР°РІР°С‚СЊ РІСЃСЋРґСѓ
+	// РґР»СЏ РѕРїСЂРµРґРµР»РµРЅРёСЏ Р»РµР¶РёС‚ Р»Рё Р·РІСѓРє РІ РїСЂРµРґРµР»Р°С… РєР°СЂС‚С‹
 	static bool IsInBounds( int x, int y );
 	static IObjectsDB * GetObjectDB();
 	
-	// для хранения списка звуков и выдачи их по запросу
+	// РґР»СЏ С…СЂР°РЅРµРЅРёСЏ СЃРїРёСЃРєР° Р·РІСѓРєРѕРІ Рё РІС‹РґР°С‡Рё РёС… РїРѕ Р·Р°РїСЂРѕСЃСѓ
 	class CPlayList : public IRefCount
 	{
 		OBJECT_COMPLETE_METHODS( CPlayList );
@@ -155,12 +155,12 @@ public:
 		const bool IsEmpty() const { return melodies.empty(); }
 	};
 
-		// для звуков, исходящих от Terrain и от протяженных объектов.
+		// РґР»СЏ Р·РІСѓРєРѕРІ, РёСЃС…РѕРґСЏС‰РёС… РѕС‚ Terrain Рё РѕС‚ РїСЂРѕС‚СЏР¶РµРЅРЅС‹С… РѕР±СЉРµРєС‚РѕРІ.
 	class CTerrainSounds
 	{
 		DECLARE_SERIALIZE;
 	public:
-		// для хранения звука и его обработки
+		// РґР»СЏ С…СЂР°РЅРµРЅРёСЏ Р·РІСѓРєР° Рё РµРіРѕ РѕР±СЂР°Р±РѕС‚РєРё
 		class CTerrainSound 
 		{
 			DECLARE_SERIALIZE;
@@ -201,7 +201,7 @@ public:
 			void StartCycledSounds( ISFX *pSFX, bool bNonPeacefulOnly );
 
 			NTimer::STime GetRestartTime() { return timeRestart; }
-			// если изменилось положение камеры IsNeedUpdate вернет true
+			// РµСЃР»Рё РёР·РјРµРЅРёР»РѕСЃСЊ РїРѕР»РѕР¶РµРЅРёРµ РєР°РјРµСЂС‹ IsNeedUpdate РІРµСЂРЅРµС‚ true
 			void Update(	const SSoundTerrainInfo& info, 
 										const CVec3 &vCameraAnchor, const CVec2 &vScreenSize, const float fRelativeVolume );
 			void SetMustPlay( bool _bMustPlay ) ;
@@ -233,11 +233,11 @@ public:
 	};
 
 private:
-	// интерактивная музыка
+	// РёРЅС‚РµСЂР°РєС‚РёРІРЅР°СЏ РјСѓР·С‹РєР°
 	class CStreamingSounds
 	{
-		//звучки прерывать на маркерах, запускать на сегментах.
-		// на маленький промежуток без звука - забить.
+		//Р·РІСѓС‡РєРё РїСЂРµСЂС‹РІР°С‚СЊ РЅР° РјР°СЂРєРµСЂР°С…, Р·Р°РїСѓСЃРєР°С‚СЊ РЅР° СЃРµРіРјРµРЅС‚Р°С….
+		// РЅР° РјР°Р»РµРЅСЊРєРёР№ РїСЂРѕРјРµР¶СѓС‚РѕРє Р±РµР· Р·РІСѓРєР° - Р·Р°Р±РёС‚СЊ.
 		DECLARE_SERIALIZE;
 
 		// for load
@@ -273,10 +273,10 @@ private:
 		EStreamingSoundsState eState;
 		CPtr<IGameTimer> pGameTimer;
 
-		bool bCombatNotify;									// включить комбат
-		NTimer::STime timeLastCombatNotify;	// время последнего сегмента с боем
+		bool bCombatNotify;									// РІРєР»СЋС‡РёС‚СЊ РєРѕРјР±Р°С‚
+		NTimer::STime timeLastCombatNotify;	// РІСЂРµРјСЏ РїРѕСЃР»РµРґРЅРµРіРѕ СЃРµРіРјРµРЅС‚Р° СЃ Р±РѕРµРј
 		NTimer::STime timeLastUpdate;				//
-		NTimer::STime timeDesiredPause;			// посчитанная пауза между Combat и Idle
+		NTimer::STime timeDesiredPause;			// РїРѕСЃС‡РёС‚Р°РЅРЅР°СЏ РїР°СѓР·Р° РјРµР¶РґСѓ Combat Рё Idle
 
 		CPtr<CPlayList> pIdle;							// 
 		CPtr<CPlayList> pCombat;						// 
@@ -291,13 +291,13 @@ private:
 		void Clear();
 		// 
 		void Init( const std::string &szPartyName );
-		// запуск (или продолжение) комбатной музыки
+		// Р·Р°РїСѓСЃРє (РёР»Рё РїСЂРѕРґРѕР»Р¶РµРЅРёРµ) РєРѕРјР±Р°С‚РЅРѕР№ РјСѓР·С‹РєРё
 		void CombatNotify();
 		// 
 		void Update();
 	};
 
-	// для Hash таблицы
+	// РґР»СЏ Hash С‚Р°Р±Р»РёС†С‹
 	struct SIntPairHash
 	{
 		size_t operator() ( const SIntPair &v ) const
@@ -320,8 +320,8 @@ private:
 public:
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// после использования звука заканчивает его проигрыш. для циклических
-	// звуков - они должны заканчиваться только когда их никто не играет
+	// РїРѕСЃР»Рµ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ Р·РІСѓРєР° Р·Р°РєР°РЅС‡РёРІР°РµС‚ РµРіРѕ РїСЂРѕРёРіСЂС‹С€. РґР»СЏ С†РёРєР»РёС‡РµСЃРєРёС…
+	// Р·РІСѓРєРѕРІ - РѕРЅРё РґРѕР»Р¶РЅС‹ Р·Р°РєР°РЅС‡РёРІР°С‚СЊСЃСЏ С‚РѕР»СЊРєРѕ РєРѕРіРґР° РёС… РЅРёРєС‚Рѕ РЅРµ РёРіСЂР°РµС‚
 	class CSubstSound : public IRefCount
 	{
 		OBJECT_NORMAL_METHODS(CSubstSound);
@@ -342,18 +342,18 @@ public:
 		}
 	};
 
-	//звук
+	//Р·РІСѓРє
 	class CSound : public IRefCount
 	{
 		OBJECT_NORMAL_METHODS( CSound );
 		DECLARE_SERIALIZE;
 		WORD wID;														// 
-		CPtr<ISound> pSample;								// звук, который нужно играть
-		CPtr<CSubstSound> pSubstitute;						// звук, который играется вместо pSample
+		CPtr<ISound> pSample;								// Р·РІСѓРє, РєРѕС‚РѕСЂС‹Р№ РЅСѓР¶РЅРѕ РёРіСЂР°С‚СЊ
+		CPtr<CSubstSound> pSubstitute;						// Р·РІСѓРє, РєРѕС‚РѕСЂС‹Р№ РёРіСЂР°РµС‚СЃСЏ РІРјРµСЃС‚Рѕ pSample
 		
-		ESoundCombatType eCombatType;				// поведение звука во время боя
-		NTimer::STime timeBegin;						// начало проигрыша звука. 
-		NTimer::STime timeToPlay;						// время начала звука
+		ESoundCombatType eCombatType;				// РїРѕРІРµРґРµРЅРёРµ Р·РІСѓРєР° РІРѕ РІСЂРµРјСЏ Р±РѕСЏ
+		NTimer::STime timeBegin;						// РЅР°С‡Р°Р»Рѕ РїСЂРѕРёРіСЂС‹С€Р° Р·РІСѓРєР°. 
+		NTimer::STime timeToPlay;						// РІСЂРµРјСЏ РЅР°С‡Р°Р»Р° Р·РІСѓРєР°
 		NTimer::STime timeBeginDim;
 
 		std::string szName;
@@ -363,9 +363,9 @@ public:
 
 		int nMaxRadius, nMinRadius;
 
-		bool bStartedMark;											// звук запустили уже
-		bool bFinishedMark;											// звук уже отыграл
-		bool bDimMark;												  // начать затухание звука
+		bool bStartedMark;											// Р·РІСѓРє Р·Р°РїСѓСЃС‚РёР»Рё СѓР¶Рµ
+		bool bFinishedMark;											// Р·РІСѓРє СѓР¶Рµ РѕС‚С‹РіСЂР°Р»
+		bool bDimMark;												  // РЅР°С‡Р°С‚СЊ Р·Р°С‚СѓС…Р°РЅРёРµ Р·РІСѓРєР°
 	public:
 		CSound() {  }
 		CSound(	const WORD wID, 
@@ -379,14 +379,14 @@ public:
 															float fMaxRadius);
 		virtual ~CSound();
 	
-		// сктолько самплов уже отыграло
+		// СЃРєС‚РѕР»СЊРєРѕ СЃР°РјРїР»РѕРІ СѓР¶Рµ РѕС‚С‹РіСЂР°Р»Рѕ
 		unsigned int GetSamplesPassed();
 		bool IsTimeToFinish();
 		
-		//время проигрыша этого звука
+		//РІСЂРµРјСЏ РїСЂРѕРёРіСЂС‹С€Р° СЌС‚РѕРіРѕ Р·РІСѓРєР°
 		NTimer::STime GetPlayTime() const { return timeToPlay; }
 		
-		// замена звука
+		// Р·Р°РјРµРЅР° Р·РІСѓРєР°
 		bool IsSubstituted() const { return pSubstitute!=0; }
 		CSubstSound * GetSubst();
 		void Substitute( CSubstSound *_pSubstitute, NTimer::STime nStartTime );
@@ -394,16 +394,16 @@ public:
 
 		bool IsLooped() const { return bLooped; }
 
-		//начало проигрыша этого звука
+		//РЅР°С‡Р°Р»Рѕ РїСЂРѕРёРіСЂС‹С€Р° СЌС‚РѕРіРѕ Р·РІСѓРєР°
 		void MarkStarted();
 		bool IsMarkedStarted() const { return bStartedMark; }
-		//конец проигрыша звука
+		//РєРѕРЅРµС† РїСЂРѕРёРіСЂС‹С€Р° Р·РІСѓРєР°
 		bool IsMarkedFinished() const { return bFinishedMark; }
 		void MarkFinished( bool bFinished =true ) { bFinishedMark=bFinished; }
-		// для затухания звука при удалении
+		// РґР»СЏ Р·Р°С‚СѓС…Р°РЅРёСЏ Р·РІСѓРєР° РїСЂРё СѓРґР°Р»РµРЅРёРё
 		void MarkToDim( const NTimer::STime time );
 		bool IsMarkedForDim() const { return bDimMark; }
-		// из-за затухания (по времени) или из-за расстояния громкость может быть не полной.
+		// РёР·-Р·Р° Р·Р°С‚СѓС…Р°РЅРёСЏ (РїРѕ РІСЂРµРјРµРЅРё) РёР»Рё РёР·-Р·Р° СЂР°СЃСЃС‚РѕСЏРЅРёСЏ РіСЂРѕРјРєРѕСЃС‚СЊ РјРѕР¶РµС‚ Р±С‹С‚СЊ РЅРµ РїРѕР»РЅРѕР№.
 		float GetVolume( const NTimer::STime time, const float fDist  ) const;
 
 
@@ -411,7 +411,7 @@ public:
 		const NTimer::STime & GetBeginTime() const {return timeBegin;}
 
 
-		int GetRadiusMax() const;								// дистанция (в клетках) на котрой этот звук слышен
+		int GetRadiusMax() const;								// РґРёСЃС‚Р°РЅС†РёСЏ (РІ РєР»РµС‚РєР°С…) РЅР° РєРѕС‚СЂРѕР№ СЌС‚РѕС‚ Р·РІСѓРє СЃР»С‹С€РµРЅ
 		ISound * GetSound();
 		ESoundMixType GetMixType() const { return eMixType; }
 		const WORD GetID() { return wID; }
@@ -423,15 +423,15 @@ public:
 		ESoundCombatType GetCombatType() const { return eCombatType; }
 	};
 
-	//клетка, содержащая звук
+	//РєР»РµС‚РєР°, СЃРѕРґРµСЂР¶Р°С‰Р°СЏ Р·РІСѓРє
 	class CSoundCell : public IRefCount
 	{
 		DECLARE_SERIALIZE;
 		OBJECT_COMPLETE_METHODS( CSoundCell );
-		int nRadius;												// радиус звучания этой клетки(в клетках)
-		//std::list< SIntPair > hearableCells;	// список клеток, звуки которых слышно из этой клетки
+		int nRadius;												// СЂР°РґРёСѓСЃ Р·РІСѓС‡Р°РЅРёСЏ СЌС‚РѕР№ РєР»РµС‚РєРё(РІ РєР»РµС‚РєР°С…)
+		//std::list< SIntPair > hearableCells;	// СЃРїРёСЃРѕРє РєР»РµС‚РѕРє, Р·РІСѓРєРё РєРѕС‚РѕСЂС‹С… СЃР»С‹С€РЅРѕ РёР· СЌС‚РѕР№ РєР»РµС‚РєРё
 		typedef std::list< CPtr<CSound> > CSounds;
-		CSounds sounds;												// звуки этой клетки
+		CSounds sounds;												// Р·РІСѓРєРё СЌС‚РѕР№ РєР»РµС‚РєРё
 		void RecountForDelete();
 		NTimer::STime timeLastCombatHear;
 		bool IsSoundHearable( const CSound *pSound, const int nRadius ) const;
@@ -441,15 +441,15 @@ public:
 
 		int GetRadius() const { return nRadius; }
 		void SetRadius( int nRad ) { nRadius = nRad; }
-		void AddSound( class CSound *pSound );	// добавляет звук и пересчитывает радиус звучания
-		void RemoveSound( const WORD wID, ISFX * pSFX =0 );					// удаляет звук и пересчитывает радиус звучания
+		void AddSound( class CSound *pSound );	// РґРѕР±Р°РІР»СЏРµС‚ Р·РІСѓРє Рё РїРµСЂРµСЃС‡РёС‚С‹РІР°РµС‚ СЂР°РґРёСѓСЃ Р·РІСѓС‡Р°РЅРёСЏ
+		void RemoveSound( const WORD wID, ISFX * pSFX =0 );					// СѓРґР°Р»СЏРµС‚ Р·РІСѓРє Рё РїРµСЂРµСЃС‡РёС‚С‹РІР°РµС‚ СЂР°РґРёСѓСЃ Р·РІСѓС‡Р°РЅРёСЏ
 		CSound * GetSound( const WORD wID );
 
-		// удалить звуки с ID == 0 , которые завершились
-		// все доигравшие звуки пометить как доигравшие
+		// СѓРґР°Р»РёС‚СЊ Р·РІСѓРєРё СЃ ID == 0 , РєРѕС‚РѕСЂС‹Рµ Р·Р°РІРµСЂС€РёР»РёСЃСЊ
+		// РІСЃРµ РґРѕРёРіСЂР°РІС€РёРµ Р·РІСѓРєРё РїРѕРјРµС‚РёС‚СЊ РєР°Рє РґРѕРёРіСЂР°РІС€РёРµ
 		void Update( ISFX * pSFX );
 		
-		// доступ к списку слышимых клеток.
+		// РґРѕСЃС‚СѓРї Рє СЃРїРёСЃРєСѓ СЃР»С‹С€РёРјС‹С… РєР»РµС‚РѕРє.
 		//void AddHearCell( const SIntPair &cell);
 		//void RemoveHearCell( const SIntPair &cell);
 		// replace cell registration with new
@@ -463,7 +463,7 @@ public:
 		bool IsCombat() const;
 
 		
-		// для всех звуков, которые слышны на расстояние больше nRadius и еще не доиграли
+		// РґР»СЏ РІСЃРµС… Р·РІСѓРєРѕРІ, РєРѕС‚РѕСЂС‹Рµ СЃР»С‹С€РЅС‹ РЅР° СЂР°СЃСЃС‚РѕСЏРЅРёРµ Р±РѕР»СЊС€Рµ nRadius Рё РµС‰Рµ РЅРµ РґРѕРёРіСЂР°Р»Рё
 		template <class TEnumFunc> 
 			void EnumHearableSounds( int nRadius, TEnumFunc func )
 		{
@@ -473,7 +473,7 @@ public:
 						func( *it );
 			}
 		}
-		// для перебора всех звуков.
+		// РґР»СЏ РїРµСЂРµР±РѕСЂР° РІСЃРµС… Р·РІСѓРєРѕРІ.
 		template <class TEnumFunc>
 				void EnumAllSounds( TEnumFunc func, int nRadius )
 		{
@@ -489,7 +489,7 @@ public:
 			}
 			else
 			{
-				// значит ни один из звуков этой клетки не слышен
+				// Р·РЅР°С‡РёС‚ РЅРё РѕРґРёРЅ РёР· Р·РІСѓРєРѕРІ СЌС‚РѕР№ РєР»РµС‚РєРё РЅРµ СЃР»С‹С€РµРЅ
 				for ( CSounds::iterator it = sounds.begin(); it != sounds.end(); ++it )
 					func( *it, false );
 			}
@@ -506,8 +506,8 @@ public:
 	typedef std::hash_map< SIntPair, CPtr<CSoundCell>, SIntPairHash > CSoundCellsOutOfBounds;
 	typedef std::hash_map< SIntPair, CPtr<CSoundCell>, SIntPairHash > CSoundCellsWithSound;
 
-	// для сбора звуков, которые слышны в клетке и сортировки их по
-	// звукам их заменяющим
+	// РґР»СЏ СЃР±РѕСЂР° Р·РІСѓРєРѕРІ, РєРѕС‚РѕСЂС‹Рµ СЃР»С‹С€РЅС‹ РІ РєР»РµС‚РєРµ Рё СЃРѕСЂС‚РёСЂРѕРІРєРё РёС… РїРѕ
+	// Р·РІСѓРєР°Рј РёС… Р·Р°РјРµРЅСЏСЋС‰РёРј
 	class CSoundsCollector
 	{
 		CSoundSubstTable	&substTable;
@@ -525,38 +525,38 @@ public:
 
 private:
 	enum ESoundSceneMode eSoundSceneMode;
-	CFreeIds freeIDs;											// таблица ID звуков
-	std::hash_map< WORD, SIntPair >				soundIDs;			// в какой клетке находится звук.
+	CFreeIds freeIDs;											// С‚Р°Р±Р»РёС†Р° ID Р·РІСѓРєРѕРІ
+	std::hash_map< WORD, SIntPair >				soundIDs;			// РІ РєР°РєРѕР№ РєР»РµС‚РєРµ РЅР°С…РѕРґРёС‚СЃСЏ Р·РІСѓРє.
 
 	ISFX * pSFX;
 	ISoundManager * pSoundManager;
 	IGameTimer * pGameTimer;
 	static IObjectsDB * pObjectsDB;
 
-	CUpdatedCells updatedCells;						// для промежуточного хранения
+	CUpdatedCells updatedCells;						// РґР»СЏ РїСЂРѕРјРµР¶СѓС‚РѕС‡РЅРѕРіРѕ С…СЂР°РЅРµРЅРёСЏ
 	
 	NTimer::STime timeLastUpdate;
-	SIntPair vFormerCameraCell;								// для отслеживания перемещения камеры
-	static SIntPair vLimit;											// максимальные размеры карты
+	SIntPair vFormerCameraCell;								// РґР»СЏ РѕС‚СЃР»РµР¶РёРІР°РЅРёСЏ РїРµСЂРµРјРµС‰РµРЅРёСЏ РєР°РјРµСЂС‹
+	static SIntPair vLimit;											// РјР°РєСЃРёРјР°Р»СЊРЅС‹Рµ СЂР°Р·РјРµСЂС‹ РєР°СЂС‚С‹
 
-	CSoundSubstTable substTable;					// таблица замены звуков
+	CSoundSubstTable substTable;					// С‚Р°Р±Р»РёС†Р° Р·Р°РјРµРЅС‹ Р·РІСѓРєРѕРІ
 
 	CStreamingSounds streamingSounds;
 	
-	CHearableSounds interfaceSounds;					// звуки от интерфейса
+	CHearableSounds interfaceSounds;					// Р·РІСѓРєРё РѕС‚ РёРЅС‚РµСЂС„РµР№СЃР°
 	std::hash_set<int> finishedInterfaceSounds;
 	std::hash_set<int> deletedInterfaceSounds;
 
 	CTerrainSounds terrainSounds;
 	CMapSounds mapSounds;
 
-	CSoundCellsInBounds	soundCellsInBounds;								// звуки на карте
-	CSoundCellsOutOfBounds soundCellsOutOfBounds;		// звуки за кратой (гл.образом самолеты)
-	CSoundCellsWithSound soundCellsWithSound;				// список всех клеток со звуками
+	CSoundCellsInBounds	soundCellsInBounds;								// Р·РІСѓРєРё РЅР° РєР°СЂС‚Рµ
+	CSoundCellsOutOfBounds soundCellsOutOfBounds;		// Р·РІСѓРєРё Р·Р° РєСЂР°С‚РѕР№ (РіР».РѕР±СЂР°Р·РѕРј СЃР°РјРѕР»РµС‚С‹)
+	CSoundCellsWithSound soundCellsWithSound;				// СЃРїРёСЃРѕРє РІСЃРµС… РєР»РµС‚РѕРє СЃРѕ Р·РІСѓРєР°РјРё
 	CVec2 vScreenResize;
 
 	CCellsConglomerateContainer cellsPHS;
-	static NTimer::STime curTime;					// чтобы не передавать всюду
+	static NTimer::STime curTime;					// С‡С‚РѕР±С‹ РЅРµ РїРµСЂРµРґР°РІР°С‚СЊ РІСЃСЋРґСѓ
 
 	// helper functions
 	CSoundCell * GetSoundCell( const CSoundScene::SIntPair &vCell );
@@ -584,15 +584,15 @@ private:
 					bool bDelete = true );
 
 
-	// для сортировки звуков по времени старта
+	// РґР»СЏ СЃРѕСЂС‚РёСЂРѕРІРєРё Р·РІСѓРєРѕРІ РїРѕ РІСЂРµРјРµРЅРё СЃС‚Р°СЂС‚Р°
 	class CSoundStartTimePredicate
 	{
 	public:
 		bool operator()( CSound* one, CSound *two ) 
 		{ return one->GetBeginTime() < two->GetBeginTime(); }
 	};
-	//для поиска звуков, начало которых лежит не дальше, чем timeDelta
-	// от timeBase
+	//РґР»СЏ РїРѕРёСЃРєР° Р·РІСѓРєРѕРІ, РЅР°С‡Р°Р»Рѕ РєРѕС‚РѕСЂС‹С… Р»РµР¶РёС‚ РЅРµ РґР°Р»СЊС€Рµ, С‡РµРј timeDelta
+	// РѕС‚ timeBase
 	class CSoundsWithinDeltaPredicate
 	{
 		NTimer::STime timeToCompare;
@@ -621,7 +621,7 @@ public:
 	void InitMusic( const std::string &szPartyName );
 
 	void SetTerrain( interface ITerrain * pTerrain ) { terrainSounds.Init( pTerrain ); }
-	// если начался или идет бой - то вызывать эу функцию
+	// РµСЃР»Рё РЅР°С‡Р°Р»СЃСЏ РёР»Рё РёРґРµС‚ Р±РѕР№ - С‚Рѕ РІС‹Р·С‹РІР°С‚СЊ СЌСѓ С„СѓРЅРєС†РёСЋ
 	void CombatNotify();
 
 	void MuteTerrain( const bool bMute );
@@ -635,9 +635,9 @@ public:
 												const int nMaxRadius,
 												const unsigned int nTimeAfterStart = 0 );
 
-	//удаляет звук из сцены. ID становится инвалидным
+	//СѓРґР°Р»СЏРµС‚ Р·РІСѓРє РёР· СЃС†РµРЅС‹. ID СЃС‚Р°РЅРѕРІРёС‚СЃСЏ РёРЅРІР°Р»РёРґРЅС‹Рј
 	void RemoveSound( const WORD wID );
-	// задает новую позицию звуку.
+	// Р·Р°РґР°РµС‚ РЅРѕРІСѓСЋ РїРѕР·РёС†РёСЋ Р·РІСѓРєСѓ.
 	void SetSoundPos( const WORD wID, const class CVec3 &vPos );
 
 	bool IsFinished( const WORD wID );

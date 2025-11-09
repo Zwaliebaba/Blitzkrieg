@@ -129,7 +129,7 @@ bool CCommandsHistory::Load( const char *pszFileName )
 	unsigned long savedCheckSumRes = GetGlobalVar( "Multiplayer.CheckSumRes", 0 );
 
 	// if variables aren't set (playing replay)
-	// он может реально быть 0, но такое встречается редко
+	// РѕРЅ РјРѕР¶РµС‚ СЂРµР°Р»СЊРЅРѕ Р±С‹С‚СЊ 0, РЅРѕ С‚Р°РєРѕРµ РІСЃС‚СЂРµС‡Р°РµС‚СЃСЏ СЂРµРґРєРѕ
 //	if ( checkSumRes == 0.0f )
 	{
 		std::string szMapName = GetGlobalVar( "Multiplayer.MapName", "" );

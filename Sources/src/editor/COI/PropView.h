@@ -8,8 +8,8 @@
 #include "CtrlObjectInspector.h"
 class CTreeItem;
 
-//Это сообщения из Object Inspector через дерево идут во frame
-const UINT WM_USERCHANGEPARAM = WM_USER + 10;		// пользователь поменял значение в OI
+//Р­С‚Рѕ СЃРѕРѕР±С‰РµРЅРёСЏ РёР· Object Inspector С‡РµСЂРµР· РґРµСЂРµРІРѕ РёРґСѓС‚ РІРѕ frame
+const UINT WM_USERCHANGEPARAM = WM_USER + 10;		// РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ РїРѕРјРµРЅСЏР» Р·РЅР°С‡РµРЅРёРµ РІ OI
 
 /////////////////////////////////////////////////////////////////////////////
 // CPropView window

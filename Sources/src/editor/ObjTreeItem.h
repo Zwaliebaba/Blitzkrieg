@@ -23,14 +23,14 @@ public:
 	CObjectCommonPropsItem() { nItemType = E_OBJECT_COMMON_PROPS_ITEM; nImageIndex = 0; InitDefaultValues(); }
 	~CObjectCommonPropsItem() {};
 	
-	//Получение внутренних параметров
+	//РџРѕР»СѓС‡РµРЅРёРµ РІРЅСѓС‚СЂРµРЅРЅРёС… РїР°СЂР°РјРµС‚СЂРѕРІ
 	int GetHealth() { return values[0].value; }
 	int GetArmor() { return values[1].value; }
 	int GetSilhouette() { return values[2].value; }
 	const char *GetAmbientSound() { return values[3].value; }
 	const char *GetCycledSound() { return values[4].value; }
 
-	//Установка
+	//РЈСЃС‚Р°РЅРѕРІРєР°
 	void SetHealth( int nVal ) { values[0].value = nVal; }
 	void SetArmor( int nVal ) { values[1].value = nVal; }
 	void SetSilhouette( int nVal ) { values[2].value = nVal; }
@@ -83,7 +83,7 @@ public:
 	CObjectGraphicPropsItem() { bStaticElements = true; /* nItemType = E_OBJECT_GRAPHIC_PROPS_ITEM */; nImageIndex = 3; InitDefaultValues(); }
 	~CObjectGraphicPropsItem() {};
 	
-	//Получение внутренних параметров
+	//РџРѕР»СѓС‡РµРЅРёРµ РІРЅСѓС‚СЂРµРЅРЅРёС… РїР°СЂР°РјРµС‚СЂРѕРІ
 	const char *GetFileName() { return values[0].value; }
 	const char *GetShadowFileName() { return values[1].value; }
 	
@@ -133,7 +133,7 @@ public:
 	CObjectSpritePropsItem() {}
 	~CObjectSpritePropsItem() {};
 	
-	//Получение внутренних параметров
+	//РџРѕР»СѓС‡РµРЅРёРµ РІРЅСѓС‚СЂРµРЅРЅРёС… РїР°СЂР°РјРµС‚СЂРѕРІ
 //	const char *GetFileName() { return values[0].value; }
 	
 //	virtual void InitDefaultValues();
@@ -148,7 +148,7 @@ public:
 	CObjectShadowPropsItem() {}
 	~CObjectShadowPropsItem() {};
 	
-	//Получение внутренних параметров
+	//РџРѕР»СѓС‡РµРЅРёРµ РІРЅСѓС‚СЂРµРЅРЅРёС… РїР°СЂР°РјРµС‚СЂРѕРІ
 //	const char *GetFileName() { return values[0].value; }
 	
 //	virtual void InitDefaultValues();
@@ -173,7 +173,7 @@ public:
 	CObjectEffectsItem() { bStaticElements = true; nItemType = E_OBJECT_EFFECTS_ITEM; InitDefaultValues(); nImageIndex = 1; }
 	~CObjectEffectsItem() {};
 	
-	//Получение внутренних параметров
+	//РџРѕР»СѓС‡РµРЅРёРµ РІРЅСѓС‚СЂРµРЅРЅРёС… РїР°СЂР°РјРµС‚СЂРѕРІ
 	const char *GetEffectExplosion() { return values[0].value; }
 	const char *GetEffectDeath() { return values[1].value; }
 	

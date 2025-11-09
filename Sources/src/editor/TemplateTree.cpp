@@ -157,7 +157,7 @@ void CTemplateTreeCtrl::OnMouseMove(UINT nFlags, CPoint point)
 		if ( hitem && (TVHT_ONITEM & flags) )
 		{
 /*
-			//Ïðîâåðÿåì òèïû item drag & item drop
+			//ÐŸÑ€Ð¾Ð²ÐµÑ€ÑÐµÐ¼ Ñ‚Ð¸Ð¿Ñ‹ item drag & item drop
 			CTreeItem *pDrag = GetTreeItem( m_hitemDrag );
 			CTreeItem *pDrop = GetTreeItem( hitem );
 
@@ -220,7 +220,7 @@ void CTemplateTreeCtrl::OnLButtonUp(UINT nFlags, CPoint point)
 /*
 		CRect rect;
 		GetClientRect( &rect );
-		// åñëè îáúåêò êèíóëè ìèìî íàøåãî îêíà, ïîñûëàåì ñîîáùåíèå ðîäèòåëüñêîìó îêíó è âûõîäèì
+		// ÐµÑÐ»Ð¸ Ð¾Ð±ÑŠÐµÐºÑ‚ ÐºÐ¸Ð½ÑƒÐ»Ð¸ Ð¼Ð¸Ð¼Ð¾ Ð½Ð°ÑˆÐµÐ³Ð¾ Ð¾ÐºÐ½Ð°, Ð¿Ð¾ÑÑ‹Ð»Ð°ÐµÐ¼ ÑÐ¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ðµ Ñ€Ð¾Ð´Ð¸Ñ‚ÐµÐ»ÑŒÑÐºÐ¾Ð¼Ñƒ Ð¾ÐºÐ½Ñƒ Ð¸ Ð²Ñ‹Ñ…Ð¾Ð´Ð¸Ð¼
 		if ( !rect.PtInRect( point )
 			//&& !IsFolder( tvidrag.lParam )
 			)
@@ -237,7 +237,7 @@ void CTemplateTreeCtrl::OnLButtonUp(UINT nFlags, CPoint point)
 		if ( hItemDrop == NULL || hItemDrop == m_hitemDrag )
 			return;
 
-		//Ïðîâåðÿåì òèïû item drag & item drop
+		//ÐŸÑ€Ð¾Ð²ÐµÑ€ÑÐµÐ¼ Ñ‚Ð¸Ð¿Ñ‹ item drag & item drop
 /*
 		CTreeItem *pDrag = GetTreeItem( m_hitemDrag );
 		CTreeItem *pDrop = GetTreeItem( hItemDrop );
@@ -269,14 +269,14 @@ void CTemplateTreeCtrl::OnShowWindow(BOOL bShow, UINT nStatus)
 {
 	CWnd::OnShowWindow(bShow, nStatus);
 	
-	// äëÿ ïðàâèëüíîé ðàáîòû QuickView îêíà, 
-	// êîòîðîå ïîêàçûâàåò òåêóùèé ïîñåëåê÷åííûé îáúåêò
+	// Ð´Ð»Ñ Ð¿Ñ€Ð°Ð²Ð¸Ð»ÑŒÐ½Ð¾Ð¹ Ñ€Ð°Ð±Ð¾Ñ‚Ñ‹ QuickView Ð¾ÐºÐ½Ð°, 
+	// ÐºÐ¾Ñ‚Ð¾Ñ€Ð¾Ðµ Ð¿Ð¾ÐºÐ°Ð·Ñ‹Ð²Ð°ÐµÑ‚ Ñ‚ÐµÐºÑƒÑ‰Ð¸Ð¹ Ð¿Ð¾ÑÐµÐ»ÐµÐºÑ‡ÐµÐ½Ð½Ñ‹Ð¹ Ð¾Ð±ÑŠÐµÐºÑ‚
 	if ( !bShow )
 		m_treeCtrl.DeselectAllItems();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////
-// Áåç ýòîé ôóíêöèè òðèêîíòðîëà ìû íå óâèäèì
+// Ð‘ÐµÐ· ÑÑ‚Ð¾Ð¹ Ñ„ÑƒÐ½ÐºÑ†Ð¸Ð¸ Ñ‚Ñ€Ð¸ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð° Ð¼Ñ‹ Ð½Ðµ ÑƒÐ²Ð¸Ð´Ð¸Ð¼
 void CTemplateTreeCtrl::OnSize(UINT nType, int cx, int cy) 
 {
 	CWnd::OnSize(nType, cx, cy);
@@ -368,11 +368,11 @@ void CTemplateTreeCtrl::SaveTemplateTree( IDataTree *pDT )
 void CTemplateTreeCtrl::LoadTemplateTree( IDataTree *pDT )
 {
 /*
-	//Ñïåðâà óáèâàåì âñå childs â äåðåâå
+	//Ð¡Ð¿ÐµÑ€Ð²Ð° ÑƒÐ±Ð¸Ð²Ð°ÐµÐ¼ Ð²ÑÐµ childs Ð² Ð´ÐµÑ€ÐµÐ²Ðµ
 	pRootItem->RemoveAllChilds();
 	
 	pRootItem->Serialize( pDT );
-	//òóò íàäî ïðîéòè ïî âñåì childs è óäàëèòü íóëåâûå ýëåìåíòû
+	//Ñ‚ÑƒÑ‚ Ð½Ð°Ð´Ð¾ Ð¿Ñ€Ð¾Ð¹Ñ‚Ð¸ Ð¿Ð¾ Ð²ÑÐµÐ¼ childs Ð¸ ÑƒÐ´Ð°Ð»Ð¸Ñ‚ÑŒ Ð½ÑƒÐ»ÐµÐ²Ñ‹Ðµ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ñ‹
 	pRootItem->DeleteNullChilds();
 	pRootItem->CreateDefaultChilds();
 	pRootItem->InsertChildItems();

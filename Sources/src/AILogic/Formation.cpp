@@ -122,7 +122,7 @@ void CFormationCenter::Segment()
 	}
 	
 	CVec2 oldDir = dir;
-	// все update частотой в AI_SEGMENT_DURATION
+	// РІСЃРµ update С‡Р°СЃС‚РѕС‚РѕР№ РІ AI_SEGMENT_DURATION
 	NTimer::STime timeDiff = SConsts::AI_SEGMENT_DURATION * GetPathSegmentsPeriod();
 	const CVec3 center3D = pSmoothPath->GetPoint( timeDiff );
 	theSupremeBeing.UnitChangedPosition( this, CVec2( center3D.x, center3D.y ) );
@@ -609,7 +609,7 @@ void CFormation::StopTurning()
 bool CFormation::CanCommandBeExecuted( class CAICommand *pCommand )
 {
 	const int &nCmd = pCommand->ToUnitCmd().cmdType;
-	// проверять на возможность исполнения только user команды
+	// РїСЂРѕРІРµСЂСЏС‚СЊ РЅР° РІРѕР·РјРѕР¶РЅРѕСЃС‚СЊ РёСЃРїРѕР»РЅРµРЅРёСЏ С‚РѕР»СЊРєРѕ user РєРѕРјР°РЅРґС‹
 	if ( nCmd < 1000 )
 	{
 		NI_ASSERT_T( nCmd >= 0 && nCmd < availCommands.GetSize(), NStr::Format( "Wrong command ( %d )\n", nCmd ) );
@@ -619,16 +619,16 @@ bool CFormation::CanCommandBeExecuted( class CAICommand *pCommand )
 
 	if ( nCmd == ACTION_COMMAND_FORM_FORMATION )
 	{
-		// нельзя собрать, если не single formation
+		// РЅРµР»СЊР·СЏ СЃРѕР±СЂР°С‚СЊ, РµСЃР»Рё РЅРµ single formation
 		if ( Size() > 1 )
 			return false;
 
-		// нельзя собрать, если раньше не была разобрана
+		// РЅРµР»СЊР·СЏ СЃРѕР±СЂР°С‚СЊ, РµСЃР»Рё СЂР°РЅСЊС€Рµ РЅРµ Р±С‹Р»Р° СЂР°Р·РѕР±СЂР°РЅР°
 		CFormation *pOldFormation = (*this)[0]->GetMemFormation();
 		if ( pOldFormation == 0 )
 			return false;
 
-		// нельзя собрать, если кто-то в транспорте
+		// РЅРµР»СЊР·СЏ СЃРѕР±СЂР°С‚СЊ, РµСЃР»Рё РєС‚Рѕ-С‚Рѕ РІ С‚СЂР°РЅСЃРїРѕСЂС‚Рµ
 		for ( int i = 0; i < pOldFormation->Size(); ++i )
 		{
 			if ( (*pOldFormation)[i]->IsInTransport() )
@@ -647,7 +647,7 @@ bool CFormation::CanCommandBeExecuted( class CAICommand *pCommand )
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool CFormation::CanCommandBeExecutedByStats( int nCmd ) const
 {
-	// проверять на возможность исполнения только user команды
+	// РїСЂРѕРІРµСЂСЏС‚СЊ РЅР° РІРѕР·РјРѕР¶РЅРѕСЃС‚СЊ РёСЃРїРѕР»РЅРµРЅРёСЏ С‚РѕР»СЊРєРѕ user РєРѕРјР°РЅРґС‹
 	if ( nCmd < 1000 )
 	{
 		NI_ASSERT_T( nCmd >= 0 && nCmd < availCommands.GetSize(), NStr::Format( "Wrong command ( %d )\n", nCmd ) );
@@ -722,7 +722,7 @@ void CFormation::Enable()
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CFormation::DelUnit( const BYTE cPos )
 {
-	// убрать из юнитов
+	// СѓР±СЂР°С‚СЊ РёР· СЋРЅРёС‚РѕРІ
 	for ( int i = cPos; i < nUnits - 1; ++i )
 		units[i] = units[i+1];
 
@@ -865,7 +865,7 @@ void CFormation::PrepareToDelete()
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CFormation::Disappear()
 {
-	// т.к. последний юнит формации вызовет эту функцию, то общее удаление формации выполняется только тогда
+	// С‚.Рє. РїРѕСЃР»РµРґРЅРёР№ СЋРЅРёС‚ С„РѕСЂРјР°С†РёРё РІС‹Р·РѕРІРµС‚ СЌС‚Сѓ С„СѓРЅРєС†РёСЋ, С‚Рѕ РѕР±С‰РµРµ СѓРґР°Р»РµРЅРёРµ С„РѕСЂРјР°С†РёРё РІС‹РїРѕР»РЅСЏРµС‚СЃСЏ С‚РѕР»СЊРєРѕ С‚РѕРіРґР°
 	if ( Size() != 0 )
 	{
 		while ( Size() != 0 )
@@ -877,7 +877,7 @@ void CFormation::Disappear()
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CFormation::Die( const bool fromExplosion, const float fDamage )
 {
-	// т.к. последний юнит формации вызовет эту функцию, то общее удаление формации выполняется только тогда	
+	// С‚.Рє. РїРѕСЃР»РµРґРЅРёР№ СЋРЅРёС‚ С„РѕСЂРјР°С†РёРё РІС‹Р·РѕРІРµС‚ СЌС‚Сѓ С„СѓРЅРєС†РёСЋ, С‚Рѕ РѕР±С‰РµРµ СѓРґР°Р»РµРЅРёРµ С„РѕСЂРјР°С†РёРё РІС‹РїРѕР»РЅСЏРµС‚СЃСЏ С‚РѕР»СЊРєРѕ С‚РѕРіРґР°	
 	if ( Size() != 0 )
 	{
 		while ( Size() != 0 )

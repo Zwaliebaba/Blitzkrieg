@@ -77,26 +77,26 @@ interface IStorageEnumerator : public IRefCount
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 interface IDataStream : public IRefCount
 {
-	// чтение/запись данных
+	// С‡С‚РµРЅРёРµ/Р·Р°РїРёСЃСЊ РґР°РЅРЅС‹С…
 	virtual int STDCALL Read( void *pBuffer, int nLength ) = 0;
 	virtual int STDCALL Write( const void *pBuffer, int nLength ) = 0;
-	// объявить текущую позицию в потоке за начало потока
+	// РѕР±СЉСЏРІРёС‚СЊ С‚РµРєСѓС‰СѓСЋ РїРѕР·РёС†РёСЋ РІ РїРѕС‚РѕРєРµ Р·Р° РЅР°С‡Р°Р»Рѕ РїРѕС‚РѕРєР°
 	virtual int STDCALL LockBegin() = 0;
-	// вернуть начало потока в нулевую позицию
+	// РІРµСЂРЅСѓС‚СЊ РЅР°С‡Р°Р»Рѕ РїРѕС‚РѕРєР° РІ РЅСѓР»РµРІСѓСЋ РїРѕР·РёС†РёСЋ
 	virtual int STDCALL UnlockBegin() = 0;
-	// текущая позиция в потоке
+	// С‚РµРєСѓС‰Р°СЏ РїРѕР·РёС†РёСЏ РІ РїРѕС‚РѕРєРµ
 	virtual int STDCALL GetPos() const = 0;
-	// выставить текущую позицию в потоке
+	// РІС‹СЃС‚Р°РІРёС‚СЊ С‚РµРєСѓС‰СѓСЋ РїРѕР·РёС†РёСЋ РІ РїРѕС‚РѕРєРµ
 	virtual int STDCALL Seek( int offset, STREAM_SEEK from ) = 0;
-	// получить размер потока
+	// РїРѕР»СѓС‡РёС‚СЊ СЂР°Р·РјРµСЂ РїРѕС‚РѕРєР°
 	virtual int STDCALL GetSize() const = 0;
-	// изменить размер потока
+	// РёР·РјРµРЅРёС‚СЊ СЂР°Р·РјРµСЂ РїРѕС‚РѕРєР°
 	virtual bool STDCALL SetSize( int nSize ) = 0;
-	// скопировать 'nLength' байт из текущей позиции потока в текущю позицию 'pDstStream' потока
+	// СЃРєРѕРїРёСЂРѕРІР°С‚СЊ 'nLength' Р±Р°Р№С‚ РёР· С‚РµРєСѓС‰РµР№ РїРѕР·РёС†РёРё РїРѕС‚РѕРєР° РІ С‚РµРєСѓС‰СЋ РїРѕР·РёС†РёСЋ 'pDstStream' РїРѕС‚РѕРєР°
 	virtual int STDCALL CopyTo( IDataStream *pDstStream, int nLength ) = 0;
-	// сбросить все закешированные данные
+	// СЃР±СЂРѕСЃРёС‚СЊ РІСЃРµ Р·Р°РєРµС€РёСЂРѕРІР°РЅРЅС‹Рµ РґР°РЅРЅС‹Рµ
 	virtual void STDCALL Flush() = 0;
-	// получить информацию о потоке
+	// РїРѕР»СѓС‡РёС‚СЊ РёРЅС„РѕСЂРјР°С†РёСЋ Рѕ РїРѕС‚РѕРєРµ
 	virtual void STDCALL GetStats( SStorageElementStats *pStats ) = 0;
 };
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -104,25 +104,25 @@ interface IDataStorage : public IRefCount
 {
 	// type ID
 	enum { tidTypeID = 0 };
-	// проверить, есть ли такой поток
+	// РїСЂРѕРІРµСЂРёС‚СЊ, РµСЃС‚СЊ Р»Рё С‚Р°РєРѕР№ РїРѕС‚РѕРє
 	virtual const bool STDCALL IsStreamExist( const char *pszName ) = 0;
-	// создать и открыть поток с указанным именем и правами доступа
+	// СЃРѕР·РґР°С‚СЊ Рё РѕС‚РєСЂС‹С‚СЊ РїРѕС‚РѕРє СЃ СѓРєР°Р·Р°РЅРЅС‹Рј РёРјРµРЅРµРј Рё РїСЂР°РІР°РјРё РґРѕСЃС‚СѓРїР°
 	virtual IDataStream* STDCALL CreateStream( const char *pszName, DWORD dwAccessMode ) = 0;
-	// открыть существующий поток с указанным именем и правами доступа
+	// РѕС‚РєСЂС‹С‚СЊ СЃСѓС‰РµСЃС‚РІСѓСЋС‰РёР№ РїРѕС‚РѕРє СЃ СѓРєР°Р·Р°РЅРЅС‹Рј РёРјРµРЅРµРј Рё РїСЂР°РІР°РјРё РґРѕСЃС‚СѓРїР°
 	virtual IDataStream* STDCALL OpenStream( const char *pszName, DWORD dwAccessMode ) = 0;
-	// получить описание stream'а
+	// РїРѕР»СѓС‡РёС‚СЊ РѕРїРёСЃР°РЅРёРµ stream'Р°
 	virtual bool STDCALL GetStreamStats( const char *pszName, SStorageElementStats *pStats ) = 0;
-	// убить элемент хранилища
+	// СѓР±РёС‚СЊ СЌР»РµРјРµРЅС‚ С…СЂР°РЅРёР»РёС‰Р°
 	virtual bool STDCALL DestroyElement( const char *pszName ) = 0;
-	// переименовать элемент
+	// РїРµСЂРµРёРјРµРЅРѕРІР°С‚СЊ СЌР»РµРјРµРЅС‚
 	virtual bool STDCALL RenameElement( const char *pszOldName, const char *pszNewName ) = 0;
-	// перечисление элементов
+	// РїРµСЂРµС‡РёСЃР»РµРЅРёРµ СЌР»РµРјРµРЅС‚РѕРІ
 	virtual IStorageEnumerator* STDCALL CreateEnumerator() = 0;
-	// получить имя этого storage
+	// РїРѕР»СѓС‡РёС‚СЊ РёРјСЏ СЌС‚РѕРіРѕ storage
 	virtual const char* STDCALL GetName() const = 0;
-	// добавить новый MOD по имени
+	// РґРѕР±Р°РІРёС‚СЊ РЅРѕРІС‹Р№ MOD РїРѕ РёРјРµРЅРё
 	virtual bool STDCALL AddStorage( IDataStorage *pStorage, const char *pszName ) = 0;
-	// убрать MOD по имени
+	// СѓР±СЂР°С‚СЊ MOD РїРѕ РёРјРµРЅРё
 	virtual bool STDCALL RemoveStorage( const char *pszName ) = 0;
 };
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

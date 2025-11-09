@@ -27,15 +27,15 @@ public:
 // Attributes
 public:
 
-	//для редактирования fire points
+	//РґР»СЏ СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёСЏ fire points
 	struct SFirePoint
 	{
 		CBridgeFirePointPropsItem *pFirePoint;
 		CPtr<IObjVisObj> pSprite;
 		CPtr<IObjVisObj> pHLine;
 		
-		float fDirection;		//угол направления конуса стрельбы
-		//		float fAngle;				//полный угол конуса стрельбы
+		float fDirection;		//СѓРіРѕР» РЅР°РїСЂР°РІР»РµРЅРёСЏ РєРѕРЅСѓСЃР° СЃС‚СЂРµР»СЊР±С‹
+		//		float fAngle;				//РїРѕР»РЅС‹Р№ СѓРіРѕР» РєРѕРЅСѓСЃР° СЃС‚СЂРµР»СЊР±С‹
 	};
 	
 	enum EActiveMode
@@ -95,31 +95,31 @@ private:
 		E_DRAW_SPAN_PROPS = 1,
 	};
 	int m_drawMode;
-	CVec3 vSpriteCommonPos;					//все спрайты имеют одну координату
+	CVec3 vSpriteCommonPos;					//РІСЃРµ СЃРїСЂР°Р№С‚С‹ РёРјРµСЋС‚ РѕРґРЅСѓ РєРѕРѕСЂРґРёРЅР°С‚Сѓ
 	
 	string szSourceDir;
 	string szDestDir;
 	CComboBox *m_pTransparenceCombo;
 	int m_transValue;
 	
-	std::list<int> freeSpanIndexes[3];			//для хранения незаполненных индексов span'ов
+	std::list<int> freeSpanIndexes[3];			//РґР»СЏ С…СЂР°РЅРµРЅРёСЏ РЅРµР·Р°РїРѕР»РЅРµРЅРЅС‹С… РёРЅРґРµРєСЃРѕРІ span'РѕРІ
 	
-	//линия выравнивания
+	//Р»РёРЅРёСЏ РІС‹СЂР°РІРЅРёРІР°РЅРёСЏ
 	CPtr<IGFXIndices> pLineIndices;
 	CPtr<IGFXVertices> pLineVertices;
 	float m_fx1, m_fx2, m_fy1, m_fy2;
-	CVec3 vBeginPos, vEndPos;				//позиция начальных и конечных частей моста
-	float m_fBack, m_fFront;		//расстояния от центральной линии до боковых частей моста
+	CVec3 vBeginPos, vEndPos;				//РїРѕР·РёС†РёСЏ РЅР°С‡Р°Р»СЊРЅС‹С… Рё РєРѕРЅРµС‡РЅС‹С… С‡Р°СЃС‚РµР№ РјРѕСЃС‚Р°
+	float m_fBack, m_fFront;		//СЂР°СЃСЃС‚РѕСЏРЅРёСЏ РѕС‚ С†РµРЅС‚СЂР°Р»СЊРЅРѕР№ Р»РёРЅРёРё РґРѕ Р±РѕРєРѕРІС‹С… С‡Р°СЃС‚РµР№ РјРѕСЃС‚Р°
 	
 	EActiveMode eActiveMode;
 	EActiveSubMode eActiveSubMode;
 	
-	//для костров
+	//РґР»СЏ РєРѕСЃС‚СЂРѕРІ
 	typedef list<SFirePoint> CListOfFirePoints;
 	CListOfFirePoints firePoints;
-	SFirePoint *pActiveFirePoint;				//к этой переменной плохо ссылаться напрямую, лучше использовать SetActiveFirePoint()
+	SFirePoint *pActiveFirePoint;				//Рє СЌС‚РѕР№ РїРµСЂРµРјРµРЅРЅРѕР№ РїР»РѕС…Рѕ СЃСЃС‹Р»Р°С‚СЊСЃСЏ РЅР°РїСЂСЏРјСѓСЋ, Р»СѓС‡С€Рµ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ SetActiveFirePoint()
 	
-	//для дымов при разрушении
+	//РґР»СЏ РґС‹РјРѕРІ РїСЂРё СЂР°Р·СЂСѓС€РµРЅРёРё
 	CBridgeSmokePropsItem *pActiveSmokePoint;
 	
 	CPtr<IGFXVertices> pConeVertices;
@@ -133,7 +133,7 @@ private:
 	
 public:
 	void SetActiveMode( EActiveMode mode );
-	//для редактирования fire point
+	//РґР»СЏ СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёСЏ fire point
 	void DeleteFirePoint( CTreeItem *pFire );
 	void SelectFirePoint( CTreeItem *pFire );
 	void SetActiveFirePoint( SFirePoint *pFirePoint );
@@ -145,7 +145,7 @@ public:
 	void MoveFirePoint( const POINT &point );
 	void GenerateFirePoints();
 	
-	//для редактирования smoke effects
+	//РґР»СЏ СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёСЏ smoke effects
 	void AddOrSelectSmokePoint( const POINT &point );
 	void DeleteSmokePoint();
 	void SelectSmokePoint( CBridgeSmokePropsItem *pSmokePoint );
@@ -162,16 +162,16 @@ protected:
 	void LoadSpriteItem( CBridgePartPropsItem *pItem, const char *pszName, const char *pszProjectFileName );
 	void SetZeroCoordinate( POINT point );
 	void CreateKrest();
-	virtual void SpecificInit();														//для инициализации внутренних данных после загрузки проекта или создании нового
+	virtual void SpecificInit();														//РґР»СЏ РёРЅРёС†РёР°Р»РёР·Р°С†РёРё РІРЅСѓС‚СЂРµРЅРЅРёС… РґР°РЅРЅС‹С… РїРѕСЃР»Рµ Р·Р°РіСЂСѓР·РєРё РїСЂРѕРµРєС‚Р° РёР»Рё СЃРѕР·РґР°РЅРёРё РЅРѕРІРѕРіРѕ
 	virtual void SpecificClearBeforeBatchMode();
 	virtual BOOL SpecificTranslateMessage( MSG *pMsg );
 	
-	virtual void SaveFrameOwnData( IDataTree *pDT );				//для сохранения собственных данных проекта
-	virtual void LoadFrameOwnData( IDataTree *pDT );				//для загрузки
+	virtual void SaveFrameOwnData( IDataTree *pDT );				//РґР»СЏ СЃРѕС…СЂР°РЅРµРЅРёСЏ СЃРѕР±СЃС‚РІРµРЅРЅС‹С… РґР°РЅРЅС‹С… РїСЂРѕРµРєС‚Р°
+	virtual void LoadFrameOwnData( IDataTree *pDT );				//РґР»СЏ Р·Р°РіСЂСѓР·РєРё
 	virtual void SaveRPGStats( IDataTree *pDT, CTreeItem *pRootItem, const char *pszProjectName );
 	virtual void LoadRPGStats( IDataTree *pDT, CTreeItem *pRootItem );
 
-	//сохраняет инфо об fire, smoke points
+	//СЃРѕС…СЂР°РЅСЏРµС‚ РёРЅС„Рѕ РѕР± fire, smoke points
 	void SavePointsInformation( SBridgeRPGStats &rpgStats, CTreeItem *pRootItem, const char *pszProjectName );
 	void FillRPGStats( SBridgeRPGStats &rpgStats, CTreeItem *pRootItem, const char *pszProjectName );
 	void GetRPGStats( const SBridgeRPGStats &rpgStats, CTreeItem *pRootItem );

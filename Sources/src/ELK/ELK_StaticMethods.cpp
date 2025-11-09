@@ -159,7 +159,7 @@ void CELK::FromText( const CString &rstrText, std::vector<BYTE> *pBuffer, int nC
 		wszText = wszText.substr( 0, nLastIndex + 1 );
 	}
 	
-	//минус 0 на конце
+	//РјРёРЅСѓСЃ 0 РЅР° РєРѕРЅС†Рµ
 	pBuffer->resize( 2 + ( wszText.size() - 1 ) * sizeof( wchar_t ) );
 	( *pBuffer )[0] = 0xFF;
 	( *pBuffer )[1] = 0xFE;
@@ -493,7 +493,7 @@ bool CELK::ExportToPAK( const std::string &rszELKPath,
 			}
 			pFileStream = 0;
 			
-			//обновляем набор символов
+			//РѕР±РЅРѕРІР»СЏРµРј РЅР°Р±РѕСЂ СЃРёРјРІРѕР»РѕРІ
 			CString strSymbols;
 			GetTranslatedText( szTempFileName, &strSymbols, nCodePage, true );
 			if ( !strSymbols.IsEmpty() )
@@ -640,7 +640,7 @@ bool CELK::ImportFromPAK( const std::string &rszPAKPath, const std::string &rszE
 
 		std::hash_set<std::string> usedPaths;
 
-		//переводим TXT в ELK
+		//РїРµСЂРµРІРѕРґРёРј TXT РІ ELK
 		for ( std::list<std::string>::const_iterator nameIterator = enumFilesInDataStorageParameter[0].fileNames.begin(); nameIterator != enumFilesInDataStorageParameter[0].fileNames.end(); ++nameIterator )
 		{
 			if ( CPtr<IDataStream> pStream = pStorage->OpenStream( nameIterator->c_str(), STREAM_ACCESS_READ ) )
@@ -718,7 +718,7 @@ bool CELK::ImportFromPAK( const std::string &rszPAKPath, const std::string &rszE
 			}
 		}
 
-		//обновляем дескрипшны
+		//РѕР±РЅРѕРІР»СЏРµРј РґРµСЃРєСЂРёРїС€РЅС‹
 		for ( int nParameterIndex = 1; nParameterIndex < enumFilesInDataStorageParameter.size(); ++nParameterIndex )
 		{
 			for ( std::list<std::string>::const_iterator nameIterator = enumFilesInDataStorageParameter[nParameterIndex].fileNames.begin(); nameIterator != enumFilesInDataStorageParameter[nParameterIndex].fileNames.end(); ++nameIterator )
@@ -1229,7 +1229,7 @@ bool CELK::UpdateELK( const std::string &rszPath, const std::string &rszPAKFileN
 	}
 	else
 	{
-		//ищем все новые апдейты и их последние версии
+		//РёС‰РµРј РІСЃРµ РЅРѕРІС‹Рµ Р°РїРґРµР№С‚С‹ Рё РёС… РїРѕСЃР»РµРґРЅРёРµ РІРµСЂСЃРёРё
 		for ( NFile::CFileIterator _NFileIterator( NStr::Format( _T( "%s*%s" ), szFolder.c_str(), UPD_EXTENTION ) ); !_NFileIterator.IsEnd(); ++_NFileIterator )
 		{
 			int nNumber = -1;
@@ -1456,7 +1456,7 @@ bool CFontGen::EstimateTextureSize( SFontInfo &fi, DWORD dwNumChars )
 void CFontGen::MeasureFont( HDC hdc, SFontInfo &fi, std::vector<WORD> &chars, bool bSingleByte, int nCodePage )
 {
   GetTextMetrics( hdc, &fi.tm );
-	//сортировка
+	//СЃРѕСЂС‚РёСЂРѕРІРєР°
 	if ( std::find( chars.begin(), chars.end(), fi.tm.tmDefaultChar ) == chars.end() )
 	{
 		chars.push_back( fi.tm.tmDefaultChar );

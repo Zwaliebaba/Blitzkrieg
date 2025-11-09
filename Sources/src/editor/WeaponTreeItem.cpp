@@ -487,7 +487,7 @@ void CWeaponEffectPropsItem::UpdateItemValue( int nItemId, const CVariant &value
 	
 	if ( nItemId == 2 )
 	{
-		//сконвертим путь к звуковому файлу в относительный без расширения
+		//СЃРєРѕРЅРІРµСЂС‚РёРј РїСѓС‚СЊ Рє Р·РІСѓРєРѕРІРѕРјСѓ С„Р°Р№Р»Сѓ РІ РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅС‹Р№ Р±РµР· СЂР°СЃС€РёСЂРµРЅРёВ¤
 		if ( !IsRelatedPath( value ) )
 		{
 			string szValue = value;
@@ -495,7 +495,7 @@ void CWeaponEffectPropsItem::UpdateItemValue( int nItemId, const CVariant &value
 			bool bRes =	MakeSubRelativePath( theApp.GetEditorDataDir().c_str(), szValue.c_str(), szRelatedPath );
 			if ( bRes )
 			{
-				//обрежем расширение в конце
+				//РѕР±СЂРµР¶РµРј СЂР°СЃС€РёСЂРµРЅРёРµ РІ РєРѕРЅС†Рµ
 				szRelatedPath = szRelatedPath.substr( 0, szRelatedPath.rfind( '.' ) );
 				CVariant newVal = szRelatedPath;
 				CTreeItem::UpdateItemValue( nItemId, newVal );
@@ -585,15 +585,15 @@ void CWeaponCratersItem::UpdateItemValue( int nItemId, const CVariant &value )
 	
 	if ( nItemId == 1 )
 	{
-		//изменилась директория, считываю все *.san файлы из поддиректорий
+		//РёР·РјРµРЅРёР»Р°СЃСЊ РґРёСЂРµРєС‚РѕСЂРёВ¤, СЃС‡РёС‚С‹РІР°СЋ РІСЃРµ *.san С„Р°Р№Р»С‹ РёР· РїРѕРґРґРёСЂРµРєС‚РѕСЂРёР№
 		std::string szVal = value;
 		string szMask = "*.san";
 		vector<string> files;
 		
-		//Сперва составляю полный список san файлов
+		//вЂ”РїРµСЂРІР° СЃРѕСЃС‚Р°РІР»В¤СЋ РїРѕР»РЅС‹Р№ СЃРїРёСЃРѕРє san С„Р°Р№Р»РѕРІ
 		std::string szBaseDir = theApp.GetEditorDataDir();
 		
-		//обновим имя директории
+		//РѕР±РЅРѕРІРёРј РёРјВ¤ РґРёСЂРµРєС‚РѕСЂРёРё
 		std::string szShortDirName;
 		bool bRes = MakeSubRelativePath( szBaseDir.c_str(), szVal.c_str(), szShortDirName );
 		if ( !bRes )
@@ -624,7 +624,7 @@ void CWeaponCratersItem::UpdateItemValue( int nItemId, const CVariant &value )
 			NI_ASSERT( szName.size() > 0 );
 			int nLast = szName[szName.size() - 1];
 			if ( nLast == 'a' || nLast == 'w' || nLast == 'A' || nLast == 'W' )
-				continue;		//считается что это африканские или зимние картинки
+				continue;		//СЃС‡РёС‚Р°РµС‚СЃВ¤ С‡С‚Рѕ СЌС‚Рѕ Р°С„СЂРёРєР°РЅСЃРєРёРµ РёР»Рё Р·РёРјРЅРёРµ РєР°СЂС‚РёРЅРєРё
 
 			CWeaponCraterPropsItem *pProps = new CWeaponCraterPropsItem;
 /*

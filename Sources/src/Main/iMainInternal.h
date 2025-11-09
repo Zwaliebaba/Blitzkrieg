@@ -114,15 +114,15 @@ struct SProgressMovieInfo
 class CProgressScreen : public IMovieProgressHook
 {
 	OBJECT_NORMAL_METHODS( CProgressScreen );
-	int nNumSteps;                        // общее число шагов
-	int nCurrentStep;                     // текущий шаг
-	int nNumFrames;                       // общее число кадров
-	int nCurrFrame;                       // текущий кадр
+	int nNumSteps;                        // РѕР±С‰РµРµ С‡РёСЃР»Рѕ С€Р°РіРѕРІ
+	int nCurrentStep;                     // С‚РµРєСѓС‰РёР№ С€Р°Рі
+	int nNumFrames;                       // РѕР±С‰РµРµ С‡РёСЃР»Рѕ РєР°РґСЂРѕРІ
+	int nCurrFrame;                       // С‚РµРєСѓС‰РёР№ РєР°РґСЂ
 	int nMaxFrame;												// max frame to play
-	CPtr<IGFX> pGFX;                      // куда рисуем
-	CPtr<IVideoPlayer> pVP;               // чем рисуем
-	CPtr<IGFXText> pGFXText;              // текст для рисования поверх мультика
-	DWORD dwTextColor;                    // цвет текста
+	CPtr<IGFX> pGFX;                      // РєСѓРґР° СЂРёСЃСѓРµРј
+	CPtr<IVideoPlayer> pVP;               // С‡РµРј СЂРёСЃСѓРµРј
+	CPtr<IGFXText> pGFXText;              // С‚РµРєСЃС‚ РґР»СЏ СЂРёСЃРѕРІР°РЅРёСЏ РїРѕРІРµСЂС… РјСѓР»СЊС‚РёРєР°
+	DWORD dwTextColor;                    // С†РІРµС‚ С‚РµРєСЃС‚Р°
 	CTRect<float> wndRect;
 	int nTextAlign;
 	int nFontSize;

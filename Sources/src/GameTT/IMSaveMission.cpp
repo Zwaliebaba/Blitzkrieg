@@ -27,7 +27,7 @@ void CInterfaceIMSaveMission::OnGetFocus( bool bFocus )
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool CInterfaceIMSaveMission::Init()
 {
-	//инициализируем имена
+	//РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј РёРјРµРЅР°
 	fileMasks.clear();
 	fileMasks.push_back( "*.sav" );
 	szTopDir = GetSingleton<IMainLoop>()->GetBaseDir();
@@ -90,11 +90,11 @@ bool CInterfaceIMSaveMission::OnOk()
 	NStr::TrimBoth( szEdit );
 	if ( szEdit.size() == 0 )
 	{
-		//введенная строчка пустая, попробуем взять текущий selection из list control
+		//РІРІРµРґРµРЅРЅР°СЏ СЃС‚СЂРѕС‡РєР° РїСѓСЃС‚Р°СЏ, РїРѕРїСЂРѕР±СѓРµРј РІР·СЏС‚СЊ С‚РµРєСѓС‰РёР№ selection РёР· list control
 		IUIElement *pElement = pUIScreen->GetChildByID( 1000 );		//should be List Control
 		IUIListControl *pList = checked_cast<IUIListControl*>( pElement );
 		if ( !pList )
-			return true;			//не нашелся list control
+			return true;			//РЅРµ РЅР°С€РµР»СЃСЏ list control
 		int nSave = pList->GetSelectionItem();
 		if ( nSave == -1 )
 			return true;
@@ -139,11 +139,11 @@ bool CInterfaceIMSaveMission::OnOk( const std::string &szFullFileName )
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CInterfaceIMSaveMission::OnSelectionChanged()
 {
-	//попробуем взять текущий selection из list control
+	//РїРѕРїСЂРѕР±СѓРµРј РІР·СЏС‚СЊ С‚РµРєСѓС‰РёР№ selection РёР· list control
 	IUIElement *pElement = pUIScreen->GetChildByID( 1000 );		//should be List Control
 	IUIListControl *pList = checked_cast<IUIListControl*>( pElement );
 	if ( !pList )
-		return ;			//не нашелся list control
+		return ;			//РЅРµ РЅР°С€РµР»СЃСЏ list control
 
 	int nSave = pList->GetSelectionItem();
 	if ( nSave == -1 )
@@ -151,7 +151,7 @@ void CInterfaceIMSaveMission::OnSelectionChanged()
 	
 	IUIListRow *pSelRow = pList->GetItem( nSave );
 	std::string szEdit = szSaves[pSelRow->GetUserData()];
-	//отобразим этот элемент в загружаемом имени
+	//РѕС‚РѕР±СЂР°Р·РёРј СЌС‚РѕС‚ СЌР»РµРјРµРЅС‚ РІ Р·Р°РіСЂСѓР¶Р°РµРјРѕРј РёРјРµРЅРё
 	pElement = pUIScreen->GetChildByID( 2000 );
 	pElement->SetWindowText( 0, NStr::ToUnicode(szEdit).c_str() );
 	

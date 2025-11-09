@@ -14,7 +14,7 @@ CMOProjectile::CMOProjectile()
 }
 CMOProjectile::~CMOProjectile()
 {
-	// удалить звук движения
+	// СѓРґР°Р»РёС‚СЊ Р·РІСѓРє РґРІРёР¶РµРЅРёСЏ
 	if ( wMoveSoundID != 0 )
 	{
 		GetSingleton<IScene>()->RemoveSound( wMoveSoundID );

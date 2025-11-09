@@ -7,8 +7,8 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 using namespace MSXML;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// эти две структурки специально созданы для того, чтобы, чтобы можно было сбрасывать com_ptr объекты в STL контейнеры
-// горбуха, конечно, но такова природа com_ptr - косяк полный
+// СЌС‚Рё РґРІРµ СЃС‚СЂСѓРєС‚СѓСЂРєРё СЃРїРµС†РёР°Р»СЊРЅРѕ СЃРѕР·РґР°РЅС‹ РґР»СЏ С‚РѕРіРѕ, С‡С‚РѕР±С‹, С‡С‚РѕР±С‹ РјРѕР¶РЅРѕ Р±С‹Р»Рѕ СЃР±СЂР°СЃС‹РІР°С‚СЊ com_ptr РѕР±СЉРµРєС‚С‹ РІ STL РєРѕРЅС‚РµР№РЅРµСЂС‹
+// РіРѕСЂР±СѓС…Р°, РєРѕРЅРµС‡РЅРѕ, РЅРѕ С‚Р°РєРѕРІР° РїСЂРёСЂРѕРґР° com_ptr - РєРѕСЃСЏРє РїРѕР»РЅС‹Р№
 template <class TYPE>
 struct SCOMPtr
 {
@@ -27,25 +27,25 @@ class CDataTreeXML : public IDataTree
 	OBJECT_MINIMAL_METHODS( CDataTreeXML );
 	//
 	CPtr<IDataStream> pStream;						// stream, this table was open with
-	IXMLDOMDocumentPtr xmlDocument;				// открытый документ
+	IXMLDOMDocumentPtr xmlDocument;				// РѕС‚РєСЂС‹С‚С‹Р№ РґРѕРєСѓРјРµРЅС‚
 	//
-	std::list< SCOMPtr<IXMLDOMNodePtr> > nodes;	// стек нодов по иерархии углублени
-	std::list< SNodeslList > nodelists;					// стек списков нодов по иерархии углублени
-	IXMLDOMNodePtr xmlCurrNode;						// текущий node
+	std::list< SCOMPtr<IXMLDOMNodePtr> > nodes;	// СЃС‚РµРє РЅРѕРґРѕРІ РїРѕ РёРµСЂР°СЂС…РёРё СѓРіР»СѓР±Р»РµРЅРё
+	std::list< SNodeslList > nodelists;					// СЃС‚РµРє СЃРїРёСЃРєРѕРІ РЅРѕРґРѕРІ РїРѕ РёРµСЂР°СЂС…РёРё СѓРіР»СѓР±Р»РµРЅРё
+	IXMLDOMNodePtr xmlCurrNode;						// С‚РµРєСѓС‰РёР№ node
 	//
-	std::list< SCOMPtr<IXMLDOMElementPtr> > elements;	// стек элементов по иерархии углублени
-	std::list< SCOMPtr<IXMLDOMElementPtr> > arrbases; // стек элементов сонований массивов по иерархии углублени
-	IXMLDOMElementPtr xmlCurrElement;			// текущий элемент в блочной структуре при записи
+	std::list< SCOMPtr<IXMLDOMElementPtr> > elements;	// СЃС‚РµРє СЌР»РµРјРµРЅС‚РѕРІ РїРѕ РёРµСЂР°СЂС…РёРё СѓРіР»СѓР±Р»РµРЅРё
+	std::list< SCOMPtr<IXMLDOMElementPtr> > arrbases; // СЃС‚РµРє СЌР»РµРјРµРЅС‚РѕРІ СЃРѕРЅРѕРІР°РЅРёР№ РјР°СЃСЃРёРІРѕРІ РїРѕ РёРµСЂР°СЂС…РёРё СѓРіР»СѓР±Р»РµРЅРё
+	IXMLDOMElementPtr xmlCurrElement;			// С‚РµРєСѓС‰РёР№ СЌР»РµРјРµРЅС‚ РІ Р±Р»РѕС‡РЅРѕР№ СЃС‚СЂСѓРєС‚СѓСЂРµ РїСЂРё Р·Р°РїРёСЃРё
 	//
 	IDataTree::EAccessMode eMode;
 	//
-	// получить из текущего node атрибут по имени.
+	// РїРѕР»СѓС‡РёС‚СЊ РёР· С‚РµРєСѓС‰РµРіРѕ node Р°С‚СЂРёР±СѓС‚ РїРѕ РёРјРµРЅРё.
 	IXMLDOMNodePtr GetAttribute( DTChunkID idChunk )
 	{
 		NI_ASSERT_TF( xmlCurrNode != 0, "can't get attribute - no current node set", return 0 );
 		return xmlCurrNode->attributes->getNamedItem( idChunk );
 	}
-	// получить текстовый node по имени. Это либо атрибут текущего node, либо single node из текущего.
+	// РїРѕР»СѓС‡РёС‚СЊ С‚РµРєСЃС‚РѕРІС‹Р№ node РїРѕ РёРјРµРЅРё. Р­С‚Рѕ Р»РёР±Рѕ Р°С‚СЂРёР±СѓС‚ С‚РµРєСѓС‰РµРіРѕ node, Р»РёР±Рѕ single node РёР· С‚РµРєСѓС‰РµРіРѕ.
 	IXMLDOMNodePtr GetTextNode( DTChunkID idChunk )
 	{
 		NI_ASSERT_TF( xmlCurrNode != 0, "can't get node - no current node set", return 0 );

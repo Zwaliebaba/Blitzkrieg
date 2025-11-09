@@ -10,7 +10,7 @@ class CUIMask : public IUIMask
 	//
 	CArray2D<BYTE> data;
 
-	friend class CMaskObjectLoader;			//для загрузки маски непосредственно в объект
+	friend class CMaskObjectLoader;			//РґР»СЏ Р·Р°РіСЂСѓР·РєРё РјР°СЃРєРё РЅРµРїРѕСЃСЂРµРґСЃС‚РІРµРЅРЅРѕ РІ РѕР±СЉРµРєС‚
 public:
 	virtual void STDCALL SwapData( ISharedResource *pResource );
 	// internal container clearing

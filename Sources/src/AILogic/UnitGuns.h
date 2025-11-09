@@ -8,7 +8,7 @@
 interface IStaticPath;
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //*******************************************************************
-//*								  Все оружия юнита																*
+//*								  Р’СЃРµ РѕСЂСѓР¶РёСЏ СЋРЅРёС‚Р°																*
 //*******************************************************************
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class CUnitGuns : public IRefCount
@@ -29,7 +29,7 @@ class CUnitGuns : public IRefCount
 	std::vector< CObj<CBasicGun> > guns;
 	std::vector<int> gunsBegins;
 	int nCommonGuns;
-	// с priority 0
+	// СЃ priority 0
 	int nMainGun;
 
 	//
@@ -50,7 +50,7 @@ public:
 	//
 	virtual int GetNGuns() const { return guns.size(); }
 	virtual class CBasicGun* GetGun( const int n ) const { return guns[n]; }
-	// если есть пушки, которыми можно пристреливаться, то выдаёт первую из них, иначе 0
+	// РµСЃР»Рё РµСЃС‚СЊ РїСѓС€РєРё, РєРѕС‚РѕСЂС‹РјРё РјРѕР¶РЅРѕ РїСЂРёСЃС‚СЂРµР»РёРІР°С‚СЊСЃСЏ, С‚Рѕ РІС‹РґР°С‘С‚ РїРµСЂРІСѓСЋ РёР· РЅРёС…, РёРЅР°С‡Рµ 0
 	virtual class CBasicGun* GetFirstArtilleryGun() const = 0;
 
 	class CBasicGun* ChooseGunForStatObj( class CAIUnit *pOwner, class CStaticObject *pObj, NTimer::STime *pTime );
@@ -61,15 +61,15 @@ public:
 	const int GetNCommonGuns() const { return nCommonGuns; }
 	const SBaseGunRPGStats& GetCommonGunStats( const int nCommonGun ) const;
 	int GetNAmmo( const int nCommonGun ) const;
-	// nAmmo со знаком
+	// nAmmo СЃРѕ Р·РЅР°РєРѕРј
 	void ChangeAmmo( const int nCommonGun, const int nAmmo );
 	bool IsCommonGunFiring( const int nCommonGun ) const { return commonGunsInfo[nCommonGun]->bFiring; }
 
-	// даёт reject reason самого приоритетного gun из тех, кто отказался стрелять
+	// РґР°С‘С‚ reject reason СЃР°РјРѕРіРѕ РїСЂРёРѕСЂРёС‚РµС‚РЅРѕРіРѕ gun РёР· С‚РµС…, РєС‚Рѕ РѕС‚РєР°Р·Р°Р»СЃСЏ СЃС‚СЂРµР»СЏС‚СЊ
 	const EUnitAckType GetRejectReason() const;
 	bool DoesExistRejectReason( const EUnitAckType &ackType ) const;
 	
-	// gun с priority 0
+	// gun СЃ priority 0
 	class CBasicGun* GetMainGun() const;
 
 	virtual const int GetActiveShellType() const = 0;

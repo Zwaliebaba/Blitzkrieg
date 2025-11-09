@@ -158,7 +158,7 @@ void CTileSetFrame::ClickOnThumbList( int nID )
 {
 	if ( nID == ID_ALL_DIR_THUMB_ITEMS )
 	{
-		//Выделяем в дереве текущую директорию с анимациями
+		//Р’С‹РґРµР»СЏРµРј РІ РґРµСЂРµРІРµ С‚РµРєСѓС‰СѓСЋ РґРёСЂРµРєС‚РѕСЂРёСЋ СЃ Р°РЅРёРјР°С†РёСЏРјРё
 		if ( !bEditCrossets )
 		{
 			if ( m_pActiveTerrainItem )
@@ -172,7 +172,7 @@ void CTileSetFrame::ClickOnThumbList( int nID )
 	}
 	else if ( nID == ID_SELECTED_THUMB_ITEMS )
 	{
-		//Выделяем в дереве item с user data в selected thumb list
+		//Р’С‹РґРµР»СЏРµРј РІ РґРµСЂРµРІРµ item СЃ user data РІ selected thumb list
 		int nSel = m_wndSelectedThumbItems.GetSelectedItemIndex();
 		if ( nSel == -1 )
 			return;
@@ -189,7 +189,7 @@ void CTileSetFrame::DoubleClickOnThumbList( int nID )
 
 	if ( !bEditCrossets )
 	{
-		//Добавляем новый элемент в текущую terrain диру дерева и в список накиданных тайлов
+		//Р”РѕР±Р°РІР»СЏРµРј РЅРѕРІС‹Р№ СЌР»РµРјРµРЅС‚ РІ С‚РµРєСѓС‰СѓСЋ terrain РґРёСЂСѓ РґРµСЂРµРІР° Рё РІ СЃРїРёСЃРѕРє РЅР°РєРёРґР°РЅРЅС‹С… С‚Р°Р№Р»РѕРІ
 		if ( !m_pActiveTerrainItem )
 			return;
 		SetChangedFlag( true );
@@ -199,7 +199,7 @@ void CTileSetFrame::DoubleClickOnThumbList( int nID )
 			return;
 		string szItemName = m_wndAllDirThumbItems.GetItemName( nAllIndex );
 		
-		//так как не может быть двух одинаковых тайлов, отслеживаем это дело
+		//С‚Р°Рє РєР°Рє РЅРµ РјРѕР¶РµС‚ Р±С‹С‚СЊ РґРІСѓС… РѕРґРёРЅР°РєРѕРІС‹С… С‚Р°Р№Р»РѕРІ, РѕС‚СЃР»РµР¶РёРІР°РµРј СЌС‚Рѕ РґРµР»Рѕ
 		for ( int i=0; i<m_wndSelectedThumbItems.GetThumbsCount(); i++ )
 		{
 			string szExistName = m_wndSelectedThumbItems.GetItemName( i );
@@ -212,7 +212,7 @@ void CTileSetFrame::DoubleClickOnThumbList( int nID )
 		//		int nNewItemIndex = m_wndSelectedThumbItems.InsertItemAfterSelection( szFileName, m_pActiveTerrainItem->GetDirName() );
 		NI_ASSERT( nNewItemIndex != -1 );
 		
-		//Добавляем sprite в дерево в m_pActiveTerrainItem
+		//Р”РѕР±Р°РІР»СЏРµРј sprite РІ РґРµСЂРµРІРѕ РІ m_pActiveTerrainItem
 		CTileSetTilePropsItem *pTileProps = new CTileSetTilePropsItem();
 		pTileProps->SetItemName( szItemName.c_str() );
 		pTileProps->nTileIndex = GetFreeTerrainIndex();
@@ -221,7 +221,7 @@ void CTileSetFrame::DoubleClickOnThumbList( int nID )
 	}
 	else
 	{
-		//Добавляем новый элемент в текущую crosset диру дерева и в список накиданных тайлов
+		//Р”РѕР±Р°РІР»СЏРµРј РЅРѕРІС‹Р№ СЌР»РµРјРµРЅС‚ РІ С‚РµРєСѓС‰СѓСЋ crosset РґРёСЂСѓ РґРµСЂРµРІР° Рё РІ СЃРїРёСЃРѕРє РЅР°РєРёРґР°РЅРЅС‹С… С‚Р°Р№Р»РѕРІ
 		if ( !m_pActiveCrossetItem )
 			return;
 		SetChangedFlag( true );
@@ -231,7 +231,7 @@ void CTileSetFrame::DoubleClickOnThumbList( int nID )
 			return;
 		string szItemName = m_wndAllDirThumbItems.GetItemName( nAllIndex );
 		
-		//так как не может быть двух одинаковых тайлов, отслеживаем это дело
+		//С‚Р°Рє РєР°Рє РЅРµ РјРѕР¶РµС‚ Р±С‹С‚СЊ РґРІСѓС… РѕРґРёРЅР°РєРѕРІС‹С… С‚Р°Р№Р»РѕРІ, РѕС‚СЃР»РµР¶РёРІР°РµРј СЌС‚Рѕ РґРµР»Рѕ
 		for ( int i=0; i<m_wndSelectedThumbItems.GetThumbsCount(); i++ )
 		{
 			string szExistName = m_wndSelectedThumbItems.GetItemName( i );
@@ -244,7 +244,7 @@ void CTileSetFrame::DoubleClickOnThumbList( int nID )
 		//		int nNewItemIndex = m_wndSelectedThumbItems.InsertItemAfterSelection( szFileName, m_pActiveCrossetItem->GetDirName() );
 		NI_ASSERT( nNewItemIndex != -1 );
 		
-		//Добавляем sprite в дерево в m_pActiveCrossetItem
+		//Р”РѕР±Р°РІР»СЏРµРј sprite РІ РґРµСЂРµРІРѕ РІ m_pActiveCrossetItem
 		CCrossetTilePropsItem *pTileProps = new CCrossetTilePropsItem();
 		pTileProps->SetItemName( szItemName.c_str() );
 		pTileProps->nCrossIndex = GetFreeCrossetIndex();
@@ -274,14 +274,14 @@ void CTileSetFrame::DeleteFrameInTree( int nID )
 	
 	SetChangedFlag( true );
 	
-	//Находим выделенный элемент
+	//РќР°С…РѕРґРёРј РІС‹РґРµР»РµРЅРЅС‹Р№ СЌР»РµРјРµРЅС‚
 	int nSel = m_wndSelectedThumbItems.GetSelectedItemIndex();
 	if ( nSel == -1 )
 		return;
 	DWORD dwData = m_wndSelectedThumbItems.GetUserDataForItem( nSel );
 	ASSERT( dwData != 0 );
 	
-	//Удаляем frame из дерева
+	//РЈРґР°Р»СЏРµРј frame РёР· РґРµСЂРµРІР°
 	CTreeItem *pFrame = (CTreeItem *) dwData;
 	//	NI_ASSERT( pFrame->GetItemType() == E_TILESET_TILE_PROPS_ITEM );
 	if ( pFrame->GetItemType() == E_TILESET_TILE_PROPS_ITEM )
@@ -297,10 +297,10 @@ void CTileSetFrame::DeleteFrameInTree( int nID )
 
 	pFrame->DeleteMeInParentTreeItem();
 
-	//Выделяем следующий элемент в списке
+	//Р’С‹РґРµР»СЏРµРј СЃР»РµРґСѓСЋС‰РёР№ СЌР»РµРјРµРЅС‚ РІ СЃРїРёСЃРєРµ
 	m_wndSelectedThumbItems.SelectItem( nSel + 1 );
 
-	//Удаляем элемент в списке
+	//РЈРґР°Р»СЏРµРј СЌР»РµРјРµРЅС‚ РІ СЃРїРёСЃРєРµ
 	m_wndSelectedThumbItems.DeleteItem( nSel );
 }
 
@@ -316,12 +316,12 @@ void CTileSetFrame::SpecificInit()
 	m_pTerrainsItem = (CTileSetTerrainsItem *) ( pRootItem->GetChildItem( E_TILESET_TERRAINS_ITEM ) );
 	ASSERT( m_pTerrainsItem != 0 );
 	
-	//Сперва загружаем невалидную иконку, она всегда будет под индексом 0
+	//РЎРїРµСЂРІР° Р·Р°РіСЂСѓР¶Р°РµРј РЅРµРІР°Р»РёРґРЅСѓСЋ РёРєРѕРЅРєСѓ, РѕРЅР° РІСЃРµРіРґР° Р±СѓРґРµС‚ РїРѕРґ РёРЅРґРµРєСЃРѕРј 0
 	string szEditorDataDir = theApp.GetEditorDataDir();
 	szEditorDataDir += "editor\\";
 	m_wndAllDirThumbItems.LoadImageToImageList( m_pTerrainsItem->GetImageList(), "invalid.tga", szEditorDataDir.c_str() );
 	
-	//загружаем все тайлы из директории
+	//Р·Р°РіСЂСѓР¶Р°РµРј РІСЃРµ С‚Р°Р№Р»С‹ РёР· РґРёСЂРµРєС‚РѕСЂРёРё
 	string szFullName;
 	MakeFullPath( GetDirectory(szProjectFileName.c_str()).c_str(), m_pTerrainsItem->GetTerrainsDirName(), szFullName );
 	m_wndAllDirThumbItems.LoadAllImagesFromDir( m_pTerrainsItem->GetThumbItems(), m_pTerrainsItem->GetImageList(), szFullName.c_str() );
@@ -331,7 +331,7 @@ void CTileSetFrame::SpecificInit()
 	
 	m_pCrossetsItem = (CCrossetsItem *) ( pRootItem->GetChildItem( E_CROSSETS_ITEM ) );
 	ASSERT( m_pCrossetsItem != 0 );
-	//загружаем невалидную иконку, она всегда будет под индексом 0
+	//Р·Р°РіСЂСѓР¶Р°РµРј РЅРµРІР°Р»РёРґРЅСѓСЋ РёРєРѕРЅРєСѓ, РѕРЅР° РІСЃРµРіРґР° Р±СѓРґРµС‚ РїРѕРґ РёРЅРґРµРєСЃРѕРј 0
 	m_wndAllDirThumbItems.LoadImageToImageList( m_pCrossetsItem->GetImageList(), "invalid.tga", szEditorDataDir.c_str() );
 
 	InitFreeTerrainIndexes( pRootItem );
@@ -353,10 +353,10 @@ void CTileSetFrame::SpecificClearBeforeBatchMode()
 
 void CTileSetFrame::LoadRPGStats( IDataTree *pDT, CTreeItem *pRootItem )
 {
-	//обновляем индексы terrains, если они еще не были проиндексированы
+	//РѕР±РЅРѕРІР»СЏРµРј РёРЅРґРµРєСЃС‹ terrains, РµСЃР»Рё РѕРЅРё РµС‰Рµ РЅРµ Р±С‹Р»Рё РїСЂРѕРёРЅРґРµРєСЃРёСЂРѕРІР°РЅС‹
 	InitFreeTerrainIndexes( pRootItem );
 
-	//обновляем индексы crossets, если они еще не были проиндексированы
+	//РѕР±РЅРѕРІР»СЏРµРј РёРЅРґРµРєСЃС‹ crossets, РµСЃР»Рё РѕРЅРё РµС‰Рµ РЅРµ Р±С‹Р»Рё РїСЂРѕРёРЅРґРµРєСЃРёСЂРѕРІР°РЅС‹
 	InitFreeCrossetIndexes( pRootItem );
 }
 
@@ -384,15 +384,15 @@ void CTileSetFrame::InitFreeTerrainIndexes( CTreeItem *pRootItem )
 	int nPrev = -1;
 	for ( std::set<int>::iterator it=indexSet.begin(); it!=indexSet.end(); ++it )
 	{
-		if ( *it != nPrev + 1 )				//если есть пустые индексы
+		if ( *it != nPrev + 1 )				//РµСЃР»Рё РµСЃС‚СЊ РїСѓСЃС‚С‹Рµ РёРЅРґРµРєСЃС‹
 		{
 			for ( int i=nPrev+1; i!=*it; i++ )
 				freeTerrainIndexes.push_back( i );
 		}
 		nPrev = *it;
 	}
-	freeTerrainIndexes.push_back( nPrev + 1 );			//это самый последний индекс
-	//теперь freeTerrainIndexes должны быть отсортированы по возрастанию
+	freeTerrainIndexes.push_back( nPrev + 1 );			//СЌС‚Рѕ СЃР°РјС‹Р№ РїРѕСЃР»РµРґРЅРёР№ РёРЅРґРµРєСЃ
+	//С‚РµРїРµСЂСЊ freeTerrainIndexes РґРѕР»Р¶РЅС‹ Р±С‹С‚СЊ РѕС‚СЃРѕСЂС‚РёСЂРѕРІР°РЅС‹ РїРѕ РІРѕР·СЂР°СЃС‚Р°РЅРёСЋ
 }
 
 void CTileSetFrame::InitFreeCrossetIndexes( CTreeItem *pRootItem )
@@ -422,15 +422,15 @@ void CTileSetFrame::InitFreeCrossetIndexes( CTreeItem *pRootItem )
 	int nPrev = -1;
 	for ( std::set<int>::iterator it=indexSet.begin(); it!=indexSet.end(); ++it )
 	{
-		if ( *it != nPrev + 1 )				//если есть пустые индексы
+		if ( *it != nPrev + 1 )				//РµСЃР»Рё РµСЃС‚СЊ РїСѓСЃС‚С‹Рµ РёРЅРґРµРєСЃС‹
 		{
 			for ( int i=nPrev+1; i!=*it; i++ )
 				freeCrossetIndexes.push_back( i );
 		}
 		nPrev = *it;
 	}
-	freeCrossetIndexes.push_back( nPrev + 1 );			//это самый последний индекс
-	//теперь freeCrossetIndexes должны быть отсортированы по возрастанию
+	freeCrossetIndexes.push_back( nPrev + 1 );			//СЌС‚Рѕ СЃР°РјС‹Р№ РїРѕСЃР»РµРґРЅРёР№ РёРЅРґРµРєСЃ
+	//С‚РµРїРµСЂСЊ freeCrossetIndexes РґРѕР»Р¶РЅС‹ Р±С‹С‚СЊ РѕС‚СЃРѕСЂС‚РёСЂРѕРІР°РЅС‹ РїРѕ РІРѕР·СЂР°СЃС‚Р°РЅРёСЋ
 }
 
 void CTileSetFrame::SwitchToEditCrossetsMode( bool bMode )
@@ -443,7 +443,7 @@ void CTileSetFrame::SwitchToEditCrossetsMode( bool bMode )
 	{
 		if ( !m_pCrossetsItem->GetLoadedFlag() )
 		{
-			//загружаем все тайлы из директории
+			//Р·Р°РіСЂСѓР¶Р°РµРј РІСЃРµ С‚Р°Р№Р»С‹ РёР· РґРёСЂРµРєС‚РѕСЂРёРё
 			string szFullName;
 			MakeFullPath( GetDirectory(szProjectFileName.c_str()).c_str(), m_pCrossetsItem->GetCrossetsDirName(), szFullName );
 			m_wndAllDirThumbItems.LoadAllImagesFromDir( m_pCrossetsItem->GetThumbItems(), m_pCrossetsItem->GetImageList(), szFullName.c_str(), true );
@@ -469,7 +469,7 @@ void CTileSetFrame::SwitchToEditCrossetsMode( bool bMode )
 
 bool CTileSetFrame::ExportFrameData( IDataTree *pDT, const char *pszProjectName, const char *pszResultFileName, CTreeItem *pRootItem )
 {
-	//Составляем один большой .tga, пользуясь данными всех анимаций
+	//РЎРѕСЃС‚Р°РІР»СЏРµРј РѕРґРёРЅ Р±РѕР»СЊС€РѕР№ .tga, РїРѕР»СЊР·СѓСЏСЃСЊ РґР°РЅРЅС‹РјРё РІСЃРµС… Р°РЅРёРјР°С†РёР№
 	NI_ASSERT( pRootItem->GetItemType() == E_TILESET_ROOT_ITEM );
 	CTileSetTreeRootItem *pTileSetRoot = (CTileSetTreeRootItem *) pRootItem;
 	pTileSetRoot->ComposeTiles( pszProjectName, pszResultFileName );
@@ -481,7 +481,7 @@ void CTileSetFrame::TerrainsDirChanged()
 	ASSERT( m_pTerrainsItem != 0 );
 	SetChangedFlag( true );
 
-	//так как директория задается относительно, здесь я должен собрать полный путь
+	//С‚Р°Рє РєР°Рє РґРёСЂРµРєС‚РѕСЂРёСЏ Р·Р°РґР°РµС‚СЃСЏ РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕ, Р·РґРµСЃСЊ СЏ РґРѕР»Р¶РµРЅ СЃРѕР±СЂР°С‚СЊ РїРѕР»РЅС‹Р№ РїСѓС‚СЊ
 	string szDir = GetDirectory( szProjectFileName.c_str() );
 	string szFull;
 	bool bRes = MakeFullPath( szDir.c_str(), m_pTerrainsItem->GetTerrainsDirName(), szFull );
@@ -498,7 +498,7 @@ void CTileSetFrame::CrossetsDirChanged()
 	ASSERT( m_pCrossetsItem != 0 );
 	SetChangedFlag( true );
 	
-	//так как директория задается относительно, здесь я должен собрать полный путь
+	//С‚Р°Рє РєР°Рє РґРёСЂРµРєС‚РѕСЂРёСЏ Р·Р°РґР°РµС‚СЃСЏ РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕ, Р·РґРµСЃСЊ СЏ РґРѕР»Р¶РµРЅ СЃРѕР±СЂР°С‚СЊ РїРѕР»РЅС‹Р№ РїСѓС‚СЊ
 	string szDir = GetDirectory( szProjectFileName.c_str() );
 	string szFull;
 	bool bRes = MakeFullPath( szDir.c_str(), m_pCrossetsItem->GetCrossetsDirName(), szFull );
@@ -527,7 +527,7 @@ void CTileSetFrame::SetActiveTerrainItem( CTileSetTerrainPropsItem *pTerrainItem
 	
 	if ( !pTilesItem->GetLoadedFlag() )
 	{
-		//Привязываем items в списке к items в дереве
+		//РџСЂРёРІСЏР·С‹РІР°РµРј items РІ СЃРїРёСЃРєРµ Рє items РІ РґРµСЂРµРІРµ
 		NI_ASSERT( m_wndSelectedThumbItems.GetThumbsCount() == pTilesItem->GetChildsCount() );
 		CTreeItem::CTreeItemList::const_iterator it;
 		int i = 0;
@@ -555,7 +555,7 @@ void CTileSetFrame::SetActiveCrossetItem( CCrossetTilesItem *pCrossetItem )
 	
 	if ( !m_pActiveCrossetItem->GetLoadedFlag() )
 	{
-		//Привязываем items в списке к items в дереве
+		//РџСЂРёРІСЏР·С‹РІР°РµРј items РІ СЃРїРёСЃРєРµ Рє items РІ РґРµСЂРµРІРµ
 		NI_ASSERT( m_wndSelectedThumbItems.GetThumbsCount() == m_pActiveCrossetItem->GetChildsCount() );
 		CTreeItem::CTreeItemList::const_iterator it;
 		int i = 0;
@@ -598,7 +598,7 @@ LRESULT CTileSetFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 void CTileSetFrame::OnImportTerrains() 
 {
 	std::string szXMLImportFile;
-	//Спрашиваем у пользователя имя файла
+	//РЎРїСЂР°С€РёРІР°РµРј Сѓ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ РёРјСЏ С„Р°Р№Р»Р°
 	if ( !ShowFileDialog( szXMLImportFile, theApp.GetEditorDataDir().c_str(), "Import tileset editor file", TRUE, ".xml", 0, szXMLFilter.c_str() ) )
 		return;
 	
@@ -648,7 +648,7 @@ void CTileSetFrame::OnImportTerrains()
 	
 	CPtr<IImage> pMaskImage;
 	{
-		//загружаю картинку маски
+		//Р·Р°РіСЂСѓР¶Р°СЋ РєР°СЂС‚РёРЅРєСѓ РјР°СЃРєРё
 		string szMaskName = theApp.GetEditorDataDir();
 		szMaskName += "editor\\terrain\\tilemask.tga";
 		CPtr<IDataStream> pMaskStream = OpenFileStream( szMaskName.c_str(), STREAM_ACCESS_READ );
@@ -665,7 +665,7 @@ void CTileSetFrame::OnImportTerrains()
 
 	CPtr<IDataStorage> pStorage;
 	{
-		//Создаю директорию для хранения картинок
+		//РЎРѕР·РґР°СЋ РґРёСЂРµРєС‚РѕСЂРёСЋ РґР»СЏ С…СЂР°РЅРµРЅРёСЏ РєР°СЂС‚РёРЅРѕРє
 		string szPostfix = "terrains\\";
 		string szName = GetDirectory( szProjectFileName.c_str() );
 		szName += szPostfix;
@@ -705,7 +705,7 @@ void CTileSetFrame::OnImportTerrains()
 		pTerrainProps->ChangeItemName( terrDesc.szName.c_str() );
 
 /*
-		//запишем ambient звуки
+		//Р·Р°РїРёС€РµРј ambient Р·РІСѓРєРё
 		CTreeItem *pASounds = pTerrainProps->GetChildItem( E_TILESET_ASOUNDS_ITEM );
 		NI_ASSERT( pASounds != 0 );
 		for ( int k=0; k<terrDesc.sounds.size(); k++ )
@@ -722,7 +722,7 @@ void CTileSetFrame::OnImportTerrains()
 			pASounds->AddChild( pProps );
 		}
 
-		//запишем looped ambient звуки
+		//Р·Р°РїРёС€РµРј looped ambient Р·РІСѓРєРё
 		CTreeItem *pLSounds = pTerrainProps->GetChildItem( E_TILESET_LSOUNDS_ITEM );
 		NI_ASSERT( pLSounds != 0 );
 		for ( int k=0; k<terrDesc.loopedSounds.size(); k++ )
@@ -760,7 +760,7 @@ void CTileSetFrame::OnImportTerrains()
 
 			if ( !(k & 0x01) && k+1 < terrDesc.tiles.size() )
 			{
-				//проверяю, вдруг это both flipped tile
+				//РїСЂРѕРІРµСЂСЏСЋ, РІРґСЂСѓРі СЌС‚Рѕ both flipped tile
 				SMainTileDesc &nextTileDesc = terrDesc.tiles[k+1];
 				if ( nextTileDesc.nIndex == tileDesc.nIndex + 1 )
 				{
@@ -769,23 +769,23 @@ void CTileSetFrame::OnImportTerrains()
 				}
 			}
 
-			//нарезаю текущий тайл в отдельный файл
+			//РЅР°СЂРµР·Р°СЋ С‚РµРєСѓС‰РёР№ С‚Р°Р№Р» РІ РѕС‚РґРµР»СЊРЅС‹Р№ С„Р°Р№Р»
 			int nSizeX = 64, nSizeY = 32;
 			pTileImage = pIP->CreateImage( nSizeX, nSizeY );
-			pTileImage->Set( SColor( 255, 0, 0, 0 ) );		//argb, хотя позже сверху пишется инфа из основной картинки
+			pTileImage->Set( SColor( 255, 0, 0, 0 ) );		//argb, С…РѕС‚СЏ РїРѕР·Р¶Рµ СЃРІРµСЂС…Сѓ РїРёС€РµС‚СЃСЏ РёРЅС„Р° РёР· РѕСЃРЅРѕРІРЅРѕР№ РєР°СЂС‚РёРЅРєРё
 			SColor *pRes = pTileImage->GetLFB();
 			
 			int nBeginX, nBeginY;
 			int nMod7 = nTileIndex % 7;
 			if ( nMod7 < 4 )
 			{
-				// по 4 тайла в срочке
+				// РїРѕ 4 С‚Р°Р№Р»Р° РІ СЃСЂРѕС‡РєРµ
 				nBeginX = nMod7 * 64;
 				nBeginY = (nTileIndex / 7) * 32;
 			}
 			else
 			{
-				// по 3 тайла в строчке
+				// РїРѕ 3 С‚Р°Р№Р»Р° РІ СЃС‚СЂРѕС‡РєРµ
 				nBeginX = (nMod7 - 4) * 64 + 32;
 				nBeginY = (nTileIndex / 7) * 32 + 16;
 			}
@@ -797,7 +797,7 @@ void CTileSetFrame::OnImportTerrains()
 					pRes[(y - nBeginY)*nSizeX + x - nBeginX].r = pSrc[y*256 + x].r;
 					pRes[(y - nBeginY)*nSizeX + x - nBeginX].g = pSrc[y*256 + x].g;
 					pRes[(y - nBeginY)*nSizeX + x - nBeginX].b = pSrc[y*256 + x].b;
-					pRes[(y - nBeginY)*nSizeX + x - nBeginX].a = 255;		//альфу устанавливаю всегда максимальной
+					pRes[(y - nBeginY)*nSizeX + x - nBeginX].a = 255;		//Р°Р»СЊС„Сѓ СѓСЃС‚Р°РЅР°РІР»РёРІР°СЋ РІСЃРµРіРґР° РјР°РєСЃРёРјР°Р»СЊРЅРѕР№
 				}
 			}
 			RECT rc;
@@ -833,7 +833,7 @@ void CTileSetFrame::OnUpdateImportTerrains(CCmdUI* pCmdUI)
 void CTileSetFrame::OnImportCrossets() 
 {
 	std::string szXMLImportFile;
-	//Спрашиваем у пользователя имя файла
+	//РЎРїСЂР°С€РёРІР°РµРј Сѓ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ РёРјСЏ С„Р°Р№Р»Р°
 	if ( !ShowFileDialog( szXMLImportFile, theApp.GetEditorDataDir().c_str(), "Import crosset file", TRUE, ".xml", 0, szXMLFilter.c_str() ) )
 		return;
 	
@@ -883,7 +883,7 @@ void CTileSetFrame::OnImportCrossets()
 	
 	CPtr<IImage> pMaskImage;
 	{
-		//загружаю картинку маски
+		//Р·Р°РіСЂСѓР¶Р°СЋ РєР°СЂС‚РёРЅРєСѓ РјР°СЃРєРё
 		string szMaskName = theApp.GetEditorDataDir();
 		szMaskName += "editor\\terrain\\tilemask.tga";
 		CPtr<IDataStream> pMaskStream = OpenFileStream( szMaskName.c_str(), STREAM_ACCESS_READ );
@@ -900,7 +900,7 @@ void CTileSetFrame::OnImportCrossets()
 
 	CPtr<IDataStorage> pStorage;
 	{
-		//Создаю директорию для хранения картинок
+		//РЎРѕР·РґР°СЋ РґРёСЂРµРєС‚РѕСЂРёСЋ РґР»СЏ С…СЂР°РЅРµРЅРёСЏ РєР°СЂС‚РёРЅРѕРє
 		string szPostfix = "crossets\\";
 		string szName = GetDirectory( szProjectFileName.c_str() );
 		szName += szPostfix;
@@ -949,7 +949,7 @@ void CTileSetFrame::OnImportCrossets()
 				pTileProps->SetItemName( szShortFileName.c_str() );
 				pCrossetTilesItem->AddChild( pTileProps );
 
-				//нарезаю текущий тайл в отдельный файл
+				//РЅР°СЂРµР·Р°СЋ С‚РµРєСѓС‰РёР№ С‚Р°Р№Р» РІ РѕС‚РґРµР»СЊРЅС‹Р№ С„Р°Р№Р»
 				int nSizeX = 64, nSizeY = 32;
 				pTileImage = pIP->CreateImage( nSizeX, nSizeY );
 				pTileImage->Set( 0 );
@@ -959,13 +959,13 @@ void CTileSetFrame::OnImportCrossets()
 				int nMod7 = (nTileIndex / 2) % 7;
 				if ( nMod7 < 4 )
 				{
-					// по 4 тайла в срочке
+					// РїРѕ 4 С‚Р°Р№Р»Р° РІ СЃСЂРѕС‡РєРµ
 					nBeginX = nMod7 * 64;
 					nBeginY = (nTileIndex / 14) * 32;
 				}
 				else
 				{
-					// по 3 тайла в строчке
+					// РїРѕ 3 С‚Р°Р№Р»Р° РІ СЃС‚СЂРѕС‡РєРµ
 					nBeginX = (nMod7 - 4) * 64 + 32;
 					nBeginY = (nTileIndex / 14) * 32 + 16;
 				}
@@ -1028,7 +1028,7 @@ int CTileSetFrame::GetFreeTerrainIndex()
 	int nRes = -1;
 	if ( freeTerrainIndexes.size() == 1 )
 	{
-		//возвращаем самый последний индекс
+		//РІРѕР·РІСЂР°С‰Р°РµРј СЃР°РјС‹Р№ РїРѕСЃР»РµРґРЅРёР№ РёРЅРґРµРєСЃ
 		nRes = freeTerrainIndexes.back()++;
 	}
 	else
@@ -1058,7 +1058,7 @@ int CTileSetFrame::GetFreeCrossetIndex()
 	int nRes = -1;
 	if ( freeCrossetIndexes.size() == 1 )
 	{
-		//возвращаем самый последний индекс
+		//РІРѕР·РІСЂР°С‰Р°РµРј СЃР°РјС‹Р№ РїРѕСЃР»РµРґРЅРёР№ РёРЅРґРµРєСЃ
 		nRes = freeCrossetIndexes.back()++;
 	}
 	else

@@ -107,7 +107,7 @@ void CCampaignCommonPropsItem::UpdateItemValue( int nItemId, const CVariant &val
 	
 	if ( nItemId == 1 || nItemId == 2 || nItemId == 3 )
 	{
-		//сконвертим путь к файлу в относительный без расширения
+		//СЃРєРѕРЅРІРµСЂС‚РёРј РїСѓС‚СЊ Рє С„Р°Р№Р»Сѓ РІ РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅС‹Р№ Р±РµР· СЂР°СЃС€РёСЂРµРЅРёВ¤
 		if ( !IsRelatedPath( value ) )
 		{
 			string szValue = value;
@@ -115,7 +115,7 @@ void CCampaignCommonPropsItem::UpdateItemValue( int nItemId, const CVariant &val
 			bool bRes =	MakeSubRelativePath( g_frameManager.GetFrame( CFrameManager::E_CAMPAIGN_FRAME )->GetProjectFileName().c_str(), szValue.c_str(), szRelatedPath );
 			if ( bRes )
 			{
-				//обрежем расширение в конце
+				//РѕР±СЂРµР¶РµРј СЂР°СЃС€РёСЂРµРЅРёРµ РІ РєРѕРЅС†Рµ
 				szRelatedPath = szRelatedPath.substr( 0, szRelatedPath.rfind( '.' ) );
 				CVariant newVal = szRelatedPath;
 				CTreeItem::UpdateItemValue( nItemId, newVal );
@@ -252,12 +252,12 @@ void CCampaignChapterPropsItem::UpdateItemValue( int nItemId, const CVariant &va
 	
 	if ( nItemId == 1 )
 	{
-		//добавляю scenarious\\chapters\\ в начало имени, если оно еще не присутствует
+		//РґРѕР±Р°РІР»В¤СЋ scenarious\\chapters\\ РІ РЅР°С‡Р°Р»Рѕ РёРјРµРЅРё, РµСЃР»Рё РѕРЅРѕ РµС‰Рµ РЅРµ РїСЂРёСЃСѓС‚СЃС‚РІСѓРµС‚
 		std::string szValue = value;
 		std::string szPrefix = "scenarios\\chapters\\";
 		if ( strncmp( szValue.c_str(), szPrefix.c_str(), szPrefix.size() ) )
 		{
-			//нету такой строчки вначале
+			//РЅРµС‚Сѓ С‚Р°РєРѕР№ СЃС‚СЂРѕС‡РєРё РІРЅР°С‡Р°Р»Рµ
 			szValue = szPrefix + szValue;
 			CTreeItem::UpdateItemValue( nItemId, szValue );
 			g_frameManager.GetFrame( CFrameManager::E_CAMPAIGN_FRAME )->UpdatePropView( this );
@@ -336,14 +336,14 @@ void CCampaignTemplatesItem::UpdateItemValue( int nItemId, const CVariant &value
 	
 	if ( nItemId == 1 )
 	{
-		//изменилась директория, считываю все *.san файлы из поддиректорий
+		//РёР·РјРµРЅРёР»Р°СЃСЊ РґРёСЂРµРєС‚РѕСЂРёВ¤, СЃС‡РёС‚С‹РІР°СЋ РІСЃРµ *.san С„Р°Р№Р»С‹ РёР· РїРѕРґРґРёСЂРµРєС‚РѕСЂРёР№
 		std::string szVal = value;
 		string szMask = "*.xml";
 		vector<string> files;
 		std::string szBaseDir = theApp.GetEditorDataDir();
 		szBaseDir += "Scenarios\\TemplateMissions\\";
 		
-		//обновим имя директории
+		//РѕР±РЅРѕРІРёРј РёРјВ¤ РґРёСЂРµРєС‚РѕСЂРёРё
 		std::string szShortDirName;
 		bool bRes = MakeSubRelativePath( szBaseDir.c_str(), szVal.c_str(), szShortDirName );
 		if ( !bRes )
@@ -366,7 +366,7 @@ void CCampaignTemplatesItem::UpdateItemValue( int nItemId, const CVariant &value
 		g_frameManager.GetFrame( CFrameManager::E_CAMPAIGN_FRAME )->UpdatePropView( this );
 		g_frameManager.GetFrame( CFrameManager::E_CAMPAIGN_FRAME )->SetChangedFlag( true );
 		
-		//составляю полный список xml файлов
+		//СЃРѕСЃС‚Р°РІР»В¤СЋ РїРѕР»РЅС‹Р№ СЃРїРёСЃРѕРє xml С„Р°Р№Р»РѕРІ
 		NFile::EnumerateFiles( szVal.c_str(), szMask.c_str(), NFile::CGetAllFilesRelative( szBaseDir.c_str(), &files ), true );
 		for ( int i=0; i<files.size(); i++ )
 		{
@@ -429,12 +429,12 @@ void CCampaignTemplatePropsItem::UpdateItemValue( int nItemId, const CVariant &v
 	
 	if ( nItemId == 1 )
 	{
-		//добавляю scenarious\\templatemissions\\ в начало имени, если оно еще не присутствует
+		//РґРѕР±Р°РІР»В¤СЋ scenarious\\templatemissions\\ РІ РЅР°С‡Р°Р»Рѕ РёРјРµРЅРё, РµСЃР»Рё РѕРЅРѕ РµС‰Рµ РЅРµ РїСЂРёСЃСѓС‚СЃС‚РІСѓРµС‚
 		std::string szValue = value;
 		std::string szPrefix = "scenarios\\templatemissions\\";
 		if ( strncmp( szValue.c_str(), szPrefix.c_str(), szPrefix.size() ) )
 		{
-			//нету такой строчки вначале
+			//РЅРµС‚Сѓ С‚Р°РєРѕР№ СЃС‚СЂРѕС‡РєРё РІРЅР°С‡Р°Р»Рµ
 			ChangeItemName( szValue.c_str() );
 
 			szValue = szPrefix + szValue;
@@ -443,7 +443,7 @@ void CCampaignTemplatePropsItem::UpdateItemValue( int nItemId, const CVariant &v
 		}
 		else
 		{
-			//обрежем начало значения и установим в качестве имени
+			//РѕР±СЂРµР¶РµРј РЅР°С‡Р°Р»Рѕ Р·РЅР°С‡РµРЅРёВ¤ Рё СѓСЃС‚Р°РЅРѕРІРёРј РІ РєР°С‡РµСЃС‚РІРµ РёРјРµРЅРё
 			szValue = szValue.c_str() + szPrefix.size();
 			ChangeItemName( szValue.c_str() );
 			g_frameManager.GetFrame( CFrameManager::E_CAMPAIGN_FRAME )->UpdatePropView( this );

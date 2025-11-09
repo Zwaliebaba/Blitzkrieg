@@ -61,7 +61,7 @@ private:
 	CVec2 objShift;
 
 protected:
-	virtual void SpecificInit();														//для инициализации внутренних данных после загрузки проекта или создании нового
+	virtual void SpecificInit();														//РґР»СЏ РёРЅРёС†РёР°Р»РёР·Р°С†РёРё РІРЅСѓС‚СЂРµРЅРЅРёС… РґР°РЅРЅС‹С… РїРѕСЃР»Рµ Р·Р°РіСЂСѓР·РєРё РїСЂРѕРµРєС‚Р° РёР»Рё СЃРѕР·РґР°РЅРёРё РЅРѕРІРѕРіРѕ
 	virtual void SpecificClearBeforeBatchMode();
 	virtual BOOL SpecificTranslateMessage( MSG *pMsg );
 	

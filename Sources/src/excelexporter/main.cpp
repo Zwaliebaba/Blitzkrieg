@@ -18,7 +18,7 @@ void ShowProgramInfo()
 	cout << "Import example: export.exe out.xls" << endl;
 }
 
-//Специальный функтор для обхода всех файлов
+//вЂ”РїРµС†РёР°Р»СЊРЅС‹Р№ С„СѓРЅРєС‚РѕСЂ РґР»В¤ РѕР±С…РѕРґР° РІСЃРµС… С„Р°Р№Р»РѕРІ
 class CGetAllFiles
 {
 	vector<string> *pFileVector;
@@ -58,14 +58,14 @@ int main(int argc, char* argv[])
 	string szFileMask;
 	string szCrapFile;
 
-	//разбор командной строки
+	//СЂР°Р·Р±РѕСЂ РєРѕРјР°РЅРґРЅРѕР№ СЃС‚СЂРѕРєРё
 	do
 	{
 		string szFirst = argv[1];
 		string szExtention = szFirst.substr( szFirst.rfind('.') );
 		if ( szExtention == ".txt" )
 		{
-			//это мод импорта, убедимся что число параметров равно 1
+			//СЌС‚Рѕ РјРѕРґ РёРјРїРѕСЂС‚Р°, СѓР±РµРґРёРјСЃВ¤ С‡С‚Рѕ С‡РёСЃР»Рѕ РїР°СЂР°РјРµС‚СЂРѕРІ СЂР°РІРЅРѕ 1
 			if ( argc != 2 )
 			{
 				cout << "Too many params for import mode" << endl;
@@ -79,7 +79,7 @@ int main(int argc, char* argv[])
 		}
 		else
 		{
-			//проверяем, что это корректный export mode
+			//РїСЂРѕРІРµСЂВ¤РµРј, С‡С‚Рѕ СЌС‚Рѕ РєРѕСЂСЂРµРєС‚РЅС‹Р№ export mode
 			if ( argc < 4 )
 			{
 				cout << "Too few params for export mode" << endl;
@@ -100,7 +100,7 @@ int main(int argc, char* argv[])
 					bIgnoreFields = true;
 				else
 				{
-					//смотрим, существует ли файл с таким именем
+					//СЃРјРѕС‚СЂРёРј, СЃСѓС‰РµСЃС‚РІСѓРµС‚ Р»Рё С„Р°Р№Р» СЃ С‚Р°РєРёРј РёРјРµРЅРµРј
 					if ( _access( szVal.c_str(), 00 ) )
 					{
 						string szErr = NStr::Format( "Invalid parameter %s, such file does not exist", szVal.c_str() );
@@ -114,7 +114,7 @@ int main(int argc, char* argv[])
 		}
 	}	while ( 0 );
 
-	//найдем базовое имя для нода
+	//РЅР°Р№РґРµРј Р±Р°Р·РѕРІРѕРµ РёРјВ¤ РґР»В¤ РЅРѕРґР°
 	std::string szBaseNodeName = "RPG";
 	int nExtensionsSize = sizeof( extensions ) / sizeof( extensions[0] );
 	for ( int i=0; i<extensions.size(); i++ )
@@ -126,7 +126,7 @@ int main(int argc, char* argv[])
 		}
 	}
 
-	//Запускаем конвертер
+	//В«Р°РїСѓСЃРєР°РµРј РєРѕРЅРІРµСЂС‚РµСЂ
 	if ( bImportMode )
 	{
 		CExcelExporter excelExporter;
@@ -136,10 +136,10 @@ int main(int argc, char* argv[])
 	{
 		vector<string> files, errorFiles;
 		
-		//Сперва составляю полный список файлов, который потом будет конвертиться
+		//вЂ”РїРµСЂРІР° СЃРѕСЃС‚Р°РІР»В¤СЋ РїРѕР»РЅС‹Р№ СЃРїРёСЃРѕРє С„Р°Р№Р»РѕРІ, РєРѕС‚РѕСЂС‹Р№ РїРѕС‚РѕРј Р±СѓРґРµС‚ РєРѕРЅРІРµСЂС‚РёС‚СЊСЃВ¤
 		NFile::EnumerateFiles( szFolderName.c_str(), szFileMask.c_str(), CGetAllFiles( &files ), bRecursive );
 		
-		//сперва удаляю старый excel файл
+		//СЃРїРµСЂРІР° СѓРґР°Р»В¤СЋ СЃС‚Р°СЂС‹Р№ excel С„Р°Р№Р»
 		remove( szExcelFileName.c_str() );
 		CExcelExporter excelExporter;
 		excelExporter.ConvertFilesToExcel( files, szExcelFileName.c_str(), szCrapFile.c_str(), szBaseNodeName.c_str(), bIgnoreFields );
@@ -149,25 +149,25 @@ int main(int argc, char* argv[])
 /*
 #ifdef MAIN_EXPORT
 	{
-		//Это exporter
+		//РЃС‚Рѕ exporter
 
-		//считаю что первый параметр это имя excel файла
+		//СЃС‡РёС‚Р°СЋ С‡С‚Рѕ РїРµСЂРІС‹Р№ РїР°СЂР°РјРµС‚СЂ СЌС‚Рѕ РёРјВ¤ excel С„Р°Р№Р»Р°
 		//	ReadExcelFile( argv[1] );
 		
 		string szMask = "*.msh";
 		vector<string> files, errorFiles;
 		
-		//Сперва составляю полный список файлов, который потом будет конвертиться
+		//вЂ”РїРµСЂРІР° СЃРѕСЃС‚Р°РІР»В¤СЋ РїРѕР»РЅС‹Р№ СЃРїРёСЃРѕРє С„Р°Р№Р»РѕРІ, РєРѕС‚РѕСЂС‹Р№ РїРѕС‚РѕРј Р±СѓРґРµС‚ РєРѕРЅРІРµСЂС‚РёС‚СЊСЃВ¤
 		NFile::EnumerateFiles( argv[1], szMask.c_str(), CGetAllFiles( &files ), true );
 		
-		//сперва удаляю старый excel файл
+		//СЃРїРµСЂРІР° СѓРґР°Р»В¤СЋ СЃС‚Р°СЂС‹Р№ excel С„Р°Р№Р»
 		remove( "c:\\result.xls" );
 		CExcelExporter excelExporter;
 		excelExporter.ConvertFilesToExcel( files, "c:\\result.xls" );
 	}
 #else
 	{
-		//Это importer
+		//РЃС‚Рѕ importer
 		CExcelExporter excelExporter;
 		excelExporter.ConvertExcelToXMLFiles( "c:\\result.xls" );
 	}

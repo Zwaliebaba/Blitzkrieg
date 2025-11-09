@@ -48,7 +48,7 @@ int CStreamFadeOff::operator&( IStructureSaver &ss )
 	}
 	else
 	{
-		if ( hThread && WAIT_OBJECT_0 != WaitForSingleObject( hFinishReport,0 ) ) // нить сама не завершилась
+		if ( hThread && WAIT_OBJECT_0 != WaitForSingleObject( hFinishReport,0 ) ) // РЅРёС‚СЊ СЃР°РјР° РЅРµ Р·Р°РІРµСЂС€РёР»Р°СЃСЊ
 		{
 			bool bRun = true;
 			saver.Add( 4, &bRun );
@@ -97,7 +97,7 @@ void CStreamFadeOff::Clear()
 {
 	if ( hThread )
 	{
-		if ( WAIT_OBJECT_0 != WaitForSingleObject( hFinishReport,0 ) ) // нить сама не завершилась
+		if ( WAIT_OBJECT_0 != WaitForSingleObject( hFinishReport,0 ) ) // РЅРёС‚СЊ СЃР°РјР° РЅРµ Р·Р°РІРµСЂС€РёР»Р°СЃСЊ
 		{
 			SetEvent( hStopCommand );
 			WaitForSingleObject( hFinishReport, INFINITE );

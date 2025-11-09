@@ -261,7 +261,7 @@ bool STDCALL NMain::CanLaunch()
 	if ( GetDriveType( szModuleDir.c_str() ) == DRIVE_REMOTE )
 	{
 		MessageBox( 0, "Program can't be run from the remote drive!", "ERROR", MB_OK | MB_ICONEXCLAMATION );
-		//MessageBox( 0, "Вот так вот!", "ERROR", MB_OK | MB_ICONEXCLAMATION );
+		//MessageBox( 0, "Р’РѕС‚ С‚Р°Рє РІРѕС‚!", "ERROR", MB_OK | MB_ICONEXCLAMATION );
 		return false;
 	}
 

@@ -38,26 +38,26 @@ public:
 		stats.pszName = szName.c_str();
 	}
 	//
-	// чтение/запись данных
+	// С‡С‚РµРЅРёРµ/Р·Р°РїРёСЃСЊ РґР°РЅРЅС‹С…
 	virtual int STDCALL Read( void *pBuffer, int nLength );
 	virtual int STDCALL Write( const void *pBuffer, int nLength );
-	// объявить текущую позицию в потоке за начало потока
+	// РѕР±СЉСЏРІРёС‚СЊ С‚РµРєСѓС‰СѓСЋ РїРѕР·РёС†РёСЋ РІ РїРѕС‚РѕРєРµ Р·Р° РЅР°С‡Р°Р»Рѕ РїРѕС‚РѕРєР°
 	virtual int STDCALL LockBegin();
-	// вернуть начало потока в нулевую позицию
+	// РІРµСЂРЅСѓС‚СЊ РЅР°С‡Р°Р»Рѕ РїРѕС‚РѕРєР° РІ РЅСѓР»РµРІСѓСЋ РїРѕР·РёС†РёСЋ
 	virtual int STDCALL UnlockBegin();
-	// текущая позиция в потоке
+	// С‚РµРєСѓС‰Р°СЏ РїРѕР·РёС†РёСЏ РІ РїРѕС‚РѕРєРµ
 	virtual int STDCALL GetPos() const;
-	// выставить текущую позицию в потоке
+	// РІС‹СЃС‚Р°РІРёС‚СЊ С‚РµРєСѓС‰СѓСЋ РїРѕР·РёС†РёСЋ РІ РїРѕС‚РѕРєРµ
 	virtual int STDCALL Seek( int offset, STREAM_SEEK from );
-	// получить размер потока
+	// РїРѕР»СѓС‡РёС‚СЊ СЂР°Р·РјРµСЂ РїРѕС‚РѕРєР°
 	virtual int STDCALL GetSize() const;
-	// изменить размер потока
+	// РёР·РјРµРЅРёС‚СЊ СЂР°Р·РјРµСЂ РїРѕС‚РѕРєР°
 	virtual bool STDCALL SetSize( int nSize );
-	// скопировать 'nLength' байт из текущей позиции потока в текущю позицию 'pDstStream' потока
+	// СЃРєРѕРїРёСЂРѕРІР°С‚СЊ 'nLength' Р±Р°Р№С‚ РёР· С‚РµРєСѓС‰РµР№ РїРѕР·РёС†РёРё РїРѕС‚РѕРєР° РІ С‚РµРєСѓС‰СЋ РїРѕР·РёС†РёСЋ 'pDstStream' РїРѕС‚РѕРєР°
 	virtual int STDCALL CopyTo( IDataStream *pDstStream, int nLength );
-	// сбросить все закешированные данные
+	// СЃР±СЂРѕСЃРёС‚СЊ РІСЃРµ Р·Р°РєРµС€РёСЂРѕРІР°РЅРЅС‹Рµ РґР°РЅРЅС‹Рµ
 	virtual void STDCALL Flush();
-	// получить информацию о потоке
+	// РїРѕР»СѓС‡РёС‚СЊ РёРЅС„РѕСЂРјР°С†РёСЋ Рѕ РїРѕС‚РѕРєРµ
 	virtual void STDCALL GetStats( SStorageElementStats *pStats );
 };
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -70,25 +70,25 @@ class CMemFileSystem : public IDataStorage
 	CStreamsMap streams;
 public:
 	CMemFileSystem( DWORD dwAccessMode );
-	// проверить, есть ли такой поток
+	// РїСЂРѕРІРµСЂРёС‚СЊ, РµСЃС‚СЊ Р»Рё С‚Р°РєРѕР№ РїРѕС‚РѕРє
 	virtual const bool STDCALL IsStreamExist( const char *pszName );
-	// создать и открыть поток с указанным именем и правами доступа
+	// СЃРѕР·РґР°С‚СЊ Рё РѕС‚РєСЂС‹С‚СЊ РїРѕС‚РѕРє СЃ СѓРєР°Р·Р°РЅРЅС‹Рј РёРјРµРЅРµРј Рё РїСЂР°РІР°РјРё РґРѕСЃС‚СѓРїР°
 	virtual IDataStream* STDCALL CreateStream( const char *pszName, DWORD dwAccessMode );
-	// открыть существующий поток с указанным именем и правами доступа
+	// РѕС‚РєСЂС‹С‚СЊ СЃСѓС‰РµСЃС‚РІСѓСЋС‰РёР№ РїРѕС‚РѕРє СЃ СѓРєР°Р·Р°РЅРЅС‹Рј РёРјРµРЅРµРј Рё РїСЂР°РІР°РјРё РґРѕСЃС‚СѓРїР°
 	virtual IDataStream* STDCALL OpenStream( const char *pszName, DWORD dwAccessMode );
-	// получить описание stream'а
+	// РїРѕР»СѓС‡РёС‚СЊ РѕРїРёСЃР°РЅРёРµ stream'Р°
 	virtual bool STDCALL GetStreamStats( const char *pszName, SStorageElementStats *pStats );
-	// убить элемент хранилища
+	// СѓР±РёС‚СЊ СЌР»РµРјРµРЅС‚ С…СЂР°РЅРёР»РёС‰Р°
 	virtual bool STDCALL DestroyElement( const char *pszName );
-	// переименовать элемент
+	// РїРµСЂРµРёРјРµРЅРѕРІР°С‚СЊ СЌР»РµРјРµРЅС‚
 	virtual bool STDCALL RenameElement( const char *pszOldName, const char *pszNewName );
-	// перечисление элементов
+	// РїРµСЂРµС‡РёСЃР»РµРЅРёРµ СЌР»РµРјРµРЅС‚РѕРІ
 	virtual IStorageEnumerator* STDCALL CreateEnumerator();
-	// получить имя этого storage
+	// РїРѕР»СѓС‡РёС‚СЊ РёРјСЏ СЌС‚РѕРіРѕ storage
 	virtual const char* STDCALL GetName() const { return szBase.c_str(); }
-	// добавить новый MOD
+	// РґРѕР±Р°РІРёС‚СЊ РЅРѕРІС‹Р№ MOD
 	virtual bool STDCALL AddStorage( IDataStorage *pStorage, const char *pszName );
-	// убрать MOD
+	// СѓР±СЂР°С‚СЊ MOD
 	virtual bool STDCALL RemoveStorage( const char *pszName );
 };
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

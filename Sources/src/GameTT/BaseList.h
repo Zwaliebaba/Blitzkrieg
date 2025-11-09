@@ -14,20 +14,20 @@ class CInterfaceBaseList : public CInterfaceScreenBase
 {
 	OBJECT_NORMAL_METHODS( CInterfaceBaseList );
 	//
-	std::vector<std::string> dirsList;		//список директорий
-	std::vector<std::string> filesList;		//список файлов
-	std::list<int> stack;									//стек для сохранения выбранных items, нужен для движения вверх директорий
+	std::vector<std::string> dirsList;		//СЃРїРёСЃРѕРє РґРёСЂРµРєС‚РѕСЂРёР№
+	std::vector<std::string> filesList;		//СЃРїРёСЃРѕРє С„Р°Р№Р»РѕРІ
+	std::list<int> stack;									//СЃС‚РµРє РґР»СЏ СЃРѕС…СЂР°РЅРµРЅРёСЏ РІС‹Р±СЂР°РЅРЅС‹С… items, РЅСѓР¶РµРЅ РґР»СЏ РґРІРёР¶РµРЅРёСЏ РІРІРµСЂС… РґРёСЂРµРєС‚РѕСЂРёР№
 	// input
 	NInput::CCommandRegistrator commandMsgs;
 	//private:
 	virtual void FillListFromCurrentDir();
 	friend class CInterfaceCustomList;
 protected:
-	//эти переменные инициализируются в конструкторах производных классов
-	std::vector<std::string> fileMasks;			//для некоторых списков есть несколько типов файлов, поэтому массив
-	std::string szCurrentDir;								//текущая директория
-	std::string szTopDir;										//выше этой директории не поднимаемся
-	std::string szInterfaceName;						//имя интерфейсного файла
+	//СЌС‚Рё РїРµСЂРµРјРµРЅРЅС‹Рµ РёРЅРёС†РёР°Р»РёР·РёСЂСѓСЋС‚СЃСЏ РІ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂР°С… РїСЂРѕРёР·РІРѕРґРЅС‹С… РєР»Р°СЃСЃРѕРІ
+	std::vector<std::string> fileMasks;			//РґР»СЏ РЅРµРєРѕС‚РѕСЂС‹С… СЃРїРёСЃРєРѕРІ РµСЃС‚СЊ РЅРµСЃРєРѕР»СЊРєРѕ С‚РёРїРѕРІ С„Р°Р№Р»РѕРІ, РїРѕСЌС‚РѕРјСѓ РјР°СЃСЃРёРІ
+	std::string szCurrentDir;								//С‚РµРєСѓС‰Р°СЏ РґРёСЂРµРєС‚РѕСЂРёСЏ
+	std::string szTopDir;										//РІС‹С€Рµ СЌС‚РѕР№ РґРёСЂРµРєС‚РѕСЂРёРё РЅРµ РїРѕРґРЅРёРјР°РµРјСЃСЏ
+	std::string szInterfaceName;						//РёРјСЏ РёРЅС‚РµСЂС„РµР№СЃРЅРѕРіРѕ С„Р°Р№Р»Р°
 
 	enum E_SORT_TYPES
 	{
@@ -48,9 +48,9 @@ protected:
 	
 	virtual bool STDCALL StepLocal( bool bAppActive );
 	virtual bool STDCALL ProcessMessage( const SGameMessage &msg );
-	//перегружаемые мной функции
-	virtual bool FillListItem( IUIListRow *pRow, const std::string &szFullFileName, bool *pSelectedItem = 0 );		//заполняем текущую строчку в списке
-	virtual bool OnOk( const std::string &szFullFileName );															//пользователь выбрал файл, обработаем выбор
+	//РїРµСЂРµРіСЂСѓР¶Р°РµРјС‹Рµ РјРЅРѕР№ С„СѓРЅРєС†РёРё
+	virtual bool FillListItem( IUIListRow *pRow, const std::string &szFullFileName, bool *pSelectedItem = 0 );		//Р·Р°РїРѕР»РЅСЏРµРј С‚РµРєСѓС‰СѓСЋ СЃС‚СЂРѕС‡РєСѓ РІ СЃРїРёСЃРєРµ
+	virtual bool OnOk( const std::string &szFullFileName );															//РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ РІС‹Р±СЂР°Р» С„Р°Р№Р», РѕР±СЂР°Р±РѕС‚Р°РµРј РІС‹Р±РѕСЂ
 	virtual bool IsIgnoreSelection() const { return false; }														// user may not select, but enter to edit box
 	virtual bool OnOk() { return false; }																								// no selection, use edit box input.
 	virtual void PrepareList( std::vector<std::string> *pFiles ) { }					// inspects list ( may add something ) 
@@ -74,7 +74,7 @@ OBJECT_NORMAL_METHODS( CICBaseList );
 */
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// Функтор для EnumerateFiles, перечисляет все файлы в директории и берёт их относительное имя
+// Р¤СѓРЅРєС‚РѕСЂ РґР»СЏ EnumerateFiles, РїРµСЂРµС‡РёСЃР»СЏРµС‚ РІСЃРµ С„Р°Р№Р»С‹ РІ РґРёСЂРµРєС‚РѕСЂРёРё Рё Р±РµСЂС‘С‚ РёС… РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕРµ РёРјСЏ
 class CGetAllDirsRelative
 {
 	std::vector<std::string> *pFileVector;

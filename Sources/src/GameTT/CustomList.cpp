@@ -15,7 +15,7 @@ void CInterfaceCustomList::FillListFromCurrentDir()
 	ITextManager *pTextM = GetSingleton<ITextManager>();
 	IDataStorage *pStorage = GetSingleton<IDataStorage>();
 	
-	//удаляем все items из ListControl
+	//СѓРґР°Р»В¤РµРј РІСЃРµ items РёР· ListControl
 	for ( int i=pList->GetNumberOfItems()-1; i>=0; i-- )
 	{
 		pList->RemoveItem( i );
@@ -24,24 +24,24 @@ void CInterfaceCustomList::FillListFromCurrentDir()
 	// enumerate all available files and dirs
 	dirsList.clear();
 	filesList.clear();
-	std::vector< std::string > dirs;		//временное хранилище директорий
+	std::vector< std::string > dirs;		//РІСЂРµРјРµРЅРЅРѕРµ С…СЂР°РЅРёР»РёС‰Рµ РґРёСЂРµРєС‚РѕСЂРёР№
 	std::vector< std::string > files;
 	
 	IFilesInspectorEntryCollector *pCollector = checked_cast<IFilesInspectorEntryCollector *>( GetSingleton<IFilesInspector>()->GetEntry( szCollectorName.c_str() ) );
 	const std::vector<std::string> &tutorialFiles = pCollector->GetCollected();
-	std::hash_set<std::string> setOfDirs;		//здесь я сохраняю все директории
+	std::hash_set<std::string> setOfDirs;		//Р·РґРµСЃСЊ В¤ СЃРѕС…СЂР°РЅВ¤СЋ РІСЃРµ РґРёСЂРµРєС‚РѕСЂРёРё
 	
 	for ( int i=0; i<tutorialFiles.size(); i++ )
 	{
 		if ( strncmp( tutorialFiles[i].c_str(), szCurrentDir.c_str(), szCurrentDir.size() ) )
-			continue;			//не равны
+			continue;			//РЅРµ СЂР°РІРЅС‹
 		
-		//проверим, что справа нету вложенных директорий
+		//РїСЂРѕРІРµСЂРёРј, С‡С‚Рѕ СЃРїСЂР°РІР° РЅРµС‚Сѓ РІР»РѕР¶РµРЅРЅС‹С… РґРёСЂРµРєС‚РѕСЂРёР№
 		std::string szCurrentName = tutorialFiles[i].c_str() + szCurrentDir.size();
 		int nPos = szCurrentName.rfind( '\\' );
-		if ( nPos != std::string::npos )		//правее есть еще директории
+		if ( nPos != std::string::npos )		//РїСЂР°РІРµРµ РµСЃС‚СЊ РµС‰Рµ РґРёСЂРµРєС‚РѕСЂРёРё
 		{
-			//возьмем имя директории
+			//РІРѕР·СЊРјРµРј РёРјВ¤ РґРёСЂРµРєС‚РѕСЂРёРё
 			szCurrentName = szCurrentName.substr( 0, szCurrentName.find('\\') );
 			setOfDirs.insert( szCurrentName );
 			continue;
@@ -50,7 +50,7 @@ void CInterfaceCustomList::FillListFromCurrentDir()
 	
 	for ( std::hash_set<std::string>::iterator it = setOfDirs.begin(); it != setOfDirs.end(); ++it )
 	{
-		//найдем все непустые поддиректории внутри данной директории
+		//РЅР°Р№РґРµРј РІСЃРµ РЅРµРїСѓСЃС‚С‹Рµ РїРѕРґРґРёСЂРµРєС‚РѕСЂРёРё РІРЅСѓС‚СЂРё РґР°РЅРЅРѕР№ РґРёСЂРµРєС‚РѕСЂРёРё
 		std::string szCmpDir = szCurrentDir + *it;
 		szCmpDir += '\\';
 		std::hash_set<std::string> setOfSubDirs;
@@ -58,19 +58,19 @@ void CInterfaceCustomList::FillListFromCurrentDir()
 		{
 			std::string szCurrentName = tutorialFiles[i];
 			if ( strncmp( szCurrentName.c_str(), szCmpDir.c_str(), szCmpDir.size() ) )
-				continue;			//не равны
+				continue;			//РЅРµ СЂР°РІРЅС‹
 			szCurrentName = szCurrentName.substr( szCmpDir.size() );
 			
-			//проверим, что это поддиректория
+			//РїСЂРѕРІРµСЂРёРј, С‡С‚Рѕ СЌС‚Рѕ РїРѕРґРґРёСЂРµРєС‚РѕСЂРёВ¤
 			int nPos = szCurrentName.rfind( '\\' );
-			if ( nPos != std::string::npos )		//правее есть еще директории
+			if ( nPos != std::string::npos )		//РїСЂР°РІРµРµ РµСЃС‚СЊ РµС‰Рµ РґРёСЂРµРєС‚РѕСЂРёРё
 			{
 				szCurrentName = szCurrentName.substr( 0, nPos );
 				setOfSubDirs.insert( szCurrentName );
 				continue;
 			}
 			
-			//проверим, что это за файл
+			//РїСЂРѕРІРµСЂРёРј, С‡С‚Рѕ СЌС‚Рѕ Р·Р° С„Р°Р№Р»
 			nPos = szCurrentName.rfind( '.' );
 			if ( nPos == std::string::npos )
 				continue;
@@ -80,7 +80,7 @@ void CInterfaceCustomList::FillListFromCurrentDir()
 			{
 				if ( szExtension == fileMasks[k].c_str() + 1 )
 				{
-					//совпадает маска файла, добавляем в список файлов
+					//СЃРѕРІРїР°РґР°РµС‚ РјР°СЃРєР° С„Р°Р№Р»Р°, РґРѕР±Р°РІР»В¤РµРј РІ СЃРїРёСЃРѕРє С„Р°Р№Р»РѕРІ
 					std::string szName = szCmpDir;
 					szName += szCurrentName;
 					files.push_back( szName );
@@ -107,7 +107,7 @@ void CInterfaceCustomList::FillListFromCurrentDir()
 		pRow->SetUserData( nIndex );
 		nIndex++;
 		
-		//установим имя директории
+		//СѓСЃС‚Р°РЅРѕРІРёРј РёРјВ¤ РґРёСЂРµРєС‚РѕСЂРёРё
 		IUIContainer *pContainer = checked_cast<IUIContainer*> ( pRow->GetElement( 0 ) );
 		dirsList.push_back( dirs[i] );
 		std::wstring wszTemp;
@@ -116,7 +116,7 @@ void CInterfaceCustomList::FillListFromCurrentDir()
 		
 		IUIElement *pElement = pContainer->GetChildByID( 1 );
 		NI_ASSERT_T( pElement != 0, "Invalid list control name dialog, it should contain icon" );
-		pElement->SetState( 0 );			//директория
+		pElement->SetState( 0 );			//РґРёСЂРµРєС‚РѕСЂРёВ¤
 		
 /*
 		std::string szFullName = szCurrentDir;
@@ -129,7 +129,7 @@ void CInterfaceCustomList::FillListFromCurrentDir()
 	for ( int k=0; k<files.size(); k++ )
 	{
 		std::string szName = files[k];
-		// считаем инфу из файла, как будто он содержит SBasicGameStats
+		// СЃС‡РёС‚Р°РµРј РёРЅС„Сѓ РёР· С„Р°Р№Р»Р°, РєР°Рє Р±СѓРґС‚Рѕ РѕРЅ СЃРѕРґРµСЂР¶РёС‚ SBasicGameStats
 		if ( pStorage->IsStreamExist(szName.c_str()) == false )
 			continue;
 		{
@@ -146,30 +146,30 @@ void CInterfaceCustomList::FillListFromCurrentDir()
 		if ( !p )
 			continue;
 		
-		//заполним внутренний список имен файлов
+		//Р·Р°РїРѕР»РЅРёРј РІРЅСѓС‚СЂРµРЅРЅРёР№ СЃРїРёСЃРѕРє РёРјРµРЅ С„Р°Р№Р»РѕРІ
 		filesList.push_back( szName.substr( szCurrentDir.size() ) );
 		
-		//добавим локализованное имя в список на экране
+		//РґРѕР±Р°РІРёРј Р»РѕРєР°Р»РёР·РѕРІР°РЅРЅРѕРµ РёРјВ¤ РІ СЃРїРёСЃРѕРє РЅР° СЌРєСЂР°РЅРµ
 		pList->AddItem();
 		IUIListRow *pRow = pList->GetItem( nIndex );
 		pRow->SetUserData( nIndex );
 		nIndex++;
 		
-		//установим имя файла
+		//СѓСЃС‚Р°РЅРѕРІРёРј РёРјВ¤ С„Р°Р№Р»Р°
 		IUIContainer *pContainer = checked_cast<IUIContainer*> ( pRow->GetElement( 0 ) );
 		pContainer->SetWindowText( 0, p->GetString() );
 		
 		IUIElement *pElement = pContainer->GetChildByID( 1 );
 		NI_ASSERT_T( pElement != 0, "Invalid list control name dialog, it should contain icon" );
-		pElement->SetState( 1 );			//файл
-		//TODO вместо 1 ставить соответствующее маске
+		pElement->SetState( 1 );			//С„Р°Р№Р»
+		//TODO РІРјРµСЃС‚Рѕ 1 СЃС‚Р°РІРёС‚СЊ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРµ РјР°СЃРєРµ
 		
 		FillListItem( pRow, szName );
 	}
 
 	pList->InitialUpdate();
 	
-	//Определим текущий выделенный элемент
+	//СњРїСЂРµРґРµР»РёРј С‚РµРєСѓС‰РёР№ РІС‹РґРµР»РµРЅРЅС‹Р№ СЌР»РµРјРµРЅС‚
 	if ( pList->GetNumberOfItems() < nBeginSelItem )
 		nBeginSelItem = pList->GetNumberOfItems();
 	pList->SetSelectionItem( nBeginSelItem );
@@ -193,23 +193,23 @@ bool CInterfaceCustomList::ProcessMessage( const SGameMessage &msg )
 /*
 		case IMC_OK:
 			{
-				//попробуем взять текущий selection из list control
+				//РїРѕРїСЂРѕР±СѓРµРј РІР·В¤С‚СЊ С‚РµРєСѓС‰РёР№ selection РёР· list control
 				IUIElement *pElement = pUIScreen->GetChildByID( 1000 );		//should be List Control
 				IUIListControl *pList = checked_cast<IUIListControl*>( pElement );
 				if ( !pList )
-					return true;			//не нашелся list control
-				int nSelItem = pList->GetSelectionItem();			//индекс в списке
+					return true;			//РЅРµ РЅР°С€РµР»СЃВ¤ list control
+				int nSelItem = pList->GetSelectionItem();			//РёРЅРґРµРєСЃ РІ СЃРїРёСЃРєРµ
 				if ( nSelItem == -1 )
 					return true;
 				
 				IUIListRow *pSelRow = pList->GetItem( nSelItem );
-				int nSel = pSelRow->GetUserData();						//индекс в массиве
+				int nSel = pSelRow->GetUserData();						//РёРЅРґРµРєСЃ РІ РјР°СЃСЃРёРІРµ
 				if ( nSel < dirsList.size() )
 				{
-					//сменим текущую директорию
+					//СЃРјРµРЅРёРј С‚РµРєСѓС‰СѓСЋ РґРёСЂРµРєС‚РѕСЂРёСЋ
 					if ( dirsList[ nSel ] == ".." )
 					{
-						//поднимемся наверх
+						//РїРѕРґРЅРёРјРµРјСЃВ¤ РЅР°РІРµСЂС…
 						NI_ASSERT_T( !stack.empty(), "Popup stack is empty" );
 						nBeginSelItem = stack.back();
 						stack.pop_back();

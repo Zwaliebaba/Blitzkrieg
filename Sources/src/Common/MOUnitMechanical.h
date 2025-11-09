@@ -66,8 +66,8 @@ class CMOUnitMechanical : public CMOUnit
 	WORD wNonCycleSoundID;								// some noncycled sound, that must stop with unit destruction
 	bool bDiveMove;												// for dive bombers
 	CPassangersList passangers;						// all passangers inside
-	CPtr<IMeshVisObj> pExtPassangers;			// 'external passangers' - солдаты на броне
-	int nNumExtPassangers;								// на сколько внешних пассажиров сейчас рассчитана моделька
+	CPtr<IMeshVisObj> pExtPassangers;			// 'external passangers' - СЃРѕР»РґР°С‚С‹ РЅР° Р±СЂРѕРЅРµ
+	int nNumExtPassangers;								// РЅР° СЃРєРѕР»СЊРєРѕ РІРЅРµС€РЅРёС… РїР°СЃСЃР°Р¶РёСЂРѕРІ СЃРµР№С‡Р°СЃ СЂР°СЃСЃС‡РёС‚Р°РЅР° РјРѕРґРµР»СЊРєР°
 	bool bInstalled;											// is this units installed (for artillery)
 	bool bArtilleryHooked;								// artillery already hooked (for transport)
 	CVec3 vLastTracedCorners[4];          // last corners for traces

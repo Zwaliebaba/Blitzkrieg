@@ -11,7 +11,7 @@ CInterfaceIMModsList::~CInterfaceIMModsList()
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool CInterfaceIMModsList::Init()
 {
-	//инициализируем имена
+	//РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј РёРјРµРЅР°
 	fileMasks.clear();
 	fileMasks.push_back( "*.pak" );
 	szTopDir = GetSingleton<IMainLoop>()->GetBaseDir();

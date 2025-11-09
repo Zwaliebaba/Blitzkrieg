@@ -56,7 +56,7 @@ void CGroupLogic::AddUnitToGroup( CCommonUnit *pGroupUnit, const int nGroup )
 {
 	if ( pGroupUnit->nGroup != nGroup )
 	{
-		// если юнит был в какой-то группе, убрать его оттуда
+		// РµСЃР»Рё СЋРЅРёС‚ Р±С‹Р» РІ РєР°РєРѕР№-С‚Рѕ РіСЂСѓРїРїРµ, СѓР±СЂР°С‚СЊ РµРіРѕ РѕС‚С‚СѓРґР°
 		DelUnitFromGroup( pGroupUnit );
 
 		pGroupUnit->nGroup = nGroup;
@@ -90,7 +90,7 @@ void CGroupLogic::DelUnitFromSpecialGroup( CCommonUnit *pUnit )
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CGroupLogic::DelGroup( const int nGroup )
 {
-	// известить юнитов
+	// РёР·РІРµСЃС‚РёС‚СЊ СЋРЅРёС‚РѕРІ
 	for ( int i = groupUnits.begin( nGroup ); i != groupUnits.end(); i = groupUnits.GetNext( i ) )
 	{
 		groupUnits.GetEl( i )->nGroup = 0;
@@ -149,7 +149,7 @@ void CGroupLogic::RegisterGroup( IRefCount **pUnitsBuffer, const int nLen, const
 
 				if ( pGroupUnit->nGroup != wGroup )				
 				{
-					// если юнит был в какой-то группе, убрать его оттуда
+					// РµСЃР»Рё СЋРЅРёС‚ Р±С‹Р» РІ РєР°РєРѕР№-С‚Рѕ РіСЂСѓРїРїРµ, СѓР±СЂР°С‚СЊ РµРіРѕ РѕС‚С‚СѓРґР°
 					DelUnitFromGroup( pGroupUnit );
 
 					pGroupUnit->nGroup = wGroup;
@@ -378,17 +378,17 @@ void CGroupLogic::ProcessAmbushGroups()
 			while ( innerIter != iter->end() )
 			{
 				const int nUniqueId = innerIter->nUniqueId;
-				// уже в другой ambush группе, or deleted from ambush groups, удалить из этой
+				// СѓР¶Рµ РІ РґСЂСѓРіРѕР№ ambush РіСЂСѓРїРїРµ, or deleted from ambush groups, СѓРґР°Р»РёС‚СЊ РёР· СЌС‚РѕР№
 				if ( checkedUnits.find( nUniqueId ) != checkedUnits.end() || 
 						 ambushUnits.find( nUniqueId ) == ambushUnits.end() )
 					innerIter = iter->erase( innerIter );
 				else
 				{
-					// юнит просмотрен
+					// СЋРЅРёС‚ РїСЂРѕСЃРјРѕС‚СЂРµРЅ
 					checkedUnits.insert( nUniqueId );
 
 					CLinkObject *pObject = CLinkObject::GetObjectByUniqueIdSafe( nUniqueId );
-					// юнит умер, удалить из ambush groups
+					// СЋРЅРёС‚ СѓРјРµСЂ, СѓРґР°Р»РёС‚СЊ РёР· ambush groups
 					if ( !IsValidObj( pObject ) )
 					{
 						ambushUnits.erase( nUniqueId );
@@ -453,12 +453,12 @@ void CGroupLogic::ProcessAmbushGroups()
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CGroupLogic::GroupCommand( const SAIUnitCmd &command, const WORD wGroup, bool bPlaceInQueue )
 {
-	// т.к. часть юнитов может исчезнуть, например, когда один из игроков в multiplayer вышел
+	// С‚.Рє. С‡Р°СЃС‚СЊ СЋРЅРёС‚РѕРІ РјРѕР¶РµС‚ РёСЃС‡РµР·РЅСѓС‚СЊ, РЅР°РїСЂРёРјРµСЂ, РєРѕРіРґР° РѕРґРёРЅ РёР· РёРіСЂРѕРєРѕРІ РІ multiplayer РІС‹С€РµР»
 	if ( registeredGroups.find( wGroup ) != registeredGroups.end() )
 	{
 		CPtr<CAICommand> pCommand = new CAICommand( command );
 		
-		// пойти с сохранением относительной позиции
+		// РїРѕР№С‚Рё СЃ СЃРѕС…СЂР°РЅРµРЅРёРµРј РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕР№ РїРѕР·РёС†РёРё
 		if ( !bPlaceInQueue )
 		{
 			if ( command.cmdType == ACTION_COMMAND_MOVE_TO || command.cmdType == ACTION_COMMAND_SWARM_TO || 
@@ -491,14 +491,14 @@ void CGroupLogic::GroupCommand( const SAIUnitCmd &command, const WORD wGroup, bo
 		for ( int i = groupUnits.begin( wGroup ); i != groupUnits.end(); i = groupUnits.GetNext( i ) )
 			groups[nGroupsIter++] = groupUnits.GetEl( i );
 
-		// этот рандом вызывать нужно независимо от command.bFromAI - для правильной работы 
-		// мультиплера
+		// СЌС‚РѕС‚ СЂР°РЅРґРѕРј РІС‹Р·С‹РІР°С‚СЊ РЅСѓР¶РЅРѕ РЅРµР·Р°РІРёСЃРёРјРѕ РѕС‚ command.bFromAI - РґР»СЏ РїСЂР°РІРёР»СЊРЅРѕР№ СЂР°Р±РѕС‚С‹ 
+		// РјСѓР»СЊС‚РёРїР»РµСЂР°
 		if ( groupUnits.GetSize(wGroup) != 0 )
 		{
 			int nRandom = Random( groupUnits.GetSize(wGroup) );
 			if ( !command.bFromAI )
 			{
-				// выбрать по рандому юнит, который будет говорить аск на подтверждение команды
+				// РІС‹Р±СЂР°С‚СЊ РїРѕ СЂР°РЅРґРѕРјСѓ СЋРЅРёС‚, РєРѕС‚РѕСЂС‹Р№ Р±СѓРґРµС‚ РіРѕРІРѕСЂРёС‚СЊ Р°СЃРє РЅР° РїРѕРґС‚РІРµСЂР¶РґРµРЅРёРµ РєРѕРјР°РЅРґС‹
 				groups[nRandom]->SendAcknowledgement( ACK_POSITIVE, true );
 			}
 		}
@@ -610,29 +610,29 @@ void CGroupLogic::Segment()
 
 	const NTimer::STime roundedCurTime = curTime - curTime % SConsts::AI_SEGMENT_DURATION;
 
-	// states юнитов
+	// states СЋРЅРёС‚РѕРІ
 	NSegmObjs::Segment( lastSegmTime, roundedCurTime, segmUnits[0], (CStateSegments*)0 );
 	NSegmObjs::Segment( lastSegmTime, roundedCurTime, segmUnits[1], (CStateSegments*)0 );
 	NSegmObjs::Segment( lastSegmTime, roundedCurTime, freezeUnits, (CFreezeSegments*)0 );
 
-	// взрывы
+	// РІР·СЂС‹РІС‹
 	theShellsStore.Segment();
 
-	// скорости юнитов в follow
+	// СЃРєРѕСЂРѕСЃС‚Рё СЋРЅРёС‚РѕРІ РІ follow
 	SegmentFollowingUnits();
 
-	// поиск коллизий
+	// РїРѕРёСЃРє РєРѕР»Р»РёР·РёР№
 	NSegmObjs::Segment( lastSegmTime, roundedCurTime, firstPathUnits, (CFirstPathSegments*)0 );
 	theScanLimiter.SegmentsFinished();
 
-	// обработка застрявших из-зи коллизий юнитов
+	// РѕР±СЂР°Р±РѕС‚РєР° Р·Р°СЃС‚СЂСЏРІС€РёС… РёР·-Р·Рё РєРѕР»Р»РёР·РёР№ СЋРЅРёС‚РѕРІ
 	NSegmObjs::SegmentWOMove( lastSegmTime, roundedCurTime, secondPathUnits, (CStayTimeSegments*)0 );
 	StayTimeSegment();
 
-	// обработка коллизий
+	// РѕР±СЂР°Р±РѕС‚РєР° РєРѕР»Р»РёР·РёР№
 	theColCollector.HandOutCollisions();
 
-	// движение юнитов вдоль пути
+	// РґРІРёР¶РµРЅРёРµ СЋРЅРёС‚РѕРІ РІРґРѕР»СЊ РїСѓС‚Рё
 	NSegmObjs::Segment( lastSegmTime, roundedCurTime, secondPathUnits, (CSecondPathSegments*)0 );
 
 	lastSegmTime = curTime - curTime % SConsts::AI_SEGMENT_DURATION + SConsts::AI_SEGMENT_DURATION;
@@ -667,7 +667,7 @@ void CGroupLogic::UnregisterSegments( CCommonUnit *pUnit )
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const CVec2 GetGoPointByCommand( const SAIUnitCmd &cmd )
 {
-	// -1 - нет точки, 0 - cmd.vPos, 1 - центр юнита cmd.pObject, 2 - центр статич. объекта cmd.pObject
+	// -1 - РЅРµС‚ С‚РѕС‡РєРё, 0 - cmd.vPos, 1 - С†РµРЅС‚СЂ СЋРЅРёС‚Р° cmd.pObject, 2 - С†РµРЅС‚СЂ СЃС‚Р°С‚РёС‡. РѕР±СЉРµРєС‚Р° cmd.pObject
 	int nType = -1;
 
 	switch ( cmd.cmdType )

@@ -21,7 +21,7 @@ enum EGameType
 	EGT_ADDRESS_BOOK,
 };
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// обработка общей информации
+// РѕР±СЂР°Р±РѕС‚РєР° РѕР±С‰РµР№ РёРЅС„РѕСЂРјР°С†РёРё
 class CCommonGameCreationInfo
 {
 protected:	
@@ -98,7 +98,7 @@ class CServerGameCreation : public IGameCreation, protected CCommonGameCreationI
 	CPtr<INetDriver> pOutGameNetDriver;
 	bool bCanStartGame;
 
-	// послать информацию об игре наружу
+	// РїРѕСЃР»Р°С‚СЊ РёРЅС„РѕСЂРјР°С†РёСЋ РѕР± РёРіСЂРµ РЅР°СЂСѓР¶Сѓ
 	void SendGameInfoOutside();
 	void SendConnectionFailed();
 	bool CheckConnection();

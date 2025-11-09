@@ -11,7 +11,7 @@
 interface INetNodeAddress;
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// вся информация, необходимая для servers list
+// РІСЃСЏ РёРЅС„РѕСЂРјР°С†РёСЏ, РЅРµРѕР±С…РѕРґРёРјР°СЏ РґР»СЏ servers list
 struct SServerInfo
 {
 	enum EServerState { ESS_OPEN, ESS_IN_GAME };
@@ -40,7 +40,7 @@ struct SServerInfo
 	SServerInfo() : wUniqueServerId( 0 ), bPasswordRequired( false ) { }
 	SServerInfo( const struct SGameInfo &gameInfo );
 
-	// записывает всё то, что нужно пересылать по сети
+	// Р·Р°РїРёСЃС‹РІР°РµС‚ РІСЃС‘ С‚Рѕ, С‡С‚Рѕ РЅСѓР¶РЅРѕ РїРµСЂРµСЃС‹Р»Р°С‚СЊ РїРѕ СЃРµС‚Рё
 	void Pack( struct INetDriver::SGameInfo *pGameInfo );
 	void Unpack( const struct INetDriver::SGameInfo &gameInfo );
 
@@ -60,9 +60,9 @@ struct SPlayerInfo
 
 	std::wstring szName;
 
-	// EPS_INVALID - такого player нет
-	// EPS_CONNECTED - подсоединился, но о нём ничего неизвестно
-	// EPS_VALID - подсоединился и получена вся необходимая информация
+	// EPS_INVALID - С‚Р°РєРѕРіРѕ player РЅРµС‚
+	// EPS_CONNECTED - РїРѕРґСЃРѕРµРґРёРЅРёР»СЃСЏ, РЅРѕ Рѕ РЅС‘Рј РЅРёС‡РµРіРѕ РЅРµРёР·РІРµСЃС‚РЅРѕ
+	// EPS_VALID - РїРѕРґСЃРѕРµРґРёРЅРёР»СЃСЏ Рё РїРѕР»СѓС‡РµРЅР° РІСЃСЏ РЅРµРѕР±С…РѕРґРёРјР°СЏ РёРЅС„РѕСЂРјР°С†РёСЏ
 	enum EPlayerStates { EPS_INVALID, EPS_CONNECTED, EPS_VALID };
 	EPlayerStates eState;
 
@@ -79,7 +79,7 @@ struct SPlayerInfo
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 typedef std::vector<SPlayerInfo> CPlayers;
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// вся информация, необходимая для gamecreation и gameplaying
+// РІСЃСЏ РёРЅС„РѕСЂРјР°С†РёСЏ, РЅРµРѕР±С…РѕРґРёРјР°СЏ РґР»СЏ gamecreation Рё gameplaying
 struct SGameInfo
 {
 	std::wstring szGameName;

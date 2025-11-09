@@ -149,7 +149,7 @@ void CSoldierEntrenchSelfState::Segment()
 			
 			GetTilesNextToRect( rect, &tiles, 65535/2 + pUnit->GetFrontDir() );
 			
-			// проверить, не залоканы ли тайлы под TankPit
+			// РїСЂРѕРІРµСЂРёС‚СЊ, РЅРµ Р·Р°Р»РѕРєР°РЅС‹ Р»Рё С‚Р°Р№Р»С‹ РїРѕРґ TankPit
 			bool bCanAdd = true;
 			for ( CTilesSet::iterator i = tiles.begin(); i != tiles.end(); ++i )
 			{
@@ -160,7 +160,7 @@ void CSoldierEntrenchSelfState::Segment()
 				}
 			}
 			
-			if ( bCanAdd ) // проверить, нет ли под TankPit окопов
+			if ( bCanAdd ) // РїСЂРѕРІРµСЂРёС‚СЊ, РЅРµС‚ Р»Рё РїРѕРґ TankPit РѕРєРѕРїРѕРІ
 				bCanAdd = CheckTrenches( pUnit, rectToCheck );
 			if ( bCanAdd )
 				bCanAdd = CheckInfantry( pUnit, rectToCheck ); 

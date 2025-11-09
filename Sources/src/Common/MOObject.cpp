@@ -243,7 +243,7 @@ void CMOObject::UpdateModelWithHP( const float fNewHP, IVisObjBuilder *pVOB )
 {
 	if ( (fHP == -1) && (fNewHP == 1) )		// bridge segment was built
 		pVisObj->SetOpacity( 0xff );
-	// CRAP{ переделать в общей схеме разрушений
+	// CRAP{ РїРµСЂРµРґРµР»Р°С‚СЊ РІ РѕР±С‰РµР№ СЃС…РµРјРµ СЂР°Р·СЂСѓС€РµРЅРёР№
 	const int nOldState = GetObjectDamageState( fHP );
 	const int nNewState = GetObjectDamageState( fNewHP );
 	if ( nNewState != nOldState )

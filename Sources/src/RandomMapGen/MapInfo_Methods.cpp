@@ -136,7 +136,7 @@ int CMapInfo::operator&( IStructureSaver &ss )
 
 	if ( saver.IsReading() )
 	{
-		// CRAP{ Когда нет массива diplomacies
+		// CRAP{ РљРѕРіРґР° РЅРµС‚ РјР°СЃСЃРёРІР° diplomacies
 		FillDefaultDiplomacies();
 		// CRAP}
 		if ( szSeasonFolder.empty() )
@@ -188,7 +188,7 @@ int CMapInfo::operator&( IDataTree &ss )
 
 	if ( saver.IsReading() )
 	{
-		// CRAP{ Когда нет массива diplomacies
+		// CRAP{ РљРѕРіРґР° РЅРµС‚ РјР°СЃСЃРёРІР° diplomacies
 		FillDefaultDiplomacies();
 		// CRAP}
 		if ( szSeasonFolder.empty() )
@@ -429,7 +429,7 @@ bool CMapInfo::MakeRoad( const SRoadPoint &rFrom, const SRoadPoint &rTo, int nRo
 /**
 bool CMapInfo::UpdateTerrainRoads( const CTRect<int> &rUpdateRect )
 {
-	//считываем информацию о расположении дорожных тайлов
+	//СЃС‡РёС‚С‹РІР°РµРј РёРЅС„РѕСЂРјР°С†РёСЋ Рѕ СЂР°СЃРїРѕР»РѕР¶РµРЅРёРё РґРѕСЂРѕР¶РЅС‹С… С‚Р°Р№Р»РѕРІ
 	if ( IDataStorage* pDataStorage = GetSingleton<IDataStorage>() )
 	{
 		SRoadsetDesc roadsetDesc;
@@ -501,7 +501,7 @@ bool CMapInfo::UpdateTerrainRoads( const CTRect<int> &rUpdateRect )
 /**/
 
 	/**
-	// CRAP{ Когда нет массива diplomacies
+	// CRAP{ РљРѕРіРґР° РЅРµС‚ РјР°СЃСЃРёРІР° diplomacies
 	if ( saver.IsReading() )
 	{
 		if ( (  diplomacies.GetSizeX() == 0 ) || 
@@ -532,7 +532,7 @@ bool CMapInfo::UpdateTerrainRoads( const CTRect<int> &rUpdateRect )
 	/**/
 
 	/**
-	// CRAP{ Когда нет массива diplomacies
+	// CRAP{ РљРѕРіРґР° РЅРµС‚ РјР°СЃСЃРёРІР° diplomacies
 	if ( saver.IsReading() )
 	{
 		if ( (  diplomacies.GetSizeX() == 0 ) || 

@@ -9,7 +9,7 @@ class CUIShortcutBar : public CMultipleWindow
 {
 	DECLARE_SERIALIZE;
 	//
-	CObj<IUIScrollBar> pScrollBar;				//инициализируется во время загрузки и используется для ускорения доступа к компонентам
+	CObj<IUIScrollBar> pScrollBar;				//РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµС‚СЃВ¤ РІРѕ РІСЂРµРјВ¤ Р·Р°РіСЂСѓР·РєРё Рё РёСЃРїРѕР»СЊР·СѓРµС‚СЃВ¤ РґР»В¤ СѓСЃРєРѕСЂРµРЅРёВ¤ РґРѕСЃС‚СѓРїР° Рє РєРѕРјРїРѕРЅРµРЅС‚Р°Рј
 
 	int nLeftSpace;
 	int nRightSpace;
@@ -34,18 +34,18 @@ class CUIShortcutBar : public CMultipleWindow
 	typedef std::vector<SBar> CBarsVector;
 	CBarsVector bars;
 
-	//Для отрисовки Selection
-	int nSelBar;										//выделенный bar
-	int nSelItem;										//выделенный item
+	//Ж’Р»В¤ РѕС‚СЂРёСЃРѕРІРєРё Selection
+	int nSelBar;										//РІС‹РґРµР»РµРЅРЅС‹Р№ bar
+	int nSelItem;										//РІС‹РґРµР»РµРЅРЅС‹Р№ item
 	std::vector<SWindowSubRect> selSubRects;
-	CPtr<IGFXTexture> pSelectionTexture;				// внешний вид - текстура
+	CPtr<IGFXTexture> pSelectionTexture;				// РІРЅРµС€РЅРёР№ РІРёРґ - С‚РµРєСЃС‚СѓСЂР°
 
-	//Для создания Bar, Item, Text
+	//Ж’Р»В¤ СЃРѕР·РґР°РЅРёВ¤ Bar, Item, Text
 	std::string szBarFileName, szItemFileName, szTextFileName;
 
 	void InitSBWidth();
-	void UpdateItemsCoordinates();				//Обновляет координаты всех внутренних item
-	void UpdateScrollBarStatus();					//Обновляет мин макс и положение SB
+	void UpdateItemsCoordinates();				//СњР±РЅРѕРІР»В¤РµС‚ РєРѕРѕСЂРґРёРЅР°С‚С‹ РІСЃРµС… РІРЅСѓС‚СЂРµРЅРЅРёС… item
+	void UpdateScrollBarStatus();					//СњР±РЅРѕРІР»В¤РµС‚ РјРёРЅ РјР°РєСЃ Рё РїРѕР»РѕР¶РµРЅРёРµ SB
 
 public:
 	CUIShortcutBar();

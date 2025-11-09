@@ -25,7 +25,7 @@ interface IInterfaceBase : public IInterfaceObject
 	virtual bool STDCALL Init() = 0;
 	virtual void STDCALL Done() = 0;
 	virtual void STDCALL OnGetFocus( bool bFocus ) = 0;
-	// переход к этому интерфейсу из другого полноэкранного
+	// РїРµСЂРµС…РѕРґ Рє СЌС‚РѕРјСѓ РёРЅС‚РµСЂС„РµР№СЃСѓ РёР· РґСЂСѓРіРѕРіРѕ РїРѕР»РЅРѕСЌРєСЂР°РЅРЅРѕРіРѕ
 	virtual void STDCALL StartInterface() = 0;
 };
 interface IInterfaceCommand : public IRefCount

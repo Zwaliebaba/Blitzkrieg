@@ -23,13 +23,13 @@ void CBasicObjectFactory::RegisterType( int nObjectTypeID, const type_info *pObj
 	rttis[pObjectTypeInfo] = nObjectTypeID;
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// зарегистрировать тип
+// Р·Р°СЂРµРіРёСЃС‚СЂРёСЂРѕРІР°С‚СЊ С‚РёРї
 void CBasicObjectFactory::RegisterType( int nObjectTypeID, ObjectFactoryNewFunc newFunc )
 {
 	NI_ASSERT_T( newFunc != 0, "can't register type with empty new-function" );
 	CPtr<IRefCount> pObj = (*newFunc)();
 	NI_ASSERT_T( pObj != 0, "new-function can't create object for RTTI extraction" );
-	// зарегистрируем объект с type_info для save/load
+	// Р·Р°СЂРµРіРёСЃС‚СЂРёСЂСѓРµРј РѕР±СЉРµРєС‚ СЃ type_info РґР»СЏ save/load
 	RegisterType( nObjectTypeID, &( typeid(*pObj) ), newFunc );
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

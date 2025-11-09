@@ -272,14 +272,14 @@ bool LoadTypedSuperLatestDataResource( const std::string &rszResourceFileName, c
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 extern bool SaveImageToTGAImageResource( interface IImage *pImage, const std::string &rszTGAImageResourceFileName );
-//форматы сжатия для карт ( minimap )
+//С„РѕСЂРјР°С‚С‹ СЃР¶Р°С‚РёСЏ РґР»СЏ РєР°СЂС‚ ( minimap )
 extern bool SaveImageToDDSImageResource( interface IImage *pImage, const std::string &rszDDSImageResourceFileName,
 																				 EGFXPixelFormat nCompressedFormat = GFXPF_DXT1,
 																				 EGFXPixelFormat nLowFormat = GFXPF_ARGB0565,
 																				 EGFXPixelFormat nHighFormat = GFXPF_ARGB8888 );
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//использовать только для единичной загрузки киртинок.т к. создается ImageProcessor
+//РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ С‚РѕР»СЊРєРѕ РґР»СЏ РµРґРёРЅРёС‡РЅРѕР№ Р·Р°РіСЂСѓР·РєРё РєРёСЂС‚РёРЅРѕРє.С‚ Рє. СЃРѕР·РґР°РµС‚СЃСЏ ImageProcessor
 extern interface IImage* LoadImageFromTGAImageResource( const std::string &rszTGAImageResourceFileName );
 extern interface IImage* LoadImageFromDDSImageResource( const std::string &rszDDSImageResourceFileName );
 

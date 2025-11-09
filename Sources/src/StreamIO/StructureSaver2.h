@@ -54,7 +54,7 @@ class CStructureSaver2 : public IStructureSaver
 	{
 		SSChunkID idChunk, idLastChunk;
 		int nStart, nLength;
-		int nChunkNumber; // номер чанка по порядку для считывания - используется при записи/считывании vector/list
+		int nChunkNumber; // РЅРѕРјРµСЂ С‡Р°РЅРєР° РїРѕ РїРѕСЂСЏРґРєСѓ РґР»СЏ СЃС‡РёС‚С‹РІР°РЅРёСЏ - РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РїСЂРё Р·Р°РїРёСЃРё/СЃС‡РёС‚С‹РІР°РЅРёРё vector/list
 		int nLastPos, nLastNumber;
 
 		void ClearCache();
@@ -123,11 +123,11 @@ public:
 	virtual void STDCALL SetChunkCounter( int nCount ) { chunks.back().nChunkNumber = nCount; }
 	// is structure saver opened in the READ mode?
 	virtual bool STDCALL IsReading() const { return bIsReading; }
-	// загрузка объекта с воссозданием его
+	// Р·Р°РіСЂСѓР·РєР° РѕР±СЉРµРєС‚Р° СЃ РІРѕСЃСЃРѕР·РґР°РЅРёРµРј РµРіРѕ
 	virtual IRefCount* STDCALL LoadObject();
-	// запись объекта и данных, необходимых для его воссоздания при загрузке
+	// Р·Р°РїРёСЃСЊ РѕР±СЉРµРєС‚Р° Рё РґР°РЅРЅС‹С…, РЅРµРѕР±С…РѕРґРёРјС‹С… РґР»СЏ РµРіРѕ РІРѕСЃСЃРѕР·РґР°РЅРёСЏ РїСЂРё Р·Р°РіСЂСѓР·РєРµ
 	virtual void STDCALL StoreObject( IRefCount *pObj );
-	// получить указатель на игровую базу данных
+	// РїРѕР»СѓС‡РёС‚СЊ СѓРєР°Р·Р°С‚РµР»СЊ РЅР° РёРіСЂРѕРІСѓСЋ Р±Р°Р·Сѓ РґР°РЅРЅС‹С…
 	virtual interface IGDB* STDCALL GetGDB() { return pGDB; }
 };
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

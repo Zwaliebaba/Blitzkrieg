@@ -28,7 +28,7 @@ public:
 		}
 		bHasOwnStats = pStats != 0;
 	}
-	// чтение/запись данных
+	// С‡С‚РµРЅРёРµ/Р·Р°РїРёСЃСЊ РґР°РЅРЅС‹С…
 	virtual int STDCALL Read( void *pBuffer, int nLength )
 	{
 		const int nLastPos = pStream->GetPos();
@@ -48,16 +48,16 @@ public:
 		pStream->Seek( nLastPos, STREAM_SEEK_SET );
 		return nWrittenLength;
 	}
-	// объявить текущую позицию в потоке за начало потока
+	// РѕР±СЉВ¤РІРёС‚СЊ С‚РµРєСѓС‰СѓСЋ РїРѕР·РёС†РёСЋ РІ РїРѕС‚РѕРєРµ Р·Р° РЅР°С‡Р°Р»Рѕ РїРѕС‚РѕРєР°
 	virtual int STDCALL LockBegin() { return -1; }
-	// вернуть начало потока в нулевую позицию
+	// РІРµСЂРЅСѓС‚СЊ РЅР°С‡Р°Р»Рѕ РїРѕС‚РѕРєР° РІ РЅСѓР»РµРІСѓСЋ РїРѕР·РёС†РёСЋ
 	virtual int STDCALL UnlockBegin() { return -1; }
-	// текущая позиция в потоке
+	// С‚РµРєСѓС‰Р°В¤ РїРѕР·РёС†РёВ¤ РІ РїРѕС‚РѕРєРµ
 	virtual int STDCALL GetPos() const
 	{
 		return pStream->GetPos() - nBeginPos;
 	}
-	// выставить текущую позицию в потоке
+	// РІС‹СЃС‚Р°РІРёС‚СЊ С‚РµРєСѓС‰СѓСЋ РїРѕР·РёС†РёСЋ РІ РїРѕС‚РѕРєРµ
 	virtual int STDCALL Seek( int offset, STREAM_SEEK from )
 	{
 		switch ( from )
@@ -74,14 +74,14 @@ public:
 		}
 		return nSeekPos;
 	}
-	// получить размер потока
+	// РїРѕР»СѓС‡РёС‚СЊ СЂР°Р·РјРµСЂ РїРѕС‚РѕРєР°
 	virtual int STDCALL GetSize() const
 	{
 		return nEndPos - nBeginPos;
 	}
-	// изменить размер потока
+	// РёР·РјРµРЅРёС‚СЊ СЂР°Р·РјРµСЂ РїРѕС‚РѕРєР°
 	virtual bool STDCALL SetSize( int nSize ) { return false; }
-	// скопировать 'nLength' байт из текущей позиции потока в текущю позицию 'pDstStream' потока
+	// СЃРєРѕРїРёСЂРѕРІР°С‚СЊ 'nLength' Р±Р°Р№С‚ РёР· С‚РµРєСѓС‰РµР№ РїРѕР·РёС†РёРё РїРѕС‚РѕРєР° РІ С‚РµРєСѓС‰СЋ РїРѕР·РёС†РёСЋ 'pDstStream' РїРѕС‚РѕРєР°
 	virtual int STDCALL CopyTo( IDataStream *pDstStream, int nLength )
 	{
 		if ( nLength == 0 )
@@ -91,9 +91,9 @@ public:
 		nLength = Read( &(buffer[0]), nLength );
 		return pDstStream->Write( &(buffer[0]), nLength );
 	}
-	// сбросить все закешированные данные
+	// СЃР±СЂРѕСЃРёС‚СЊ РІСЃРµ Р·Р°РєРµС€РёСЂРѕРІР°РЅРЅС‹Рµ РґР°РЅРЅС‹Рµ
 	virtual void STDCALL Flush() {  }
-	// получить информацию о потоке
+	// РїРѕР»СѓС‡РёС‚СЊ РёРЅС„РѕСЂРјР°С†РёСЋ Рѕ РїРѕС‚РѕРєРµ
 	virtual void STDCALL GetStats( SStorageElementStats *pStats )
 	{
 		if ( bHasOwnStats ) 

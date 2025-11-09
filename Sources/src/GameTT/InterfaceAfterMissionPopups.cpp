@@ -71,13 +71,13 @@ void CAfterMissionPopups::OnGetFocus( bool bFocus )
 	bool bMultiplayerGame = GetGlobalVar( "MultiplayerGame", 0 );
 	if ( bMultiplayerGame )
 	{
-		//если эта переменная > 0, то мы находимся в multiplayer режиме
-		//выходим в окошко со списком multiplayer games
+		//РµСЃР»Рё СЌС‚Р° РїРµСЂРµРјРµРЅРЅР°СЏ > 0, С‚Рѕ РјС‹ РЅР°С…РѕРґРёРјСЃСЏ РІ multiplayer СЂРµР¶РёРјРµ
+		//РІС‹С…РѕРґРёРј РІ РѕРєРѕС€РєРѕ СЃРѕ СЃРїРёСЃРєРѕРј multiplayer games
 		FinishInterface( MISSION_COMMAND_MULTIPLAYER_GAMESLIST, 0 );
 		return;
 	}
 
-	// если показаны еще не все медальки, то отображаю их
+	// РµСЃР»Рё РїРѕРєР°Р·Р°РЅС‹ РµС‰Рµ РЅРµ РІСЃРµ РјРµРґР°Р»СЊРєРё, С‚Рѕ РѕС‚РѕР±СЂР°Р¶Р°СЋ РёС…
 	if ( nMedalIterator < pUserPlayer->GetNumNewMedals() )
 	{
 		const std::string &szMedalName = pUserPlayer->GetNewMedal( nMedalIterator++ );
@@ -86,7 +86,7 @@ void CAfterMissionPopups::OnGetFocus( bool bFocus )
 		return;
 	}
 
-	// если изменился player rank, то надо его отобразить
+	// РµСЃР»Рё РёР·РјРµРЅРёР»СЃСЏ player rank, С‚Рѕ РЅР°РґРѕ РµРіРѕ РѕС‚РѕР±СЂР°Р·РёС‚СЊ
 	if ( !bPlayerRankShown )
 	{
 		bPlayerRankShown = true;
@@ -104,7 +104,7 @@ void CAfterMissionPopups::OnGetFocus( bool bFocus )
 		return;
 	}
 	
-	//определим статус прохождения миссии
+	//РѕРїСЂРµРґРµР»РёРј СЃС‚Р°С‚СѓСЃ РїСЂРѕС…РѕР¶РґРµРЅРёСЏ РјРёСЃСЃРёРё
 	std::string szMissionName = GetGlobalVar( "Mission.Current.Name", "" );
 	//		NI_ASSERT_T( szMissionName.size() > 0, "Mission name is of size 0???" );
 	if ( szMissionName.size() > 0 )
@@ -145,8 +145,8 @@ void CAfterMissionPopups::OnGetFocus( bool bFocus )
 					return;
 				}
 			}
-			// миссия пройдена
-			// Показываем экран новых юнитов
+			// РјРёСЃСЃРёСЏ РїСЂРѕР№РґРµРЅР°
+			// РџРѕРєР°Р·С‹РІР°РµРј СЌРєСЂР°РЅ РЅРѕРІС‹С… СЋРЅРёС‚РѕРІ
 			if ( !bNewUnitsShown )
 			{
 				bNewUnitsShown = true;
@@ -159,11 +159,11 @@ void CAfterMissionPopups::OnGetFocus( bool bFocus )
 				}
 			}
 			
-			// Показываем экран upgrades
+			// РџРѕРєР°Р·С‹РІР°РµРј СЌРєСЂР°РЅ upgrades
 			if ( !bUpgradesShown )
 			{
 				bUpgradesShown = true;
-				// определим, есть ли у нас юниты такого типа, чтобы их можно было апгрейдить
+				// РѕРїСЂРµРґРµР»РёРј, РµСЃС‚СЊ Р»Рё Сѓ РЅР°СЃ СЋРЅРёС‚С‹ С‚Р°РєРѕРіРѕ С‚РёРїР°, С‡С‚РѕР±С‹ РёС… РјРѕР¶РЅРѕ Р±С‹Р»Рѕ Р°РїРіСЂРµР№РґРёС‚СЊ
 				const std::string &szUpgrade = pUserPlayer->GetUpgrade();
 				if ( !szUpgrade.empty() ) 
 				{
@@ -187,11 +187,11 @@ void CAfterMissionPopups::OnGetFocus( bool bFocus )
 	}
 
 	bShowBlack = false;
-	//Определим, вдруг нужно перейти в следующий chapter
+	//РћРїСЂРµРґРµР»РёРј, РІРґСЂСѓРі РЅСѓР¶РЅРѕ РїРµСЂРµР№С‚Рё РІ СЃР»РµРґСѓСЋС‰РёР№ chapter
 	std::string szNewChapter = GetGlobalVar( "Chapter.New.Available", "" );
 	if ( szNewChapter.size() > 0 && !bNextChapterShown )
 	{
-		//предложим переход в следующий чаптер
+		//РїСЂРµРґР»РѕР¶РёРј РїРµСЂРµС…РѕРґ РІ СЃР»РµРґСѓСЋС‰РёР№ С‡Р°РїС‚РµСЂ
 		bNextChapterShown = true;
 		std::string szSaveName;
 		szSaveName += CUIConsts::GetCampaignNameAddition();
@@ -206,9 +206,9 @@ void CAfterMissionPopups::OnGetFocus( bool bFocus )
 
 	const std::string szChapterName = GetGlobalVar( "Chapter.Current.Name", "" );
 	{
-		if ( bLastFullScreen )	// Если играем в кампанию, то загружаем chapter interface
+		if ( bLastFullScreen )	// Р•СЃР»Рё РёРіСЂР°РµРј РІ РєР°РјРїР°РЅРёСЋ, С‚Рѕ Р·Р°РіСЂСѓР¶Р°РµРј chapter interface
 		{
-			// чтобы второй раз не было открытия и закрытия шторок
+			// С‡С‚РѕР±С‹ РІС‚РѕСЂРѕР№ СЂР°Р· РЅРµ Р±С‹Р»Рѕ РѕС‚РєСЂС‹С‚РёСЏ Рё Р·Р°РєСЂС‹С‚РёСЏ С€С‚РѕСЂРѕРє
 			SetGlobalVar( "CurtainsClosed", 1 );
 			if ( GetGlobalVar( "NextChapter.Confirmed", 0 ) )
 				pML->Command( MISSION_COMMAND_CAMPAIGN, 0 );
@@ -216,7 +216,7 @@ void CAfterMissionPopups::OnGetFocus( bool bFocus )
 				pML->Command( MISSION_COMMAND_CHAPTER, 0 );
 			RemoveGlobalVar( "NextChapter.Confirmed" );
 		}
-		else	// последний экранчик был popup, закроем шторки
+		else	// РїРѕСЃР»РµРґРЅРёР№ СЌРєСЂР°РЅС‡РёРє Р±С‹Р» popup, Р·Р°РєСЂРѕРµРј С€С‚РѕСЂРєРё
 		{
 			if ( GetGlobalVar( "NextChapter.Confirmed", 0 ) )
 				FinishInterface( MISSION_COMMAND_CAMPAIGN, 0 );

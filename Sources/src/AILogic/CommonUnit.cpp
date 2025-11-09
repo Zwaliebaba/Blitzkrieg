@@ -115,7 +115,7 @@ bool CCommonUnit::IsLocked( const CBasicGun *pGun ) const
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool CCommonUnit::CanShootToUnitWoMove( class CAIUnit *_pTarget )
 {
-		// можно ли пробить армор и вообще попасть
+		// РјРѕР¶РЅРѕ Р»Рё РїСЂРѕР±РёС‚СЊ Р°СЂРјРѕСЂ Рё РІРѕРѕР±С‰Рµ РїРѕРїР°СЃС‚СЊ
 	bool bCan = false;
 	int nGun = GetNGuns();
 	for ( int i=0; i<nGun; ++i )

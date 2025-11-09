@@ -219,7 +219,7 @@ void CPathUnit::SecondSegment( const bool bUpdate )
 
 		speed = GetSmoothPath()->GetSpeedLen() * GetDirVector();
 
-		// сдвинулись
+		// СЃРґРІРёРЅСѓР»РёСЃСЊ
 		if ( center != newCenter2D || GetFrontDir() != oldDir )
 			stayTime = 0;
 		else
@@ -330,7 +330,7 @@ bool CPathUnit::SendAlongPath( IPath *pPath )
 {
 	bool bResult = false;
 	
-	// чтобы удалилось
+	// С‡С‚РѕР±С‹ СѓРґР°Р»РёР»РѕСЃСЊ
 	CPtr<IPath> pUnitPath = pPath;
 	if ( pOwner->CanMovePathfinding() )
 	{
@@ -358,7 +358,7 @@ bool CPathUnit::SendAlongPath( IPath *pPath )
 bool CPathUnit::SendAlongPath( IStaticPath *pStaticPath, const CVec2 &vShift, bool bSmoothTurn )
 {
 	bool bResult = true;
-	// чтобы удалилось
+	// С‡С‚РѕР±С‹ СѓРґР°Р»РёР»РѕСЃСЊ
 	CPtr<IStaticPath> pUnitPath = pStaticPath;
 	if ( pOwner->CanMovePathfinding() )
 	{
@@ -696,7 +696,7 @@ void CPathUnit::SetRightDir( bool _bRightDir )
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CPathUnit::ChooseDirToTurn( const WORD &newDir )
 {
-	// можно весь путь ехать задом
+	// РјРѕР¶РЅРѕ РІРµСЃСЊ РїСѓС‚СЊ РµС…Р°С‚СЊ Р·Р°РґРѕРј
 	if ( GetSmoothPath()->CanGoBackward() || ( pOwner->CanGoBackward() && bOnLockedTiles && !bTurning ) )
 	{
 		const WORD rightDir = DirsDifference( placement.dir, newDir );
@@ -752,7 +752,7 @@ bool CPathUnit::TurnToDir( const WORD &newDir, const bool bCanBackward, const bo
 	}
 	else
 	{
-		// начало поворота или поворот к другому направлению
+		// РЅР°С‡Р°Р»Рѕ РїРѕРІРѕСЂРѕС‚Р° РёР»Рё РїРѕРІРѕСЂРѕС‚ Рє РґСЂСѓРіРѕРјСѓ РЅР°РїСЂР°РІР»РµРЅРёСЋ
 		if ( !bTurning || newDir != desDir )
 		{
 			if ( bCanBackward && bCanForward )
@@ -865,7 +865,7 @@ bool CPathUnit::CanRotateTo( SRect smallRect, const CVec2 &vNewDir, bool bWithUn
 	WORD wFinalDir = GetDirectionByVector( vNewDir );
 	const WORD wFinalDirBack = wFinalDir + 32768;
 
-	// если выгоднее ехать задом
+	// РµСЃР»Рё РІС‹РіРѕРґРЅРµРµ РµС…Р°С‚СЊ Р·Р°РґРѕРј
 	if ( bCanGoBackward && DirsDifference( wCurDir, wFinalDirBack ) < DirsDifference( wCurDir, wFinalDir ) )
 		wFinalDir = wFinalDirBack;
 
@@ -1060,7 +1060,7 @@ ISmoothPath* CSimplePathUnit::GetSmoothPath() const
 void CSimplePathUnit::InitAviationPath( const SMechUnitRPGStats* pStats )
 {
 	float fRatio = 1.0f;
-	//радиусы поворота брать из статов
+	//СЂР°РґРёСѓСЃС‹ РїРѕРІРѕСЂРѕС‚Р° Р±СЂР°С‚СЊ РёР· СЃС‚Р°С‚РѕРІ
 	switch ( pStats->type )
 	{
 		case RPG_TYPE_AVIA_ATTACK:

@@ -85,19 +85,19 @@ public:
 												float fRadius, int nSegmentsCount, float fMinEdgeLength, float fDistance, float fDisturbance, 
 												std::list<CVec2> *pPointsSequence, const std::vector<std::vector<CVec2> > &rLockedPolygons, std::list<CVec2> *pUsedPoints,
 												int nDepth = 0 );
-	//не симметричный метод, первый VSO продолжается на две точки по отношению ко второму с соблюдением ширины
-	//на обоих концах проставляется нулевая opacity
+	//РЅРµ СЃРёРјРјРµС‚СЂРёС‡РЅС‹Р№ РјРµС‚РѕРґ, РїРµСЂРІС‹Р№ VSO РїСЂРѕРґРѕР»Р¶Р°РµС‚СЃСЏ РЅР° РґРІРµ С‚РѕС‡РєРё РїРѕ РѕС‚РЅРѕС€РµРЅРёСЋ РєРѕ РІС‚РѕСЂРѕРјСѓ СЃ СЃРѕР±Р»СЋРґРµРЅРёРµРј С€РёСЂРёРЅС‹
+	//РЅР° РѕР±РѕРёС… РєРѕРЅС†Р°С… РїСЂРѕСЃС‚Р°РІР»СЏРµС‚СЃСЏ РЅСѓР»РµРІР°СЏ opacity
 	static bool MergeVSO( SVectorStripeObject *pVSO0, bool bVSO0Begin,
 												SVectorStripeObject *pVSO1, bool bVSO1Begin );
 
-	//вернуть первую не нулевую высоту
+	//РІРµСЂРЅСѓС‚СЊ РїРµСЂРІСѓСЋ РЅРµ РЅСѓР»РµРІСѓСЋ РІС‹СЃРѕС‚Сѓ
 	static float GetVSOEdgeHeght( const STerrainInfo::TVertexAltitudeArray2D &rAltitude, const SVectorStripeObject &rVectorStripeObject, bool bBegin, bool bFirst );
 
 	//----------------------------------------------------------------------------------------------------
 	template<class Type>
 	static bool CreateVSO( SVectorStripeObject *pVSO, const std::string &rVSODescName, const Type &rVSOControlPoints )
 	{
-		//Загрузка паттерна VSO
+		//Р—Р°РіСЂСѓР·РєР° РїР°С‚С‚РµСЂРЅР° VSO
 		SVectorStripeObjectDesc vsoDesc;
 		if ( LoadDataResource( rVSODescName, "", false, 0, "VSODescription", vsoDesc ) )
 		{

@@ -8,13 +8,13 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 struct SExtendedParticle: public SSimpleParticle
 {
-	NTimer::STime birthTime;              // время рождения
-	NTimer::STime deathTime;              // время смерти
-	float fSpin;                          // угловая скорость
-	CVec3 vSpeed;                         // просто скорость
-	CVec3 vWind;                          // ветер для частицы
-	float fOpacity;                       // начальная прозрачность
-	STrackContext contextSpeed;						// контексты для расчета интегралов
+	NTimer::STime birthTime;              // РІСЂРµРјСЏ СЂРѕР¶РґРµРЅРёСЏ
+	NTimer::STime deathTime;              // РІСЂРµРјСЏ СЃРјРµСЂС‚Рё
+	float fSpin;                          // СѓРіР»РѕРІР°СЏ СЃРєРѕСЂРѕСЃС‚СЊ
+	CVec3 vSpeed;                         // РїСЂРѕСЃС‚Рѕ СЃРєРѕСЂРѕСЃС‚СЊ
+	CVec3 vWind;                          // РІРµС‚РµСЂ РґР»СЏ С‡Р°СЃС‚РёС†С‹
+	float fOpacity;                       // РЅР°С‡Р°Р»СЊРЅР°СЏ РїСЂРѕР·СЂР°С‡РЅРѕСЃС‚СЊ
+	STrackContext contextSpeed;						// РєРѕРЅС‚РµРєСЃС‚С‹ РґР»СЏ СЂР°СЃС‡РµС‚Р° РёРЅС‚РµРіСЂР°Р»РѕРІ
 	STrackContext contextZSpeed; 
 	STrackContext contextSpin;
 };
@@ -34,37 +34,37 @@ struct SParticleSourceData : public CTRefCount<ISharedResource>
 public:
 	SParticleSourceData();
 
-	bool bComplexParticleSource;					//тип источника, если true, complex particle source
-	// параметры генератора
-	int nLifeTime;												// время жизни всего источника
-	float fGravity;												// параметр гравитации (никакого отношения к физике не имеет)
-	int nTextureDX;												// сколько кадров по X (для анимированной текстуры)
-	int nTextureDY;												// сколько кадров по Y (для анимированной текстуры)
-	std::string szTextureName;            // название текстуры
-	CVec3 vWind;                          // ветер
-	CVec3 vDirection;                     // направление источника
-	int nAreaType;                        // тип области для генерации партиклов
-	float fRadialWind;                    // сила радиального ветра
-	CTrack trackGenerateArea;							// размер области из которой вылетают партиклы 
-	CTrack trackDensity;									// к-во партиклов рожденных в ед. времени 
-	CTrack trackBeginSpeed;								// начальная скорость частицы при  вылете 
-	CTrack trackBeginSpeedRandomizer;     // ее рандомизатор
-	CTrack trackBeginAngleRandomizer;			// рандомизатор угла вылета (в радианах, от 0 до PI)
-	CTrack trackLife;											// сколько живет партикл после генерации
-	CTrack trackLifeRandomizer;           // рандомизатор предыдущего (от 0 до 1)
-	CTrack trackGenerateSpin;							// начальная угловая скорость при вылете 
-	CTrack trackGenerateSpinRandomizer;   // рандомизатор предыдущего (пусть задается, но пока не юзается)
-	CTrack trackGenerateOpacity;					// начальная прозрачность при вылете ( 0 - 255 ) 
-	// параметры одной частицы
-	CTrack trackSpin;                     // коэфф. угловой скорости (0-1)
-	CTrack trackSpeed;                    // коэфф. скорости (0-1)
-	CTrack trackSpeedRnd;                 // его рандомизатор (0-1)
-	CTrack trackWeight;										// масса партикла (никакого отношения к физической массе не имеет)
+	bool bComplexParticleSource;					//С‚РёРї РёСЃС‚РѕС‡РЅРёРєР°, РµСЃР»Рё true, complex particle source
+	// РїР°СЂР°РјРµС‚СЂС‹ РіРµРЅРµСЂР°С‚РѕСЂР°
+	int nLifeTime;												// РІСЂРµРјСЏ Р¶РёР·РЅРё РІСЃРµРіРѕ РёСЃС‚РѕС‡РЅРёРєР°
+	float fGravity;												// РїР°СЂР°РјРµС‚СЂ РіСЂР°РІРёС‚Р°С†РёРё (РЅРёРєР°РєРѕРіРѕ РѕС‚РЅРѕС€РµРЅРёСЏ Рє С„РёР·РёРєРµ РЅРµ РёРјРµРµС‚)
+	int nTextureDX;												// СЃРєРѕР»СЊРєРѕ РєР°РґСЂРѕРІ РїРѕ X (РґР»СЏ Р°РЅРёРјРёСЂРѕРІР°РЅРЅРѕР№ С‚РµРєСЃС‚СѓСЂС‹)
+	int nTextureDY;												// СЃРєРѕР»СЊРєРѕ РєР°РґСЂРѕРІ РїРѕ Y (РґР»СЏ Р°РЅРёРјРёСЂРѕРІР°РЅРЅРѕР№ С‚РµРєСЃС‚СѓСЂС‹)
+	std::string szTextureName;            // РЅР°Р·РІР°РЅРёРµ С‚РµРєСЃС‚СѓСЂС‹
+	CVec3 vWind;                          // РІРµС‚РµСЂ
+	CVec3 vDirection;                     // РЅР°РїСЂР°РІР»РµРЅРёРµ РёСЃС‚РѕС‡РЅРёРєР°
+	int nAreaType;                        // С‚РёРї РѕР±Р»Р°СЃС‚Рё РґР»СЏ РіРµРЅРµСЂР°С†РёРё РїР°СЂС‚РёРєР»РѕРІ
+	float fRadialWind;                    // СЃРёР»Р° СЂР°РґРёР°Р»СЊРЅРѕРіРѕ РІРµС‚СЂР°
+	CTrack trackGenerateArea;							// СЂР°Р·РјРµСЂ РѕР±Р»Р°СЃС‚Рё РёР· РєРѕС‚РѕСЂРѕР№ РІС‹Р»РµС‚Р°СЋС‚ РїР°СЂС‚РёРєР»С‹ 
+	CTrack trackDensity;									// Рє-РІРѕ РїР°СЂС‚РёРєР»РѕРІ СЂРѕР¶РґРµРЅРЅС‹С… РІ РµРґ. РІСЂРµРјРµРЅРё 
+	CTrack trackBeginSpeed;								// РЅР°С‡Р°Р»СЊРЅР°СЏ СЃРєРѕСЂРѕСЃС‚СЊ С‡Р°СЃС‚РёС†С‹ РїСЂРё  РІС‹Р»РµС‚Рµ 
+	CTrack trackBeginSpeedRandomizer;     // РµРµ СЂР°РЅРґРѕРјРёР·Р°С‚РѕСЂ
+	CTrack trackBeginAngleRandomizer;			// СЂР°РЅРґРѕРјРёР·Р°С‚РѕСЂ СѓРіР»Р° РІС‹Р»РµС‚Р° (РІ СЂР°РґРёР°РЅР°С…, РѕС‚ 0 РґРѕ PI)
+	CTrack trackLife;											// СЃРєРѕР»СЊРєРѕ Р¶РёРІРµС‚ РїР°СЂС‚РёРєР» РїРѕСЃР»Рµ РіРµРЅРµСЂР°С†РёРё
+	CTrack trackLifeRandomizer;           // СЂР°РЅРґРѕРјРёР·Р°С‚РѕСЂ РїСЂРµРґС‹РґСѓС‰РµРіРѕ (РѕС‚ 0 РґРѕ 1)
+	CTrack trackGenerateSpin;							// РЅР°С‡Р°Р»СЊРЅР°СЏ СѓРіР»РѕРІР°СЏ СЃРєРѕСЂРѕСЃС‚СЊ РїСЂРё РІС‹Р»РµС‚Рµ 
+	CTrack trackGenerateSpinRandomizer;   // СЂР°РЅРґРѕРјРёР·Р°С‚РѕСЂ РїСЂРµРґС‹РґСѓС‰РµРіРѕ (РїСѓСЃС‚СЊ Р·Р°РґР°РµС‚СЃСЏ, РЅРѕ РїРѕРєР° РЅРµ СЋР·Р°РµС‚СЃСЏ)
+	CTrack trackGenerateOpacity;					// РЅР°С‡Р°Р»СЊРЅР°СЏ РїСЂРѕР·СЂР°С‡РЅРѕСЃС‚СЊ РїСЂРё РІС‹Р»РµС‚Рµ ( 0 - 255 ) 
+	// РїР°СЂР°РјРµС‚СЂС‹ РѕРґРЅРѕР№ С‡Р°СЃС‚РёС†С‹
+	CTrack trackSpin;                     // РєРѕСЌС„С„. СѓРіР»РѕРІРѕР№ СЃРєРѕСЂРѕСЃС‚Рё (0-1)
+	CTrack trackSpeed;                    // РєРѕСЌС„С„. СЃРєРѕСЂРѕСЃС‚Рё (0-1)
+	CTrack trackSpeedRnd;                 // РµРіРѕ СЂР°РЅРґРѕРјРёР·Р°С‚РѕСЂ (0-1)
+	CTrack trackWeight;										// РјР°СЃСЃР° РїР°СЂС‚РёРєР»Р° (РЅРёРєР°РєРѕРіРѕ РѕС‚РЅРѕС€РµРЅРёСЏ Рє С„РёР·РёС‡РµСЃРєРѕР№ РјР°СЃСЃРµ РЅРµ РёРјРµРµС‚)
 	CTrack trackTextureFrame;							// frame in texture [0..1]
-	CTrack trackSize;											// размер частици (0-1)
-	CTrack trackOpacity;									// коэффициент на прозрачность (0-1)
-	CTrack trackIntegralMass;             // первообразная от g*m(t), умноженная на коэффициент скорости (без его рандома) (сохранять не надо, рассчитывается по ходу дела)
-	float fDensityCoeff;                  // коэффициент на плотность, берется из сеттингов
+	CTrack trackSize;											// СЂР°Р·РјРµСЂ С‡Р°СЃС‚РёС†Рё (0-1)
+	CTrack trackOpacity;									// РєРѕСЌС„С„РёС†РёРµРЅС‚ РЅР° РїСЂРѕР·СЂР°С‡РЅРѕСЃС‚СЊ (0-1)
+	CTrack trackIntegralMass;             // РїРµСЂРІРѕРѕР±СЂР°Р·РЅР°СЏ РѕС‚ g*m(t), СѓРјРЅРѕР¶РµРЅРЅР°СЏ РЅР° РєРѕСЌС„С„РёС†РёРµРЅС‚ СЃРєРѕСЂРѕСЃС‚Рё (Р±РµР· РµРіРѕ СЂР°РЅРґРѕРјР°) (СЃРѕС…СЂР°РЅСЏС‚СЊ РЅРµ РЅР°РґРѕ, СЂР°СЃСЃС‡РёС‚С‹РІР°РµС‚СЃСЏ РїРѕ С…РѕРґСѓ РґРµР»Р°)
+	float fDensityCoeff;                  // РєРѕСЌС„С„РёС†РёРµРЅС‚ РЅР° РїР»РѕС‚РЅРѕСЃС‚СЊ, Р±РµСЂРµС‚СЃСЏ РёР· СЃРµС‚С‚РёРЅРіРѕРІ
 	//
 	virtual void STDCALL Init();
 	virtual void STDCALL InitIntegrals();

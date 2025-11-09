@@ -106,7 +106,7 @@ IUnitState* CTankStatesFactory::ProduceState( class CQueueUnit *pObj, CAICommand
 					pUnit->SendAcknowledgement( pCommand, ACK_CANNOT_MOVE_TRACK_DAMAGED, !pCommand->IsFromAI() );
 				else
 				{
-					if ( pUnit->IsInTankPit() && !pCommand->IsFromAI() )// сначала выйти из TankPit, потом поехать куда послали
+					if ( pUnit->IsInTankPit() && !pCommand->IsFromAI() )// СЃРЅР°С‡Р°Р»Р° РІС‹Р№С‚Рё РёР· TankPit, РїРѕС‚РѕРј РїРѕРµС…Р°С‚СЊ РєСѓРґР° РїРѕСЃР»Р°Р»Рё
 					{
 						theGroupLogic.InsertUnitCommand( pCommand->ToUnitCmd(), pUnit );
 						pResult = CTankPitLeaveState::Instance( pUnit );
@@ -169,7 +169,7 @@ IUnitState* CTankStatesFactory::ProduceState( class CQueueUnit *pObj, CAICommand
 			}
 			else if ( !pUnit->NeedDeinstall() )
 			{
-				if ( pUnit->IsInTankPit() && !pCommand->IsFromAI() )// сначала выйти из TankPit, потом поехать куда послали
+				if ( pUnit->IsInTankPit() && !pCommand->IsFromAI() )// СЃРЅР°С‡Р°Р»Р° РІС‹Р№С‚Рё РёР· TankPit, РїРѕС‚РѕРј РїРѕРµС…Р°С‚СЊ РєСѓРґР° РїРѕСЃР»Р°Р»Рё
 				{
 					theGroupLogic.InsertUnitCommand( pCommand->ToUnitCmd(), pUnit );
 					pResult = CTankPitLeaveState::Instance( pUnit );
@@ -198,7 +198,7 @@ IUnitState* CTankStatesFactory::ProduceState( class CQueueUnit *pObj, CAICommand
 				pUnit->SendAcknowledgement( pCommand, ACK_CANNOT_MOVE_TRACK_DAMAGED, !pCommand->IsFromAI() );
 			else 
 			{
-				if ( pUnit->IsInTankPit() && !pCommand->IsFromAI() )// сначала выйти из TankPit, потом поехать куда послали
+				if ( pUnit->IsInTankPit() && !pCommand->IsFromAI() )// СЃРЅР°С‡Р°Р»Р° РІС‹Р№С‚Рё РёР· TankPit, РїРѕС‚РѕРј РїРѕРµС…Р°С‚СЊ РєСѓРґР° РїРѕСЃР»Р°Р»Рё
 				{
 					theGroupLogic.InsertUnitCommand( pCommand->ToUnitCmd(), pUnit );
 					pResult = CTankPitLeaveState::Instance( pUnit );
@@ -238,7 +238,7 @@ IUnitState* CTankStatesFactory::ProduceState( class CQueueUnit *pObj, CAICommand
 					pUnit->SendAcknowledgement( pCommand, ACK_CANNOT_MOVE_TRACK_DAMAGED, !pCommand->IsFromAI() );
 				else
 				{
-					if ( pUnit->IsInTankPit() && !pCommand->IsFromAI() )// сначала выйти из TankPit, потом поехать куда послали
+					if ( pUnit->IsInTankPit() && !pCommand->IsFromAI() )// СЃРЅР°С‡Р°Р»Р° РІС‹Р№С‚Рё РёР· TankPit, РїРѕС‚РѕРј РїРѕРµС…Р°С‚СЊ РєСѓРґР° РїРѕСЃР»Р°Р»Рё
 					{
 						theGroupLogic.InsertUnitCommand( pCommand->ToUnitCmd(), pUnit );
 						pResult = CTankPitLeaveState::Instance( pUnit );

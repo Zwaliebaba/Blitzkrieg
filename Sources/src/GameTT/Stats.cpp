@@ -36,7 +36,7 @@ enum E_InterfaceConsts
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CICStats::Configure( const char *pszConfig )
 {
-	//получаем параметры из командной строки
+	//РїРѕР»СѓС‡Р°РµРј РїР°СЂР°РјРµС‚СЂС‹ РёР· РєРѕРјР°РЅРґРЅРѕР№ СЃС‚СЂРѕРєРё
 	if ( pszConfig != 0 && strlen(pszConfig) > 0 )
 		nCurrentMissionStats = NStr::ToInt( pszConfig );
 	else
@@ -555,7 +555,7 @@ void CInterfaceStats::Create( const int /*EStatsComplexity*/ nStatsType )
 	
 	pUIScreen = CreateObject<IUIScreen>( UI_SCREEN );
 	pUIScreen->Load( "ui\\stats" );
-	pUIScreen->Reposition( pGFX->GetScreenRect() );			//первый reposition для инициализации размера ListControl
+	pUIScreen->Reposition( pGFX->GetScreenRect() );			//РїРµСЂРІС‹Р№ reposition РґР»СЏ РёРЅРёС†РёР°Р»РёР·Р°С†РёРё СЂР°Р·РјРµСЂР° ListControl
 	
 	IUIElement *pHeader = pUIScreen->GetChildByID( 20000 );
 	NI_ASSERT_T( pHeader != 0, "Invalid interface statistics header control" );
@@ -567,18 +567,18 @@ void CInterfaceStats::Create( const int /*EStatsComplexity*/ nStatsType )
 			break;
 
 		case STATS_COMPLEXITY_CHAPTER:
-			//установим текст заголовка
+			//СѓСЃС‚Р°РЅРѕРІРёРј С‚РµРєСЃС‚ Р·Р°РіРѕР»РѕРІРєР°
 			p2 = pTM->GetString( "imheader-stats-header" );
 			break;
 
 		case STATS_COMPLEXITY_MISSION:
 			{
 				// task: #4754: remove replay from stats in single player 
-				//установим текст заголовка
+				//СѓСЃС‚Р°РЅРѕРІРёРј С‚РµРєСЃС‚ Р·Р°РіРѕР»РѕРІРєР°
 				p2 = pTM->GetString( "imheader-stats-mission-header" );
 				if ( GetGlobalVar("MultiplayerGame", 0) == 1 && GetGlobalVar("History.Playing", 0) != 1 )
 				{
-					//отобразим кнопочку Save Replay
+					//РѕС‚РѕР±СЂР°Р·РёРј РєРЅРѕРїРѕС‡РєСѓ Save Replay
 					IUIElement *pSaveReplayButton = pUIScreen->GetChildByID( 10003 );
 					pSaveReplayButton->ShowWindow( UI_SW_SHOW );
 				}
@@ -594,7 +594,7 @@ void CInterfaceStats::Create( const int /*EStatsComplexity*/ nStatsType )
 	{
 		IPlayerScenarioInfo *pPlayer = pIt->Get();
 		if ( pPlayer->GetDiplomacySide() == 2 ) 
-			continue;	// не выводим статистику для нейтральных игроков
+			continue;	// РЅРµ РІС‹РІРѕРґРёРј СЃС‚Р°С‚РёСЃС‚РёРєСѓ РґР»СЏ РЅРµР№С‚СЂР°Р»СЊРЅС‹С… РёРіСЂРѕРєРѕРІ
 
 		IScenarioStatistics *pStats = 0;
 		switch ( m_nStatsType ) 
@@ -623,12 +623,12 @@ void CInterfaceStats::Create( const int /*EStatsComplexity*/ nStatsType )
 	if ( GetGlobalVar( "MultiplayerGame", 0 ) )
 	{
 		StoreScreen();
-		//запустим межмиссионную музыку
+		//Р·Р°РїСѓСЃС‚РёРј РјРµР¶РјРёСЃСЃРёРѕРЅРЅСѓСЋ РјСѓР·С‹РєСѓ
 		CInterfaceMainMenu::PlayIntermissionSound();
 	}
 	pScene->AddUIScreen( pUIScreen );
 
-	//сбрасываем переменные
+	//СЃР±СЂР°СЃС‹РІР°РµРј РїРµСЂРµРјРµРЅРЅС‹Рµ
 	bStatsShown = false;
 	nMedalIterator = 0;
 	bUpgradesShown = false;
@@ -678,8 +678,8 @@ bool CInterfaceStats::ProcessMessage( const SGameMessage &msg )
 			}
 			else if ( GetGlobalVar( "History.Playing", 0 ) > 0 )
 			{
-				//перейдем в экран просмотра replays
-				// чтобы второй раз не было открытия и закрытия шторок
+				//РїРµСЂРµР№РґРµРј РІ СЌРєСЂР°РЅ РїСЂРѕСЃРјРѕС‚СЂР° replays
+				// С‡С‚РѕР±С‹ РІС‚РѕСЂРѕР№ СЂР°Р· РЅРµ Р±С‹Р»Рѕ РѕС‚РєСЂС‹С‚РёСЏ Рё Р·Р°РєСЂС‹С‚РёСЏ С€С‚РѕСЂРѕРє
 				SetGlobalVar( "CurtainsClosed", 1 );
 				IMainLoop * pML = GetSingleton<IMainLoop>();
 
@@ -695,8 +695,8 @@ bool CInterfaceStats::ProcessMessage( const SGameMessage &msg )
 			{
 				if ( GetGlobalVar( "MultiplayerGame", 0 ) )
 				{
-					//если эта переменная > 0, то мы находимся в multiplayer режиме
-					//выходим в окошко со списком multiplayer games
+					//РµСЃР»Рё СЌС‚Р° РїРµСЂРµРјРµРЅРЅР°СЏ > 0, С‚Рѕ РјС‹ РЅР°С…РѕРґРёРјСЃСЏ РІ multiplayer СЂРµР¶РёРјРµ
+					//РІС‹С…РѕРґРёРј РІ РѕРєРѕС€РєРѕ СЃРѕ СЃРїРёСЃРєРѕРј multiplayer games
 					if ( GetSingleton<IMPToUICommandManager>()->GetConnectionType() == EMCT_INTERNET )
 						FinishInterface( MISSION_COMMAND_ADDRESS_BOOK, 0 );
 					else

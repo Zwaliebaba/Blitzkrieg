@@ -74,10 +74,10 @@ struct SMapObject : public IMapObj
 {
 	DECLARE_SERIALIZE;
 public:
-	CPtr<IRefCount> pAIObj;								// AI unit для связи с AI
-	CPtr<IVisObj> pVisObj;								// visual object - то, что рисуетс
-	CPtr<IVisObj> pShadow;								// тень от этого объекта. может быть равна нулю!!!
-	CGDBPtr<SGDBObjectDesc> pDesc;				// game DB entry - структурка из игровой базы данных, описывающая объект
+	CPtr<IRefCount> pAIObj;								// AI unit РґР»СЏ СЃРІСЏР·Рё СЃ AI
+	CPtr<IVisObj> pVisObj;								// visual object - С‚Рѕ, С‡С‚Рѕ СЂРёСЃСѓРµС‚СЃ
+	CPtr<IVisObj> pShadow;								// С‚РµРЅСЊ РѕС‚ СЌС‚РѕРіРѕ РѕР±СЉРµРєС‚Р°. РјРѕР¶РµС‚ Р±С‹С‚СЊ СЂР°РІРЅР° РЅСѓР»СЋ!!!
+	CGDBPtr<SGDBObjectDesc> pDesc;				// game DB entry - СЃС‚СЂСѓРєС‚СѓСЂРєР° РёР· РёРіСЂРѕРІРѕР№ Р±Р°Р·С‹ РґР°РЅРЅС‹С…, РѕРїРёСЃС‹РІР°СЋС‰Р°СЏ РѕР±СЉРµРєС‚
 	CGDBPtr<SHPObjectRPGStats> pRPG;			// RPG stats for all objects and units
 	BYTE diplomacy;												// diplomacy settings for this object
 	bool bCanSelect;											// can object be selected?
@@ -206,7 +206,7 @@ interface IMOUnit : public IMOContainer
 	// CRAP{ for animations testing
 	virtual void STDCALL AddAnimation( const SUnitBaseRPGStats::SAnimDesc *pDesc ) = 0;
 	// CRAP}
-	// для асков
+	// РґР»СЏ Р°СЃРєРѕРІ
 	virtual void STDCALL AIUpdateAcknowledgement( const EUnitAckType eAck, interface IClientAckManager *pAckManager, const int nSet ) = 0;
 	virtual void STDCALL AIUpdateBoredAcknowledgement( const struct SAIBoredAcknowledgement &ack, interface IClientAckManager *pAckManager ) = 0;
 	// remove all sounds that attached to this unit

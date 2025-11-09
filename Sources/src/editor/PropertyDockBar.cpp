@@ -84,7 +84,7 @@ BOOL CPropertyDockBar::PreTranslateMessage(MSG* pMsg)
 	{
 	case WM_KEY_FRAME_RCLICK:
 		{
-			//Отображаем меню
+			//РћС‚РѕР±СЂР°Р¶Р°РµРј РјРµРЅСЋ
 			CMenu menu;
 			menu.LoadMenu( IDR_KEYFRAME_ZOOM_MENU );
 			CMenu *popupMenu = menu.GetSubMenu( 0 );
@@ -95,9 +95,9 @@ BOOL CPropertyDockBar::PreTranslateMessage(MSG* pMsg)
 	case WM_KEY_FRAME_UPDATE:
 		if ( pActiveKeyItem )
 		{
-			//Обновляем список значений
+			//РћР±РЅРѕРІР»СЏРµРј СЃРїРёСЃРѕРє Р·РЅР°С‡РµРЅРёР№
 			pActiveKeyItem->SetFramesList( m_pKeyFramer->GetFramesList() );
-			//сейчас работает только с ParticleFrame
+			//СЃРµР№С‡Р°СЃ СЂР°Р±РѕС‚Р°РµС‚ С‚РѕР»СЊРєРѕ СЃ ParticleFrame
 			g_frameManager.GetParticleFrame()->SetChangedFlag( true );
 		}
 		return true;
@@ -155,7 +155,7 @@ HTREEITEM CPropertyDockBar::AddEmptyNode( std::string &str, HTREEITEM hPARoot )
 		return hPA;
 }
 
-//!!!!!!!!!!!!!!!!!!!!!!!Надо переделать 
+//!!!!!!!!!!!!!!!!!!!!!!!РќР°РґРѕ РїРµСЂРµРґРµР»Р°С‚СЊ 
 int CPropertyDockBar::GetVariable( std::string &name)
 {
 	
@@ -197,7 +197,7 @@ void CPropertyDockBar::AddManipulatorVariable( std::string &str, IManipulator *p
 	std::string tmpStr;
 	if( szVector.size() != 1 )
 	{
-		// есть ветви 
+		// РµСЃС‚СЊ РІРµС‚РІРё 
 		for( std::vector<std::string>::iterator it = szVector.begin(); it != szVector.end() - 1; ++it )
 		{
 			tmpStr += (*it);

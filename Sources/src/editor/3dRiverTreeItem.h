@@ -20,7 +20,7 @@ public:
 	C3DRiverBottomLayerPropsItem() { nItemType = E_3DRIVER_BOTTOM_LAYER_PROPS_ITEM; InitDefaultValues(); nImageIndex = 0; }
 	~C3DRiverBottomLayerPropsItem() {};
 	
-	//Получение внутренних параметров
+	//РџРѕР»СѓС‡РµРЅРёРµ РІРЅСѓС‚СЂРµРЅРЅРёС… РїР°СЂР°РјРµС‚СЂРѕРІ
 	int GetBottomWidth() { return values[0].value; }
 	int GetCenterOpacity() { return values[1].value; }
 	int GetBorderOpacity() { return values[2].value; }
@@ -28,7 +28,7 @@ public:
 	const char *GetTexture() { return values[4].value; }
 	const char *GetAmbientSound() { return values[5].value; }
 	
-	//Установка внутренних параметров
+	//РЈСЃС‚Р°РЅРѕРІРєР° РІРЅСѓС‚СЂРµРЅРЅРёС… РїР°СЂР°РјРµС‚СЂРѕРІ
 	void SetBottomWidth( int nVal ) { values[0].value = nVal; }
 	void SetCenterOpacity( int nVal ) { values[1].value = nVal; }
 	void SetBorderOpacity( int nVal ) { values[2].value = nVal; }
@@ -59,7 +59,7 @@ public:
 	C3DRiverLayerPropsItem() { nItemType = E_3DRIVER_LAYER_PROPS_ITEM; InitDefaultValues(); nImageIndex = 0; }
 	~C3DRiverLayerPropsItem() {};
 	
-	//Получение внутренних параметров
+	//РџРѕР»СѓС‡РµРЅРёРµ РІРЅСѓС‚СЂРµРЅРЅРёС… РїР°СЂР°РјРµС‚СЂРѕРІ
 	int GetCenterOpacity() { return values[0].value; }
 	int GetBorderOpacity() { return values[1].value; }
 	float GetStreamSpeed() { return values[2].value; }
@@ -68,7 +68,7 @@ public:
 	const char *GetTexture() { return values[5].value; }
 	float GetDisturbance() { return values[6].value; }
 	
-	//Установка внутренних параметров
+	//РЈСЃС‚Р°РЅРѕРІРєР° РІРЅСѓС‚СЂРµРЅРЅРёС… РїР°СЂР°РјРµС‚СЂРѕРІ
 	void SetCenterOpacity( int nVal ) { values[0].value = nVal; }
 	void SetBorderOpacity( int nVal ) { values[1].value = nVal; }
 	void SetStreamSpeed( float fVal ) { values[2].value = fVal; }

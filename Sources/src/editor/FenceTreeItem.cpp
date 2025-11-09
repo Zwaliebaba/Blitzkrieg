@@ -70,7 +70,7 @@ void CFenceTreeRootItem::ComposeFences( const char *pszProjectFileName, const ch
 
 	CVectorOfStrings fileNameVector( pFrame->GetMaxFenceIndex() );
 	CVectorOfStrings invalidNameVector;
-	//всего одна анимация
+	//РІСЃРµРіРѕ РѕРґРЅР° Р°РЅРёРјР°С†РёСЏ
 	vector<SAnimationDesc> animDescVector( 1 );
 
 	CVectorOfStrings shadowFileNameVector( pFrame->GetMaxFenceIndex() );
@@ -90,7 +90,7 @@ void CFenceTreeRootItem::ComposeFences( const char *pszProjectFileName, const ch
 	shadowDesc.ptFrameShift = CVec2( 0, 0 );
 	shadowDesc.szName = "default";
 
-	//Заполняем вектор directions
+	//Р—Р°РїРѕР»РЅСЏРµРј РІРµРєС‚РѕСЂ directions
 	animDesc.dirs.resize( 1 );
 	SAnimationDesc::SDirDesc &dirDesc = animDesc.dirs[ 0 ];
 	dirDesc.ptFrameShift = CVec2( 0, 0 );
@@ -116,7 +116,7 @@ void CFenceTreeRootItem::ComposeFences( const char *pszProjectFileName, const ch
 				string szTempFileName = szSourceDir + pFenceProps->GetItemName() + ".tga";
 				if ( _access( szTempFileName.c_str(), 04 ) == 0 )
 				{
-					//скомпонуем тень
+					//СЃРєРѕРјРїРѕРЅСѓРµРј С‚РµРЅСЊ
 					{
 						string szShadowFileName = szSourceDir + pFenceProps->GetItemName() + "s.tga";
 						string szTempShadow = theApp.GetEditorTempDir() + pFenceProps->GetItemName() + "s.tga";
@@ -127,7 +127,7 @@ void CFenceTreeRootItem::ComposeFences( const char *pszProjectFileName, const ch
 						}
 						else
 						{
-							//загрузим картинку чтобы определить ее размер
+							//Р·Р°РіСЂСѓР·РёРј РєР°СЂС‚РёРЅРєСѓ С‡С‚РѕР±С‹ РѕРїСЂРµРґРµР»РёС‚СЊ РµРµ СЂР°Р·РјРµСЂ
 							CPtr<IDataStream> pStream = OpenFileStream( szShadowFileName.c_str(), STREAM_ACCESS_READ );
 							if ( !pStream )
 							{
@@ -143,7 +143,7 @@ void CFenceTreeRootItem::ComposeFences( const char *pszProjectFileName, const ch
 						}
 					}
 
-					//загрузим картинку чтобы определить ее размер
+					//Р·Р°РіСЂСѓР·РёРј РєР°СЂС‚РёРЅРєСѓ С‡С‚РѕР±С‹ РѕРїСЂРµРґРµР»РёС‚СЊ РµРµ СЂР°Р·РјРµСЂ
 					CPtr<IDataStream> pStream = OpenFileStream( szTempFileName.c_str(), STREAM_ACCESS_READ );
 					if ( !pStream )
 					{
@@ -198,7 +198,7 @@ void CFenceTreeRootItem::ComposeFences( const char *pszProjectFileName, const ch
 		AfxMessageBox( szErrorStr );
 	}
 	
-	//если вообще ничего нету, то выходим
+	//РµСЃР»Рё РІРѕРѕР±С‰Рµ РЅРёС‡РµРіРѕ РЅРµС‚Сѓ, С‚Рѕ РІС‹С…РѕРґРёРј
 	if ( fileNameVector.size() == 0 )
 	{
 		AfxMessageBox( "Error: no valid pictures" );
@@ -224,7 +224,7 @@ void CFenceTreeRootItem::ComposeFences( const char *pszProjectFileName, const ch
 	CSaverAccessor saver = pSS;
 	saver.Add( 1, &spriteAnimFmt );
 
-	//тень
+	//С‚РµРЅСЊ
 	if ( shadowFileNameVector.empty() )
 	{
 		AfxMessageBox( "Composing shadows failed, there is no valid shadows!" );
@@ -247,7 +247,7 @@ void CFenceTreeRootItem::ComposeFences( const char *pszProjectFileName, const ch
 	saver = pSS;
 	saver.Add( 1, &shadowAnimFmt );
 
-	//почищаем за собой, удаляю все temp shadow files
+	//РїРѕС‡РёС‰Р°РµРј Р·Р° СЃРѕР±РѕР№, СѓРґР°Р»СЏСЋ РІСЃРµ temp shadow files
 	for ( int i=0; i<shadowFileNameVector.size(); i++ )
 	{
 		remove( shadowFileNameVector[i].c_str() );
@@ -258,8 +258,8 @@ bool CFenceTreeRootItem::SaveShadowFile( const string &szFenceFileName, const st
 {
 	IImageProcessor *pIP = GetImageProcessor();
 
-	//Тень надо промодулировать альфой из инвертированной картинки забора.
-	//Загружаем забор
+	//РўРµРЅСЊ РЅР°РґРѕ РїСЂРѕРјРѕРґСѓР»РёСЂРѕРІР°С‚СЊ Р°Р»СЊС„РѕР№ РёР· РёРЅРІРµСЂС‚РёСЂРѕРІР°РЅРЅРѕР№ РєР°СЂС‚РёРЅРєРё Р·Р°Р±РѕСЂР°.
+	//Р—Р°РіСЂСѓР¶Р°РµРј Р·Р°Р±РѕСЂ
 	CPtr<IDataStream> pFenceStream = OpenFileStream( szFenceFileName.c_str(), STREAM_ACCESS_READ );
 	if ( pFenceStream == 0 )
 		return false;
@@ -270,7 +270,7 @@ bool CFenceTreeRootItem::SaveShadowFile( const string &szFenceFileName, const st
 	pInverseSprite->SharpenAlpha( 100 );
 	pInverseSprite->InvertAlpha();
 
-	//Загружаем тень
+	//Р—Р°РіСЂСѓР¶Р°РµРј С‚РµРЅСЊ
 	CPtr<IDataStream> pShadowStream = OpenFileStream( szShadowFileName.c_str(), STREAM_ACCESS_READ );
 	if ( pShadowStream == 0 )
 		return false;
@@ -292,12 +292,12 @@ bool CFenceTreeRootItem::SaveShadowFile( const string &szFenceFileName, const st
 	rc.top = 0;
 	rc.right = pInverseSprite->GetSizeX();
 	rc.bottom = pInverseSprite->GetSizeY();
-	// промодулировать тень инверсной альфой из основной картинки
+	// РїСЂРѕРјРѕРґСѓР»РёСЂРѕРІР°С‚СЊ С‚РµРЅСЊ РёРЅРІРµСЂСЃРЅРѕР№ Р°Р»СЊС„РѕР№ РёР· РѕСЃРЅРѕРІРЅРѕР№ РєР°СЂС‚РёРЅРєРё
 	pShadowImage->ModulateAlphaFrom( pInverseSprite, &rc, 0, 0 );
-	// занулить цвет - оставить только альфу
+	// Р·Р°РЅСѓР»РёС‚СЊ С†РІРµС‚ - РѕСЃС‚Р°РІРёС‚СЊ С‚РѕР»СЊРєРѕ Р°Р»СЊС„Сѓ
 	pShadowImage->SetColor( DWORD(0) );
 
-	//Сохраним файл с тенью под temp именем
+	//РЎРѕС…СЂР°РЅРёРј С„Р°Р№Р» СЃ С‚РµРЅСЊСЋ РїРѕРґ temp РёРјРµРЅРµРј
 	CPtr<IDataStream> pSaveShadowStream = OpenFileStream( szTempShadow.c_str(), STREAM_ACCESS_WRITE );
 	pIP->SaveImageAsTGA( pSaveShadowStream, pShadowImage );
 
@@ -375,10 +375,10 @@ void CFenceCommonPropsItem::UpdateItemValue( int nItemId, const CVariant &value 
 	
 	if ( nItemId == 2 )
 	{
-		//Изменилось значение директории, загружаем все картинки из этой диры в AllThumbList
+		//РР·РјРµРЅРёР»РѕСЃСЊ Р·РЅР°С‡РµРЅРёРµ РґРёСЂРµРєС‚РѕСЂРёРё, Р·Р°РіСЂСѓР¶Р°РµРј РІСЃРµ РєР°СЂС‚РёРЅРєРё РёР· СЌС‚РѕР№ РґРёСЂС‹ РІ AllThumbList
 		if ( !IsRelatedPath( value ) )
 		{
-			//Тут вычисляется относительный путь, относительно файла с проектом
+			//РўСѓС‚ РІС‹С‡РёСЃР»СЏРµС‚СЃСЏ РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅС‹Р№ РїСѓС‚СЊ, РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕ С„Р°Р№Р»Р° СЃ РїСЂРѕРµРєС‚РѕРј
 			string szProjectName = g_frameManager.GetFrame( CFrameManager::E_FENCE_FRAME )->GetProjectFileName();
 			string szValue = value;
 			string szRelatedPath;
@@ -470,7 +470,7 @@ void CFencePropsItem::MyKeyDown( int nChar )
 	{
 		case VK_DELETE:
 /*
-			//Смотрим какой frame будет следующим выделенным в дереве и выделяем его в SelectedThumbList
+			//РЎРјРѕС‚СЂРёРј РєР°РєРѕР№ frame Р±СѓРґРµС‚ СЃР»РµРґСѓСЋС‰РёРј РІС‹РґРµР»РµРЅРЅС‹Рј РІ РґРµСЂРµРІРµ Рё РІС‹РґРµР»СЏРµРј РµРіРѕ РІ SelectedThumbList
 			HTREEITEM hNextSibling = pTreeCtrl->GetNextItem( hItem, TVGN_NEXT );
 			if ( hNextSibling )
 			{
@@ -480,7 +480,7 @@ void CFencePropsItem::MyKeyDown( int nChar )
 			}
 */
 
-			//Убиваем этот frame
+			//РЈР±РёРІР°РµРј СЌС‚РѕС‚ frame
 			CFenceFrame *pFrame = static_cast<CFenceFrame *> ( g_frameManager.GetFrame( CFrameManager::E_FENCE_FRAME ) );
 			pFrame->RemoveFenceIndex( nSegmentIndex );
 			pFrame->DeleteFrameInSelectedList( (DWORD) this );
@@ -491,7 +491,7 @@ void CFencePropsItem::MyKeyDown( int nChar )
 
 void CFencePropsItem::MyLButtonClick()
 {
-	//В ThumbList отображаю Animations соответствующие этой папке
+	//Р’ ThumbList РѕС‚РѕР±СЂР°Р¶Р°СЋ Animations СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РёРµ СЌС‚РѕР№ РїР°РїРєРµ
 	CTreeItem *pPapa = GetParentTreeItem();
 	NI_ASSERT( pPapa->GetItemType() == E_FENCE_INSERT_ITEM );
 	
@@ -499,7 +499,7 @@ void CFencePropsItem::MyLButtonClick()
 	CFenceFrame *pFrame = static_cast<CFenceFrame *> ( g_frameManager.GetFrame( CFrameManager::E_FENCE_FRAME ) );
 	pFrame->SetActiveFenceInsertItem( pFenceInsertItem );
 	
-	//В накиданных ThumbList items выделяю item соответствующий this
+	//Р’ РЅР°РєРёРґР°РЅРЅС‹С… ThumbList items РІС‹РґРµР»СЏСЋ item СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РёР№ this
 	pFrame->SelectItemInSelectedThumbList( (long) this );
 
 	pFrame->EditFence( this );
@@ -515,13 +515,13 @@ int CFencePropsItem::operator&( IDataTree &ss )
 	CFenceFrame *pFrame = static_cast<CFenceFrame *> ( g_frameManager.GetFrame( CFrameManager::E_FENCE_FRAME ) );
 	if ( !saver.IsReading() )
 	{
-		// Сохраняем данные о тайловой проходимости
+		// РЎРѕС…СЂР°РЅСЏРµРј РґР°РЅРЅС‹Рµ Рѕ С‚Р°Р№Р»РѕРІРѕР№ РїСЂРѕС…РѕРґРёРјРѕСЃС‚Рё
 		pFrame->SaveMyData( this, saver );
 	}
 	else
 	{
 		bLoaded = true;
-		// Считываем данные о тайловой проходимости
+		// РЎС‡РёС‚С‹РІР°РµРј РґР°РЅРЅС‹Рµ Рѕ С‚Р°Р№Р»РѕРІРѕР№ РїСЂРѕС…РѕРґРёРјРѕСЃС‚Рё
 		pFrame->LoadMyData( this, saver );
 	}
 	return 0;

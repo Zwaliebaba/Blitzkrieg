@@ -7,7 +7,7 @@
 class CUIObjectiveScreen : public CMultipleWindow
 {
 	DECLARE_SERIALIZE;
-	IUIShortcutBar *pSB;				//инициализируется во время загрузки и используется для ускорения доступа к компонентам
+	IUIShortcutBar *pSB;				//РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµС‚СЃСЏ РІРѕ РІСЂРµРјСЏ Р·Р°РіСЂСѓР·РєРё Рё РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РґР»СЏ СѓСЃРєРѕСЂРµРЅРёСЏ РґРѕСЃС‚СѓРїР° Рє РєРѕРјРїРѕРЅРµРЅС‚Р°Рј
 	bool bShowAllObjectives;
 
 public:

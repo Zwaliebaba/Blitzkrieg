@@ -59,7 +59,7 @@ BOOL CEditorApp::InitInstance()
 	std::string szCommandLine( m_lpCmdLine );
 	NStr::TrimBoth( szCommandLine, '\"' );
 
-	//åñëè ïðîèíñòàëëèðîâàíà èãðà, âêëþ÷àåì ïîääåðæêó èãðû
+	//ÐµÑÐ»Ð¸ Ð¿Ñ€Ð¾Ð¸Ð½ÑÑ‚Ð°Ð»Ð»Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð° Ð¸Ð³Ñ€Ð°, Ð²ÐºÐ»ÑŽÑ‡Ð°ÐµÐ¼ Ð¿Ð¾Ð´Ð´ÐµÑ€Ð¶ÐºÑƒ Ð¸Ð³Ñ€Ñ‹
 	NMain::SetGameDirectory();
 	/**
 	if ( !NMain::SetGameDirectory() )
@@ -164,7 +164,7 @@ BOOL CEditorApp::InitInstance()
 	}
 	/**/
 
-	//çàãðóçêà íà÷àëüíîé êàðòû
+	//Ð·Ð°Ð³Ñ€ÑƒÐ·ÐºÐ° Ð½Ð°Ñ‡Ð°Ð»ÑŒÐ½Ð¾Ð¹ ÐºÐ°Ñ€Ñ‚Ñ‹
 	if ( !szCommandLine.empty() )
 	{
 		g_frameManager.GetTemplateEditorFrame()->OnFileLoadMap( szCommandLine );

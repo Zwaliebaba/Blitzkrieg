@@ -35,7 +35,7 @@ public:
 	CWarFogTracer( T &warFog, const SVector &center, const int r, const WORD wUnitDir, const WORD wVisionAngle, bool bAngleLimited, const WORD wMinAngle, const WORD wMaxAngle, bool bPlane, const float fSightPower );
 	CWarFogTracer( T &warFog, const SFogInfo &fogInfo );
 
-	// для trace луча из центра юнита в tileToTrace
+	// РґР»СЏ trace Р»СѓС‡Р° РёР· С†РµРЅС‚СЂР° СЋРЅРёС‚Р° РІ tileToTrace
 	CWarFogTracer( const SVector &tileToTrace, T &warFog, const SFogInfo &fogInfo );
 };
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -84,10 +84,10 @@ void CAIUnit::SendNTotalKilledUnits( const int nPlayerOfShoot )
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const SAINotifyHitInfo::EHitType CAIUnit::ProcessExactHit( const SRect &combatRect, const CVec2 &explCoord, const int nRandPiercing, const int nRandArmor ) const
 {
-	// попали по комбат системе
+	// РїРѕРїР°Р»Рё РїРѕ РєРѕРјР±Р°С‚ СЃРёСЃС‚РµРјРµ
 	if ( combatRect.IsPointInside( explCoord ) )
 	{
-		// пробили
+		// РїСЂРѕР±РёР»Рё
 		if ( nRandPiercing >= nRandArmor && !IsSavedByCover() )
 			return SAINotifyHitInfo::EHT_HIT;
 		else
@@ -117,11 +117,11 @@ bool CAIUnit::ProcessCumulativeExpl( CExplosion *pExpl, const int nArmorDir, con
 		SRect unitRect = GetUnitRect();
 		const CVec2 vExplCoord( pExpl->GetExplCoordinates() );
 
-		// попали визуально
+		// РїРѕРїР°Р»Рё РІРёР·СѓР°Р»СЊРЅРѕ
 		if ( fabs( GetZ() - pExpl->GetExplZ() ) <= GetStats()->vAABBHalfSize.y && unitRect.IsPointInside( vExplCoord ) )
 		{
 			const int nRandArmor = GetRandArmorByDir( nArmorDir, pExpl->GetAttackDir(), unitRect );
-			// если бьёт снизу, то не сжимать
+			// РµСЃР»Рё Р±СЊР„С‚ СЃРЅРёР·Сѓ, С‚Рѕ РЅРµ СЃР¶РёРјР°С‚СЊ
 			if ( nArmorDir != 1 )
 				unitRect.Compress( GetRemissiveCoeff() ); 
 
@@ -166,7 +166,7 @@ bool CAIUnit::ProcessAreaDamage( const class CExplosion *pExpl, const int nArmor
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool CAIUnit::ProcessBurstExpl( CExplosion *pExpl, const int nArmorDir, const float fRadius, const float fSmallRadius )
 {
-	// нет точного попадания
+	// РЅРµС‚ С‚РѕС‡РЅРѕРіРѕ РїРѕРїР°РґР°РЅРёВ¤
 	if ( !ProcessCumulativeExpl( pExpl, nArmorDir, true ) )
 	{
 		ProcessAreaDamage( pExpl, nArmorDir, fRadius, fSmallRadius );
@@ -537,7 +537,7 @@ void CAIUnit::FreezeSegment()
 		pUnitInfoForGeneral->Segment();
 	}
 
-	// обработка TankPit
+	// РѕР±СЂР°Р±РѕС‚РєР° TankPit
 	if ( !IsValidObj( pTankPit ) )
 		pTankPit = 0;
 
@@ -568,7 +568,7 @@ void CAIUnit::CalcVisibility()
 
 		if ( bVisibility != bVisibleByPlayer )
 		{
-			// виден или прошло достаточно большое время после ухода в невидимость (чтобы не мигал)
+			// РІРёРґРµРЅ РёР»Рё РїСЂРѕС€Р»Рѕ РґРѕСЃС‚Р°С‚РѕС‡РЅРѕ Р±РѕР»СЊС€РѕРµ РІСЂРµРјВ¤ РїРѕСЃР»Рµ СѓС…РѕРґР° РІ РЅРµРІРёРґРёРјРѕСЃС‚СЊ (С‡С‚РѕР±С‹ РЅРµ РјРёРіР°Р»)
 			if ( bVisibility || lastTimeOfVis + SConsts::RESIDUAL_VISIBILITY_TIME < curTime )
 			{
 				bVisibleByPlayer = bVisibility;
@@ -660,7 +660,7 @@ void CAIUnit::TakeDamage( const float fDamage, const SWeaponRPGStats::SShell *pS
 				pShotUnit->EnemyKilled( this );
 			SendNTotalKilledUnits( nPlayerOfShoot );
 			
-			// убить либо удалить с карты
+			// СѓР±РёС‚СЊ Р»РёР±Рѕ СѓРґР°Р»РёС‚СЊ СЃ РєР°СЂС‚С‹
 			bool bDisappear = false;
 			if ( !GetStats()->IsAviation() && theStaticMap.IsBridge( GetTile() ) )
 			{
@@ -682,7 +682,7 @@ void CAIUnit::TakeDamage( const float fDamage, const SWeaponRPGStats::SShell *pS
 				theGroupLogic.UnitCommand( SAIUnitCmd( ACTION_COMMAND_DIE, fDamage, bFromExpl ), static_cast<CAIUnit*>( this ), false );
 			}
 		}
-		else // юнит не умер
+		else // СЋРЅРёС‚ РЅРµ СѓРјРµСЂ
 		{
 			const SUnitBaseRPGStats *pStats = GetStats();
 			if ( !pStats->IsAviation() )
@@ -1008,7 +1008,7 @@ IObstacle* CAIUnit::LookForObstacle()
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const float CAIUnit::GetTargetScanRadius()
 {
-	// дальнобойное AI орудие
+	// РґР°Р»СЊРЅРѕР±РѕР№РЅРѕРµ AI РѕСЂСѓРґРёРµ
 	if ( theDipl.IsAIPlayer( GetPlayer() ) && GetFirstArtilleryGun() != 0 && !DoesReservePosExist() )
 		return GetFirstArtilleryGun()->GetFireRange( 0 );
 	else if ( GetStats()->type == RPG_TYPE_OFFICER )
@@ -1039,7 +1039,7 @@ void CAIUnit::LookForTarget( CAIUnit *pCurTarget, const bool bDamageUpdated, CAI
 			CAIUnit *pTarget = *iter;
 			if ( IsValidObj( pTarget ) && pTarget->IsNoticableByUnit( this, r ) )
 			{
-				// для вражеской артиллерии добавить всех артиллеристов
+				// РґР»В¤ РІСЂР°Р¶РµСЃРєРѕР№ Р°СЂС‚РёР»Р»РµСЂРёРё РґРѕР±Р°РІРёС‚СЊ РІСЃРµС… Р°СЂС‚РёР»Р»РµСЂРёСЃС‚РѕРІ
 				if ( pTarget->GetStats()->IsArtillery() )
 				{
 					CArtillery *pArt = checked_cast<CArtillery*>( pTarget ) ;
@@ -1059,7 +1059,7 @@ void CAIUnit::LookForTarget( CAIUnit *pCurTarget, const bool bDamageUpdated, CAI
 			}
 		}
 
-		// по юнитам в домиках
+		// РїРѕ СЋРЅРёС‚Р°Рј РІ РґРѕРјРёРєР°С…
 		for ( CStObjCircleIter<true> iter( GetCenter(), r ); 
 					theScanLimiter.CanScan() && !iter.IsFinished(); iter.Iterate() )
 		{
@@ -1075,7 +1075,7 @@ void CAIUnit::LookForTarget( CAIUnit *pCurTarget, const bool bDamageUpdated, CAI
 		*pBestTarget = GetBestShootEstimatedUnit();
 		*pGun = GetBestShootEstimatedGun();
 
-		// зенитная артиллерия
+		// Р·РµРЅРёС‚РЅР°В¤ Р°СЂС‚РёР»Р»РµСЂРёВ¤
 		if ( GetBestShootEstimatedUnit() == 0 && CanShootToPlanes() )
 		{
 			CShootEstimatorLighAA estimatorAA;
@@ -1107,11 +1107,11 @@ void CAIUnit::LookForFarTarget( CAIUnit *pCurTarget, const bool bDamageUpdated, 
 	bFreeEnemySearch = true;
 
 	CAIUnit::LookForTarget( pCurTarget, bDamageUpdated, pBestTarget, pGun );
-	// цель вне конуса обстрела есть
+	// С†РµР»СЊ РІРЅРµ РєРѕРЅСѓСЃР° РѕР±СЃС‚СЂРµР»Р° РµСЃС‚СЊ
 	if ( (*pBestTarget) != 0 )
 //				 !(*pBestTarget)->GetStats()->IsInfantry() && !(*pBestTarget)->GetStats()->IsTransport() )
 	{
-		// цель уже под сильным огнём
+		// С†РµР»СЊ СѓР¶Рµ РїРѕРґ СЃРёР»СЊРЅС‹Рј РѕРіРЅР„Рј
 		const float fDamagePower = (*pBestTarget)->GetTakenDamagePower();
 
 		if ( fDamagePower != 0 )
@@ -1164,10 +1164,10 @@ BYTE CAIUnit::AnalyzeTargetScan( CAIUnit *pCurTarget, const bool bDamageUpdated,
 		const SBehaviour &beh = GetBehaviour();
 		CAICommand *pCommand = GetCurCmd();
 
-		// если огонь по всему
+		// РµСЃР»Рё РѕРіРѕРЅСЊ РїРѕ РІСЃРµРјСѓ
 		if ( beh.fire == SBehaviour::EFAtWill )
 		{
-			// найдена цель
+			// РЅР°Р№РґРµРЅР° С†РµР»СЊ
 			CAIUnit *pTarget = 0;
 			CBasicGun *pGun = 0;
 
@@ -1188,7 +1188,7 @@ BYTE CAIUnit::AnalyzeTargetScan( CAIUnit *pCurTarget, const bool bDamageUpdated,
 			}
 			else if ( !pTarget && bScanForObstacles )
 			{
-				// нет врагов, пострелять по препятствиям, если нужно
+				// РЅРµС‚ РІСЂР°РіРѕРІ, РїРѕСЃС‚СЂРµР»В¤С‚СЊ РїРѕ РїСЂРµРїВ¤С‚СЃС‚РІРёВ¤Рј, РµСЃР»Рё РЅСѓР¶РЅРѕ
 				IObstacle *pObstacle = LookForObstacle();
 				if ( pObstacle )
 				{

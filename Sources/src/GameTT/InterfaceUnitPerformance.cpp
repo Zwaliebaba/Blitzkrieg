@@ -166,7 +166,7 @@ void CInterfaceUnitPerformance::PrepairShortcutBar()
 	pLeveledUpSB->Clear();
 	pDeadUnitsSB->Clear();
 	{
-		IUIElement *pBar = pLeveledUpSB->AddBar();		//bar íåâèäèìûé
+		IUIElement *pBar = pLeveledUpSB->AddBar();		//bar Ð½ÐµÐ²Ð¸Ð´Ð¸Ð¼Ñ‹Ð¹
 		pBar->SetWindowText( 0, L"1" );
 		pBar->SetWindowText( 1, L"2" );
 		pBar->SetWindowID( 0 );
@@ -193,7 +193,7 @@ void CInterfaceUnitPerformance::PrepairShortcutBar()
 	}
 	// fill dead units
 	{
-		IUIElement *pBar = pDeadUnitsSB->AddBar();		//bar íåâèäèìûé
+		IUIElement *pBar = pDeadUnitsSB->AddBar();		//bar Ð½ÐµÐ²Ð¸Ð´Ð¸Ð¼Ñ‹Ð¹
 		IMissionStatistics * pStat = pPlayerInfo->GetMissionStats();
 		const int nNumKIA = pStat->GetNumKIA();
 		for ( int i = 0; i < nNumKIA; ++i )

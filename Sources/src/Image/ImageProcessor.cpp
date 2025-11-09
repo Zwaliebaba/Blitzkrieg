@@ -370,7 +370,7 @@ IImage* CImageProcessor::CreateGammaCorrection( IImage *pSrc, float fBrightness,
   fGamma = Clamp( fGamma, -1.0f, 1.0f ) * 0.5f;
   // calculate equation params for Y = A*X + B
   // contrast: a*x + b
-  // если contrast < 0, то a = 1/a (наклон <45 градусов)
+  // РµСЃР»Рё contrast < 0, С‚Рѕ a = 1/a (РЅР°РєР»РѕРЅ <45 РіСЂР°РґСѓСЃРѕРІ)
   float fA = 1.0f + 4.0f*fabs( fContrast );
   if ( fContrast < 0 )
     fA = 1.0f / fA;

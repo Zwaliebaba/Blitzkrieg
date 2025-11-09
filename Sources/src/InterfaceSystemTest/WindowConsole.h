@@ -32,8 +32,8 @@ class CWindowConsole : public CWindow
 
 	typedef std::vector<std::wstring> CVectorOfStrings;
 	typedef std::vector<SColorString> CVectorOfColorStrings;
-	CVectorOfColorStrings vectorOfStrings;		//все строчки в консоли
-	CVectorOfStrings vectorOfCommands;				//выполненные команды в консоли, для выбора предыдущих команд по стрелочкам вверх/вниз
+	CVectorOfColorStrings vectorOfStrings;		//РІСЃРµ СЃС‚СЂРѕС‡РєРё РІ РєРѕРЅСЃРѕР»Рё
+	CVectorOfStrings vectorOfCommands;				//РІС‹РїРѕР»РЅРµРЅРЅС‹Рµ РєРѕРјР°РЅРґС‹ РІ РєРѕРЅСЃРѕР»Рё, РґР»СЏ РІС‹Р±РѕСЂР° РїСЂРµРґС‹РґСѓС‰РёС… РєРѕРјР°РЅРґ РїРѕ СЃС‚СЂРµР»РѕС‡РєР°Рј РІРІРµСЂС…/РІРЅРёР·
 
 	typedef std::hash_set<std::string> CConsoleFunctions;
 	CConsoleFunctions consoleFunctions;
@@ -41,10 +41,10 @@ class CWindowConsole : public CWindow
 	CNCPtr<CWindowEditLine> pEditLine;
 
 	NTimer::STime currTime;
-	int nCursorPos;							//позиция курсора в текущей редактируемой строке
-	int nBeginString;						//начальная отображаемая строка из списка строк
-															//0 считается самой свежей строчкой
-	int nBeginCommand;					//текущая команда из лога команд
+	int nCursorPos;							//РїРѕР·РёС†РёСЏ РєСѓСЂСЃРѕСЂР° РІ С‚РµРєСѓС‰РµР№ СЂРµРґР°РєС‚РёСЂСѓРµРјРѕР№ СЃС‚СЂРѕРєРµ
+	int nBeginString;						//РЅР°С‡Р°Р»СЊРЅР°СЏ РѕС‚РѕР±СЂР°Р¶Р°РµРјР°СЏ СЃС‚СЂРѕРєР° РёР· СЃРїРёСЃРєР° СЃС‚СЂРѕРє
+															//0 СЃС‡РёС‚Р°РµС‚СЃСЏ СЃР°РјРѕР№ СЃРІРµР¶РµР№ СЃС‚СЂРѕС‡РєРѕР№
+	int nBeginCommand;					//С‚РµРєСѓС‰Р°СЏ РєРѕРјР°РЅРґР° РёР· Р»РѕРіР° РєРѕРјР°РЅРґ
 	bool bCanLaunchEffect;									// console is notified about open effect finish.
 	DWORD dwColor;
 
@@ -52,7 +52,7 @@ class CWindowConsole : public CWindow
 	void RegisteMessageSinks();
 	void UnRegisteMessageSinks();
 
-	//это дело вызывается после считывания новой комманды из буфера
+	//СЌС‚Рѕ РґРµР»Рѕ РІС‹Р·С‹РІР°РµС‚СЃСЏ РїРѕСЃР»Рµ СЃС‡РёС‚С‹РІР°РЅРёСЏ РЅРѕРІРѕР№ РєРѕРјРјР°РЅРґС‹ РёР· Р±СѓС„РµСЂР°
 	void ParseCommand( const std::wstring &szCommand );
 public:
 	CWindowConsole() : currTime( 0 ), bCanLaunchEffect( true ), nBeginCommand( 0 ),

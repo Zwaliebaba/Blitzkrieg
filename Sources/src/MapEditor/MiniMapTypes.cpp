@@ -341,7 +341,7 @@ void CMiniMapTerrain::UpdateColor()
 				const STerrainInfo &rTerrainInfo = dynamic_cast<ITerrainEditor*>( pTerrain )->GetTerrainInfo();
 				const STilesetDesc &rTilesetDesc = dynamic_cast<ITerrainEditor*>( pTerrain )->GetTilesetDesc();
 				
-				//загружаем картинку в память:
+				//Р·Р°РіСЂСѓР¶Р°РµРј РєР°СЂС‚РёРЅРєСѓ РІ РїР°РјСЏС‚СЊ:
 				//rTerrainInfo.szTilesetDesc;
 				IImageProcessor *pImageProcessor = GetImageProcessor();
 				IDataStorage *pStorage = GetSingleton<IDataStorage>();

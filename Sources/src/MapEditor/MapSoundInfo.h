@@ -13,7 +13,7 @@
 class CTemplateEditorFrame;
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//коллекционер обьектов
+//РєРѕР»Р»РµРєС†РёРѕРЅРµСЂ РѕР±СЊРµРєС‚РѕРІ
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class CMSHelper
 {
@@ -34,25 +34,25 @@ typedef std::vector<CMutableMapSoundInfo> TMutableMapSoundInfoVector;
 
 class CMutableMapSoundInfo : public CMapSoundInfo
 {
-	//Внутренние константы
+	//Р’РЅСѓС‚СЂРµРЅРЅРёРµ РєРѕРЅСЃС‚Р°РЅС‚С‹
 	
-	//Перевод из предка в потомок и обратно
+	//РџРµСЂРµРІРѕРґ РёР· РїСЂРµРґРєР° РІ РїРѕС‚РѕРјРѕРє Рё РѕР±СЂР°С‚РЅРѕ
 	void MutateTo() {}
 	void MutateFrom() {}
 
 public:	
 	friend class CMapSoundInfoManipulator;
 
-	//Внутренние переменные
+	//Р’РЅСѓС‚СЂРµРЅРЅРёРµ РїРµСЂРµРјРµРЅРЅС‹Рµ
 	CPtr<IVisObj> pVisObj;
 
-	//Конструкторы и операторы преобразования
+	//РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂС‹ Рё РѕРїРµСЂР°С‚РѕСЂС‹ РїСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёСЏ
 	CMutableMapSoundInfo() { MutateTo(); }
 	CMutableMapSoundInfo( const CMapSoundInfo &rMapSoundInfo )
 		:	CMapSoundInfo( rMapSoundInfo ) { MutateTo(); }
 	CMapSoundInfo& Mutate() { MutateFrom(); return *this; }
 
-	//Манипулятор
+	//РњР°РЅРёРїСѓР»СЏС‚РѕСЂ
 	virtual IManipulator* GetManipulator();
 };
 

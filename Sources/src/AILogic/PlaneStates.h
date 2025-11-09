@@ -55,31 +55,31 @@ public:
 };
 class CPlaneDeffensiveFireShootEstimator;
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// стрельба из бортовых стрелковых установок
+// СЃС‚СЂРµР»СЊР±Р° РёР· Р±РѕСЂС‚РѕРІС‹С… СЃС‚СЂРµР»РєРѕРІС‹С… СѓСЃС‚Р°РЅРѕРІРѕРє
 class CPlaneDeffensiveFire
 {
 	DECLARE_SERIALIZE;
 	
 	class CAviation *pOwner;
-	NTimer::STime timeLastBSUUpdate;			// для поведения бортовых стрелковых установок
+	NTimer::STime timeLastBSUUpdate;			// РґР»СЏ РїРѕРІРµРґРµРЅРёСЏ Р±РѕСЂС‚РѕРІС‹С… СЃС‚СЂРµР»РєРѕРІС‹С… СѓСЃС‚Р°РЅРѕРІРѕРє
 
 	CPtr<CPlaneDeffensiveFireShootEstimator> pShootEstimator;
 	CDamageToEnemyUpdater damageUpdater;
 protected:
-		// проверить врагов и начать отстреливаться
+		// РїСЂРѕРІРµСЂРёС‚СЊ РІСЂР°РіРѕРІ Рё РЅР°С‡Р°С‚СЊ РѕС‚СЃС‚СЂРµР»РёРІР°С‚СЊСЃСЏ
 	void AnalyzeBSU();
 	CPlaneDeffensiveFire() : pOwner( 0 ), timeLastBSUUpdate( 0 ) {}
 	CPlaneDeffensiveFire( class CAviation *pPlane );
 };
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// переход из точти в точку
+// РїРµСЂРµС…РѕРґ РёР· С‚РѕС‡С‚Рё РІ С‚РѕС‡РєСѓ
 class CPlanePatrolState : public IUnitAttackingState
 {
 	DECLARE_SERIALIZE;
 	
 protected:
-  std::vector<CVec2> vPatrolPoints;			// набор точек патрулирования
-	int								 nCurPointIndex;		// текущая точка патрулирования
+  std::vector<CVec2> vPatrolPoints;			// РЅР°Р±РѕСЂ С‚РѕС‡РµРє РїР°С‚СЂСѓР»РёСЂРѕРІР°РЅРёСЏ
+	int								 nCurPointIndex;		// С‚РµРєСѓС‰Р°СЏ С‚РѕС‡РєР° РїР°С‚СЂСѓР»РёСЂРѕРІР°РЅРёСЏ
 	class CAviation *pPlane;
 
 	const CVec2 &GetPoint() const { return vPatrolPoints[nCurPointIndex%vPatrolPoints.size()]; }
@@ -95,7 +95,7 @@ public:
 	CPlanePatrolState() : nCurPointIndex( 0 ), pPlane( 0 ) {  }
 	CPlanePatrolState( CAviation *pPlane, const CVec2 &point );
 	int GetNPoints() const { return vPatrolPoints.size(); }
-	// для добавления точек патрулирования
+	// РґР»СЏ РґРѕР±Р°РІР»РµРЅРёСЏ С‚РѕС‡РµРє РїР°С‚СЂСѓР»РёСЂРѕРІР°РЅРёСЏ
 	void AddPoint( const CVec2 &vAddPoint );
 	void TakeOff() { ToTakeOffState(); } 
 	void Escape( const int /*SUCAviation::AIRCRAFT_TYPE*/ nAviaType );
@@ -172,10 +172,10 @@ class CPlaneParaDropState : public CPlanePatrolState, public CPlaneDeffensiveFir
 	EPlaneParaDropState eState;
 
 	int nSquadNumber;
-	CPtr<CFormation> pSquad; // взвод паращютистов
+	CPtr<CFormation> pSquad; // РІР·РІРѕРґ РїР°СЂР°С‰СЋС‚РёСЃС‚РѕРІ
 	int nDroppingSoldier;									// current soldier to drop
 
-	CVec2 vLastDrop;// точка, в которой выброшен последний парашютист
+	CVec2 vLastDrop;// С‚РѕС‡РєР°, РІ РєРѕС‚РѕСЂРѕР№ РІС‹Р±СЂРѕС€РµРЅ РїРѕСЃР»РµРґРЅРёР№ РїР°СЂР°С€СЋС‚РёСЃС‚
 	//true if some tiles around drop site are unlocked.
 	bool CanDrop( const CVec2 & point );
 protected:
@@ -222,7 +222,7 @@ class CPlaneFighterPatrolState : public CPlanePatrolState, public CPlaneDeffensi
 
 	NTimer::STime timeOfStart;						//time of start patrolling
 	NTimer::STime timeOfLastPathUpdate;		//last update of path
-	NTimer::STime timeLastCheck;					// последняя проверка на наличие патронов
+	NTimer::STime timeLastCheck;					// РїРѕСЃР»РµРґРЅСЏСЏ РїСЂРѕРІРµСЂРєР° РЅР° РЅР°Р»РёС‡РёРµ РїР°С‚СЂРѕРЅРѕРІ
 
 	void TryInitPathToEnemie( bool isEnemieNew = false );
 	void TryInitPathToPoint( const CVec3 & v, bool isNewPoint=false );
@@ -256,13 +256,13 @@ class CPlaneShturmovikPatrolState : public CPlanePatrolState, public CPlaneDeffe
 	OBJECT_COMPLETE_METHODS( CPlaneShturmovikPatrolState );
 	DECLARE_SERIALIZE;	
 
-	// для определения нужно ли кидать бомбы
+	// РґР»СЏ РѕРїСЂРµРґРµР»РµРЅРёСЏ РЅСѓР¶РЅРѕ Р»Рё РєРёРґР°С‚СЊ Р±РѕРјР±С‹
 	class CBombEstimator
 	{
 		bool bFire;
 		int nMechUnits, nInfantry;
-		float fDamage;											// повреждения от одной бомбы
-		float fDisp;												// круг в котором должны оказаться юниты
+		float fDamage;											// РїРѕРІСЂРµР¶РґРµРЅРёСЏ РѕС‚ РѕРґРЅРѕР№ Р±РѕРјР±С‹
+		float fDisp;												// РєСЂСѓРі РІ РєРѕС‚РѕСЂРѕРј РґРѕР»Р¶РЅС‹ РѕРєР°Р·Р°С‚СЊСЃСЏ СЋРЅРёС‚С‹
 		const CVec2 vCenter;								
 		const float fFlyTime;
 	public:
@@ -324,7 +324,7 @@ class CPlaneShturmovikPatrolState : public CPlanePatrolState, public CPlaneDeffe
 	};
 
 	EPlaneShturmovikPatrolState eState;
-	CVec3 vCurTargetPoint;								// точка, куда направляется самолет
+	CVec3 vCurTargetPoint;								// С‚РѕС‡РєР°, РєСѓРґР° РЅР°РїСЂР°РІР»СЏРµС‚СЃСЏ СЃР°РјРѕР»РµС‚
 
 	CPtr<CPlaneShturmovikShootEstimator> pShootEstimator;
 
@@ -336,18 +336,18 @@ class CPlaneShturmovikPatrolState : public CPlanePatrolState, public CPlaneDeffe
 	
 	NTimer::STime timeOfStart;						// time of start patrolling
 	NTimer::STime timeOfLastPathUpdate;		// last update of path
-	NTimer::STime timeLastCheck ;					// проверка на наличие патронов
+	NTimer::STime timeLastCheck ;					// РїСЂРѕРІРµСЂРєР° РЅР° РЅР°Р»РёС‡РёРµ РїР°С‚СЂРѕРЅРѕРІ
 
-	float fStartAttackDist;								// дистанция для начала пикирования
-	float fFinishAttckDist;								// дистанция выхода из атаки
-	float fTurnRadius;										// радиус поворота штурмовика
+	float fStartAttackDist;								// РґРёСЃС‚Р°РЅС†РёСЏ РґР»СЏ РЅР°С‡Р°Р»Р° РїРёРєРёСЂРѕРІР°РЅРёСЏ
+	float fFinishAttckDist;								// РґРёСЃС‚Р°РЅС†РёСЏ РІС‹С…РѕРґР° РёР· Р°С‚Р°РєРё
+	float fTurnRadius;										// СЂР°РґРёСѓСЃ РїРѕРІРѕСЂРѕС‚Р° С€С‚СѓСЂРјРѕРІРёРєР°
 	enum EGunplaneCalledAs eCalledAs;					// 
 
 	void TryInitPathToEnemie();
 	void TryInitPathToPoint( const CVec3 & v, bool isNewPoint = false );
 	bool FindNewEnemie();
 
-	// выбери лучшее
+	// РІС‹Р±РµСЂРё Р»СѓС‡С€РµРµ
 	CAIUnit* FindEnemyInPossibleDiveSector();
 	CAIUnit* FindEnemyInFiringSector();
 
@@ -439,7 +439,7 @@ public:
 	friend class CStaticMembers;
 };
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// смерть самолета.
+// СЃРјРµСЂС‚СЊ СЃР°РјРѕР»РµС‚Р°.
 class CPlaneFlyDeadState : public IUnitState
 {
 	OBJECT_COMPLETE_METHODS( CPlaneFlyDeadState );
@@ -463,7 +463,7 @@ class CPlaneFlyDeadState : public IUnitState
 		bool IsInZone( const CVec2 &vPoint );
 		void AdjustEscapePoint( CVec2 * pPoint );
 	};
-	CDeadZone deadZone;											// вне зтого rect умирают самолеты
+	CDeadZone deadZone;											// РІРЅРµ Р·С‚РѕРіРѕ rect СѓРјРёСЂР°СЋС‚ СЃР°РјРѕР»РµС‚С‹
 
 	class CAviation *pPlane;
 	float fHeight;

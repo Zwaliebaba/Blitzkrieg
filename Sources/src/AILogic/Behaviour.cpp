@@ -57,7 +57,7 @@ void CShootEstimatorLighAA::AddUnit( CAIUnit *pTarget )
 		if ( pGun != 0 && ( !pGun->CanShootByHeight( pTarget ) || !pGun->CanBreakArmor( pTarget ) ) ) return;
 		
 		CBasicGun *pChosenGun = pGun;
-		// gun íå çàäàí, íóæíî åãî âûáðàòü è íàéòè âðåìÿ äëÿ óáèåíèÿ âðàãà
+		// gun Ð½Ðµ Ð·Ð°Ð´Ð°Ð½, Ð½ÑƒÐ¶Ð½Ð¾ ÐµÐ³Ð¾ Ð²Ñ‹Ð±Ñ€Ð°Ñ‚ÑŒ Ð¸ Ð½Ð°Ð¹Ñ‚Ð¸ Ð²Ñ€ÐµÐ¼Ñ Ð´Ð»Ñ ÑƒÐ±Ð¸ÐµÐ½Ð¸Ñ Ð²Ñ€Ð°Ð³Ð°
 		if ( pChosenGun == 0 )
 		{
 			int i = 0;
@@ -65,7 +65,7 @@ void CShootEstimatorLighAA::AddUnit( CAIUnit *pTarget )
 				++i;
 			if ( i >= pUnit->GetNGuns() )
 				return;
-			//CRAP{ ñ÷èòàåì, ÷òî ó çåíèòîê 1 ïóøêà
+			//CRAP{ ÑÑ‡Ð¸Ñ‚Ð°ÐµÐ¼, Ñ‡Ñ‚Ð¾ Ñƒ Ð·ÐµÐ½Ð¸Ñ‚Ð¾Ðº 1 Ð¿ÑƒÑˆÐºÐ°
 			pChosenGun = pUnit->GetGun( i );
 			//CRAP}
 		}
@@ -74,7 +74,7 @@ void CShootEstimatorLighAA::AddUnit( CAIUnit *pTarget )
 		const float fDistance = fabs2( pUnit->GetCenter() - pTarget->GetCenter() );
 		const float fDamage = pTarget->GetMaxDamage( pUnit );
 		
-		//åãî ìîæíî ïðîñòðåëèòü
+		//ÐµÐ³Ð¾ Ð¼Ð¾Ð¶Ð½Ð¾ Ð¿Ñ€Ð¾ÑÑ‚Ñ€ÐµÐ»Ð¸Ñ‚ÑŒ
 		if ( pChosenGun != 0 )
 		{
 			static NTimer::STime timeToShoot = DirsDifference( GetDirectionByVector( pTarget->GetCenter() - pUnit->GetCenter() ), pChosenGun->GetGlobalDir() );
@@ -89,10 +89,10 @@ void CShootEstimatorLighAA::AddUnit( CAIUnit *pTarget )
 			}
 			else
 			{
-				// îí ìîæåò íàíåñòè áîëüøèé damage 
-				// èëè ìîæåò ñòðåëÿòü (èñõîäÿ èç äèñòàíöèè)
-				// èëè îí íàíåñ¸ò òàêîé æå damage, íî åãî áûñòðåå ïðèñòðåëèòü
-				// èëè damage è âðåìÿ ñîâïàäàþò, íî îí áëèæå
+				// Ð¾Ð½ Ð¼Ð¾Ð¶ÐµÑ‚ Ð½Ð°Ð½ÐµÑÑ‚Ð¸ Ð±Ð¾Ð»ÑŒÑˆÐ¸Ð¹ damage 
+				// Ð¸Ð»Ð¸ Ð¼Ð¾Ð¶ÐµÑ‚ ÑÑ‚Ñ€ÐµÐ»ÑÑ‚ÑŒ (Ð¸ÑÑ…Ð¾Ð´Ñ Ð¸Ð· Ð´Ð¸ÑÑ‚Ð°Ð½Ñ†Ð¸Ð¸)
+				// Ð¸Ð»Ð¸ Ð¾Ð½ Ð½Ð°Ð½ÐµÑÑ‘Ñ‚ Ñ‚Ð°ÐºÐ¾Ð¹ Ð¶Ðµ damage, Ð½Ð¾ ÐµÐ³Ð¾ Ð±Ñ‹ÑÑ‚Ñ€ÐµÐµ Ð¿Ñ€Ð¸ÑÑ‚Ñ€ÐµÐ»Ð¸Ñ‚ÑŒ
+				// Ð¸Ð»Ð¸ damage Ð¸ Ð²Ñ€ÐµÐ¼Ñ ÑÐ¾Ð²Ð¿Ð°Ð´Ð°ÑŽÑ‚, Ð½Ð¾ Ð¾Ð½ Ð±Ð»Ð¸Ð¶Ðµ
 				if (	fDamage > fWorstDamage ||
 							fDamage == fWorstDamage && bCanShoot && !bCanShootNow ||
 							fDamage == fWorstDamage && bCanShoot == bCanShootNow && bestTime > timeToShoot ||
@@ -135,14 +135,14 @@ void CStandartBehaviour::UponFire( class CCommonUnit *pUnit, class CAIUnit *pWho
 	if ( IsValidObj( pWho ) )
 	{
 		SBehaviour &beh = pUnit->GetBehaviour();
-		// åñëè return fire
+		// ÐµÑÐ»Ð¸ return fire
 		if ( beh.fire == SBehaviour::EFReturn )
 		{
-			// åñëè ñâîáîäíîå áëóæäàíèå èëè íåò êîìàíä è íå íóæíî äåðæàòü ïîçèöèþ è â ðàäèóñå âèäèìîñòè
+			// ÐµÑÐ»Ð¸ ÑÐ²Ð¾Ð±Ð¾Ð´Ð½Ð¾Ðµ Ð±Ð»ÑƒÐ¶Ð´Ð°Ð½Ð¸Ðµ Ð¸Ð»Ð¸ Ð½ÐµÑ‚ ÐºÐ¾Ð¼Ð°Ð½Ð´ Ð¸ Ð½Ðµ Ð½ÑƒÐ¶Ð½Ð¾ Ð´ÐµÑ€Ð¶Ð°Ñ‚ÑŒ Ð¿Ð¾Ð·Ð¸Ñ†Ð¸ÑŽ Ð¸ Ð² Ñ€Ð°Ð´Ð¸ÑƒÑÐµ Ð²Ð¸Ð´Ð¸Ð¼Ð¾ÑÑ‚Ð¸
 			if ( ( beh.moving == SBehaviour::EMRoaming ) || ( pCommand == 0 && beh.moving != SBehaviour::EMHoldPos )
 					 && pWho->IsVisible( pUnit->GetParty() ) && pUnit->InVisSector( pWho) )
 				theGroupLogic.InsertUnitCommand( SAIUnitCmd( ACTION_COMMAND_ATTACK_UNIT, pWho ), pUnit, true );
-			// åñëè follow the path è â ðàäèóñå îãíÿ
+			// ÐµÑÐ»Ð¸ follow the path Ð¸ Ð² Ñ€Ð°Ð´Ð¸ÑƒÑÐµ Ð¾Ð³Ð½Ñ
 			if ( beh.moving == SBehaviour::EMFollow && pUnit->InFireRange( pWho ) )
 				theGroupLogic.InsertUnitCommand( SAIUnitCmd( ACTION_COMMAND_ATTACK_UNIT, pWho ), pUnit, true );
 		}
@@ -236,7 +236,7 @@ void CStandartBehaviour::AnalyzeUnderFire( CAIUnit *pUnit )
 			 if ( ( theHitsStore.WasHit( pUnit->GetCenter(), 2 * SConsts::RADIUS_OF_HIT_NOTIFY, CHitsStore::EHT_ANY ) ||
 							lastTimeOfRotate != NTimer::STime( -1 ) && curTime - lastTimeOfRotate < 10000 + Random( 0, 10 * SConsts::AI_SEGMENT_DURATION ) ) )
 				{
-					// åñëè òàíê ñ ïåðåáèòîé ãóñåíèöåé èëè çåíèòêà
+					// ÐµÑÐ»Ð¸ Ñ‚Ð°Ð½Ðº Ñ Ð¿ÐµÑ€ÐµÐ±Ð¸Ñ‚Ð¾Ð¹ Ð³ÑƒÑÐµÐ½Ð¸Ñ†ÐµÐ¹ Ð¸Ð»Ð¸ Ð·ÐµÐ½Ð¸Ñ‚ÐºÐ°
 					if ( pUnit->GetTurret( 0 )->GetHorTurnConstraint() != 0 && 
 							( !pUnit->CanMove() && pUnit->GetStats()->IsArmor() || pUnit->GetStats()->type == RPG_TYPE_ART_AAGUN ) 
 						 )

@@ -57,7 +57,7 @@ DWORD CMultiTree::GetItemData(HTREEITEM hItem) const
 	return pItem->GetData();
 }
 
-//																		ïîêà ïðîñòûå òèïû
+//																		Ð¿Ð¾ÐºÐ° Ð¿Ñ€Ð¾ÑÑ‚Ñ‹Ðµ Ñ‚Ð¸Ð¿Ñ‹
 HTREEITEM CMultiTree::InsertItem(LPCTSTR lpszItem, HTREEITEM hParent, HTREEITEM hInsertAfter)
 {
 	ITreeItem *pItem = new CSTreeItem;
@@ -185,7 +185,7 @@ void CMultiTree::OnPaint()
 
 	HTREEITEM hItem = GetFirstVisibleItem();
 	int n = GetVisibleCount();
-	// ìî÷èì âñå ÷òî ïîñëå ïåðâîé êîëîíêè
+	// Ð¼Ð¾Ñ‡Ð¸Ð¼ Ð²ÑÐµ Ñ‡Ñ‚Ð¾ Ð¿Ð¾ÑÐ»Ðµ Ð¿ÐµÑ€Ð²Ð¾Ð¹ ÐºÐ¾Ð»Ð¾Ð½ÐºÐ¸
 	dc.FillSolidRect(GetColumnWidth(0),0,rcClient.Width(),rcClient.Height(),m_wndColor);
 	
 	CFont *pFontDC;
@@ -239,10 +239,10 @@ void CMultiTree::OnPaint()
 				rect.left = m_labelRect.left;
 			rect.right = GetFullWidth();
 			
-			// ïå÷àòàåì îáû÷íûé òåêñò  ñëåâà
+			// Ð¿ÐµÑ‡Ð°Ñ‚Ð°ÐµÐ¼ Ð¾Ð±Ñ‹Ñ‡Ð½Ñ‹Ð¹ Ñ‚ÐµÐºÑÑ‚  ÑÐ»ÐµÐ²Ð°
 			DrawItemText(&dc, sItem, CRect(rect.left+2, rect.top, GetColumnWidth(0), rect.bottom), GetColumnWidth(0)-rect.left-2, LVCFMT_LEFT );
 
-			// ïå÷àòàåì îáû÷íûé òåêñò  äëÿ propertie
+			// Ð¿ÐµÑ‡Ð°Ñ‚Ð°ÐµÐ¼ Ð¾Ð±Ñ‹Ñ‡Ð½Ñ‹Ð¹ Ñ‚ÐµÐºÑÑ‚  Ð´Ð»Ñ propertie
 			if ( pItem )
 			{
 				sItem = pItem->GetNormalProperty() != "" ? pItem->GetNormalProperty() .c_str() : "";
@@ -250,7 +250,7 @@ void CMultiTree::OnPaint()
 			DrawItemText(&dc, sItem, CRect(GetColumnWidth(0) + 2, rect.top, GetColumnWidth(1) + GetColumnWidth(0), rect.bottom), GetColumnWidth(1) - 2, LVCFMT_LEFT );
 			
 			itemHeight = rect.Height();
-			// âîññòàíîâèì øðèôò
+			// Ð²Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð¸Ð¼ ÑˆÑ€Ð¸Ñ„Ñ‚
 			if ( pItem )
 			{
 				if( pItem->ifBold() )
@@ -301,7 +301,7 @@ void CMultiTree::OnPaint()
 			rect.right = GetFullWidth();
 
 			DrawItemText(&dc, sItem, CRect(rect.left+2, rect.top, GetColumnWidth(0), rect.bottom), GetColumnWidth(0)-rect.left-2, LVCFMT_LEFT );
-			// ïå÷àòàåì îáû÷íûé òåêñò  äëÿ propertie
+			// Ð¿ÐµÑ‡Ð°Ñ‚Ð°ÐµÐ¼ Ð¾Ð±Ñ‹Ñ‡Ð½Ñ‹Ð¹ Ñ‚ÐµÐºÑÑ‚  Ð´Ð»Ñ propertie
 			if ( pItem )
 			{
 				sItem = pItem->GetNormalProperty() != "" ? pItem->GetNormalProperty() .c_str() : "";
@@ -310,7 +310,7 @@ void CMultiTree::OnPaint()
 
 			itemHeight = rect.Height();
 
-			// âîññòàíîâèì øðèôò
+			// Ð²Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð¸Ð¼ ÑˆÑ€Ð¸Ñ„Ñ‚
 			if ( pItem )
 			{
 				if(pItem->ifBold())
@@ -370,7 +370,7 @@ void CMultiTree::DrawItemText (CDC* pDC, CString &text, CRect &rect, int nWidth,
     bool  bNeedDots = false;
     int nMaxWidth = nWidth - 4;
 
-		//åñëè íå ìîæåì ïîêàçàòü ïîëíîñòüþ âåòî÷êó òî åå îáðóáàåì 
+		//ÐµÑÐ»Ð¸ Ð½Ðµ Ð¼Ð¾Ð¶ÐµÐ¼ Ð¿Ð¾ÐºÐ°Ð·Ð°Ñ‚ÑŒ Ð¿Ð¾Ð»Ð½Ð¾ÑÑ‚ÑŒÑŽ Ð²ÐµÑ‚Ð¾Ñ‡ÐºÑƒ Ñ‚Ð¾ ÐµÐµ Ð¾Ð±Ñ€ÑƒÐ±Ð°ÐµÐ¼ 
     while ((text.GetLength()>0) && (pDC->GetTextExtent((LPCTSTR) text).cx > (nMaxWidth - 4))) 
 		{
         text = text.Left (text.GetLength () - 1);

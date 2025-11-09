@@ -35,16 +35,16 @@ class CObjectPlacerState : public IInputState
 		//
 		void CalculateShiftsForMultiSelect( CTemplateEditorFrame *frame, const CVec3 &center = VNULL3, const CVec3 &rShift = VNULL3 );
 		
-		// В зависимости от текущих и входных параметров инициализируем m_currentMovingObjectsAI,
+		// Р’ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ С‚РµРєСѓС‰РёС… Рё РІС…РѕРґРЅС‹С… РїР°СЂР°РјРµС‚СЂРѕРІ РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј m_currentMovingObjectsAI,
 		// m_shiftsForMovingObjectsAI,m_currentMovingObjectAI
 		void CalculateObjectSelection(   std::vector< struct SMapObject*> &objects, CTemplateEditorFrame *frame, const CVec3 &center = VNULL3, bool bSquad = false );
 
-		//  GetObjectsSelection - смотрит какие объекты надо выделить ( т.е если кто то попался из 
-		// взвода то м\надо включить всех )
+		//  GetObjectsSelection - СЃРјРѕС‚СЂРёС‚ РєР°РєРёРµ РѕР±СЉРµРєС‚С‹ РЅР°РґРѕ РІС‹РґРµР»РёС‚СЊ ( С‚.Рµ РµСЃР»Рё РєС‚Рѕ С‚Рѕ РїРѕРїР°Р»СЃСЏ РёР· 
+		// РІР·РІРѕРґР° С‚Рѕ Рј\РЅР°РґРѕ РІРєР»СЋС‡РёС‚СЊ РІСЃРµС… )
 		std::vector<SMapObject*> 	GetObjectsSelection(   std::vector< struct SMapObject*> &objects, CTemplateEditorFrame *frame, bool *pbSquad = 0 );
 		std::vector<SMapObject*>	GetObjectsSelection(  SMapObject* object, CTemplateEditorFrame *frame, bool *pbSquad = 0 );
 
-		// смотрит если в  objects такие элементы которые уже были выделены - если да то моит их  
+		// СЃРјРѕС‚СЂРёС‚ РµСЃР»Рё РІ  objects С‚Р°РєРёРµ СЌР»РµРјРµРЅС‚С‹ РєРѕС‚РѕСЂС‹Рµ СѓР¶Рµ Р±С‹Р»Рё РІС‹РґРµР»РµРЅС‹ - РµСЃР»Рё РґР° С‚Рѕ РјРѕРёС‚ РёС…  
 		void											FilterObjects( std::vector< struct SMapObject*> &objects, CTemplateEditorFrame *frame )	;
   
 		void ClearAllSelection( CTemplateEditorFrame * );

@@ -123,7 +123,7 @@ public:
 		: wGroupID( _wGroupID ), nAreaType( _nAreaType ), bShow( _bShow ) {  }
 	//
 	virtual void Execute( IAILogic *pAILogic );
-	// этот класс не должен пересылать данные по сети!!!
+	// СЌС‚РѕС‚ РєР»Р°СЃСЃ РЅРµ РґРѕР»Р¶РµРЅ РїРµСЂРµСЃС‹Р»Р°С‚СЊ РґР°РЅРЅС‹Рµ РїРѕ СЃРµС‚Рё!!!
 	virtual void Store( IDataStream *pStream ) {  }
 	virtual void Restore( IDataStream *pStream ) {  }
 	//
@@ -143,7 +143,7 @@ private:
 	int nPlayer;
 	uLong ulCheckSum;
 
-	// не сэйвится!
+	// РЅРµ СЃСЌР№РІРёС‚СЃСЏ!
 	static std::vector< std::list<uLong> > checkSums;
 public:	
 	static WORD wMask;
@@ -183,7 +183,7 @@ public:
 	//
 	virtual void Store( IDataStream *pStream );
 	virtual void Restore( IDataStream *pStream );
-	// нужно ли сохранять в истории команд
+	// РЅСѓР¶РЅРѕ Р»Рё СЃРѕС…СЂР°РЅСЏС‚СЊ РІ РёСЃС‚РѕСЂРёРё РєРѕРјР°РЅРґ
 	virtual bool NeedToBeStored() const { return true; }
 
 	// to serialize it in XML

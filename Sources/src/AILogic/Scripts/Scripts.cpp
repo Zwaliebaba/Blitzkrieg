@@ -122,7 +122,7 @@ bool CScripts::ReadScriptFile()
 		if ( pStream )
 		{
 			int nSize = pStream->GetSize();
-			// +10 на всякий случай
+			// +10 РЅР° РІСЃВ¤РєРёР№ СЃР»СѓС‡Р°Р№
 			std::vector<char> buffer( nSize + 10 );
 			pStream->Read( &(buffer[0]), nSize );
 
@@ -320,7 +320,7 @@ void CScripts::LandSuspendedReiforcements()
 //								if ( !CanLand( candreinforcsIter->mapObject, pIDB ) )
 								{
 									bCanLand = false;
-									// не влияет на внешнее итерирование, т.к. здесь только объекты, которые куда-нибудь цепляются
+									// РЅРµ РІР»РёВ¤РµС‚ РЅР° РІРЅРµС€РЅРµРµ РёС‚РµСЂРёСЂРѕРІР°РЅРёРµ, С‚.Рє. Р·РґРµСЃСЊ С‚РѕР»СЊРєРѕ РѕР±СЉРµРєС‚С‹, РєРѕС‚РѕСЂС‹Рµ РєСѓРґР°-РЅРёР±СѓРґСЊ С†РµРїР»В¤СЋС‚СЃВ¤
 									suspendedReinforcs.splice( suspendedReinforcs.begin(), candObjects );
 									break;
 								}
@@ -328,7 +328,7 @@ void CScripts::LandSuspendedReiforcements()
 								{
 									candidates.insert( nLinkID );
 									CReinfList::iterator oldIter = candreinforcsIter++;
-									// не влияет на внешнее итерирование, т.к. здесь только объекты, которые куда-нибудь цепляются
+									// РЅРµ РІР»РёВ¤РµС‚ РЅР° РІРЅРµС€РЅРµРµ РёС‚РµСЂРёСЂРѕРІР°РЅРёРµ, С‚.Рє. Р·РґРµСЃСЊ С‚РѕР»СЊРєРѕ РѕР±СЉРµРєС‚С‹, РєРѕС‚РѕСЂС‹Рµ РєСѓРґР°-РЅРёР±СѓРґСЊ С†РµРїР»В¤СЋС‚СЃВ¤
 									candObjects.splice( candObjects.begin(), suspendedReinforcs, oldIter );
 									bAdded = true;
 								}
@@ -385,7 +385,7 @@ void CScripts::Segment()
 			const std::string name = segmIter->second.szName;
 			
 			const int nRef = segmIter->first;
-			// для корректного удаления скриптов
+			// РґР»В¤ РєРѕСЂСЂРµРєС‚РЅРѕРіРѕ СѓРґР°Р»РµРЅРёВ¤ СЃРєСЂРёРїС‚РѕРІ
 			++segmIter;
 
 			script.GetRef( nRef );
@@ -807,7 +807,7 @@ void CScripts::LandReinforcementWithoutLandCheck( CReinfList *pReinf, const CVec
 
 	LinkInfo linksInfo;
 	CReinfList transports;
-	// поставить все не грузовики
+	// РїРѕСЃС‚Р°РІРёС‚СЊ РІСЃРµ РЅРµ РіСЂСѓР·РѕРІРёРєРё
 	for ( CReinfList::iterator iter = pReinf->begin(); iter != pReinf->end(); ++iter )
 	{
 		const IGDBObject *pObject = NGDB::GetRPGStats<IGDBObject>( iter->mapObject.szName.c_str() );
@@ -832,7 +832,7 @@ void CScripts::LandReinforcementWithoutLandCheck( CReinfList *pReinf, const CVec
 			transports.push_back( *iter );
 	}
 
-	// поставить все грузовики
+	// РїРѕСЃС‚Р°РІРёС‚СЊ РІСЃРµ РіСЂСѓР·РѕРІРёРєРё
 	for ( CReinfList::iterator iter = transports.begin(); iter != transports.end(); ++iter )
 	{
 		iter->mapObject.vPos += CVec3( vShift, 0.0f );
@@ -938,7 +938,7 @@ int CScripts::LandReinforcement( struct lua_State *state )
 		playersOfReinforcement >>= 1;
 	}
 	
-	// попытаться высадить все подкрепления
+	// РїРѕРїС‹С‚Р°С‚СЊСЃВ¤ РІС‹СЃР°РґРёС‚СЊ РІСЃРµ РїРѕРґРєСЂРµРїР»РµРЅРёВ¤
 	if ( pScripts->lastTimeToCheckSuspendedReinforcs != curTime )
 	{
 		pScripts->lastTimeToCheckSuspendedReinforcs = 0;
@@ -1005,7 +1005,7 @@ int CScripts::ProcessCommand( struct lua_State *state, const bool bPlaceInQueue 
 	int nGroup = -1;
 	bool bAviationCallCommand = false;
 	std::list< std::pair<CCommonUnit*, int> > oldUnitsGroups;
-	// команда с адресатом
+	// РєРѕРјР°РЅРґР° СЃ Р°РґСЂРµСЃР°С‚РѕРј
 	if ( scriptId != -1 && pScripts->groups.find( scriptId ) != pScripts->groups.end() )
 	{
 		//CHECK_ERROR( pScripts->groups.find( scriptId ) != pScripts->groups.end(), NStr::Format( "GiveCommand: wrong script id, %d", scriptId ), 0 );
@@ -1026,7 +1026,7 @@ int CScripts::ProcessCommand( struct lua_State *state, const bool bPlaceInQueue 
 		nGroup = pAILogic->GenerateGroupNumber();
 		pAILogic->RegisterGroup( pObjects, nLen, nGroup );
 	}
-	// формирование команды
+	// С„РѕСЂРјРёСЂРѕРІР°РЅРёРµ РєРѕРјР°РЅРґС‹
 	SAIUnitCmd command;
 	command.cmdType = EActionCommand( int( script.GetObject( 1 ) ) );
 	bool bValid = true;
@@ -1115,7 +1115,7 @@ int CScripts::ProcessCommand( struct lua_State *state, const bool bPlaceInQueue 
 			break;
 		case ACTION_COMMAND_LEAVE:
 			CHECK_ERROR( script.IsNumber( 3 ), "Give ACTION_COMMAND_LEAVE command : the third parameter is not an X coordinate", 0 );
-			CHECK_ERROR( script.IsNumber( 4 ), "Give ACTION_COMMAND_LEAVE сommand : the fourth parameter is not an Y coordinate", 0 );
+			CHECK_ERROR( script.IsNumber( 4 ), "Give ACTION_COMMAND_LEAVE СЃommand : the fourth parameter is not an Y coordinate", 0 );
 
 			command.vPos.x = script.GetObject( 3 );
 			command.vPos.y = script.GetObject( 4 );
@@ -1163,10 +1163,10 @@ int CScripts::ProcessCommand( struct lua_State *state, const bool bPlaceInQueue 
 				command.vPos.x = script.GetObject( 4 );
 				command.vPos.y = script.GetObject( 5 );
 				command.fNumber = 1;
-				// добавить команду Call(plane)
+				// РґРѕР±Р°РІРёС‚СЊ РєРѕРјР°РЅРґСѓ Call(plane)
 				pAILogic->UnitCommand( &command, nGroup, nPlayer );
 				
-				// если вызвались
+				// РµСЃР»Рё РІС‹Р·РІР°Р»РёСЃСЊ
 				if ( theGroupLogic.BeginGroup( nGroup ) != theGroupLogic.EndGroup() )
 				{
 					for ( int i = 6; ; i += 2 )
@@ -1190,7 +1190,7 @@ int CScripts::ProcessCommand( struct lua_State *state, const bool bPlaceInQueue 
 						pAILogic->GroupCommand( &cmd, nGroup, true );
 					}
 				}					
-				if ( scriptId != -1 ) // пробежать через все юниты и добвить их в группу
+				if ( scriptId != -1 ) // РїСЂРѕР±РµР¶Р°С‚СЊ С‡РµСЂРµР· РІСЃРµ СЋРЅРёС‚С‹ Рё РґРѕР±РІРёС‚СЊ РёС… РІ РіСЂСѓРїРїСѓ
 				{
 					for ( int i = theGroupLogic.BeginGroup( nGroup ); 
 									i != theGroupLogic.EndGroup(); i = theGroupLogic.Next( i ) )
@@ -1370,7 +1370,7 @@ int CScripts::ProcessCommand( struct lua_State *state, const bool bPlaceInQueue 
 			
 			nGroup = pAILogic->GenerateGroupNumber();
 			pAILogic->UnitCommand( &command, nGroup, nPlayer );
-			if ( scriptId != -1 ) // пробежать через все юниты и добавить их в группу
+			if ( scriptId != -1 ) // РїСЂРѕР±РµР¶Р°С‚СЊ С‡РµСЂРµР· РІСЃРµ СЋРЅРёС‚С‹ Рё РґРѕР±Р°РІРёС‚СЊ РёС… РІ РіСЂСѓРїРїСѓ
 			{
 				for ( int i = theGroupLogic.BeginGroup( nGroup ); i != theGroupLogic.EndGroup(); i = theGroupLogic.Next( i ) )
 					pScripts->AddObjToScriptGroup( theGroupLogic.GetGroupUnit( i ), scriptId );
@@ -1468,7 +1468,7 @@ int CScripts::GetNScriptUnitsInArea( struct lua_State *state )
 		int nResult = 0;
 		if ( area.eType == SScriptArea::EAT_CIRCLE ) 
 		{
-			// CRAP{ нужно объединить static objects и юниты, и избавиться от dynamic_cast
+			// CRAP{ РЅСѓР¶РЅРѕ РѕР±СЉРµРґРёРЅРёС‚СЊ static objects Рё СЋРЅРёС‚С‹, Рё РёР·Р±Р°РІРёС‚СЊСЃВ¤ РѕС‚ dynamic_cast
 			for ( std::list< CPtr<IUpdatableObj> >::iterator iter = pScripts->groups[nScriptGroup].begin(); iter != pScripts->groups[nScriptGroup].end(); ++iter )
 			{
 				if ( CFormation *pFormation = dynamic_cast_ptr<CFormation*>( *iter ) )
@@ -1494,7 +1494,7 @@ int CScripts::GetNScriptUnitsInArea( struct lua_State *state )
 		{
 			SRect areaRect;
 			areaRect.InitRect( area.center, CVec2( 1, 0 ), area.vAABBHalfSize.x, area.vAABBHalfSize.y );
-			// CRAP{ нужно объединить static objects и юниты, и избавиться от dynamic_cast
+			// CRAP{ РЅСѓР¶РЅРѕ РѕР±СЉРµРґРёРЅРёС‚СЊ static objects Рё СЋРЅРёС‚С‹, Рё РёР·Р±Р°РІРёС‚СЊСЃВ¤ РѕС‚ dynamic_cast
 			for ( std::list<CPtr<IUpdatableObj> >::iterator iter = pScripts->groups[nScriptGroup].begin(); iter != pScripts->groups[nScriptGroup].end(); ++iter )
 			{
 				if ( CFormation *pFormation = dynamic_cast_ptr<CFormation*>( *iter ) )
@@ -1574,12 +1574,12 @@ int CScripts::God( struct lua_State *state )
 	CHECK_ERROR( nPlayer >= 0 && nPlayer < theDipl.GetNPlayers(), NStr::Format( "God: wrong nubmer of party (%d), total number of parties (%d)", nPlayer, theDipl.GetNPlayers() ), 0 );
 	CHECK_ERROR( nMode >= 0 && nMode <= 5, NStr::Format( "God: wrong nubmer of mode (%d), total number of modes (%d)", nMode, 5 ), 0 );
 
-	// nMode = 0 - снять god mode полностью
-	// nMode = 1 - неубиваемость
-	// nMode = 2 - неубиваемость и бесконечные патроны
-	// nMode = 3 - бесконечные патроны
-	// nMode = 4 - снять только неубиваемость
-	// nMode = 5 - снять только бесконечные патроны
+	// nMode = 0 - СЃРЅВ¤С‚СЊ god mode РїРѕР»РЅРѕСЃС‚СЊСЋ
+	// nMode = 1 - РЅРµСѓР±РёРІР°РµРјРѕСЃС‚СЊ
+	// nMode = 2 - РЅРµСѓР±РёРІР°РµРјРѕСЃС‚СЊ Рё Р±РµСЃРєРѕРЅРµС‡РЅС‹Рµ РїР°С‚СЂРѕРЅС‹
+	// nMode = 3 - Р±РµСЃРєРѕРЅРµС‡РЅС‹Рµ РїР°С‚СЂРѕРЅС‹
+	// nMode = 4 - СЃРЅВ¤С‚СЊ С‚РѕР»СЊРєРѕ РЅРµСѓР±РёРІР°РµРјРѕСЃС‚СЊ
+	// nMode = 5 - СЃРЅВ¤С‚СЊ С‚РѕР»СЊРєРѕ Р±РµСЃРєРѕРЅРµС‡РЅС‹Рµ РїР°С‚СЂРѕРЅС‹
 
 	switch ( nMode )
 	{

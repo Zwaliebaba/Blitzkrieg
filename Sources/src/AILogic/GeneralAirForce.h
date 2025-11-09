@@ -8,7 +8,7 @@
 class CAIUnit;
 class CEnemyRememberer;
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// управляет самолетами и иx вылетом для всей стороны
+// СѓРїСЂР°РІР»СЏРµС‚ СЃР°РјРѕР»РµС‚Р°РјРё Рё Рёx РІС‹Р»РµС‚РѕРј РґР»СЏ РІСЃРµР№ СЃС‚РѕСЂРѕРЅС‹
 class CGeneralAirForce : public IRefCount, public IEnemyEnumerator
 {
 	friend class CGeneralAirForceLaunchFighters;
@@ -21,31 +21,31 @@ class CGeneralAirForce : public IRefCount, public IEnemyEnumerator
 	};
 
 	int nParty;
-	std::vector<int> players;							// номера игроков, которые находятся под управлением 
+	std::vector<int> players;							// РЅРѕРјРµСЂР° РёРіСЂРѕРєРѕРІ, РєРѕС‚РѕСЂС‹Рµ РЅР°С…РѕРґСЏС‚СЃСЏ РїРѕРґ СѓРїСЂР°РІР»РµРЅРёРµРј 
 	CFreeIds requestsID;
 	interface IEnemyContainer *pEnemyContainer;
 
-	bool bReservedByFighters;							// ждем, пока отрегенерит авиация, чтобы послать истребители
+	bool bReservedByFighters;							// Р¶РґРµРј, РїРѕРєР° РѕС‚СЂРµРіРµРЅРµСЂРёС‚ Р°РІРёР°С†РёСЏ, С‡С‚РѕР±С‹ РїРѕСЃР»Р°С‚СЊ РёСЃС‚СЂРµР±РёС‚РµР»Рё
 
 	typedef std::hash_map< int, CPtr<CEnemyRememberer> > AntiAviation;
 	AntiAviation antiAviation;
 
 	struct SSupportInfo
 	{
-		CVec2 vPoint;												// куда вызвали
-		int nResistanceCellNumber;					// если вызвали пробомбить точку сопротивления, то > 0
+		CVec2 vPoint;												// РєСѓРґР° РІС‹Р·РІР°Р»Рё
+		int nResistanceCellNumber;					// РµСЃР»Рё РІС‹Р·РІР°Р»Рё РїСЂРѕР±РѕРјР±РёС‚СЊ С‚РѕС‡РєСѓ СЃРѕРїСЂРѕС‚РёРІР»РµРЅРёСЏ, С‚Рѕ > 0
 
 		SSupportInfo() : vPoint( VNULL2 ), nResistanceCellNumber( -1 ) { }
 	};
 
-	// время, к которому авиация должна быть в отрегенеренном состоянии
+	// РІСЂРµРјСЏ, Рє РєРѕС‚РѕСЂРѕРјСѓ Р°РІРёР°С†РёСЏ РґРѕР»Р¶РЅР° Р±С‹С‚СЊ РІ РѕС‚СЂРµРіРµРЅРµСЂРµРЅРЅРѕРј СЃРѕСЃС‚РѕСЏРЅРёРё
 	std::vector<NTimer::STime> reservedTimes;		
 
 	
 	std::list<CVec2> vFighterPoints;
 	NTimer::STime timeLastCheck, timeLastFighterCheck ;
-	NTimer::STime checkPeriod;						// следующая проверка для всей авиации, кроме истребителей
-	NTimer::STime fighterCheckPeriod;			// следующая проверка для истребителей
+	NTimer::STime checkPeriod;						// СЃР»РµРґСѓСЋС‰Р°СЏ РїСЂРѕРІРµСЂРєР° РґР»СЏ РІСЃРµР№ Р°РІРёР°С†РёРё, РєСЂРѕРјРµ РёСЃС‚СЂРµР±РёС‚РµР»РµР№
+	NTimer::STime fighterCheckPeriod;			// СЃР»РµРґСѓСЋС‰Р°СЏ РїСЂРѕРІРµСЂРєР° РґР»СЏ РёСЃС‚СЂРµР±РёС‚РµР»РµР№
 public:
 	typedef std::hash_map< int /*request ID*/, SSupportInfo > Requests;
 	typedef std::vector<Requests> RequestsByForceType;
@@ -63,7 +63,7 @@ private:
 	// returns 0 if line is safe to fly.
 	// otherwize returns severty( how many planes will die while flying by this line )
 	float CheckLineForSafety( const CVec2 &vStart, const CVec2 &vFinish, const float fFlyHeight );
-	bool IsTimePossible( const int nPlayer, const NTimer::STime timeToLaunch ) const; // возможность запускать самолеты в это время.
+	bool IsTimePossible( const int nPlayer, const NTimer::STime timeToLaunch ) const; // РІРѕР·РјРѕР¶РЅРѕСЃС‚СЊ Р·Р°РїСѓСЃРєР°С‚СЊ СЃР°РјРѕР»РµС‚С‹ РІ СЌС‚Рѕ РІСЂРµРјСЏ.
 
 	void InitCheckPeriod();
 	void InitFighterCheckPeriod();

@@ -22,9 +22,9 @@ public:
 	virtual const float GetSpeedForFollowing();
 	virtual const float GetMaxPossibleSpeed() const = 0;
 	virtual const float GetPassability() const = 0;
-	// может ли двигаться с точки зрения игровой логики
+	// РјРѕР¶РµС‚ Р»Рё РґРІРёРіР°С‚СЊСЃСЏ СЃ С‚РѕС‡РєРё Р·СЂРµРЅРёСЏ РёРіСЂРѕРІРѕР№ Р»РѕРіРёРєРё
 	virtual bool CanMove() const = 0;
-	// может ли двигаться с точки зрения pathfinding
+	// РјРѕР¶РµС‚ Р»Рё РґРІРёРіР°С‚СЊСЃСЏ СЃ С‚РѕС‡РєРё Р·СЂРµРЅРёСЏ pathfinding
 	virtual bool CanMovePathfinding() const = 0;
 	virtual bool CanRotate() const { return true; }
 	virtual const CVec2& GetSpeed() const = 0;
@@ -52,10 +52,10 @@ public:
 	
 	virtual interface IStaticPathFinder* GetPathFinder() const = 0;
 	virtual interface ISmoothPath* GetCurPath() const = 0;
-	// возвращает - поехал или нет
+	// РІРѕР·РІСЂР°С‰Р°РµС‚ - РїРѕРµС…Р°Р» РёР»Рё РЅРµС‚
 	virtual bool SendAlongPath( interface IStaticPath *pStaticPath, const CVec2 &vShift, bool bSmoothTurn = true ) = 0;
 	virtual bool SendAlongPath( interface IPath *pPath ) = 0;
-	// можно ли повернуться к направлению wNewDir, если нет - то попытаться проинициализировать путём в точку, где разворот возможен
+	// РјРѕР¶РЅРѕ Р»Рё РїРѕРІРµСЂРЅСѓС‚СЊСЃСЏ Рє РЅР°РїСЂР°РІР»РµРЅРёСЋ wNewDir, РµСЃР»Рё РЅРµС‚ - С‚Рѕ РїРѕРїС‹С‚Р°С‚СЊСЃСЏ РїСЂРѕРёРЅРёС†РёР°Р»РёР·РёСЂРѕРІР°С‚СЊ РїСѓС‚С‘Рј РІ С‚РѕС‡РєСѓ, РіРґРµ СЂР°Р·РІРѕСЂРѕС‚ РІРѕР·РјРѕР¶РµРЅ
 	virtual bool CheckToTurn( const WORD wNewDir ) = 0;
 
 	virtual void LockTiles( bool bUpdate = true ) = 0;
@@ -84,7 +84,7 @@ public:
 	virtual void AdjustWithDesirableSpeed( float *pfMaxSpeed ) const = 0;
 	
 	virtual const int CanGoBackward() const = 0;
-	// bRemoveLockedByUnitTiles - нужно ли разлокать тайлы под юнитом
+	// bRemoveLockedByUnitTiles - РЅСѓР¶РЅРѕ Р»Рё СЂР°Р·Р»РѕРєР°С‚СЊ С‚Р°Р№Р»С‹ РїРѕРґ СЋРЅРёС‚РѕРј
 	bool IsOnLockedTiles( const struct SRect &rect );
 	
 	virtual bool IsLockingTiles() const = 0;
@@ -93,15 +93,15 @@ public:
 	virtual bool CanRotateTo( SRect smallRect, const CVec2 &vNewDir, bool bWithUnits, bool bCanGoBackward = true ) const { return true; }
 	virtual IStaticPath* CreateBigStaticPath( const CVec2 &vStartPoint, const CVec2 &vFinishPoint, interface IPointChecking *pPointChecking ) = 0;
 	
-	// для поездов - принадлежат ли оба юнита одному поезду
+	// РґР»СЏ РїРѕРµР·РґРѕРІ - РїСЂРёРЅР°РґР»РµР¶Р°С‚ Р»Рё РѕР±Р° СЋРЅРёС‚Р° РѕРґРЅРѕРјСѓ РїРѕРµР·РґСѓ
 	virtual bool IsInOneTrain( interface IBasePathUnit *pUnit ) const = 0;
 	virtual bool IsTrain() const = 0;
 	
-	// юнит не смог найти пути до своей формации
+	// СЋРЅРёС‚ РЅРµ СЃРјРѕРі РЅР°Р№С‚Рё РїСѓС‚Рё РґРѕ СЃРІРѕРµР№ С„РѕСЂРјР°С†РёРё
 	void CantFindPathToFormation();
 	const NTimer::STime& GetTimeToNextSearchPathToFormation() const { return nextTimeToSearchPathToFormation; }
 	
-	// последний тайл, на котором стояли, и который не был залокан
+	// РїРѕСЃР»РµРґРЅРёР№ С‚Р°Р№Р», РЅР° РєРѕС‚РѕСЂРѕРј СЃС‚РѕСЏР»Рё, Рё РєРѕС‚РѕСЂС‹Р№ РЅРµ Р±С‹Р» Р·Р°Р»РѕРєР°РЅ
 	virtual const SVector GetLastKnownGoodTile() const = 0;
 
 	virtual bool IsDangerousDirExist() const = 0;

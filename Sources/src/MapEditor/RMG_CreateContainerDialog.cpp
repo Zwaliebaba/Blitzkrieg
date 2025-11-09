@@ -225,7 +225,7 @@ void CRMGCreateContainerDialog::OnAddButton()
 		
 		fileDialog.m_ofn.lpstrFile = new char[0xFFFF];
 		fileDialog.m_ofn.lpstrFile[0] = 0;			
-		fileDialog.m_ofn.nMaxFile = 0xFFFF - 1; //на всякий пожарный
+		fileDialog.m_ofn.nMaxFile = 0xFFFF - 1; //РЅР° РІСЃВ¤РєРёР№ РїРѕР¶Р°СЂРЅС‹Р№
 		fileDialog.m_ofn.lpstrInitialDir = resizeDialogOptions.szParameters[1].c_str();
 		
 		if ( fileDialog.DoModal() == IDOK )
@@ -514,7 +514,7 @@ void CRMGCreateContainerDialog::OnAddContainerButton()
 	CFileDialog fileDialog( true, ".xml", "", OFN_ALLOWMULTISELECT, "XML files (*.xml)|*.xml||" );
 	fileDialog.m_ofn.lpstrFile = new char[0xFFFF];
 	fileDialog.m_ofn.lpstrFile[0] = 0;			
-	fileDialog.m_ofn.nMaxFile = 0xFFFF - 1; //на всякий пожарный
+	fileDialog.m_ofn.nMaxFile = 0xFFFF - 1; //РЅР° РІСЃВ¤РєРёР№ РїРѕР¶Р°СЂРЅС‹Р№
 	fileDialog.m_ofn.lpstrInitialDir = resizeDialogOptions.szParameters[0].c_str();
 
 	if ( fileDialog.DoModal() == IDOK )
@@ -871,10 +871,10 @@ bool CRMGCreateContainerDialog::LoadContainersList()
 
 	SetWindowText( NStr::Format( "%s - [%s]", CC_CONTAINERS_DIALOG_TITLE, resizeDialogOptions.szParameters[3] ) );
 	BeginWaitCursor();
-	//считываем containers с диска
+	//СЃС‡РёС‚С‹РІР°РµРј containers СЃ РґРёСЃРєР°
 	LoadDataResource( resizeDialogOptions.szParameters[3], "", false, 0, CC_CONTAINERS_XML_NAME, containers );
 	
-	//заполняем информацию по containers
+	//Р·Р°РїРѕР»РЅВ¤РµРј РёРЅС„РѕСЂРјР°С†РёСЋ РїРѕ containers
 	m_ContainersList.DeleteAllItems();
 	for ( CRMContainersHashMap::const_iterator containerIterator = containers.begin();  containerIterator != containers.end(); ++containerIterator )
 	{
@@ -908,14 +908,14 @@ bool CRMGCreateContainerDialog::SaveContainersList()
 
 	SetWindowText( NStr::Format( "%s - [%s]", CC_CONTAINERS_DIALOG_TITLE, resizeDialogOptions.szParameters[3] ) );
 	BeginWaitCursor();
-	//сохраняем containers на диск
+	//СЃРѕС…СЂР°РЅВ¤РµРј containers РЅР° РґРёСЃРє
 	for ( CRMContainersHashMap::const_iterator containerIterator = containers.begin();  containerIterator != containers.end(); ++containerIterator )
 	{
 		SRMContainer container = containerIterator->second;
 		SaveDataResource( containerIterator->first, "", false, 0, RMGC_CONTAINER_XML_NAME, container );
 	}
 
-	//сохраняем список containers на диск
+	//СЃРѕС…СЂР°РЅВ¤РµРј СЃРїРёСЃРѕРє containers РЅР° РґРёСЃРє
 	if ( !SaveDataResource( resizeDialogOptions.szParameters[3], "", false, 0, CC_CONTAINERS_XML_NAME, containers ) )
 	{
 		EndWaitCursor();
@@ -975,14 +975,14 @@ bool CRMGCreateContainerDialog::SaveContainerFromControls()
 
 		SRMContainer &rContainer = containers[szKey];
 		
-		//очистим информацию
+		//РѕС‡РёСЃС‚РёРј РёРЅС„РѕСЂРјР°С†РёСЋ
 		rContainer.patches.clear();
 		rContainer.indices[SRMContainer::ANGLE_0].clear();
 		rContainer.indices[SRMContainer::ANGLE_90].clear();
 		rContainer.indices[SRMContainer::ANGLE_180].clear();
 		rContainer.indices[SRMContainer::ANGLE_270].clear();
 
-		//заполним заново
+		//Р·Р°РїРѕР»РЅРёРј Р·Р°РЅРѕРІРѕ
 		int nX = 0;
 		int nY = 0;
 		int nItemCount = m_PatchesList.GetItemCount();
@@ -1017,7 +1017,7 @@ bool CRMGCreateContainerDialog::SaveContainerFromControls()
 		rContainer.size.x = nX;
 		rContainer.size.y = nY;
 
-		//при отсутствии патчей убираем check info
+		//РїСЂРё РѕС‚СЃСѓС‚СЃС‚РІРёРё РїР°С‚С‡РµР№ СѓР±РёСЂР°РµРј check info
 		if ( rContainer.patches.empty() )
 		{
 			rContainer.nSeason = 0;

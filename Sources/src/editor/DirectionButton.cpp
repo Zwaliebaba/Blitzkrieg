@@ -154,7 +154,7 @@ void CDirectionButton::OnLButtonDown(UINT nFlags, CPoint pt)
 {
 	RECT clientRC;
 	GetClientRect( &clientRC );
-	int cx, cy;		//расстояния от текущей позиции курсора до центра кнопки
+	int cx, cy;		//СЂР°СЃСЃС‚РѕСЏРЅРёСЏ РѕС‚ С‚РµРєСѓС‰РµР№ РїРѕР·РёС†РёРё РєСѓСЂСЃРѕСЂР° РґРѕ С†РµРЅС‚СЂР° РєРЅРѕРїРєРё
 	cx = pt.x - clientRC.right/2;
 	cy = clientRC.bottom/2 - pt.y;
 	
@@ -172,7 +172,7 @@ void CDirectionButton::OnMouseMove(UINT nFlags, CPoint pt)
 	{
 		RECT clientRC;
 		GetClientRect( &clientRC );
-		int cx, cy;		//расстояния от текущей позиции курсора до центра кнопки
+		int cx, cy;		//СЂР°СЃСЃС‚РѕСЏРЅРёСЏ РѕС‚ С‚РµРєСѓС‰РµР№ РїРѕР·РёС†РёРё РєСѓСЂСЃРѕСЂР° РґРѕ С†РµРЅС‚СЂР° РєРЅРѕРїРєРё
 		cx = pt.x - clientRC.right/2;
 		cy = clientRC.bottom/2 - pt.y;
 		

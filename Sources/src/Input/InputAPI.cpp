@@ -753,7 +753,7 @@ bool CInputAPI::SetCoopLevel()
 			continue;
 		// set coop level
 		HRESULT dxrval;
-		// äëÿ òîãî, ÷òîáû êëàâèàòóðà íîðìàëüíî ââîäèëà òåêñò, íóæåí non-exclusive ðåæèì
+		// Ð´Ð»Ñ Ñ‚Ð¾Ð³Ð¾, Ñ‡Ñ‚Ð¾Ð±Ñ‹ ÐºÐ»Ð°Ð²Ð¸Ð°Ñ‚ÑƒÑ€Ð° Ð½Ð¾Ñ€Ð¼Ð°Ð»ÑŒÐ½Ð¾ Ð²Ð²Ð¾Ð´Ð¸Ð»Ð° Ñ‚ÐµÐºÑÑ‚, Ð½ÑƒÐ¶ÐµÐ½ non-exclusive Ñ€ÐµÐ¶Ð¸Ð¼
 		if ( it->eType == DEVICE_TYPE_KEYBOARD )
 			dxrval = it->pDevice->SetCooperativeLevel( hWindow, DISCL_NONEXCLUSIVE | DISCL_FOREGROUND );
 		else
@@ -766,7 +766,7 @@ bool CInputAPI::SetCoopLevel()
 	return true;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// çàãðåñòè ïîä ñåáÿ âñå äåâàéñû / îòäàòü êîíòðîëü íàä âñåìè äåâàéñàìè
+// Ð·Ð°Ð³Ñ€ÐµÑÑ‚Ð¸ Ð¿Ð¾Ð´ ÑÐµÐ±Ñ Ð²ÑÐµ Ð´ÐµÐ²Ð°Ð¹ÑÑ‹ / Ð¾Ñ‚Ð´Ð°Ñ‚ÑŒ ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»ÑŒ Ð½Ð°Ð´ Ð²ÑÐµÐ¼Ð¸ Ð´ÐµÐ²Ð°Ð¹ÑÐ°Ð¼Ð¸
 bool CInputAPI::SetFocus( bool bFocus )
 {
 	if ( !bInitialized )
@@ -782,7 +782,7 @@ bool CInputAPI::SetFocus( bool bFocus )
 		}
 		if ( !SetCoopLevel() )
 			return false;
-		// ïîïûòàòüñÿ çàãðåñòè ïîä ñåáÿ âñå äåâàéñû
+		// Ð¿Ð¾Ð¿Ñ‹Ñ‚Ð°Ñ‚ÑŒÑÑ Ð·Ð°Ð³Ñ€ÐµÑÑ‚Ð¸ Ð¿Ð¾Ð´ ÑÐµÐ±Ñ Ð²ÑÐµ Ð´ÐµÐ²Ð°Ð¹ÑÑ‹
 		for ( CDevicesList::iterator it = devices.begin(); it != devices.end(); ++it )
 		{
 			if ( it->bEmulated ) 
@@ -811,10 +811,10 @@ bool CInputAPI::SetFocus( bool bFocus )
 	}
 	else
 	{
-		// îòäàòü êîíòðîëü íàä âñåìè äåâàéñàìè
+		// Ð¾Ñ‚Ð´Ð°Ñ‚ÑŒ ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»ÑŒ Ð½Ð°Ð´ Ð²ÑÐµÐ¼Ð¸ Ð´ÐµÐ²Ð°Ð¹ÑÐ°Ð¼Ð¸
 		for ( CDevicesList::const_iterator it = devices.begin(); it != devices.end(); ++it )
 			it->pDevice->Unacquire();
-		// ïðèíóäèòåëüíî ñáðîñèòü âñå êîíòðîëû è êîìàíäû
+		// Ð¿Ñ€Ð¸Ð½ÑƒÐ´Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ ÑÐ±Ñ€Ð¾ÑÐ¸Ñ‚ÑŒ Ð²ÑÐµ ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ñ‹ Ð¸ ÐºÐ¾Ð¼Ð°Ð½Ð´Ñ‹
 		//ForceDeactivateCommands( dwCurrentTime );
 	}
 	bFocusCaptured = bFocus;
@@ -1131,7 +1131,7 @@ void CInputAPI::EventCame( const DIDEVICEOBJECTDATA *pEvent, const int nParam )
 	CControl *pControl = controlIDs[pEvent->dwOfs];
 	if ( pControl == 0 )
 		return;
-	// äëÿ POV dwData âûðàæàåòñÿ â ñîòûõ äîëÿõ ãðàäóñà. íàì íàäî ïåðåâåñòè ýòî â äâå îñè - X & Y
+	// Ð´Ð»Ñ POV dwData Ð²Ñ‹Ñ€Ð°Ð¶Ð°ÐµÑ‚ÑÑ Ð² ÑÐ¾Ñ‚Ñ‹Ñ… Ð´Ð¾Ð»ÑÑ… Ð³Ñ€Ð°Ð´ÑƒÑÐ°. Ð½Ð°Ð¼ Ð½Ð°Ð´Ð¾ Ð¿ÐµÑ€ÐµÐ²ÐµÑÑ‚Ð¸ ÑÑ‚Ð¾ Ð² Ð´Ð²Ðµ Ð¾ÑÐ¸ - X & Y
 	if ( pControl->GetType() == CONTROL_TYPE_POV_X ) 
 	{
 		const float fAngle = float( pEvent->dwData ) / 36000.0f * FP_2PI;

@@ -332,7 +332,7 @@ int CTrainSmoothPath::operator&( IStructureSaver &ss )
 
 	if ( !saver.IsReading() )
 	{
-		// записать сдвиги итераторов
+		// Р·Р°РїРёСЃР°С‚СЊ СЃРґРІРёРіРё РёС‚РµСЂР°С‚РѕСЂРѕРІ
 		if ( pTrainPath == 0 || IsFinished() )
 			iteratorShift = -1;
 		else if ( !bJustLoaded )

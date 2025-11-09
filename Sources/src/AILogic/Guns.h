@@ -7,7 +7,7 @@
 #include "LinkObject.h"
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //*******************************************************************
-//*								  Оружие юнита																		*
+//*								  РћСЂСѓР¶РёРµ СЋРЅРёС‚Р°																		*
 //*******************************************************************
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 struct SCommonGunInfo : public IRefCount
@@ -49,7 +49,7 @@ public:
 	virtual bool InFireRange( class CAIUnit *pTarget ) const = 0;
 	virtual bool InFireRange( const CVec3 &vPoint ) const = 0;
 	virtual float GetFireRange( float z ) const = 0;
-	// возвращает fRandgeMax from rpgstats с учётом всех модификаторов - коэффициентов
+	// РІРѕР·РІСЂР°С‰Р°РµС‚ fRandgeMax from rpgstats СЃ СѓС‡С‘С‚РѕРј РІСЃРµС… РјРѕРґРёС„РёРєР°С‚РѕСЂРѕРІ - РєРѕСЌС„С„РёС†РёРµРЅС‚РѕРІ
 	virtual float GetFireRangeMax() const = 0;
 	virtual bool InGoToSideRange( const class CAIUnit *pTarget ) const = 0;
 	virtual bool TooCloseToFire( const class CAIUnit *pTarget ) const = 0;
@@ -60,9 +60,9 @@ public:
 	virtual void StartEnemyBurst( class CAIUnit *pEnemy, bool bReAim ) = 0;
 	virtual void Segment() = 0;
 
-	// в данный момент в состоянии наводки и стрельбы
+	// РІ РґР°РЅРЅС‹Р№ РјРѕРјРµРЅС‚ РІ СЃРѕСЃС‚РѕСЏРЅРёРё РЅР°РІРѕРґРєРё Рё СЃС‚СЂРµР»СЊР±С‹
 	virtual bool IsFiring() const = 0;
-	// в данный момент выстреливает очередь
+	// РІ РґР°РЅРЅС‹Р№ РјРѕРјРµРЅС‚ РІС‹СЃС‚СЂРµР»РёРІР°РµС‚ РѕС‡РµСЂРµРґСЊ
 	virtual bool IsBursting() const = 0;
 	virtual void StopFire() = 0;
 
@@ -82,39 +82,39 @@ public:
 	virtual void TraceAim( class CAIUnit *pUnit ) = 0;
 	virtual void StopTracing() = 0;
 	virtual bool IsRelaxing() const = 0;
-	// можно ли стрельнуть по цели не вращая ни turret ни base и не двигаясь, cDeltaAngle - учитывать ли deltaAngle
+	// РјРѕР¶РЅРѕ Р»Рё СЃС‚СЂРµР»СЊРЅСѓС‚СЊ РїРѕ С†РµР»Рё РЅРµ РІСЂР°С‰Р°СЏ РЅРё turret РЅРё base Рё РЅРµ РґРІРёРіР°СЏСЃСЊ, cDeltaAngle - СѓС‡РёС‚С‹РІР°С‚СЊ Р»Рё deltaAngle
 	virtual bool CanShootWOGunTurn( class CAIUnit *pEnemy, const BYTE cDeltaAngle ) = 0;
-	// направление, по которому в данный момент смотрит орудие
+	// РЅР°РїСЂР°РІР»РµРЅРёРµ, РїРѕ РєРѕС‚РѕСЂРѕРјСѓ РІ РґР°РЅРЅС‹Р№ РјРѕРјРµРЅС‚ СЃРјРѕС‚СЂРёС‚ РѕСЂСѓРґРёРµ
 	virtual const WORD GetGlobalDir() const = 0;
-	// если на турели, то повернуть в относительный угол wAngle
+	// РµСЃР»Рё РЅР° С‚СѓСЂРµР»Рё, С‚Рѕ РїРѕРІРµСЂРЅСѓС‚СЊ РІ РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅС‹Р№ СѓРіРѕР» wAngle
 	virtual void TurnToRelativeDir( const WORD wAngle ) = 0;
 
-	// сколько ещё нужно relax
+	// СЃРєРѕР»СЊРєРѕ РµС‰С‘ РЅСѓР¶РЅРѕ relax
 	virtual const NTimer::STime GetRestTimeOfRelax() const = 0;
 	virtual const float GetRotateSpeed() const = 0;
 
-	// стрельба, когда двигаться запрещено, но вращаться можно ( если юнит может вращаться )
+	// СЃС‚СЂРµР»СЊР±Р°, РєРѕРіРґР° РґРІРёРіР°С‚СЊСЃСЏ Р·Р°РїСЂРµС‰РµРЅРѕ, РЅРѕ РІСЂР°С‰Р°С‚СЊСЃСЏ РјРѕР¶РЅРѕ ( РµСЃР»Рё СЋРЅРёС‚ РјРѕР¶РµС‚ РІСЂР°С‰Р°С‚СЊСЃСЏ )
 	virtual bool CanShootToUnitWOMove( class CAIUnit *pEnemy ) = 0;
 	virtual bool CanShootToObjectWOMove( class CStaticObject *pObj ) = 0;
 	virtual bool CanShootToPointWOMove( const CVec2 &point, const float fZ, const WORD wHorAddAngle = 0, const WORD wVertAddAngle = 0, CAIUnit *pEnemy = 0 ) = 0;
 	
-	// можно ли стрельнуть в объект по прямому приказу ( с учётом того - может owner ездить или нет )
+	// РјРѕР¶РЅРѕ Р»Рё СЃС‚СЂРµР»СЊРЅСѓС‚СЊ РІ РѕР±СЉРµРєС‚ РїРѕ РїСЂСЏРјРѕРјСѓ РїСЂРёРєР°Р·Сѓ ( СЃ СѓС‡С‘С‚РѕРј С‚РѕРіРѕ - РјРѕР¶РµС‚ owner РµР·РґРёС‚СЊ РёР»Рё РЅРµС‚ )
 	virtual bool CanShootToUnit( class CAIUnit *pEnemy ) = 0;
 	virtual bool CanShootToObject( class CStaticObject *pObj ) = 0;
-	// можно ли стрельнуть в объект по прямому приказу ( подъезжать нельзя )
+	// РјРѕР¶РЅРѕ Р»Рё СЃС‚СЂРµР»СЊРЅСѓС‚СЊ РІ РѕР±СЉРµРєС‚ РїРѕ РїСЂСЏРјРѕРјСѓ РїСЂРёРєР°Р·Сѓ ( РїРѕРґСЉРµР·Р¶Р°С‚СЊ РЅРµР»СЊР·СЏ )
 	virtual bool CanShootToPoint( const CVec2 &point, const float fZ, const WORD wHorAddAngle = 0, const WORD wVertAddAngle = 0 ) = 0;
-	// можно ли дострельнуть по высоте
+	// РјРѕР¶РЅРѕ Р»Рё РґРѕСЃС‚СЂРµР»СЊРЅСѓС‚СЊ РїРѕ РІС‹СЃРѕС‚Рµ
 	virtual bool CanShootByHeight( CAIUnit *pTarget ) const = 0;
 	virtual bool CanShootByHeight( const float fZ ) const = 0;
 	
-	// для самолётов
+	// РґР»СЏ СЃР°РјРѕР»С‘С‚РѕРІ
 	virtual void StartPlaneBurst( class CAIUnit *pEnemy, bool bReAim ) = 0;
 
-	// можно пристрелить, не поворачивая base ( turret вращать можно )
+	// РјРѕР¶РЅРѕ РїСЂРёСЃС‚СЂРµР»РёС‚СЊ, РЅРµ РїРѕРІРѕСЂР°С‡РёРІР°СЏ base ( turret РІСЂР°С‰Р°С‚СЊ РјРѕР¶РЅРѕ )
 	virtual bool IsInShootCone( const CVec2 &point, const WORD wAddAngle = 0 ) const = 0;
 
 	virtual const float GetDispersion() const = 0;
-	// во столько раз разброс вдоль траектории борльше разброса поперек траектории
+	// РІРѕ СЃС‚РѕР»СЊРєРѕ СЂР°Р· СЂР°Р·Р±СЂРѕСЃ РІРґРѕР»СЊ С‚СЂР°РµРєС‚РѕСЂРёРё Р±РѕСЂР»СЊС€Рµ СЂР°Р·Р±СЂРѕСЃР° РїРѕРїРµСЂРµРє С‚СЂР°РµРєС‚РѕСЂРёРё
 	virtual const float GetDispRatio( byte nShellType, const float fDist ) const =0; 
 	virtual const int GetFireRate() const = 0;
 	virtual void LockInCurAngle() = 0;
@@ -124,56 +124,56 @@ public:
 	virtual WORD GetVerTurnConstraint() const = 0;
 	virtual class CTurret* GetTurret() const = 0;
 
-	// можно пробить броню с учётом стороны, которой повёрнут pTarget
+	// РјРѕР¶РЅРѕ РїСЂРѕР±РёС‚СЊ Р±СЂРѕРЅСЋ СЃ СѓС‡С‘С‚РѕРј СЃС‚РѕСЂРѕРЅС‹, РєРѕС‚РѕСЂРѕР№ РїРѕРІС‘СЂРЅСѓС‚ pTarget
 	virtual bool CanBreakArmor( class CAIUnit *pTarget ) const = 0;
-	// можно пробить броню с какой-нибудь стороны
+	// РјРѕР¶РЅРѕ РїСЂРѕР±РёС‚СЊ Р±СЂРѕРЅСЋ СЃ РєР°РєРѕР№-РЅРёР±СѓРґСЊ СЃС‚РѕСЂРѕРЅС‹
 	virtual bool CanBreach( const class CCommonUnit *pTarget ) const = 0;
-	// можно пробить броню со стороны nSide
+	// РјРѕР¶РЅРѕ РїСЂРѕР±РёС‚СЊ Р±СЂРѕРЅСЋ СЃРѕ СЃС‚РѕСЂРѕРЅС‹ nSide
 	virtual bool CanBreach( const class CCommonUnit *pTarget, const int nSide ) const = 0;
 	virtual bool CanBreach( const SHPObjectRPGStats *pStats, const int nSide ) const = 0;
 	
-	// будет делать все действия, нужные для стрельбы по цели (повороты, прицеливание), но не будет стрелять
+	// Р±СѓРґРµС‚ РґРµР»Р°С‚СЊ РІСЃРµ РґРµР№СЃС‚РІРёСЏ, РЅСѓР¶РЅС‹Рµ РґР»СЏ СЃС‚СЂРµР»СЊР±С‹ РїРѕ С†РµР»Рё (РїРѕРІРѕСЂРѕС‚С‹, РїСЂРёС†РµР»РёРІР°РЅРёРµ), РЅРѕ РЅРµ Р±СѓРґРµС‚ СЃС‚СЂРµР»СЏС‚СЊ
 	virtual void DontShoot() = 0;
-	// отменяет DontShoot()
+	// РѕС‚РјРµРЅСЏРµС‚ DontShoot()
 	virtual void CanShoot() = 0;
 	virtual bool IsShootAllowed()=0;
 
-	// стреляет ли общий gun ( с учётом патронов - т.е. учитываются все guns, находящиеся с ним в одном стволе )
+	// СЃС‚СЂРµР»СЏРµС‚ Р»Рё РѕР±С‰РёР№ gun ( СЃ СѓС‡С‘С‚РѕРј РїР°С‚СЂРѕРЅРѕРІ - С‚.Рµ. СѓС‡РёС‚С‹РІР°СЋС‚СЃСЏ РІСЃРµ guns, РЅР°С…РѕРґСЏС‰РёРµСЃСЏ СЃ РЅРёРј РІ РѕРґРЅРѕРј СЃС‚РІРѕР»Рµ )
 	virtual bool IsCommonGunFiring() const = 0;
-	// равен ли pGun ( с учётом патронов )
+	// СЂР°РІРµРЅ Р»Рё pGun ( СЃ СѓС‡С‘С‚РѕРј РїР°С‚СЂРѕРЅРѕРІ )
 	virtual bool IsCommonEqual( const CBasicGun *pGun ) const = 0;
 
-	// "номер ствола" ( gun-ы, отличающиеся только патронами, но находящиеся в одном стволе )
+	// "РЅРѕРјРµСЂ СЃС‚РІРѕР»Р°" ( gun-С‹, РѕС‚Р»РёС‡Р°СЋС‰РёРµСЃСЏ С‚РѕР»СЊРєРѕ РїР°С‚СЂРѕРЅР°РјРё, РЅРѕ РЅР°С…РѕРґСЏС‰РёРµСЃСЏ РІ РѕРґРЅРѕРј СЃС‚РІРѕР»Рµ )
 	virtual int GetCommonGunNumber() const = 0;
 
 	virtual int GetNAmmo() const = 0;
 	
 	virtual WORD GetTrajectoryZAngle( const CVec2 &vToAim, const float z ) const = 0;
 	
-	// сказать, почему отказался стрелять
+	// СЃРєР°Р·Р°С‚СЊ, РїРѕС‡РµРјСѓ РѕС‚РєР°Р·Р°Р»СЃСЏ СЃС‚СЂРµР»СЏС‚СЊ
 	virtual const EUnitAckType& GetRejectReason() const = 0;
 	virtual void SetRejectReason( const EUnitAckType &eRejectReason ) = 0;
 	
-	// разрешить/запретить атаковать без учёта ограничения на поворот орудия по горизонтали
+	// СЂР°Р·СЂРµС€РёС‚СЊ/Р·Р°РїСЂРµС‚РёС‚СЊ Р°С‚Р°РєРѕРІР°С‚СЊ Р±РµР· СѓС‡С‘С‚Р° РѕРіСЂР°РЅРёС‡РµРЅРёСЏ РЅР° РїРѕРІРѕСЂРѕС‚ РѕСЂСѓРґРёСЏ РїРѕ РіРѕСЂРёР·РѕРЅС‚Р°Р»Рё
 	virtual void SetCircularAttack( const bool bCanAttack ) = 0;
 	
 	virtual void AddParallelGun( CBasicGun *pGun ) = 0;
 	virtual void SetToParallelGun() = 0;
 	
-	// среднее значение
+	// СЃСЂРµРґРЅРµРµ Р·РЅР°С‡РµРЅРёРµ
 	virtual const int GetPiercing() const = 0;
-	// разброс
+	// СЂР°Р·Р±СЂРѕСЃ
 	virtual const int GetPiercingRandom() const = 0;
-	// рандомное значение piercing
+	// СЂР°РЅРґРѕРјРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ piercing
 	virtual const int GetRandomPiercing() const = 0;
 	virtual const int GetMaxPossiblePiercing() const = 0;
 	virtual const int GetMinPossiblePiercing() const = 0;
 
-	// среднее значение damage
+	// СЃСЂРµРґРЅРµРµ Р·РЅР°С‡РµРЅРёРµ damage
 	virtual const float GetDamage() const = 0;
-	// разброс
+	// СЂР°Р·Р±СЂРѕСЃ
 	virtual const float GetDamageRandom() const = 0;
-	// рандомное значение damage
+	// СЂР°РЅРґРѕРјРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ damage
 	virtual const float GetRandomDamage() const = 0;
 	
 	// for AA guns.

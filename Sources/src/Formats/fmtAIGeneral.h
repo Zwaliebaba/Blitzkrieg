@@ -11,12 +11,12 @@ struct SAIGeneralParcelInfo
 {
 	enum EPatchType
 	{
-		EPATCH_UNKNOWN		= 0,	// очаг обороны
-		EPATCH_DEFENCE		= 1,	// очаг обороны
-		EPATCH_REINFORCE	= 2,	// тут копится резерв
+		EPATCH_UNKNOWN		= 0,	// РѕС‡Р°Рі РѕР±РѕСЂРѕРЅС‹
+		EPATCH_DEFENCE		= 1,	// РѕС‡Р°Рі РѕР±РѕСЂРѕРЅС‹
+		EPATCH_REINFORCE	= 2,	// С‚СѓС‚ РєРѕРїРёС‚СЃСЏ СЂРµР·РµСЂРІ
 	};
 
-	// куда ставить reinforcement в этом уччастке
+	// РєСѓРґР° СЃС‚Р°РІРёС‚СЊ reinforcement РІ СЌС‚РѕРј СѓС‡С‡Р°СЃС‚РєРµ
 	struct SReinforcePointInfo
 	{
 		CVec2 vCenter;
@@ -41,11 +41,11 @@ struct SAIGeneralParcelInfo
 		virtual int operator&( IStructureSaver &ss );
 	};
 	
-	std::vector<SReinforcePointInfo> reinforcePoints;		// точки, в которые нужно поставить подкрепление
-	int eType;													// тип 
-	CVec2 vCenter;											// центр AI points
-	float fRadius;											// размер AI points
-	WORD wDefenceDirection;							// направление защиты 0 - 65535
+	std::vector<SReinforcePointInfo> reinforcePoints;		// С‚РѕС‡РєРё, РІ РєРѕС‚РѕСЂС‹Рµ РЅСѓР¶РЅРѕ РїРѕСЃС‚Р°РІРёС‚СЊ РїРѕРґРєСЂРµРїР»РµРЅРёРµ
+	int eType;													// С‚РёРї 
+	CVec2 vCenter;											// С†РµРЅС‚СЂ AI points
+	float fRadius;											// СЂР°Р·РјРµСЂ AI points
+	WORD wDefenceDirection;							// РЅР°РїСЂР°РІР»РµРЅРёРµ Р·Р°С‰РёС‚С‹ 0 - 65535
 
 	//constructors
 	SAIGeneralParcelInfo() : eType( EPATCH_UNKNOWN ), vCenter( VNULL2 ), fRadius( 0 ), wDefenceDirection( 0 ) {}
@@ -71,7 +71,7 @@ struct SAIGeneralParcelInfo
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 struct SAIGeneralSideInfo
 {
-	std::vector<int> mobileScriptIDs;	// script IDs юнитов, которые принадлежат мобильному подкреплению
+	std::vector<int> mobileScriptIDs;	// script IDs СЋРЅРёС‚РѕРІ, РєРѕС‚РѕСЂС‹Рµ РїСЂРёРЅР°РґР»РµР¶Р°С‚ РјРѕР±РёР»СЊРЅРѕРјСѓ РїРѕРґРєСЂРµРїР»РµРЅРёСЋ
 	std::vector<SAIGeneralParcelInfo> parcels;
 
 	// serializing...

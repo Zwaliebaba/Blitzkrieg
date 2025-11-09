@@ -6,7 +6,7 @@
 #include "..\Formats\FmtMap.h"
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//типы тайлов используемые для тостроения тайлмапов различного назначения
+//С‚РёРїС‹ С‚Р°Р№Р»РѕРІ РёСЃРїРѕР»СЊР·СѓРµРјС‹Рµ РґР»СЏ С‚РѕСЃС‚СЂРѕРµРЅРёСЏ С‚Р°Р№Р»РјР°РїРѕРІ СЂР°Р·Р»РёС‡РЅРѕРіРѕ РЅР°Р·РЅР°С‡РµРЅРёСЏ
 extern const BYTE RMGC_UNLOCKED;									//0
 extern const BYTE RMGC_LOCKED;										//1
 
@@ -19,13 +19,13 @@ extern const BYTE RMGC_HORIZONTAL_FROM_ZERO;			//6
 extern const BYTE RMGC_VERTICAL_TO_ZERO;					//7
 extern const BYTE RMGC_VERTICAL_FROM_ZERO;				//8
 
-//сдвиги по направлениям
+//СЃРґРІРёРіРё РїРѕ РЅР°РїСЂР°РІР»РµРЅРёСЏРј
 extern const CTPoint<int> RMGC_SHIFT_POINTS[4];
-//паправления обратные данному
+//РїР°РїСЂР°РІР»РµРЅРёСЏ РѕР±СЂР°С‚РЅС‹Рµ РґР°РЅРЅРѕРјСѓ
 extern const BYTE RMGC_NEGATIVE_DIRECTIONS[4];
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//Получить направление обратное данному
+//РџРѕР»СѓС‡РёС‚СЊ РЅР°РїСЂР°РІР»РµРЅРёРµ РѕР±СЂР°С‚РЅРѕРµ РґР°РЅРЅРѕРјСѓ
 inline BYTE GetNegativeDirection( BYTE nDirection )
 {
 	NI_ASSERT_T( ( nDirection >= RMGC_HORIZONTAL_TO_ZERO ) &&
@@ -35,7 +35,7 @@ inline BYTE GetNegativeDirection( BYTE nDirection )
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//Получить точку сдвига
+//РџРѕР»СѓС‡РёС‚СЊ С‚РѕС‡РєСѓ СЃРґРІРёРіР°
 inline CTPoint<int> GetShiftPoint( BYTE nDirection )
 {
 	NI_ASSERT_T( ( nDirection >= RMGC_HORIZONTAL_TO_ZERO ) &&
@@ -45,7 +45,7 @@ inline CTPoint<int> GetShiftPoint( BYTE nDirection )
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//точка точка не выходит за границы массива
+//С‚РѕС‡РєР° С‚РѕС‡РєР° РЅРµ РІС‹С…РѕРґРёС‚ Р·Р° РіСЂР°РЅРёС†С‹ РјР°СЃСЃРёРІР°
 template<class Type>
 inline bool IsValidIndices( const Type &rLockArray, int nXPosition, int nYPosition )
 {
@@ -63,9 +63,9 @@ inline bool IsValidIndices( const Type &rLockArray, const CTPoint<int> &rPoint )
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//если вернули -1 - ни одна точка pIndices не попадает в прямоугольник rRect
-//если вернули 0 - произошло отсечение по одной из сторон
-//если вернули 1 - pIndices не изменялся
+//РµСЃР»Рё РІРµСЂРЅСѓР»Рё -1 - РЅРё РѕРґРЅР° С‚РѕС‡РєР° pIndices РЅРµ РїРѕРїР°РґР°РµС‚ РІ РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРє rRect
+//РµСЃР»Рё РІРµСЂРЅСѓР»Рё 0 - РїСЂРѕРёР·РѕС€Р»Рѕ РѕС‚СЃРµС‡РµРЅРёРµ РїРѕ РѕРґРЅРѕР№ РёР· СЃС‚РѕСЂРѕРЅ
+//РµСЃР»Рё РІРµСЂРЅСѓР»Рё 1 - pIndices РЅРµ РёР·РјРµРЅСЏР»СЃСЏ
 template<class Type>
 inline int ValidateIndices( const Type &rRect, Type *pIndices )
 {
@@ -74,7 +74,7 @@ inline int ValidateIndices( const Type &rRect, Type *pIndices )
 
 	pIndices->Normalize();
 	
-	//Вырожденный случай не рассматриваем
+	//Р’С‹СЂРѕР¶РґРµРЅРЅС‹Р№ СЃР»СѓС‡Р°Р№ РЅРµ СЂР°СЃСЃРјР°С‚СЂРёРІР°РµРј
 	if ( ( pIndices->minx >= rRect.maxx ) ||
 		   ( pIndices->miny >= rRect.maxy ) ||
 			 ( pIndices->maxx <= rRect.minx ) ||
@@ -84,7 +84,7 @@ inline int ValidateIndices( const Type &rRect, Type *pIndices )
 	}
 
 	int result = 1;
-	//Определяем границы
+	//РћРїСЂРµРґРµР»СЏРµРј РіСЂР°РЅРёС†С‹
 	if ( pIndices->minx < rRect.minx )
 	{
 		pIndices->minx = rRect.minx;
@@ -164,7 +164,7 @@ inline int ValidatePoint( const Type &rRect, PointType *pPoint )
 							 NStr::Format( "Wrong parameter: %x\n", pPoint ) );
 
 	int result = 1;
-	//Определяем границы
+	//РћРїСЂРµРґРµР»СЏРµРј РіСЂР°РЅРёС†С‹
 	if ( pPoint->x < rRect.minx )
 	{
 		pPoint->x = rRect.minx;
@@ -189,7 +189,7 @@ inline int ValidatePoint( const Type &rRect, PointType *pPoint )
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//Обьект является StaticObject (имеет Passability)
+//РћР±СЊРµРєС‚ СЏРІР»СЏРµС‚СЃСЏ StaticObject (РёРјРµРµС‚ Passability)
 inline bool IsObjectHasPassability( EObjGameType nObjGameType )
 {
 	return ( ( nObjGameType == SGVOGT_BUILDING			) ||
@@ -204,7 +204,7 @@ inline bool IsObjectHasPassability( EObjGameType nObjGameType )
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//функционал коллекционирующий пары чисел (координаты точек)
+//С„СѓРЅРєС†РёРѕРЅР°Р» РєРѕР»Р»РµРєС†РёРѕРЅРёСЂСѓСЋС‰РёР№ РїР°СЂС‹ С‡РёСЃРµР» (РєРѕРѕСЂРґРёРЅР°С‚С‹ С‚РѕС‡РµРє)
 struct StoreTilesFunctional
 {
 	std::vector<CTPoint<int> > tiles;
@@ -217,7 +217,7 @@ struct StoreTilesFunctional
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//функционал изменяющий pLockArray на заданное значение
+//С„СѓРЅРєС†РёРѕРЅР°Р» РёР·РјРµРЅСЏСЋС‰РёР№ pLockArray РЅР° Р·Р°РґР°РЅРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ
 template<class Type, class PointType>
 struct ModifyTilesFunctional
 {
@@ -245,7 +245,7 @@ struct ModifyTilesFunctional
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//функционал определяющий есть ли тайл заданного значения в pLockArray
+//С„СѓРЅРєС†РёРѕРЅР°Р» РѕРїСЂРµРґРµР»СЏСЋС‰РёР№ РµСЃС‚СЊ Р»Рё С‚Р°Р№Р» Р·Р°РґР°РЅРЅРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ РІ pLockArray
 template<class Type, class PointType>
 struct CheckTilesFunctional
 {
@@ -277,14 +277,14 @@ struct CheckTilesFunctional
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//применение функционалов для поля pLockArray, функционалы перечислены выше
-//некоторые функционалы могут изменять массив
+//РїСЂРёРјРµРЅРµРЅРёРµ С„СѓРЅРєС†РёРѕРЅР°Р»РѕРІ РґР»СЏ РїРѕР»СЏ pLockArray, С„СѓРЅРєС†РёРѕРЅР°Р»С‹ РїРµСЂРµС‡РёСЃР»РµРЅС‹ РІС‹С€Рµ
+//РЅРµРєРѕС‚РѕСЂС‹Рµ С„СѓРЅРєС†РёРѕРЅР°Р»С‹ РјРѕРіСѓС‚ РёР·РјРµРЅСЏС‚СЊ РјР°СЃСЃРёРІ
 template<class TYPE>
-bool ApplyTilesInObjectsPassability( const CTRect<int> &rRect,										//границы применимости функционалов
-																		 const SMapObjectInfo *pMapObjectInfo,				//казатель на массив обьектов
-																		 int nMapObjectInfoCount,											//число обьектов
-																		 TYPE &rApplyFunctional,											//функционал
-																		 bool isIgnoreInvalidIndices = false )				//пропускать обьекты за краями карты
+bool ApplyTilesInObjectsPassability( const CTRect<int> &rRect,										//РіСЂР°РЅРёС†С‹ РїСЂРёРјРµРЅРёРјРѕСЃС‚Рё С„СѓРЅРєС†РёРѕРЅР°Р»РѕРІ
+																		 const SMapObjectInfo *pMapObjectInfo,				//РєР°Р·Р°С‚РµР»СЊ РЅР° РјР°СЃСЃРёРІ РѕР±СЊРµРєС‚РѕРІ
+																		 int nMapObjectInfoCount,											//С‡РёСЃР»Рѕ РѕР±СЊРµРєС‚РѕРІ
+																		 TYPE &rApplyFunctional,											//С„СѓРЅРєС†РёРѕРЅР°Р»
+																		 bool isIgnoreInvalidIndices = false )				//РїСЂРѕРїСѓСЃРєР°С‚СЊ РѕР±СЊРµРєС‚С‹ Р·Р° РєСЂР°СЏРјРё РєР°СЂС‚С‹
 {
 	IObjectsDB *pIDB = GetSingleton<IObjectsDB>();
 	if ( !pIDB )
@@ -306,27 +306,27 @@ bool ApplyTilesInObjectsPassability( const CTRect<int> &rRect,										//границ
 			
 			CTRect<int> indices( start.x, start.y, start.x + rPassability.GetSizeX(), start.y + rPassability.GetSizeY() );
 			int result = ValidateIndices( rRect, &indices );
-			//нет ни одного тайла
+			//РЅРµС‚ РЅРё РѕРґРЅРѕРіРѕ С‚Р°Р№Р»Р°
 			if ( result < 0 )
 			{
 				if ( isIgnoreInvalidIndices )
 				{
-					//скипаем обьект, переходим к следующему
+					//СЃРєРёРїР°РµРј РѕР±СЊРµРєС‚, РїРµСЂРµС…РѕРґРёРј Рє СЃР»РµРґСѓСЋС‰РµРјСѓ
 					continue;
 				}
 				else
 				{
-					//возвращаем ошибку
+					//РІРѕР·РІСЂР°С‰Р°РµРј РѕС€РёР±РєСѓ
 					return false;
 				}
 			}
-			//пассабилити выходит за границы массива
+			//РїР°СЃСЃР°Р±РёР»РёС‚Рё РІС‹С…РѕРґРёС‚ Р·Р° РіСЂР°РЅРёС†С‹ РјР°СЃСЃРёРІР°
 			if ( ( result < 1 ) && !isIgnoreInvalidIndices )
 			{
-				//возвращаем ошибку
+				//РІРѕР·РІСЂР°С‰Р°РµРј РѕС€РёР±РєСѓ
 				return false;
 			}
-			//пробегаем по тайлам
+			//РїСЂРѕР±РµРіР°РµРј РїРѕ С‚Р°Р№Р»Р°Рј
 			for ( int nXIndex = indices.minx; nXIndex < indices.maxx; ++nXIndex )
 			{
 				for ( int nYIndex = indices.miny; nYIndex < indices.maxy; ++nYIndex )
@@ -352,12 +352,12 @@ bool ApplyTilesInObjectsPassability( const CTRect<int> &rRect, const SMapObjectI
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//применение функционалов для для всех тайлов входящих в полигон, функционалы перечислены выше
+//РїСЂРёРјРµРЅРµРЅРёРµ С„СѓРЅРєС†РёРѕРЅР°Р»РѕРІ РґР»СЏ РґР»СЏ РІСЃРµС… С‚Р°Р№Р»РѕРІ РІС…РѕРґСЏС‰РёС… РІ РїРѕР»РёРіРѕРЅ, С„СѓРЅРєС†РёРѕРЅР°Р»С‹ РїРµСЂРµС‡РёСЃР»РµРЅС‹ РІС‹С€Рµ
 template<class TYPE, class PolygonType, class PointType>
-bool ApplyTilesInPolygon( const CTRect<int> &rRect,						//границы применимости функционалов
-													const PolygonType &rPolygon,				//полигон
-													float fSide,												//сторона тайла
-													TYPE &rApplyFunctional )						//функционал
+bool ApplyTilesInPolygon( const CTRect<int> &rRect,						//РіСЂР°РЅРёС†С‹ РїСЂРёРјРµРЅРёРјРѕСЃС‚Рё С„СѓРЅРєС†РёРѕРЅР°Р»РѕРІ
+													const PolygonType &rPolygon,				//РїРѕР»РёРіРѕРЅ
+													float fSide,												//СЃС‚РѕСЂРѕРЅР° С‚Р°Р№Р»Р°
+													TYPE &rApplyFunctional )						//С„СѓРЅРєС†РёРѕРЅР°Р»
 {
 	CTRect<float> boundingBox = GetPolygonBoundingBox( rPolygon );
 	CTRect<int> indices( ( boundingBox.minx + ( fSide / 2.0f ) ) / fSide,
@@ -369,7 +369,7 @@ bool ApplyTilesInPolygon( const CTRect<int> &rRect,						//границы применимости 
 		return false;
 	}
 
-	//пробегаем по тайлам
+	//РїСЂРѕР±РµРіР°РµРј РїРѕ С‚Р°Р№Р»Р°Рј
 	for ( int nXIndex = indices.minx; nXIndex < indices.maxx; ++nXIndex )
 	{
 		for ( int nYIndex = indices.miny; nYIndex < indices.maxy; ++nYIndex )
@@ -391,14 +391,14 @@ bool ApplyTilesInPolygon( const CTRect<int> &rRect,						//границы применимости 
 //CRAP}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//применение функционалов для для всех тайлов входящих в прямоуголник (включительно, как у дорог)
+//РїСЂРёРјРµРЅРµРЅРёРµ С„СѓРЅРєС†РёРѕРЅР°Р»РѕРІ РґР»СЏ РґР»СЏ РІСЃРµС… С‚Р°Р№Р»РѕРІ РІС…РѕРґСЏС‰РёС… РІ РїСЂСЏРјРѕСѓРіРѕР»РЅРёРє (РІРєР»СЋС‡РёС‚РµР»СЊРЅРѕ, РєР°Рє Сѓ РґРѕСЂРѕРі)
 template<class TYPE>
-bool ApplyTilesInRange( const CTRect<int> &rRect,	//границы применимости функционалов
-												int nMinX,								//границы прямоугольника
+bool ApplyTilesInRange( const CTRect<int> &rRect,	//РіСЂР°РЅРёС†С‹ РїСЂРёРјРµРЅРёРјРѕСЃС‚Рё С„СѓРЅРєС†РёРѕРЅР°Р»РѕРІ
+												int nMinX,								//РіСЂР°РЅРёС†С‹ РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРєР°
 												int nMinY,								//
 												int nMaxX,								//
 												int nMaxY,								//
-												TYPE &rApplyFunctional )	//функционал
+												TYPE &rApplyFunctional )	//С„СѓРЅРєС†РёРѕРЅР°Р»
 {
 	CTRect<int> indices( nMinX, nMinY, nMaxX + 1, nMaxY + 1 );
 	if ( ValidateIndices( rRect, &indices ) < 0 )
@@ -406,7 +406,7 @@ bool ApplyTilesInRange( const CTRect<int> &rRect,	//границы применимости функцио
 		return false;
 	}
 
-	//пробегаем по тайлам
+	//РїСЂРѕР±РµРіР°РµРј РїРѕ С‚Р°Р№Р»Р°Рј
 	for ( int nXIndex = indices.minx; nXIndex < indices.maxx; ++nXIndex )
 	{
 		for ( int nYIndex = indices.miny; nYIndex < indices.maxy; ++nYIndex )
@@ -432,15 +432,15 @@ bool ApplyTilesInRange( const CTRect<int> &rRect, const CTRect<int> &range, TYPE
 	return ApplyTilesInRange( rRect, range.minx, range.miny, range.maxx, range.maxy, rApplyFunctional );
 }
 
-//CRAP{оптимизировать колекционирование тайлов в круге
+//CRAP{РѕРїС‚РёРјРёР·РёСЂРѕРІР°С‚СЊ РєРѕР»РµРєС†РёРѕРЅРёСЂРѕРІР°РЅРёРµ С‚Р°Р№Р»РѕРІ РІ РєСЂСѓРіРµ
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//в радиусе нет локаных тайлов 
+//РІ СЂР°РґРёСѓСЃРµ РЅРµС‚ Р»РѕРєР°РЅС‹С… С‚Р°Р№Р»РѕРІ 
 template<class TYPE>
-bool ApplyTilesInCircle( const CTRect<int> &rRect,	//границы применимости функционалов
-												 int nXPosition,						//центр круга
+bool ApplyTilesInCircle( const CTRect<int> &rRect,	//РіСЂР°РЅРёС†С‹ РїСЂРёРјРµРЅРёРјРѕСЃС‚Рё С„СѓРЅРєС†РёРѕРЅР°Р»РѕРІ
+												 int nXPosition,						//С†РµРЅС‚СЂ РєСЂСѓРіР°
 												 int nYPosition,						//
-												 int nRadius,								//радиус круга
-												 TYPE &rApplyFunctional )		//функционал
+												 int nRadius,								//СЂР°РґРёСѓСЃ РєСЂСѓРіР°
+												 TYPE &rApplyFunctional )		//С„СѓРЅРєС†РёРѕРЅР°Р»
 {
 	CTRect<int> indices( nXPosition - nRadius, nYPosition - nRadius, nXPosition + nRadius + 1, nYPosition + nRadius + 1 );
 	if ( ValidateIndices( rRect, &indices )  < 0 )
@@ -448,7 +448,7 @@ bool ApplyTilesInCircle( const CTRect<int> &rRect,	//границы применимости функци
 		return false;
 	}
 
-	//пробегаем по тайлам
+	//РїСЂРѕР±РµРіР°РµРј РїРѕ С‚Р°Р№Р»Р°Рј
 	for ( int nXIndex = indices.minx; nXIndex < indices.maxx; ++nXIndex )
 	{
 		for ( int nYIndex = indices.miny; nYIndex < indices.maxy; ++nYIndex )
@@ -473,18 +473,18 @@ inline bool ApplyTilesInCircle( const CTRect<int> &rRect, const CTPoint<int> &rC
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//поиск пути, возвращает число точек добавленных в массив массив pPoints
-//массив изменяется во время выполнения функции
-int FindPath( const CTPoint<int> &rStartPoint,					//начальная точка (метится как RMGC_FINISH_POINT)
-						  const CTPoint<int> &rFinishPoint,					//начальная точка (метится как RMGC_START_POINT)
-						  CArray2D<BYTE> *pLockArray,								//массив тайлов
-						  std::vector<CTPoint<int> > *pPointList );	//массив точек куда добавляется путь
+//РїРѕРёСЃРє РїСѓС‚Рё, РІРѕР·РІСЂР°С‰Р°РµС‚ С‡РёСЃР»Рѕ С‚РѕС‡РµРє РґРѕР±Р°РІР»РµРЅРЅС‹С… РІ РјР°СЃСЃРёРІ РјР°СЃСЃРёРІ pPoints
+//РјР°СЃСЃРёРІ РёР·РјРµРЅСЏРµС‚СЃСЏ РІРѕ РІСЂРµРјСЏ РІС‹РїРѕР»РЅРµРЅРёСЏ С„СѓРЅРєС†РёРё
+int FindPath( const CTPoint<int> &rStartPoint,					//РЅР°С‡Р°Р»СЊРЅР°СЏ С‚РѕС‡РєР° (РјРµС‚РёС‚СЃСЏ РєР°Рє RMGC_FINISH_POINT)
+						  const CTPoint<int> &rFinishPoint,					//РЅР°С‡Р°Р»СЊРЅР°СЏ С‚РѕС‡РєР° (РјРµС‚РёС‚СЃСЏ РєР°Рє RMGC_START_POINT)
+						  CArray2D<BYTE> *pLockArray,								//РјР°СЃСЃРёРІ С‚Р°Р№Р»РѕРІ
+						  std::vector<CTPoint<int> > *pPointList );	//РјР°СЃСЃРёРІ С‚РѕС‡РµРє РєСѓРґР° РґРѕР±Р°РІР»СЏРµС‚СЃСЏ РїСѓС‚СЊ
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #endif // #if !defined(__LA__Types__)
 
 /**
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//функционал подсчитывающий количество тайлов
+//С„СѓРЅРєС†РёРѕРЅР°Р» РїРѕРґСЃС‡РёС‚С‹РІР°СЋС‰РёР№ РєРѕР»РёС‡РµСЃС‚РІРѕ С‚Р°Р№Р»РѕРІ
 struct GetTilesCountFunctional
 {
 	int nCount;
@@ -500,7 +500,7 @@ struct GetTilesCountFunctional
 
 /**
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//функционал подсчитывающий количество тайлов данного значения в pLockArray
+//С„СѓРЅРєС†РёРѕРЅР°Р» РїРѕРґСЃС‡РёС‚С‹РІР°СЋС‰РёР№ РєРѕР»РёС‡РµСЃС‚РІРѕ С‚Р°Р№Р»РѕРІ РґР°РЅРЅРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ РІ pLockArray
 struct GetTilesCountByTypeFunctional
 {
 	BYTE bValue;

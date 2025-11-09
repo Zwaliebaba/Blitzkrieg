@@ -46,7 +46,7 @@ public:
 	virtual void Init( IGFX *_pGFX );
 	
 private:
-	//Для отображения сетки
+	//Р”Р»СЏ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ СЃРµС‚РєРё
 	CPtr<IGFXVertices> pGridVertices;
 	
 protected:

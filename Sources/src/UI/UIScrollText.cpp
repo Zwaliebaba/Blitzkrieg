@@ -2,7 +2,7 @@
 #include "UIMessages.h"
 #include "UIScrollText.h"
 
-//const int GLAD = 20;			//для гладкого скроллирования
+//const int GLAD = 20;			//РґР»В¤ РіР»Р°РґРєРѕРіРѕ СЃРєСЂРѕР»Р»РёСЂРѕРІР°РЅРёВ¤
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CUIScrollTextBox::SetWindowText( int nState, const WORD *pszText )
 {
@@ -13,13 +13,13 @@ void CUIScrollTextBox::SetWindowText( int nState, const WORD *pszText )
 	states[nState].pGfxText->SetText( pText );
 	states[nState].pGfxText->SetColor( dwTextColor );
 
-	// Рассчитаем, сколько строчек необходимо для отображения этого текста
-	// сперва рассчитаем, вдруг ScrollBar невидимый
+	// вЂ“Р°СЃСЃС‡РёС‚Р°РµРј, СЃРєРѕР»СЊРєРѕ СЃС‚СЂРѕС‡РµРє РЅРµРѕР±С…РѕРґРёРјРѕ РґР»В¤ РѕС‚РѕР±СЂР°Р¶РµРЅРёВ¤ СЌС‚РѕРіРѕ С‚РµРєСЃС‚Р°
+	// СЃРїРµСЂРІР° СЂР°СЃСЃС‡РёС‚Р°РµРј, РІРґСЂСѓРі ScrollBar РЅРµРІРёРґРёРјС‹Р№
 	states[nState].pGfxText->SetWidth( wndRect.Width() - nLeftSpace - nRightSpace );
-	int nNumLines = states[nState].pGfxText->GetNumLines();					//общее число строк
+	int nNumLines = states[nState].pGfxText->GetNumLines();					//РѕР±С‰РµРµ С‡РёСЃР»Рѕ СЃС‚СЂРѕРє
 	
-	int nLineHeigth = states[nState].pGfxText->GetLineSpace();			//высота одной строчки
-	int nNumberOfScreenStrings = ( wndRect.Height() - nTopSpace - nBottomSpace ) / nLineHeigth;		//количество строчек, помещающихся на экране контрола
+	int nLineHeigth = states[nState].pGfxText->GetLineSpace();			//РІС‹СЃРѕС‚Р° РѕРґРЅРѕР№ СЃС‚СЂРѕС‡РєРё
+	int nNumberOfScreenStrings = ( wndRect.Height() - nTopSpace - nBottomSpace ) / nLineHeigth;		//РєРѕР»РёС‡РµСЃС‚РІРѕ СЃС‚СЂРѕС‡РµРє, РїРѕРјРµС‰Р°СЋС‰РёС…СЃВ¤ РЅР° СЌРєСЂР°РЅРµ РєРѕРЅС‚СЂРѕР»Р°
 
 	if ( !bScrollBarAlwaysVisible )
 	{
@@ -34,15 +34,15 @@ void CUIScrollTextBox::SetWindowText( int nState, const WORD *pszText )
 			pScrollBar->ShowWindow( UI_SW_SHOW );
 	}
 
-	// инициализируем ScrollBar
+	// РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј ScrollBar
 	states[nState].pGfxText->SetWidth( wndRect.Width() - pScrollBar->wndRect.Width() - nLeftSpace - nRightSpace );
-	nNumLines = states[nState].pGfxText->GetNumLines();							//общее число строк
+	nNumLines = states[nState].pGfxText->GetNumLines();							//РѕР±С‰РµРµ С‡РёСЃР»Рѕ СЃС‚СЂРѕРє
 
-	nLineHeigth = states[nState].pGfxText->GetLineSpace();					//высота одной строчки
-	nNumberOfScreenStrings = ( wndRect.Height() - nTopSpace - nBottomSpace ) / nLineHeigth;				//количество строчек, помещающихся на экране контрола
+	nLineHeigth = states[nState].pGfxText->GetLineSpace();					//РІС‹СЃРѕС‚Р° РѕРґРЅРѕР№ СЃС‚СЂРѕС‡РєРё
+	nNumberOfScreenStrings = ( wndRect.Height() - nTopSpace - nBottomSpace ) / nLineHeigth;				//РєРѕР»РёС‡РµСЃС‚РІРѕ СЃС‚СЂРѕС‡РµРє, РїРѕРјРµС‰Р°СЋС‰РёС…СЃВ¤ РЅР° СЌРєСЂР°РЅРµ РєРѕРЅС‚СЂРѕР»Р°
 	if ( !nNumberOfScreenStrings )
-		nNumberOfScreenStrings++;																			//чтобы не было деления на ноль
-	int nMax = nNumLines - nNumberOfScreenStrings;									//максимальная позиция для скроллбара
+		nNumberOfScreenStrings++;																			//С‡С‚РѕР±С‹ РЅРµ Р±С‹Р»Рѕ РґРµР»РµРЅРёВ¤ РЅР° РЅРѕР»СЊ
+	int nMax = nNumLines - nNumberOfScreenStrings;									//РјР°РєСЃРёРјР°Р»СЊРЅР°В¤ РїРѕР·РёС†РёВ¤ РґР»В¤ СЃРєСЂРѕР»Р»Р±Р°СЂР°
 	if ( nMax < 0 )
 		nMax = 0;
 
@@ -71,7 +71,7 @@ void CUIScrollTextBox::AppendText( const WORD *pszText )
 	
 	SetWindowText( nCurrentState, wszTemp.c_str() );
 	
-	//обновим позицию ScrollBar, если это необходимо
+	//РѕР±РЅРѕРІРёРј РїРѕР·РёС†РёСЋ ScrollBar, РµСЃР»Рё СЌС‚Рѕ РЅРµРѕР±С…РѕРґРёРјРѕ
 	if ( bNeedScrollToEnd )
 	{
 		pScrollBar->SetPosition( pScrollBar->GetMaxValue() );
@@ -95,14 +95,14 @@ void CUIScrollTextBox::Visit( interface ISceneVisitor *pVisitor )
 	if ( !nCmdShow )
 		return;
 
-	// эта функция фактически продублирована для некоторых контролов, поэтому при ее изменении надо изменять их, например CUIScrollTextBox
+	// СЌС‚Р° С„СѓРЅРєС†РёВ¤ С„Р°РєС‚РёС‡РµСЃРєРё РїСЂРѕРґСѓР±Р»РёСЂРѕРІР°РЅР° РґР»В¤ РЅРµРєРѕС‚РѕСЂС‹С… РєРѕРЅС‚СЂРѕР»РѕРІ, РїРѕСЌС‚РѕРјСѓ РїСЂРё РµРµ РёР·РјРµРЅРµРЅРёРё РЅР°РґРѕ РёР·РјРµРЅВ¤С‚СЊ РёС…, РЅР°РїСЂРёРјРµСЂ CUIScrollTextBox
 	VisitBackground( pVisitor );
 	
-	// рисуем детей
+	// СЂРёСЃСѓРµРј РґРµС‚РµР№
 	for ( CWindowList::reverse_iterator ri = childList.rbegin(); ri != childList.rend(); ++ri )
 		(*ri)->Visit( pVisitor );
 	
-	// рисуем текст
+	// СЂРёСЃСѓРµРј С‚РµРєСЃС‚
 	if ( states[nCurrentState].pGfxText )
 	{
 		CTRect<float> textRC;
@@ -120,15 +120,15 @@ void CUIScrollTextBox::Draw( IGFX *pGFX )
 	if ( !nCmdShow )
 		return;
 
-	//эта функция фактически продублирована для некоторых контролов, поэтому при ее изменении надо изменять их, например CUIScrollTextBox
+	//СЌС‚Р° С„СѓРЅРєС†РёВ¤ С„Р°РєС‚РёС‡РµСЃРєРё РїСЂРѕРґСѓР±Р»РёСЂРѕРІР°РЅР° РґР»В¤ РЅРµРєРѕС‚РѕСЂС‹С… РєРѕРЅС‚СЂРѕР»РѕРІ, РїРѕСЌС‚РѕРјСѓ РїСЂРё РµРµ РёР·РјРµРЅРµРЅРёРё РЅР°РґРѕ РёР·РјРµРЅВ¤С‚СЊ РёС…, РЅР°РїСЂРёРјРµСЂ CUIScrollTextBox
 	pGFX->SetShadingEffect( 3 );
 	DrawBackground( pGFX );
 	
-	//рисуем детей
+	//СЂРёСЃСѓРµРј РґРµС‚РµР№
 	for ( CWindowList::reverse_iterator ri=childList.rbegin(); ri!=childList.rend(); ri++ )
 		(*ri)->Draw( pGFX );
 	
-	//рисуем текст
+	//СЂРёСЃСѓРµРј С‚РµРєСЃС‚
 	if ( states[nCurrentState].pGfxText )
 	{
 		CTRect<float> textRC;
@@ -153,7 +153,7 @@ int CUIScrollTextBox::operator&( IDataTree &ss )
 
 	if ( saver.IsReading() )
 	{
-		//инициализируем pScrollBar
+		//РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј pScrollBar
 		pScrollBar = dynamic_cast<CUIScrollBar *>( GetChildByID(1) );
 		NI_ASSERT_T( pScrollBar != 0, "can't find scroll bar" );
 
@@ -205,7 +205,7 @@ void CUIScrollTextBox::RepositionScrollbar()
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CUIScrollTextBox::RepositionText()
 {
-	//обновим текст
+	//РѕР±РЅРѕРІРёРј С‚РµРєСЃС‚
 	IText *pText = states[0].pGfxText->GetText();
 	std::wstring szTempString = pText->GetString();
 	SetWindowText( 0, szTempString.c_str() );
@@ -220,11 +220,11 @@ void CUIScrollTextBox::Reposition( const CTRect<float> &rcParent )
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool CUIScrollTextBox::ProcessMessage( const SUIMessage &msg )
 {
-	//Scroll Text обрабатывает NOTIFY сообщения от ScrollBar
+	//Scroll Text РѕР±СЂР°Р±Р°С‚С‹РІР°РµС‚ NOTIFY СЃРѕРѕР±С‰РµРЅРёВ¤ РѕС‚ ScrollBar
 	switch( msg.nMessageCode )
 	{
 	case UI_NOTIFY_POSITION_CHANGED:
-		// подвинем текст
+		// РїРѕРґРІРёРЅРµРј С‚РµРєСЃС‚
 		m_nY = -pScrollBar->GetPosition();
 
 		return true;

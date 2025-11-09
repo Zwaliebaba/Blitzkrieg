@@ -4,7 +4,7 @@
 #include "..\Formats\FmtMap.h"
 #include "WV_Types.h"
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//строковые костанты используемые для работы с xml файлами
+//СЃС‚СЂРѕРєРѕРІС‹Рµ РєРѕСЃС‚Р°РЅС‚С‹ РёСЃРїРѕР»СЊР·СѓРµРјС‹Рµ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ xml С„Р°Р№Р»Р°РјРё
 extern const char *RMGC_CONTAINER_XML_NAME;
 extern const char *RMGC_GRAPH_XML_NAME;
 extern const char *RMGC_OBJECTSET_XML_NAME;
@@ -32,12 +32,12 @@ typedef std::set<std::string> CUsedScriptAreas;
 
 struct SRMLevelVSOParameter
 {
-	std::string szProfileFileName;		//имя профиля ( если пустое, то не поднимаем и не опускаем ничего не делает т.е. )
-	float fHeight;										//максимальная высота профиля ( если нулевая, то ничего не происходит ) 
-	bool bAdd;												//поднимаем/опускаем
-	int nMiddlePointsCount;						//поднимаем/опускаем
-	bool bLevelEnds;									//выравниваем концы рек и дорог
-	bool bLevelPatches;								//выравнивать патчи
+	std::string szProfileFileName;		//РёРјСЏ РїСЂРѕС„РёР»СЏ ( РµСЃР»Рё РїСѓСЃС‚РѕРµ, С‚Рѕ РЅРµ РїРѕРґРЅРёРјР°РµРј Рё РЅРµ РѕРїСѓСЃРєР°РµРј РЅРёС‡РµРіРѕ РЅРµ РґРµР»Р°РµС‚ С‚.Рµ. )
+	float fHeight;										//РјР°РєСЃРёРјР°Р»СЊРЅР°СЏ РІС‹СЃРѕС‚Р° РїСЂРѕС„РёР»СЏ ( РµСЃР»Рё РЅСѓР»РµРІР°СЏ, С‚Рѕ РЅРёС‡РµРіРѕ РЅРµ РїСЂРѕРёСЃС…РѕРґРёС‚ ) 
+	bool bAdd;												//РїРѕРґРЅРёРјР°РµРј/РѕРїСѓСЃРєР°РµРј
+	int nMiddlePointsCount;						//РїРѕРґРЅРёРјР°РµРј/РѕРїСѓСЃРєР°РµРј
+	bool bLevelEnds;									//РІС‹СЂР°РІРЅРёРІР°РµРј РєРѕРЅС†С‹ СЂРµРє Рё РґРѕСЂРѕРі
+	bool bLevelPatches;								//РІС‹СЂР°РІРЅРёРІР°С‚СЊ РїР°С‚С‡Рё
 
 	//constructors
 	SRMLevelVSOParameter() : fHeight( 0.0f ), bAdd( true ), nMiddlePointsCount( 0 ), bLevelEnds( false ), bLevelPatches( true )  {}
@@ -64,9 +64,9 @@ struct SRMLevelVSOParameter
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 struct SRMPatch
 {
-	CTPoint<int> size;														//размер патча в VIS патчах ( 16 на 16 VIS тайлов )
-	std::string szFileName;												//имя карты
-	std::string szPlace;													//имя местности
+	CTPoint<int> size;														//СЂР°Р·РјРµСЂ РїР°С‚С‡Р° РІ VIS РїР°С‚С‡Р°С… ( 16 РЅР° 16 VIS С‚Р°Р№Р»РѕРІ )
+	std::string szFileName;												//РёРјСЏ РєР°СЂС‚С‹
+	std::string szPlace;													//РёРјСЏ РјРµСЃС‚РЅРѕСЃС‚Рё
 
 	//constructors
 	SRMPatch() : size( 0, 0 ) {}
@@ -108,15 +108,15 @@ struct SRMContainer
 		WEST = 3,
 	};
 
-	CRMPatchesList patches;												//набор патчей
-	std::vector<int> indices[4];									//индексы патчей по каждому из поворотов в предыдущем векторе
+	CRMPatchesList patches;												//РЅР°Р±РѕСЂ РїР°С‚С‡РµР№
+	std::vector<int> indices[4];									//РёРЅРґРµРєСЃС‹ РїР°С‚С‡РµР№ РїРѕ РєР°Р¶РґРѕРјСѓ РёР· РїРѕРІРѕСЂРѕС‚РѕРІ РІ РїСЂРµРґС‹РґСѓС‰РµРј РІРµРєС‚РѕСЂРµ
 	
 	//check info
-	CTPoint<int> size;														//размер в VIS патчах ( 16 на 16 VIS тайлов )
-	int nSeason;																	//сезон
-	std::string szSeasonFolder;										//каталог сезона
-	CUsedScriptIDs usedScriptIDs;									//используемые scriptIDs
-	CUsedScriptAreas usedScriptAreas;							//используемые scriptAreas
+	CTPoint<int> size;														//СЂР°Р·РјРµСЂ РІ VIS РїР°С‚С‡Р°С… ( 16 РЅР° 16 VIS С‚Р°Р№Р»РѕРІ )
+	int nSeason;																	//СЃРµР·РѕРЅ
+	std::string szSeasonFolder;										//РєР°С‚Р°Р»РѕРі СЃРµР·РѕРЅР°
+	CUsedScriptIDs usedScriptIDs;									//РёСЃРїРѕР»СЊР·СѓРµРјС‹Рµ scriptIDs
+	CUsedScriptAreas usedScriptAreas;							//РёСЃРїРѕР»СЊР·СѓРµРјС‹Рµ scriptAreas
 
 	//constructors
 	SRMContainer() : size( 0, 0 ), nSeason ( 0 ) {}
@@ -167,8 +167,8 @@ typedef std::hash_map<std::string, SRMContainer > CRMContainersHashMap;
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 struct SRMGraphNode
 {
-	CTRect<int> rect;															//положение в VIS тайлах в AI кординатах (инвертировано относительно terrainY )
-	std::string	szContainerFileName;							//путь к контейнеру
+	CTRect<int> rect;															//РїРѕР»РѕР¶РµРЅРёРµ РІ VIS С‚Р°Р№Р»Р°С… РІ AI РєРѕСЂРґРёРЅР°С‚Р°С… (РёРЅРІРµСЂС‚РёСЂРѕРІР°РЅРѕ РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕ terrainY )
+	std::string	szContainerFileName;							//РїСѓС‚СЊ Рє РєРѕРЅС‚РµР№РЅРµСЂСѓ
 
 	//constructors
 	SRMGraphNode() : rect( 0, 0, 0, 0 ) {}
@@ -204,15 +204,15 @@ struct SRMGraphLink
 		TYPE_RIVER		= 1,
 	};
 
-	CTPoint<int> link;														//номера нодов (задаются в темплейте)
-	int nType;																		//тип VSO (река, дорога)
-	std::string szDescFileName;										//имя VSO
+	CTPoint<int> link;														//РЅРѕРјРµСЂР° РЅРѕРґРѕРІ (Р·Р°РґР°СЋС‚СЃСЏ РІ С‚РµРјРїР»РµР№С‚Рµ)
+	int nType;																		//С‚РёРї VSO (СЂРµРєР°, РґРѕСЂРѕРіР°)
+	std::string szDescFileName;										//РёРјСЏ VSO
 	
-	float fRadius;																//радиус закругления
-	int nParts;																		//число элементов на окрухности
-	float fMinLength;															//минимальная дистанция между точками, которая не подвергается дроблению
-	float fDistance;															//расстояние от краев до возможного отклонения ( 0...1 )
-	float fDisturbance;														//отклонение ( 0...1 )
+	float fRadius;																//СЂР°РґРёСѓСЃ Р·Р°РєСЂСѓРіР»РµРЅРёСЏ
+	int nParts;																		//С‡РёСЃР»Рѕ СЌР»РµРјРµРЅС‚РѕРІ РЅР° РѕРєСЂСѓС…РЅРѕСЃС‚Рё
+	float fMinLength;															//РјРёРЅРёРјР°Р»СЊРЅР°СЏ РґРёСЃС‚Р°РЅС†РёСЏ РјРµР¶РґСѓ С‚РѕС‡РєР°РјРё, РєРѕС‚РѕСЂР°СЏ РЅРµ РїРѕРґРІРµСЂРіР°РµС‚СЃСЏ РґСЂРѕР±Р»РµРЅРёСЋ
+	float fDistance;															//СЂР°СЃСЃС‚РѕСЏРЅРёРµ РѕС‚ РєСЂР°РµРІ РґРѕ РІРѕР·РјРѕР¶РЅРѕРіРѕ РѕС‚РєР»РѕРЅРµРЅРёСЏ ( 0...1 )
+	float fDisturbance;														//РѕС‚РєР»РѕРЅРµРЅРёРµ ( 0...1 )
 
 	//constructors
 	SRMGraphLink() : link( INVALID_LINK_VALUE, INVALID_LINK_VALUE ), nType( TYPE_ROAD ), fRadius( DEFAULT_RADIUS ), nParts( DEFAULT_PARTS ), fMinLength( DEFAULT_MIN_LENGTH ), fDistance( DEFAULT_DISTANCE ), fDisturbance( DEFAULT_DISTURBANCE ) {}
@@ -257,11 +257,11 @@ struct SRMGraph
 	CRMGraphLinksList links;
 
 	//check info
-	CTPoint<int> size;														//в размер в VIS патчах ( 16 на 16 VIS тайлов )
-	int nSeason;																	//сезон
-	std::string szSeasonFolder;										//каталог сезона
-	CUsedScriptIDs usedScriptIDs;									//используемые scriptID
-	CUsedScriptAreas usedScriptAreas;							//используемые scriptAreas
+	CTPoint<int> size;														//РІ СЂР°Р·РјРµСЂ РІ VIS РїР°С‚С‡Р°С… ( 16 РЅР° 16 VIS С‚Р°Р№Р»РѕРІ )
+	int nSeason;																	//СЃРµР·РѕРЅ
+	std::string szSeasonFolder;										//РєР°С‚Р°Р»РѕРі СЃРµР·РѕРЅР°
+	CUsedScriptIDs usedScriptIDs;									//РёСЃРїРѕР»СЊР·СѓРµРјС‹Рµ scriptID
+	CUsedScriptAreas usedScriptAreas;							//РёСЃРїРѕР»СЊР·СѓРµРјС‹Рµ scriptAreas
 
 	//constructors
 	SRMGraph() : size( 0, 0 ), nSeason( 0 ) {}
@@ -360,17 +360,17 @@ typedef std::hash_map<std::string, CRMTileSet> CRMTileSetHashMap;
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 struct SRMFieldSet
 {
-	CRMObjectSet objectsShells;				//деревья
-	CRMTileSet tilesShells;						//земля
+	CRMObjectSet objectsShells;				//РґРµСЂРµРІСЊСЏ
+	CRMTileSet tilesShells;						//Р·РµРјР»СЏ
 	
-	std::string szProfileFileName;		//имя профиля ( если пустое, то не поднимаем землю )
-	float fHeight;										//максимальная высота профиля ( если нулевая, то ничего не происходит ) 
-	CTPoint<int> patternSize;					//минимальный - максимальный полуразмер паттерна
-	float fPositiveRatio;							// 1 - все поднимаем, 0 - все опускаем
+	std::string szProfileFileName;		//РёРјСЏ РїСЂРѕС„РёР»СЏ ( РµСЃР»Рё РїСѓСЃС‚РѕРµ, С‚Рѕ РЅРµ РїРѕРґРЅРёРјР°РµРј Р·РµРјР»СЋ )
+	float fHeight;										//РјР°РєСЃРёРјР°Р»СЊРЅР°СЏ РІС‹СЃРѕС‚Р° РїСЂРѕС„РёР»СЏ ( РµСЃР»Рё РЅСѓР»РµРІР°СЏ, С‚Рѕ РЅРёС‡РµРіРѕ РЅРµ РїСЂРѕРёСЃС…РѕРґРёС‚ ) 
+	CTPoint<int> patternSize;					//РјРёРЅРёРјР°Р»СЊРЅС‹Р№ - РјР°РєСЃРёРјР°Р»СЊРЅС‹Р№ РїРѕР»СѓСЂР°Р·РјРµСЂ РїР°С‚С‚РµСЂРЅР°
+	float fPositiveRatio;							// 1 - РІСЃРµ РїРѕРґРЅРёРјР°РµРј, 0 - РІСЃРµ РѕРїСѓСЃРєР°РµРј
 	
-	//только для композеров
-	int	nSeason;											// сезон (лето/зима/африка :)
-	std::string szSeasonFolder;				//каталог сезона
+	//С‚РѕР»СЊРєРѕ РґР»СЏ РєРѕРјРїРѕР·РµСЂРѕРІ
+	int	nSeason;											// СЃРµР·РѕРЅ (Р»РµС‚Рѕ/Р·РёРјР°/Р°С„СЂРёРєР° :)
+	std::string szSeasonFolder;				//РєР°С‚Р°Р»РѕРі СЃРµР·РѕРЅР°
 	
 	void ValidateFieldSet( const struct STilesetDesc &rTilesetDesc, int nDefaultTileIndex );
 
@@ -443,31 +443,31 @@ typedef CWeightVector<SRMVSODesc> CRMVSOWeightVector;
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 struct SRMTemplate
 {
-	CRMFieldSetWeightVector fields;								//информация по заливке пустых пространств
-	CRMGraphWeightVector graphs;									//графы расположения патчей и связей между тими
-	CRMVSOWeightVector vso;												//промежуточные дороги
+	CRMFieldSetWeightVector fields;								//РёРЅС„РѕСЂРјР°С†РёСЏ РїРѕ Р·Р°Р»РёРІРєРµ РїСѓСЃС‚С‹С… РїСЂРѕСЃС‚СЂР°РЅСЃС‚РІ
+	CRMGraphWeightVector graphs;									//РіСЂР°С„С‹ СЂР°СЃРїРѕР»РѕР¶РµРЅРёСЏ РїР°С‚С‡РµР№ Рё СЃРІСЏР·РµР№ РјРµР¶РґСѓ С‚РёРјРё
+	CRMVSOWeightVector vso;												//РїСЂРѕРјРµР¶СѓС‚РѕС‡РЅС‹Рµ РґРѕСЂРѕРіРё
 		
 	//check info
-	CTPoint<int> size;														//в размер в VIS патчах ( 16 на 16 VIS тайлов )
-	int	nSeason;																	// сезон (лето/зима/африка :)
-	std::string szSeasonFolder;										//каталог сезона
-	std::string	szPlace;													// зарезервированно
-	CUsedScriptIDs usedScriptIDs;									//используемые scriptIDs
-	CUsedScriptAreas usedScriptAreas;							//используемые scriptAreas
+	CTPoint<int> size;														//РІ СЂР°Р·РјРµСЂ РІ VIS РїР°С‚С‡Р°С… ( 16 РЅР° 16 VIS С‚Р°Р№Р»РѕРІ )
+	int	nSeason;																	// СЃРµР·РѕРЅ (Р»РµС‚Рѕ/Р·РёРјР°/Р°С„СЂРёРєР° :)
+	std::string szSeasonFolder;										//РєР°С‚Р°Р»РѕРі СЃРµР·РѕРЅР°
+	std::string	szPlace;													// Р·Р°СЂРµР·РµСЂРІРёСЂРѕРІР°РЅРЅРѕ
+	CUsedScriptIDs usedScriptIDs;									//РёСЃРїРѕР»СЊР·СѓРµРјС‹Рµ scriptIDs
+	CUsedScriptAreas usedScriptAreas;							//РёСЃРїРѕР»СЊР·СѓРµРјС‹Рµ scriptAreas
 	
-	int nDefaultFieldIndex;												//дефалтовое поле ( по умолчанию 0 )
+	int nDefaultFieldIndex;												//РґРµС„Р°Р»С‚РѕРІРѕРµ РїРѕР»Рµ ( РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ 0 )
 	
 	std::string szScriptFile;											// file with mission's scripts
 	CVec3 vCameraAnchor;													// camera start position
-	std::vector<BYTE> diplomacies;								// дипломатии, 0, 1 - враждующие стороны, 2 - нейтралы
-	SUnitCreationInfo unitCreation;								// для каждого игрока в карте свой набор параметров авиации и других юнитов
-	std::string szForestCircleSounds;							// для создания звуков леса
-	std::string szForestAmbientSounds;						// для создания звуков леса
+	std::vector<BYTE> diplomacies;								// РґРёРїР»РѕРјР°С‚РёРё, 0, 1 - РІСЂР°Р¶РґСѓСЋС‰РёРµ СЃС‚РѕСЂРѕРЅС‹, 2 - РЅРµР№С‚СЂР°Р»С‹
+	SUnitCreationInfo unitCreation;								// РґР»СЏ РєР°Р¶РґРѕРіРѕ РёРіСЂРѕРєР° РІ РєР°СЂС‚Рµ СЃРІРѕР№ РЅР°Р±РѕСЂ РїР°СЂР°РјРµС‚СЂРѕРІ Р°РІРёР°С†РёРё Рё РґСЂСѓРіРёС… СЋРЅРёС‚РѕРІ
+	std::string szForestCircleSounds;							// РґР»СЏ СЃРѕР·РґР°РЅРёСЏ Р·РІСѓРєРѕРІ Р»РµСЃР°
+	std::string szForestAmbientSounds;						// РґР»СЏ СЃРѕР·РґР°РЅРёСЏ Р·РІСѓРєРѕРІ Р»РµСЃР°
 
-	std::string szChapterName;										// имя главы
-	int nMissionIndex;														// номер миссии в этой главе
-	int nType;																		// тип карты ( смотри CMapInfo )
-	int nAttackingSide;														//атакующая сторона ( для малтиплеера ( 0 - 1 ) )
+	std::string szChapterName;										// РёРјСЏ РіР»Р°РІС‹
+	int nMissionIndex;														// РЅРѕРјРµСЂ РјРёСЃСЃРёРё РІ СЌС‚РѕР№ РіР»Р°РІРµ
+	int nType;																		// С‚РёРї РєР°СЂС‚С‹ ( СЃРјРѕС‚СЂРё CMapInfo )
+	int nAttackingSide;														//Р°С‚Р°РєСѓСЋС‰Р°СЏ СЃС‚РѕСЂРѕРЅР° ( РґР»СЏ РјР°Р»С‚РёРїР»РµРµСЂР° ( 0 - 1 ) )
 
 	//MOD Support
 	std::string szMODName;
@@ -547,7 +547,7 @@ struct SRMTemplate
 typedef std::hash_map<std::string, SRMTemplate> CRMTemplatesHashMap;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//для построения дорог
+//РґР»СЏ РїРѕСЃС‚СЂРѕРµРЅРёСЏ РґРѕСЂРѕРі
 struct SRMPlacedPatch : public SRMPatch
 {
 	enum EPointSelectionType
@@ -558,7 +558,7 @@ struct SRMPlacedPatch : public SRMPatch
 		PST_EMPTY = 3,
 	};
 	
-	//структура для поиска дорог
+	//СЃС‚СЂСѓРєС‚СѓСЂР° РґР»СЏ РїРѕРёСЃРєР° РґРѕСЂРѕРі
 	struct SVSOPoint
 	{
 		int nID;
@@ -581,12 +581,12 @@ struct SRMPlacedPatch : public SRMPatch
 		}	
 	};
 
-	//общие данные
-	CTPoint<int> minXYCorner;						//положение патча в VIS тайлах в AI кординатах (инвертировано относительно terrainY )
+	//РѕР±С‰РёРµ РґР°РЅРЅС‹Рµ
+	CTPoint<int> minXYCorner;						//РїРѕР»РѕР¶РµРЅРёРµ РїР°С‚С‡Р° РІ VIS С‚Р°Р№Р»Р°С… РІ AI РєРѕСЂРґРёРЅР°С‚Р°С… (РёРЅРІРµСЂС‚РёСЂРѕРІР°РЅРѕ РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕ terrainY )
 
-	//данные для поиска дорог
-	std::list<SVSOPoint> riversPoints;	//точки соединения рек
-	std::list<SVSOPoint> roadsPoints;		//точки соединения дорог
+	//РґР°РЅРЅС‹Рµ РґР»СЏ РїРѕРёСЃРєР° РґРѕСЂРѕРі
+	std::list<SVSOPoint> riversPoints;	//С‚РѕС‡РєРё СЃРѕРµРґРёРЅРµРЅРёСЏ СЂРµРє
+	std::list<SVSOPoint> roadsPoints;		//С‚РѕС‡РєРё СЃРѕРµРґРёРЅРµРЅРёСЏ РґРѕСЂРѕРі
 
 	//constructors
 	SRMPlacedPatch() : minXYCorner( 0, 0 ) {}
@@ -607,29 +607,29 @@ struct SRMPlacedPatch : public SRMPatch
 		return *this;
 	}	
 
-	//рассматриваются все точки
-	//чтобы исключить точки их необходимо выкинуть из листов
-	static bool GetAndRemoveClosestVSOPoints( int nType,														//дорога - река ( SRMGraphLink::TYPE )
-																						SRMPlacedPatch &rStartPlacedPatch,		//начальный патч
-																						SRMPlacedPatch &rEndPlacedPatch,			//конечный патч
-																						const std::string &rVSODescFileName,	//VSO имя
-																						int nPointSelectionType,							//выборка точек см выше EPointSelectionType
-																						SVSOPoint *pBeginVSOPoint,						//стартовая точка
-																						SVSOPoint *pEndVSOPoint );						//конечная точка
+	//СЂР°СЃСЃРјР°С‚СЂРёРІР°СЋС‚СЃСЏ РІСЃРµ С‚РѕС‡РєРё
+	//С‡С‚РѕР±С‹ РёСЃРєР»СЋС‡РёС‚СЊ С‚РѕС‡РєРё РёС… РЅРµРѕР±С…РѕРґРёРјРѕ РІС‹РєРёРЅСѓС‚СЊ РёР· Р»РёСЃС‚РѕРІ
+	static bool GetAndRemoveClosestVSOPoints( int nType,														//РґРѕСЂРѕРіР° - СЂРµРєР° ( SRMGraphLink::TYPE )
+																						SRMPlacedPatch &rStartPlacedPatch,		//РЅР°С‡Р°Р»СЊРЅС‹Р№ РїР°С‚С‡
+																						SRMPlacedPatch &rEndPlacedPatch,			//РєРѕРЅРµС‡РЅС‹Р№ РїР°С‚С‡
+																						const std::string &rVSODescFileName,	//VSO РёРјСЏ
+																						int nPointSelectionType,							//РІС‹Р±РѕСЂРєР° С‚РѕС‡РµРє СЃРј РІС‹С€Рµ EPointSelectionType
+																						SVSOPoint *pBeginVSOPoint,						//СЃС‚Р°СЂС‚РѕРІР°СЏ С‚РѕС‡РєР°
+																						SVSOPoint *pEndVSOPoint );						//РєРѕРЅРµС‡РЅР°СЏ С‚РѕС‡РєР°
 };
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 typedef	std::vector<SRMPlacedPatch> CRMPlacedPatchesList;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//для построения пустых пространств
+//РґР»СЏ РїРѕСЃС‚СЂРѕРµРЅРёСЏ РїСѓСЃС‚С‹С… РїСЂРѕСЃС‚СЂР°РЅСЃС‚РІ
 class CRMFieldGraph
 {
 	struct SPatch
 	{
-		std::vector<bool> marckedVertices;						//посещенные вертексы
-		std::vector<CVec2> boundingPolygon;						//см ниже
-		CTRect<int> boundingRect;											//прямоугольник, нужен для проведения дополнительных линков
-		std::vector<std::vector<int> > linesIndices;	//индексы линий от дорог и рек в массиве lines
+		std::vector<bool> marckedVertices;						//РїРѕСЃРµС‰РµРЅРЅС‹Рµ РІРµСЂС‚РµРєСЃС‹
+		std::vector<CVec2> boundingPolygon;						//СЃРј РЅРёР¶Рµ
+		CTRect<int> boundingRect;											//РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРє, РЅСѓР¶РµРЅ РґР»СЏ РїСЂРѕРІРµРґРµРЅРёСЏ РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹С… Р»РёРЅРєРѕРІ
+		std::vector<std::vector<int> > linesIndices;	//РёРЅРґРµРєСЃС‹ Р»РёРЅРёР№ РѕС‚ РґРѕСЂРѕРі Рё СЂРµРє РІ РјР°СЃСЃРёРІРµ lines
 		
 		// 1(minx, maxy)  2(maxx, maxy)
 		// *--------------*
@@ -668,7 +668,7 @@ class CRMFieldGraph
 		int nLineIndex;
 	};
 
-	//входные данные
+	//РІС…РѕРґРЅС‹Рµ РґР°РЅРЅС‹Рµ
 	std::vector<SPatch> patches;
 	std::vector<SLine> lines;
 	
@@ -681,7 +681,7 @@ class CRMFieldGraph
 	bool GetPolygonAndMarkVertices( int nBeginPatchIndex, int nBeginVertexIndex, std::list<CVec2> *pPolygon, int nMaximumItations );
 
 	public:
-	//выходные данные
+	//РІС‹С…РѕРґРЅС‹Рµ РґР°РЅРЅС‹Рµ
 	std::list<std::list<CVec2> > inclusivePolygons;
 	std::list<std::list<CVec2> > exclusivePolygons;
 	
@@ -741,8 +741,8 @@ public:
 	static std::string GetUnitRPGMnemonic( DWORD nUnitRPGType );
 	static DWORD GetUnitRPGType( const std::string &rszUnitRPGMnenonic );
 
-	std::vector<CRMUnitsPlaceHoldersHashMap> unitPlaceHolders;	// по типам юнитов
-	SUnitCreationInfo unitCreationInfo;													// сюда записывается все кроме appear points
+	std::vector<CRMUnitsPlaceHoldersHashMap> unitPlaceHolders;	// РїРѕ С‚РёРїР°Рј СЋРЅРёС‚РѕРІ
+	SUnitCreationInfo unitCreationInfo;													// СЃСЋРґР° Р·Р°РїРёСЃС‹РІР°РµС‚СЃСЏ РІСЃРµ РєСЂРѕРјРµ appear points
 	std::vector<SRandomMissionBonus> bonuses;										// random mission bonuses
 	//
 	const std::string GetRandomBonus() const;
@@ -779,7 +779,7 @@ public:
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 struct SRMContext
 {
-	std::vector<SRMTemplateUnitsTable> levels;	//по уровням сложности
+	std::vector<SRMTemplateUnitsTable> levels;	//РїРѕ СѓСЂРѕРІРЅСЏРј СЃР»РѕР¶РЅРѕСЃС‚Рё
 	//
 	const std::string GetRandomBonus( const int nLevel ) const
 	{
@@ -829,7 +829,7 @@ struct SRMContext
 		}
 	}
 
-	//возвращает количество обьектов и обьекты для плеера
+	//РІРѕР·РІСЂР°С‰Р°РµС‚ РєРѕР»РёС‡РµСЃС‚РІРѕ РѕР±СЊРµРєС‚РѕРІ Рё РѕР±СЊРµРєС‚С‹ РґР»СЏ РїР»РµРµСЂР°
 	int GetAvailiableUnits( int nPlayer, DWORD nUnitRPGType, std::hash_set<std::string> *pAvailableUnits )
 	{
 		for ( int nLevelIndex = 0; nLevelIndex < levels.size(); ++nLevelIndex )
@@ -856,7 +856,7 @@ struct SRMContext
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 struct SRMSetting
 {
-	CRMFieldSetWeightVector fields;							//информация по заливке пустых пространств
+	CRMFieldSetWeightVector fields;							//РёРЅС„РѕСЂРјР°С†РёСЏ РїРѕ Р·Р°Р»РёРІРєРµ РїСѓСЃС‚С‹С… РїСЂРѕСЃС‚СЂР°РЅСЃС‚РІ
 
 	// serializing...
 	virtual int STDCALL operator&( IStructureSaver &ss );

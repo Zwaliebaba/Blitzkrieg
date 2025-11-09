@@ -42,7 +42,7 @@ interface ISound : public IRefCount
 	virtual void STDCALL SetPan( float nPan )=0;
 	virtual float STDCALL GetPan() const=0;
 	
-	// продолжительность звука в самплах
+	// РїСЂРѕРґРѕР»Р¶РёС‚РµР»СЊРЅРѕСЃС‚СЊ Р·РІСѓРєР° РІ СЃР°РјРїР»Р°С…
 	virtual unsigned int STDCALL GetLenght()=0;
 	virtual unsigned int STDCALL GetSampleRate()=0;
 	
@@ -120,7 +120,7 @@ interface ISFX : public IRefCount
 	
 	virtual bool STDCALL IsPlaying( ISound *pSound )=0;
 
-	// текущая позиция прогирыша
+	// С‚РµРєСѓС‰Р°СЏ РїРѕР·РёС†РёСЏ РїСЂРѕРіРёСЂС‹С€Р°
 	virtual unsigned int STDCALL GetCurrentPosition( ISound * pSound )=0;
 	virtual void STDCALL SetCurrentPosition( ISound * pSound, unsigned int pos )=0;
 };

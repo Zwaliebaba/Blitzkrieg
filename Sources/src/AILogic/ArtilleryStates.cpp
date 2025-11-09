@@ -129,7 +129,7 @@ IUnitState* CArtilleryStatesFactory::ProduceState( class CQueueUnit *pObj, CAICo
 
 			break;
 		case ACTION_COMMAND_MOVE_TO:
-			if ( pArtillery->IsInTankPit() && !pCommand->IsFromAI() )// сначала выйти из TankPit, потом поехать куда послали
+			if ( pArtillery->IsInTankPit() && !pCommand->IsFromAI() )// СЃРЅР°С‡Р°Р»Р° РІС‹Р№С‚Рё РёР· TankPit, РїРѕС‚РѕРј РїРѕРµС…Р°С‚СЊ РєСѓРґР° РїРѕСЃР»Р°Р»Рё
 			{
 				theGroupLogic.InsertUnitCommand( pCommand->ToUnitCmd(), pArtillery );
 				pResult = CTankPitLeaveState::Instance( pArtillery );
@@ -201,7 +201,7 @@ IUnitState* CArtilleryStatesFactory::ProduceState( class CQueueUnit *pObj, CAICo
 
 			break;
 		case ACTION_COMMAND_ROTATE_TO:
-			if ( pArtillery->IsInTankPit() && !pCommand->IsFromAI() && pArtillery->GetStats()->type != RPG_TYPE_ART_AAGUN )// сначала выйти из TankPit, потом поехать куда послали
+			if ( pArtillery->IsInTankPit() && !pCommand->IsFromAI() && pArtillery->GetStats()->type != RPG_TYPE_ART_AAGUN )// СЃРЅР°С‡Р°Р»Р° РІС‹Р№С‚Рё РёР· TankPit, РїРѕС‚РѕРј РїРѕРµС…Р°С‚СЊ РєСѓРґР° РїРѕСЃР»Р°Р»Рё
 			{
 				theGroupLogic.InsertUnitCommand( pCommand->ToUnitCmd(), pArtillery );
 				pResult = CTankPitLeaveState::Instance( pArtillery );
@@ -211,7 +211,7 @@ IUnitState* CArtilleryStatesFactory::ProduceState( class CQueueUnit *pObj, CAICo
 
 			break;
 		case ACTION_COMMAND_ROTATE_TO_DIR:
-			if ( pArtillery->IsInTankPit() && !pCommand->IsFromAI() )// сначала выйти из TankPit, потом поехать куда послали
+			if ( pArtillery->IsInTankPit() && !pCommand->IsFromAI() )// СЃРЅР°С‡Р°Р»Р° РІС‹Р№С‚Рё РёР· TankPit, РїРѕС‚РѕРј РїРѕРµС…Р°С‚СЊ РєСѓРґР° РїРѕСЃР»Р°Р»Рё
 			{
 				theGroupLogic.InsertUnitCommand( pCommand->ToUnitCmd(), pArtillery );
 				pResult = CTankPitLeaveState::Instance( pArtillery );
@@ -255,7 +255,7 @@ IUnitState* CArtilleryStatesFactory::ProduceState( class CQueueUnit *pObj, CAICo
 
 			break;
 		case ACTION_COMMAND_SWARM_TO:
-			// сначала выйти из TankPit, потом поехать куда послали			
+			// СЃРЅР°С‡Р°Р»Р° РІС‹Р№С‚Рё РёР· TankPit, РїРѕС‚РѕРј РїРѕРµС…Р°С‚СЊ РєСѓРґР° РїРѕСЃР»Р°Р»Рё			
 			if ( pArtillery->IsInTankPit() && !pCommand->IsFromAI() )
 			{
 				theGroupLogic.InsertUnitCommand( pCommand->ToUnitCmd(), pArtillery );
@@ -321,7 +321,7 @@ CArtilleryMoveToState::CArtilleryMoveToState( CArtillery *_pArtillery, const CVe
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CArtilleryMoveToState::Segment()
 {
-	//CRAP { заплатка к майлстоуну
+	//CRAP { Р·Р°РїР»Р°С‚РєР° Рє РјР°Р№Р»СЃС‚РѕСѓРЅСѓ
 	if ( pArtillery->MustHaveCrewToOperate() && pArtillery->HasSlaveTransport() )
 	{
 		const CVec2 &vPos = pArtillery->GetCurCmd()->ToUnitCmd().vPos;
@@ -663,7 +663,7 @@ CArtilleryRangeAreaState::CArtilleryRangeAreaState( CAIUnit *_pUnit, const CVec2
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CArtilleryRangeAreaState::CheckArea()
 {
-	// по юнитам
+	// РїРѕ СЋРЅРёС‚Р°Рј
 	pUnit->ResetShootEstimator( 0, false );
 	for ( CUnitsIter<1,2> iter( pUnit->GetParty(), EDI_ENEMY, point, SConsts::RANGED_AREA_RADIUS ); !iter.IsFinished(); iter.Iterate() )
 	{
@@ -674,13 +674,13 @@ void CArtilleryRangeAreaState::CheckArea()
 			pUnit->AddUnitToShootEstimator( pTarget );
 	}
 
-	// враг найден
+	// РІСЂР°Рі РЅР°Р№РґРµРЅ
 	if ( pEnemy = pUnit->GetBestShootEstimatedUnit() )
 	{
 		eState = ERAS_SHOOT_UNIT;
 		pGun->StartEnemyBurst( pEnemy, true );
 	}
-	// по объектам
+	// РїРѕ РѕР±СЉРµРєС‚Р°Рј
 	else
 	{
 		for ( CStObjCircleIter<true> iter( point, SConsts::RANGED_AREA_RADIUS ); !iter.IsFinished() && pObj == 0; iter.Iterate() )
@@ -906,8 +906,8 @@ void CArtilleryUninstallTransportState::Segment()
 	switch( eState )
 	{
 	case AUTS_WAIT_FOR_UNINSTALL:
-		// дождаться, пока пушка деинсталлируется
-		//( в случае если злоумышленники деинсталлировали ее в момент подцепления)
+		// РґРѕР¶РґР°С‚СЊСЃСЏ, РїРѕРєР° РїСѓС€РєР° РґРµРёРЅСЃС‚Р°Р»Р»РёСЂСѓРµС‚СЃСЏ
+		//( РІ СЃР»СѓС‡Р°Рµ РµСЃР»Рё Р·Р»РѕСѓРјС‹С€Р»РµРЅРЅРёРєРё РґРµРёРЅСЃС‚Р°Р»Р»РёСЂРѕРІР°Р»Рё РµРµ РІ РјРѕРјРµРЅС‚ РїРѕРґС†РµРїР»РµРЅРёСЏ)
 		if ( pArtillery->IsUninstalled() )
 		{
 			if ( pArtillery->GetCurUninstallAction() == ACTION_NOTIFY_UNINSTALL_TRANSPORT )
@@ -918,7 +918,7 @@ void CArtilleryUninstallTransportState::Segment()
 				eState = AUTS_INSTALLING; // 
 			}
 		}
-		// break убран сознательно
+		// break СѓР±СЂР°РЅ СЃРѕР·РЅР°С‚РµР»СЊРЅРѕ
 	case AUTS_INSTALLING:
 		if ( pArtillery->IsInstalled() )
 		{
@@ -945,7 +945,7 @@ ETryStateInterruptResult CArtilleryUninstallTransportState::TryInterruptState(cl
 	{
 		return TSIR_YES_WAIT;
 	}
-	return TSIR_NO_COMMAND_INCOMPATIBLE; // этот стейт завершается сам
+	return TSIR_NO_COMMAND_INCOMPATIBLE; // СЌС‚РѕС‚ СЃС‚РµР№С‚ Р·Р°РІРµСЂС€Р°РµС‚СЃСЏ СЃР°Рј
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const CVec2 CArtilleryUninstallTransportState::GetPurposePoint() const
@@ -983,7 +983,7 @@ void CArtilleryBeingTowedState::Segment()
 		pArtillery->ChangePlayer( theDipl.GetNeutralPlayer() );
 		TryInterruptState( 0 );
 	}
-	// изменилось положение буксира
+	// РёР·РјРµРЅРёР»РѕСЃСЊ РїРѕР»РѕР¶РµРЅРёРµ Р±СѓРєСЃРёСЂР°
 	else if (	wLastTagDir != pTransport->GetFrontDir() || vLastTagCenter != pTransport->GetCenter() )
 	{
 		CVec2 vFormerPos( pArtillery->GetCenter() );
@@ -991,10 +991,10 @@ void CArtilleryBeingTowedState::Segment()
 		const CVec2 tagUnitDir = GetVectorByDirection( pTransport->GetFrontDir() );
 		const CVec2 hookPoint = pTransport->GetHookPoint();
 
-		// новое направление
+		// РЅРѕРІРѕРµ РЅР°РїСЂР°РІР»РµРЅРёРµ
 		CVec2 newDirVec = hookPoint - pArtillery->GetCenter();
 
-		// если начало движения и тягач не попал точкой прицепления в точку прицепления артиллерии (точка ближе, чем надо)
+		// РµСЃР»Рё РЅР°С‡Р°Р»Рѕ РґРІРёР¶РµРЅРёСЏ Рё С‚СЏРіР°С‡ РЅРµ РїРѕРїР°Р» С‚РѕС‡РєРѕР№ РїСЂРёС†РµРїР»РµРЅРёСЏ РІ С‚РѕС‡РєСѓ РїСЂРёС†РµРїР»РµРЅРёСЏ Р°СЂС‚РёР»Р»РµСЂРёРё (С‚РѕС‡РєР° Р±Р»РёР¶Рµ, С‡РµРј РЅР°РґРѕ)
 		bool bZeroSpeed = false;
 		if ( newDirVec  *  tagUnitDir < 0 )
 		{
@@ -1098,7 +1098,7 @@ void CArtilleryAttackState::Segment()
 		else if ( pArtillery->IsInstalled() || eState == EAS_NONE || eState == EAS_ROTATING )
 		{
 			damageToEnemyUpdater.SetDamageToEnemy( pArtillery, pEnemy, pGun );
-			// если можно перевыбирать цель, то выбрать цель
+			// РµСЃР»Рё РјРѕР¶РЅРѕ РїРµСЂРµРІС‹Р±РёСЂР°С‚СЊ С†РµР»СЊ, С‚Рѕ РІС‹Р±СЂР°С‚СЊ С†РµР»СЊ
 			if ( bSwarmAttack )
 				pArtillery->AnalyzeTargetScan( pEnemy, damageToEnemyUpdater.IsDamageUpdated(), false );
 

@@ -14,12 +14,12 @@ extern CStaticMap theStaticMap;
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool CLockWithUnlockPossibilities::TryLockAlongTheWay( const bool bLock, const BYTE _bAIClass )
 {
-	// залочить/разлочить тайлы 
+	// Р·Р°Р»РѕС‡РёС‚СЊ/СЂР°Р·Р»РѕС‡РёС‚СЊ С‚Р°Р№Р»С‹ 
 	if ( bLock )
 	{
 		NI_ASSERT_T( pathTiles.size() == 0, "wrong call" );
 		NI_ASSERT_T( formerTilesType.size() == 0, "wrong call" );
-		// найти количество юнитов, которые могут быть на нашем пути.
+		// РЅР°Р№С‚Рё РєРѕР»РёС‡РµСЃС‚РІРѕ СЋРЅРёС‚РѕРІ, РєРѕС‚РѕСЂС‹Рµ РјРѕРіСѓС‚ Р±С‹С‚СЊ РЅР° РЅР°С€РµРј РїСѓС‚Рё.
 		int nUnits = 0;
 		for ( CUnitsIter<0,3> iter( 0, ANY_PARTY, bigRect.center, Max( bigRect.width, Max(bigRect.lengthAhead,bigRect.lengthBack) ) );
 					!iter.IsFinished(); iter.Iterate() )
@@ -31,8 +31,8 @@ bool CLockWithUnlockPossibilities::TryLockAlongTheWay( const bool bLock, const B
 			}
 		}
 
-		// разлочить танк
-		// запомнить состояние залоченности на всем пути и выяснить возможность танку выехать
+		// СЂР°Р·Р»РѕС‡РёС‚СЊ С‚Р°РЅРє
+		// Р·Р°РїРѕРјРЅРёС‚СЊ СЃРѕСЃС‚РѕСЏРЅРёРµ Р·Р°Р»РѕС‡РµРЅРЅРѕСЃС‚Рё РЅР° РІСЃРµРј РїСѓС‚Рё Рё РІС‹СЏСЃРЅРёС‚СЊ РІРѕР·РјРѕР¶РЅРѕСЃС‚СЊ С‚Р°РЅРєСѓ РІС‹РµС…Р°С‚СЊ
 		GetTilesCoveredByRect( bigRect, &pathTiles );
 
 		
@@ -44,7 +44,7 @@ bool CLockWithUnlockPossibilities::TryLockAlongTheWay( const bool bLock, const B
 		{
 			BYTE b = theStaticMap.GetTileLockInfo( (*it) );
 			formerTilesType[i] = b;
-			bPossible &= !(formerTilesType[i] & bAIClass); // может ли танк проехать по нужному пути
+			bPossible &= !(formerTilesType[i] & bAIClass); // РјРѕР¶РµС‚ Р»Рё С‚Р°РЅРє РїСЂРѕРµС…Р°С‚СЊ РїРѕ РЅСѓР¶РЅРѕРјСѓ РїСѓС‚Рё
 			++i;
 		}
 		if (!bPossible)
@@ -55,10 +55,10 @@ bool CLockWithUnlockPossibilities::TryLockAlongTheWay( const bool bLock, const B
 		}
 		else
 		{
-			// разлочить старые
+			// СЂР°Р·Р»РѕС‡РёС‚СЊ СЃС‚Р°СЂС‹Рµ
 			Unlock();
 
-			// все по-новому залочить
+			// РІСЃРµ РїРѕ-РЅРѕРІРѕРјСѓ Р·Р°Р»РѕС‡РёС‚СЊ
 			for ( CTilesSet::iterator it = pathTiles.begin(); it != pathTiles.end(); ++it )
 			{
 				theStaticMap.LockTile( (*it), AI_CLASS_ANY );
@@ -70,16 +70,16 @@ bool CLockWithUnlockPossibilities::TryLockAlongTheWay( const bool bLock, const B
 	}
 	else
 	{
-		if ( pathTiles.size() != 0 ) // что-то лочили
+		if ( pathTiles.size() != 0 ) // С‡С‚Рѕ-С‚Рѕ Р»РѕС‡РёР»Рё
 		{
-			//разлочить 
+			//СЂР°Р·Р»РѕС‡РёС‚СЊ 
 			for ( CTilesSet::iterator it = pathTiles.begin(); it != pathTiles.end(); ++it )
 				theStaticMap.UnlockTile( (*it), AI_CLASS_ANY );
 			SVector vMax, vMin;
 			theStaticMap.CalcMaxesBoundsByTiles( pathTiles, &vMin, &vMax );
 			theStaticMap.UpdateMaxesForRemovedStObject( vMin.x, vMax.x, vMin.y, vMax.y, AI_CLASS_ANY );
 
-			//залочить как было до начала движения
+			//Р·Р°Р»РѕС‡РёС‚СЊ РєР°Рє Р±С‹Р»Рѕ РґРѕ РЅР°С‡Р°Р»Р° РґРІРёР¶РµРЅРёСЏ
 			Lock();
 
 			pathTiles.clear();

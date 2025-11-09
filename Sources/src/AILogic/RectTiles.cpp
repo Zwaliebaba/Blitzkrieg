@@ -14,7 +14,7 @@ bool ProcessQuadrangleTiles( const CVec2 &v1, const CVec2 &v2, const CVec2 &v3, 
 	if ( N )
 		pTiles->clear();
 
-	// выход за пределы карты
+	// РІС‹С…РѕРґ Р·Р° РїСЂРµРґРµР»С‹ РєР°СЂС‚С‹
 	if ( !N )
 	{
 		const int nSizeX = theStaticMap.GetSizeX() * SConsts::TILE_SIZE;
@@ -184,7 +184,7 @@ typedef std::hash_map<SVector, bool, SVectorHash> CSVectorHash;
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void GetTilesNextToRect( const SRect &rect, CTilesSet *pTiles )
 {
-	// криво! как-то нужно подумать и написать получше
+	// РєСЂРёРІРѕ! РєР°Рє-С‚Рѕ РЅСѓР¶РЅРѕ РїРѕРґСѓРјР°С‚СЊ Рё РЅР°РїРёСЃР°С‚СЊ РїРѕР»СѓС‡С€Рµ
 	CTilesSet tilesUnderRect;
 	GetTilesCoveredByRect( rect, &tilesUnderRect );
 	CSVectorHash tilesUnderRect1;
@@ -232,7 +232,7 @@ void GetTilesUnderRectSide( const SRect &rect, CTilesSet *pTiles, const WORD wDi
 {
 	CTilesCollector a(pTiles);
 
-	//перейдм к DWORD чтобы не переполнялось
+	//РїРµСЂРµР№РґРј Рє DWORD С‡С‚РѕР±С‹ РЅРµ РїРµСЂРµРїРѕР»РЅСЏР»РѕСЃСЊ
 	DWORD arDir[4];
 	DWORD dwDir = wDir;
 	arDir[0] = GetDirectionByVector( (rect.v1 +rect.v2)/2 - rect.center );
@@ -253,22 +253,22 @@ void GetTilesUnderRectSide( const SRect &rect, CTilesSet *pTiles, const WORD wDi
 	}
 
 	if ( need(iMin,0) )
-	{//wDir не лежит между arDir[0] и arDir[1]
+	{//wDir РЅРµ Р»РµР¶РёС‚ РјРµР¶РґСѓ arDir[0] Рё arDir[1]
 		MakeLine2( rect.v1.x/SConsts::TILE_SIZE, rect.v1.y/SConsts::TILE_SIZE, rect.v2.x/SConsts::TILE_SIZE, rect.v2.y/SConsts::TILE_SIZE, a );
 	}
 
 	if ( need(iMin,1) )
-	{//wDir не лежит между arDir[1] и arDir[2]
+	{//wDir РЅРµ Р»РµР¶РёС‚ РјРµР¶РґСѓ arDir[1] Рё arDir[2]
 		MakeLine2( rect.v2.x/SConsts::TILE_SIZE, rect.v2.y/SConsts::TILE_SIZE, rect.v3.x/SConsts::TILE_SIZE, rect.v3.y/SConsts::TILE_SIZE, a );
 	}
 
 	if ( need(iMin,2) )
-	{//wDir no лежит между arDir[1] и arDir[2]
+	{//wDir no Р»РµР¶РёС‚ РјРµР¶РґСѓ arDir[1] Рё arDir[2]
 		MakeLine2( rect.v3.x/SConsts::TILE_SIZE, rect.v3.y/SConsts::TILE_SIZE, rect.v4.x/SConsts::TILE_SIZE, rect.v4.y/SConsts::TILE_SIZE, a );
 	}
 
 	if ( need(iMin,3) )
-	{//wDir no лежит между arDir[1] и arDir[2]
+	{//wDir no Р»РµР¶РёС‚ РјРµР¶РґСѓ arDir[1] Рё arDir[2]
 		MakeLine2( rect.v4.x/SConsts::TILE_SIZE, rect.v4.y/SConsts::TILE_SIZE, rect.v1.x/SConsts::TILE_SIZE, rect.v1.y/SConsts::TILE_SIZE, a );
 	}
 }

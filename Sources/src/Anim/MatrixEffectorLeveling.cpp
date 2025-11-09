@@ -11,18 +11,18 @@ CMatrixEffectorLeveling::CMatrixEffectorLeveling()
 	timeSetuped = 0;
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// получить углы, необходимые для поворота этой нормали относительно осей X (phi) и Y (theta) 
-// для совпадения её с осью Z
+// РїРѕР»СѓС‡РёС‚СЊ СѓРіР»С‹, РЅРµРѕР±С…РѕРґРёРјС‹Рµ РґР»СЏ РїРѕРІРѕСЂРѕС‚Р° СЌС‚РѕР№ РЅРѕСЂРјР°Р»Рё РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕ РѕСЃРµР№ X (phi) Рё Y (theta) 
+// РґР»СЏ СЃРѕРІРїР°РґРµРЅРёСЏ РµС‘ СЃ РѕСЃСЊСЋ Z
 inline void GetAngles( const CVec3 &vNormal, float *pfPhi, float *pfTheta )
 {
-	// phi - поворот в плоскости ZY относительно оси X
+	// phi - РїРѕРІРѕСЂРѕС‚ РІ РїР»РѕСЃРєРѕСЃС‚Рё ZY РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕ РѕСЃРё X
 	// cos( phi ) = Z*N(x=0) = (0, 0, 1) * (0, Ny, Nz) / sqrt( Ny**2 + Nz**2 );
 	{
 		const float fLen2 = fabs2( vNormal.y, vNormal.z );
 		*pfPhi = fLen2 < 1e-8f ? 0 : vNormal.z / sqrt( fLen2 );
 		*pfPhi = -Sign( vNormal.y ) * acos( Clamp(*pfPhi, -1.0f, 1.0f) );
 	}
-	// theta - поворот в плоскости ZX относительно оси Y
+	// theta - РїРѕРІРѕСЂРѕС‚ РІ РїР»РѕСЃРєРѕСЃС‚Рё ZX РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕ РѕСЃРё Y
 	// cos( theta ) = Z*N(y=0) = Nz / fabs( Nx, Nz )
 	{
 		const float fLen2 = fabs2( vNormal.x, vNormal.z );

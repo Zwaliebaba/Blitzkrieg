@@ -256,7 +256,7 @@ void CStructureSaver::StoreObject( IRefCount *pObject )
 	if ( (pObject != 0) && (storedObjects.find(pObject) == storedObjects.end()) && !IsDataOnly() )
 	{
 		toStore.push_back( pObject );
-		storedObjects[pObject] = true;			// важно присвоить хоть что-нибудь
+		storedObjects[pObject] = true;			// РІР°Р¶РЅРѕ РїСЂРёСЃРІРѕРёС‚СЊ С…РѕС‚СЊ С‡С‚Рѕ-РЅРёР±СѓРґСЊ
 	}
 	RawData( &pObject, 4 );
 }

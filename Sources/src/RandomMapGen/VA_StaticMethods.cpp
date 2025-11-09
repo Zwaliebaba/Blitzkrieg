@@ -18,7 +18,7 @@ const CVec3 CVertexAltitudeInfo::V3_CAMERA_NEGATIVE( -1, -1, -( CVertexAltitudeI
 const CVec3 CVertexAltitudeInfo::V3_CAMERA_POSITIVE( 1, 1, -( CVertexAltitudeInfo::CAMERA_ALPHA ) );
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//посчитать нормаль в точке
+//РїРѕСЃС‡РёС‚Р°С‚СЊ РЅРѕСЂРјР°Р»СЊ РІ С‚РѕС‡РєРµ
 // v1---v2
 // |\   | \
 // |  \ |   \
@@ -162,8 +162,8 @@ const float CStaticMap::GetVisZ( float x, float y ) const
 		return 0;
 	//
 	GetPoint4Spline( CVec2( x, y ), &u, &v, ptCtrls );
-	// высоты разжимаются обратно, т.к. для сплайна даётся сетка с шагом 1 ( а не 2 * TILE_SIZE )
-	// умножается на fAITileZCoeff1, чтобы перевести в AI высоты
+	// РІС‹СЃРѕС‚С‹ СЂР°Р·Р¶РёРјР°СЋС‚СЃСЏ РѕР±СЂР°С‚РЅРѕ, С‚.Рє. РґР»СЏ СЃРїР»Р°Р№РЅР° РґР°С‘С‚СЃСЏ СЃРµС‚РєР° СЃ С€Р°РіРѕРј 1 ( Р° РЅРµ 2 * TILE_SIZE )
+	// СѓРјРЅРѕР¶Р°РµС‚СЃСЏ РЅР° fAITileZCoeff1, С‡С‚РѕР±С‹ РїРµСЂРµРІРµСЃС‚Рё РІ AI РІС‹СЃРѕС‚С‹
 	return betaSpline3D.Value( u, v, ptCtrls ) * 2.0f * SConsts::TILE_SIZE * fAITileZCoeff1;
 }
 /**/

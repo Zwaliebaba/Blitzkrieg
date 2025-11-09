@@ -24,7 +24,7 @@ interface IRandomGen : public IRefCount
 	virtual IRandomGenSeed* STDCALL GetSeed() = 0;
 	//
 	virtual unsigned int STDCALL Get() = 0;
-	// запись и считывание из потока - для пересылки по сети (для синхронизации)
+	// Р·Р°РїРёСЃСЊ Рё СЃС‡РёС‚С‹РІР°РЅРёРµ РёР· РїРѕС‚РѕРєР° - РґР»СЏ РїРµСЂРµСЃС‹Р»РєРё РїРѕ СЃРµС‚Рё (РґР»СЏ СЃРёРЅС…СЂРѕРЅРёР·Р°С†РёРё)
 	virtual void STDCALL Store( IDataStream *pStream ) = 0;
 	virtual void STDCALL Restore( IDataStream *pStream ) = 0;
 };

@@ -236,7 +236,7 @@ void CSoundEngine::SetRolloffFactor( float fFactor )
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CSoundEngine::Update( interface ICamera *pCamera )
 {
-	// ЭТО НЕ НУЖНО, И ПРИВОДИТ К ГЛЮКАМ В 2D ЗВУКАХ
+	// иЏЂ?е›ў й™Ђд»†? ?й—Іељ·ж–‡зє« ?з›џеҐжЌћ ?2D й”№й‚®е‹’
 	/*
 	// FMOD treats +X as right, +Y as up, and +Z as forwards
 	CVec3 vPos = pCamera->GetAnchor();
@@ -561,11 +561,11 @@ void CSoundEngine::ReEnableSounds()
 void CSoundEngine::NotifyMelodyFinished()
 {
 	NWin32Helper::CCriticalSectionLock lock( critSection );
-	if ( nextMelody.IsValid() ) // нужно играть следующую
+	if ( nextMelody.IsValid() ) // зњўйЄ“?жЎЎз–ЈићЇ иЂ й‚ѓз°‹о‹¤?
 	{
 		PlayNextMelody();
 	}
-	else if ( curMelody.IsValid() && curMelody.bLooped ) // текущая защиклена
+	else if ( curMelody.IsValid() && curMelody.bLooped ) // иќ€з‰¦о‹‘пЈµ зЋЋо‹™и§Ње±™?
 	{
 		nStreamingChannel = FSOUND_Stream_Play( FSOUND_FREE, pStreamingSound );
 		FSOUND_SetPan( nStreamingChannel, FSOUND_STEREOPAN );

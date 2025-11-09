@@ -23,7 +23,7 @@ void CUIWindowSubState::CopyInternals( CUIWindowSubState *pSS ) const
 	pSS->specular = specular;
 	pSS->textColor = textColor;
 
-	pSS->pTexture = pTexture;						// внешний вид - текстура
+	pSS->pTexture = pTexture;						// РІРЅРµС€РЅРёР№ РІРёРґ - С‚РµРєСЃС‚СѓСЂР°
 	pSS->pMask = pMask;
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -92,10 +92,10 @@ void LoadTileRectangles( CTreeAccessor *pFile, std::vector<SWindowSubRect> &subR
 	if ( temp.empty() )
 		return;
 
-	//конвертирую тайловые прямоугольники в subRects
+	//РєРѕРЅРІРµСЂС‚РёСЂСѓСЋ С‚Р°Р№Р»РѕРІС‹Рµ РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРєРё РІ subRects
 	if ( pTexture )
 	{
-		//преобразуем из int координат в пикселях во внутренние координаты float
+		//РїСЂРµРѕР±СЂР°Р·СѓРµРј РёР· int РєРѕРѕСЂРґРёРЅР°С‚ РІ РїРёРєСЃРµР»СЏС… РІРѕ РІРЅСѓС‚СЂРµРЅРЅРёРµ РєРѕРѕСЂРґРёРЅР°С‚С‹ float
 		float fSizeX = pTexture->GetSizeX( 0 );
 		float fSizeY = pTexture->GetSizeY( 0 );
 		
@@ -143,7 +143,7 @@ void LoadTileRectangles( CTreeAccessor *pFile, std::vector<SWindowSubRect> &subR
 	}
 	else
 	{
-		//нету текстуры, не хочу тайлить
+		//РЅРµС‚Сѓ С‚РµРєСЃС‚СѓСЂС‹, РЅРµ С…РѕС‡Сѓ С‚Р°Р№Р»РёС‚СЊ
 		SWindowSubRect sub;
 		for ( int i=0; i<temp.size(); i++ )
 		{
@@ -168,10 +168,10 @@ void CUIWindowSubState::LoadTileRects( CTreeAccessor *pFile )
 	if ( temp.empty() )
 		return;
 
-	//конвертирую тайловые прямоугольники в subRects
+	//РєРѕРЅРІРµСЂС‚РёСЂСѓСЋ С‚Р°Р№Р»РѕРІС‹Рµ РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРєРё РІ subRects
 	if ( pTexture )
 	{
-		//преобразуем из int координат в пикселях во внутренние координаты float
+		//РїСЂРµРѕР±СЂР°Р·СѓРµРј РёР· int РєРѕРѕСЂРґРёРЅР°С‚ РІ РїРёРєСЃРµР»СЏС… РІРѕ РІРЅСѓС‚СЂРµРЅРЅРёРµ РєРѕРѕСЂРґРёРЅР°С‚С‹ float
 		float fSizeX = pTexture->GetSizeX( 0 );
 		float fSizeY = pTexture->GetSizeY( 0 );
 		
@@ -219,7 +219,7 @@ void CUIWindowSubState::LoadTileRects( CTreeAccessor *pFile )
 	}
 	else
 	{
-		//нету текстуры, не хочу тайлить
+		//РЅРµС‚Сѓ С‚РµРєСЃС‚СѓСЂС‹, РЅРµ С…РѕС‡Сѓ С‚Р°Р№Р»РёС‚СЊ
 		SWindowSubRect sub;
 		for ( int i=0; i<temp.size(); i++ )
 		{
@@ -279,7 +279,7 @@ void CUIWindowSubState::SaveTextureAndSubRects( CTreeAccessor *pFile )
 	float fSizeY = pTexture->GetSizeY( 0 );
 	std::vector<SWindowTempSubRect> temp;
 	SWindowTempSubRect sub;
-	//составляю вектор прямоугольников с int координатами
+	//СЃРѕСЃС‚Р°РІР»СЏСЋ РІРµРєС‚РѕСЂ РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРєРѕРІ СЃ int РєРѕРѕСЂРґРёРЅР°С‚Р°РјРё
 	for ( int i=0; i<subRects.size(); i++ )
 	{
 		sub.rc = subRects[i].rc;
@@ -309,10 +309,10 @@ void CUIWindowSubState::LoadTextureAndSubRects( CTreeAccessor *pFile )
 	//CRAP
 	if ( temp.empty() )
 	{
-		//считываю мапу по старому методу и добавляю ее в список subRects
+		//СЃС‡РёС‚С‹РІР°СЋ РјР°РїСѓ РїРѕ СЃС‚Р°СЂРѕРјСѓ РјРµС‚РѕРґСѓ Рё РґРѕР±Р°РІР»СЏСЋ РµРµ РІ СЃРїРёСЃРѕРє subRects
 		if ( pTexture )
 		{
-			//преобразуем из int координат в пикселях во внутренние координаты float
+			//РїСЂРµРѕР±СЂР°Р·СѓРµРј РёР· int РєРѕРѕСЂРґРёРЅР°С‚ РІ РїРёРєСЃРµР»СЏС… РІРѕ РІРЅСѓС‚СЂРµРЅРЅРёРµ РєРѕРѕСЂРґРёРЅР°С‚С‹ float
 			CTRect<int> rc( -1, -1, -1, -1 );
 			pFile->Add( "Maps", &rc );
 
@@ -358,7 +358,7 @@ void CUIWindowSubState::LoadTextureAndSubRects( CTreeAccessor *pFile )
 	
 	if ( pTexture )
 	{
-		//преобразуем из int координат в пикселях во внутренние координаты float
+		//РїСЂРµРѕР±СЂР°Р·СѓРµРј РёР· int РєРѕРѕСЂРґРёРЅР°С‚ РІ РїРёРєСЃРµР»СЏС… РІРѕ РІРЅСѓС‚СЂРµРЅРЅРёРµ РєРѕРѕСЂРґРёРЅР°С‚С‹ float
 		float fSizeX = pTexture->GetSizeX( 0 );
 		float fSizeY = pTexture->GetSizeY( 0 );
 		
@@ -437,9 +437,9 @@ int CWindowState::operator&( IDataTree &ss )
 	saver.Add( "PushSound", &szPushSound );
 	saver.Add( "ClickSound", &szClickSound );
 	saver.Add( "ToolTip", &szToolKey );
-	//тултип загрузится в CSimpleWindow::operator &()
+	//С‚СѓР»С‚РёРї Р·Р°РіСЂСѓР·РёС‚СЃСЏ РІ CSimpleWindow::operator &()
 	
-	//текст
+	//С‚РµРєСЃС‚
 	saver.Add( "TextKey", &szKey );
 	
 	if ( saver.IsReading() )
@@ -474,11 +474,11 @@ int CWindowState::operator&( IStructureSaver &ss )
 	saver.Add( 3, &subStates[2] );
 	saver.Add( 4, &subStates[3] );
 
-	//звуки
+	//Р·РІСѓРєРё
 	saver.Add( 5, &szPushSound );
 	saver.Add( 6, &szClickSound );
 
-	//текст
+	//С‚РµРєСЃС‚
 	saver.Add( 7, &pGfxText );
 	saver.Add( 8, &szKey );
 
@@ -511,7 +511,7 @@ void SaveTextureAndMap( CTreeAccessor *pFile, IGFXTexture *pTexture, DTChunkID t
 	
 	if ( pTexture )
 	{
-		//преобразуем из float координат в int координаты пикселей
+		//РїСЂРµРѕР±СЂР°Р·СѓРµРј РёР· float РєРѕРѕСЂРґРёРЅР°С‚ РІ int РєРѕРѕСЂРґРёРЅР°С‚С‹ РїРёРєСЃРµР»РµР№
 		float fSizeX = pTexture->GetSizeX( 0 );
 		float fSizeY = pTexture->GetSizeY( 0 );
 		
@@ -537,7 +537,7 @@ void LoadTextureAndMap( CTreeAccessor *pFile, CPtr<IGFXTexture> *ppTexture, DTCh
 	
 	if ( *ppTexture )
 	{
-		//преобразуем из int координат в пикселях во внутренние координаты float
+		//РїСЂРµРѕР±СЂР°Р·СѓРµРј РёР· int РєРѕРѕСЂРґРёРЅР°С‚ РІ РїРёРєСЃРµР»СЏС… РІРѕ РІРЅСѓС‚СЂРµРЅРЅРёРµ РєРѕРѕСЂРґРёРЅР°С‚С‹ float
 		CTRect<int> rc;
 		pFile->Add( mName, &rc );
 		float fSizeX = (*ppTexture)->GetSizeX( 0 );

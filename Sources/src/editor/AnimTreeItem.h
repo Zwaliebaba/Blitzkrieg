@@ -25,7 +25,7 @@ public:
 	CUnitCommonPropsItem() { nItemType = E_UNIT_COMMON_PROPS_ITEM; InitDefaultValues(); }
 	~CUnitCommonPropsItem() {};
 
-	//Получение внутренних параметров
+	//РџРѕР»СѓС‡РµРЅРёРµ РІРЅСѓС‚СЂРµРЅРЅРёС… РїР°СЂР°РјРµС‚СЂРѕРІ
 	const char *GetUnitName() { return values[0].value; }
 	int GetUnitType();
 	const char *GetPictureFileName() { return values[2].value; }
@@ -40,7 +40,7 @@ public:
 	float GetSight() { return values[11].value; }
 	float GetSightPower() { return values[12].value; }
 	
-	//Установка внутренних параметров
+	//РЈСЃС‚Р°РЅРѕРІРєР° РІРЅСѓС‚СЂРµРЅРЅРёС… РїР°СЂР°РјРµС‚СЂРѕРІ
 	void SetUnitName( const char *pszName ) { values[0].value = pszName; }
 	void SetUnitType( int nVal );
 	void SetPictureFileName( const char *pszName ) { values[2].value = pszName; }
@@ -149,9 +149,9 @@ class CDirectoryPropsItem : public CTreeItem
 {
 private:
 	int nSelImage;
-	SThumbItems m_thumbItems;			//эти items отображаются в AllDirThumbList
+	SThumbItems m_thumbItems;			//СЌС‚Рё items РѕС‚РѕР±СЂР°Р¶Р°СЋС‚СЃСЏ РІ AllDirThumbList
 	CImageList imageList;
-	bool bLoaded;									//этот флаг для подкачки items только в момент когда пользователь выбирает папку с анимациями или тыкает во frame
+	bool bLoaded;									//СЌС‚РѕС‚ С„Р»Р°Рі РґР»СЏ РїРѕРґРєР°С‡РєРё items С‚РѕР»СЊРєРѕ РІ РјРѕРјРµРЅС‚ РєРѕРіРґР° РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ РІС‹Р±РёСЂР°РµС‚ РїР°РїРєСѓ СЃ Р°РЅРёРјР°С†РёСЏРјРё РёР»Рё С‚С‹РєР°РµС‚ РІРѕ frame
 	
 	OBJECT_NORMAL_METHODS( CDirectoryPropsItem );
 public:
@@ -236,8 +236,8 @@ public:
 	OBJECT_NORMAL_METHODS( CUnitAnimationPropsItem );
 
 private:
-	SThumbItems m_thumbItems;			//эти items отображаются в SelectedThumbList
-	bool bLoaded;									//этот флаг для подкачки items только в момент когда пользователь выбирает папку с анимациями или тыкает во frame
+	SThumbItems m_thumbItems;			//СЌС‚Рё items РѕС‚РѕР±СЂР°Р¶Р°СЋС‚СЃСЏ РІ SelectedThumbList
+	bool bLoaded;									//СЌС‚РѕС‚ С„Р»Р°Рі РґР»СЏ РїРѕРґРєР°С‡РєРё items С‚РѕР»СЊРєРѕ РІ РјРѕРјРµРЅС‚ РєРѕРіРґР° РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ РІС‹Р±РёСЂР°РµС‚ РїР°РїРєСѓ СЃ Р°РЅРёРјР°С†РёСЏРјРё РёР»Рё С‚С‹РєР°РµС‚ РІРѕ frame
 
 public:
 	CUnitAnimationPropsItem() { nItemType = E_UNIT_ANIMATION_PROPS_ITEM; InitDefaultValues(); bComplexItem = true; nImageIndex = 7; bLoaded = false; }
@@ -247,7 +247,7 @@ public:
 
 	virtual bool CopyItemTo( CTreeItem *pTo );
 
-	//Получение внутренних параметров
+	//РџРѕР»СѓС‡РµРЅРёРµ РІРЅСѓС‚СЂРµРЅРЅРёС… РїР°СЂР°РјРµС‚СЂРѕРІ
 	int GetFrameTime();
 	float GetAnimationSpeed();
 	bool GetCycledFlag();
@@ -258,7 +258,7 @@ public:
 	void SetLoadedFlag( bool bState ) { bLoaded = bState; }
 	bool GetLoadedFlag() { return bLoaded; }
 	void SetAnimationSpeed( float fVal );
-	virtual void InsertChildItems();					//Вызывается после создания всех компонентов для занесения их в дерево
+	virtual void InsertChildItems();					//Р’С‹Р·С‹РІР°РµС‚СЃСЏ РїРѕСЃР»Рµ СЃРѕР·РґР°РЅРёСЏ РІСЃРµС… РєРѕРјРїРѕРЅРµРЅС‚РѕРІ РґР»СЏ Р·Р°РЅРµСЃРµРЅРёСЏ РёС… РІ РґРµСЂРµРІРѕ
 	
 	virtual void InitDefaultValues();
 	virtual void MyLButtonClick();
@@ -273,11 +273,11 @@ public:
 	CUnitAcksItem() { bStaticElements = true; nItemType = E_UNIT_ACKS_ITEM; nImageIndex = 1; InitDefaultValues(); }
 	~CUnitAcksItem() {};
 	
-	//Получение внутренних параметров
+	//РџРѕР»СѓС‡РµРЅРёРµ РІРЅСѓС‚СЂРµРЅРЅРёС… РїР°СЂР°РјРµС‚СЂРѕРІ
 	const char *GetAckName() { return values[0].value; }
 	const char *GetAckName2() { return values[1].value; }
 	
-	//Установка
+	//РЈСЃС‚Р°РЅРѕРІРєР°
 	void SetAckName( const char *pszVal ) { values[0].value = pszVal; }
 	void SetAckName2( const char *pszVal ) { values[1].value = pszVal; }
 	
@@ -338,11 +338,11 @@ public:
 	CUnitAckTypePropsItem() { nItemType = E_UNIT_ACK_TYPE_PROPS_ITEM; nImageIndex = 3; InitDefaultValues(); }
 	~CUnitAckTypePropsItem() {};
 	
-	//Получение внутренних параметров
+	//РџРѕР»СѓС‡РµРЅРёРµ РІРЅСѓС‚СЂРµРЅРЅРёС… РїР°СЂР°РјРµС‚СЂРѕРІ
 	const char* GetSoundName() { return values[0].value; }
 	float GetProbability() { return values[1].value; }
 	
-	//Установка внутренних параметров
+	//РЈСЃС‚Р°РЅРѕРІРєР° РІРЅСѓС‚СЂРµРЅРЅРёС… РїР°СЂР°РјРµС‚СЂРѕРІ
 	void SetSoundName( const char *pszVal ) { values[0].value = pszVal; }
 	void SetProbability( float fVal ) { values[1].value = fVal; }
 	

@@ -261,7 +261,7 @@ void CNewMapDialog::OnNewMapNameBrowseButton()
 	CFileDialog fileDialog( true, ".xml", "", OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, "All supported Files (*.bzm; *.xml)|*.bzm; *.xml|XML files (*.xml)|*.xml|BZM files (*.bzm)|*.bzm|All Files (*.*)|*.*||" );
 	fileDialog.m_ofn.lpstrFile = new char[0xFFFF];
 	fileDialog.m_ofn.lpstrFile[0] = 0;			
-	fileDialog.m_ofn.nMaxFile = 0xFFFF - 1; //на всякий пожарный
+	fileDialog.m_ofn.nMaxFile = 0xFFFF - 1; //РЅР° РІСЃСЏРєРёР№ РїРѕР¶Р°СЂРЅС‹Р№
 	fileDialog.m_ofn.lpstrInitialDir = szInitialDir.c_str();
 
 	if ( fileDialog.DoModal() == IDOK )

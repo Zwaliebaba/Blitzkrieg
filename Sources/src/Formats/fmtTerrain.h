@@ -56,7 +56,7 @@ inline void Fit2Grid( CVec3 *pPos, const float fGridCellSize )
 }
 inline void FitAIOrigin2AIGrid( CVec3 *pPos, const CVec2 &vOrigin )
 {
-	// сдвинем объект на origin
+	// СЃРґРІРёРЅРµРј РѕР±СЉРµРєС‚ РЅР° origin
 	pPos->x -= vOrigin.x;
 	pPos->y -= vOrigin.y;
 	//
@@ -69,7 +69,7 @@ inline void FitVisOrigin2AIGrid( CVec3 *pPos, const CVec2 &vOrigin )
 {
 	// vis => AI with rounding to whole AI points
 	Vis2AI( pPos );
-	// сдвинем объект на origin
+	// СЃРґРІРёРЅРµРј РѕР±СЉРµРєС‚ РЅР° origin
 	FitAIOrigin2AIGrid( pPos, vOrigin );
 	// AI => Vis
 	AI2Vis( pPos );
@@ -137,7 +137,7 @@ struct STerrTypeDesc : public STileTypeDesc
 		ESP_TRACE = 0x01,
 		ESP_DUST	= 0x02
 	};
-	BYTE cSoilParams;											// параметры почвы - следы, пыль и т.д.
+	BYTE cSoilParams;											// РїР°СЂР°РјРµС‚СЂС‹ РїРѕС‡РІС‹ - СЃР»РµРґС‹, РїС‹Р»СЊ Рё С‚.Рґ.
 
 	float fSoundVolume;										// volume for all sounds from this terrain
 	bool bCanEntrench;										// can unit dig on this terrain

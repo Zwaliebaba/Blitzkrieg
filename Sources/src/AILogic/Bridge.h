@@ -14,12 +14,12 @@ class CBridgeSpan : public CGivenPassabilityStObject
 
 	CGDBPtr<SBridgeRPGStats> pStats;
 
-	CArray2D<BYTE> unlockTypes;	// разлоканные типы террэйна, 0 - если нечего было разлокивать
+	CArray2D<BYTE> unlockTypes;	// СЂР°Р·Р»РѕРєР°РЅРЅС‹Рµ С‚РёРїС‹ С‚РµСЂСЂСЌР№РЅР°, 0 - РµСЃР»Рё РЅРµС‡РµРіРѕ Р±С‹Р»Рѕ СЂР°Р·Р»РѕРєРёРІР°С‚СЊ
 	CObj<CFullBridge> pFullBridge;
-	bool bNewBuilt;												// этот мост построили во время тгры
-	bool bLocked;													// залочены ли тайл
+	bool bNewBuilt;												// СЌС‚РѕС‚ РјРѕСЃС‚ РїРѕСЃС‚СЂРѕРёР»Рё РІРѕ РІСЂРµРјСЏ С‚РіСЂС‹
+	bool bLocked;													// Р·Р°Р»РѕС‡РµРЅС‹ Р»Рё С‚Р°Р№Р»
 
-	// умирает данный сегмент, начинает удалять все вокруг.
+	// СѓРјРёСЂР°РµС‚ РґР°РЅРЅС‹Р№ СЃРµРіРјРµРЅС‚, РЅР°С‡РёРЅР°РµС‚ СѓРґР°Р»СЏС‚СЊ РІСЃРµ РІРѕРєСЂСѓРі.
 	bool bDeletingAround;
 
 	int nScriptID;
@@ -34,7 +34,7 @@ public:
 	CBridgeSpan() : nScriptID( -1 ) { }
 	CBridgeSpan( const SBridgeRPGStats *pStats, const CVec2 &center, const int dbID, const float fHP, const int nFrameIndex );
 	
-	void Build();													// построить сегмент моста, залокать как положено, послать в мир.
+	void Build();													// РїРѕСЃС‚СЂРѕРёС‚СЊ СЃРµРіРјРµРЅС‚ РјРѕСЃС‚Р°, Р·Р°Р»РѕРєР°С‚СЊ РєР°Рє РїРѕР»РѕР¶РµРЅРѕ, РїРѕСЃР»Р°С‚СЊ РІ РјРёСЂ.
 
 	const SBridgeRPGStats * GetBridgeStats() const { return pStats; }
 	virtual const SHPObjectRPGStats* GetStats() const { return pStats; }
@@ -75,8 +75,8 @@ class CFullBridge : public IRefCount
 	OBJECT_COMPLETE_METHODS( CFullBridge );
 	DECLARE_SERIALIZE;
 	
-	std::list<CBridgeSpan*> spans;					// построенные части моста
-	std::list<CBridgeSpan*> projectedSpans;	// части моста, которые находятся в проекте
+	std::list<CBridgeSpan*> spans;					// РїРѕСЃС‚СЂРѕРµРЅРЅС‹Рµ С‡Р°СЃС‚Рё РјРѕСЃС‚Р°
+	std::list<CBridgeSpan*> projectedSpans;	// С‡Р°СЃС‚Рё РјРѕСЃС‚Р°, РєРѕС‚РѕСЂС‹Рµ РЅР°С…РѕРґСЏС‚СЃСЏ РІ РїСЂРѕРµРєС‚Рµ
 
 	bool bGivingDamage;
 public:

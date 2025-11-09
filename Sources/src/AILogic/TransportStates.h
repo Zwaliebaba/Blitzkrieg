@@ -51,7 +51,7 @@ public:
 	void AddFormationToWait( class CFormation *pFormation );
 };
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//состояние выгрузки солдат из транспорта
+//СЃРѕСЃС‚РѕСЏРЅРёРµ РІС‹РіСЂСѓР·РєРё СЃРѕР»РґР°С‚ РёР· С‚СЂР°РЅСЃРїРѕСЂС‚Р°
 //
 class CTransportLandState : public IUnitState
 {
@@ -100,10 +100,10 @@ class CTransportLoadRuState : public IUnitState
 	ETransportLoadRuState eState;
 
 	CPtr<CBuildingStorage> pStorage;
-	CPtr<CFormation> pLoaderSquad; // толпа грузчиков
+	CPtr<CFormation> pLoaderSquad; // С‚РѕР»РїР° РіСЂСѓР·С‡РёРєРѕРІ
 	class CAITransportUnit *pTransport;
 	int nEntrance;
-	bool bSubState;												// является ли этот стейт сабстейтом
+	bool bSubState;												// СЏРІР»СЏРµС‚СЃСЏ Р»Рё СЌС‚РѕС‚ СЃС‚РµР№С‚ СЃР°Р±СЃС‚РµР№С‚РѕРј
 
 	void CreateSquad();
 
@@ -146,15 +146,15 @@ class CTransportServeState : public IUnitState
 	
 	ETransportServeState eState;
 	CVec2 vServePoint; //senter of serving circle
-	CPtr<CAIUnit> pResupplyUnit;	//юнит, который перезаряжают
-	NTimer::STime timeLastUpdate ;//время последнего апдейта поведения.
+	CPtr<CAIUnit> pResupplyUnit;	//СЋРЅРёС‚, РєРѕС‚РѕСЂС‹Р№ РїРµСЂРµР·Р°СЂСЏР¶Р°СЋС‚
+	NTimer::STime timeLastUpdate ;//РІСЂРµРјСЏ РїРѕСЃР»РµРґРЅРµРіРѕ Р°РїРґРµР№С‚Р° РїРѕРІРµРґРµРЅРёСЏ.
 
 	CPtr<IStaticPath> pStaticPath ;
 	bool bWaitForPath;
 	void CreateSquad();
 protected:
 	bool bUpdatedActionsBegin;
-	CPtr<CFormation> pLoaderSquad; // толпа грузчиков
+	CPtr<CFormation> pLoaderSquad; // С‚РѕР»РїР° РіСЂСѓР·С‡РёРєРѕРІ
 	CPtr<CAIUnit> pPreferredUnit;			// unit that is served first
 	class CAITransportUnit *pTransport;
 
@@ -274,7 +274,7 @@ public:
 	virtual EUnitStateNames GetName() { return EUSN_HUMAN_RESUPPLY; }
 };
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// погрузка пушки
+// РїРѕРіСЂСѓР·РєР° РїСѓС€РєРё
 class CTransportHookArtilleryState : public IUnitState
 {
 	OBJECT_COMPLETE_METHODS( CTransportHookArtilleryState );
@@ -303,7 +303,7 @@ class CTransportHookArtilleryState : public IUnitState
 	
 	NTimer::STime timeLast;
 
-	WORD wDesiredTransportDir; // куда бдет направлен транспорт при погрузке
+	WORD wDesiredTransportDir; // РєСѓРґР° Р±РґРµС‚ РЅР°РїСЂР°РІР»РµРЅ С‚СЂР°РЅСЃРїРѕСЂС‚ РїСЂРё РїРѕРіСЂСѓР·РєРµ
 	bool bInterrupted;
 	bool CanInterrupt();
 	void InterruptBecauseOfPath();
@@ -324,7 +324,7 @@ public:
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// отцепление ариллерии
+// РѕС‚С†РµРїР»РµРЅРёРµ Р°СЂРёР»Р»РµСЂРёРё
 class CTransportUnhookArtilleryState : public IUnitState
 {
 	OBJECT_COMPLETE_METHODS( CTransportUnhookArtilleryState );
@@ -344,7 +344,7 @@ class CTransportUnhookArtilleryState : public IUnitState
 	ETransportUnhookGunState eState;
 	class CAITransportUnit *pTransport;
 	CVec2 vDestPoint;
-	int nAttempt; // количество попыток поставить артиллерию
+	int nAttempt; // РєРѕР»РёС‡РµСЃС‚РІРѕ РїРѕРїС‹С‚РѕРє РїРѕСЃС‚Р°РІРёС‚СЊ Р°СЂС‚РёР»Р»РµСЂРёСЋ
 	bool bInterrupted;
 	bool bNow;														// unhook gun right at the current place
 
@@ -397,9 +397,9 @@ protected:
 	virtual bool HaveToSendEngeneersNow()  = 0;
 	virtual void SendEngineers() = 0;
 	virtual bool IsEndPointNeeded() const = 0;
-	// хватает ли инженерам ресурсов, чтобы строить
+	// С…РІР°С‚Р°РµС‚ Р»Рё РёРЅР¶РµРЅРµСЂР°Рј СЂРµСЃСѓСЂСЃРѕРІ, С‡С‚РѕР±С‹ СЃС‚СЂРѕРёС‚СЊ
 	virtual bool IsEnoughResources() const = 0;
-	// все ли инженеры построили
+	// РІСЃРµ Р»Рё РёРЅР¶РµРЅРµСЂС‹ РїРѕСЃС‚СЂРѕРёР»Рё
 	virtual bool IsWorkDone() const = 0;
 	virtual bool MustSayNegative() const { return true; }
 	virtual void NotifyGoToStorage() { }

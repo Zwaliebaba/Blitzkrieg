@@ -38,7 +38,7 @@ enum
 	DT_COLOR,
 	DT_FLOAT,
 	
-	//Ссылки
+	//РЎСЃС‹Р»РєРё
 	DT_ANIMATION_REF,
 	DT_FUNC_PARTICLE_REF,
 	DT_EFFECT_REF,
@@ -71,9 +71,9 @@ struct SCOIProperties
 	CVariant varValue;
 	string  strName;
   bool    bReadOnly;
-  vector<string> szStrs;  // поля комбо-бокса
+  vector<string> szStrs;  // РїРѕР»СЏ РєРѕРјР±Рѕ-Р±РѕРєСЃР°
 };
-typedef std::map<PropID, SCOIProperties> CCOIPropMap; // хранить все свойства по ID
+typedef std::map<PropID, SCOIProperties> CCOIPropMap; // С…СЂР°РЅРёС‚СЊ РІСЃРµ СЃРІРѕР№СЃС‚РІР° РїРѕ ID
 typedef std::list<SCOIProperties*> CCOIPropPtrs;
 
 struct SCOIGroup
@@ -81,7 +81,7 @@ struct SCOIGroup
 	bool    isExpand;
 	bool    isVisible;
   bool    bRadioGroup;
-  PropID  iActiveProp;  // если это радио-группа, то здесь сохраняется текущий активный элемент
+  PropID  iActiveProp;  // РµСЃР»Рё СЌС‚Рѕ СЂР°РґРёРѕ-РіСЂСѓРїРїР°, С‚Рѕ Р·РґРµСЃСЊ СЃРѕС…СЂР°РЅСЏРµС‚СЃСЏ С‚РµРєСѓС‰РёР№ Р°РєС‚РёРІРЅС‹Р№ СЌР»РµРјРµРЅС‚
 	CCOIPropPtrs aPorops;
 //	GroupID idGroup;
 	string strGroupName;
@@ -135,11 +135,11 @@ private:
 
 	// Logic data
 	CCOIPropMap		m_mapProps;
-	CCOIGpoupMap	m_mapGroups;	// все группы
+	CCOIGpoupMap	m_mapGroups;	// РІСЃРµ РіСЂСѓРїРїС‹
 	CCOIPaintElemVector m_aPaintElems;
 
-	int m_nFirstElem;	// первая строчка которая видна на экране из m_aPaintElems
-	int	m_nCurVirtualLine; // текущий выбранный элемент из m_aPaintElems
+	int m_nFirstElem;	// РїРµСЂРІР°СЏ СЃС‚СЂРѕС‡РєР° РєРѕС‚РѕСЂР°СЏ РІРёРґРЅР° РЅР° СЌРєСЂР°РЅРµ РёР· m_aPaintElems
+	int	m_nCurVirtualLine; // С‚РµРєСѓС‰РёР№ РІС‹Р±СЂР°РЅРЅС‹Р№ СЌР»РµРјРµРЅС‚ РёР· m_aPaintElems
 	int m_nCurGroup;
 	bool bDraggingSplitter;
 
@@ -158,7 +158,7 @@ private:
 	void DrawPlus( CDC* pDC, int nLine, bool isPlus );
 
 	CRect	GetPlusRect( int nPaintLine ) const	{ int nSideSize = ( m_nLineHeight / 4 ); return CRect( nSideSize, nSideSize + nPaintLine * m_nLineHeight, m_nLineHeight - nSideSize, (nPaintLine+1) * m_nLineHeight - nSideSize ); }
-//	int		GetPaintLineCount() const			{ return ( m_sizeClient.cy - N_BORDER * 2 ) / m_nLineHeight + 1; }	// Количество линий которое умещается в окне
+//	int		GetPaintLineCount() const			{ return ( m_sizeClient.cy - N_BORDER * 2 ) / m_nLineHeight + 1; }	// РљРѕР»РёС‡РµСЃС‚РІРѕ Р»РёРЅРёР№ РєРѕС‚РѕСЂРѕРµ СѓРјРµС‰Р°РµС‚СЃСЏ РІ РѕРєРЅРµ
 	int		GetPaintLine( const CPoint &point ) const { return ( point.y / m_nLineHeight ); } // 0 - if then click on caption
 	int		GetCol( const CPoint &point ) const { return point.x > m_nSplitterPos; }
 	int		GetLineCount() const				{ return m_sizeClient.cy / m_nLineHeight - 1; }

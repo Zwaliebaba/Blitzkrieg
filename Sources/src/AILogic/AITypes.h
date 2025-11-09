@@ -21,8 +21,8 @@ enum EDiplomacyInfo
 #pragma pack( 1 )
 struct SSegment2Trench
 {
-	IRefCount *pSegment;									// маленький кусочек 
-	IRefCount *pEntrenchment;							// весь окоп
+	IRefCount *pSegment;									// РјР°Р»РµРЅСЊРєРёР№ РєСѓСЃРѕС‡РµРє 
+	IRefCount *pEntrenchment;							// РІРµСЃСЊ РѕРєРѕРї
 
 	SSegment2Trench() : pSegment( 0 ), pEntrenchment( 0 ) { }
 	SSegment2Trench( IRefCount *_pSegment, IRefCount *_pEntrenchment ) : pSegment( _pSegment ), pEntrenchment( _pEntrenchment ) { }
@@ -74,7 +74,7 @@ struct SShootArea
 	CVec3 vCenter3D;
 	float fMinR, fMaxR;
 
-	// углы задают конус стрельбы - против часовой стрелки
+	// СѓРіР»С‹ Р·Р°РґР°СЋС‚ РєРѕРЅСѓСЃ СЃС‚СЂРµР»СЊР±С‹ - РїСЂРѕС‚РёРІ С‡Р°СЃРѕРІРѕР№ СЃС‚СЂРµР»РєРё
 	WORD wStartAngle;
 	WORD wFinishAngle;
 	
@@ -107,7 +107,7 @@ struct SShootArea
 
 struct SShootAreas
 {
-	// выводить - последовательно, накладывая друг на друга, сначала areas[0], потом areas[1] и т.д.
+	// РІС‹РІРѕРґРёС‚СЊ - РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕ, РЅР°РєР»Р°РґС‹РІР°СЏ РґСЂСѓРі РЅР° РґСЂСѓРіР°, СЃРЅР°С‡Р°Р»Р° areas[0], РїРѕС‚РѕРј areas[1] Рё С‚.Рґ.
 	std::list<SShootArea> areas;
 
 	virtual int STDCALL operator&( interface IStructureSaver &ss )

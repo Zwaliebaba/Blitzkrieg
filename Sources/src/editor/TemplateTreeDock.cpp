@@ -51,7 +51,7 @@ BOOL CTemplateTreeDockBar::PreTranslateMessage(MSG* pMsg)
 	switch ( pMsg->message )
 	{
 	case WM_USERTREESEL:
-		//Îòîáðàæàåì ñâîéñòâà âûäåëåííîãî êîìïîíåíòà â ObjectInspector
+		//ÐžÑ‚Ð¾Ð±Ñ€Ð°Ð¶Ð°ÐµÐ¼ ÑÐ²Ð¾Ð¹ÑÑ‚Ð²Ð° Ð²Ñ‹Ð´ÐµÐ»ÐµÐ½Ð½Ð¾Ð³Ð¾ ÐºÐ¾Ð¼Ð¿Ð¾Ð½ÐµÐ½Ñ‚Ð° Ð² ObjectInspector
 		pItem = (CTreeItem *) pMsg->lParam;
 		NI_ASSERT ( pItem != 0 );
 		NI_ASSERT( pPropView != 0 );

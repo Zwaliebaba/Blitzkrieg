@@ -163,7 +163,7 @@ public:
 };
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // enumerate all files by mask.
-// при рекурсивной енумерации сначала входим в директорию, а потом только получаем её имя (при выходе из рекурсии)
+// РїСЂРё СЂРµРєСѓСЂСЃРёРІРЅРѕР№ РµРЅСѓРјРµСЂР°С†РёРё СЃРЅР°С‡Р°Р»Р° РІС…РѕРґРёРј РІ РґРёСЂРµРєС‚РѕСЂРёСЋ, Р° РїРѕС‚РѕРј С‚РѕР»СЊРєРѕ РїРѕР»СѓС‡Р°РµРј РµР„ РёРјВ¤ (РїСЂРё РІС‹С…РѕРґРµ РёР· СЂРµРєСѓСЂСЃРёРё)
 template <class TEnumFunc>
 void EnumerateFiles( const char *pszStartDir, const char *pszMask, TEnumFunc callback, bool bRecurse )
 {
@@ -191,7 +191,7 @@ void EnumerateFiles( const char *pszStartDir, const char *pszMask, TEnumFunc cal
 	}
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Функтор для EnumerateFiles, перечисляет все файлы в директории
+// вЂСѓРЅРєС‚РѕСЂ РґР»В¤ EnumerateFiles, РїРµСЂРµС‡РёСЃР»В¤РµС‚ РІСЃРµ С„Р°Р№Р»С‹ РІ РґРёСЂРµРєС‚РѕСЂРёРё
 class CGetAllFiles
 {
 	std::vector<std::string> *pFileVector;
@@ -206,7 +206,7 @@ public:
 		}
 	}
 };
-// Функтор для EnumerateFiles, перечисляет все файлы в директории и берёт их относительное имя
+// вЂСѓРЅРєС‚РѕСЂ РґР»В¤ EnumerateFiles, РїРµСЂРµС‡РёСЃР»В¤РµС‚ РІСЃРµ С„Р°Р№Р»С‹ РІ РґРёСЂРµРєС‚РѕСЂРёРё Рё Р±РµСЂР„С‚ РёС… РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕРµ РёРјВ¤
 class CGetAllFilesRelative
 {
 	std::vector<std::string> *pFileVector;
@@ -225,7 +225,7 @@ public:
 		}
 	}
 };
-// Функтор для EnumerateFiles, перечисляет все поддиректории в директории и берёт их относительное имя
+// вЂСѓРЅРєС‚РѕСЂ РґР»В¤ EnumerateFiles, РїРµСЂРµС‡РёСЃР»В¤РµС‚ РІСЃРµ РїРѕРґРґРёСЂРµРєС‚РѕСЂРёРё РІ РґРёСЂРµРєС‚РѕСЂРёРё Рё Р±РµСЂР„С‚ РёС… РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕРµ РёРјВ¤
 class CGetAllDirectoriesRelative
 {
 	std::vector<std::string> *pFileVector;
@@ -238,11 +238,11 @@ public:
 		if ( !it.IsDirectory() )
 		{
 			std::string szFileName = it.GetFilePath();
-			szFileName = szFileName.substr( szInitDir.size() );							//обрезаем начальную директорию
+			szFileName = szFileName.substr( szInitDir.size() );							//РѕР±СЂРµР·Р°РµРј РЅР°С‡Р°Р»СЊРЅСѓСЋ РґРёСЂРµРєС‚РѕСЂРёСЋ
 			int nRes = szFileName.rfind( '\\' );
 			if ( nRes == std::string::npos )
 				return;
-			szFileName = szFileName.substr( 0, nRes );	//обрезаем имя файла, оставляя только директорию
+			szFileName = szFileName.substr( 0, nRes );	//РѕР±СЂРµР·Р°РµРј РёРјВ¤ С„Р°Р№Р»Р°, РѕСЃС‚Р°РІР»В¤В¤ С‚РѕР»СЊРєРѕ РґРёСЂРµРєС‚РѕСЂРёСЋ
 			if ( szFileName.size() == 0 )
 				return;
 			

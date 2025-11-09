@@ -33,7 +33,7 @@ void CGraveyard::Segment()
 	while ( iter != killed.end() )
 	{
 		SKilledUnit unit = *iter;
-		// èãðàåòñÿ ôàòàëèòè, åù¸ íå ëîêàëè êîíå÷íóþ ïîçèöèþ, ïåðåâàëèëè ÷åðåç action point
+		// Ð¸Ð³Ñ€Ð°ÐµÑ‚ÑÑ Ñ„Ð°Ñ‚Ð°Ð»Ð¸Ñ‚Ð¸, ÐµÑ‰Ñ‘ Ð½Ðµ Ð»Ð¾ÐºÐ°Ð»Ð¸ ÐºÐ¾Ð½ÐµÑ‡Ð½ÑƒÑŽ Ð¿Ð¾Ð·Ð¸Ñ†Ð¸ÑŽ, Ð¿ÐµÑ€ÐµÐ²Ð°Ð»Ð¸Ð»Ð¸ Ñ‡ÐµÑ€ÐµÐ· action point
 		if ( iter->bFatality && iter->actionTime != 0 && curTime >= iter->actionTime )
 		{
 			iter->pUnit->UnlockTiles();
@@ -66,17 +66,17 @@ void CGraveyard::Segment()
 			{
 				iter->endSceneTime = 0;
 
-				// ôàòàëèòè èãðàåòñÿ
+				// Ñ„Ð°Ñ‚Ð°Ð»Ð¸Ñ‚Ð¸ Ð¸Ð³Ñ€Ð°ÐµÑ‚ÑÑ
 				if ( iter->bFatality )
 					theStaticMap.UpdateMaxesByTiles( iter->lockedTiles, AI_CLASS_ANY, false );
 				else
 				{
-				// ôàòàëèòè íå èãðàåòñÿ, ðàçëîêàòü òàéëû ïîä þíèòîì
+				// Ñ„Ð°Ñ‚Ð°Ð»Ð¸Ñ‚Ð¸ Ð½Ðµ Ð¸Ð³Ñ€Ð°ÐµÑ‚ÑÑ, Ñ€Ð°Ð·Ð»Ð¾ÐºÐ°Ñ‚ÑŒ Ñ‚Ð°Ð¹Ð»Ñ‹ Ð¿Ð¾Ð´ ÑŽÐ½Ð¸Ñ‚Ð¾Ð¼
 					iter->pUnit->UnlockTiles();
 					//theStatObjs.UpdateAllPartiesStorages( false, true );
 				}
 
-				// ñîëäàòû èñ÷åçàòü íå äîëæíû					
+				// ÑÐ¾Ð»Ð´Ð°Ñ‚Ñ‹ Ð¸ÑÑ‡ÐµÐ·Ð°Ñ‚ÑŒ Ð½Ðµ Ð´Ð¾Ð»Ð¶Ð½Ñ‹					
 				if ( !iter->pUnit->GetStats()->IsInfantry() )
 				{
 					const bool bPutMud = !theStaticMap.IsBridge( iter->pUnit->GetTile() );
@@ -149,7 +149,7 @@ void CGraveyard::AddKilledUnit( CAIUnit *pUnit, const NTimer::STime &timeOfVisDe
 		
 	SKilledUnit killInfo;
 	const SUnitBaseRPGStats *pStats = pUnit->GetStats();
-	// èãðàåì fatality
+	// Ð¸Ð³Ñ€Ð°ÐµÐ¼ fatality
 	if ( nFatality > -1 )
 	{
 		killInfo.actionTime = timeOfVisDeath + pStats->animdescs[ANIMATION_DEATH_FATALITY][nFatality].nAction;
@@ -368,7 +368,7 @@ void CDeadUnit::GetDyingInfo( SAINotifyAction *pDyingInfo )
 	pDyingInfo->pObj = pDieObj;
 	pDyingInfo->time = dieTime;
 	pDyingInfo->typeID = dieAction;
-	// äëÿ disappeared units
+	// Ð´Ð»Ñ disappeared units
 	if ( dieAction != ACTION_NOTIFY_NONE )
 	{
 		if ( nFatality >= 0 )

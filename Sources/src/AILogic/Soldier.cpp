@@ -143,7 +143,7 @@ void CSoldier::SetInTransport( class CMilitaryCar *pUnit )
 {
 	pObjInside = pUnit;
 	eInsideType = EOIO_TRANSPORT;
-	// íà áðîíå
+	// Ð½Ð° Ð±Ñ€Ð¾Ð½Ðµ
 	if ( pUnit->GetStats()->IsArmor() || pUnit->GetStats()->IsSPG() )
 		SetToFirePlace();
 	else
@@ -194,7 +194,7 @@ void CSoldier::MoveToEntrenchFireplace( const CVec3 &coord, const int _nSlot )
 
 	slotInfo.nSlot = _nSlot;
 
-	// CRAP{ ÷òîáû íå ïàäàëà
+	// CRAP{ Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð½Ðµ Ð¿Ð°Ð´Ð°Ð»Ð°
 	if ( IsInEntrenchment() )
 	{
 	// CRAP}
@@ -495,7 +495,7 @@ void CSoldier::Segment()
 			pBuilding->GetGunInFireSlot( GetSlot(), i )->Segment();
 	}
 
-	//äëÿ èíæåíåðîâ ( áûëî, òåïåðü âñå ñêàíèðóþò )
+	//Ð´Ð»Ñ Ð¸Ð½Ð¶ÐµÐ½ÐµÑ€Ð¾Ð² ( Ð±Ñ‹Ð»Ð¾, Ñ‚ÐµÐ¿ÐµÑ€ÑŒ Ð²ÑÐµ ÑÐºÐ°Ð½Ð¸Ñ€ÑƒÑŽÑ‚ )
 	if (	/*pStats->type == RPG_TYPE_ENGINEER && EUSN_CLEAR_MINE == GetFormation()->GetState()->GetName() &&*/
 				curTime - lastMineCheck > SConsts::ENGINEER_MINE_CHECK_PERIOD )
 	{
@@ -530,7 +530,7 @@ void CSoldier::FreezeSegment()
 		}
 	}
 
-	// îáñòðåë çàêîí÷èëñÿ
+	// Ð¾Ð±ÑÑ‚Ñ€ÐµÐ» Ð·Ð°ÐºÐ¾Ð½Ñ‡Ð¸Ð»ÑÑ
 	if ( bLying && ( !IsInFormation() || GetFormation()->IsAllowedStandUp() ) && curTime - lastHit >= SConsts::TIME_OF_LYING_UNDER_FIRE + Random( 0.0f, SConsts::STAND_LIE_RANDOM_DELAY ) )
 		StandUp();
 
@@ -563,7 +563,7 @@ const float CSoldier::GetMaxPossibleSpeed() const
 	else
 		fSpeed = CAIUnit::GetMaxPossibleSpeed();
 
-	// â ôîðìàöèè
+	// Ð² Ñ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸Ð¸
 	if ( IsFree() && IsValidObj( pFormation ) )
 		fSpeed *= pFormation->GetCurSpeedBonus();
 
@@ -736,7 +736,7 @@ float CSoldier::GetSightMultiplier() const
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const float CSoldier::GetSightRadius() const
 {
-	// åñëè â àòàêóåìîì îáúåêòå, òî íè÷åãî íå âèäíî
+	// ÐµÑÐ»Ð¸ Ð² Ð°Ñ‚Ð°ÐºÑƒÐµÐ¼Ð¾Ð¼ Ð¾Ð±ÑŠÐµÐºÑ‚Ðµ, Ñ‚Ð¾ Ð½Ð¸Ñ‡ÐµÐ³Ð¾ Ð½Ðµ Ð²Ð¸Ð´Ð½Ð¾
 	if ( IsInBuilding() && GetBuilding()->IsAnyAttackers() || IsInEntrenchment() && GetEntrenchment()->IsAnyAttackers() )
 		return 0;
 	else if ( fOwnSightRadius > 0 )
@@ -749,7 +749,7 @@ void CSoldier::PrepareToDelete()
 {
 	if ( IsAlive() )
 	{
-		// óäàëèòü èç ñòàòè÷. îáúåêòà, åñëè íóæíî
+		// ÑƒÐ´Ð°Ð»Ð¸Ñ‚ÑŒ Ð¸Ð· ÑÑ‚Ð°Ñ‚Ð¸Ñ‡. Ð¾Ð±ÑŠÐµÐºÑ‚Ð°, ÐµÑÐ»Ð¸ Ð½ÑƒÐ¶Ð½Ð¾
 		if ( IsInBuilding() )
 			GetBuilding()->DelInsider( this );
 		else if ( IsInEntrenchment() )
@@ -757,7 +757,7 @@ void CSoldier::PrepareToDelete()
 		else if ( IsInTransport() )
 			GetTransportUnit()->DelPassenger( this );
 
-		// óäàëèòü èç ôîðìàöèè, åñëè íóæíî
+		// ÑƒÐ´Ð°Ð»Ð¸Ñ‚ÑŒ Ð¸Ð· Ñ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸Ð¸, ÐµÑÐ»Ð¸ Ð½ÑƒÐ¶Ð½Ð¾
 		if ( IsInFormation() )
 		{
 			pFormation->DelUnit( GetFormationSlot() );

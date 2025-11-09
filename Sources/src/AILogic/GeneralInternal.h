@@ -55,13 +55,13 @@ class CGeneral : public CCommander, public IEnemyContainer
 	CResistancesContainer resContainer;
 
 	NTimer::STime lastBombardmentCheck;
-	// 0 - артиллерия, 1 - бомберы
+	// 0 - Р°СЂС‚РёР»Р»РµСЂРёСЏ, 1 - Р±РѕРјР±РµСЂС‹
 	BYTE cBombardmentType;
 	bool bSendReserves;										// send tanks to swarm
 
-	// сегмент принятия решения - начинать арт. обстрел / бомбардировку или нет
+	// СЃРµРіРјРµРЅС‚ РїСЂРёРЅСЏС‚РёСЏ СЂРµС€РµРЅРёСЏ - РЅР°С‡РёРЅР°С‚СЊ Р°СЂС‚. РѕР±СЃС‚СЂРµР» / Р±РѕРјР±Р°СЂРґРёСЂРѕРІРєСѓ РёР»Рё РЅРµС‚
 	void BombardmentSegment();
-	// дать команду начать арт. обстрел
+	// РґР°С‚СЊ РєРѕРјР°РЅРґСѓ РЅР°С‡Р°С‚СЊ Р°СЂС‚. РѕР±СЃС‚СЂРµР»
 	void GiveCommandToBombardment();
 
 	void EraseLastSeen();
@@ -73,16 +73,16 @@ public:
 	}
 	CGeneral( const int nParty ) : nParty( nParty ), lastBombardmentCheck( 0 ), timeNextUpdate( 0 ) { }
 
-	// сервисные функции
+	// СЃРµСЂРІРёСЃРЅС‹Рµ С„СѓРЅРєС†РёРё
 	void Init( const struct SAIGeneralSideInfo &mapInfo );
 	void Init();
-	// появились новые юниты
+	// РїРѕСЏРІРёР»РёСЃСЊ РЅРѕРІС‹Рµ СЋРЅРёС‚С‹
 	void GiveNewUnits( const std::list<CCommonUnit*> &pUnits );
 
-	// для манипулирования мобильными резервами
+	// РґР»СЏ РјР°РЅРёРїСѓР»РёСЂРѕРІР°РЅРёСЏ РјРѕР±РёР»СЊРЅС‹РјРё СЂРµР·РµСЂРІР°РјРё
 	bool IsMobileReinforcement( int nGroupID ) const;
 
-	// для того, чтобы следить за видимыми врагами
+	// РґР»СЏ С‚РѕРіРѕ, С‡С‚РѕР±С‹ СЃР»РµРґРёС‚СЊ Р·Р° РІРёРґРёРјС‹РјРё РІСЂР°РіР°РјРё
 	void SetUnitVisible( class CAIUnit *pUnit, const bool bVisible );
 	void SetAAVisible( class CAIUnit *pUnit, const bool bVisible );
 
@@ -96,8 +96,8 @@ public:
 	virtual void EnumWorkers( const EForceType eType, IWorkerEnumerator *pEnumerator );
 	virtual void GiveResistances( IEnemyEnumerator *pEnmumerator );
 
-	// при получении подкрепления его нужно отдать в управление генералу.
-	// забирает работника назад
+	// РїСЂРё РїРѕР»СѓС‡РµРЅРёРё РїРѕРґРєСЂРµРїР»РµРЅРёСЏ РµРіРѕ РЅСѓР¶РЅРѕ РѕС‚РґР°С‚СЊ РІ СѓРїСЂР°РІР»РµРЅРёРµ РіРµРЅРµСЂР°Р»Сѓ.
+	// Р·Р°Р±РёСЂР°РµС‚ СЂР°Р±РѕС‚РЅРёРєР° РЅР°Р·Р°Рґ
 	void Give( CCommonUnit *pWorker );
 
 	void Segment();
@@ -106,7 +106,7 @@ public:
 	virtual int /*request ID*/CGeneral::RequestForSupport( const CVec2 &vSupportCenter, enum EForceType eType );
 
 	
-	// для очагов сопротивления
+	// РґР»СЏ РѕС‡Р°РіРѕРІ СЃРѕРїСЂРѕС‚РёРІР»РµРЅРёСЏ
 	void UpdateEnemyUnitInfo( class CAIUnitInfoForGeneral *pInfo,
 		const NTimer::STime lastVisibleTimeDelta, const CVec2 &vLastVisiblePos,
 		const NTimer::STime lastAntiArtTimeDelta, const CVec2 &vLastVisibleAntiArtCenter, const float fDistToLastVisibleAntiArt );

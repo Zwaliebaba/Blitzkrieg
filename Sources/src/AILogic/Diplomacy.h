@@ -3,12 +3,12 @@
 
 #pragma ONCE
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// последняя party обязательно должна быть нейтральна ко всем
+// РїРѕСЃР»РµРґРЅСЏСЏ party РѕР±СЏР·Р°С‚РµР»СЊРЅРѕ РґРѕР»Р¶РЅР° Р±С‹С‚СЊ РЅРµР№С‚СЂР°Р»СЊРЅР° РєРѕ РІСЃРµРј
 class CDiplomacy
 {
 	DECLARE_SERIALIZE;
 	
-	// 0, 1 - игровые стороны, 2 - нейтралы
+	// 0, 1 - РёРіСЂРѕРІС‹Рµ СЃС‚РѕСЂРѕРЅС‹, 2 - РЅРµР№С‚СЂР°Р»С‹
 	std::vector<BYTE> playerParty;
 	int nMyNumber;
 
@@ -67,7 +67,7 @@ public:
 	const BYTE GetMyParty() const { return GetNParty( GetMyNumber() ); }
 	const bool IsAIPlayer( const BYTE cPlayer ) const { return !bNetGame && cPlayer == 1; }
 	const BYTE GetNeutralPlayer() const { return GetNPlayers() - 1; }
-	// номер нейтральной стороны
+	// РЅРѕРјРµСЂ РЅРµР№С‚СЂР°Р»СЊРЅРѕР№ СЃС‚РѕСЂРѕРЅС‹
 	int GetNeutralParty() const { return 2; }
 
 	void SetParty( const BYTE nPlayer, const BYTE newParty ) { playerParty[nPlayer] = newParty; }

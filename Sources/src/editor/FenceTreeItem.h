@@ -24,7 +24,7 @@ private:
 class CFenceCommonPropsItem : public CTreeItem
 {
 private:
-	SThumbItems m_thumbItems;			//эти items отображаются в AllDirThumbList
+	SThumbItems m_thumbItems;			//СЌС‚Рё items РѕС‚РѕР±СЂР°Р¶Р°СЋС‚СЃСЏ РІ AllDirThumbList
 	CImageList imageList;
 	
 	OBJECT_NORMAL_METHODS( CFenceCommonPropsItem );
@@ -35,7 +35,7 @@ public:
 	SThumbItems* GetThumbItems() { return &m_thumbItems; }
 	CImageList*  GetImageList() { return &imageList; }
 	
-	//Получение внутренних параметров
+	//РџРѕР»СѓС‡РµРЅРёРµ РІРЅСѓС‚СЂРµРЅРЅРёС… РїР°СЂР°РјРµС‚СЂРѕРІ
 	const char *GetFenceName() { return values[0].value; }
 	const char *GetDirName() { return values[1].value; }
 	int GetFenceHealth() { return values[2].value; }
@@ -61,8 +61,8 @@ public:
 
 class CFenceInsertItem : public CTreeItem
 {
-	SThumbItems m_thumbItems;			//эти items отображаются в SelectedThumbList
-	bool bLoaded;									//этот флаг для подкачки items только в момент когда пользователь выбирает папку c roads
+	SThumbItems m_thumbItems;			//СЌС‚Рё items РѕС‚РѕР±СЂР°Р¶Р°СЋС‚СЃСЏ РІ SelectedThumbList
+	bool bLoaded;									//СЌС‚РѕС‚ С„Р»Р°Рі РґР»СЏ РїРѕРґРєР°С‡РєРё items С‚РѕР»СЊРєРѕ РІ РјРѕРјРµРЅС‚ РєРѕРіРґР° РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ РІС‹Р±РёСЂР°РµС‚ РїР°РїРєСѓ c roads
 	OBJECT_NORMAL_METHODS( CFenceInsertItem );
 public:
 	CFenceInsertItem() { nItemType = E_FENCE_INSERT_ITEM; bLoaded = false; InitDefaultValues(); nImageIndex = 7; }
@@ -72,7 +72,7 @@ public:
 	bool GetLoadedFlag() { return bLoaded; }
 	SThumbItems* GetThumbItems() { return &m_thumbItems; }
 	
-	virtual void InsertChildItems();					//Вызывается после создания всех компонентов для занесения их в дерево
+	virtual void InsertChildItems();					//Р’С‹Р·С‹РІР°РµС‚СЃСЏ РїРѕСЃР»Рµ СЃРѕР·РґР°РЅРёСЏ РІСЃРµС… РєРѕРјРїРѕРЅРµРЅС‚РѕРІ РґР»СЏ Р·Р°РЅРµСЃРµРЅРёСЏ РёС… РІ РґРµСЂРµРІРѕ
 	virtual void InitDefaultValues();
 	virtual void MyLButtonClick();
 };
@@ -82,7 +82,7 @@ class CFencePropsItem : public CTreeItem
 	OBJECT_NORMAL_METHODS( CFencePropsItem );
 	
 public:
-	CVec3 vSpritePos;		//не хочу кучу функций таскать, TT
+	CVec3 vSpritePos;		//РЅРµ С…РѕС‡Сѓ РєСѓС‡Сѓ С„СѓРЅРєС†РёР№ С‚Р°СЃРєР°С‚СЊ, TT
 	CListOfTiles lockedTiles;
 	CListOfTiles transeparences;
 	bool bLoaded;

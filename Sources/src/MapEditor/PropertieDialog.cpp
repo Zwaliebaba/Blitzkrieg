@@ -216,7 +216,7 @@ void	CPropertieDialog::AddManipulatorVariable( std::string &str, IManipulator *p
 	std::string tmpStr;
 	if( szVector.size() != 1 )
 	{
-		// есть ветви 
+		// РµСЃС‚СЊ РІРµС‚РІРё 
 		for( std::vector<std::string>::iterator it = szVector.begin(); it != szVector.end() - 1; ++it )
 		{
 			tmpStr += (*it);

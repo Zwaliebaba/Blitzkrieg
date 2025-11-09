@@ -49,7 +49,7 @@ bool CUITimeCounter::ProcessMessage( const SUIMessage &msg )
 		case UI_SET_ANIMATION_TIME:
 			if ( msg.nFirst == GetWindowID() )
 			{
-				EnableWindow( false );				//сообщения от мышки не будут обрабатываться
+				EnableWindow( false );				//СЃРѕРѕР±С‰РµРЅРёСЏ РѕС‚ РјС‹С€РєРё РЅРµ Р±СѓРґСѓС‚ РѕР±СЂР°Р±Р°С‚С‹РІР°С‚СЊСЃСЏ
 				if ( msg.nFirst == -1 )
 				{
 					//button is disabled
@@ -70,7 +70,7 @@ bool CUITimeCounter::ProcessMessage( const SUIMessage &msg )
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CUITimeCounter::Visit( interface ISceneVisitor *pVisitor )
 {
-	// рисуем подложку
+	// СЂРёСЃСѓРµРј РїРѕРґР»РѕР¶РєСѓ
 	CTRect<float> screenRC = GetScreenRect();
 	SGFXRect2 rc;
 	rc.rect = screenRC;
@@ -78,7 +78,7 @@ void CUITimeCounter::Visit( interface ISceneVisitor *pVisitor )
 	rc.fZ = 0;
 	pVisitor->VisitUIRects( 0, 3, &rc, 1 );
 
-	//рисуем полоску
+	//СЂРёСЃСѓРµРј РїРѕР»РѕСЃРєСѓ
 	if ( !bVertical )
 	{
 		rc.rect.left = screenRC.left + fBegin;
@@ -105,7 +105,7 @@ void CUITimeCounter::Draw( IGFX *pGFX )
 {
 	NI_ASSERT_SLOW_T( false, "Can't user Draw() directly - use visitor pattern" );
 	return;
-	//рисуем подложку
+	//СЂРёСЃСѓРµРј РїРѕРґР»РѕР¶РєСѓ
 	pGFX->SetShadingEffect( 3 );
 	pGFX->SetTexture( 0, 0 );
 	CTRect<float> screenRC = GetScreenRect();
@@ -115,7 +115,7 @@ void CUITimeCounter::Draw( IGFX *pGFX )
 	rc.fZ = 0;
 	pGFX->DrawRects( &rc, 1 );
 
-	//рисуем полоску
+	//СЂРёСЃСѓРµРј РїРѕР»РѕСЃРєСѓ
 	if ( !bVertical )
 	{
 		rc.rect.left = screenRC.left + fBegin;
@@ -143,7 +143,7 @@ bool CUITimeCounter::Update( const NTimer::STime &currTime )
 	{
 		fCurrent = fEnd;
 		bNeedAnimate = false;
-//		EnableWindow( true );			//кнопка становится активной только по приходу сообщения извне
+//		EnableWindow( true );			//РєРЅРѕРїРєР° СЃС‚Р°РЅРѕРІРёС‚СЃСЏ Р°РєС‚РёРІРЅРѕР№ С‚РѕР»СЊРєРѕ РїРѕ РїСЂРёС…РѕРґСѓ СЃРѕРѕР±С‰РµРЅРёСЏ РёР·РІРЅРµ
 		return true;
 	}
 

@@ -223,12 +223,12 @@ public:
 	
 	inline void DrawToScene( bool bClear = true )
 	{
-		//рисовать здесь
+		//СЂРёСЃРѕРІР°С‚СЊ Р·РґРµСЃСЊ
 		if ( IScene *pScene = GetSingleton<IScene>() )
 		{
 			if ( ITerrain *pTerrain = pScene->GetTerrain() )
 			{
-					//линии
+					//Р»РёРЅРёРё
 				if( !vertices.empty() )
 				{
 					NI_ASSERT_T( ( vertices.size() & 0x1 ) == 0,
@@ -262,7 +262,7 @@ public:
 					}
 				}
 
-				//красный маркер
+				//РєСЂР°СЃРЅС‹Р№ РјР°СЂРєРµСЂ
 				if ( bMarkerTilesValid )
 				{
 					if ( ITerrainEditor *pTerrainEditor = dynamic_cast<ITerrainEditor*>( pTerrain ) )
@@ -286,7 +286,7 @@ public:
 		}
 	}
 
-	//в terrain тайлах ( ось Y инвертирована )
+	//РІ terrain С‚Р°Р№Р»Р°С… ( РѕСЃСЊ Y РёРЅРІРµСЂС‚РёСЂРѕРІР°РЅР° )
 	inline void AddAIMarkerTiles( const CTRect<int> &rRect, DWORD dwGreenPass, bool isBounds = false )
 	{
 		bAIMarkerTilesValid = true;
@@ -318,7 +318,7 @@ public:
 		}
 	}
 	
-	//в ai тайлах
+	//РІ ai С‚Р°Р№Р»Р°С…
 	inline void AddAIMarkerAITiles( const CTRect<int> &rRect, DWORD dwGreenPass, bool isBounds = false )
 	{
 		bAIMarkerTilesValid = true;
@@ -344,7 +344,7 @@ public:
 		}
 	}
 
-	//в ai тайлах
+	//РІ ai С‚Р°Р№Р»Р°С…
 	//
 	//           Y / \
 	//           /     \
@@ -366,7 +366,7 @@ public:
 	{
 		bAIMarkerTilesValid = true;
 
-		//рисовать здесь
+		//СЂРёСЃРѕРІР°С‚СЊ Р·РґРµСЃСЊ
 		for ( int nYIndex = vLB.y; nYIndex <= vRT.y; ++nYIndex )
 		{
 			for ( int nXIndex = vLT.x; nXIndex <= vRB.x; ++nXIndex )
@@ -383,7 +383,7 @@ public:
 		}
 	}
 
-	//в terrain тайлах
+	//РІ terrain С‚Р°Р№Р»Р°С…
 	inline void AddMarkerTiles( const CTRect<int> &rRect, bool isBounds = false )
 	{
 		bMarkerTilesValid = true;

@@ -86,7 +86,7 @@ void CInterfaceReplayList::DisplayError()
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool CInterfaceReplayList::Init()
 {
-	//инициализируем имена
+	//РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј РёРјРµРЅР°
 	fileMasks.clear();
 	fileMasks.push_back( "*.rpl" );
 	szTopDir = GetSingleton<IMainLoop>()->GetBaseDir();

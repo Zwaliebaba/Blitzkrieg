@@ -58,14 +58,14 @@ CModFileSystem::CModFileSystem( const char *pszName, DWORD dwAccessMode )
 	AddStorage( pStorage, "MAIN_BASE_STORAGE" );
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// создать и открыть поток с указанным именем и правами доступа
+// СЃРѕР·РґР°С‚СЊ Рё РѕС‚РєСЂС‹С‚СЊ РїРѕС‚РѕРє СЃ СѓРєР°Р·Р°РЅРЅС‹Рј РёРјРµРЅРµРј Рё РїСЂР°РІР°РјРё РґРѕСЃС‚СѓРїР°
 IDataStream* CModFileSystem::CreateStream( const char *pszName, DWORD dwAccessMode )
 {
 	NI_ASSERT_T( 0, "Have no write access to common file system" );
 	return 0;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// открыть существующий поток с указанным именем и правами доступа
+// РѕС‚РєСЂС‹С‚СЊ СЃСѓС‰РµСЃС‚РІСѓСЋС‰РёР№ РїРѕС‚РѕРє СЃ СѓРєР°Р·Р°РЅРЅС‹Рј РёРјРµРЅРµРј Рё РїСЂР°РІР°РјРё РґРѕСЃС‚СѓРїР°
 IDataStream* CModFileSystem::OpenStream( const char *pszName, DWORD dwAccessMode )
 {
 	for ( CFileSystemsList::iterator it = filesystems.begin(); it != filesystems.end(); ++it )
@@ -76,7 +76,7 @@ IDataStream* CModFileSystem::OpenStream( const char *pszName, DWORD dwAccessMode
 	return 0;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// получить описание stream'а
+// РїРѕР»СѓС‡РёС‚СЊ РѕРїРёСЃР°РЅРёРµ stream'Р°
 bool CModFileSystem::GetStreamStats( const char *pszName, SStorageElementStats *pStats )
 {
 	for ( CFileSystemsList::iterator it = filesystems.begin(); it != filesystems.end(); ++it )
@@ -87,14 +87,14 @@ bool CModFileSystem::GetStreamStats( const char *pszName, SStorageElementStats *
 	return false;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// убить элемент хранилища
+// СѓР±РёС‚СЊ СЌР»РµРјРµРЅС‚ С…СЂР°РЅРёР»РёС‰Р°
 bool CModFileSystem::DestroyElement( const char *pszName )
 {
 	NI_ASSERT_T( 0, "Have no write access to common file system" );
 	return false;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// переименовать элемент
+// РїРµСЂРµРёРјРµРЅРѕРІР°С‚СЊ СЌР»РµРјРµРЅС‚
 bool CModFileSystem::RenameElement( const char *pszOldName, const char *pszNewName )
 {
 	NI_ASSERT_T( 0, "Have no write access to common file system" );
@@ -134,7 +134,7 @@ bool CModFileSystem::RemoveStorage( const char *pszName )
 	return false;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// проверить, есть ли такой поток
+// РїСЂРѕРІРµСЂРёС‚СЊ, РµСЃС‚СЊ Р»Рё С‚Р°РєРѕР№ РїРѕС‚РѕРє
 const bool CModFileSystem::IsStreamExist( const char *pszName )
 {
 	for ( CFileSystemsList::const_iterator it = filesystems.begin(); it != filesystems.end(); ++it )
@@ -150,7 +150,7 @@ const char* CModFileSystem::GetName() const
 	return filesystems.empty() ? ".\\" : filesystems.back().second->GetName();
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// перечисление элементов
+// РїРµСЂРµС‡РёСЃР»РµРЅРёРµ СЌР»РµРјРµРЅС‚РѕРІ
 IStorageEnumerator* CModFileSystem::CreateEnumerator()
 {
 	if ( filesystems.size() == 0 ) 

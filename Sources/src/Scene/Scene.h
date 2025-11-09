@@ -47,8 +47,8 @@ enum
 	SCENE_FORCE_DWORD = 0x7fffffff
 };
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// звуковой эффект
-// поведение при нескольких звуках одного типа
+// Р·РІСѓРєРѕРІРѕР№ СЌС„С„РµРєС‚
+// РїРѕРІРµРґРµРЅРёРµ РїСЂРё РЅРµСЃРєРѕР»СЊРєРёС… Р·РІСѓРєР°С… РѕРґРЅРѕРіРѕ С‚РёРїР°
 enum ESoundMixType
 {
 	SFX_MIX_IF_TIME_EQUALS,
@@ -59,14 +59,14 @@ enum ESoundMixType
 	SFX_MIX_ALL = 0x7fffffff,
 };
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// для задания того, как звук ведет себя во время боя.
+// РґР»СЏ Р·Р°РґР°РЅРёСЏ С‚РѕРіРѕ, РєР°Рє Р·РІСѓРє РІРµРґРµС‚ СЃРµР±СЏ РІРѕ РІСЂРµРјСЏ Р±РѕСЏ.
 enum ESoundCombatType
 {
-	ESCT_GENERIC						= 0,					// не затухает во время боя и не является звуком боя
+	ESCT_GENERIC						= 0,					// РЅРµ Р·Р°С‚СѓС…Р°РµС‚ РІРѕ РІСЂРµРјСЏ Р±РѕСЏ Рё РЅРµ СЏРІР»СЏРµС‚СЃСЏ Р·РІСѓРєРѕРј Р±РѕСЏ
 	ESCT_COMBAT							= 1,
 	ESCT_MUTE_DURING_COMBAT	= 2,
 	
-	ESCT_ASK_RPG						= 3,					// тип звука задаеттся в статах
+	ESCT_ASK_RPG						= 3,					// С‚РёРї Р·РІСѓРєР° Р·Р°РґР°РµС‚С‚СЃСЏ РІ СЃС‚Р°С‚Р°С…
 	ESCT_ALL								= 0x7fffffff,
 };
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -604,14 +604,14 @@ enum
 };
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // ************************************************************************************************************************ //
-// ** для добавления звука в сцену
+// ** РґР»СЏ РґРѕР±Р°РІР»РµРЅРёСЏ Р·РІСѓРєР° РІ СЃС†РµРЅСѓ
 // ************************************************************************************************************************ //
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 enum ESoundAddMode
 {
-	SAM_LOOPED_NEED_ID,										// вернется ID звука, звук будет зацикленный
-	SAM_NEED_ID,													// вернется ID звука
-	SAM_ADD_N_FORGET,											// вернется 0, сцена сама удалит звук.
+	SAM_LOOPED_NEED_ID,										// РІРµСЂРЅРµС‚СЃСЏ ID Р·РІСѓРєР°, Р·РІСѓРє Р±СѓРґРµС‚ Р·Р°С†РёРєР»РµРЅРЅС‹Р№
+	SAM_NEED_ID,													// РІРµСЂРЅРµС‚СЃСЏ ID Р·РІСѓРєР°
+	SAM_ADD_N_FORGET,											// РІРµСЂРЅРµС‚СЃСЏ 0, СЃС†РµРЅР° СЃР°РјР° СѓРґР°Р»РёС‚ Р·РІСѓРє.
 };
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 interface IScene : public IRefCount
@@ -624,7 +624,7 @@ interface IScene : public IRefCount
 	virtual void STDCALL SetSeason( const int nSeason ) = 0;
 	virtual void STDCALL InitMusic(	const std::string &szPartyName ) = 0;
 	virtual void STDCALL InitMapSounds( const struct CMapSoundInfo *pSound, int nElements )=0;
-	// для генерации звуков от террейна
+	// РґР»СЏ РіРµРЅРµСЂР°С†РёРё Р·РІСѓРєРѕРІ РѕС‚ С‚РµСЂСЂРµР№РЅР°
 	virtual void STDCALL InitTerrainSound( interface ITerrain *pTerrain ) = 0;
 	// NOTE: terrain MUST BE loaded before this operation!!!
 	// NOTE: if terrain's size was changed, call SetTerrain() again
@@ -634,7 +634,7 @@ interface IScene : public IRefCount
 	virtual bool STDCALL AddObject( IVisObj *pObject, EObjGameType eGameType, const SGDBObjectDesc *pDesc = 0 ) = 0;
 	virtual bool STDCALL AddCraterObject( IVisObj *pObject, EObjGameType eGameType ) = 0;
 	virtual bool STDCALL AddOutboundObject( IVisObj *pObject, EObjGameType eGameType ) = 0;
-	// CRAP{ вот такая вот херня из-за береговой артиллерии
+	// CRAP{ РІРѕС‚ С‚Р°РєР°СЏ РІРѕС‚ С…РµСЂРЅСЏ РёР·-Р·Р° Р±РµСЂРµРіРѕРІРѕР№ Р°СЂС‚РёР»Р»РµСЂРёРё
 	virtual bool STDCALL AddOutboundObject2( IVisObj *pObject, EObjGameType eGameType ) = 0;
 	// CRAP}
 	virtual void STDCALL AddMechTrace( const SMechTrace &trace ) = 0;

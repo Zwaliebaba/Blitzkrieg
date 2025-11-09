@@ -502,7 +502,7 @@ void CInterfaceMission::CMultiplayerScoresSmall::CReplayScoresState::Show( IUISc
 {
 	Init( pUIScreen );
 	ITextManager *pTM = GetSingleton<ITextManager>();
-	//скроем кнопочку показа SINGLE OBJECTIVE
+	//СЃРєСЂРѕРµРј РєРЅРѕРїРѕС‡РєСѓ РїРѕРєР°Р·Р° SINGLE OBJECTIVE
 	IUIElement *pSingleObjectiveButton = checked_cast<IUIElement*>( pUIScreen->GetChildByID( E_SINGLE_OBJECTIVE_BUTTON ) );
 	pSingleObjectiveButton->ShowWindow( UI_SW_HIDE );
 
@@ -591,7 +591,7 @@ void CInterfaceMission::CMultiplayerScoresSmall::CReplayScoresState::Init( IUISc
 void CInterfaceMission::CMultiplayerScoresSmall::CGameScoresState::Show( IUIScreen * pUIScreen )
 {
 	Init( pUIScreen );
-	//скроем кнопочку показа SINGLE OBJECTIVE
+	//СЃРєСЂРѕРµРј РєРЅРѕРїРѕС‡РєСѓ РїРѕРєР°Р·Р° SINGLE OBJECTIVE
 	IUIElement *pSingleObjectiveButton = checked_cast<IUIElement*>( pUIScreen->GetChildByID( E_SINGLE_OBJECTIVE_BUTTON ) );
 	pSingleObjectiveButton->ShowWindow( UI_SW_HIDE );
 
@@ -785,7 +785,7 @@ CInterfaceMission::CInterfaceMission()
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 CInterfaceMission::~CInterfaceMission() 
 {
-	// сначала необходимо освободить всю клиенсткую часть, а только потом звать очистку AI
+	// СЃРЅР°С‡Р°Р»Р° РЅРµРѕР±С…РѕРґРёРјРѕ РѕСЃРІРѕР±РѕРґРёС‚СЊ РІСЃСЋ РєР»РёРµРЅСЃС‚РєСѓСЋ С‡Р°СЃС‚СЊ, Р° С‚РѕР»СЊРєРѕ РїРѕС‚РѕРј Р·РІР°С‚СЊ РѕС‡РёСЃС‚РєСѓ AI
 	pFrameSelection = 0;
 	pWorld = 0;
 	if ( pScene )
@@ -965,7 +965,7 @@ void CInterfaceMission::Done()
 	GetSingleton<IMessageLinkContainer>()->SetInterface( 0 );
 	// remove mission temporary global variables
 	GetSingleton<IGlobalVars>()->RemoveVarsByMatch( "temp." );	
-	// сначала необходимо освободить всю клиенсткую часть, а только потом звать очистку AI
+	// СЃРЅР°С‡Р°Р»Р° РЅРµРѕР±С…РѕРґРёРјРѕ РѕСЃРІРѕР±РѕРґРёС‚СЊ РІСЃСЋ РєР»РёРµРЅСЃС‚РєСѓСЋ С‡Р°СЃС‚СЊ, Р° С‚РѕР»СЊРєРѕ РїРѕС‚РѕРј Р·РІР°С‚СЊ РѕС‡РёСЃС‚РєСѓ AI
 	pFrameSelection = 0;
 	pWorld = 0;
 	//
@@ -982,21 +982,21 @@ void CInterfaceMission::Done()
 		pAckManager->Clear();
 		pAckManager = 0;
 	}
-	// очистим AI
+	// РѕС‡РёСЃС‚РёРј AI
 	if ( pAILogic )
 	{
 		pAILogic->Clear();
 		pAILogic->Suspend();
 	}
-	// мы вышли из миссии
+	// РјС‹ РІС‹С€Р»Рё РёР· РјРёСЃСЃРёРё
 	RemoveGlobalVar( "AreWeInMission" );
 	GetSingleton<IMainLoop>()->ClearResources( true );
 	multiplayerScoresSmall.Done();
 
-	// чистка переменных
+	// С‡РёСЃС‚РєР° РїРµСЂРµРјРµРЅРЅС‹С…
 /*
 	int nMulty = GetGlobalVar( "MultiplayerGame", 0 );
-	if ( !nMulty )		//если не в режиме multyplayer
+	if ( !nMulty )		//РµСЃР»Рё РЅРµ РІ СЂРµР¶РёРјРµ multyplayer
 		GetSingleton<IMainLoop>()->Command( MAIN_COMMAND_CHANGE_TRANSCEIVER, NStr::Format("%d 0", MAIN_SP_TRANSCEIVER) );
 */
 	//
@@ -1218,7 +1218,7 @@ bool CInterfaceMission::NewMission( const std::string &_szMapName, bool _bCycled
 	GetSingleton<IMainLoop>()->Pause( false, PAUSE_TYPE_MP_LOADING );
 
 	//
-	// мы зашли в миссию
+	// РјС‹ Р·Р°С€Р»Рё РІ РјРёСЃСЃРёСЋ
 	SetGlobalVar( "AreWeInMission", 1 );
 	// remove menu pause
 	GetSingleton<IMainLoop>()->Pause( false, PAUSE_TYPE_MENU );
@@ -1446,7 +1446,7 @@ bool CInterfaceMission::NewMission( const std::string &_szMapName, bool _bCycled
 			}
 
 			pUIMiniMap->SetBackgroundTexture( GetSingleton<ITextureManager>()->GetTexture( szTextureName.c_str() ) );
-			//показывание обжективов
+			//РїРѕРєР°Р·С‹РІР°РЅРёРµ РѕР±Р¶РµРєС‚РёРІРѕРІ
 			std::string szMissionName = GetGlobalVar( "Mission.Current.Name" );
 			const SMissionStats *pMissionStats = NGDB::GetGameStats<SMissionStats>( szMissionName.c_str(), IObjectsDB::MISSION );
 			if ( pMissionStats != 0 )
@@ -1470,11 +1470,11 @@ bool CInterfaceMission::NewMission( const std::string &_szMapName, bool _bCycled
 	}
 	// CRAP}
 	//
-	// иницализация звуков от карты
+	// РёРЅРёС†Р°Р»РёР·Р°С†РёСЏ Р·РІСѓРєРѕРІ РѕС‚ РєР°СЂС‚С‹
 	if ( mapinfo.soundsList.size() )
 		pScene->InitMapSounds( &mapinfo.soundsList.front(), mapinfo.soundsList.size() );
 
-	// Инициализация музыки внутри игры
+	// РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РјСѓР·С‹РєРё РІРЅСѓС‚СЂРё РёРіСЂС‹
 	pScene->InitMusic( GetSingleton<IScenarioTracker>()->GetUserPlayer()->GetGeneralSide() );
 	// add mission bonus
 	RemoveGlobalVar( "Mission.Current.Bonus" );
@@ -1510,7 +1510,7 @@ bool CInterfaceMission::NewMission( const std::string &_szMapName, bool _bCycled
 		pScene->AddUIScreen( pUIScreen );
 		pScene->SetMissionScreen( pUIScreen ); 
 	}
-	// заходим в игру
+	// Р·Р°С…РѕРґРёРј РІ РёРіСЂСѓ
 	pScene->SetSoundSceneMode( ESSM_INGAME );
 	pProgress->Step(); //12
 	pProgress->Stop();
@@ -1906,7 +1906,7 @@ void CInterfaceMission::SetMissionStatusObject( bool bStatus )
 			pElement->ShowWindow( UI_SW_HIDE );
 
 		//Hide armor and weapon stats
-		//я скрываю, чтобы не отображались тултипы на пустом фоне
+		//СЏ СЃРєСЂС‹РІР°СЋ, С‡С‚РѕР±С‹ РЅРµ РѕС‚РѕР±СЂР°Р¶Р°Р»РёСЃСЊ С‚СѓР»С‚РёРїС‹ РЅР° РїСѓСЃС‚РѕРј С„РѕРЅРµ
 		for ( int i = 0; i < 4; ++i )
 		{
 			if ( IUIElement *pElement = pDialog->GetChildByID(101 + i) )
@@ -2124,9 +2124,9 @@ bool CInterfaceMission::ProcessMessageLocal( const SGameMessage &msg )
 			//RR begin
 		case UI_NOTIFY_SELECTION_CHANGED:
 		case UI_NOTIFY_BAR_EXPAND:
-			if ( msg.nParam == 10 )		//это objectives Shortcut Bar
+			if ( msg.nParam == 10 )		//СЌС‚Рѕ objectives Shortcut Bar
 			{
-				//отобразим круги на минимапе
+				//РѕС‚РѕР±СЂР°Р·РёРј РєСЂСѓРіРё РЅР° РјРёРЅРёРјР°РїРµ
 				IUIMiniMap *pUIMiniMap = checked_cast<IUIMiniMap*>( pUIScreen->GetChildByID( 20000 ) );
 				if ( pUIMiniMap )
 				{
@@ -2138,8 +2138,8 @@ bool CInterfaceMission::ProcessMessageLocal( const SGameMessage &msg )
 					pSB->GetSelectionItem( &nBar, &nItem );
 					if ( nBar != -1 && pSB->GetBarExpandState( nBar ) )
 					{
-						//nBar содержит номер выделенного objective
-						//получим статсы миссии
+						//nBar СЃРѕРґРµСЂР¶РёС‚ РЅРѕРјРµСЂ РІС‹РґРµР»РµРЅРЅРѕРіРѕ objective
+						//РїРѕР»СѓС‡РёРј СЃС‚Р°С‚СЃС‹ РјРёСЃСЃРёРё
 						IUIElement *pBar = pSB->GetBar( nBar );
 						NI_ASSERT_T( pBar != 0, "Error in UI_NOTIFY_BAR_EXPAND" );
 						const int nObjectiveNumber = pBar->GetWindowID();

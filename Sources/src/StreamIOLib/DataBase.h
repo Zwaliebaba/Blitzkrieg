@@ -11,13 +11,13 @@ class CIniFileDataBase : public IDataBase
 	DWORD dwStorageAccessMode;
 public:
 	CIniFileDataBase( const char *pszName, DWORD dwAccessMode );
-	// создать и открыть таблицу с указанным именем и правами доступа
+	// СЃРѕР·РґР°С‚СЊ Рё РѕС‚РєСЂС‹С‚СЊ С‚Р°Р±Р»РёС†Сѓ СЃ СѓРєР°Р·Р°РЅРЅС‹Рј РёРјРµРЅРµРј Рё РїСЂР°РІР°РјРё РґРѕСЃС‚СѓРїР°
 	virtual IDataTable* STDCALL CreateTable( const char *pszName, DWORD dwAccessMode );
-	// открыть существующую таблицу с указанным именем и правами доступа
+	// РѕС‚РєСЂС‹С‚СЊ СЃСѓС‰РµСЃС‚РІСѓСЋС‰СѓСЋ С‚Р°Р±Р»РёС†Сѓ СЃ СѓРєР°Р·Р°РЅРЅС‹Рј РёРјРµРЅРµРј Рё РїСЂР°РІР°РјРё РґРѕСЃС‚СѓРїР°
 	virtual IDataTable* STDCALL OpenTable( const char *pszName, DWORD dwAccessMode );
-	// убить элемент хранилища
+	// СѓР±РёС‚СЊ СЌР»РµРјРµРЅС‚ С…СЂР°РЅРёР»РёС‰Р°
 	virtual bool STDCALL DestroyElement( const char *pszName );
-	// переименовать элемент
+	// РїРµСЂРµРёРјРµРЅРѕРІР°С‚СЊ СЌР»РµРјРµРЅС‚
 	virtual bool STDCALL RenameElement( const char *pszOldName, const char *pszNewName );
 };
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -7,7 +7,7 @@ interface IMemento : public IRefCount
 {
 };
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// большой статический путь, вдоль которого идут юниты
+// Р±РѕР»СЊС€РѕР№ СЃС‚Р°С‚РёС‡РµСЃРєРёР№ РїСѓС‚СЊ, РІРґРѕР»СЊ РєРѕС‚РѕСЂРѕРіРѕ РёРґСѓС‚ СЋРЅРёС‚С‹
 interface IStaticPath : public IRefCount
 {
 	virtual const SVector GetStartTile() const	= 0;
@@ -18,7 +18,7 @@ interface IStaticPath : public IRefCount
 	virtual void MoveFinishPointBy( const CVec2 &vMove ) = 0;
 };
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// путь юнита
+// РїСѓС‚СЊ СЋРЅРёС‚Р°
 interface IPath : public IRefCount
 {
 	virtual bool IsFinished() const = 0;
@@ -42,7 +42,7 @@ interface IPath : public IRefCount
 interface ISmoothPath : public IRefCount
 {
 	virtual const CVec2& GetFinishPoint() const = 0;
-	// возвращает - пошёл юнит по пути или нет
+	// РІРѕР·РІСЂР°С‰Р°РµС‚ - РїРѕС€С‘Р» СЋРЅРёС‚ РїРѕ РїСѓС‚Рё РёР»Рё РЅРµС‚
 	virtual bool Init( interface IBasePathUnit *pPathUnit, interface IAviationUnit *pAviationUnit, IPath *pPath, bool bSmoothTurn, bool bCheckTurn = true ) { NI_ASSERT_T(false, "wrong call"); return false; }
 	virtual bool Init( interface IBasePathUnit *pUnit, IPath *pPath, bool bSmoothTurn, bool bCheckTurn = true ) = 0;
 	virtual bool Init( interface IMemento *pMemento, interface IBasePathUnit *pUnit ) = 0;
@@ -61,7 +61,7 @@ interface ISmoothPath : public IRefCount
 	virtual bool CanGoBackward() const = 0;
 	virtual bool CanGoForward() const = 0;
 	virtual void GetNextTiles( std::list<SVector> *pTiles ) = 0;
-	// погрешность до SAIConsts::SPLINE_STEP, используется в основном для формация
+	// РїРѕРіСЂРµС€РЅРѕСЃС‚СЊ РґРѕ SAIConsts::SPLINE_STEP, РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РІ РѕСЃРЅРѕРІРЅРѕРј РґР»СЏ С„РѕСЂРјР°С†РёСЏ
 	virtual CVec2 GetShift( const int nToShift ) const = 0;
 	
 	virtual IMemento* GetMemento() const = 0;
@@ -73,12 +73,12 @@ interface ISmoothPath : public IRefCount
 
 	virtual void GetSpeed3( CVec3 *vSpeed ) const
 	{
-	//CRAP{ пока Виталик в своих путях не станет вычислять скорость
+	//CRAP{ РїРѕРєР° Р’РёС‚Р°Р»РёРє РІ СЃРІРѕРёС… РїСѓС‚СЏС… РЅРµ СЃС‚Р°РЅРµС‚ РІС‹С‡РёСЃР»СЏС‚СЊ СЃРєРѕСЂРѕСЃС‚СЊ
 	*vSpeed = VNULL3;
 	//CRAP}
 	}
 
-	// для save/load
+	// РґР»СЏ save/load
 	virtual void SetOwner( interface IBasePathUnit *pUnit ) = 0;
 	virtual IBasePathUnit* GetOwner() const = 0;
 };

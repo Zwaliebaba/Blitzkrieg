@@ -208,7 +208,7 @@ std::string MakeName( const std::string &szName, const std::vector<SUnitsGDBStat
 {
 	if ( szName.find('\\') != std::string::npos )
 	{
-		// добавим к имени объекта units\\humans
+		// РґРѕР±Р°РІРёРј Рє РёРјРµРЅРё РѕР±СЉРµРєС‚Р° units\\humans
 		std::string szNewName = "units\\humans\\" + szName;
 		NStr::ToLower( szNewName );
 		for ( std::vector<SUnitsGDBStats>::const_iterator it = descs.begin(); it != descs.end(); ++it )
@@ -257,7 +257,7 @@ void CSquadFrame::SaveRPGStats( IDataTree *pDT, CTreeItem *pRootItem, const char
 	}
 
 	IScene *pSG = GetSingleton<IScene>();
-	//заполним формации
+	//Р·Р°РїРѕР»РЅРёРј С„РѕСЂРјР°С†РёРё
 	CTreeItem *pFormations = pRootItem->GetChildItem( E_SQUAD_FORMATIONS_ITEM );
 	for ( CTreeItem::CTreeItemList::const_iterator ext=pFormations->GetBegin(); ext!=pFormations->GetEnd(); ++ext )
 	{
@@ -273,7 +273,7 @@ void CSquadFrame::SaveRPGStats( IDataTree *pDT, CTreeItem *pRootItem, const char
 		form.fRelaxTimeBonus = pFormProps->GetRelaxTimeBonus();
 		form.fCoverBonus = pFormProps->GetCoverBonus();
 
-		//3D точная координата нуля формации
+		//3D С‚РѕС‡РЅР°В¤ РєРѕРѕСЂРґРёРЅР°С‚Р° РЅСѓР»В¤ С„РѕСЂРјР°С†РёРё
 		CVec3 vRealZero3;
 		CVec2 vRealZero2;
 		pSG->GetPos2( &vRealZero2, pFormProps->vZeroPos );
@@ -301,7 +301,7 @@ void CSquadFrame::LoadRPGStats( IDataTree *pDT, CTreeItem *pRootItem )
 {
 	/*	
 	SSquadRPGStats rpgStats;
-	FillRPGStats( rpgStats, pRootItem );			//перед загрузкой инициализирую значениями по умолчанию
+	FillRPGStats( rpgStats, pRootItem );			//РїРµСЂРµРґ Р·Р°РіСЂСѓР·РєРѕР№ РёРЅРёС†РёР°Р»РёР·РёСЂСѓСЋ Р·РЅР°С‡РµРЅРёВ¤РјРё РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
 	
 		CTreeAccessor tree = pDT;
 		tree.Add( "RPG", &rpgStats );
@@ -311,7 +311,7 @@ void CSquadFrame::LoadRPGStats( IDataTree *pDT, CTreeItem *pRootItem )
 
 bool CSquadFrame::ExportFrameData( IDataTree *pDT, const char *pszProjectName, const char *pszResultFileName, CTreeItem *pRootItem )
 {
-	//Сохраняем RPG stats
+	//вЂ”РѕС…СЂР°РЅВ¤РµРј RPG stats
 	SaveRPGStats( pDT, pRootItem, pszProjectName );
 	CSquadCommonPropsItem *pCommonPropsItem = static_cast<CSquadCommonPropsItem *>( pRootItem->GetChildItem( E_SQUAD_COMMON_PROPS_ITEM ) );
 	std::string szTemp = pCommonPropsItem->GetSquadPicture();
@@ -406,7 +406,7 @@ void CSquadFrame::DeleteUnitFromScene( CTreeItem *pUnit, CSquadFormationPropsIte
 		}
 	}
 	
-	NI_ASSERT( 0 );			//не нашла, что за фигня?
+	NI_ASSERT( 0 );			//РЅРµ РЅР°С€Р»Р°, С‡С‚Рѕ Р·Р° С„РёРіРЅВ¤?
 }
 
 void CSquadFrame::SelectActiveUnit( CTreeItem *pUnit )
@@ -466,7 +466,7 @@ void CSquadFrame::OnLButtonDown(UINT nFlags, CPoint point)
 	
 	if ( m_mode == E_FREE && pActiveFormation != 0 )
 	{
-		//если мышка над одним из members в сцене, то надо передвинуть его на новое место
+		//РµСЃР»Рё РјС‹С€РєР° РЅР°Рґ РѕРґРЅРёРј РёР· members РІ СЃС†РµРЅРµ, С‚Рѕ РЅР°РґРѕ РїРµСЂРµРґРІРёРЅСѓС‚СЊ РµРіРѕ РЅР° РЅРѕРІРѕРµ РјРµСЃС‚Рѕ
 		for ( CSquadFormationPropsItem::CUnitsList::iterator it=pActiveFormation->units.begin(); it!=pActiveFormation->units.end(); ++it )
 		{
 			if ( IsSpriteHit( it->pSprite, pt, &objShift ) )
@@ -564,7 +564,7 @@ void CSquadFrame::OnUpdateSetZeroButton(CCmdUI* pCmdUI)
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
 	if ( pTree != 0 )
 	{
-		//Если уже был создан проект
+		//в‰€СЃР»Рё СѓР¶Рµ Р±С‹Р» СЃРѕР·РґР°РЅ РїСЂРѕРµРєС‚
 		pCmdUI->Enable( true );
 	}
 	else
@@ -614,7 +614,7 @@ void CSquadFrame::UpdateFormationDirection()
 	vEnd2.x += zeroShiftX;
 	vEnd2.y += zeroShiftY;
 	
-	//обновим линию направления
+	//РѕР±РЅРѕРІРёРј Р»РёРЅРёСЋ РЅР°РїСЂР°РІР»РµРЅРёВ¤
 	{
 		CVerticesLock<SGFXTLVertex> vertices( pFormationDirVertices );
 		vertices[0].Setup( vPos2.x, vPos2.y, 1, 1, 0xffff0000, 0xff000000, 0, 0 );

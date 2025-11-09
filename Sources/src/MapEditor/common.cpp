@@ -10,7 +10,7 @@
 /**
 void FillTileMaps( int nSizeX, int nSizeY, vector<STileMapsDesc> &tileMaps, bool bGenerateInverse )
 {
-	//Заполняем массив maps в зависимости от размера текстуры
+	//Р—Р°РїРѕР»РЅСЏРµРј РјР°СЃСЃРёРІ maps РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ СЂР°Р·РјРµСЂР° С‚РµРєСЃС‚СѓСЂС‹
 	int nNumColumn = 0;
 	for ( int i=0; i<nSizeY-32; i+=32 )
 	{

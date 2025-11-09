@@ -23,7 +23,7 @@ static char THIS_FILE[]=__FILE__;
 CPropertiesRegister thePropertiesRegister02;
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//коллекционер обьектов
+//РєРѕР»Р»РµРєС†РёРѕРЅРµСЂ РѕР±СЊРµРєС‚РѕРІ
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const char CUCHelper::DEFAULT_AVIATION_NAME[] = "aviation";
 const char CUCHelper::DEFAULT_SQUADS_NAME[] = "squads";
@@ -37,7 +37,7 @@ void CMutableUnitCreationInfo::MutableValidate()
 	}
 	for ( int nUnitTypeIndex = 0; nUnitTypeIndex < mutableUnits.size(); ++nUnitTypeIndex )
 	{
-		//самолеты
+		//СЃР°РјРѕР»РµС‚С‹
 		for ( int nAircraftIndex = SUCAviation::AT_SCOUT; nAircraftIndex < SUCAviation::AT_COUNT; ++nAircraftIndex )
 		{
 			if ( mutableUnits[nUnitTypeIndex].aviation.aircrafts[nAircraftIndex].szName.empty() )
@@ -108,7 +108,7 @@ void CUCHelper::Initialize()
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//обьекты с возможностью манипуляции
+//РѕР±СЊРµРєС‚С‹ СЃ РІРѕР·РјРѕР¶РЅРѕСЃС‚СЊСЋ РјР°РЅРёРїСѓР»В¤С†РёРё
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const char* CMutableUCAviation::AIRCRAFT_TYPE_NAMES[SUCAviation::AT_COUNT] =
 {
@@ -159,7 +159,7 @@ IManipulator* CMutableUnitCreationInfo::GetManipulator()
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//манипуляторы
+//РјР°РЅРёРїСѓР»В¤С‚РѕСЂС‹
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 CUCAircraftManipulator::CUCAircraftManipulator()
 	: CManipulator( &thePropertiesRegister02, "UCAircraft" )

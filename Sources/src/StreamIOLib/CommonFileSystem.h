@@ -38,7 +38,7 @@ class CCommonFileSystem : public IDataStorage
 	CPtr<IDataStorage> pZipStorage;				// zip file system
 	CPtr<IDataStorage> pFileStorage;			// open file system
 	typedef std::hash_map<std::string, SCommonFileInfo> CFilesMap;
-	CFilesMap files;											// соответствие имени файла и информации, необходимой для его получени
+	CFilesMap files;											// СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРµ РёРјРµРЅРё С„Р°Р№Р»Р° Рё РёРЅС„РѕСЂРјР°С†РёРё, РЅРµРѕР±С…РѕРґРёРјРѕР№ РґР»СЏ РµРіРѕ РїРѕР»СѓС‡РµРЅРё
 	//
 	std::string szBase;
 	DWORD dwStorageAccessMode;
@@ -46,25 +46,25 @@ class CCommonFileSystem : public IDataStorage
 	void EnumerateFiles( const std::string &szName, IDataStorage *pStorage );
 public:
 	CCommonFileSystem( const char *pszName, DWORD dwAccessMode );
-	// проверить, есть ли такой поток
+	// РїСЂРѕРІРµСЂРёС‚СЊ, РµСЃС‚СЊ Р»Рё С‚Р°РєРѕР№ РїРѕС‚РѕРє
 	virtual const bool STDCALL IsStreamExist( const char *pszName );
-	// создать и открыть поток с указанным именем и правами доступа
+	// СЃРѕР·РґР°С‚СЊ Рё РѕС‚РєСЂС‹С‚СЊ РїРѕС‚РѕРє СЃ СѓРєР°Р·Р°РЅРЅС‹Рј РёРјРµРЅРµРј Рё РїСЂР°РІР°РјРё РґРѕСЃС‚СѓРїР°
 	virtual IDataStream* STDCALL CreateStream( const char *pszName, DWORD dwAccessMode );
-	// открыть существующий поток с указанным именем и правами доступа
+	// РѕС‚РєСЂС‹С‚СЊ СЃСѓС‰РµСЃС‚РІСѓСЋС‰РёР№ РїРѕС‚РѕРє СЃ СѓРєР°Р·Р°РЅРЅС‹Рј РёРјРµРЅРµРј Рё РїСЂР°РІР°РјРё РґРѕСЃС‚СѓРїР°
 	virtual IDataStream* STDCALL OpenStream( const char *pszName, DWORD dwAccessMode );
-	// получить описание stream'а
+	// РїРѕР»СѓС‡РёС‚СЊ РѕРїРёСЃР°РЅРёРµ stream'Р°
 	virtual bool STDCALL GetStreamStats( const char *pszName, SStorageElementStats *pStats );
-	// убить элемент хранилища
+	// СѓР±РёС‚СЊ СЌР»РµРјРµРЅС‚ С…СЂР°РЅРёР»РёС‰Р°
 	virtual bool STDCALL DestroyElement( const char *pszName );
-	// переименовать элемент
+	// РїРµСЂРµРёРјРµРЅРѕРІР°С‚СЊ СЌР»РµРјРµРЅС‚
 	virtual bool STDCALL RenameElement( const char *pszOldName, const char *pszNewName );
-	// перечисление элементов
+	// РїРµСЂРµС‡РёСЃР»РµРЅРёРµ СЌР»РµРјРµРЅС‚РѕРІ
 	virtual IStorageEnumerator* STDCALL CreateEnumerator();
-	// получить имя этого storage
+	// РїРѕР»СѓС‡РёС‚СЊ РёРјСЏ СЌС‚РѕРіРѕ storage
 	virtual const char* STDCALL GetName() const { return szBase.c_str(); }
-	// добавить новый MOD
+	// РґРѕР±Р°РІРёС‚СЊ РЅРѕРІС‹Р№ MOD
 	virtual bool STDCALL AddStorage( IDataStorage *pStorage, const char *pszName );
-	// убрать MOD
+	// СѓР±СЂР°С‚СЊ MOD
 	virtual bool STDCALL RemoveStorage( const char *pszName );
 };
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

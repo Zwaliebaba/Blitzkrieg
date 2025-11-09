@@ -260,7 +260,7 @@ static void CopyFramesListToKeyTrack( CTrack &track, const CFramesList &framesLi
 
 	if ( i == 1 )
 	{
-		//добавляем еще один элемент в конец key frame, необходимо для Кости
+		//РґРѕР±Р°РІР»СЏРµРј РµС‰Рµ РѕРґРёРЅ СЌР»РµРјРµРЅС‚ РІ РєРѕРЅРµС† key frame, РЅРµРѕР±С…РѕРґРёРјРѕ РґР»СЏ РљРѕСЃС‚Рё
 		track.AddKey( 1000, framesList.front().second * multy );
 	}
 }
@@ -278,7 +278,7 @@ static void CopyFramesListToAngleTrack( CTrack &track, const CFramesList &frames
 
 	if ( i == 1 )
 	{
-		//добавляем еще один элемент в конец key frame, необходимо для Кости
+		//РґРѕР±Р°РІР»СЏРµРј РµС‰Рµ РѕРґРёРЅ СЌР»РµРјРµРЅС‚ РІ РєРѕРЅРµС† key frame, РЅРµРѕР±С…РѕРґРёРјРѕ РґР»СЏ РљРѕСЃС‚Рё
 		track.AddKey( 1000, fValue );
 	}
 }
@@ -468,8 +468,8 @@ void CParticleFrame::GetRPGStats( const SParticleSourceData &particleSetup, CTre
 		pProps->SetTextureFileName( particleSetup.szTextureName.c_str() );
 	}
 	
-	//остальные параметры не устанавливаю
-	//не стоит ручками изменять XML файлы
+	//РѕСЃС‚Р°Р»СЊРЅС‹Рµ РїР°СЂР°РјРµС‚СЂС‹ РЅРµ СѓСЃС‚Р°РЅР°РІР»РёРІР°СЋ
+	//РЅРµ СЃС‚РѕРёС‚ СЂСѓС‡РєР°РјРё РёР·РјРµРЅСЏС‚СЊ XML С„Р°Р№Р»С‹
 }
 
 void CParticleFrame::GetRPGStats2( const SSmokinParticleSourceData &particleSetup, CTreeItem *pRootItem )
@@ -482,13 +482,13 @@ void CParticleFrame::GetRPGStats2( const SSmokinParticleSourceData &particleSetu
 		pProps->SetParticleName( particleSetup.szParticleEffectName.c_str() );
 	}
 	
-	//остальные параметры не устанавливаю
-	//не стоит ручками изменять XML файлы
+	//РѕСЃС‚Р°Р»СЊРЅС‹Рµ РїР°СЂР°РјРµС‚СЂС‹ РЅРµ СѓСЃС‚Р°РЅР°РІР»РёРІР°СЋ
+	//РЅРµ СЃС‚РѕРёС‚ СЂСѓС‡РєР°РјРё РёР·РјРµРЅСЏС‚СЊ XML С„Р°Р№Р»С‹
 }
 
 struct SSourceType
 {
-	bool bComplexParticleSource;			//тип источника, если true, то сложный particle source
+	bool bComplexParticleSource;			//С‚РёРї РёСЃС‚РѕС‡РЅРёРєР°, РµСЃР»Рё true, С‚Рѕ СЃР»РѕР¶РЅС‹Р№ particle source
 	//
 	SSourceType() : bComplexParticleSource( false ) {}
 	virtual int STDCALL operator&( IDataTree &ss );
@@ -526,7 +526,7 @@ void CParticleFrame::LoadRPGStats( IDataTree *pDT, CTreeItem *pRootItem )
 
 bool CParticleFrame::ExportFrameData( IDataTree *pDT, const char *pszProjectName, const char *pszResultFileName, CTreeItem *pRootItem )
 {
-	//Сохраняем RPG stats
+	//РЎРѕС…СЂР°РЅСЏРµРј RPG stats
 	SaveRPGStats( pDT, pRootItem, pszProjectName );
 	return true;
 }
@@ -535,7 +535,7 @@ void CParticleFrame::CreateEffectDescriptionFile()
 {
 	string szDir = theApp.GetEditorTempDir();
 	{
-		//Сохраняем RPG stats
+		//РЎРѕС…СЂР°РЅСЏРµРј RPG stats
 		CPtr<IDataStorage> pStorage = CreateStorage( szDir.c_str(), STREAM_ACCESS_WRITE, STORAGE_TYPE_FILE );
 		CPtr<IDataStream> pXMLStream = pStorage->CreateStream( "particle.xml", STREAM_ACCESS_WRITE );
 		ASSERT( pXMLStream != 0 );
@@ -551,7 +551,7 @@ void CParticleFrame::CreateEffectDescriptionFile()
 		CParticleCommonPropsItem *pCommonPropsItem = static_cast<CParticleCommonPropsItem *> ( pRoot->GetChildItem( E_PARTICLE_COMMON_PROPS_ITEM ) );
 		SaveRPGStats( pDT, pRoot, szProjectFileName.c_str() );
 		
-		//Создаем описание эффекта
+		//РЎРѕР·РґР°РµРј РѕРїРёСЃР°РЅРёРµ СЌС„С„РµРєС‚Р°
 		if ( bComplexSource )
 		{
 			SSmokinParticleEffectDesc smokinParticleEffectDesc;
@@ -599,7 +599,7 @@ void CParticleFrame::OnRunButton()
 		return;
 	bRunning = !bRunning;
 	
-	//показываем Game окно
+	//РїРѕРєР°Р·С‹РІР°РµРј Game РѕРєРЅРѕ
 	g_frameManager.GetGameWnd()->ShowWindow( SW_SHOW );
 	CreateEffectDescriptionFile();
 
@@ -627,7 +627,7 @@ void CParticleFrame::OnStopButton()
 
 	bRunning = !bRunning;
 
-	//Скрываем Game окно
+	//РЎРєСЂС‹РІР°РµРј Game РѕРєРЅРѕ
 	g_frameManager.GetGameWnd()->ShowWindow( SW_HIDE );
 
 	IScene *pSG = GetSingleton<IScene>();
@@ -637,7 +637,7 @@ void CParticleFrame::OnStopButton()
 void CParticleFrame::OnUpdateRunButton(CCmdUI* pCmdUI) 
 {
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
-	if ( pTree == 0 )			//Если проект не был создан
+	if ( pTree == 0 )			//Р•СЃР»Рё РїСЂРѕРµРєС‚ РЅРµ Р±С‹Р» СЃРѕР·РґР°РЅ
 	{
 		pCmdUI->Enable( false );
 		return;
@@ -692,7 +692,7 @@ void CParticleFrame::UpdateSourceType( bool bOnlyDelete )
 	CTreeItem *pRootItem = pTree->GetRootItem();
 	/*if ( !bOnlyDelete )
 	{
-		//создадим новые item
+		//СЃРѕР·РґР°РґРёРј РЅРѕРІС‹Рµ item
 		pRootItem->RemoveAllChilds();
 		pRootItem->CreateDefaultChilds();
 		pRootItem->InsertChildItems();

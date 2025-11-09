@@ -9,10 +9,10 @@ class CUITimeCounter : public CSimpleWindow
 	DECLARE_SERIALIZE;
 	//
 	DWORD dwBeginTime, dwRingTime;
-	bool bNeedAnimate;							//нужно ли просчитывать анимацию
-	float fBegin, fEnd, fCurrent;		//положение анимации
-	bool bVertical;									//вертикальная или горизонтальная анимация
-	DWORD dwCounterColor, dwBGColor, dwDisabledCounterColor;						//цвет счетчика
+	bool bNeedAnimate;							//РЅСѓР¶РЅРѕ Р»Рё РїСЂРѕСЃС‡РёС‚С‹РІР°С‚СЊ Р°РЅРёРјР°С†РёСЋ
+	float fBegin, fEnd, fCurrent;		//РїРѕР»РѕР¶РµРЅРёРµ Р°РЅРёРјР°С†РёРё
+	bool bVertical;									//РІРµСЂС‚РёРєР°Р»СЊРЅР°СЏ РёР»Рё РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅР°СЏ Р°РЅРёРјР°С†РёСЏ
+	DWORD dwCounterColor, dwBGColor, dwDisabledCounterColor;						//С†РІРµС‚ СЃС‡РµС‚С‡РёРєР°
 
 	const DWORD GetCounterColor();
 public:

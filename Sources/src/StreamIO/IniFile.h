@@ -126,7 +126,7 @@ public:
 	//
 	virtual int STDCALL GetRowNames( char *pszBuffer, int nBufferSize );
 	virtual int STDCALL GetEntryNames( const char *pszRow, char *pszBuffer, int nBufferSize );
-	// очистка секции
+	// РѕС‡РёСЃС‚РєР° СЃРµРєС†РёРё
 	virtual void STDCALL ClearRow( const char *pszRowName )
 	{
 		if ( SRow *pRow = GetRow( pszRowName ) )

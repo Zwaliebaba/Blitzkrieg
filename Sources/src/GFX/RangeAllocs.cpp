@@ -34,13 +34,13 @@ inline int GetOptimalChunkSize( int nSize )
 {
 	return GetChunkSize( GetOptimalChunk( nSize ) );
 }
-// r2 и r2 будут в поле second содержать не размер, а индекс chunk'а
+// r2 Рё r2 Р±СѓРґСѓС‚ РІ РїРѕР»Рµ second СЃРѕРґРµСЂР¶Р°С‚СЊ РЅРµ СЂР°Р·РјРµСЂ, Р° РёРЅРґРµРєСЃ chunk'Р°
 inline void SplitChunk( int nChunk, int nStart, SRangeLimits *pR1, SRangeLimits *pR2 )
 {
-	// first (меньший)
+	// first (РјРµРЅСЊС€РёР№)
 	pR1->first = nStart;
 	pR1->second = nChunk - 1;
-	// second (больший)
+	// second (Р±РѕР»СЊС€РёР№)
 	pR2->first = pR1->first + GetChunkSize( pR1->second );
 	pR2->second = nChunk - 1;
 }
@@ -79,16 +79,16 @@ bool CPow2Allocator::AllocateChunk( int nOptimalChunk, int nChunk, const SRangeL
 		SplitChunk( nChunk, range.first, &r1, &r2 );
 		if ( r1.second >= nOptimalChunk )
 		{
-			// отдадим range r2
+			// РѕС‚РґР°РґРёРј range r2
 			FreeLocal( r2.first, r2.second );
-			// выделим нужную нам часть из r1
+			// РІС‹РґРµР»РёРј РЅСѓР¶РЅСѓСЋ РЅР°Рј С‡Р°СЃС‚СЊ РёР· r1
 			return AllocateChunk( nOptimalChunk, r1.second, r1, pResult );
 		}
 		else if ( r2.second >= nOptimalChunk )
 		{
-			// отдадим range r1
+			// РѕС‚РґР°РґРёРј range r1
 			FreeLocal( r1.first, r1.second );
-			// выделим нужную нам часть из r2
+			// РІС‹РґРµР»РёРј РЅСѓР¶РЅСѓСЋ РЅР°Рј С‡Р°СЃС‚СЊ РёР· r2
 			return AllocateChunk( nOptimalChunk, r2.second, r2, pResult );
 		}
 		return false;

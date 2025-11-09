@@ -33,7 +33,7 @@ CIniFileDataBase::CIniFileDataBase( const char *pszName, DWORD dwAccessMode )
 	}
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// создать и открыть таблицу с указанным именем и правами доступа
+// СЃРѕР·РґР°С‚СЊ Рё РѕС‚РєСЂС‹С‚СЊ С‚Р°Р±Р»РёС†Сѓ СЃ СѓРєР°Р·Р°РЅРЅС‹Рј РёРјРµРЅРµРј Рё РїСЂР°РІР°РјРё РґРѕСЃС‚СѓРїР°
 IDataTable* CIniFileDataBase::CreateTable( const char *pszName, DWORD dwAccessMode )
 {
 	NI_ASSERT_TF( (dwStorageAccessMode & dwAccessMode) == dwAccessMode, "incompatible access mode", return 0 );
@@ -42,7 +42,7 @@ IDataTable* CIniFileDataBase::CreateTable( const char *pszName, DWORD dwAccessMo
 	return pTable;
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// открыть существующую таблицу с указанным именем и правами доступа
+// РѕС‚РєСЂС‹С‚СЊ СЃСѓС‰РµСЃС‚РІСѓСЋС‰СѓСЋ С‚Р°Р±Р»РёС†Сѓ СЃ СѓРєР°Р·Р°РЅРЅС‹Рј РёРјРµРЅРµРј Рё РїСЂР°РІР°РјРё РґРѕСЃС‚СѓРїР°
 IDataTable* CIniFileDataBase::OpenTable( const char *pszName, DWORD dwAccessMode )
 {
 	NI_ASSERT_TF( (dwStorageAccessMode & dwAccessMode) == dwAccessMode, "incompatible access mode", return 0 );
@@ -69,14 +69,14 @@ IDataTable* CIniFileDataBase::OpenTable( const char *pszName, DWORD dwAccessMode
 	return pTable;
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// убить элемент хранилища
+// СѓР±РёС‚СЊ СЌР»РµРјРµРЅС‚ С…СЂР°РЅРёР»РёС‰Р°
 bool CIniFileDataBase::DestroyElement( const char *pszName )
 {
 	NI_ASSERT_TF( 0, "not realized yet", return false );
 	return false;
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// переименовать элемент
+// РїРµСЂРµРёРјРµРЅРѕРІР°С‚СЊ СЌР»РµРјРµРЅС‚
 bool CIniFileDataBase::RenameElement( const char *pszOldName, const char *pszNewName )
 {
 	NI_ASSERT_TF( 0, "not realized yet", return false );

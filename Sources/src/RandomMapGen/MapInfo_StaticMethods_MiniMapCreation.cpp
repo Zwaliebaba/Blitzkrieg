@@ -75,9 +75,9 @@ bool CMapInfo::CreateMiniMapImage( const SLoadMapInfo &rLoadMapInfo, const CRMIm
 	const std::string szParameterPath = rLoadMapInfo.szSeasonFolder;
 	LoadDataResource( szParameterPath + RMGC_MINIMAP_FILE_NAME, "", false, 0, RMGC_MINIMAP_XML_NAME, createParameter );
 
-	//размеры картинки с точностью до AI тайла
+	//СЂР°Р·РјРµСЂС‹ РєР°СЂС‚РёРЅРєРё СЃ С‚РѕС‡РЅРѕСЃС‚СЊСЋ РґРѕ AI С‚Р°Р№Р»Р°
 	const CTPoint<int> imageSize( rLoadMapInfo.terrain.tiles.GetSizeX() * 2, rLoadMapInfo.terrain.tiles.GetSizeY() * 2 );
-	//для отсечения всяцеских областей
+	//РґР»СЏ РѕС‚СЃРµС‡РµРЅРёСЏ РІСЃСЏС†РµСЃРєРёС… РѕР±Р»Р°СЃС‚РµР№
 	const CTRect<int> imageRect( 0, 0, imageSize.x, imageSize.y );
 
 	std::vector<CPtr<IImage> > layers;
@@ -99,9 +99,9 @@ bool CMapInfo::CreateMiniMapImage( const SLoadMapInfo &rLoadMapInfo, const CRMIm
 	}
 
 	//terrain
-	//Прямой доступ по оси Y
+	//РџСЂСЏРјРѕР№ РґРѕСЃС‚СѓРї РїРѕ РѕСЃРё Y
 	{
-		//получаем ImageAccessor для TileSet 
+		//РїРѕР»СѓС‡Р°РµРј ImageAccessor РґР»СЏ TileSet 
 		CPtr<IDataStream> pTilesetStream = pDataStorage->OpenStream( ( rLoadMapInfo.terrain.szTilesetDesc  + GetDDSImageExtention( COMPRESSION_HIGH_QUALITY ) ).c_str(), STREAM_ACCESS_READ );
 		if ( !pTilesetStream )
 		{
@@ -115,7 +115,7 @@ bool CMapInfo::CreateMiniMapImage( const SLoadMapInfo &rLoadMapInfo, const CRMIm
 		CTImageAccessor< SColor, IDDSImage, CPtr<IDDSImage> > tilesetImageAccessor = pTilesetImage;
 		CImageAccessor layerImageAccessor = layers[SRMMiniMapCreateParameter::MML_TERRAIN];
 
-		//запоминаем сформированные цвета
+		//Р·Р°РїРѕРјРёРЅР°РµРј СЃС„РѕСЂРјРёСЂРѕРІР°РЅРЅС‹Рµ С†РІРµС‚Р°
 		std::hash_map<int, SColor> terrainColorsHashMap;
 		for ( int nYIndex = 0; nYIndex < rLoadMapInfo.terrain.tiles.GetSizeY(); ++nYIndex )
 		{
@@ -128,7 +128,7 @@ bool CMapInfo::CreateMiniMapImage( const SLoadMapInfo &rLoadMapInfo, const CRMIm
 				}
 				else
 				{
-					//получаем цвет
+					//РїРѕР»СѓС‡Р°РµРј С†РІРµС‚
 					const CVec2 *pVertices = tilesetDesc.tilemaps[ rLoadMapInfo.terrain.tiles[nYIndex][nXIndex].tile ].maps;
 					CTRect<int> colorRect( ( pVertices[0].x * pTilesetImage->GetSizeX() + pVertices[2].x * pTilesetImage->GetSizeX() ) / 2,
 																 ( pVertices[0].y * pTilesetImage->GetSizeY() + pVertices[2].y * pTilesetImage->GetSizeY() ) / 2,
@@ -156,7 +156,7 @@ bool CMapInfo::CreateMiniMapImage( const SLoadMapInfo &rLoadMapInfo, const CRMIm
 						dwBlue /= ( colorRect.Width() * colorRect.Height() );
 					}
 
-					//устанавливаем свет
+					//СѓСЃС‚Р°РЅР°РІР»РёРІР°РµРј СЃРІРµС‚
 					SColor calculatedColor( 0xFF, dwRed & 0xFF, dwGreen & 0xFF, dwBlue & 0xFF );
 					color = calculatedColor;
 					terrainColorsHashMap[rLoadMapInfo.terrain.tiles[nYIndex][nXIndex].tile] = color;
@@ -180,7 +180,7 @@ bool CMapInfo::CreateMiniMapImage( const SLoadMapInfo &rLoadMapInfo, const CRMIm
 	}
 
 	//Rivers
-	//Инвертрованный доступ по оси Y
+	//РРЅРІРµСЂС‚СЂРѕРІР°РЅРЅС‹Р№ РґРѕСЃС‚СѓРї РїРѕ РѕСЃРё Y
 	{
 		CImageAccessor layerImageAccessor = layers[SRMMiniMapCreateParameter::MML_RIVERS];
 
@@ -246,7 +246,7 @@ bool CMapInfo::CreateMiniMapImage( const SLoadMapInfo &rLoadMapInfo, const CRMIm
 	}
 
 	//Roads3D and RailRoads
-	//Инвертрованный доступ по оси Y
+	//РРЅРІРµСЂС‚СЂРѕРІР°РЅРЅС‹Р№ РґРѕСЃС‚СѓРї РїРѕ РѕСЃРё Y
 	{
 		CImageAccessor railRoadLayerImageAccessor = layers[SRMMiniMapCreateParameter::MML_RAILROADS];
 		CImageAccessor roadLayerImageAccessor = layers[SRMMiniMapCreateParameter::MML_ROADS3D];
@@ -342,7 +342,7 @@ bool CMapInfo::CreateMiniMapImage( const SLoadMapInfo &rLoadMapInfo, const CRMIm
 	}
 	
 	//Forests && Buildings && Bridges
-	//Инвертрованный доступ по оси Y
+	//РРЅРІРµСЂС‚СЂРѕРІР°РЅРЅС‹Р№ РґРѕСЃС‚СѓРї РїРѕ РѕСЃРё Y
 	std::hash_map<int, SMapObjectInfo> nLinkID2BridgesHashMap;
 	{
 		SSetColorFunctional forestSetColorFunctional( layers[SRMMiniMapCreateParameter::MML_FORESTS], createParameter.layers[SRMMiniMapCreateParameter::MML_FORESTS].color, imageRect );
@@ -485,7 +485,7 @@ bool CMapInfo::CreateMiniMapImage( const SLoadMapInfo &rLoadMapInfo, const CRMIm
 		pProgressHook->Step();
 	}
 
-	//добавление краев
+	//РґРѕР±Р°РІР»РµРЅРёРµ РєСЂР°РµРІ
 	for ( int nLayerIndex = 0; nLayerIndex < SRMMiniMapCreateParameter::MML_COUNT; ++nLayerIndex )
 	{
 		if ( createParameter.layers[nLayerIndex].borderColor.a >= createParameter.dwMinAlpha )
@@ -513,7 +513,7 @@ bool CMapInfo::CreateMiniMapImage( const SLoadMapInfo &rLoadMapInfo, const CRMIm
 		pProgressHook->Step();
 	}
 
-	//коллекционирование теней
+	//РєРѕР»Р»РµРєС†РёРѕРЅРёСЂРѕРІР°РЅРёРµ С‚РµРЅРµР№
 	std::vector<CPtr<IImage> > shadows;
 	{
 		for ( int nLayerIndex = 0; nLayerIndex < SRMMiniMapCreateParameter::MML_COUNT; ++nLayerIndex )
@@ -542,7 +542,7 @@ bool CMapInfo::CreateMiniMapImage( const SLoadMapInfo &rLoadMapInfo, const CRMIm
 		pProgressHook->Step();
 	}
 
-	//коллекционирование выдавливания
+	//РєРѕР»Р»РµРєС†РёРѕРЅРёСЂРѕРІР°РЅРёРµ РІС‹РґР°РІР»РёРІР°РЅРёСЏ
 	std::vector<CPtr<IImage> > aphaEmbosses;
 	{
 		for ( int nLayerIndex = 0; nLayerIndex < SRMMiniMapCreateParameter::MML_COUNT; ++nLayerIndex )
@@ -570,7 +570,7 @@ bool CMapInfo::CreateMiniMapImage( const SLoadMapInfo &rLoadMapInfo, const CRMIm
 		pProgressHook->Step();
 	}
 
-	//наложение тени от 3d Terrain
+	//РЅР°Р»РѕР¶РµРЅРёРµ С‚РµРЅРё РѕС‚ 3d Terrain
 	if ( createParameter.bTerrainShades )
 	{
 		CPtr<IImage> pTerrainShades = CVertexAltitudeInfo::GetShadesImage( rLoadMapInfo.terrain.altitudes, createParameter.fTerrainShadeRatio, true );
@@ -600,10 +600,10 @@ bool CMapInfo::CreateMiniMapImage( const SLoadMapInfo &rLoadMapInfo, const CRMIm
 		}
 	}
 	
-	//формируем данные зависящие от размера картинки
+	//С„РѕСЂРјРёСЂСѓРµРј РґР°РЅРЅС‹Рµ Р·Р°РІРёСЃСЏС‰РёРµ РѕС‚ СЂР°Р·РјРµСЂР° РєР°СЂС‚РёРЅРєРё
 	for ( CRMImageCreateParameterList::const_iterator imageCreateParameterIterator = rImageCreateParameterList.begin(); imageCreateParameterIterator != rImageCreateParameterList.end(); ++imageCreateParameterIterator )
 	{
-		//Коллекционирование шумов
+		//РљРѕР»Р»РµРєС†РёРѕРЅРёСЂРѕРІР°РЅРёРµ С€СѓРјРѕРІ
 		std::vector<CPtr<IImage> > noises;
 		{
 			for ( int nLayerIndex = 0; nLayerIndex < SRMMiniMapCreateParameter::MML_COUNT; ++nLayerIndex )
@@ -649,11 +649,11 @@ bool CMapInfo::CreateMiniMapImage( const SLoadMapInfo &rLoadMapInfo, const CRMIm
 			}
 		}
 		
-		//составляем общую картинку
-		//для каждого слоя:
-		//добавляем слой
-		//кладем Emboss ( если есть )
-		//кладем тень ( если есть )
+		//СЃРѕСЃС‚Р°РІР»СЏРµРј РѕР±С‰СѓСЋ РєР°СЂС‚РёРЅРєСѓ
+		//РґР»СЏ РєР°Р¶РґРѕРіРѕ СЃР»РѕСЏ:
+		//РґРѕР±Р°РІР»СЏРµРј СЃР»РѕР№
+		//РєР»Р°РґРµРј Emboss ( РµСЃР»Рё РµСЃС‚СЊ )
+		//РєР»Р°РґРµРј С‚РµРЅСЊ ( РµСЃР»Рё РµСЃС‚СЊ )
 		CPtr<IImage> pMiniMapImage = 0;
 		for ( int nLayerIndex = ( SRMMiniMapCreateParameter::MML_COUNT - 1 ); nLayerIndex >= 0; --nLayerIndex )
 		{
@@ -684,7 +684,7 @@ bool CMapInfo::CreateMiniMapImage( const SLoadMapInfo &rLoadMapInfo, const CRMIm
 			}
 		}
 
-		//жмем картинку до нужного размера
+		//Р¶РјРµРј РєР°СЂС‚РёРЅРєСѓ РґРѕ РЅСѓР¶РЅРѕРіРѕ СЂР°Р·РјРµСЂР°
 		CPtr<IImage> pCompressedMiniMapImage = 0;
 		if ( ( pMiniMapImage->GetSizeX() != imageCreateParameterIterator->size.x ) || ( pMiniMapImage->GetSizeY() != imageCreateParameterIterator->size.y ) )
 		{
@@ -699,7 +699,7 @@ bool CMapInfo::CreateMiniMapImage( const SLoadMapInfo &rLoadMapInfo, const CRMIm
 			pCompressedMiniMapImage = pMiniMapImage;
 		}
 		
-		//если надо корректируем цвета:
+		//РµСЃР»Рё РЅР°РґРѕ РєРѕСЂСЂРµРєС‚РёСЂСѓРµРј С†РІРµС‚Р°:
 		CPtr<IImage> pColorCorrectedCompressedMiniMapImage = 0;
 		if ( imageCreateParameterIterator->bColorCorrection )
 		{

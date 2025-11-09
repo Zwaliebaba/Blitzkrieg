@@ -19,42 +19,42 @@ public:
 	CLongObjectCreation() : fWorkAccumulated( 0.0f ) {  }
 	virtual bool PreCreate( const CVec2 &vFrom, const CVec2 &vTo ) = 0;
 	
-	// максимальный размер окопа
+	// РјР°РєСЃРёРјР°Р»СЊРЅС‹Р№ СЂР°Р·РјРµСЂ РѕРєРѕРїР°
 	virtual const int GetMaxIndex() const = 0;
 	
-	// текущее состояние строительства
+	// С‚РµРєСѓС‰РµРµ СЃРѕСЃС‚РѕСЏРЅРёРµ СЃС‚СЂРѕРёС‚РµР»СЊСЃС‚РІР°
 	virtual const int GetCurIndex() const = 0;
 
-	// точка, где должы стоять строители
+	// С‚РѕС‡РєР°, РіРґРµ РґРѕР»Р¶С‹ СЃС‚РѕСЏС‚СЊ СЃС‚СЂРѕРёС‚РµР»Рё
 	virtual const CVec2 GetNextPoint( const int nPlace, const int nMaxPlace ) const = 0;
 
-	// ставит очередной сегмент и переносит терминатор
-	// для первого сегмента ставит начальный терминатор
+	// СЃС‚Р°РІРёС‚ РѕС‡РµСЂРµРґРЅРѕР№ СЃРµРіРјРµРЅС‚ Рё РїРµСЂРµРЅРѕСЃРёС‚ С‚РµСЂРјРёРЅР°С‚РѕСЂ
+	// РґР»СЏ РїРµСЂРІРѕРіРѕ СЃРµРіРјРµРЅС‚Р° СЃС‚Р°РІРёС‚ РЅР°С‡Р°Р»СЊРЅС‹Р№ С‚РµСЂРјРёРЅР°С‚РѕСЂ
 	virtual void BuildNext() { fWorkAccumulated = 0.0f; }
 
-	// находит юнитов, которые мещают дальнейшему строительству
+	// РЅР°С…РѕРґРёС‚ СЋРЅРёС‚РѕРІ, РєРѕС‚РѕСЂС‹Рµ РјРµС‰Р°СЋС‚ РґР°Р»СЊРЅРµР№С€РµРјСѓ СЃС‚СЂРѕРёС‚РµР»СЊСЃС‚РІСѓ
 	virtual void GetUnitsPreventing( std::list< CPtr<CAIUnit> > * units ) = 0;
 	
-	// есть ли хоть 1 юнит, который мешает
+	// РµСЃС‚СЊ Р»Рё С…РѕС‚СЊ 1 СЋРЅРёС‚, РєРѕС‚РѕСЂС‹Р№ РјРµС€Р°РµС‚
 	virtual bool IsAnyUnitPrevent() const = 0;
 
-	// может лт следуюший сегмент быть построен ( без учета юнитов )
+	// РјРѕР¶РµС‚ Р»С‚ СЃР»РµРґСѓСЋС€РёР№ СЃРµРіРјРµРЅС‚ Р±С‹С‚СЊ РїРѕСЃС‚СЂРѕРµРЅ ( Р±РµР· СѓС‡РµС‚Р° СЋРЅРёС‚РѕРІ )
 	virtual bool CanBuildNext() const = 0;
 
-	// чтобы каждый раз не проверять
+	// С‡С‚РѕР±С‹ РєР°Р¶РґС‹Р№ СЂР°Р· РЅРµ РїСЂРѕРІРµСЂСЏС‚СЊ
 	virtual void LockCannotBuild() = 0;
 
-	// залочивает под сегментом, чтобы никто не встал сверху
+	// Р·Р°Р»РѕС‡РёРІР°РµС‚ РїРѕРґ СЃРµРіРјРµРЅС‚РѕРј, С‡С‚РѕР±С‹ РЅРёРєС‚Рѕ РЅРµ РІСЃС‚Р°Р» СЃРІРµСЂС…Сѓ
 	virtual void LockNext() = 0;
 
-	// линия, с которой нужно убрать юнитов
+	// Р»РёРЅРёСЏ, СЃ РєРѕС‚РѕСЂРѕР№ РЅСѓР¶РЅРѕ СѓР±СЂР°С‚СЊ СЋРЅРёС‚РѕРІ
 	virtual CLine2 GetCurLine() = 0;
 	
 	virtual float GetPrice() = 0;
 
 	virtual float GetBuildSpeed() = 0;
 
-	// нужно ли читить, когда ходим от сегмента к сегменту
+	// РЅСѓР¶РЅРѕ Р»Рё С‡РёС‚РёС‚СЊ, РєРѕРіРґР° С…РѕРґРёРј РѕС‚ СЃРµРіРјРµРЅС‚Р° Рє СЃРµРіРјРµРЅС‚Сѓ
 	virtual bool IsCheatPath() const { return false; }
 	
 	//when work finished, engineers must say that furter building impossible
@@ -71,7 +71,7 @@ class CEntrenchmentCreation : public CLongObjectCreation
 	OBJECT_COMPLETE_METHODS( CEntrenchmentCreation );
 
 	WORD GetLineAngle( const CVec2 &vBegin, const CVec2 &vEnd ) const;
-	float GetTrenchWidth( int nType );// 0 - секция , 1 - поворот
+	float GetTrenchWidth( int nType );// 0 - СЃРµРєС†РёСЏ , 1 - РїРѕРІРѕСЂРѕС‚
 	
 	void SplitLineToSegrments( std::vector<CVec2> *vPoints, CVec2 vBegin, CVec2 vEnd, float TRENCHWIDTH );
 	
@@ -80,10 +80,10 @@ private:
 	std::vector< CObj<CEntrenchmentPart> > parts;
 	
 	CObj<CEntrenchmentPart> pBeginTerminator;		//
-	CObj<CEntrenchmentPart> pEndTerminator;			// текущий конечный терминатор
-	CObj<CEntrenchmentPart> pNewEndTerminator;	// будуший конечный терминатор
+	CObj<CEntrenchmentPart> pEndTerminator;			// С‚РµРєСѓС‰РёР№ РєРѕРЅРµС‡РЅС‹Р№ С‚РµСЂРјРёРЅР°С‚РѕСЂ
+	CObj<CEntrenchmentPart> pNewEndTerminator;	// Р±СѓРґСѓС€РёР№ РєРѕРЅРµС‡РЅС‹Р№ С‚РµСЂРјРёРЅР°С‚РѕСЂ
 	
-	std::vector<CVec2> vPoints;						// центры окопов
+	std::vector<CVec2> vPoints;						// С†РµРЅС‚СЂС‹ РѕРєРѕРїРѕРІ
 	int nCurIndex;
 	WORD wAngle;
 	int nPlayer;
@@ -91,7 +91,7 @@ private:
 	bool bCannot;
 	bool bSayAck;
 
-	CTilesSet tilesUnder;									// ТАйлы под следующим сегментом
+	CTilesSet tilesUnder;									// РўРђР№Р»С‹ РїРѕРґ СЃР»РµРґСѓСЋС‰РёРј СЃРµРіРјРµРЅС‚РѕРј
 
 	//consts
 	//CGDBPtr<SGDBObjectDesc> pDesc;
@@ -133,7 +133,7 @@ class CFenceCreation : public CLongObjectCreation
 {
 	DECLARE_SERIALIZE;
 	OBJECT_COMPLETE_METHODS( CFenceCreation );
-	//скопировал у Костика
+	//СЃРєРѕРїРёСЂРѕРІР°Р» Сѓ РљРѕСЃС‚РёРєР°
 	struct APointHelper
 	{
 	 std::vector<CVec2> m_points;
@@ -141,14 +141,14 @@ class CFenceCreation : public CLongObjectCreation
 	 bool operator() ( long x, long y ) { m_points.push_back( CVec2( x, y ) ); return true; }
 	};
 
-	std::vector< CObj<CFence> > fenceSegements;	// сегменты
-	std::vector<CVec2> vPoints;					// позиции
+	std::vector< CObj<CFence> > fenceSegements;	// СЃРµРіРјРµРЅС‚С‹
+	std::vector<CVec2> vPoints;					// РїРѕР·РёС†РёРё
 	
 	int nCurIndex;
 	int nPlayer;
 	void InitConsts();
 	CTilesSet tilesUnder;
-	bool isXConst;												// забор идет по x- координате
+	bool isXConst;												// Р·Р°Р±РѕСЂ РёРґРµС‚ РїРѕ x- РєРѕРѕСЂРґРёРЅР°С‚Рµ
 	CLine2 line;
 	bool bCannot;
 	bool bSayAck;
@@ -181,7 +181,7 @@ class CBridgeCreation : public CLongObjectCreation
 {
 	DECLARE_SERIALIZE;
 	OBJECT_COMPLETE_METHODS( CBridgeCreation );
-	// для сортировки
+	// РґР»СЏ СЃРѕСЂС‚РёСЂРѕРІРєРё
 	struct SBridgeSpanSort
 	{
 		bool operator()( const CObj<CBridgeSpan> &s1, const CObj<CBridgeSpan> &s2 );
@@ -203,7 +203,7 @@ public:
 	static CVec2 SortBridgeSpans( std::vector< CObj<CBridgeSpan> > *spans, class CCommonUnit *pUnit );
 
 	//specific
-	const CVec2 & GetStartPoint() const;	// куда посылать грузовик
+	const CVec2 & GetStartPoint() const;	// РєСѓРґР° РїРѕСЃС‹Р»Р°С‚СЊ РіСЂСѓР·РѕРІРёРє
 	bool IsFirstSegmentBuilt() const;
 
 	// common

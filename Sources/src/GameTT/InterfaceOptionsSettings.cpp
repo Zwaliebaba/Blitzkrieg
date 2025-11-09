@@ -145,7 +145,7 @@ void CInterfaceOptionsSettings::OnChangeDivision( const int nDivision )
 	{
 		optionsLists[nActive]->ShowWindow( UI_SW_HIDE );
 		
-		//enable ïðåäûäóùóþ êíîïêó
+		//enable Ð¿Ñ€ÐµÐ´Ñ‹Ð´ÑƒÑ‰ÑƒÑŽ ÐºÐ½Ð¾Ð¿ÐºÑƒ
 		IUIElement *pElement = pUIScreen->GetChildByID( nActive + _E_BUTTON_CHANGE_DIVISION_BEGIN );
 		NI_ASSERT_T( pElement != 0, NStr::Format("There is no button with id %d") );
 		pElement->EnableWindow( true );
@@ -155,7 +155,7 @@ void CInterfaceOptionsSettings::OnChangeDivision( const int nDivision )
 	optionsLists[nActive]->ShowWindow( UI_SW_SHOW );
 	optionsLists[nActive]->ShowWindow( UI_SW_MAXIMIZE );
 
-	//disable òåêóùåé êíîïêè
+	//disable Ñ‚ÐµÐºÑƒÑ‰ÐµÐ¹ ÐºÐ½Ð¾Ð¿ÐºÐ¸
 	IUIElement *pElement = pUIScreen->GetChildByID( nActive + _E_BUTTON_CHANGE_DIVISION_BEGIN );
 	NI_ASSERT_T( pElement != 0, NStr::Format("There is no button with id %d") );
 	pElement->EnableWindow( false );
@@ -167,7 +167,7 @@ void CInterfaceOptionsSettings::Close()
 	{
 		IMainLoop *pML = GetSingleton<IMainLoop>();
 		CloseInterface();
-		pML->Command( MAIN_COMMAND_CMD, NStr::Format("%d", CMD_GAME_UNPAUSE_MENU) );	//óáåðåì ïàóçó
+		pML->Command( MAIN_COMMAND_CMD, NStr::Format("%d", CMD_GAME_UNPAUSE_MENU) );	//ÑƒÐ±ÐµÑ€ÐµÐ¼ Ð¿Ð°ÑƒÐ·Ñƒ
 		pML->Command( MAIN_COMMAND_CMD, NStr::Format("%d", CMD_LOAD_FINISHED) );
 	}
 	else

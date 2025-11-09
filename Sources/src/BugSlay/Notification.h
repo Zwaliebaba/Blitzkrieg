@@ -1,13 +1,13 @@
 #ifndef __NOTIFICATION_H__
 #define __NOTIFICATION_H__
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// базовый класс для exceptions
+// Р±Р°Р·РѕРІС‹Р№ РєР»Р°СЃСЃ РґР»В¤ exceptions
 struct IGenericException
 {
 	virtual ~IGenericException() {  }
 };
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// exception, содержащий строку и код ошибки
+// exception, СЃРѕРґРµСЂР¶Р°С‰РёР№ СЃС‚СЂРѕРєСѓ Рё РєРѕРґ РѕС€РёР±РєРё
 struct ICommonException : public IGenericException
 {
 	virtual const char* GetString() const = 0;
@@ -22,7 +22,7 @@ struct IGuardException : public ICommonException
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const char* DXErrorToString( HRESULT hErrorCode );
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// бросить exception с соответствующим форматированием и HRESULT-to-string convertion
+// Р±СЂРѕСЃРёС‚СЊ exception СЃ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РёРј С„РѕСЂРјР°С‚РёСЂРѕРІР°РЅРёРµРј Рё HRESULT-to-string convertion
 void ThrowExceptionHR( HRESULT dxrval, const char *pszFormat, ... ) throw ( ICommonException* );
 void ThrowException( const char *pszFormat, ... ) throw ( ICommonException* );
 void ThrowGuardException( const char *pszFormat, ... ) throw ( IGuardException* );
@@ -38,19 +38,19 @@ bool ReportInfo( const char *pszFormat, ... );
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // program debug break
 void BreakHere();
-// выдача сообщения в соответствующем формате
+// РІС‹РґР°С‡Р° СЃРѕРѕР±С‰РµРЅРёВ¤ РІ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРј С„РѕСЂРјР°С‚Рµ
 int ShowError( const char *pszString );
 int ShowWarning( const char *pszString );
 int ShowReport( const char *pszString );
-// функции 'Show...()' работают через ShowMBox() callbacks, которые добавляются и удаляются следующими функциями
+// С„СѓРЅРєС†РёРё 'Show...()' СЂР°Р±РѕС‚Р°СЋС‚ С‡РµСЂРµР· ShowMBox() callbacks, РєРѕС‚РѕСЂС‹Рµ РґРѕР±Р°РІР»В¤СЋС‚СЃВ¤ Рё СѓРґР°Р»В¤СЋС‚СЃВ¤ СЃР»РµРґСѓСЋС‰РёРјРё С„СѓРЅРєС†РёВ¤РјРё
 typedef int (*NotificationShowMBox)( const char *pszTitle, const char *pszString, UINT uType );
-// для ShowError(), которая используется в ReportError()
+// РґР»В¤ ShowError(), РєРѕС‚РѕСЂР°В¤ РёСЃРїРѕР»СЊР·СѓРµС‚СЃВ¤ РІ ReportError()
 void AddNotifyErrorShowMBoxFunction( NotificationShowMBox funct );
 void RemoveNotifyErrorShowMBoxFunction( NotificationShowMBox funct );
-// для ShowWarning(), которая используется в ReportWarning()
+// РґР»В¤ ShowWarning(), РєРѕС‚РѕСЂР°В¤ РёСЃРїРѕР»СЊР·СѓРµС‚СЃВ¤ РІ ReportWarning()
 void AddNotifyWarningShowMBoxFunction( NotificationShowMBox funct );
 void RemoveNotifyWarningShowMBoxFunction( NotificationShowMBox funct );
-// для ShowReport(), которая используется в ReportReport()
+// РґР»В¤ ShowReport(), РєРѕС‚РѕСЂР°В¤ РёСЃРїРѕР»СЊР·СѓРµС‚СЃВ¤ РІ ReportReport()
 void AddNotifyReportShowMBoxFunction( NotificationShowMBox funct );
 void RemoveNotifyReportShowMBoxFunction( NotificationShowMBox funct );
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

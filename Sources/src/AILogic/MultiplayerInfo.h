@@ -59,7 +59,7 @@ public:
 	void FlagCaptured( const int nParty, const int nFlagID );
 	void UnitsKilled( const int nKillerPlayer, const float fUnitsPrice, const int nKilledUnitsPlayer );
 
-	// время, требуемое для того, чтобы флаг, в радиусе которого только юниты одного игрока, перешёл этому игроку
+	// РІСЂРµРјСЏ, С‚СЂРµР±СѓРµРјРѕРµ РґР»СЏ С‚РѕРіРѕ, С‡С‚РѕР±С‹ С„Р»Р°Рі, РІ СЂР°РґРёСѓСЃРµ РєРѕС‚РѕСЂРѕРіРѕ С‚РѕР»СЊРєРѕ СЋРЅРёС‚С‹ РѕРґРЅРѕРіРѕ РёРіСЂРѕРєР°, РїРµСЂРµС€С‘Р» СЌС‚РѕРјСѓ РёРіСЂРѕРєСѓ
 	const NTimer::STime GetTimeToCaptureObject() const;
 
 	void AddFlagAtTheMap() { ++nFlagsAtTheMap; }

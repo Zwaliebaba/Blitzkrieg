@@ -83,7 +83,7 @@ void CEntrenchmentCreation::InitConsts()
 bool CEntrenchmentCreation::SearchTrenches( const CVec2 &vCenter, const SRect &rectToTest )
 {
 	const float fMaxSize = Max( rectToTest.lengthAhead, Max(rectToTest.lengthBack, rectToTest.width ) ) + 2 * SConsts::TILE_SIZE;
-	// просканировать в радиусе на наличие окопов
+	// РїСЂРѕСЃРєР°РЅРёСЂРѕРІР°С‚СЊ РІ СЂР°РґРёСѓСЃРµ РЅР° РЅР°Р»РёС‡РёРµ РѕРєРѕРїРѕРІ
 	for ( CStObjCircleIter<false> iter( vCenter, fMaxSize ); !iter.IsFinished(); iter.Iterate() )
 	{
 		CStaticObject *pObj = *iter;
@@ -127,7 +127,7 @@ bool CEntrenchmentCreation::PreCreate( const CVec2 &vFrom, const CVec2 &vTo )
 	for ( int i = 0; i < vPoints.size() - 1; ++i )
 	{
 		switcher = ((i+1)%3)==0;
-		//решить что стрoить - fire place or line
+		//СЂРµС€РёС‚СЊ С‡С‚Рѕ СЃС‚СЂoРёС‚СЊ - fire place or line
 		int nRandom = Random( 0, 0xffff );
 		nFrameIndex = switcher ? pRPG->GetFirePlaceIndex( &nRandom ) : pRPG->GetLineIndex( &nRandom );
 		const CVec2	pt = ( vPoints[i] + vPoints[i + 1] ) / 2.0f;
@@ -293,7 +293,7 @@ bool CEntrenchmentCreation::CanBuildNext() const
 	if ( !theStaticMap.IsRectInside( r1 )  || !theStaticMap.IsRectInside( r2 ) ) return false;
 
 	const float fRadius = r1.lengthAhead + r1.lengthBack + r1.width + r2.lengthAhead + r2.lengthBack + r2.width + SConsts::TILE_SIZE * 5;
-	// пробежаться по юнитам, все разлокать.
+	// РїСЂРѕР±РµР¶Р°С‚СЊСЃСЏ РїРѕ СЋРЅРёС‚Р°Рј, РІСЃРµ СЂР°Р·Р»РѕРєР°С‚СЊ.
 	for ( CUnitsIter<0,2> iter( 0, ANY_PARTY, vPoints[nCurIndex], fRadius ); !iter.IsFinished(); iter.Iterate() )
 	{
 		CAIUnit * pUnit = *iter;
@@ -314,7 +314,7 @@ bool CEntrenchmentCreation::CanBuildNext() const
 		}
 	}
 	
-	// теперь проверить, можно ли строить
+	// С‚РµРїРµСЂСЊ РїСЂРѕРІРµСЂРёС‚СЊ, РјРѕР¶РЅРѕ Р»Рё СЃС‚СЂРѕРёС‚СЊ
 	for ( CTilesSet::const_iterator it = tilesUnder.begin(); it != tilesUnder.end(); ++it )
 	{
 		if ( 0 != theStaticMap.GetTileLockInfo( *it ) )
@@ -391,7 +391,7 @@ WORD CEntrenchmentCreation::GetLineAngle( const CVec2 &vBegin, const CVec2 &vEnd
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-float CEntrenchmentCreation::GetTrenchWidth( int nType )// 0 - секция , 1 - поворот
+float CEntrenchmentCreation::GetTrenchWidth( int nType )// 0 - СЃРµРєС†РёСЏ , 1 - РїРѕРІРѕСЂРѕС‚
 {
 	IObjectsDB *pGDB = GetSingleton<IObjectsDB>();
 	const SGDBObjectDesc *pDesc = pGDB->GetDesc( "Entrenchment" );
@@ -518,7 +518,7 @@ bool CFenceCreation::PreCreate( const CVec2 &_vFrom, const CVec2 &_vTo )
 	const int nSegmentLenght = 2;//isXConst ? pStats->GetPassability( nFrameIndex ).GetSizeY() : pStats->GetPassability( nFrameIndex ).GetSizeX();
 	const int nOffset = nSegmentLenght - 1;
 
-	// теперь мы будем  вдоль линии ставить заборчики
+	// С‚РµРїРµСЂСЊ РјС‹ Р±СѓРґРµРј  РІРґРѕР»СЊ Р»РёРЅРёРё СЃС‚Р°РІРёС‚СЊ Р·Р°Р±РѕСЂС‡РёРєРё
 	for ( std::vector<CVec2>::iterator it = hlpFence.m_points.begin(); it != hlpFence.m_points.end(); )
 	{
 		// check is curent points inside static map
@@ -536,10 +536,10 @@ bool CFenceCreation::PreCreate( const CVec2 &_vFrom, const CVec2 &_vTo )
 
 		CVec2 vFencePosition( vPoint1.x * SConsts::TILE_SIZE, vPoint1.y * SConsts::TILE_SIZE );
 		CVec2 vCenterPosition( vPoint1 );
-		// Здесь надо ставить в зависимости от направления 
+		// Р—РґРµСЃСЊ РЅР°РґРѕ СЃС‚Р°РІРёС‚СЊ РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ РЅР°РїСЂР°РІР»РµРЅРёСЏ 
 		if ( !isXConst )
 		{
-			// у второго направления надо изменить позицию
+			// Сѓ РІС‚РѕСЂРѕРіРѕ РЅР°РїСЂР°РІР»РµРЅРёСЏ РЅР°РґРѕ РёР·РјРµРЅРёС‚СЊ РїРѕР·РёС†РёСЋ
 			if ( vFrom.x < vTo.x  )
 			{
 				vFencePosition = CVec2(  ( vPoint1.x + nSegmentLenght ) * SConsts::TILE_SIZE, ( vPoint1.y ) * SConsts::TILE_SIZE ); 
@@ -550,7 +550,7 @@ bool CFenceCreation::PreCreate( const CVec2 &_vFrom, const CVec2 &_vTo )
 		}
 		else 
 		{
-			// у второго направления надо изменить позицию
+			// Сѓ РІС‚РѕСЂРѕРіРѕ РЅР°РїСЂР°РІР»РµРЅРёСЏ РЅР°РґРѕ РёР·РјРµРЅРёС‚СЊ РїРѕР·РёС†РёСЋ
 			if ( vFrom.y > vTo.y  )
 			{
 				vFencePosition = CVec2(  vPoint1.x * SConsts::TILE_SIZE, ( vPoint1.y - nSegmentLenght ) * SConsts::TILE_SIZE ); 
@@ -569,7 +569,7 @@ bool CFenceCreation::PreCreate( const CVec2 &_vFrom, const CVec2 &_vTo )
 		pObj->Mem2UniqueIdObjs();
 		pObj->Init();
 
-		if ( /*строительство этого куска необходимо*/ IsCegmentToBeBuilt( pObj ) )
+		if ( /*СЃС‚СЂРѕРёС‚РµР»СЊСЃС‚РІРѕ СЌС‚РѕРіРѕ РєСѓСЃРєР° РЅРµРѕР±С…РѕРґРёРјРѕ*/ IsCegmentToBeBuilt( pObj ) )
 		{
 			vPoints.push_back( vCenterPosition * SConsts::TILE_SIZE );
 			fenceSegements.push_back( pObj.GetPtr() );
@@ -580,14 +580,14 @@ bool CFenceCreation::PreCreate( const CVec2 &_vFrom, const CVec2 &_vTo )
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool CFenceCreation::IsCegmentToBeBuilt( class CFence *pObj ) const
 {
-	// проверить, что стоит на горизонтальном участке
+	// РїСЂРѕРІРµСЂРёС‚СЊ, С‡С‚Рѕ СЃС‚РѕРёС‚ РЅР° РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅРѕРј СѓС‡Р°СЃС‚РєРµ
 	const CVec3 vNormal =  DWORDToVec3( theStaticMap.GetNormal( pObj->GetCenter() ) );
 	if ( fabs(vNormal.x) > fNearToNormale * fabs(vNormal.z) &&
 			fabs(vNormal.y) > fNearToNormale * fabs(vNormal.z) ) return false;
 
-	// проверить, нет ли какого-нить забора, на тех тайлах, которые лочит pObj
+	// РїСЂРѕРІРµСЂРёС‚СЊ, РЅРµС‚ Р»Рё РєР°РєРѕРіРѕ-РЅРёС‚СЊ Р·Р°Р±РѕСЂР°, РЅР° С‚РµС… С‚Р°Р№Р»Р°С…, РєРѕС‚РѕСЂС‹Рµ Р»РѕС‡РёС‚ pObj
 	
-	// найти сегмент, который лочит тайлы
+	// РЅР°Р№С‚Рё СЃРµРіРјРµРЅС‚, РєРѕС‚РѕСЂС‹Р№ Р»РѕС‡РёС‚ С‚Р°Р№Р»С‹
 	SRect r1;
 	pObj->GetBoundRect( &r1 );
 	const float fRadius = r1.lengthAhead + r1.lengthBack + r1.width + SConsts::TILE_SIZE * 5;
@@ -677,7 +677,7 @@ bool CFenceCreation::CanBuildNext() const
 	if ( !theStaticMap.IsRectInside( r1 ) ) return false;
 	const float fRadius = r1.lengthAhead + r1.lengthBack + r1.width + SConsts::TILE_SIZE * 5;
 
-	// пробежаться по юнитам, все разлокать.
+	// РїСЂРѕР±РµР¶Р°С‚СЊСЃСЏ РїРѕ СЋРЅРёС‚Р°Рј, РІСЃРµ СЂР°Р·Р»РѕРєР°С‚СЊ.
 	for ( CUnitsIter<0,2> iter( 0, ANY_PARTY, vPoints[nCurIndex], fRadius ); !iter.IsFinished(); iter.Iterate() )
 	{
 		CAIUnit * pUnit = *iter;
@@ -698,7 +698,7 @@ bool CFenceCreation::CanBuildNext() const
 		}
 	}
 	
-	// теперь проверить, можно ли строить
+	// С‚РµРїРµСЂСЊ РїСЂРѕРІРµСЂРёС‚СЊ, РјРѕР¶РЅРѕ Р»Рё СЃС‚СЂРѕРёС‚СЊ
 	for ( CTilesSet::const_iterator it = tilesUnder.begin(); it != tilesUnder.end(); ++it )
 	{
 		if ( 0 != theStaticMap.GetTileLockInfo( *it ) )
@@ -762,13 +762,13 @@ CVec2 CBridgeCreation::SortBridgeSpans( std::vector< CObj<CBridgeSpan> > *spans,
 
 	SBridgeSpanSort pr;
 	std::sort( spans->begin(), spans->end(), pr );
-	// проверить, к какому идти меньше - к первому или к последнему
+	// РїСЂРѕРІРµСЂРёС‚СЊ, Рє РєР°РєРѕРјСѓ РёРґС‚Рё РјРµРЅСЊС€Рµ - Рє РїРµСЂРІРѕРјСѓ РёР»Рё Рє РїРѕСЃР»РµРґРЅРµРјСѓ
 	const CBridgeSpan *s1 = *spans->begin();
 	const CBridgeSpan *s2 = (*spans)[spans->size()-1];
 	
 	CVec2 vFrom1to2( s2->GetCenter() - s1->GetCenter() );
 	Normalize( &vFrom1to2 );
-	// найти точки, близко к s1 и s2, лежащие вне моста
+	// РЅР°Р№С‚Рё С‚РѕС‡РєРё, Р±Р»РёР·РєРѕ Рє s1 Рё s2, Р»РµР¶Р°С‰РёРµ РІРЅРµ РјРѕСЃС‚Р°
 	SRect r1, r2;
 	s1->GetBoundRect( &r1 );
 	s2->GetBoundRect( &r2 );
@@ -786,18 +786,18 @@ CVec2 CBridgeCreation::SortBridgeSpans( std::vector< CObj<CBridgeSpan> > *spans,
 
 	if (	pPath1->GetLength() <= pPath2->GetLength() && fDiff1 < sqr( SConsts::TILE_SIZE * 10 ) )
 	{
-		// первый span - ближайший.
+		// РїРµСЂРІС‹Р№ span - Р±Р»РёР¶Р°Р№С€РёР№.
 		return v1;
 	}
 	else if ( pPath1->GetLength() >= pPath2->GetLength() && fDiff2 < sqr( SConsts::TILE_SIZE * 10 ) )
 	{
-		// последний span - ближайший.
+		// РїРѕСЃР»РµРґРЅРёР№ span - Р±Р»РёР¶Р°Р№С€РёР№.
 		std::reverse( spans->begin(), spans->end() );
 		return v2;
 	}
-	else if ( fDiff1 < sqr( SConsts::TILE_SIZE * 10 ) ) // по первому пути хоть дойти можно
+	else if ( fDiff1 < sqr( SConsts::TILE_SIZE * 10 ) ) // РїРѕ РїРµСЂРІРѕРјСѓ РїСѓС‚Рё С…РѕС‚СЊ РґРѕР№С‚Рё РјРѕР¶РЅРѕ
 	{
-		// первый span - ближайший.
+		// РїРµСЂРІС‹Р№ span - Р±Р»РёР¶Р°Р№С€РёР№.
 		return v1;
 	}
 	else if ( fDiff2 < sqr( SConsts::TILE_SIZE * 10 ) )
@@ -817,13 +817,13 @@ bool CBridgeCreation::IsFirstSegmentBuilt() const
 CBridgeCreation::CBridgeCreation( class CFullBridge *pBridge, class CCommonUnit *pUnit )
 : pFullBridge( pBridge )
 {
-	// просто отсортировать по координатам все участки
+	// РїСЂРѕСЃС‚Рѕ РѕС‚СЃРѕСЂС‚РёСЂРѕРІР°С‚СЊ РїРѕ РєРѕРѕСЂРґРёРЅР°С‚Р°Рј РІСЃРµ СѓС‡Р°СЃС‚РєРё
 	pBridge->EnumSpans( &spans );
 	NI_ASSERT_T( spans.size() >= 2, "bridge witout at least 2 spans" );
-	// посчитать длину пути до 2 крайних точек, выбрать к какой ехать.
+	// РїРѕСЃС‡РёС‚Р°С‚СЊ РґР»РёРЅСѓ РїСѓС‚Рё РґРѕ 2 РєСЂР°Р№РЅРёС… С‚РѕС‡РµРє, РІС‹Р±СЂР°С‚СЊ Рє РєР°РєРѕР№ РµС…Р°С‚СЊ.
 	vStartPoint = SortBridgeSpans( &spans, pUnit );
 
-	// разделить на уже построенные и еще не построенные.
+	// СЂР°Р·РґРµР»РёС‚СЊ РЅР° СѓР¶Рµ РїРѕСЃС‚СЂРѕРµРЅРЅС‹Рµ Рё РµС‰Рµ РЅРµ РїРѕСЃС‚СЂРѕРµРЅРЅС‹Рµ.
 	for ( nCurIndex = 0; nCurIndex < spans.size(); ++nCurIndex )
 	{
 		if ( spans[nCurIndex]->GetHitPoints() < 0.0f )
@@ -864,7 +864,7 @@ const CVec2 CBridgeCreation::GetNextPoint( const int nPlace, const int nMaxPlace
 	spans[nCurIndex]->GetBoundRect( &rect );
 
 	CVec2 vertexes[2];
-	// нужно подойти к краю объекта.
+	// РЅСѓР¶РЅРѕ РїРѕРґРѕР№С‚Рё Рє РєСЂР°СЋ РѕР±СЉРµРєС‚Р°.
 	int nVertIndex = 0;
 	for ( int i = 0; i < 4; ++i )
 	{
@@ -889,7 +889,7 @@ void CBridgeCreation::BuildNext()
 	{
 		pFullBridge->UnlockSpan( spans[nCurIndex] );
 	}
-	// перевести сегмент в достроенное состояние
+	// РїРµСЂРµРІРµСЃС‚Рё СЃРµРіРјРµРЅС‚ РІ РґРѕСЃС‚СЂРѕРµРЅРЅРѕРµ СЃРѕСЃС‚РѕСЏРЅРёРµ
 	spans[nCurIndex]->Build();
 	const SHPObjectRPGStats * pStats = spans[nCurIndex]->GetStats();
 	spans[nCurIndex]->SetHitPoints( pStats->fMaxHP );
@@ -898,23 +898,23 @@ void CBridgeCreation::BuildNext()
 	
 	if ( GetCurIndex() < GetMaxIndex() )
 	{
-		// проверить, если следуюший сегмент разрушен полностью, то
-		// сделать его полуразрушенным
+		// РїСЂРѕРІРµСЂРёС‚СЊ, РµСЃР»Рё СЃР»РµРґСѓСЋС€РёР№ СЃРµРіРјРµРЅС‚ СЂР°Р·СЂСѓС€РµРЅ РїРѕР»РЅРѕСЃС‚СЊСЋ, С‚Рѕ
+		// СЃРґРµР»Р°С‚СЊ РµРіРѕ РїРѕР»СѓСЂР°Р·СЂСѓС€РµРЅРЅС‹Рј
 		const float fNextSpanHP = spans[nCurIndex]->GetHitPoints();
 		if ( 0 ==  fNextSpanHP )
 		{
 			spans[nCurIndex]->SetHitPoints( spans[nCurIndex]->GetStats()->fMaxHP * 0.1 );
-			spans.clear(); // строительство закончено
+			spans.clear(); // СЃС‚СЂРѕРёС‚РµР»СЊСЃС‚РІРѕ Р·Р°РєРѕРЅС‡РµРЅРѕ
 			pFullBridge->UnlockAllSpans();
 		}
 		else if ( 0 < fNextSpanHP )
 		{
-			spans.clear(); // строительство закончено
+			spans.clear(); // СЃС‚СЂРѕРёС‚РµР»СЊСЃС‚РІРѕ Р·Р°РєРѕРЅС‡РµРЅРѕ
 			pFullBridge->UnlockAllSpans();
 		}
 		else
 		{
-			// залокать следующий сегмент
+			// Р·Р°Р»РѕРєР°С‚СЊ СЃР»РµРґСѓСЋС‰РёР№ СЃРµРіРјРµРЅС‚
 			pFullBridge->LockSpan( spans[nCurIndex], wDir );
 		}
 	}

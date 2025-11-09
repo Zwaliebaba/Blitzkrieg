@@ -16,7 +16,7 @@ CInterfaceIMLoadMission::~CInterfaceIMLoadMission()
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool CInterfaceIMLoadMission::Init()
 {
-	//инициализируем имена
+	//РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј РёРјРµРЅР°
 	fileMasks.clear();
 	fileMasks.push_back( "*.sav" );
 	szTopDir = GetSingleton<IMainLoop>()->GetBaseDir();
@@ -54,7 +54,7 @@ bool CInterfaceIMLoadMission::OnOk( const std::string &szFullFileName )
 	std::string szShortName = szFullFileName.substr( szTopDir.size() );
 	CloseInterface();
 	pML->Command( MAIN_COMMAND_LOAD, szShortName.c_str() );
-	pML->Command( MAIN_COMMAND_CMD, NStr::Format("%d", CMD_GAME_UNPAUSE_MENU) );	//уберем паузу
+	pML->Command( MAIN_COMMAND_CMD, NStr::Format("%d", CMD_GAME_UNPAUSE_MENU) );	//СѓР±РµСЂРµРј РїР°СѓР·Сѓ
 	return true;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,18 +69,18 @@ bool CInterfaceIMLoadMission::ProcessMessage( const SGameMessage &msg )
 		case IMC_SELECTION_CHANGED:
 			if ( !bLoadGameIM )
 			{
-				//попробуем взять текущий selection из list control
+				//РїРѕРїСЂРѕР±СѓРµРј РІР·СЏС‚СЊ С‚РµРєСѓС‰РёР№ selection РёР· list control
 				IUIElement *pElement = pUIScreen->GetChildByID( 1000 );		//should be List Control
 				IUIListControl *pList = checked_cast<IUIListControl*>( pElement );
 				if ( !pList )
-					return true;			//не нашелся list control
+					return true;			//РЅРµ РЅР°С€РµР»СЃСЏ list control
 				int nSave = pList->GetSelectionItem();
 				if ( nSave == -1 )
 					return true;
 				
 				IUIListRow *pSelRow = pList->GetItem( nSave );
 				std::string szEdit = szSaves[ pSelRow->GetUserData() ];
-				//отобразим этот элемент в загружаемом имени
+				//РѕС‚РѕР±СЂР°Р·РёРј СЌС‚РѕС‚ СЌР»РµРјРµРЅС‚ РІ Р·Р°РіСЂСѓР¶Р°РµРјРѕРј РёРјРµРЅРё
 				pElement = pUIScreen->GetChildByID( 2000 );
 				pElement->SetWindowText( 0, NStr::ToUnicode(szEdit).c_str() );
 			}
@@ -91,8 +91,8 @@ bool CInterfaceIMLoadMission::ProcessMessage( const SGameMessage &msg )
 			{
 				CloseInterface();
 /*
-				pML->Command( MAIN_COMMAND_CMD, NStr::Format("%d", CMD_GAME_UNPAUSE_MENU) );	//уберем паузу
-				pML->Command( MAIN_COMMAND_CMD, NStr::Format("%d", MC_SHOW_ESCAPE_MENU) );	//покажем escape menu
+				pML->Command( MAIN_COMMAND_CMD, NStr::Format("%d", CMD_GAME_UNPAUSE_MENU) );	//СѓР±РµСЂРµРј РїР°СѓР·Сѓ
+				pML->Command( MAIN_COMMAND_CMD, NStr::Format("%d", MC_SHOW_ESCAPE_MENU) );	//РїРѕРєР°Р¶РµРј escape menu
 */
 				return true;
 			}
@@ -100,11 +100,11 @@ bool CInterfaceIMLoadMission::ProcessMessage( const SGameMessage &msg )
 /*
 		case IMC_OK:
 			{
-				//попробуем взять текущий selection из list control
+				//РїРѕРїСЂРѕР±СѓРµРј РІР·СЏС‚СЊ С‚РµРєСѓС‰РёР№ selection РёР· list control
 				IUIElement *pElement = pUIScreen->GetChildByID( 1000 );		//should be List Control
 				IUIListControl *pList = checked_cast<IUIListControl*>( pElement );
 				if ( !pList )
-					return true;			//не нашелся list control
+					return true;			//РЅРµ РЅР°С€РµР»СЃСЏ list control
 				int nSave = pList->GetSelectionItem();
 				if ( nSave == -1 )
 					return true;
@@ -115,7 +115,7 @@ bool CInterfaceIMLoadMission::ProcessMessage( const SGameMessage &msg )
 				CloseInterface();
 				szEdit += ".sav";
 				pML->Command( MAIN_COMMAND_LOAD, szEdit.c_str() );
-				pML->Command( MAIN_COMMAND_CMD, NStr::Format("%d", CMD_GAME_UNPAUSE_MENU) );	//уберем паузу
+				pML->Command( MAIN_COMMAND_CMD, NStr::Format("%d", CMD_GAME_UNPAUSE_MENU) );	//СѓР±РµСЂРµРј РїР°СѓР·Сѓ
 				return true;
 			}
 	*/

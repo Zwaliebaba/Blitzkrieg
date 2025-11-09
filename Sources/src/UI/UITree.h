@@ -40,7 +40,7 @@ class CUITree : public CMultipleWindow
 {
 	DECLARE_SERIALIZE;
 	//
-	CUIScrollBar *pScrollBar;				//инициализируется во время загрузки и используется для ускорения доступа к компонентам
+	CUIScrollBar *pScrollBar;				//РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµС‚СЃСЏ РІРѕ РІСЂРµРјСЏ Р·Р°РіСЂСѓР·РєРё Рё РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РґР»СЏ СѓСЃРєРѕСЂРµРЅРёСЏ РґРѕСЃС‚СѓРїР° Рє РєРѕРјРїРѕРЅРµРЅС‚Р°Рј
 
 	int nLeftSpace;
 	int nTopSpace;
@@ -53,14 +53,14 @@ class CUITree : public CMultipleWindow
 	CPtr<SUITreeItem> pRoot;
 	CPtr<SUITreeItem> pSelection;
 
-	//Для отрисовки Selection
+	//Р”Р»СЏ РѕС‚СЂРёСЃРѕРІРєРё Selection
 	std::vector<SWindowSubRect> selSubRects;
-	CPtr<IGFXTexture> pSelectionTexture;				// внешний вид - текстура
+	CPtr<IGFXTexture> pSelectionTexture;				// РІРЅРµС€РЅРёР№ РІРёРґ - С‚РµРєСЃС‚СѓСЂР°
 
 	void UpdateAll();
-	void UpdateItemsCoordinates();				//Обновляет координаты всех внутренних item
-	void UpdateScrollBarStatus();					//Вызывается чтобы проверить, нужно ли отображать ScrollBar и обновления его состояния
-	void OnUserChangeScrollBarPosition();	//Вызывается для пересчета в ответ на изменения в статусе ScrollBar
+	void UpdateItemsCoordinates();				//РћР±РЅРѕРІР»СЏРµС‚ РєРѕРѕСЂРґРёРЅР°С‚С‹ РІСЃРµС… РІРЅСѓС‚СЂРµРЅРЅРёС… item
+	void UpdateScrollBarStatus();					//Р’С‹Р·С‹РІР°РµС‚СЃСЏ С‡С‚РѕР±С‹ РїСЂРѕРІРµСЂРёС‚СЊ, РЅСѓР¶РЅРѕ Р»Рё РѕС‚РѕР±СЂР°Р¶Р°С‚СЊ ScrollBar Рё РѕР±РЅРѕРІР»РµРЅРёСЏ РµРіРѕ СЃРѕСЃС‚РѕСЏРЅРёСЏ
+	void OnUserChangeScrollBarPosition();	//Р’С‹Р·С‹РІР°РµС‚СЃСЏ РґР»СЏ РїРµСЂРµСЃС‡РµС‚Р° РІ РѕС‚РІРµС‚ РЅР° РёР·РјРµРЅРµРЅРёСЏ РІ СЃС‚Р°С‚СѓСЃРµ ScrollBar
 
 public:
 	CUITree() : pScrollBar( 0 ), nLeftSpace( 10 ), nTopSpace( 5 ), nItemHeight( 30 ),

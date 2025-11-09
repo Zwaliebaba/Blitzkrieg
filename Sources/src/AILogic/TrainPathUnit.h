@@ -41,7 +41,7 @@ public:
 	CTrainPathUnit() : fTrainLength( 0 ), bFrontDir( true ), bCanMove( false ) { }
 	CTrainPathUnit( class CAIUnit *pOwner ) : fTrainLength( 0 ), bFrontDir( true ), bCanMove( false ) { }
 	virtual void Init( const CVec2 &center, const int z, const WORD dir, const WORD id ) { }
-	// проинициализировать локомотивом pUnit
+	// РїСЂРѕРёРЅРёС†РёР°Р»РёР·РёСЂРѕРІР°С‚СЊ Р»РѕРєРѕРјРѕС‚РёРІРѕРј pUnit
 	bool InitBy( class CCarriagePathUnit *pUnit );
 
 	virtual ISmoothPath* GetSmoothPath() const;
@@ -53,7 +53,7 @@ public:
 
 	virtual void SecondSegment( const bool bUpdate = true );
 	virtual IStaticPath* CreateBigStaticPath( const CVec2 &vStartPoint, const CVec2 &vFinishPoint, interface IPointChecking *pPointChecking );
-	// возвращает - поехал или нет
+	// РІРѕР·РІСЂР°С‰Р°РµС‚ - РїРѕРµС…Р°Р» РёР»Рё РЅРµС‚
 	virtual bool SendAlongPath( interface IStaticPath *pStaticPath, const CVec2 &vShift, bool bSmoothTurn = true );
 	virtual bool SendAlongPath( interface IPath *pPath );
 
@@ -65,7 +65,7 @@ public:
 
 	const int GetNCarriages() const { return carriages.size(); }
 	CCarriagePathUnit* GetCarriage( const int n );
-	// расстояние от заднего колеса вагона n до переднего колеса вагона m, если m присоединён к m
+	// СЂР°СЃСЃС‚РѕСЏРЅРёРµ РѕС‚ Р·Р°РґРЅРµРіРѕ РєРѕР»РµСЃР° РІР°РіРѕРЅР° n РґРѕ РїРµСЂРµРґРЅРµРіРѕ РєРѕР»РµСЃР° РІР°РіРѕРЅР° m, РµСЃР»Рё m РїСЂРёСЃРѕРµРґРёРЅС‘РЅ Рє m
 	const float GetDistFromBackToFrontWheel( const int n, const int m );
 	const float GetDistFromFrontToBackWheel( const int n, const int m );
 	void PushNodesToFrontCarriage( std::list<int> &newNodes );
@@ -114,7 +114,7 @@ public:
 	virtual void ForceGoByRightDir() { }
 	
 	virtual interface IStaticPathFinder* GetPathFinder() const;
-	// можно ли повернуться к направлению wNewDir, если нет - то попытаться проинициализировать путём в точку, где разворот возможен
+	// РјРѕР¶РЅРѕ Р»Рё РїРѕРІРµСЂРЅСѓС‚СЊСЃСЏ Рє РЅР°РїСЂР°РІР»РµРЅРёСЋ wNewDir, РµСЃР»Рё РЅРµС‚ - С‚Рѕ РїРѕРїС‹С‚Р°С‚СЊСЃСЏ РїСЂРѕРёРЅРёС†РёР°Р»РёР·РёСЂРѕРІР°С‚СЊ РїСѓС‚С‘Рј РІ С‚РѕС‡РєСѓ, РіРґРµ СЂР°Р·РІРѕСЂРѕС‚ РІРѕР·РјРѕР¶РµРЅ
 	virtual bool CheckToTurn( const WORD wNewDir ) { return false; }
 
 	virtual void LockTiles( bool bUpdate = true ) { }
@@ -170,7 +170,7 @@ class CCarriagePathUnit : public CPathUnit
 	CPtr<CEdgePoint> pFrontWheelPoint;
 	CPtr<CEdgePoint> pBackWheelPoint;
 
-	// рёбра, на которых стоит вагон
+	// СЂС‘Р±СЂР°, РЅР° РєРѕС‚РѕСЂС‹С… СЃС‚РѕРёС‚ РІР°РіРѕРЅ
 	std::list< CPtr<IEdge> > edges;
 	CVec2 vOldDir;
 	CVec2 vOldCenter;
@@ -194,7 +194,7 @@ public:
 	virtual void FirstSegment();
 	virtual void SecondSegment( const bool bUpdate = true );
 	virtual IStaticPath* CreateBigStaticPath( const CVec2 &vStartPoint, const CVec2 &vFinishPoint, interface IPointChecking *pPointChecking );
-	// возвращает - поехал или нет
+	// РІРѕР·РІСЂР°С‰Р°РµС‚ - РїРѕРµС…Р°Р» РёР»Рё РЅРµС‚
 	virtual bool SendAlongPath( interface IStaticPath *pStaticPath, const CVec2 &vShift, bool bSmoothTurn = true );
 	virtual bool SendAlongPath( interface IPath *pPath );
 

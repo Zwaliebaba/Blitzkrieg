@@ -101,8 +101,8 @@ int CWorldBase::operator&( IStructureSaver &ss )
 {
 	CSaverAccessor saver = &ss;
 	// serialize all map objects
-	// такой геморройный путь для того, чтобы все указатели правильно восстановились ч/з автоматичекую систему
-	// Vis & AI objects must be stored separatelly, т.к. нельзя использовать внутренние данные из SMapObject в функции сериализации
+	// С‚Р°РєРѕР№ РіРµРјРѕСЂСЂРѕР№РЅС‹Р№ РїСѓС‚СЊ РґР»СЏ С‚РѕРіРѕ, С‡С‚РѕР±С‹ РІСЃРµ СѓРєР°Р·Р°С‚РµР»Рё РїСЂР°РІРёР»СЊРЅРѕ РІРѕСЃСЃС‚Р°РЅРѕРІРёР»РёСЃСЊ С‡/Р· Р°РІС‚РѕРјР°С‚РёС‡РµРєСѓСЋ СЃРёСЃС‚РµРјСѓ
+	// Vis & AI objects must be stored separatelly, С‚.Рє. РЅРµР»СЊР·СЏ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ РІРЅСѓС‚СЂРµРЅРЅРёРµ РґР°РЅРЅС‹Рµ РёР· SMapObject РІ С„СѓРЅРєС†РёРё СЃРµСЂРёР°Р»РёР·Р°С†РёРё
 	{
 		std::list<SMapObjectStorage> mos;
 		std::list<SSpanStorage> spans;
@@ -195,8 +195,8 @@ CWorldBase::CWorldBase()
 	//
 	vLastAnchor.Set( -1000000, -1000000, -1000000 );
 	//
-	// сначала нужно проапдейтить новые объекты, потому что они могут умереть в этом же кадре
-	// но на месте мёртвых в этом же кадре не могут создаться новые - это в Updater-е отслеживается
+	// СЃРЅР°С‡Р°Р»Р° РЅСѓР¶РЅРѕ РїСЂРѕР°РїРґРµР№С‚РёС‚СЊ РЅРѕРІС‹Рµ РѕР±СЉРµРєС‚С‹, РїРѕС‚РѕРјСѓ С‡С‚Рѕ РѕРЅРё РјРѕРіСѓС‚ СѓРјРµСЂРµС‚СЊ РІ СЌС‚РѕРј Р¶Рµ РєР°РґСЂРµ
+	// РЅРѕ РЅР° РјРµСЃС‚Рµ РјС‘СЂС‚РІС‹С… РІ СЌС‚РѕРј Р¶Рµ РєР°РґСЂРµ РЅРµ РјРѕРіСѓС‚ СЃРѕР·РґР°С‚СЊСЃСЏ РЅРѕРІС‹Рµ - СЌС‚Рѕ РІ Updater-Рµ РѕС‚СЃР»РµР¶РёРІР°РµС‚СЃСЏ
 	fnAIUpdates.push_back( &CWorldBase::AIUpdateNewProjectiles );	
 	fnAIUpdates.push_back( &CWorldBase::AIUpdateNewObjects );	
 	fnAIUpdates.push_back( &CWorldBase::AIUpdateNewUnits );
@@ -220,7 +220,7 @@ CWorldBase::CWorldBase()
 	
 	fnAIUpdates.push_back( &CWorldBase::AIUpdateDeadProjectiles );
 	fnAIUpdates.push_back( &CWorldBase::AIUpdateDeadUnits );
-	// AIUpdateRemoveObjects идут после AIUpdateDeadUnits, так как юниты могут исчезнуть после смерти в том же сегменте
+	// AIUpdateRemoveObjects РёРґСѓС‚ РїРѕСЃР»Рµ AIUpdateDeadUnits, С‚Р°Рє РєР°Рє СЋРЅРёС‚С‹ РјРѕРіСѓС‚ РёСЃС‡РµР·РЅСѓС‚СЊ РїРѕСЃР»Рµ СЃРјРµСЂС‚Рё РІ С‚РѕРј Р¶Рµ СЃРµРіРјРµРЅС‚Рµ
 	fnAIUpdates.push_back( &CWorldBase::AIUpdateRemoveObjects );
 	//
 	fnAIUpdates.push_back( &CWorldBase::AIUpdateBridges );
@@ -575,7 +575,7 @@ void CWorldBase::Update( const NTimer::STime &currTime )
 		}
 		delayedRemoveAIObjes.pop_front();
 	}
-	// CRAP{ для принудительного вращения моделек в процессе отладки
+	// CRAP{ РґР»СЏ РїСЂРёРЅСѓРґРёС‚РµР»СЊРЅРѕРіРѕ РІСЂР°С‰РµРЅРёСЏ РјРѕРґРµР»РµРє РІ РїСЂРѕС†РµСЃСЃРµ РѕС‚Р»Р°РґРєРё
 	if ( bForceRotation )
 	{
 		int nRotateDirection = currTime * 2;
@@ -680,7 +680,7 @@ void CWorldBase::AIUpdateNewObjects( const NTimer::STime &currTime )
 		// object's position
 		CVec3 vPos;
 		AI2Vis( &vPos, info.center.x, info.center.y, info.z );
-		if ( info.nFrameIndex == -2 )				// special case - "гавно-после-смерти"
+		if ( info.nFrameIndex == -2 )				// special case - "РіР°РІРЅРѕ-РїРѕСЃР»Рµ-СЃРјРµСЂС‚Рё"
 		{
 			if ( const SMechUnitRPGStats *pRPG = NGDB::GetRPGStats<SMechUnitRPGStats>(pGDB, pDesc) )
 			{

@@ -52,7 +52,7 @@ void CExcelExporter::ConvertFilesToExcel( const vector<string> &files, const cha
 	if ( files.empty() )
 		return;
 	
-	//считываем поля из crap файла
+	//СЃС‡РёС‚С‹РІР°РµРј РїРѕР»СЏ РёР· crap С„Р°Р№Р»Р°
 	std::vector< std::string > crapFields;
 	if ( strlen(pszCrapFile) > 0 )
 	{
@@ -78,7 +78,7 @@ void CExcelExporter::ConvertFilesToExcel( const vector<string> &files, const cha
 	if ( !bIgnoreFields && crapFields.empty() )
 		bIgnoreFields = true;
 
-	//считываем RPG информацию сразу из всех файлов
+	//СЃС‡РёС‚С‹РІР°РµРј RPG РёРЅС„РѕСЂРјР°С†РёСЋ СЃСЂР°Р·Сѓ РёР· РІСЃРµС… С„Р°Р№Р»РѕРІ
 	vector<CXMLReadVector> filesValuesVector( files.size() );
 	for ( int i=0; i<files.size(); i++ )
 	{
@@ -228,7 +228,7 @@ void CExcelExporter::ConvertExcelToXMLFiles( const char *pszExcelFileName, const
 		//read the file name
 		std::string szFileName = *it;
 
-		//узнаем имя ноды с информацией. По умолчанию - "RPG"
+		//СѓР·РЅР°РµРј РёРјСЏ РЅРѕРґС‹ СЃ РёРЅС„РѕСЂРјР°С†РёРµР№. РџРѕ СѓРјРѕР»С‡Р°РЅРёСЋ - "RPG"
 		{
 			std::string szExtension = szFileName.substr( szFileName.rfind( '.' ) );
 			for ( int i=0; i<extensions.size(); i++ )
@@ -297,7 +297,7 @@ void CExcelExporter::ConvertExcelToXMLFiles( const char *pszExcelFileName, const
 				recset.GetFieldValue( fieldNames[i], szString );
 				val.first = fieldNames[i];
 				val.second = szString;
-				if ( szString != '_' )				//CRAP ибо строчки в excel пишутся херово
+				if ( szString != '_' )				//CRAP РёР±Рѕ СЃС‚СЂРѕС‡РєРё РІ excel РїРёС€СѓС‚СЃСЏ С…РµСЂРѕРІРѕ
 					valuesVector.push_back( val );
 			}
 
@@ -341,13 +341,13 @@ void ReadExcelFile( const char *pszFileName )
 	szDriver = GetExcelDriver();
 	if( szDriver.IsEmpty() )
 	{
-		// Blast! We didnґt find that driver!
+		// Blast! We didnТ‘t find that driver!
 		AfxMessageBox("No Excel ODBC driver found");
 		return;
 	}
 	
 	// Create a pseudo DSN including the name of the Driver and the Excel file
-	// so we donґt have to have an explicit DSN installed in our ODBC admin
+	// so we donТ‘t have to have an explicit DSN installed in our ODBC admin
 	szDsn.Format("ODBC;DRIVER={%s};DSN='';DBQ=%s",szDriver,pszFileName);
 	
 	TRY

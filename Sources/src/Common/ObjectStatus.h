@@ -49,7 +49,7 @@ inline void GetBaseStatusFromRPGStats( SMissionStatusObject *pStatus, const SUni
 inline void GetStatusFromRPGStats( SMissionStatusObject *pStatus, const SMechUnitRPGStats *pRPG, 
 																	 const bool bEnemy = false, bool bEnableModification = true )
 {
-	GetBaseStatusFromRPGStats( pStatus, pRPG, bEnemy ? 1 : 0, false /*bEnableModification*/ ); // ðåøèëè íå ðàçðåøàòü ïîêàçûâàòü ìîäèôèêàöèþ ñòàòñîâ
+	GetBaseStatusFromRPGStats( pStatus, pRPG, bEnemy ? 1 : 0, false /*bEnableModification*/ ); // Ñ€ÐµÑˆÐ¸Ð»Ð¸ Ð½Ðµ Ñ€Ð°Ð·Ñ€ÐµÑˆÐ°Ñ‚ÑŒ Ð¿Ð¾ÐºÐ°Ð·Ñ‹Ð²Ð°Ñ‚ÑŒ Ð¼Ð¾Ð´Ð¸Ñ„Ð¸ÐºÐ°Ñ†Ð¸ÑŽ ÑÑ‚Ð°Ñ‚ÑÐ¾Ð²
 	//
 	pStatus->armors[0] = pRPG->GetArmor( RPG_FRONT );
 	pStatus->armors[1] = ( pRPG->GetArmor( RPG_LEFT ) + pRPG->GetArmor( RPG_RIGHT ) ) / 2;
@@ -68,7 +68,7 @@ inline void GetStatusFromRPGStats( SMissionStatusObject *pStatus, const SMechUni
 inline void GetStatusFromRPGStats( SMissionStatusObject *pStatus, const SInfantryRPGStats *pRPG, 
 																	 const bool bEnemy = false, bool bEnableModification = true )
 {
-	GetBaseStatusFromRPGStats( pStatus, pRPG, bEnemy ? 1 : 0, false /*bEnableModification*/ ); // ðåøèëè íå ðàçðåøàòü ïîêàçûâàòü ìîäèôèêàöèþ ñòàòñîâ
+	GetBaseStatusFromRPGStats( pStatus, pRPG, bEnemy ? 1 : 0, false /*bEnableModification*/ ); // Ñ€ÐµÑˆÐ¸Ð»Ð¸ Ð½Ðµ Ñ€Ð°Ð·Ñ€ÐµÑˆÐ°Ñ‚ÑŒ Ð¿Ð¾ÐºÐ°Ð·Ñ‹Ð²Ð°Ñ‚ÑŒ Ð¼Ð¾Ð´Ð¸Ñ„Ð¸ÐºÐ°Ñ†Ð¸ÑŽ ÑÑ‚Ð°Ñ‚ÑÐ¾Ð²
 	//
 	Zero( pStatus->armors );
 }

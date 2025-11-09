@@ -21,7 +21,7 @@ public:
 	
 	virtual void GFXDraw();
 	virtual void ShowFrameWindows( int nCommand );
-	BOOL Run();										//Вызывается из EditorApp OnIdle()
+	BOOL Run();										//Р’С‹Р·С‹РІР°РµС‚СЃСЏ РёР· EditorApp OnIdle()
 	
 	// Overrides
 	// ClassWizard generated virtual function overrides

@@ -73,10 +73,10 @@ void CSound3D::SetPosition( const CVec3 &vPos3 )
 	if ( IsPlaying() )
 	{
 		if ( !bDopplerFlag )
-			FSOUND_3D_SetAttributes( GetChannel(), (float *) vLocalPos.m, 0 );			//0 потому что мы не используем доплеровский эффект
+			FSOUND_3D_SetAttributes( GetChannel(), (float *) vLocalPos.m, 0 );			//0 РїРѕС‚РѕРјСѓ С‡С‚Рѕ РјС‹ РЅРµ РёСЃРїРѕР»СЊР·СѓРµРј РґРѕРїР»РµСЂРѕРІСЃРєРёР№ СЌС„С„РµРєС‚
 		else
 		{
-			// вычислим скорость
+			// РІС‹С‡РёСЃР»РёРј СЃРєРѕСЂРѕСЃС‚СЊ
 			/*
 			NTimer::STime time = GetSingleton<IGameTimer>()->GetGameTime();
 			float fSpeed = sqrt( (vPos3.x-vLastPos.x)*(vPos3.x-vLastPos.x) + (vPos3.y-vLastPos.y)*(vPos3.y-vLastPos.y) + (vPos3.z-vLastPos.z)*(vPos3.z-vLastPos.z) );

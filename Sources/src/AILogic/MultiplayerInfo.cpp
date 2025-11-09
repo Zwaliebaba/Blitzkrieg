@@ -116,14 +116,14 @@ void CMultiplayerInfo::CheckSabotageWinConditions()
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CMultiplayerInfo::CheckFlagControlWinConditions()
 {
-	// по timeLimit
+	// РїРѕ timeLimit
 	if ( winConditions.nTimeLimit != 0 && curTime >= winConditions.nTimeLimit )
 	{
 		CheckFlagPoints();
 		CheckTroopPoints();
 		GameFinished( EFB_DRAW );
 	}
-	// по flagLimit
+	// РїРѕ flagLimit
 	else if ( winConditions.nFlagScoreLimit != 0 &&
 				    ( flagPoints[0] >= winConditions.nFlagScoreLimit || flagPoints[1] >= winConditions.nFlagScoreLimit ) )
 	{
@@ -141,7 +141,7 @@ void CMultiplayerInfo::CheckFlagControlWinConditions()
 		else
 			GameFinished( EFB_LOOSE );
 	}
-	// по fraglimit
+	// РїРѕ fraglimit
 	else if ( winConditions.nKillScoreLimit != 0 &&
 						( troopsPoints[0] >= winConditions.nKillScoreLimit || troopsPoints[1] >= winConditions.nKillScoreLimit ) )
 	{

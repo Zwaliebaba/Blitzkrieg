@@ -41,15 +41,15 @@ interface IAIEditor : public IRefCount
 	
 	virtual const int STDCALL GetUnitDBID( IRefCount *pObj ) const = 0;
 	
-	// проверяется: лежит ли объект внутри карты	
+	// РїСЂРѕРІРµСЂСЏРµС‚СЃСЏ: Р»РµР¶РёС‚ Р»Рё РѕР±СЉРµРєС‚ РІРЅСѓС‚СЂРё РєР°СЂС‚С‹	
 	virtual bool STDCALL IsObjectInsideOfMap( const struct SMapObjectInfo &object ) const = 0;
-	// проверяется: лежит ли объект внутри карты и не ставится ли он на залоканные тайлы
+	// РїСЂРѕРІРµСЂСЏРµС‚СЃСЏ: Р»РµР¶РёС‚ Р»Рё РѕР±СЉРµРєС‚ РІРЅСѓС‚СЂРё РєР°СЂС‚С‹ Рё РЅРµ СЃС‚Р°РІРёС‚СЃСЏ Р»Рё РѕРЅ РЅР° Р·Р°Р»РѕРєР°РЅРЅС‹Рµ С‚Р°Р№Р»С‹
 	virtual bool STDCALL CanAddObject( const struct SMapObjectInfo &object ) const = 0;
 	
 	virtual void STDCALL ApplyPattern( const struct SVAPattern &rPattern ) = 0;
 	virtual void STDCALL UpdateAllHeights() = 0;
 	
-	// влючить - выключить что-нибудь, возвращает: true - включено, false - выключено
+	// РІР»СЋС‡РёС‚СЊ - РІС‹РєР»СЋС‡РёС‚СЊ С‡С‚Рѕ-РЅРёР±СѓРґСЊ, РІРѕР·РІСЂР°С‰Р°РµС‚: true - РІРєР»СЋС‡РµРЅРѕ, false - РІС‹РєР»СЋС‡РµРЅРѕ
 	virtual bool STDCALL ToggleShow( const int nShowType ) = 0;
 	
 	virtual void STDCALL UpdateTerrain( const CTRect<int> &rect, const struct STerrainInfo &terrainInfo ) = 0;
@@ -121,7 +121,7 @@ interface IAILogic : public IRefCount
 																				const class CVec2 &downRight, const class CVec2 &upRight,
 																				struct SAIVisInfo **pVisBuffer, int *pnLen ) const = 0;
 	
-	// заменяет указатели в pUnitsBuffer на уникальные id юнитов
+	// Р·Р°РјРµРЅСЏРµС‚ СѓРєР°Р·Р°С‚РµР»Рё РІ pUnitsBuffer РЅР° СѓРЅРёРєР°Р»СЊРЅС‹Рµ id СЋРЅРёС‚РѕРІ
 	virtual const	WORD STDCALL GenerateGroupNumber() = 0;
 	virtual void STDCALL RegisterGroup( IRefCount **pUnitsBuffer, const int nLen, const WORD wGroup ) = 0;
 	virtual void STDCALL UnregisterGroup( const WORD wGroup ) = 0;
@@ -129,7 +129,7 @@ interface IAILogic : public IRefCount
 	
 	virtual void STDCALL CheckDiplomacy( const IRefCount **pUnitsBuffer, BYTE **pResults, const int nLen ) = 0;
 	
-	// 1 - проходима, 0 - нет
+	// 1 - РїСЂРѕС…РѕРґРёРјР°, 0 - РЅРµС‚
 	virtual void STDCALL GetGlobalPassability( BYTE **pMapBuffer, int *pnLen ) = 0;
 	virtual void STDCALL GetDisplayPassability( const class CVec2 &upLeft, const class CVec2 &downLeft, 
 																							const class CVec2 &downRight, const class CVec2 &upRight,
@@ -149,12 +149,12 @@ interface IAILogic : public IRefCount
 
 	virtual void STDCALL Segment() = 0;
 	
-	//для постройки забора. temp buffer
+	//РґР»СЏ РїРѕСЃС‚СЂРѕР№РєРё Р·Р°Р±РѕСЂР°. temp buffer
 	virtual void STDCALL SetMyInfo( const int nParty, const int nNumber ) = 0;
 	virtual void STDCALL SetNPlayers( const int nPlayers ) = 0;
 	virtual void STDCALL SetNetGame( bool bNetGame ) = 0;
 	
-	// возвращает - удачно ли завершилась подстановка (все переданные объекты корректны)
+	// РІРѕР·РІСЂР°С‰Р°РµС‚ - СѓРґР°С‡РЅРѕ Р»Рё Р·Р°РІРµСЂС€РёР»Р°СЃСЊ РїРѕРґСЃС‚Р°РЅРѕРІРєР° (РІСЃРµ РїРµСЂРµРґР°РЅРЅС‹Рµ РѕР±СЉРµРєС‚С‹ РєРѕСЂСЂРµРєС‚РЅС‹)
 	virtual bool SubstituteUniqueIDs( IRefCount **pUnitsBuffer, const int nLen ) = 0;
 	
 	virtual void STDCALL UpdateAcknowledgments( SAIAcknowledgment **pAckBuffer, int *pnLen ) = 0;
@@ -164,13 +164,13 @@ interface IAILogic : public IRefCount
 	virtual const DWORD STDCALL GetNormal( const CVec2 &vPoint ) const = 0;
 	virtual const bool STDCALL GetIntersectionWithTerrain( CVec3 *pvResult, const CVec3 &vBegin, const CVec3 &vEnd ) const = 0;
 	
-	// включить - выключить что-нибудь, возвращает: true - включено, false - выключено
+	// РІРєР»СЋС‡РёС‚СЊ - РІС‹РєР»СЋС‡РёС‚СЊ С‡С‚Рѕ-РЅРёР±СѓРґСЊ, РІРѕР·РІСЂР°С‰Р°РµС‚: true - РІРєР»СЋС‡РµРЅРѕ, false - РІС‹РєР»СЋС‡РµРЅРѕ
 	virtual bool STDCALL ToggleShow( const int nShowType ) = 0;
 	
-	// что думает AILogic про ситуацию - combat или нет
+	// С‡С‚Рѕ РґСѓРјР°РµС‚ AILogic РїСЂРѕ СЃРёС‚СѓР°С†РёСЋ - combat РёР»Рё РЅРµС‚
 	virtual bool STDCALL IsCombatSituation() = 0;
 	
-	// для визуализации точки появления самолетов
+	// РґР»СЏ РІРёР·СѓР°Р»РёР·Р°С†РёРё С‚РѕС‡РєРё РїРѕСЏРІР»РµРЅРёСЏ СЃР°РјРѕР»РµС‚РѕРІ
 	virtual CVec2 STDCALL LockAvitaionAppearPoint() = 0;
 	virtual void STDCALL UnlockAviationAppearPoint() = 0;
 	
@@ -186,7 +186,7 @@ interface IAILogic : public IRefCount
 	// for sending acknowledgement of selection
 	virtual void STDCALL SendAcknowlegdementForced( IRefCount *pObj, const EUnitAckType eAck ) = 0;
 	
-	// при игре в multiplayer: все игроки загрузились и игра стартовала
+	// РїСЂРё РёРіСЂРµ РІ multiplayer: РІСЃРµ РёРіСЂРѕРєРё Р·Р°РіСЂСѓР·РёР»РёСЃСЊ Рё РёРіСЂР° СЃС‚Р°СЂС‚РѕРІР°Р»Р°
 	virtual void STDCALL NetGameStarted() = 0;
 	virtual bool STDCALL IsNetGameStarted() const = 0;
 

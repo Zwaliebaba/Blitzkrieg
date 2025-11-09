@@ -32,7 +32,7 @@ public:
 	virtual void ShowFrameWindows( int nCommand );
 	virtual void GFXDraw();
 	
-	BOOL Run();																			//Вызывается из EditorApp OnIdle()
+	BOOL Run();																			//Р’С‹Р·С‹РІР°РµС‚СЃСЏ РёР· EditorApp OnIdle()
 	bool IsRunning() { return bRunning; }
 
 	void ClearComposedFlag() { bComposed = false; }
@@ -67,11 +67,11 @@ private:
 	CThumbList m_wndSelectedThumbItems;
 	CScrollBar m_wndScrollBar;
 
-	bool bRunning;								//есть два состояния, редактирование и предварительный просмотр
+	bool bRunning;								//РµСЃС‚СЊ РґРІР° СЃРѕСЃС‚РѕСЏРЅРёСЏ, СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёРµ Рё РїСЂРµРґРІР°СЂРёС‚РµР»СЊРЅС‹Р№ РїСЂРѕСЃРјРѕС‚СЂ
 	bool bComposed;
-	bool bExportOnlyRPGStats;			//для экспорта только rpg stats, не выполняя композер картинок
+	bool bExportOnlyRPGStats;			//РґР»СЏ СЌРєСЃРїРѕСЂС‚Р° С‚РѕР»СЊРєРѕ rpg stats, РЅРµ РІС‹РїРѕР»РЅСЏСЏ РєРѕРјРїРѕР·РµСЂ РєР°СЂС‚РёРЅРѕРє
 	
-	//для сохранения объектов и последующего обновления
+	//РґР»СЏ СЃРѕС…СЂР°РЅРµРЅРёСЏ РѕР±СЉРµРєС‚РѕРІ Рё РїРѕСЃР»РµРґСѓСЋС‰РµРіРѕ РѕР±РЅРѕРІР»РµРЅРёСЏ
 	struct SUnitObject
 	{
 		CVec3 vPos;

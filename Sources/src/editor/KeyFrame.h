@@ -9,8 +9,8 @@
 // KeyFrame.h : header file
 //
 
-const UINT WM_KEY_FRAME_RCLICK	= WM_USER + 35;		// клик правой кнопкой в области контрола
-const UINT WM_KEY_FRAME_UPDATE	= WM_USER + 36;		// нужно обновить список framesList
+const UINT WM_KEY_FRAME_RCLICK	= WM_USER + 35;		// РєР»РёРє РїСЂР°РІРѕР№ РєРЅРѕРїРєРѕР№ РІ РѕР±Р»Р°СЃС‚Рё РєРѕРЅС‚СЂРѕР»Р°
+const UINT WM_KEY_FRAME_UPDATE	= WM_USER + 36;		// РЅСѓР¶РЅРѕ РѕР±РЅРѕРІРёС‚СЊ СЃРїРёСЃРѕРє framesList
 
 using std::list;
 using std::pair;
@@ -56,7 +56,7 @@ protected:
 //	void GetScreenCoord( float x, float y, float *screenX, float *screenY );
 	void SetHDimention( float fMin, float fMax );
 	void SetVDimention( float fMin, float fMax );
-	void GetVisibleX( int *nMin, int *nMax );			//получает число элементов видимых на экране, в единицах ScrollBar
+	void GetVisibleX( int *nMin, int *nMax );			//РїРѕР»СѓС‡Р°РµС‚ С‡РёСЃР»Рѕ СЌР»РµРјРµРЅС‚РѕРІ РІРёРґРёРјС‹С… РЅР° СЌРєСЂР°РЅРµ, РІ РµРґРёРЅРёС†Р°С… ScrollBar
 	void GetVisibleY( int *nMin, int *nMax );
 	void GetScreenByValue( float fValX, float fValY, float *pScreenX, float *pScreenY );
 	void GetValueByScreen( int x, int y, float *pValX, float *pValY );
@@ -70,7 +70,7 @@ private:
 	int m_nDragIndex;
 	int m_mode;
 	int m_nHighNodeIndex;
-	POINT m_beginDrag;						//для сохранения точки перетаскивания
+	POINT m_beginDrag;						//РґР»СЏ СЃРѕС…СЂР°РЅРµРЅРёСЏ С‚РѕС‡РєРё РїРµСЂРµС‚Р°СЃРєРёРІР°РЅРёСЏ
 	CFramesList framesList;
 	bool m_bResizeMode;
 	float m_XS;

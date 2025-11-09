@@ -109,7 +109,7 @@ void CMineFrame::LoadRPGStats( IDataTree *pDT, CTreeItem *pRootItem )
 {
 	NI_ASSERT( pRootItem != 0 );
 	SMineRPGStats rpgStats;
-	FillRPGStats( rpgStats, pRootItem );			//перед загрузкой инициализирую значениями по умолчанию
+	FillRPGStats( rpgStats, pRootItem );			//РїРµСЂРµРґ Р·Р°РіСЂСѓР·РєРѕР№ РёРЅРёС†РёР°Р»РёР·РёСЂСѓСЋ Р·РЅР°С‡РµРЅРёСЏРјРё РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
 
 	CTreeAccessor tree = pDT;
 	tree.Add( "RPG", &rpgStats );
@@ -121,7 +121,7 @@ bool CMineFrame::ExportFrameData( IDataTree *pDT, const char *pszProjectName, co
 	NI_ASSERT( pRootItem != 0 );
 	NI_ASSERT( pRootItem->GetItemType() == E_MINE_ROOT_ITEM );
 	
-	//Сохраняем RPG stats
+	//РЎРѕС…СЂР°РЅСЏРµРј RPG stats
 	SaveRPGStats( pDT, pRootItem, pszProjectName );
 	
 	//	CMineTreeRootItem *pMineRoot = (CMineTreeRootItem *) pRootItem;	

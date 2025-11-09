@@ -55,17 +55,17 @@ private:
 	void SetIterCreated( bool _bCreated ) { bIterCreated = _bCreated; }
 	bool IsIterCreated() const { return bIterCreated; }
 public:
-		// для перебора всех хранилищь
+		// РґР»СЏ РїРµСЂРµР±РѕСЂР° РІСЃРµС… С…СЂР°РЅРёР»РёС‰СЊ
 	interface IEnumStoragesPredicate
 	{
-		// перебирать только подсоединенные хранилища
+		// РїРµСЂРµР±РёСЂР°С‚СЊ С‚РѕР»СЊРєРѕ РїРѕРґСЃРѕРµРґРёРЅРµРЅРЅС‹Рµ С…СЂР°РЅРёР»РёС‰Р°
 		virtual bool OnlyConnected() const = 0;
-		// true - закончить, то, что нужно уже нашлось
-		// длина пути - в ТАЙЛАХ
+		// true - Р·Р°РєРѕРЅС‡РёС‚СЊ, С‚Рѕ, С‡С‚Рѕ РЅСѓР¶РЅРѕ СѓР¶Рµ РЅР°С€Р»РѕСЃСЊ
+		// РґР»РёРЅР° РїСѓС‚Рё - РІ РўРђР™Р›РђРҐ
 		virtual bool AddStorage( class CBuildingStorage * pStorage, const float fPathLenght ) = 0;
 	};
 
-	// для хранения информации о складах RU 
+	// РґР»СЏ С…СЂР°РЅРµРЅРёСЏ РёРЅС„РѕСЂРјР°С†РёРё Рѕ СЃРєР»Р°РґР°С… RU 
 	class CStoragesContainer
 	{
 		DECLARE_SERIALIZE;
@@ -82,7 +82,7 @@ public:
 		};
 		std::vector<CPartyInfo> storageSystem;
 
-		// пункты линии поддержки
+		// РїСѓРЅРєС‚С‹ Р»РёРЅРёРё РїРѕРґРґРµСЂР¶РєРё
 		CStorages storages;									// for speed search storages
 		
 		WORD updated;
@@ -111,7 +111,7 @@ public:
 public:
 	CStoragesContainer storagesContainer;
 	
-	// окопы здесь не обрабатываются!
+	// РѕРєРѕРїС‹ Р·РґРµСЃСЊ РЅРµ РѕР±СЂР°Р±Р°С‚С‹РІР°СЋС‚СЃСЏ!
 	typedef std::set< CPtr<CStaticObject>, SSegmentObjectsSort > CSegmObjects;
 	CSegmObjects segmObjects;
 
@@ -175,7 +175,7 @@ public:
 	//void UpdateStoragesForParty( const int nParty, const bool bNewStorage, const bool bIncreasePassibility );
 	//void UpdateAllPartiesStorages( const bool bNewStorage, const bool bIncreasePassibility );
 
-	// вызываются только самими удаляемыми объектами
+	// РІС‹Р·С‹РІР°СЋС‚СЃСЏ С‚РѕР»СЊРєРѕ СЃР°РјРёРјРё СѓРґР°Р»СЏРµРјС‹РјРё РѕР±СЉРµРєС‚Р°РјРё
 	void DeleteInternalObjectInfo( class CExistingObject *pObj );
 	void DeleteInternalObjectInfoForEditor( class CExistingObject *pObj );
 	void DeleteInternalEntrenchmentInfo( class CEntrenchment *pEntrench );
@@ -186,7 +186,7 @@ public:
 	//bool IsPointUnderSupply( const int nPlayer, const CVec2 &vCenter ) const;
 	void StorageChangedDiplomacy( class CBuildingStorage *pNewStorage, const int nNewPlayer );
 	
-	// для редактора
+	// РґР»СЏ СЂРµРґР°РєС‚РѕСЂР°
 	void UpdateAllObjectsPos();
 
 	void EnumObstaclesInRange( const CVec2 &vCenter, const float fRadius, interface IObstacleEnumerator *f );

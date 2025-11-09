@@ -120,7 +120,7 @@ void CVSOSelectState::OnKeyDown( UINT nChar, UINT nRepCnt, UINT nFlags, CTemplat
 			pParentState->ValidateSelectedIndex();
 			pParentState->nCurrentVSO = pParentState->selectedIndices[pParentState->nSelectedIndex];
 			//pParentState->Draw( pFrame );
-			//íå íàäî
+			//Ð½Ðµ Ð½Ð°Ð´Ð¾
 			//pFrame->RedrawWindow();
 		}
 	}
@@ -643,7 +643,7 @@ void CVSOEditState::OnKeyDown( UINT nChar, UINT nRepCnt, UINT nFlags, CTemplateE
 		}
 
 		//pParentState->Draw( pFrame );
-		//íå íàäî
+		//Ð½Ðµ Ð½Ð°Ð´Ð¾
 		//pFrame->RedrawWindow();
 	}
 }
@@ -788,7 +788,7 @@ void CVSOAddState::OnKeyDown( UINT nChar, UINT nRepCnt, UINT nFlags, CTemplateEd
 		}
 
 		//pParentState->Draw( pFrame );
-		//íå íàäî
+		//Ð½Ðµ Ð½Ð°Ð´Ð¾
 		//pFrame->RedrawWindow();
 	}
 }
@@ -998,7 +998,7 @@ bool CRoads3DState::CreateVSO( SVectorStripeObject *pRoad3D )
 	
 	if ( CTemplateEditorFrame *pFrame = g_frameManager.GetTemplateEditorFrame() )
 	{
-		//Çàãðóçêà ïàòòåðíà äîðîãè
+		//Ð—Ð°Ð³Ñ€ÑƒÐ·ÐºÐ° Ð¿Ð°Ñ‚Ñ‚ÐµÑ€Ð½Ð° Ð´Ð¾Ñ€Ð¾Ð³Ð¸
 		std::string szRoad3DDescName;
 		//SVectorStripeObjectDesc road3DDesc;
 		if ( !GetTabVOVSODialog( pFrame )->GetDescriptionName( &szRoad3DDescName ) )
@@ -1107,7 +1107,7 @@ bool CRiversState::CreateVSO( SVectorStripeObject *pRiver )
 
 	if ( CTemplateEditorFrame *pFrame = g_frameManager.GetTemplateEditorFrame() )
 	{
-		//Çàãðóçêà ïàòòåðíà ðåêè
+		//Ð—Ð°Ð³Ñ€ÑƒÐ·ÐºÐ° Ð¿Ð°Ñ‚Ñ‚ÐµÑ€Ð½Ð° Ñ€ÐµÐºÐ¸
 		std::string szRiverDescName;
 		//SVectorStripeObjectDesc riverDesc;
 		if ( !GetTabVOVSODialog( pFrame )->GetDescriptionName( &szRiverDescName ) )

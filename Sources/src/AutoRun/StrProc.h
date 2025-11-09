@@ -9,28 +9,28 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 namespace NStr
 {
-	// все операции со скобками учитывают следующие скобки: (), {}, [], ""
+	// РІСЃРµ РѕРїРµСЂР°С†РёРё СЃРѕ СЃРєРѕР±РєР°РјРё СѓС‡РёС‚С‹РІР°СЋС‚ СЃР»РµРґСѓСЋС‰РёРµ СЃРєРѕР±РєРё: (), {}, [], ""
 	//
-	// получить закрывающую скобку по открывающей
-	// символ 'cOpenBracket' должен обязательно быть открывающей скобкой
+	// РїРѕР»СѓС‡РёС‚СЊ Р·Р°РєСЂС‹РІР°СЋС‰СѓСЋ СЃРєРѕР±РєСѓ РїРѕ РѕС‚РєСЂС‹РІР°СЋС‰РµР№
+	// СЃРёРјРІРѕР» 'cOpenBracket' РґРѕР»Р¶РµРЅ РѕР±В¤Р·Р°С‚РµР»СЊРЅРѕ Р±С‹С‚СЊ РѕС‚РєСЂС‹РІР°СЋС‰РµР№ СЃРєРѕР±РєРѕР№
 	const char GetCloseBracket( const char cOpenBracket );
-	// является ли символ открывающей скобкой
+	// В¤РІР»В¤РµС‚СЃВ¤ Р»Рё СЃРёРјРІРѕР» РѕС‚РєСЂС‹РІР°СЋС‰РµР№ СЃРєРѕР±РєРѕР№
 	bool IsOpenBracket( const char cSymbol );
-	// добавить новую пару скобок
+	// РґРѕР±Р°РІРёС‚СЊ РЅРѕРІСѓСЋ РїР°СЂСѓ СЃРєРѕР±РѕРє
 	void AddBrackets( const char cOpenBracket, const char cCloseBracket );
-	// удалить пару скобок
+	// СѓРґР°Р»РёС‚СЊ РїР°СЂСѓ СЃРєРѕР±РѕРє
 	void RemoveBrackets( const char cOpenBracket, const char cCloseBracket );
-	// разделить строку на массив строк по заданному разделителю
+	// СЂР°Р·РґРµР»РёС‚СЊ СЃС‚СЂРѕРєСѓ РЅР° РјР°СЃСЃРёРІ СЃС‚СЂРѕРє РїРѕ Р·Р°РґР°РЅРЅРѕРјСѓ СЂР°Р·РґРµР»РёС‚РµР»СЋ
 	void SplitString( const std::string &szString, std::vector<std::string> &szVector, const char cSeparator );
-	// разделить строку на массив строк по заданному разделителю с учётом скобок одной вложенности
+	// СЂР°Р·РґРµР»РёС‚СЊ СЃС‚СЂРѕРєСѓ РЅР° РјР°СЃСЃРёРІ СЃС‚СЂРѕРє РїРѕ Р·Р°РґР°РЅРЅРѕРјСѓ СЂР°Р·РґРµР»РёС‚РµР»СЋ СЃ СѓС‡Р„С‚РѕРј СЃРєРѕР±РѕРє РѕРґРЅРѕР№ РІР»РѕР¶РµРЅРЅРѕСЃС‚Рё
 	void SplitStringWithBrackets( const std::string &szString, std::vector<std::string> &szVector, const char cSeparator );
-	// разделить строку на массив строк по заданному разделителю с учётом скобок любой вложенности
+	// СЂР°Р·РґРµР»РёС‚СЊ СЃС‚СЂРѕРєСѓ РЅР° РјР°СЃСЃРёРІ СЃС‚СЂРѕРє РїРѕ Р·Р°РґР°РЅРЅРѕРјСѓ СЂР°Р·РґРµР»РёС‚РµР»СЋ СЃ СѓС‡Р„С‚РѕРј СЃРєРѕР±РѕРє Р»СЋР±РѕР№ РІР»РѕР¶РµРЅРЅРѕСЃС‚Рё
 	void SplitStringWithMultipleBrackets( const std::string &szString, std::vector<std::string> &szVector, const char cSeparator );
-	// найти закрывающую скобку без учёта внутренних скобок
+	// РЅР°Р№С‚Рё Р·Р°РєСЂС‹РІР°СЋС‰СѓСЋ СЃРєРѕР±РєСѓ Р±РµР· СѓС‡Р„С‚Р° РІРЅСѓС‚СЂРµРЅРЅРёС… СЃРєРѕР±РѕРє
 	int FindCloseBracket( const std::string &szString, int nPos, const char cOpenBracket );
-	// найти закрывающую скобку с учётом внутренних скобок
+	// РЅР°Р№С‚Рё Р·Р°РєСЂС‹РІР°СЋС‰СѓСЋ СЃРєРѕР±РєСѓ СЃ СѓС‡Р„С‚РѕРј РІРЅСѓС‚СЂРµРЅРЅРёС… СЃРєРѕР±РѕРє
 	int FindMultipleCloseBracket( const std::string &szString, int nPos, const char cOpenBracket );
-	// посчитать длину строки
+	// РїРѕСЃС‡РёС‚Р°С‚СЊ РґР»РёРЅСѓ СЃС‚СЂРѕРєРё
 	template <class TYPE>
 		inline int GetStrLen( const TYPE *pszString )
 		{
@@ -43,35 +43,35 @@ namespace NStr
 		{
 			return GetStrLen( szString.c_str() );
 		}
-	// отрезать все символы 'cTrim'
-	// отрезать все 'cTrim' слева
+	// РѕС‚СЂРµР·Р°С‚СЊ РІСЃРµ СЃРёРјРІРѕР»С‹ 'cTrim'
+	// РѕС‚СЂРµР·Р°С‚СЊ РІСЃРµ 'cTrim' СЃР»РµРІР°
 	inline void TrimLeft( std::string &szString, const char cTrim ) { szString.erase( 0, szString.find_first_not_of( cTrim ) ); }
-	// отрезать все 'pszTrim' слева
+	// РѕС‚СЂРµР·Р°С‚СЊ РІСЃРµ 'pszTrim' СЃР»РµРІР°
 	inline void TrimLeft( std::string &szString, const char *pszTrim ) { szString.erase( 0, szString.find_first_not_of( pszTrim ) ); }
-	// отрезать все whitespaces слева
+	// РѕС‚СЂРµР·Р°С‚СЊ РІСЃРµ whitespaces СЃР»РµРІР°
   inline void TrimLeft( std::string &szString ) { TrimLeft(szString, " \t\n\r"); } 
-	// отрезать все 'pszTrim' справа
+	// РѕС‚СЂРµР·Р°С‚СЊ РІСЃРµ 'pszTrim' СЃРїСЂР°РІР°
 	void TrimRight( std::string &szString, const char *pszTrim );
-	// отрезать все 'cTrim' справа
+	// РѕС‚СЂРµР·Р°С‚СЊ РІСЃРµ 'cTrim' СЃРїСЂР°РІР°
 	void TrimRight( std::string &szString, const char cTrim );   
-	// отрезать все whitespaces справа
+	// РѕС‚СЂРµР·Р°С‚СЊ РІСЃРµ whitespaces СЃРїСЂР°РІР°
   inline void TrimRight( std::string &szString ) { TrimRight(szString, " \t\n\r"); }
-	// отрезать все 'pszTrim' с обоих концов
+	// РѕС‚СЂРµР·Р°С‚СЊ РІСЃРµ 'pszTrim' СЃ РѕР±РѕРёС… РєРѕРЅС†РѕРІ
 	inline void TrimBoth( std::string &szString, const char *pszTrim ) { TrimLeft( szString, pszTrim ); TrimRight( szString, pszTrim ); }
-	// отрезать все 'cTrim' с обоих концов
+	// РѕС‚СЂРµР·Р°С‚СЊ РІСЃРµ 'cTrim' СЃ РѕР±РѕРёС… РєРѕРЅС†РѕРІ
 	inline void TrimBoth( std::string &szString, const char cTrim ) { TrimLeft( szString, cTrim ); TrimRight( szString, cTrim ); }
-	// отрезать все whitespaces с обоих концов
+	// РѕС‚СЂРµР·Р°С‚СЊ РІСЃРµ whitespaces СЃ РѕР±РѕРёС… РєРѕРЅС†РѕРІ
   inline void TrimBoth( std::string &szString ) { TrimBoth(szString, " \t\n\r"); }
-	// вырезать все символы 'cTrim' из строки
+	// РІС‹СЂРµР·Р°С‚СЊ РІСЃРµ СЃРёРјРІРѕР»С‹ 'cTrim' РёР· СЃС‚СЂРѕРєРё
 	void TrimInside( std::string &szString, const char *pszTrim );
 	inline void TrimInside( std::string &szString, const char cTrim ) { szString.erase( std::remove(szString.begin(), szString.end(), cTrim), szString.end() ); }
   inline void TrimInside( std::string &szString ) { TrimInside(szString, " \t\n\r"); }
-	// привести к верхнему или нижнему регистру
+	// РїСЂРёРІРµСЃС‚Рё Рє РІРµСЂС…РЅРµРјСѓ РёР»Рё РЅРёР¶РЅРµРјСѓ СЂРµРіРёСЃС‚СЂСѓ
 	void ToLower( std::string &szString );
 	void ToUpper( std::string &szString );
-  // преобразовать целое в строку, разделяя каждые три знака (три порядка) специальным разделителем (default = '.')
+  // РїСЂРµРѕР±СЂР°Р·РѕРІР°С‚СЊ С†РµР»РѕРµ РІ СЃС‚СЂРѕРєСѓ, СЂР°Р·РґРµР»В¤В¤ РєР°Р¶РґС‹Рµ С‚СЂРё Р·РЅР°РєР° (С‚СЂРё РїРѕСЂВ¤РґРєР°) СЃРїРµС†РёР°Р»СЊРЅС‹Рј СЂР°Р·РґРµР»РёС‚РµР»РµРј (default = '.')
   void ToDotString( std::string *pDst, int nVal, const char cSeparator = '.' );
-	// является ли строка представлением числа
+	// В¤РІР»В¤РµС‚СЃВ¤ Р»Рё СЃС‚СЂРѕРєР° РїСЂРµРґСЃС‚Р°РІР»РµРЅРёРµРј С‡РёСЃР»Р°
 	inline bool IsBinDigit( const char cChar ) { return ( (cChar == '0') && (cChar == '1') ); }
 	inline bool IsOctDigit( const char cChar ) { return ( (cChar >= '0') && (cChar <= '7') ); }
 	inline bool IsDecDigit( const char cChar ) { return ( (cChar >= '0') && (cChar <= '9') ); }
@@ -108,11 +108,11 @@ namespace NStr
 	const char* BinToString( const void *pData, int nSize, char *pszBuffer );
 	// convert text, which represents hex data, to the binary. 2 bytes will be converted to 1
 	void* StringToBin( const char *pszData, void *pBuffer, int *pnSize );
-	// форматирование строки как в sprintf. 
+	// С„РѕСЂРјР°С‚РёСЂРѕРІР°РЅРёРµ СЃС‚СЂРѕРєРё РєР°Рє РІ sprintf. 
 	// NON-REENTRANT!!! Uses internal static buffer. Max string length = 2048 chars
-	// я знаю, что non-reentrant функции это плохо, но для данного случая это ОЧЕНЬ удобно
+	// В¤ Р·РЅР°СЋ, С‡С‚Рѕ non-reentrant С„СѓРЅРєС†РёРё СЌС‚Рѕ РїР»РѕС…Рѕ, РЅРѕ РґР»В¤ РґР°РЅРЅРѕРіРѕ СЃР»СѓС‡Р°В¤ СЌС‚Рѕ СњвЂћв‰€РЊв„– СѓРґРѕР±РЅРѕ
 	const char* __cdecl Format( const char *pszFormat, ... );
-	// форматированный вывод ч/з OutputDebugString
+	// С„РѕСЂРјР°С‚РёСЂРѕРІР°РЅРЅС‹Р№ РІС‹РІРѕРґ С‡/Р· OutputDebugString
 	void __cdecl DebugTrace( const char *pszFormat, ... );
 	//
 	// default separator functor for CStringIterator

@@ -182,19 +182,19 @@ struct SGFXRect2
 		: rect( rect.rect ), maps( rect.maps ), color( rect.color ), specular( rect.specular ), fZ( rect.fZ ) {  }
 };
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// базовая структурка для источника света
+// Р±Р°Р·РѕРІР°В¤ СЃС‚СЂСѓРєС‚СѓСЂРєР° РґР»В¤ РёСЃС‚РѕС‡РЅРёРєР° СЃРІРµС‚Р°
 struct SGFXLightBase
 {
 	CVec4 vDiffuse;												// diffuse color emitted by the light
 	CVec4 vSpecular;											// specular color emitted by the light
 	CVec4 vAmbient;												// ambient color emitted by the light
 };
-// направленный незатухающий источник света (aka Directional Light)
+// РЅР°РїСЂР°РІР»РµРЅРЅС‹Р№ РЅРµР·Р°С‚СѓС…Р°СЋС‰РёР№ РёСЃС‚РѕС‡РЅРёРє СЃРІРµС‚Р° (aka Directional Light)
 struct SGFXLightDirectional : public SGFXLightBase
 {
 	CVec3 vDir;														// direction that the light is pointing in world space
 };
-// точечный источник света (aka Point Light)
+// С‚РѕС‡РµС‡РЅС‹Р№ РёСЃС‚РѕС‡РЅРёРє СЃРІРµС‚Р° (aka Point Light)
 struct SGFXLightPoint : public SGFXLightBase
 {
 	CVec3 vPos;														// position of the light in world space
@@ -203,12 +203,12 @@ struct SGFXLightPoint : public SGFXLightBase
 	float fAttenuation1;									// A = 1 / ( A0 + D*A1 + D*D*A2 )
 	float fAttenuation2;									//
 };
-// конусовидный источник света (aka Spot Light)
+// РєРѕРЅСѓСЃРѕРІРёРґРЅС‹Р№ РёСЃС‚РѕС‡РЅРёРє СЃРІРµС‚Р° (aka Spot Light)
 struct SGFXLightSpot : public SGFXLightPoint
 {
 	CVec3 vDir;														// direction that the light is pointing in world space
 	float fFalloff;												// decrease in illumination between a spotlight's inner cone (the angle specified by 'fTheta') and the outer edge of the outer cone (the angle specified by 'fPhi')
-	float fTheta;													// angle, in radians, of a spotlight's inner cone—that is, the fully illuminated spotlight cone
+	float fTheta;													// angle, in radians, of a spotlight's inner coneР§that is, the fully illuminated spotlight cone
 	float fPhi;														// angle, in radians, defining the outer edge of the spotlight's outer cone
 };
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -182,13 +182,13 @@ void CSpriteFrame::ClickOnThumbList( int nID )
 {
 	if ( nID == ID_ALL_DIR_THUMB_ITEMS )
 	{
-		//Выделяем в дереве текущую директорию с анимациями
+		//Р’С‹РґРµР»СЏРµРј РІ РґРµСЂРµРІРµ С‚РµРєСѓС‰СѓСЋ РґРёСЂРµРєС‚РѕСЂРёСЋ СЃ Р°РЅРёРјР°С†РёСЏРјРё
 		if ( m_pActiveSpritesItem )
 			m_pActiveSpritesItem->SelectMeInTheTree();
 	}
 	else if ( nID == ID_SELECTED_THUMB_ITEMS )
 	{
-		//Выделяем в дереве item с user data в selected thumb list
+		//Р’С‹РґРµР»СЏРµРј РІ РґРµСЂРµРІРµ item СЃ user data РІ selected thumb list
 		int nSel = m_wndSelectedThumbItems.GetSelectedItemIndex();
 		if ( nSel == -1 )
 			return;
@@ -202,7 +202,7 @@ void CSpriteFrame::DoubleClickOnThumbList( int nID )
 {
 	if ( nID == ID_ALL_DIR_THUMB_ITEMS )
 	{
-		//Добавляем новый элемент в текущую Animations диру дерева и в список накиданных frame
+		//Р”РѕР±Р°РІР»СЏРµРј РЅРѕРІС‹Р№ СЌР»РµРјРµРЅС‚ РІ С‚РµРєСѓС‰СѓСЋ Animations РґРёСЂСѓ РґРµСЂРµРІР° Рё РІ СЃРїРёСЃРѕРє РЅР°РєРёРґР°РЅРЅС‹С… frame
 		if ( !m_pActiveSpritesItem )
 			return;
 		SetChangedFlag( true );
@@ -218,7 +218,7 @@ void CSpriteFrame::DoubleClickOnThumbList( int nID )
 //		int nNewItemIndex = m_wndSelectedThumbItems.InsertItemAfterSelection( szFileName, m_pActiveSpritesItem->GetDirName() );
 		NI_ASSERT( nNewItemIndex != -1 );
 		
-		//Добавляем sprite в дерево в m_pActiveSpritesItem
+		//Р”РѕР±Р°РІР»СЏРµРј sprite РІ РґРµСЂРµРІРѕ РІ m_pActiveSpritesItem
 		CSpritePropsItem *pSprite = new CSpritePropsItem();
 		pSprite->SetItemName( szItemName.c_str() );
 		m_pActiveSpritesItem->AddChild( pSprite );
@@ -250,22 +250,22 @@ void CSpriteFrame::DeleteFrameInTree( int nID )
 	SetChangedFlag( true );
 	bComposed = false;
 	
-	//Находим выделенный элемент
+	//РќР°С…РѕРґРёРј РІС‹РґРµР»РµРЅРЅС‹Р№ СЌР»РµРјРµРЅС‚
 	int nSel = m_wndSelectedThumbItems.GetSelectedItemIndex();
 	if ( nSel == -1 )
 		return;
 	DWORD dwData = m_wndSelectedThumbItems.GetUserDataForItem( nSel );
 	ASSERT( dwData != 0 );
 	
-	//Удаляем frame из дерева
+	//РЈРґР°Р»СЏРµРј frame РёР· РґРµСЂРµРІР°
 	CTreeItem *pFrame = (CTreeItem *) dwData;
 	NI_ASSERT( pFrame->GetItemType() == E_SPRITE_PROPS_ITEM );
 	pFrame->DeleteMeInParentTreeItem();
 	
-	//Выделяем следующий элемент в списке
+	//Р’С‹РґРµР»СЏРµРј СЃР»РµРґСѓСЋС‰РёР№ СЌР»РµРјРµРЅС‚ РІ СЃРїРёСЃРєРµ
 	m_wndSelectedThumbItems.SelectItem( nSel + 1 );
 	
-	//Удаляем элемент в списке
+	//РЈРґР°Р»СЏРµРј СЌР»РµРјРµРЅС‚ РІ СЃРїРёСЃРєРµ
 	m_wndSelectedThumbItems.DeleteItem( nSel );
 }
 
@@ -273,11 +273,11 @@ void CSpriteFrame::SpecificInit()
 {
 	SpecificClearBeforeBatchMode();
 
-	//Устанавливаем первый child в качестве m_pActiveSpritesItem
+	//РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј РїРµСЂРІС‹Р№ child РІ РєР°С‡РµСЃС‚РІРµ m_pActiveSpritesItem
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
 	CTreeItem *pRoot = pTree->GetRootItem();
 	CSpritesItem *pSpritesItem = static_cast<CSpritesItem *> ( pRoot->GetBegin()->GetPtr() );
-	SetActiveSpritesItem( pSpritesItem );			//прогружаем все items из директории
+	SetActiveSpritesItem( pSpritesItem );			//РїСЂРѕРіСЂСѓР¶Р°РµРј РІСЃРµ items РёР· РґРёСЂРµРєС‚РѕСЂРёРё
 }
 
 void CSpriteFrame::SpecificClearBeforeBatchMode()
@@ -305,13 +305,13 @@ void CSpriteFrame::OnRunButton()
 		return;
 	bRunning = !bRunning;
 
-	//Скрываем Thumb окошки и показываем Game окно
+	//РЎРєСЂС‹РІР°РµРј Thumb РѕРєРѕС€РєРё Рё РїРѕРєР°Р·С‹РІР°РµРј Game РѕРєРЅРѕ
 	g_frameManager.GetGameWnd()->ShowWindow( SW_SHOW );
 	m_wndAllDirThumbItems.ShowWindow( SW_HIDE );
 	m_wndSelectedThumbItems.ShowWindow( SW_HIDE );
 
 
-	//Получаем имена для всех анимаций
+	//РџРѕР»СѓС‡Р°РµРј РёРјРµРЅР° РґР»СЏ РІСЃРµС… Р°РЅРёРјР°С†РёР№
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
 	NI_ASSERT( pTree != 0 );
 	CTreeItem *pRootItem = pTree->GetRootItem();
@@ -321,7 +321,7 @@ void CSpriteFrame::OnRunButton()
 	CTreeItem *pSpritesItem = pRootItem->GetChildItem( E_SPRITES_ITEM );
 	NI_ASSERT( pSpritesItem != 0 );
 	if ( pSpritesItem->GetChildsCount() == 0 )
-		return;				//нечего отображать
+		return;				//РЅРµС‡РµРіРѕ РѕС‚РѕР±СЂР°Р¶Р°С‚СЊ
 
 	// create vis obj
 	IVisObjBuilder *pVOB = GetSingleton<IVisObjBuilder>();
@@ -345,12 +345,12 @@ void CSpriteFrame::OnStopButton()
 
 	bRunning = !bRunning;
 
-	//Скрываем Game окно и показываем Thumb окошки
+	//РЎРєСЂС‹РІР°РµРј Game РѕРєРЅРѕ Рё РїРѕРєР°Р·С‹РІР°РµРј Thumb РѕРєРѕС€РєРё
 	g_frameManager.GetGameWnd()->ShowWindow( SW_HIDE );
 	m_wndAllDirThumbItems.ShowWindow( SW_SHOW );
 	m_wndSelectedThumbItems.ShowWindow( SW_SHOW );
 
-	// Удаляем объекты созданные в OnRunButton() из SceneGraph
+	// РЈРґР°Р»СЏРµРј РѕР±СЉРµРєС‚С‹ СЃРѕР·РґР°РЅРЅС‹Рµ РІ OnRunButton() РёР· SceneGraph
 	IScene *pSG = GetSingleton<IScene>();
 	pSG->Clear();
 }
@@ -358,7 +358,7 @@ void CSpriteFrame::OnStopButton()
 void CSpriteFrame::OnUpdateRunButton(CCmdUI* pCmdUI) 
 {
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
-	if ( pTree == 0 )			//Если проект не был создан
+	if ( pTree == 0 )			//Р•СЃР»Рё РїСЂРѕРµРєС‚ РЅРµ Р±С‹Р» СЃРѕР·РґР°РЅ
 	{
 		pCmdUI->Enable( false );
 		return;
@@ -384,7 +384,7 @@ void CSpriteFrame::ComposeAnimations()
 	
 	BeginWaitCursor();
 	
-	//Составляем один большой .tga, пользуясь данными всех анимаций
+	//РЎРѕСЃС‚Р°РІР»СЏРµРј РѕРґРёРЅ Р±РѕР»СЊС€РѕР№ .tga, РїРѕР»СЊР·СѓСЏСЃСЊ РґР°РЅРЅС‹РјРё РІСЃРµС… Р°РЅРёРјР°С†РёР№
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
 	NI_ASSERT( pTree != 0 );
 	
@@ -406,7 +406,7 @@ void CSpriteFrame::ActiveDirNameChanged()
 
 	if ( m_pActiveSpritesItem )
 	{
-		//так как директория задается относительно, здесь я должен собрать полный путь
+		//С‚Р°Рє РєР°Рє РґРёСЂРµРєС‚РѕСЂРёСЏ Р·Р°РґР°РµС‚СЃСЏ РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕ, Р·РґРµСЃСЊ СЏ РґРѕР»Р¶РµРЅ СЃРѕР±СЂР°С‚СЊ РїРѕР»РЅС‹Р№ РїСѓС‚СЊ
 		string szDir = GetDirectory( szProjectFileName.c_str() );
 		string szFull;
 		bool bRes = MakeFullPath( szDir.c_str(), m_pActiveSpritesItem->GetDirName(), szFull );
@@ -434,7 +434,7 @@ void CSpriteFrame::SetActiveSpritesItem( CSpritesItem *pSpritesItem )
 
 		if ( !m_pActiveSpritesItem->GetLoadedFlag() )
 		{
-			//Сперва загружаем невалидную иконку, она всегда будет под индексом 0
+			//РЎРїРµСЂРІР° Р·Р°РіСЂСѓР¶Р°РµРј РЅРµРІР°Р»РёРґРЅСѓСЋ РёРєРѕРЅРєСѓ, РѕРЅР° РІСЃРµРіРґР° Р±СѓРґРµС‚ РїРѕРґ РёРЅРґРµРєСЃРѕРј 0
 			string szEditorDataDir = theApp.GetEditorDataDir();
 			szEditorDataDir += "editor\\";
 
@@ -447,7 +447,7 @@ void CSpriteFrame::SetActiveSpritesItem( CSpritesItem *pSpritesItem )
 			m_wndSelectedThumbItems.LoadImageIndexFromThumbs( m_pActiveSpritesItem->GetAllThumbItems(), m_pActiveSpritesItem->GetImageList() );
 
 
-			//Привязываем items в списке к items в дереве
+			//РџСЂРёРІСЏР·С‹РІР°РµРј items РІ СЃРїРёСЃРєРµ Рє items РІ РґРµСЂРµРІРµ
 			NI_ASSERT( m_wndSelectedThumbItems.GetThumbsCount() == m_pActiveSpritesItem->GetChildsCount() );
 			CTreeItem::CTreeItemList::const_iterator it;
 			int i = 0;
@@ -502,7 +502,7 @@ FILETIME CSpriteFrame::FindMinimalExportFileTime( const char *pszResultFileName,
 	FILETIME minTime, current;
 	string szDestDir = GetDirectory( pszResultFileName );
 	
-	//Найдем время создания 1.san файла
+	//РќР°Р№РґРµРј РІСЂРµРјСЏ СЃРѕР·РґР°РЅРёСЏ 1.san С„Р°Р№Р»Р°
 	string szTempFileName = szDestDir;
 	szTempFileName += "1.san";
 	current = GetFileChangeTime( szTempFileName.c_str() );

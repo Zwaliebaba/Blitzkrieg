@@ -8,7 +8,7 @@ class CUIMessageBox : public CMultipleWindow
 {
 	DECLARE_SERIALIZE;
 
-	CUIButton *pOK;				//инициализируется во время загрузки и используется для ускорения доступа к компонентам
+	CUIButton *pOK;				//РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµС‚СЃСЏ РІРѕ РІСЂРµРјСЏ Р·Р°РіСЂСѓР·РєРё Рё РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РґР»СЏ СѓСЃРєРѕСЂРµРЅРёСЏ РґРѕСЃС‚СѓРїР° Рє РєРѕРјРїРѕРЅРµРЅС‚Р°Рј
 	CUIButton *pCancel;
 	CUIStatic *pText;
 	int m_nResult;

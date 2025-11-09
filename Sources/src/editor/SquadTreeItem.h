@@ -24,12 +24,12 @@ public:
 	CSquadCommonPropsItem() { nItemType = E_SQUAD_COMMON_PROPS_ITEM; InitDefaultValues(); nImageIndex = 0; }
 	~CSquadCommonPropsItem() {};
 	
-	//Получение внутренних параметров
+	//С•РѕР»СѓС‡РµРЅРёРµ РІРЅСѓС‚СЂРµРЅРЅРёС… РїР°СЂР°РјРµС‚СЂРѕРІ
 	const char* GetSquadName() { return values[0].value; }
 	const char* GetSquadPicture() { return values[1].value; }
 	int GetSquadType();
 	
-	//Установка внутренних параметров
+	//вЂќСЃС‚Р°РЅРѕРІРєР° РІРЅСѓС‚СЂРµРЅРЅРёС… РїР°СЂР°РјРµС‚СЂРѕРІ
 //	void SetSquadName( const char *pszName ) { values[0].value = pszName; }
 
 	virtual void InitDefaultValues();
@@ -54,9 +54,9 @@ public:
 	CSquadMemberPropsItem() { bStaticElements = true; nItemType = E_SQUAD_MEMBER_PROPS_ITEM; InitDefaultValues(); nImageIndex = 3; }
 	~CSquadMemberPropsItem() {};
 	
-	//Получение внутренних параметров
+	//С•РѕР»СѓС‡РµРЅРёРµ РІРЅСѓС‚СЂРµРЅРЅРёС… РїР°СЂР°РјРµС‚СЂРѕРІ
 	
-	//Установка внутренних параметров
+	//вЂќСЃС‚Р°РЅРѕРІРєР° РІРЅСѓС‚СЂРµРЅРЅРёС… РїР°СЂР°РјРµС‚СЂРѕРІ
 	
 	virtual void InitDefaultValues();
 	virtual void UpdateItemValue( int nItemId, const CVariant &value );
@@ -84,7 +84,7 @@ class CSquadFormationPropsItem : public CTreeItem
 public:
 	struct SUnit
 	{
-		CVec3 vPos;			// 3d позиция отдельного юнита
+		CVec3 vPos;			// 3d РїРѕР·РёС†РёВ¤ РѕС‚РґРµР»СЊРЅРѕРіРѕ СЋРЅРёС‚Р°
 		float fDir;
 		CTreeItem *pMemberProps;
 		IObjVisObj *pSprite;
@@ -95,8 +95,8 @@ public:
 	typedef list<SUnit> CUnitsList;
 	CUnitsList units;
 
-	CVec3 vZeroPos;					//координата центра формации, вернее координата левого верхнего края текстуры креста, отстой
-	float fFormationDir;		//направление формации
+	CVec3 vZeroPos;					//РєРѕРѕСЂРґРёРЅР°С‚Р° С†РµРЅС‚СЂР° С„РѕСЂРјР°С†РёРё, РІРµСЂРЅРµРµ РєРѕРѕСЂРґРёРЅР°С‚Р° Р»РµРІРѕРіРѕ РІРµСЂС…РЅРµРіРѕ РєСЂР°В¤ С‚РµРєСЃС‚СѓСЂС‹ РєСЂРµСЃС‚Р°, РѕС‚СЃС‚РѕР№
+	float fFormationDir;		//РЅР°РїСЂР°РІР»РµРЅРёРµ С„РѕСЂРјР°С†РёРё
 
 public:
 	CSquadFormationPropsItem() : fFormationDir( 0 ), vZeroPos( CVec3(16*fWorldCellSize, 8*fWorldCellSize, 0) ) { bStaticElements = true; nItemType = E_SQUAD_FORMATION_PROPS_ITEM; InitDefaultValues(); nImageIndex = 0; }
@@ -106,7 +106,7 @@ public:
 	void DeleteUnit( CTreeItem *pUnit );
 	void SetUnitPointer( int nIndex, CTreeItem *pUnit );
 	
-	//Получение внутренних параметров
+	//С•РѕР»СѓС‡РµРЅРёРµ РІРЅСѓС‚СЂРµРЅРЅРёС… РїР°СЂР°РјРµС‚СЂРѕРІ
 	int GetFormationType();
 	int GetHitSwitchFormation() { return values[1].value; }
 	int GetLieState();
@@ -117,7 +117,7 @@ public:
 	float GetCoverBonus() { return values[7].value; }
 	float GetVisibleBonus() { return values[8].value; }
 	
-	//Установка внутренних параметров
+	//вЂќСЃС‚Р°РЅРѕРІРєР° РІРЅСѓС‚СЂРµРЅРЅРёС… РїР°СЂР°РјРµС‚СЂРѕРІ
 	
 	virtual int operator&( IDataTree &ss );
 	virtual void InitDefaultValues();

@@ -43,7 +43,7 @@ void CRoadDrawState::Leave()
 {
 	if ( CTemplateEditorFrame *frame = g_frameManager.GetTemplateEditorFrame() )
 	{
-		// удалим tmp мост
+		// СѓРґР°Р»РёРј tmp РјРѕСЃС‚
 		if ( GetSingleton<IAIEditor>() != 0 )
 		{
 			if ( tmpSpan )
@@ -136,14 +136,14 @@ template <class Fn>
 bool a_dirLine(long X1, long Y1, long X2, long Y2, Fn &pixf)
 {
 	long t,e,DeltaX,DeltaY,dirX,dirY,denom;
-	// Определение направления по Y
+	// РћРїСЂРµРґРµР»РµРЅРёРµ РЅР°РїСЂР°РІР»РµРЅРёСЏ РїРѕ Y
 	dirY = 1;
 	DeltaY = Y2-Y1;
 	if (DeltaY<0) {
 		dirY = -1;
 		DeltaY = -DeltaY;
 	}
-	// Определение направления по X
+	// РћРїСЂРµРґРµР»РµРЅРёРµ РЅР°РїСЂР°РІР»РµРЅРёСЏ РїРѕ X
 	dirX = 1;
 	DeltaX = X2-X1;
 	if (DeltaX<0) {
@@ -151,7 +151,7 @@ bool a_dirLine(long X1, long Y1, long X2, long Y2, Fn &pixf)
 		DeltaX = -DeltaX;
 	}
 	if (DeltaX==0) {
-		// Вертикальная линия
+		// Р’РµСЂС‚РёРєР°Р»СЊРЅР°СЏ Р»РёРЅРёСЏ
 		for (;;) {
 			if (!pixf(X1,Y1)) return false;
 			if (Y1==Y2) return true;
@@ -159,7 +159,7 @@ bool a_dirLine(long X1, long Y1, long X2, long Y2, Fn &pixf)
 		}
 	}
 	if (DeltaY==0) {
-		// Горизонтальная линия 
+		// Р“РѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅР°СЏ Р»РёРЅРёСЏ 
 		for (;;) {
 			if (!pixf(X1,Y1)) return false;
 			if (X1==X2) return true;
@@ -263,8 +263,8 @@ float GetLineAngle( const CVec2 &vBegin, const CVec2 &vEnd )
 		fAngle = FP_2PI - fAngle;
 	return fAngle;
 }
-//ширина секции 
-float GetTrenchWidth( int nType )// 0 - секция , 1 - поворот
+//С€РёСЂРёРЅР° СЃРµРєС†РёРё 
+float GetTrenchWidth( int nType )// 0 - СЃРµРєС†РёСЏ , 1 - РїРѕРІРѕСЂРѕС‚
 {
 	IObjectsDB *pGDB = GetSingleton<IObjectsDB>();
 	const SGDBObjectDesc *pDesc = pGDB->GetDesc( "Entrenchment" );
@@ -277,7 +277,7 @@ float GetTrenchWidth( int nType )// 0 - секция , 1 - поворот
 
 	return pRPG->segments[nFrameIndex].GetVisAABBHalfSize().x * 2;
 }
-// даем две точки а она строит прямую из кусочков одинаковой длины
+// РґР°РµРј РґРІРµ С‚РѕС‡РєРё Р° РѕРЅР° СЃС‚СЂРѕРёС‚ РїСЂСЏРјСѓСЋ РёР· РєСѓСЃРѕС‡РєРѕРІ РѕРґРёРЅР°РєРѕРІРѕР№ РґР»РёРЅС‹
 std::vector<GPoint> SplitLineToSegrments( CVec2 vBegin, CVec2 vEnd, float TRENCHWIDTH )
 {
 	GPoint currentPoint = GPoint( vBegin.x, vBegin.y) ;
@@ -314,8 +314,8 @@ std::vector<GPoint> SplitLineToSegrments( CVec2 vBegin, CVec2 vEnd, float TRENCH
 
 class CConnector
 {
-	float m_beginDir; //начальный угол
-	float m_endDir;		//конечный угол 
+	float m_beginDir; //РЅР°С‡Р°Р»СЊРЅС‹Р№ СѓРіРѕР»
+	float m_endDir;		//РєРѕРЅРµС‡РЅС‹Р№ СѓРіРѕР» 
 public:
 	std::vector<GPoint> m_points;
 	
@@ -324,14 +324,14 @@ public:
 		float SEGMENTLENGHT = GetTrenchWidth( 1 );
 		if ( fabs( endAngle - beginAngle) < ( FP_PI / 6.0f ) )
 		{
-			// случай когда конектор будет пустым 
+			// СЃР»СѓС‡Р°Р№ РєРѕРіРґР° РєРѕРЅРµРєС‚РѕСЂ Р±СѓРґРµС‚ РїСѓСЃС‚С‹Рј 
 		}
 		else 
 		{
 			std::vector<GPoint> m_pointsAntiClockWise;
 			std::vector<GPoint> m_pointsClockWise;
 			
-			{// по часовой стрелке будем достраивать кусочки
+			{// РїРѕ С‡Р°СЃРѕРІРѕР№ СЃС‚СЂРµР»РєРµ Р±СѓРґРµРј РґРѕСЃС‚СЂР°РёРІР°С‚СЊ РєСѓСЃРѕС‡РєРё
 				CAngle tempAngle = beginAngle ;
 				while ( fabs( endAngle - tempAngle ) > ( FP_PI / 6.0f ) )
 				{
@@ -347,15 +347,15 @@ public:
 
 					p.x = SEGMENTLENGHT * cos ( tempAngle );
 					p.y = SEGMENTLENGHT * sin ( tempAngle );
-					// после поворота очередного сегмента коннектора надо надо его подвунуть
+					// РїРѕСЃР»Рµ РїРѕРІРѕСЂРѕС‚Р° РѕС‡РµСЂРµРґРЅРѕРіРѕ СЃРµРіРјРµРЅС‚Р° РєРѕРЅРЅРµРєС‚РѕСЂР° РЅР°РґРѕ РЅР°РґРѕ РµРіРѕ РїРѕРґРІСѓРЅСѓС‚СЊ
 					if ( !m_pointsClockWise.size() )
-						p += begPos; // для первого сегмента коннектора в начальную точку
+						p += begPos; // РґР»СЏ РїРµСЂРІРѕРіРѕ СЃРµРіРјРµРЅС‚Р° РєРѕРЅРЅРµРєС‚РѕСЂР° РІ РЅР°С‡Р°Р»СЊРЅСѓСЋ С‚РѕС‡РєСѓ
 					else
-						p += m_pointsClockWise[ m_pointsClockWise.size() - 1 ] ; // для всех последующих надо двигать к предудущей точке
+						p += m_pointsClockWise[ m_pointsClockWise.size() - 1 ] ; // РґР»СЏ РІСЃРµС… РїРѕСЃР»РµРґСѓСЋС‰РёС… РЅР°РґРѕ РґРІРёРіР°С‚СЊ Рє РїСЂРµРґСѓРґСѓС‰РµР№ С‚РѕС‡РєРµ
 					m_pointsClockWise.push_back( p );					
 				}			
 			}
-			{// против  часовой стрелки будем достраивать кусочки
+			{// РїСЂРѕС‚РёРІ  С‡Р°СЃРѕРІРѕР№ СЃС‚СЂРµР»РєРё Р±СѓРґРµРј РґРѕСЃС‚СЂР°РёРІР°С‚СЊ РєСѓСЃРѕС‡РєРё
 				CAngle tempAngle = beginAngle ;
 				while ( fabs( endAngle - tempAngle ) > ( FP_PI / 6.0f ) )
 				{
@@ -371,11 +371,11 @@ public:
 
 					p.x = SEGMENTLENGHT * cos ( tempAngle );
 					p.y = SEGMENTLENGHT * sin ( tempAngle );
-					// после поворота очередного сегмента коннектора надо надо его подвинуть
+					// РїРѕСЃР»Рµ РїРѕРІРѕСЂРѕС‚Р° РѕС‡РµСЂРµРґРЅРѕРіРѕ СЃРµРіРјРµРЅС‚Р° РєРѕРЅРЅРµРєС‚РѕСЂР° РЅР°РґРѕ РЅР°РґРѕ РµРіРѕ РїРѕРґРІРёРЅСѓС‚СЊ
 					if ( !m_pointsAntiClockWise.size() )
-						p += begPos; // для первого сегмента коннектора в начальную точку
+						p += begPos; // РґР»СЏ РїРµСЂРІРѕРіРѕ СЃРµРіРјРµРЅС‚Р° РєРѕРЅРЅРµРєС‚РѕСЂР° РІ РЅР°С‡Р°Р»СЊРЅСѓСЋ С‚РѕС‡РєСѓ
 					else
-						p += m_pointsAntiClockWise[ m_pointsAntiClockWise.size() - 1 ] ; // для всех последующих надо двигать к предудущей точке
+						p += m_pointsAntiClockWise[ m_pointsAntiClockWise.size() - 1 ] ; // РґР»СЏ РІСЃРµС… РїРѕСЃР»РµРґСѓСЋС‰РёС… РЅР°РґРѕ РґРІРёРіР°С‚СЊ Рє РїСЂРµРґСѓРґСѓС‰РµР№ С‚РѕС‡РєРµ
 					m_pointsAntiClockWise.push_back( p );  
 					
 				}
@@ -419,8 +419,8 @@ bool IsPointInPolygon( const CVec3 *points, const int *indices, const int nNumIn
 /**/
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//на конце должна быть одна лишняя точка - точка равная точке 0
-//всего NumPoints + 1 точек
+//РЅР° РєРѕРЅС†Рµ РґРѕР»Р¶РЅР° Р±С‹С‚СЊ РѕРґРЅР° Р»РёС€РЅСЏСЏ С‚РѕС‡РєР° - С‚РѕС‡РєР° СЂР°РІРЅР°СЏ С‚РѕС‡РєРµ 0
+//РІСЃРµРіРѕ NumPoints + 1 С‚РѕС‡РµРє
 /**
 bool IsPointInSimplePolygonEdge( const std::vector<CVec2> &points, const int nNumPoints, const CVec2 &vPoint, float fEdge )
 {
@@ -502,10 +502,10 @@ int  GetTrenchIndex( IVisObj* obj, CTemplateEditorFrame* frame )
 	IRefCount *pTmp = frame->FindByVis( obj )->pAIObj;
 	for( int i = 0; i !=  frame->m_entrenchmentsAI.size() ; ++i )
 	{
-			// проходимся по i - ому окопу ( т.е по его сегментам  )
+			// РїСЂРѕС…РѕРґРёРјСЃСЏ РїРѕ i - РѕРјСѓ РѕРєРѕРїСѓ ( С‚.Рµ РїРѕ РµРіРѕ СЃРµРіРјРµРЅС‚Р°Рј  )
 			for( int i2 = 0; i2 !=  frame->m_entrenchmentsAI[i].size(); ++i2 )
 			{
-				// теперь идем по сегменту т.е по частичкам 
+				// С‚РµРїРµСЂСЊ РёРґРµРј РїРѕ СЃРµРіРјРµРЅС‚Сѓ С‚.Рµ РїРѕ С‡Р°СЃС‚РёС‡РєР°Рј 
 				for( int i3 = 0; i3 !=  frame->m_entrenchmentsAI[i][i2].size(); ++i3 )
 				{
 					if( pTmp == frame->m_entrenchmentsAI[i][i2][i3] )
@@ -544,7 +544,7 @@ void 	CRoadDrawState::OnMouseMove(UINT nFlags, const CTPoint<int> &rMousePoint, 
 	frame->m_lastPoint.y = v.y;
 
 	//---------------------------------------------------------------------
-	if( tmpSpan ) // удалим tmp мост 
+	if( tmpSpan ) // СѓРґР°Р»РёРј tmp РјРѕСЃС‚ 
 	{
 		GetSingleton<IAIEditor>()->DeleteObject( tmpSpan->pAIObj );	
 		IGameTimer *pTimer = GetSingleton<IGameTimer>();
@@ -555,7 +555,7 @@ void 	CRoadDrawState::OnMouseMove(UINT nFlags, const CTPoint<int> &rMousePoint, 
 	//----------------------------------------------------------------------
 	if ( nFlags & MK_LBUTTON )
 	{
-		// дороги, заборы, мосты  должны быть только в четырех направлениях
+		// РґРѕСЂРѕРіРё, Р·Р°Р±РѕСЂС‹, РјРѕСЃС‚С‹  РґРѕР»Р¶РЅС‹ Р±С‹С‚СЊ С‚РѕР»СЊРєРѕ РІ С‡РµС‚С‹СЂРµС… РЅР°РїСЂР°РІР»РµРЅРёСЏС…
 		if ( ( GetVToolsState( frame ) == roadStateConsts::nFence ) ||
 				 ( GetVToolsState( frame ) == roadStateConsts::nBridge ) )
 		{
@@ -578,7 +578,7 @@ void 	CRoadDrawState::OnMouseMove(UINT nFlags, const CTPoint<int> &rMousePoint, 
 			if ( ! ( terrainRect.contains( x1, y1 ) && terrainRect.contains( x2, y2 )
 				&& terrainRect.contains( x1 , y1 ) && terrainRect.contains( x2 , y2 ) ) 
 				)
-				// !!!Речки не должны клипатся по краю карты 
+				// !!!Р РµС‡РєРё РЅРµ РґРѕР»Р¶РЅС‹ РєР»РёРїР°С‚СЃСЏ РїРѕ РєСЂР°СЋ РєР°СЂС‚С‹ 
 			{ 
 				return;
 			}
@@ -590,7 +590,7 @@ void 	CRoadDrawState::OnMouseMove(UINT nFlags, const CTPoint<int> &rMousePoint, 
 				//?!?
 				if ( GetVToolsState( frame ) == roadStateConsts::nFence ) 
 				{
-					//вначале замочим все заборчики
+					//РІРЅР°С‡Р°Р»Рµ Р·Р°РјРѕС‡РёРј РІСЃРµ Р·Р°Р±РѕСЂС‡РёРєРё
 					if ( frame->m_currentFences.size() )		
 					{
 						for( std::vector<IVisObj*>::iterator it = frame->m_currentFences.begin(); it != frame->m_currentFences.end(); ++it )
@@ -600,7 +600,7 @@ void 	CRoadDrawState::OnMouseMove(UINT nFlags, const CTPoint<int> &rMousePoint, 
 						frame->m_currentFences.clear();
 					} 
 					
-					//для заборчиков надо строить по AI тайлам
+					//РґР»СЏ Р·Р°Р±РѕСЂС‡РёРєРѕРІ РЅР°РґРѕ СЃС‚СЂРѕРёС‚СЊ РїРѕ AI С‚Р°Р№Р»Р°Рј
 					APointHelper hlpFence;
 					int fenceX1,fenceX2,fenceY1,fenceY2;		
 					(dynamic_cast< ITerrainEditor* >(terra))->GetAITileIndex( CVec3( frame->m_firstPoint.x, frame->m_firstPoint.y, 0.0f ), &fenceX1, &fenceY1 );
@@ -613,7 +613,7 @@ void 	CRoadDrawState::OnMouseMove(UINT nFlags, const CTPoint<int> &rMousePoint, 
 					}
 					a_dirLine( fenceX1, fenceY1, fenceX2, fenceY2, hlpFence );
 					
-					// теперь мы будем  вдоль линии ставить заборчики  
+					// С‚РµРїРµСЂСЊ РјС‹ Р±СѓРґРµРј  РІРґРѕР»СЊ Р»РёРЅРёРё СЃС‚Р°РІРёС‚СЊ Р·Р°Р±РѕСЂС‡РёРєРё  
 					for ( std::vector<GPoint>::iterator it = hlpFence.m_points.begin(); it != hlpFence.m_points.end();   )
 					{
 						IObjectsDB *pGDB = GetSingleton<IObjectsDB>();
@@ -630,12 +630,12 @@ void 	CRoadDrawState::OnMouseMove(UINT nFlags, const CTPoint<int> &rMousePoint, 
 							pVisObj->SetPlacement( pos, 0 );
 							
 							ISpriteAnimation *pAnim = static_cast<ISpriteAnimation*>( static_cast<IObjVisObj*>( pVisObj )->GetAnimation() );
-							//!?! Здесь надо ставить в зависимости от направления 
+							//!?! Р—РґРµСЃСЊ РЅР°РґРѕ СЃС‚Р°РІРёС‚СЊ РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ РЅР°РїСЂР°РІР»РµРЅРёСЏ 
 							if ( frame->GetCurrentDirection() == 1 )
 							{
 								int nAnimFrame = frame->m_firstPoint.x > frame->m_lastPoint.x ? pStats->GetCenterIndex( 1 ) : pStats->GetCenterIndex( 3 );
 								pAnim->SetFrameIndex( nAnimFrame );
-								// у второго направления надо изменить позицию
+								// Сѓ РІС‚РѕСЂРѕРіРѕ РЅР°РїСЂР°РІР»РµРЅРёСЏ РЅР°РґРѕ РёР·РјРµРЅРёС‚СЊ РїРѕР·РёС†РёСЋ
 								if ( frame->m_firstPoint.x < frame->m_lastPoint.x  )
 								{
 									CVec3 pos2(  ( it->x + 2 )* SAIConsts::TILE_SIZE, ( it->y )* SAIConsts::TILE_SIZE, 0 ); 
@@ -648,7 +648,7 @@ void 	CRoadDrawState::OnMouseMove(UINT nFlags, const CTPoint<int> &rMousePoint, 
 							{
 								int nAnimFrame = frame->m_firstPoint.y > frame->m_lastPoint.y ? pStats->GetCenterIndex( 0 ) :  pStats->GetCenterIndex( 2 ) ;
 								pAnim->SetFrameIndex( nAnimFrame );
-								// у второго направления надо изменить позицию
+								// Сѓ РІС‚РѕСЂРѕРіРѕ РЅР°РїСЂР°РІР»РµРЅРёСЏ РЅР°РґРѕ РёР·РјРµРЅРёС‚СЊ РїРѕР·РёС†РёСЋ
 								if ( frame->m_firstPoint.y > frame->m_lastPoint.y  )
 								{
 									CVec3 pos2(  ( ( it->x )  )* SAIConsts::TILE_SIZE, ( it->y - 2 )* SAIConsts::TILE_SIZE, 0 ); 
@@ -656,7 +656,7 @@ void 	CRoadDrawState::OnMouseMove(UINT nFlags, const CTPoint<int> &rMousePoint, 
 									pVisObj->SetPlacement( pos2, 0 );
 								}
 							}
-							// объект поставили теперь его надо правильно отфитить по Ai тайлам
+							// РѕР±СЉРµРєС‚ РїРѕСЃС‚Р°РІРёР»Рё С‚РµРїРµСЂСЊ РµРіРѕ РЅР°РґРѕ РїСЂР°РІРёР»СЊРЅРѕ РѕС‚С„РёС‚РёС‚СЊ РїРѕ Ai С‚Р°Р№Р»Р°Рј
 							CVec3 vTmpPos = pVisObj->GetPosition();
 							FitVisOrigin2AIGrid( &vTmpPos, pStats->GetOrigin( pAnim->GetFrameIndex() ) );	
 							CVSOBuilder::UpdateZ( terrainInfo.altitudes, &vTmpPos );
@@ -672,12 +672,12 @@ void 	CRoadDrawState::OnMouseMove(UINT nFlags, const CTPoint<int> &rMousePoint, 
 				}
 				//?!?
 				//-------------------------------------------------------------------------
-				//  Мосты  
+				//  РњРѕСЃС‚С‹  
 				//-------------------------------------------------------------------------
 
 				if ( GetVToolsState( frame ) == roadStateConsts::nBridge ) 
 				{
-					//вначале замочим все секции мостов 
+					//РІРЅР°С‡Р°Р»Рµ Р·Р°РјРѕС‡РёРј РІСЃРµ СЃРµРєС†РёРё РјРѕСЃС‚РѕРІ 
 					if( tmpSpan )
 					{	
 						GetSingleton<IAIEditor>()->DeleteObject( tmpSpan->pAIObj );				
@@ -725,7 +725,7 @@ void 	CRoadDrawState::OnMouseMove(UINT nFlags, const CTPoint<int> &rMousePoint, 
 	}
 
 	//---------------------------------------------------------------------------------------------
-	// для окопов
+	// РґР»СЏ РѕРєРѕРїРѕРІ
 	//---------------------------------------------------------------------------------------------
 	if ( /*frame->m_ifMouseDown && */GetVToolsState( frame ) == roadStateConsts::nTrench )
 	{
@@ -735,22 +735,22 @@ void 	CRoadDrawState::OnMouseMove(UINT nFlags, const CTPoint<int> &rMousePoint, 
 		{
 			DWORD connectorColor = 0xffffff00;
 			DWORD firstConnectorColor = 0xffff00ff;
-			// рисуем секции которые уже точно будут
+			// СЂРёСЃСѓРµРј СЃРµРєС†РёРё РєРѕС‚РѕСЂС‹Рµ СѓР¶Рµ С‚РѕС‡РЅРѕ Р±СѓРґСѓС‚
 			for( int i = 0; i != m_pointForTrench.size() - 1; ++i )
 			{
 				drawTool.DrawLine( CVec2( m_pointForTrench[i].x, m_pointForTrench[i].y ), CVec2( m_pointForTrench[i + 1].x, m_pointForTrench[i + 1].y ), color );
 			}
 			
-			//теперь надо нарисовать коннектор с кусочком
-			// посчитаем последний угол ( последний в цепи точек )
+			//С‚РµРїРµСЂСЊ РЅР°РґРѕ РЅР°СЂРёСЃРѕРІР°С‚СЊ РєРѕРЅРЅРµРєС‚РѕСЂ СЃ РєСѓСЃРѕС‡РєРѕРј
+			// РїРѕСЃС‡РёС‚Р°РµРј РїРѕСЃР»РµРґРЅРёР№ СѓРіРѕР» ( РїРѕСЃР»РµРґРЅРёР№ РІ С†РµРїРё С‚РѕС‡РµРє )
 			int lastIndex = m_pointForTrench.size() - 1;
 			CAngle fLastAngle = GetLineAngle( CVec2(m_pointForTrench[lastIndex - 1].x, m_pointForTrench[lastIndex - 1].y  )
 				,  CVec2(m_pointForTrench[lastIndex].x, m_pointForTrench[lastIndex].y  ));
-			//между мышкой и последней точкой цепи	
+			//РјРµР¶РґСѓ РјС‹С€РєРѕР№ Рё РїРѕСЃР»РµРґРЅРµР№ С‚РѕС‡РєРѕР№ С†РµРїРё	
 			CAngle fMouseAngle = GetLineAngle( CVec2(m_pointForTrench[lastIndex].x, m_pointForTrench[lastIndex ].y  )
 				,  CVec2( frame->m_lastPoint.x, frame->m_lastPoint.y  ) );
 			CConnector connector( GPoint( m_pointForTrench[lastIndex].x, m_pointForTrench[lastIndex ].y ), fLastAngle, fMouseAngle );	
-			if ( !connector.m_points.size() ) // если поворачивать не надо то берем последнее направление от m_pointForTrench  
+			if ( !connector.m_points.size() ) // РµСЃР»Рё РїРѕРІРѕСЂР°С‡РёРІР°С‚СЊ РЅРµ РЅР°РґРѕ С‚Рѕ Р±РµСЂРµРј РїРѕСЃР»РµРґРЅРµРµ РЅР°РїСЂР°РІР»РµРЅРёРµ РѕС‚ m_pointForTrench  
 			{
 				CVec2 vAddSegment;
 				vAddSegment.x = cos( fLastAngle ) * fabs( frame->m_lastPoint.x - frame->m_firstPoint.x, frame->m_lastPoint.y - frame->m_firstPoint.y );
@@ -758,7 +758,7 @@ void 	CRoadDrawState::OnMouseMove(UINT nFlags, const CTPoint<int> &rMousePoint, 
 				vAddSegment.x += m_pointForTrench[lastIndex].x;
 				vAddSegment.y += m_pointForTrench[lastIndex].y;
 
-				//в этом напрвлении(fLastAngle- последнем  ) приделаем сегмент( а также нарисуем его ) 
+				//РІ СЌС‚РѕРј РЅР°РїСЂРІР»РµРЅРёРё(fLastAngle- РїРѕСЃР»РµРґРЅРµРј  ) РїСЂРёРґРµР»Р°РµРј СЃРµРіРјРµРЅС‚( Р° С‚Р°РєР¶Рµ РЅР°СЂРёСЃСѓРµРј РµРіРѕ ) 
 				std::vector<GPoint> points = SplitLineToSegrments( CVec2( m_pointForTrench[lastIndex].x, m_pointForTrench[lastIndex].y ),
 					CVec2( vAddSegment.x, vAddSegment.y ), GetTrenchWidth( 0 ) );
 				if( points.size() )
@@ -769,10 +769,10 @@ void 	CRoadDrawState::OnMouseMove(UINT nFlags, const CTPoint<int> &rMousePoint, 
 					}
 				}
 			}
-			else // если же коннеткор не пуcт то надо взять напрвление от последней точки коннектора
-				// ну и соответсвенно нарисовать сам коннектор
+			else // РµСЃР»Рё Р¶Рµ РєРѕРЅРЅРµС‚РєРѕСЂ РЅРµ РїСѓcС‚ С‚Рѕ РЅР°РґРѕ РІР·СЏС‚СЊ РЅР°РїСЂРІР»РµРЅРёРµ РѕС‚ РїРѕСЃР»РµРґРЅРµР№ С‚РѕС‡РєРё РєРѕРЅРЅРµРєС‚РѕСЂР°
+				// РЅСѓ Рё СЃРѕРѕС‚РІРµС‚СЃРІРµРЅРЅРѕ РЅР°СЂРёСЃРѕРІР°С‚СЊ СЃР°Рј РєРѕРЅРЅРµРєС‚РѕСЂ
 			{	
-				//от  коннектора до мышки надо нарисовать линию( только надо посмотреть а надо ли это )
+				//РѕС‚  РєРѕРЅРЅРµРєС‚РѕСЂР° РґРѕ РјС‹С€РєРё РЅР°РґРѕ РЅР°СЂРёСЃРѕРІР°С‚СЊ Р»РёРЅРёСЋ( С‚РѕР»СЊРєРѕ РЅР°РґРѕ РїРѕСЃРјРѕС‚СЂРµС‚СЊ Р° РЅР°РґРѕ Р»Рё СЌС‚Рѕ )
 				int nLastConnectorIndex = connector.m_points.size() - 1;
 				if( fabs( frame->m_lastPoint.x - connector.m_points[0].x, frame->m_lastPoint.y - connector.m_points[0].y )
 					>= fabs( frame->m_lastPoint.x - connector.m_points[nLastConnectorIndex].x, frame->m_lastPoint.y - connector.m_points[nLastConnectorIndex].y ))
@@ -821,18 +821,18 @@ void 	CRoadDrawState::OnMouseMove(UINT nFlags, const CTPoint<int> &rMousePoint, 
 					}
 				}
 					
-				//сам коннектор 
+				//СЃР°Рј РєРѕРЅРЅРµРєС‚РѕСЂ 
 				for( int i = 0; i != connector.m_points.size() - 1; ++i )
 				{
 					drawTool.DrawLine( CVec2( connector.m_points[i].x, connector.m_points[i].y ), CVec2( connector.m_points[i + 1].x, connector.m_points[i + 1].y ), connectorColor );
 				}
-				// первый кусочек коннектора (т.е надо соединить коннеткор и последний сегмент )
+				// РїРµСЂРІС‹Р№ РєСѓСЃРѕС‡РµРє РєРѕРЅРЅРµРєС‚РѕСЂР° (С‚.Рµ РЅР°РґРѕ СЃРѕРµРґРёРЅРёС‚СЊ РєРѕРЅРЅРµС‚РєРѕСЂ Рё РїРѕСЃР»РµРґРЅРёР№ СЃРµРіРјРµРЅС‚ )
 				drawTool.DrawLine( CVec2( m_pointForTrench[lastIndex].x, m_pointForTrench[lastIndex].y ), CVec2( connector.m_points[0].x, connector.m_points[0].y ), firstConnectorColor );
 			}
 		}
 		else
 		{
-			//если еще нет то можем крутится в любом напрвлении ( )	
+			//РµСЃР»Рё РµС‰Рµ РЅРµС‚ С‚Рѕ РјРѕР¶РµРј РєСЂСѓС‚РёС‚СЃСЏ РІ Р»СЋР±РѕРј РЅР°РїСЂРІР»РµРЅРёРё ( )	
 			std::vector<GPoint> points = SplitLineToSegrments( CVec2( frame->m_firstPoint.x, frame->m_firstPoint.y ),
 				 CVec2( frame->m_lastPoint.x, frame->m_lastPoint.y ), GetTrenchWidth( 0 ) );
 			if( points.size() && m_pointForTrench.size() )
@@ -906,13 +906,13 @@ void 	CRoadDrawState::OnMouseMove(UINT nFlags, const CTPoint<int> &rMousePoint, 
 		}
 	}
 	//-------------------------------------------------------------------------------------------
-	// заборы при отжатой мыши ( возим кусочек - что бы видно было куда ставим забор )
+	// Р·Р°Р±РѕСЂС‹ РїСЂРё РѕС‚Р¶Р°С‚РѕР№ РјС‹С€Рё ( РІРѕР·РёРј РєСѓСЃРѕС‡РµРє - С‡С‚Рѕ Р±С‹ РІРёРґРЅРѕ Р±С‹Р»Рѕ РєСѓРґР° СЃС‚Р°РІРёРј Р·Р°Р±РѕСЂ )
 	//-------------------------------------------------------------------------------------------
 	if ( !( nFlags & MK_LBUTTON ) && GetVToolsState( frame ) == roadStateConsts::nFence  )
 	{
 		CVec2 p ( point.x , point.y );
 		GetSingleton<IScene>()->GetPos3( &v, p );
-		//вначале замочим все заборчики( вернее один кусочек )
+		//РІРЅР°С‡Р°Р»Рµ Р·Р°РјРѕС‡РёРј РІСЃРµ Р·Р°Р±РѕСЂС‡РёРєРё( РІРµСЂРЅРµРµ РѕРґРёРЅ РєСѓСЃРѕС‡РµРє )
 		if ( frame->m_currentFences.size() )		
 		{
 			for( std::vector<IVisObj*>::iterator it = frame->m_currentFences.begin(); it != frame->m_currentFences.end(); ++it )
@@ -940,7 +940,7 @@ void 	CRoadDrawState::OnMouseMove(UINT nFlags, const CTPoint<int> &rMousePoint, 
 				pVisObj->SetPlacement( pos, 0 );
 				
 				ISpriteAnimation *pAnim = static_cast<ISpriteAnimation*>( static_cast<IObjVisObj*>( pVisObj )->GetAnimation() );
-				//!?! Здесь надо ставить в зависимости от направления 
+				//!?! Р—РґРµСЃСЊ РЅР°РґРѕ СЃС‚Р°РІРёС‚СЊ РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ РЅР°РїСЂР°РІР»РµРЅРёСЏ 
 				int nDir = 0;
 				if(  ( GetAsyncKeyState( VK_CONTROL ) & 32768 ) )
 				{
@@ -958,7 +958,7 @@ void 	CRoadDrawState::OnMouseMove(UINT nFlags, const CTPoint<int> &rMousePoint, 
 					pAnim->SetFrameIndex( nAnimFrame );
 				}
 
-				// объект поставили теперь его надо правильно отфитить по Ai тайлам
+				// РѕР±СЉРµРєС‚ РїРѕСЃС‚Р°РІРёР»Рё С‚РµРїРµСЂСЊ РµРіРѕ РЅР°РґРѕ РїСЂР°РІРёР»СЊРЅРѕ РѕС‚С„РёС‚РёС‚СЊ РїРѕ Ai С‚Р°Р№Р»Р°Рј
 				CVec3 vTmpPos = pVisObj->GetPosition();
 				FitVisOrigin2AIGrid( &vTmpPos, pStats->GetOrigin( pAnim->GetFrameIndex() ) );	
 				CVSOBuilder::UpdateZ( terrainInfo.altitudes, &vTmpPos );
@@ -971,7 +971,7 @@ void 	CRoadDrawState::OnMouseMove(UINT nFlags, const CTPoint<int> &rMousePoint, 
 		
 	}
 	//-------------------------------------------------------------------------------------------
-	// мосты при отжатой мыши ( возим кусочек )
+	// РјРѕСЃС‚С‹ РїСЂРё РѕС‚Р¶Р°С‚РѕР№ РјС‹С€Рё ( РІРѕР·РёРј РєСѓСЃРѕС‡РµРє )
 	//-------------------------------------------------------------------------------------------
 	if ( !( nFlags & MK_LBUTTON ) && GetVToolsState( frame ) == roadStateConsts::nBridge  )
 	{
@@ -1036,7 +1036,7 @@ void 	CRoadDrawState::OnLButtonUp(UINT nFlags, const CTPoint<int> &rMousePoint, 
 	ITerrain *terra = GetSingleton<IScene>()->GetTerrain();
 
 	//--------------------------------
-	// мосты 
+	// РјРѕСЃС‚С‹ 
 	//--------------------------------
 	if ( frame->m_tempSpans.size() )		
 	{
@@ -1115,7 +1115,7 @@ void 	CRoadDrawState::OnLButtonUp(UINT nFlags, const CTPoint<int> &rMousePoint, 
 	{
 		////!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		
-		//вначале замочим все заборчики
+		//РІРЅР°С‡Р°Р»Рµ Р·Р°РјРѕС‡РёРј РІСЃРµ Р·Р°Р±РѕСЂС‡РёРєРё
 		if ( frame->m_currentFences.size() )		
 		{
 			for( std::vector<IVisObj*>::iterator it = frame->m_currentFences.begin(); it != frame->m_currentFences.end(); ++it )
@@ -1125,7 +1125,7 @@ void 	CRoadDrawState::OnLButtonUp(UINT nFlags, const CTPoint<int> &rMousePoint, 
 			frame->m_currentFences.clear();
 		} 
 		
-				//для заборчиков надо строить по AI тайлам
+				//РґР»СЏ Р·Р°Р±РѕСЂС‡РёРєРѕРІ РЅР°РґРѕ СЃС‚СЂРѕРёС‚СЊ РїРѕ AI С‚Р°Р№Р»Р°Рј
 		APointHelper hlpFence;
 		int fenceX1,fenceX2,fenceY1,fenceY2;		
 		(dynamic_cast< ITerrainEditor* >(terra))->GetAITileIndex( CVec3( frame->m_firstPoint.x, frame->m_firstPoint.y, 0.0f ), &fenceX1, &fenceY1 );
@@ -1140,7 +1140,7 @@ void 	CRoadDrawState::OnLButtonUp(UINT nFlags, const CTPoint<int> &rMousePoint, 
 
 		a_dirLine( fenceX1, fenceY1, fenceX2, fenceY2, hlpFence );
 		
-		// теперь мы будем  вдоль линии ставить заборчики
+		// С‚РµРїРµСЂСЊ РјС‹ Р±СѓРґРµРј  РІРґРѕР»СЊ Р»РёРЅРёРё СЃС‚Р°РІРёС‚СЊ Р·Р°Р±РѕСЂС‡РёРєРё
 		for ( std::vector<GPoint>::iterator it = hlpFence.m_points.begin(); it != hlpFence.m_points.end();   )
 		{
 			IObjectsDB *pGDB = GetSingleton<IObjectsDB>();
@@ -1157,11 +1157,11 @@ void 	CRoadDrawState::OnLButtonUp(UINT nFlags, const CTPoint<int> &rMousePoint, 
 				info.nDir = 0 ;
 				info.nPlayer = 0;
 				info.fHP = 1.0f;			
-				//!?! Здесь надо ставить в зависимости от направления 
+				//!?! Р—РґРµСЃСЊ РЅР°РґРѕ СЃС‚Р°РІРёС‚СЊ РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ РЅР°РїСЂР°РІР»РµРЅРёСЏ 
 				if ( frame->GetCurrentDirection() == 1 )
 				{
 					info.nFrameIndex = frame->m_firstPoint.x > frame->m_lastPoint.x ? pStats->GetCenterIndex( 1 ) : pStats->GetCenterIndex( 3 );
-					// у второго направления надо изменить позицию
+					// Сѓ РІС‚РѕСЂРѕРіРѕ РЅР°РїСЂР°РІР»РµРЅРёСЏ РЅР°РґРѕ РёР·РјРµРЅРёС‚СЊ РїРѕР·РёС†РёСЋ
 					if ( frame->m_firstPoint.x < frame->m_lastPoint.x  )
 					{
 						fensePosition = CVec3( ( it->x + 2 )* SAIConsts::TILE_SIZE, ( it->y )* SAIConsts::TILE_SIZE, 0.0f ); 
@@ -1171,7 +1171,7 @@ void 	CRoadDrawState::OnLButtonUp(UINT nFlags, const CTPoint<int> &rMousePoint, 
 				if ( frame->GetCurrentDirection() == 0 )
 				{
 					info.nFrameIndex = frame->m_firstPoint.y > frame->m_lastPoint.y ? pStats->GetCenterIndex( 0 ) :  pStats->GetCenterIndex( 2 ) ;
-					// у второго направления надо изменить позицию
+					// Сѓ РІС‚РѕСЂРѕРіРѕ РЅР°РїСЂР°РІР»РµРЅРёСЏ РЅР°РґРѕ РёР·РјРµРЅРёС‚СЊ РїРѕР·РёС†РёСЋ
 					if ( frame->m_firstPoint.y > frame->m_lastPoint.y  )
 					{
 						fensePosition = CVec3 (  it->x * SAIConsts::TILE_SIZE, ( it->y - 2 )* SAIConsts::TILE_SIZE, 0 ); 
@@ -1217,22 +1217,22 @@ void 	CRoadDrawState::OnLButtonDown(UINT nFlags, const CTPoint<int> &rMousePoint
 		frame->m_firstPoint.x = frame->m_lastPoint.x = v.x;
 		frame->m_firstPoint.y = frame->m_lastPoint.y = v.y;
 
-		// для окопов русуем ломанную линию	
+		// РґР»СЏ РѕРєРѕРїРѕРІ СЂСѓСЃСѓРµРј Р»РѕРјР°РЅРЅСѓСЋ Р»РёРЅРёСЋ	
 		//
 		if ( ( GetVToolsState( frame ) == roadStateConsts::nTrench ) && ( m_pointForTrench.size() > 1 ) )
 		{
-			// посчитаем последний угол ( последний в цепи точек )
+			// РїРѕСЃС‡РёС‚Р°РµРј РїРѕСЃР»РµРґРЅРёР№ СѓРіРѕР» ( РїРѕСЃР»РµРґРЅРёР№ РІ С†РµРїРё С‚РѕС‡РµРє )
 			int lastIndex = m_pointForTrench.size() - 1;
 			CAngle fLastAngle = GetLineAngle( CVec2(m_pointForTrench[lastIndex - 1].x, m_pointForTrench[lastIndex - 1].y  )
 				,  CVec2(m_pointForTrench[lastIndex].x, m_pointForTrench[lastIndex].y  ));
-			//между мышкой и последней точкой цепи	
+			//РјРµР¶РґСѓ РјС‹С€РєРѕР№ Рё РїРѕСЃР»РµРґРЅРµР№ С‚РѕС‡РєРѕР№ С†РµРїРё	
 			CAngle fMouseAngle = GetLineAngle( CVec2(m_pointForTrench[lastIndex].x, m_pointForTrench[lastIndex ].y  )
 				,  CVec2( frame->m_lastPoint.x, frame->m_lastPoint.y  ) );
 			CConnector connector( GPoint( m_pointForTrench[lastIndex].x, m_pointForTrench[lastIndex ].y ), fLastAngle, fMouseAngle );	
-			if ( !connector.m_points.size() ) // если поворачивать не надо то берем последнее направление от m_pointForTrench  
+			if ( !connector.m_points.size() ) // РµСЃР»Рё РїРѕРІРѕСЂР°С‡РёРІР°С‚СЊ РЅРµ РЅР°РґРѕ С‚Рѕ Р±РµСЂРµРј РїРѕСЃР»РµРґРЅРµРµ РЅР°РїСЂР°РІР»РµРЅРёРµ РѕС‚ m_pointForTrench  
 			{
 				
-				//в этом напрвлении(fLastAngle- последнем  ) приделаем сегмент( и запомним его) 
+				//РІ СЌС‚РѕРј РЅР°РїСЂРІР»РµРЅРёРё(fLastAngle- РїРѕСЃР»РµРґРЅРµРј  ) РїСЂРёРґРµР»Р°РµРј СЃРµРіРјРµРЅС‚( Рё Р·Р°РїРѕРјРЅРёРј РµРіРѕ) 
 				CVec2 vAddSegment;
 				vAddSegment.x = cos( fLastAngle ) * fabs( m_pointForTrench[lastIndex].x - frame->m_firstPoint.x, m_pointForTrench[lastIndex].y - frame->m_firstPoint.y );
 				vAddSegment.y = sin( fLastAngle ) * fabs( m_pointForTrench[lastIndex].x - frame->m_firstPoint.x, m_pointForTrench[lastIndex].y - frame->m_firstPoint.y );
@@ -1249,14 +1249,14 @@ void 	CRoadDrawState::OnLButtonDown(UINT nFlags, const CTPoint<int> &rMousePoint
 					}
 				}
 			}
-			else // если же коннеткор не пуcт то надо взять напрвление от последней точки коннектора
-				// ну и соответсвенно запомнить сам коннектор
+			else // РµСЃР»Рё Р¶Рµ РєРѕРЅРЅРµС‚РєРѕСЂ РЅРµ РїСѓcС‚ С‚Рѕ РЅР°РґРѕ РІР·СЏС‚СЊ РЅР°РїСЂРІР»РµРЅРёРµ РѕС‚ РїРѕСЃР»РµРґРЅРµР№ С‚РѕС‡РєРё РєРѕРЅРЅРµРєС‚РѕСЂР°
+				// РЅСѓ Рё СЃРѕРѕС‚РІРµС‚СЃРІРµРЅРЅРѕ Р·Р°РїРѕРјРЅРёС‚СЊ СЃР°Рј РєРѕРЅРЅРµРєС‚РѕСЂ
 			{				
 				for( int i = 0; i != connector.m_points.size() ; ++i )
 				{		
 					m_pointForTrench.push_back( GPoint( connector.m_points[i].x, connector.m_points[i].y ) );
 				}
-				//от  коннектора до мышки надо нарисовать линию( только надо посмотреть а надо ли это )
+				//РѕС‚  РєРѕРЅРЅРµРєС‚РѕСЂР° РґРѕ РјС‹С€РєРё РЅР°РґРѕ РЅР°СЂРёСЃРѕРІР°С‚СЊ Р»РёРЅРёСЋ( С‚РѕР»СЊРєРѕ РЅР°РґРѕ РїРѕСЃРјРѕС‚СЂРµС‚СЊ Р° РЅР°РґРѕ Р»Рё СЌС‚Рѕ )
 				int nLastConnectorIndex = connector.m_points.size() - 1;
 				if( fabs( frame->m_lastPoint.x - connector.m_points[0].x, frame->m_lastPoint.y - connector.m_points[0].y )
 					>= fabs( frame->m_lastPoint.x - connector.m_points[nLastConnectorIndex].x, frame->m_lastPoint.y - connector.m_points[nLastConnectorIndex].y ))
@@ -1273,7 +1273,7 @@ void 	CRoadDrawState::OnLButtonDown(UINT nFlags, const CTPoint<int> &rMousePoint
 						fLastConnectorAngle = GetLineAngle( CVec2(connector.m_points[nLastConnectorIndex - 1].x, connector.m_points[nLastConnectorIndex - 1].y  )
 					,  CVec2(connector.m_points[nLastConnectorIndex].x, connector.m_points[nLastConnectorIndex].y  ));
 					}
-					// переход в секции должен быть с разницей в 15 градусов
+					// РїРµСЂРµС…РѕРґ РІ СЃРµРєС†РёРё РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ СЃ СЂР°Р·РЅРёС†РµР№ РІ 15 РіСЂР°РґСѓСЃРѕРІ
 					CAngle fFirstConnectorAngle = GetLineAngle( CVec2(m_pointForTrench[lastIndex].x, m_pointForTrench[lastIndex].y  )
 					,  CVec2(connector.m_points[0].x, connector.m_points[0].y  ));
 					if( ( fFirstConnectorAngle - fLastAngle ) < FP_PI2 )
@@ -1301,7 +1301,7 @@ void 	CRoadDrawState::OnLButtonDown(UINT nFlags, const CTPoint<int> &rMousePoint
 				}
 			}
 		}
-		// первая точка ( без fit'a)
+		// РїРµСЂРІР°СЏ С‚РѕС‡РєР° ( Р±РµР· fit'a)
 		if ( GetVToolsState( frame ) == roadStateConsts::nTrench && m_pointForTrench.empty() )
 		{
 			m_pointForTrench.push_back( GPoint( frame->m_firstPoint.x, frame->m_firstPoint.y) );
@@ -1311,7 +1311,7 @@ void 	CRoadDrawState::OnLButtonDown(UINT nFlags, const CTPoint<int> &rMousePoint
 		if ( GetVToolsState( frame ) == roadStateConsts::nTrench && m_pointForTrench.size() == 1 )
 		{
 			{
-				// заполним первый отсек ( он без фита )
+				// Р·Р°РїРѕР»РЅРёРј РїРµСЂРІС‹Р№ РѕС‚СЃРµРє ( РѕРЅ Р±РµР· С„РёС‚Р° )
 				std::vector<GPoint> points = SplitLineToSegrments( CVec2(m_pointForTrench[0].x, m_pointForTrench[0].y ),
 					CVec2( frame->m_firstPoint.x, frame->m_firstPoint.y ), GetTrenchWidth( 0 ) );
 				if( points.size() )
@@ -1409,7 +1409,7 @@ void 	CRoadDrawState::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags, CTemplate
 		ITerrain *terra = GetSingleton<IScene>()->GetTerrain();
 
 		//---------------------------------------------------------------------
-		//   удаление окопов
+		//   СѓРґР°Р»РµРЅРёРµ РѕРєРѕРїРѕРІ
 		//---------------------------------------------------------------------
 		if ( terra && GetVToolsState( frame ) == roadStateConsts::nTrench )
 		{
@@ -1461,7 +1461,7 @@ void 	CRoadDrawState::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags, CTemplate
 
 		}
 		//---------------------------------------------------------------------
-		//   удаление мостов 
+		//   СѓРґР°Р»РµРЅРёРµ РјРѕСЃС‚РѕРІ 
 		//---------------------------------------------------------------------
 		if ( terra && GetVToolsState( frame ) == roadStateConsts::nBridge )
 		{
@@ -1537,7 +1537,7 @@ void CRoadDrawState::OnLButtonDblClk(UINT nFlags, const CTPoint<int> &rMousePoin
 		if ( GetVToolsState( frame ) == roadStateConsts::nTrench &&  m_pointForTrench.size() > 1 )
 		{
 			SMapObject *ptrBegin, *ptrEnd;
-			{ // пределаем начало и конец окопа		
+			{ // РїСЂРµРґРµР»Р°РµРј РЅР°С‡Р°Р»Рѕ Рё РєРѕРЅРµС† РѕРєРѕРїР°		
 				int lastIndex = m_pointForTrench.size() - 1;
 	
 				const SGDBObjectDesc *pDesc = pGDB->GetDesc( "Entrenchment" );
@@ -1571,7 +1571,7 @@ void CRoadDrawState::OnLButtonDblClk(UINT nFlags, const CTPoint<int> &rMousePoin
 					CAngle angleEnd = GetLineAngle( CVec2( m_pointForTrench[lastIndex - 1].x, m_pointForTrench[lastIndex - 1].y ),
 					CVec2( m_pointForTrench[lastIndex].x, m_pointForTrench[lastIndex].y ) );
 
-					// тип определяем по длине - короткие - это повороты ( длинные - проходы )
+					// С‚РёРї РѕРїСЂРµРґРµР»СЏРµРј РїРѕ РґР»РёРЅРµ - РєРѕСЂРѕС‚РєРёРµ - СЌС‚Рѕ РїРѕРІРѕСЂРѕС‚С‹ ( РґР»РёРЅРЅС‹Рµ - РїСЂРѕС…РѕРґС‹ )
 					int nType;
 					if ( fabs( m_pointForTrench[lastIndex].x - m_pointForTrench[lastIndex - 1].x, m_pointForTrench[lastIndex].y - m_pointForTrench[lastIndex - 1].y ) 
 						> GetTrenchWidth( 0 ) * 0.9 )
@@ -1605,12 +1605,12 @@ void CRoadDrawState::OnLButtonDblClk(UINT nFlags, const CTPoint<int> &rMousePoin
 
 			bool endIfSection = false;
 			std::vector<IRefCount*> tmpSection;
-			//  начальный терминатор принадлежит первой секцци
+			//  РЅР°С‡Р°Р»СЊРЅС‹Р№ С‚РµСЂРјРёРЅР°С‚РѕСЂ РїСЂРёРЅР°РґР»РµР¶РёС‚ РїРµСЂРІРѕР№ СЃРµРєС†С†Рё
 			tmpSection.push_back( ptrBegin->pAIObj );
 			for( int i = 0; i != m_pointForTrench.size() - 1; ++i )	
 			{
-				// вначале решим что надо ставить поворот или просто секцию
-				int nType = -1; // 0 - просто секция  1 - поворот по часовой 2 - против часовой 
+				// РІРЅР°С‡Р°Р»Рµ СЂРµС€РёРј С‡С‚Рѕ РЅР°РґРѕ СЃС‚Р°РІРёС‚СЊ РїРѕРІРѕСЂРѕС‚ РёР»Рё РїСЂРѕСЃС‚Рѕ СЃРµРєС†РёСЋ
+				int nType = -1; // 0 - РїСЂРѕСЃС‚Рѕ СЃРµРєС†РёСЏ  1 - РїРѕРІРѕСЂРѕС‚ РїРѕ С‡Р°СЃРѕРІРѕР№ 2 - РїСЂРѕС‚РёРІ С‡Р°СЃРѕРІРѕР№ 
 				CAngle angle = GetLineAngle( CVec2( m_pointForTrench[i].x, m_pointForTrench[i].y ),
 					CVec2( m_pointForTrench[i + 1].x, m_pointForTrench[i + 1].y ) );
 				CAngle angleForLastSection = angle;
@@ -1620,13 +1620,13 @@ void CRoadDrawState::OnLButtonDblClk(UINT nFlags, const CTPoint<int> &rMousePoin
 					angleForLastSection = GetLineAngle( CVec2( m_pointForTrench[i - 1].x, m_pointForTrench[i -1].y ),
 						CVec2( m_pointForTrench[i].x, m_pointForTrench[i].y ) );
 				}
-				if( i < m_pointForTrench.size() -  2 ) // чтобы понять какая секция 
+				if( i < m_pointForTrench.size() -  2 ) // С‡С‚РѕР±С‹ РїРѕРЅСЏС‚СЊ РєР°РєР°СЏ СЃРµРєС†РёСЏ 
 				{
 					angleForNextSection = GetLineAngle( CVec2( m_pointForTrench[i + 1].x, m_pointForTrench[i + 1].y ),
 						CVec2( m_pointForTrench[i + 2].x, m_pointForTrench[i + 2].y ) );
 				}
 
-				// тип определяем по длине - короткие - это повороты ( длинные - проходы )
+				// С‚РёРї РѕРїСЂРµРґРµР»СЏРµРј РїРѕ РґР»РёРЅРµ - РєРѕСЂРѕС‚РєРёРµ - СЌС‚Рѕ РїРѕРІРѕСЂРѕС‚С‹ ( РґР»РёРЅРЅС‹Рµ - РїСЂРѕС…РѕРґС‹ )
 				if ( fabs( m_pointForTrench[i + 1].x - m_pointForTrench[i].x, m_pointForTrench[i + 1].y - m_pointForTrench[i].y ) 
 					> GetTrenchWidth( 0 ) * 0.9 )
 				{
@@ -1668,7 +1668,7 @@ void CRoadDrawState::OnLButtonDblClk(UINT nFlags, const CTPoint<int> &rMousePoin
 				}
 				Vis2AI( &info.vPos );
 				SMapObject *ptr = frame->AddObjectByAI( info );
-				// начался поворот
+				// РЅР°С‡Р°Р»СЃСЏ РїРѕРІРѕСЂРѕС‚
 				if( !endIfSection && nType != 0 )
 				{
 					endIfSection = true;

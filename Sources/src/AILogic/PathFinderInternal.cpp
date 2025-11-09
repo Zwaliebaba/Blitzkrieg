@@ -9,7 +9,7 @@
 BASIC_REGISTER_CLASS( IStaticPathFinder );
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //*******************************************************************
-//*							Путь для юнитов и обычной наземной техники					*
+//*							С•СѓС‚СЊ РґР»В¤ СЋРЅРёС‚РѕРІ Рё РѕР±С‹С‡РЅРѕР№ РЅР°Р·РµРјРЅРѕР№ С‚РµС…РЅРёРєРё					*
 //*******************************************************************
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 extern CStaticMap theStaticMap;
@@ -84,7 +84,7 @@ const SVector CStandartPathFinder::CalculateHandPath( const SVector &blockPoint,
 		return SVector( -1, -1 );
 	}
 
-	// шагнуть вперёд, если на углу
+	// С€Р°РіРЅСѓС‚СЊ РІРїРµСЂР„Рґ, РµСЃР»Рё РЅР° СѓРіР»Сѓ
 	if ( theStaticMap.CanUnitGo( nBoundTileRadius, curRightPoint, dirRight, aiClass )  && 
 			 theStaticMap.CanUnitGo( nBoundTileRadius, curLeftPoint, dirLeft, aiClass ) )
 	{
@@ -97,7 +97,7 @@ const SVector CStandartPathFinder::CalculateHandPath( const SVector &blockPoint,
 
 	while ( 1 )
 	{
-		// правая рука
+		// РїСЂР°РІР°В¤ СЂСѓРєР°
 		SVector dirTemp = dirRight; 
 		dirTemp.TurnRightUntil45();
 		if ( theStaticMap.CanUnitGo( nBoundTileRadius, curRightPoint, dirTemp, aiClass ) )
@@ -123,14 +123,14 @@ const SVector CStandartPathFinder::CalculateHandPath( const SVector &blockPoint,
 		
 		if ( blockLine.IsSegmIntersectLine( curRightPoint, nextPoint ) )
 		{
-			// обошли
+			// РѕР±РѕС€Р»Рё
 			if ( perpLine.GetHPLineSign( nextPoint ) * perpLine.GetHPLineSign( finish ) > 0  &&
 					 perpLine1.GetHPLineSign( nextPoint ) * perpLine1.GetHPLineSign( blockPoint ) > 0 )
 			{
 				++nLength;				
 				for ( int i = startLen; i < nLength; ++i )
 				{
-					// проверка на цикл
+					// РїСЂРѕРІРµСЂРєР° РЅР° С†РёРєР»
 					if ( mapBuf[stopPoints[i].x][stopPoints[i].y] == 1 )
 						cyclePoints[nCyclePoints++] = i;
 					else
@@ -146,7 +146,7 @@ const SVector CStandartPathFinder::CalculateHandPath( const SVector &blockPoint,
 
 		// ----------------------------------------------------------------------------------------------
 
-		// левая рука
+		// Р»РµРІР°В¤ СЂСѓРєР°
 		dirTemp = dirLeft; 
 		dirTemp.TurnLeftUntil45();
 
@@ -163,14 +163,14 @@ const SVector CStandartPathFinder::CalculateHandPath( const SVector &blockPoint,
 		
 		if ( blockLine.IsSegmIntersectLine( curLeftPoint, nextPoint ) )
 		{
-			// обошли
+			// РѕР±РѕС€Р»Рё
 			if ( perpLine.GetHPLineSign( nextPoint ) * perpLine.GetHPLineSign( finish ) > 0 &&
 					 perpLine1.GetHPLineSign( nextPoint ) * perpLine1.GetHPLineSign( blockPoint ) > 0 )
 			{
 				++nLength;
 				for ( int i = startLen; i < nLength; i++ )
 				{
-					// проверка на цикл
+					// РїСЂРѕРІРµСЂРєР° РЅР° С†РёРєР»
 					if ( mapBuf[addPoints[i].x][addPoints[i].y] == 1 )
 						cyclePoints[nCyclePoints++] = i;
 					else
@@ -235,7 +235,7 @@ const SVector CStandartPathFinder::CalculateSimplePath( const SVector &blockPoin
 		return SVector( -1, -1 );
 	}
 	
-	// шагнуть вперёд, если на углу
+	// С€Р°РіРЅСѓС‚СЊ РІРїРµСЂР„Рґ, РµСЃР»Рё РЅР° СѓРіР»Сѓ
 	if ( theStaticMap.CanUnitGo( nBoundTileRadius, curRightPoint, dirRight, aiClass ) &&
 		   theStaticMap.CanUnitGo( nBoundTileRadius, curLeftPoint, dirLeft, aiClass ) )
 	{
@@ -248,21 +248,21 @@ const SVector CStandartPathFinder::CalculateSimplePath( const SVector &blockPoin
 	
 	while ( 1 )
 	{
-		// ----------------------- правая рука ---------------------------------
+		// ----------------------- РїСЂР°РІР°В¤ СЂСѓРєР° ---------------------------------
 
 		SVector dirTemp = dirRight; 
 		dirTemp.TurnRightUntil45();
 
 		if ( theStaticMap.CanUnitGo( nBoundTileRadius, curRightPoint, dirTemp, aiClass ) )
 		{
-			// если можно закончить обход
+			// РµСЃР»Рё РјРѕР¶РЅРѕ Р·Р°РєРѕРЅС‡РёС‚СЊ РѕР±С…РѕРґ
 			const SVector dir1 = finish-curRightPoint;
 			if ( ( dirTemp * dir1 ) >= 0  &&  Sign( dirRight * dir1 ) >= 0  &&  
 					 CanGoTowardPoint( curRightPoint, finish ) )
 			{
 				for ( int i = startLen; i < nLength; ++i )
 				{
-					// проверка на цикл
+					// РїСЂРѕРІРµСЂРєР° РЅР° С†РёРєР»
 					if ( mapBuf[stopPoints[i].x][stopPoints[i].y] == 1 )
 						cyclePoints[nCyclePoints++] = i;
 					else
@@ -294,7 +294,7 @@ const SVector CStandartPathFinder::CalculateSimplePath( const SVector &blockPoin
 		stopPoints[nLength] = curRightPoint;
 		curRightPoint += dirRight;
 
-		// --------------------- левая рука -----------------------
+		// --------------------- Р»РµРІР°В¤ СЂСѓРєР° -----------------------
 		dirTemp = dirLeft; 
 		dirTemp.TurnLeftUntil45();
 
@@ -306,7 +306,7 @@ const SVector CStandartPathFinder::CalculateSimplePath( const SVector &blockPoin
 			{
 				for ( int i = startLen; i < nLength; i++ )
 				{
-					// проверка на цикл
+					// РїСЂРѕРІРµСЂРєР° РЅР° С†РёРєР»
 					if ( mapBuf[addPoints[i].x][addPoints[i].y] == 1 )
 						cyclePoints[nCyclePoints++] = i;
 					else
@@ -525,7 +525,7 @@ bool CStandartPathFinder::CalculatePath( )
 	if ( startPoint == finishPoint || finishPoint.x < 0 || finishPoint.y < 0 )
 		return false;
 	
-// {CRAP: чтобы не застревали	
+// {CRAP: С‡С‚РѕР±С‹ РЅРµ Р·Р°СЃС‚СЂРµРІР°Р»Рё	
 	SVector startSearchPoint;
 	if ( !theStaticMap.CanUnitGo( nBoundTileRadius, startPoint, aiClass ) )
 		startSearchPoint = LookForFakePathBegin();
@@ -533,7 +533,7 @@ bool CStandartPathFinder::CalculatePath( )
 		startSearchPoint = startPoint;
 	// CRAP}
 
-	// проверить, что можно хоть куда-нибудь идти
+	// РїСЂРѕРІРµСЂРёС‚СЊ, С‡С‚Рѕ РјРѕР¶РЅРѕ С…РѕС‚СЊ РєСѓРґР°-РЅРёР±СѓРґСЊ РёРґС‚Рё
 	bool bCanGo = false;
 	for ( int i = -1; i <= 1 && !bCanGo; ++i )
 	{
@@ -556,7 +556,7 @@ bool CStandartPathFinder::CalculatePath( )
 	{
 		bres.MakeStep();
 
-		// сходить
+		// СЃС…РѕРґРёС‚СЊ
 		if ( !theStaticMap.CanUnitGo( nBoundTileRadius, curPoint, bres.GetDirection(), aiClass ) )
 		{
 			if ( curPoint + bres.GetDirection() == finishPoint )
@@ -606,10 +606,10 @@ bool CStandartPathFinder::CalculatePath( )
 			curPoint += bres.GetDirection();
 		}
 
-		// дошли до точки, откуда можно производить нужные действия
+		// РґРѕС€Р»Рё РґРѕ С‚РѕС‡РєРё, РѕС‚РєСѓРґР° РјРѕР¶РЅРѕ РїСЂРѕРёР·РІРѕРґРёС‚СЊ РЅСѓР¶РЅС‹Рµ РґРµР№СЃС‚РІРёВ¤
 		if ( bFinished )
 			return true;
-		// путь не найден
+		// РїСѓС‚СЊ РЅРµ РЅР°Р№РґРµРЅ
 		if ( curPoint.x == -1 ||  nLength >= upperLimit )
 			return false;
 	}
@@ -635,31 +635,31 @@ void CStandartPathFinder::EraseCycles()
 	int i = nLength - 1;
 	int cycleNum = nCyclePoints - 1;
 
-// ищем конец ближайшего цикла
+// РёС‰РµРј РєРѕРЅРµС† Р±Р»РёР¶Р°Р№С€РµРіРѕ С†РёРєР»Р°
 	while ( cycleNum > 0 && cyclePoints[cycleNum] > i - nStart )
 		--cycleNum;
 
 	while ( i - nStart >= 0  && cycleNum > 0 )
 	{
-		// сдвигаемся до конца цикла
+		// СЃРґРІРёРіР°РµРјСЃВ¤ РґРѕ РєРѕРЅС†Р° С†РёРєР»Р°
 		while ( i - nStart >= cyclePoints[cycleNum] )
 		{
 			stopPoints[i] = stopPoints[i - nStart];
-			// очистка буфера карты
+			// РѕС‡РёСЃС‚РєР° Р±СѓС„РµСЂР° РєР°СЂС‚С‹
 			mapBuf[stopPoints[i - nStart].x][stopPoints[i - nStart].y] = 0;
 			--i;
 		}
 
-		// пропуск цикла
+		// РїСЂРѕРїСѓСЃРє С†РёРєР»Р°
 		while ( i - nStart >= 0 && stopPoints[i + 1] != stopPoints[i - nStart] )
 		{
-			// очистка буфера карты
+			// РѕС‡РёСЃС‚РєР° Р±СѓС„РµСЂР° РєР°СЂС‚С‹
 			mapBuf[stopPoints[i - nStart].x][stopPoints[i - nStart].y] = 0;
 			++nStart;
 		}
 		++nStart;
 
-		// ищем конец ближайшего цикла
+		// РёС‰РµРј РєРѕРЅРµС† Р±Р»РёР¶Р°Р№С€РµРіРѕ С†РёРєР»Р°
 		while ( cycleNum > 0 && cyclePoints[cycleNum] > i - nStart )
 			--cycleNum;
 	}
@@ -741,7 +741,7 @@ void CStandartPathFinder::LineSmoothing( const int STEP_LENGTH_THERE, const int 
 
 	stopPoints[nStart+nLength++] = finishPoint;
 
-	// вперёд
+	// РІРїРµСЂР„Рґ
 	int curNum = 1, i = 1; 
 	int checkNum = 0, numOfAttempts = 0, addLen = 0;
 
@@ -769,7 +769,7 @@ void CStandartPathFinder::LineSmoothing( const int STEP_LENGTH_THERE, const int 
 	addPoints[addLen] = finishPoint;
 	nLength = addLen+1;
 
-	// назад
+	// РЅР°Р·Р°Рґ
 	i = nLength-2; 
 	checkNum = nLength-1; 
 	curNum = nLength-2; 
@@ -795,7 +795,7 @@ void CStandartPathFinder::LineSmoothing( const int STEP_LENGTH_THERE, const int 
 		}
 	}
 
-	// по сегментам
+	// РїРѕ СЃРµРіРјРµРЅС‚Р°Рј
 	segmBegin[nSegm++] = addLen;
 	addLen += SavePathBack( addPoints[0], addPoints[checkNum], stopPoints, addLen );
 	segmBegin[nSegm] = addLen;
@@ -871,7 +871,7 @@ void CStandartPathFinder::LineSmoothing( const int STEP_LENGTH_THERE, const int 
 		nLength = addLen;
 
 //	// for sequential search
-//		// записать путь
+//		// Р·Р°РїРёСЃР°С‚СЊ РїСѓС‚СЊ
 //		stopPoints[0] = GetCode(pathPoints[segmBegin[nSegm-1]]-startPoint);
 //		nLength = 1;
 //		for ( i = nSegm-1; i > 0; --i )
@@ -893,7 +893,7 @@ IPath* CStandartPathFinder::CreatePathByDirection( const CVec2 &startPoint, cons
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //*******************************************************************
-//*												Путь для самолётов												*
+//*												С•СѓС‚СЊ РґР»В¤ СЃР°РјРѕР»Р„С‚РѕРІ												*
 //*******************************************************************
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CPlanePathFinder::SetPathParameters( const int nBoundTileRadius, const BYTE aiClass, interface IPointChecking *_pChecking, const CVec2 &startPoint, const CVec2 &finishPoint, const int upperLimit, const bool longPath, const SVector &lastKnownGoodTile )

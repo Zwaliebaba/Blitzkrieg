@@ -23,7 +23,7 @@ public:
 	CBuildingCommonPropsItem() { nItemType = E_BUILDING_COMMON_PROPS_ITEM; nImageIndex = 0; InitDefaultValues(); }
 	~CBuildingCommonPropsItem() {};
 	
-	//Получение внутренних параметров
+	//РџРѕР»СѓС‡РµРЅРёРµ РІРЅСѓС‚СЂРµРЅРЅРёС… РїР°СЂР°РјРµС‚СЂРѕРІ
 	const char *GetName() { return values[0].value; }
 	int GetBuildingType();
 	int GetHealth() { return values[2].value; }
@@ -33,7 +33,7 @@ public:
 	const char *GetAmbientSound() { return values[6].value; }
 	const char *GetCycledSound() { return values[7].value; }
 
-	//Установка
+	//РЈСЃС‚Р°РЅРѕРІРєР°
 	void SetName( const char *pszName ) { values[0].value = pszName; }
 	void SetBuildingType( int nVal );
 	void SetHealth( int nVal ) { values[2].value = nVal; }
@@ -203,7 +203,7 @@ public:
 	CBuildingGraphicPropsItem() { bStaticElements = true; nItemType = E_BUILDING_GRAPHIC1_PROPS_ITEM; nImageIndex = 3; InitDefaultValues(); }
 	~CBuildingGraphicPropsItem() {};
 	
-	//Получение внутренних параметров
+	//РџРѕР»СѓС‡РµРЅРёРµ РІРЅСѓС‚СЂРµРЅРЅРёС… РїР°СЂР°РјРµС‚СЂРѕРІ
 	const char *GetFileName() { return values[0].value; }
 	const char *GetShadowFileName() { return values[1].value; }
 	const char *GetNoiseFileName() { return values[2].value; }
@@ -293,12 +293,12 @@ public:
 	CBuildingDefencePropsItem() { nItemType = E_BUILDING_DEFENCE_PROPS_ITEM; nImageIndex = 3; InitDefaultValues(); }
 	~CBuildingDefencePropsItem() {};
 	
-	//Получение внутренних параметров
+	//РџРѕР»СѓС‡РµРЅРёРµ РІРЅСѓС‚СЂРµРЅРЅРёС… РїР°СЂР°РјРµС‚СЂРѕРІ
 	int GetMinArmor() { return values[0].value; }
 	int GetMaxArmor() { return values[1].value; }
 	float GetSilhouette() { return values[2].value; }
 	
-	//Установка внутренних параметров
+	//РЈСЃС‚Р°РЅРѕРІРєР° РІРЅСѓС‚СЂРµРЅРЅРёС… РїР°СЂР°РјРµС‚СЂРѕРІ
 	void SetMinArmor( int nVal ) { values[0].value = nVal; }
 	void SetMaxArmor( int nVal ) { values[1].value = nVal; }
 	void SetSilhouette( float fVal ) { values[2].value = fVal; }

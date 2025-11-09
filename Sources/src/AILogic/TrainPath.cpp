@@ -45,7 +45,7 @@ CTrainPath::CTrainPath( IStaticPathFinder *_pPathFinder, CTrainPathUnit *pTrain 
 		NI_ASSERT_T( edges.back().pFirstPoint->GetEdge() != 0 && edges.back().pLastPoint->GetEdge() != 0, "Wrong path edge" );
 	}
 
-	// путь из части ребра
+	// РїСѓС‚СЊ РёР· С‡Р°СЃС‚Рё СЂРµР±СЂР°
 	if ( edges.empty() )
 	{
 		IEdge *pPathFinderEdge = pPathFinder->GetStartEdgePoint()->GetEdge();
@@ -54,7 +54,7 @@ CTrainPath::CTrainPath( IStaticPathFinder *_pPathFinder, CTrainPathUnit *pTrain 
 		NI_ASSERT_T( edges.back().pFirstPoint != 0 && edges.back().pLastPoint != 0, "Wrong path edge" );
 		NI_ASSERT_T( edges.back().pFirstPoint->GetEdge() != 0 && edges.back().pLastPoint->GetEdge() != 0, "Wrong path edge" );
 	}
-	// путь от последней вершины до последней точки пути
+	// РїСѓС‚СЊ РѕС‚ РїРѕСЃР»РµРґРЅРµР№ РІРµСЂС€РёРЅС‹ РґРѕ РїРѕСЃР»РµРґРЅРµР№ С‚РѕС‡РєРё РїСѓС‚Рё
 	else
 	{
 		CPtr<IEdge> pLastEdge = pPathFinder->GetFinishEdgePoint()->GetEdge();
@@ -142,13 +142,13 @@ void CTrainSmoothPath::InitTrain()
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CTrainSmoothPath::CheckPath()
 {
-	// нужно перевернуть
+	// РЅСѓР¶РЅРѕ РїРµСЂРµРІРµСЂРЅСѓС‚СЊ
 	if ( pTrainPath->GetDirToGo() * pOwner->GetCarriage( 0 )->GetDirVector() < 0 )
 	{
-		// ничего не вышло, не идти по пути
+		// РЅРёС‡РµРіРѕ РЅРµ РІС‹С€Р»Рѕ, РЅРµ РёРґС‚Рё РїРѕ РїСѓС‚Рё
 		if ( nRecalculating == 2 )
 			bFinished = true;
-		// поезд стоит на стрелке
+		// РїРѕРµР·Рґ СЃС‚РѕРёС‚ РЅР° СЃС‚СЂРµР»РєРµ
 		else if ( nRecalculating == 1 )
 		{
 			CVec2 vDirVector = pOwner->GetCarriage( 0 )->GetDirVector();
@@ -160,7 +160,7 @@ void CTrainSmoothPath::CheckPath()
 
 			CPtr<CEdgePoint> pIndentPoint;
 			float fLengthOfLastEdge = 10.0f;
-			// удалить вершины, общие для поезда и пути
+			// СѓРґР°Р»РёС‚СЊ РІРµСЂС€РёРЅС‹, РѕР±С‰РёРµ РґР»СЏ РїРѕРµР·РґР° Рё РїСѓС‚Рё
 			while ( pathIter != pTrainPath->GetEndEdgesIter() &&
 							trainIter != trainNodes.end() &&
 							pathIter->pLastPoint->GetEdge()->GetLastNode() == *trainIter )
@@ -173,29 +173,29 @@ void CTrainSmoothPath::CheckPath()
 				++trainIter;
 			}
 
-			// путь закончился, никуда не едем
+			// РїСѓС‚СЊ Р·Р°РєРѕРЅС‡РёР»СЃСЏ, РЅРёРєСѓРґР° РЅРµ РµРґРµРј
 			if ( pathIter == pTrainPath->GetEndEdgesIter() || pIndentPoint == 0 )
 				bFinished = true;
 			else
 			{
- 				// точка, от которой откладывать длину поезда
+ 				// С‚РѕС‡РєР°, РѕС‚ РєРѕС‚РѕСЂРѕР№ РѕС‚РєР»Р°РґС‹РІР°С‚СЊ РґР»РёРЅСѓ РїРѕРµР·РґР°
 //				CPtr<CEdgePoint> pIndentPoint = pathIter->pFirstPoint;
-				// пропустить рёбра нулевой длины
+				// РїСЂРѕРїСѓСЃС‚РёС‚СЊ СЂС‘Р±СЂР° РЅСѓР»РµРІРѕР№ РґР»РёРЅС‹
 				while ( pathIter != pTrainPath->GetEndEdgesIter() && 
 								pathIter->pFirstPoint->GetEdge()->GetLength() == 0 )
 					++pathIter;
 
-				// путь закончился, никуда не едем
+				// РїСѓС‚СЊ Р·Р°РєРѕРЅС‡РёР»СЃСЏ, РЅРёРєСѓРґР° РЅРµ РµРґРµРј
 				if ( pathIter == pTrainPath->GetEndEdgesIter() )
 					bFinished = true;
 				else
 				{
 					CPtr<CEdgePoint> pPoint;
-					// проехать вперёд по курсу для выезда со стрелки
+					// РїСЂРѕРµС…Р°С‚СЊ РІРїРµСЂС‘Рґ РїРѕ РєСѓСЂСЃСѓ РґР»СЏ РІС‹РµР·РґР° СЃРѕ СЃС‚СЂРµР»РєРё
 					if ( vDirVector * pathIter->pFirstPoint->GetTangent() <= 0 )
 					{
 						pPoint = theRailRoadGraph.MakeIndent( vDirVector, pIndentPoint, pOwner->GetTrainLength() + pOwner->GetCarriage(0)->GetDistanceBetweenWheels() / 2.0f );
-						// нельзя выехать со стрелки - тупик
+						// РЅРµР»СЊР·СЏ РІС‹РµС…Р°С‚СЊ СЃРѕ СЃС‚СЂРµР»РєРё - С‚СѓРїРёРє
 						if ( pPoint == 0 )
 						{
 							pOwner->ChangeDirection( !pOwner->IsFrontDir() );
@@ -203,14 +203,14 @@ void CTrainSmoothPath::CheckPath()
 							pPoint = theRailRoadGraph.MakeIndent( vDirVector, pIndentPoint, pOwner->GetTrainLength() + pOwner->GetCarriage(0)->GetDistanceBetweenWheels() / 2.0f );
 						}
 					}
-					// проехать назад для выезда со стрелки
+					// РїСЂРѕРµС…Р°С‚СЊ РЅР°Р·Р°Рґ РґР»СЏ РІС‹РµР·РґР° СЃРѕ СЃС‚СЂРµР»РєРё
 					else
 					{
 						pOwner->ChangeDirection( !pOwner->IsFrontDir() );
 						vDirVector = pOwner->GetCarriage( 0 )->GetDirVector();
 						pPoint = theRailRoadGraph.MakeIndent( vDirVector, pIndentPoint, pOwner->GetTrainLength() + pOwner->GetCarriage(0)->GetDistanceBetweenWheels() / 2.0f );
 
-						// нельзя выехать со стрелки - тупик
+						// РЅРµР»СЊР·СЏ РІС‹РµС…Р°С‚СЊ СЃРѕ СЃС‚СЂРµР»РєРё - С‚СѓРїРёРє
 						if ( pPoint == 0 )
 						{
 							pOwner->ChangeDirection( !pOwner->IsFrontDir() );
@@ -224,7 +224,7 @@ void CTrainSmoothPath::CheckPath()
 					else
 					{
 						++nRecalculating;
-						// проинициализировать путём для выезда со стрелки
+						// РїСЂРѕРёРЅРёС†РёР°Р»РёР·РёСЂРѕРІР°С‚СЊ РїСѓС‚С‘Рј РґР»СЏ РІС‹РµР·РґР° СЃРѕ СЃС‚СЂРµР»РєРё
 						Init( pOwner->CreateBigStaticPath( pTrainPath->GetStartPoint(), pPoint->Get2DPoint(), 0 ) );
 						--nRecalculating;
 					}
@@ -260,13 +260,13 @@ void CTrainSmoothPath::DelSharpAngles()
 	{
 		SPathEdge temp = *iter;
 		CVec2 vTemp = iter->pFirstPoint->GetTangent();
-		// нулевые рёбра не считаются
+		// РЅСѓР»РµРІС‹Рµ СЂС‘Р±СЂР° РЅРµ СЃС‡РёС‚Р°СЋС‚СЃСЏ
 		if ( iter->pFirstPoint->GetEdge()->GetLength() == 0 || temp.pFirstPoint->IsEqual( temp.pLastPoint ) )
 		{
 			pPoint = iter->pLastPoint;
 			++iter;
 		}
-		// хороший поворот
+		// С…РѕСЂРѕС€РёР№ РїРѕРІРѕСЂРѕС‚
 		else if ( iter->pFirstPoint->GetTangent() * vDir >= 0 )
 		{
 			vDir = iter->pLastPoint->GetTangent();
@@ -274,19 +274,19 @@ void CTrainSmoothPath::DelSharpAngles()
 			++iter;
 		}
 		else
-			// поворот с острым углом
+			// РїРѕРІРѕСЂРѕС‚ СЃ РѕСЃС‚СЂС‹Рј СѓРіР»РѕРј
 			bSharpAngle = true;
 	}
 
 	if ( bSharpAngle )
 	{
-		// отложить от поворота с острым углом отступ, чтобы туда проехать
+		// РѕС‚Р»РѕР¶РёС‚СЊ РѕС‚ РїРѕРІРѕСЂРѕС‚Р° СЃ РѕСЃС‚СЂС‹Рј СѓРіР»РѕРј РѕС‚СЃС‚СѓРї, С‡С‚РѕР±С‹ С‚СѓРґР° РїСЂРѕРµС…Р°С‚СЊ
 		CPtr<CEdgePoint> pFinishPoint = theRailRoadGraph.MakeIndent( vDir, pPoint, pOwner->GetTrainLength() + pOwner->GetCarriage(0)->GetDistanceBetweenWheels() / 2.0f );
 		if ( pFinishPoint )
 		{
 			vRealFinishPoint = pTrainPath->GetFinishPoint();
 
-			// получившийся путь должен быть гладким, без начальной точки на стрелке и острых углов
+			// РїРѕР»СѓС‡РёРІС€РёР№СЃСЏ РїСѓС‚СЊ РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ РіР»Р°РґРєРёРј, Р±РµР· РЅР°С‡Р°Р»СЊРЅРѕР№ С‚РѕС‡РєРё РЅР° СЃС‚СЂРµР»РєРµ Рё РѕСЃС‚СЂС‹С… СѓРіР»РѕРІ
 			nRecalculating = 2;
 			Init( pOwner->CreateBigStaticPath( pTrainPath->GetStartPoint(), pFinishPoint->Get2DPoint(), 0 ) );
 			nRecalculating = 0;
@@ -317,12 +317,12 @@ bool CTrainSmoothPath::Init( IStaticPath *_pTrainPath )
 
 		CheckPath();
 
-		// если можно ехать по пути
+		// РµСЃР»Рё РјРѕР¶РЅРѕ РµС…Р°С‚СЊ РїРѕ РїСѓС‚Рё
 		if ( !bFinished && nRecalculating == 0 )
 		{
-			// убрать повороты с острыми углами
+			// СѓР±СЂР°С‚СЊ РїРѕРІРѕСЂРѕС‚С‹ СЃ РѕСЃС‚СЂС‹РјРё СѓРіР»Р°РјРё
 			DelSharpAngles();
-			// острые повороты убраны
+			// РѕСЃС‚СЂС‹Рµ РїРѕРІРѕСЂРѕС‚С‹ СѓР±СЂР°РЅС‹
 			if ( !bFinished )
 			{
 				SRect locomotiveRect = pOwner->GetCarriage( 0 )->GetUnitRect();
@@ -337,7 +337,7 @@ bool CTrainSmoothPath::Init( IStaticPath *_pTrainPath )
 			}
 		}
 
-		// поменялось направление движения
+		// РїРѕРјРµРЅСЏР»РѕСЃСЊ РЅР°РїСЂР°РІР»РµРЅРёРµ РґРІРёР¶РµРЅРёСЏ
 		if ( bFrontDir != pOwner->IsFrontDir() )
 			fSpeed = 0;
 	}
@@ -363,24 +363,24 @@ void CTrainSmoothPath::MoveFrontWheel( const int n, float fDist )
 			break;
 
 		CPtr<CEdgePoint> pFirstEdgePoint = pTrainPath->GetFirstPoint( wheel.iter );
-		// точка, куда откладываем
+		// С‚РѕС‡РєР°, РєСѓРґР° РѕС‚РєР»Р°РґС‹РІР°РµРј
 		CPtr<CEdgePoint> pLastEdgePoint = pTrainPath->GetLastPoint( wheel.iter );
 		if ( pFirstEdgePoint && pFirstEdgePoint->IsValid() && pLastEdgePoint && pLastEdgePoint->IsValid() )
 		{
-			// ребро, вдоль которого идём
+			// СЂРµР±СЂРѕ, РІРґРѕР»СЊ РєРѕС‚РѕСЂРѕРіРѕ РёРґС‘Рј
 			IEdge *pTrainEdge = pFirstEdgePoint->GetEdge();
 
-			// то, куда отложили
+			// С‚Рѕ, РєСѓРґР° РѕС‚Р»РѕР¶РёР»Рё
 			CPtr<CEdgePoint> pNewEdgePoint = pTrainEdge->MakeIndent( vPointToMeasureDist, wheel.pPoint, pLastEdgePoint, fDist );
 
 			fDistToNewEdgePoint = fabs( vPointToMeasureDist - pNewEdgePoint->Get2DPoint() );
-			// если отложили до конца ребра
+			// РµСЃР»Рё РѕС‚Р»РѕР¶РёР»Рё РґРѕ РєРѕРЅС†Р° СЂРµР±СЂР°
 			if ( pNewEdgePoint->IsEqual( pLastEdgePoint ) )
 			{
 				if ( ++wheel.iter != pTrainPath->GetEndEdgesIter() )
 				{
 					CPtr<CEdgePoint> pLastPointOfTrainEdge = pTrainEdge->CreateLastEdgePoint();
-					// перешли через конец ребра графа
+					// РїРµСЂРµС€Р»Рё С‡РµСЂРµР· РєРѕРЅРµС† СЂРµР±СЂР° РіСЂР°С„Р°
 					if ( pNewEdgePoint->IsEqual( pLastPointOfTrainEdge ) )
 					{
 						newNodes.push_back( pTrainEdge->GetLastNode() );

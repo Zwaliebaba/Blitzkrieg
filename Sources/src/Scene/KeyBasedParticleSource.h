@@ -11,24 +11,24 @@ class CKeyBasedParticleSource : public IParticleSource, public IParticleSourceWi
 	OBJECT_NORMAL_METHODS(CKeyBasedParticleSource);
 	DECLARE_SERIALIZE;
 	//
-	CPtr<SParticleSourceData> pData;			// данные об источнике
-	NTimer::STime nStartTime;             // время рождения
-	NTimer::STime nLastUpdateTime;				// время последнего обновления
-	NTimer::STime nLastParticleUpdate;    // время последнего обновления сгенеренных партиклов
-	CVec3 vPosition;											// относительно положение источника
-	float fDirectionPhi;                  // направление источника в сферической системе координат
-	float fDirectionTheta;                // направление источника в сферической системе координат
-	CVec3 vDirection;                     // направдение источнике без учета pData
-	CPtr<IGFXTexture> pTexture;           // текстура с партиклами
-	float lastError;                      // поправка на нецелое число партиклов при последней генерации
-	std::vector< CTRect<float> > rcRects;  // координаты текстурных фреймов
-	std::list<SExtendedParticle> particles; // они
-	float fScale;                         // масштаб эффекта
-	bool bStopped;                        // остановка эффекта
+	CPtr<SParticleSourceData> pData;			// РґР°РЅРЅС‹Рµ РѕР± РёСЃС‚РѕС‡РЅРёРєРµ
+	NTimer::STime nStartTime;             // РІСЂРµРјВ¤ СЂРѕР¶РґРµРЅРёВ¤
+	NTimer::STime nLastUpdateTime;				// РІСЂРµРјВ¤ РїРѕСЃР»РµРґРЅРµРіРѕ РѕР±РЅРѕРІР»РµРЅРёВ¤
+	NTimer::STime nLastParticleUpdate;    // РІСЂРµРјВ¤ РїРѕСЃР»РµРґРЅРµРіРѕ РѕР±РЅРѕРІР»РµРЅРёВ¤ СЃРіРµРЅРµСЂРµРЅРЅС‹С… РїР°СЂС‚РёРєР»РѕРІ
+	CVec3 vPosition;											// РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕ РїРѕР»РѕР¶РµРЅРёРµ РёСЃС‚РѕС‡РЅРёРєР°
+	float fDirectionPhi;                  // РЅР°РїСЂР°РІР»РµРЅРёРµ РёСЃС‚РѕС‡РЅРёРєР° РІ СЃС„РµСЂРёС‡РµСЃРєРѕР№ СЃРёСЃС‚РµРјРµ РєРѕРѕСЂРґРёРЅР°С‚
+	float fDirectionTheta;                // РЅР°РїСЂР°РІР»РµРЅРёРµ РёСЃС‚РѕС‡РЅРёРєР° РІ СЃС„РµСЂРёС‡РµСЃРєРѕР№ СЃРёСЃС‚РµРјРµ РєРѕРѕСЂРґРёРЅР°С‚
+	CVec3 vDirection;                     // РЅР°РїСЂР°РІРґРµРЅРёРµ РёСЃС‚РѕС‡РЅРёРєРµ Р±РµР· СѓС‡РµС‚Р° pData
+	CPtr<IGFXTexture> pTexture;           // С‚РµРєСЃС‚СѓСЂР° СЃ РїР°СЂС‚РёРєР»Р°РјРё
+	float lastError;                      // РїРѕРїСЂР°РІРєР° РЅР° РЅРµС†РµР»РѕРµ С‡РёСЃР»Рѕ РїР°СЂС‚РёРєР»РѕРІ РїСЂРё РїРѕСЃР»РµРґРЅРµР№ РіРµРЅРµСЂР°С†РёРё
+	std::vector< CTRect<float> > rcRects;  // РєРѕРѕСЂРґРёРЅР°С‚С‹ С‚РµРєСЃС‚СѓСЂРЅС‹С… С„СЂРµР№РјРѕРІ
+	std::list<SExtendedParticle> particles; // РѕРЅРё
+	float fScale;                         // РјР°СЃС€С‚Р°Р± СЌС„С„РµРєС‚Р°
+	bool bStopped;                        // РѕСЃС‚Р°РЅРѕРІРєР° СЌС„С„РµРєС‚Р°
 	bool bSuspended;               
-	STrackContext contextDensity;         // контекст для интегрирования плотности партиклов
+	STrackContext contextDensity;         // РєРѕРЅС‚РµРєСЃС‚ РґР»В¤ РёРЅС‚РµРіСЂРёСЂРѕРІР°РЅРёВ¤ РїР»РѕС‚РЅРѕСЃС‚Рё РїР°СЂС‚РёРєР»РѕРІ
 	typedef CVec3 GetParticlePositionFunction( const float area, const CVec3 &vPosition );
-	GetParticlePositionFunction *pfnGPPfunc; // указатель на функцию, определяющую характер области вылета частиц
+	GetParticlePositionFunction *pfnGPPfunc; // СѓРєР°Р·Р°С‚РµР»СЊ РЅР° С„СѓРЅРєС†РёСЋ, РѕРїСЂРµРґРµР»В¤СЋС‰СѓСЋ С…Р°СЂР°РєС‚РµСЂ РѕР±Р»Р°СЃС‚Рё РІС‹Р»РµС‚Р° С‡Р°СЃС‚РёС†
 public:
 			// data retrieving for rendering
 	virtual interface IGFXTexture* STDCALL GetTexture() const;

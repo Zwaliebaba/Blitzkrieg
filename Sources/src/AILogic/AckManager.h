@@ -18,18 +18,18 @@ class CAckManager
 	CAckTypeBoredPrecence bored;
 
 	typedef std::vector<SAIAcknowledgment> CAcknowledgments;
-	CAcknowledgments acknowledgements;		// накапливает Acknolegments идущие от AI
+	CAcknowledgments acknowledgements;		// РЅР°РєР°РїР»РёРІР°РµС‚ Acknolegments РёРґСѓС‰РёРµ РѕС‚ AI
 
 	void AddAcknowledgment( const SAIAcknowledgment &ack );
 public:
 	CAckManager();
 	virtual ~CAckManager();
-	//выдача клиенту Acknowledgements
+	//РІС‹РґР°С‡Р° РєР»РёРµРЅС‚Сѓ Acknowledgements
 	void UpdateAcknowledgments( SAIAcknowledgment **pAckBuffer, int *pnLen );
-	//выдача клиенту Bored Acknowledgements
+	//РІС‹РґР°С‡Р° РєР»РёРµРЅС‚Сѓ Bored Acknowledgements
 	void UpdateAcknowledgments( SAIBoredAcknowledgement **pAckBuffer, int *pnLen );
 
-	// для BORED acknowledgements
+	// РґР»СЏ BORED acknowledgements
 	void RegisterAsBored(	EUnitAckType eAck, class CAIUnit *pObject );
 	void UnRegisterAsBored(	EUnitAckType eAck, class CAIUnit *pObject );
 

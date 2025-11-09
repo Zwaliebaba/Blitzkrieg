@@ -21,7 +21,7 @@ public:
 	CMissionCommonPropsItem() { nItemType = E_MISSION_COMMON_PROPS_ITEM; InitDefaultValues(); nImageIndex = 0; }
 	~CMissionCommonPropsItem() {};
 	
-	//Получение внутренних параметров
+	//РџРѕР»СѓС‡РµРЅРёРµ РІРЅСѓС‚СЂРµРЅРЅРёС… РїР°СЂР°РјРµС‚СЂРѕРІ
 	const char* GetHeaderText() { return values[0].value; }
 	const char* GetSubHeaderText() { return values[1].value; }
 	const char* GetDescText() { return values[2].value; }
@@ -29,7 +29,7 @@ public:
 	const char* GetFinalMap() { return values[4].value; }
 	const char *GetSettingName() { return values[5].value; }
 	
-	//Установка внутренних параметров
+	//РЈСЃС‚Р°РЅРѕРІРєР° РІРЅСѓС‚СЂРµРЅРЅРёС… РїР°СЂР°РјРµС‚СЂРѕРІ
 	void SetHeaderText( const char *pszName ) { values[0].value = pszName; }
 	void SetSubHeaderText( const char *pszName ) { values[1].value = pszName; }
 	void SetDescText( const char *pszName ) { values[2].value = pszName; }
@@ -62,10 +62,10 @@ public:
 	CMissionMusicPropsItem() { bStaticElements = true; nItemType = E_MISSION_MUSIC_PROPS_ITEM; InitDefaultValues(); nImageIndex = 3; }
 	~CMissionMusicPropsItem() {};
 	
-	//Получение внутренних параметров
+	//РџРѕР»СѓС‡РµРЅРёРµ РІРЅСѓС‚СЂРµРЅРЅРёС… РїР°СЂР°РјРµС‚СЂРѕРІ
 	const char* GetMusicFileName() { return values[0].value; }
 	
-	//Установка внутренних параметров
+	//РЈСЃС‚Р°РЅРѕРІРєР° РІРЅСѓС‚СЂРµРЅРЅРёС… РїР°СЂР°РјРµС‚СЂРѕРІ
 	void SetMusicFileName( const char *pszVal ) { values[0].value = pszVal; }
 	
 	virtual void InitDefaultValues();
@@ -94,14 +94,14 @@ public:
 	CMissionObjectivePropsItem() { bStaticElements = true; nItemType = E_MISSION_OBJECTIVE_PROPS_ITEM; InitDefaultValues(); nImageIndex = 0; }
 	~CMissionObjectivePropsItem() {};
 	
-	//Получение внутренних параметров
+	//РџРѕР»СѓС‡РµРЅРёРµ РІРЅСѓС‚СЂРµРЅРЅРёС… РїР°СЂР°РјРµС‚СЂРѕРІ
 	const char* GetObjectiveHeader() { return values[0].value; }
 	const char* GetObjectiveText() { return values[1].value; }
 	CVec2 GetObjectivePosition() { CVec2 res(values[2].value, values[3].value); return res; }
 	bool GetObjectiveSecretFlag() { return values[4].value; }
 	int GetObjectiveScriptID() { return values[5].value; }
 
-	//Установка внутренних параметров
+	//РЈСЃС‚Р°РЅРѕРІРєР° РІРЅСѓС‚СЂРµРЅРЅРёС… РїР°СЂР°РјРµС‚СЂРѕРІ
 	void SetObjeciveHeader( const char *pszVal ) { values[0].value = pszVal; }
 	void SetObjeciveText( const char *pszVal ) { values[1].value = pszVal; }
 	void SetObjectivePosition( CVec2 vVal ) { values[2].value = vVal.x; values[3].value = vVal.y; }

@@ -13,7 +13,7 @@ class CUnitCreation
 {
 	DECLARE_SERIALIZE;
 	CPtr<IObjectsDB> pIDB;
-	// для унификации создания самолетов
+	// РґР»СЏ СѓРЅРёС„РёРєР°С†РёРё СЃРѕР·РґР°РЅРёСЏ СЃР°РјРѕР»РµС‚РѕРІ
 	interface IPlaneCreation 
 	{
 		virtual const CVec2 &GetDestPoint() const = 0;
@@ -39,7 +39,7 @@ class CUnitCreation
 		virtual enum EActionCommand GetCommand() const { return eCmd; }
 		virtual int GetNParam() const { return nParam; }
 	};
-	// для создания маленьких самолетов
+	// РґР»СЏ СЃРѕР·РґР°РЅРёСЏ РјР°Р»РµРЅСЊРєРёС… СЃР°РјРѕР»РµС‚РѕРІ
 	class CLightPlaneCreation : public CPlaneCreation
 	{
 	public:
@@ -51,7 +51,7 @@ class CUnitCreation
 																std::vector<CVec2> *positions,
 																CVec2 * pvOffset, const bool bRandom = false );
 	};
-	// для создания тяжелых самолетов
+	// РґР»СЏ СЃРѕР·РґР°РЅРёСЏ С‚СЏР¶РµР»С‹С… СЃР°РјРѕР»РµС‚РѕРІ
 	class CHeavyPlaneCreation : public CPlaneCreation
 	{
 		bool bNeedFormation;
@@ -66,7 +66,7 @@ class CUnitCreation
 	};
 
 public:
-	//для хранения информации о танковых окопах
+	//РґР»СЏ С…СЂР°РЅРµРЅРёСЏ РёРЅС„РѕСЂРјР°С†РёРё Рѕ С‚Р°РЅРєРѕРІС‹С… РѕРєРѕРїР°С…
 	struct STankPitInfo
 	{
 		int operator&( IDataTree &ss );
@@ -74,17 +74,17 @@ public:
 		std::vector<std::string> digTankPits;
 		const char * GetRandomTankPit( const class CVec2 &vSize, const bool bCanDig, float *pfResize ) const;
 	};
-	// для хранения информации, специфической для стороны( русские, немцы, ...  )
+	// РґР»СЏ С…СЂР°РЅРµРЅРёСЏ РёРЅС„РѕСЂРјР°С†РёРё, СЃРїРµС†РёС„РёС‡РµСЃРєРѕР№ РґР»СЏ СЃС‚РѕСЂРѕРЅС‹( СЂСѓСЃСЃРєРёРµ, РЅРµРјС†С‹, ...  )
 	struct SPartyDependentInfo
 	{
-		std::string szPartyName;								// имя страны
-		std::string szGeneralPartyName;					// имя General Side
+		std::string szPartyName;								// РёРјСЏ СЃС‚СЂР°РЅС‹
+		std::string szGeneralPartyName;					// РёРјСЏ General Side
 
-		std::string szParatroopSoldierName;			// имя модельки, которая подменяет паращютиста
-		std::string szGunCrewSquad;							// артиллеоисты
-		std::string szHeavyMGSquad;							// пулеметчики
-		std::string szResupplyEngineerSquad;		// грузчики у грузовиков с ресурсами
-		//для использования в редакторе, сериализация здесь
+		std::string szParatroopSoldierName;			// РёРјСЏ РјРѕРґРµР»СЊРєРё, РєРѕС‚РѕСЂР°СЏ РїРѕРґРјРµРЅСЏРµС‚ РїР°СЂР°С‰СЋС‚РёСЃС‚Р°
+		std::string szGunCrewSquad;							// Р°СЂС‚РёР»Р»РµРѕРёСЃС‚С‹
+		std::string szHeavyMGSquad;							// РїСѓР»РµРјРµС‚С‡РёРєРё
+		std::string szResupplyEngineerSquad;		// РіСЂСѓР·С‡РёРєРё Сѓ РіСЂСѓР·РѕРІРёРєРѕРІ СЃ СЂРµСЃСѓСЂСЃР°РјРё
+		//РґР»СЏ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ РІ СЂРµРґР°РєС‚РѕСЂРµ, СЃРµСЂРёР°Р»РёР·Р°С†РёСЏ Р·РґРµСЃСЊ
 		int operator&( IDataTree &ss )
 		{
 			CTreeAccessor tree = &ss;
@@ -99,14 +99,14 @@ public:
 		}
 	};
 
-	// для хранения общей информации ( независимой от стороны )
+	// РґР»СЏ С…СЂР°РЅРµРЅРёСЏ РѕР±С‰РµР№ РёРЅС„РѕСЂРјР°С†РёРё ( РЅРµР·Р°РІРёСЃРёРјРѕР№ РѕС‚ СЃС‚РѕСЂРѕРЅС‹ )
 	struct SCommonInfo
 	{
-		std::vector<std::string> antitankObjects;	// противотанковые заграждения
-		std::string szAPFence;									// протиавопехотное проволочное заграждение
-		std::string szMineAT;										// противотанковая мина
-		std::string szMineAP;										// противопехотная мина
-		std::string szEntrenchment;							// окоп
+		std::vector<std::string> antitankObjects;	// РїСЂРѕС‚РёРІРѕС‚Р°РЅРєРѕРІС‹Рµ Р·Р°РіСЂР°Р¶РґРµРЅРёСЏ
+		std::string szAPFence;									// РїСЂРѕС‚РёР°РІРѕРїРµС…РѕС‚РЅРѕРµ РїСЂРѕРІРѕР»РѕС‡РЅРѕРµ Р·Р°РіСЂР°Р¶РґРµРЅРёРµ
+		std::string szMineAT;										// РїСЂРѕС‚РёРІРѕС‚Р°РЅРєРѕРІР°СЏ РјРёРЅР°
+		std::string szMineAP;										// РїСЂРѕС‚РёРІРѕРїРµС…РѕС‚РЅР°СЏ РјРёРЅР°
+		std::string szEntrenchment;							// РѕРєРѕРї
 		int operator&( IDataTree &ss );
 	};
 	//
@@ -131,22 +131,22 @@ public:
 			int						nFormation;					// due to map.
 			int						nPlanes;
 
-			bool					bEnabledScript;						// для активации/деактивации по скрипту
+			bool					bEnabledScript;						// РґР»СЏ Р°РєС‚РёРІР°С†РёРё/РґРµР°РєС‚РёРІР°С†РёРё РїРѕ СЃРєСЂРёРїС‚Сѓ
 			SPlaneInfo() : nFormation( 0 ), bEnabledScript ( true ), nPlanes( 0 ) { }
 		};
 		
 		std::vector<SPlaneInfo> planes;
 		
-		std::string		szParatrooper;										// название парашютистов
-		int nParadropSquadCount;												// количество сквадов паращютистов
-		NTimer::STime timeLastCall;											// последний вызов самолетов
-		NTimer::STime timeRelax;												// интервал вызова самолетов
+		std::string		szParatrooper;										// РЅР°Р·РІР°РЅРёРµ РїР°СЂР°С€СЋС‚РёСЃС‚РѕРІ
+		int nParadropSquadCount;												// РєРѕР»РёС‡РµСЃС‚РІРѕ СЃРєРІР°РґРѕРІ РїР°СЂР°С‰СЋС‚РёСЃС‚РѕРІ
+		NTimer::STime timeLastCall;											// РїРѕСЃР»РµРґРЅРёР№ РІС‹Р·РѕРІ СЃР°РјРѕР»РµС‚РѕРІ
+		NTimer::STime timeRelax;												// РёРЅС‚РµСЂРІР°Р» РІС‹Р·РѕРІР° СЃР°РјРѕР»РµС‚РѕРІ
 
-		std::string szPartyName;												// название страны
+		std::string szPartyName;												// РЅР°Р·РІР°РЅРёРµ СЃС‚СЂР°РЅС‹
 		int nLastCalledAviaType;												// last called aviation type
 
 		// this parameter can disable all planes for player.
-		std::vector<CVec2> vAppearPoints;		// точки возможного появления (координата аэродрома)
+		std::vector<CVec2> vAppearPoints;		// С‚РѕС‡РєРё РІРѕР·РјРѕР¶РЅРѕРіРѕ РїРѕСЏРІР»РµРЅРёСЏ (РєРѕРѕСЂРґРёРЅР°С‚Р° Р°СЌСЂРѕРґСЂРѕРјР°)
 
 		SLocalInGameUnitCreationInfo & operator=( const struct SUnitCreation &rSUnitCreation );
 		SLocalInGameUnitCreationInfo( const struct SUnitCreation &rSUnitCreation );
@@ -157,22 +157,22 @@ public:
 private:
 	int nAviationCallNumeber;
 	bool bInit;														// for delaying initialization untill segment
-	// это для локального игрока только
+	// СЌС‚Рѕ РґР»СЏ Р»РѕРєР°Р»СЊРЅРѕРіРѕ РёРіСЂРѕРєР° С‚РѕР»СЊРєРѕ
 	bool bMainButtonDisabled;
 
-	std::vector<BYTE> bForceDisabled;						// авиация вообще не включается
+	std::vector<BYTE> bForceDisabled;						// Р°РІРёР°С†РёСЏ РІРѕРѕР±С‰Рµ РЅРµ РІРєР»СЋС‡Р°РµС‚СЃСЏ
 
 	std::vector<SLocalInGameUnitCreationInfo> inGameUnits;
 	std::vector<BYTE> bLockedFlags;
 	std::vector<CVec2> vLockedAppearPoints;
 
 	// consts
-	// читается из xml, сохранять не нужно
+	// С‡РёС‚Р°РµС‚СЃСЏ РёР· xml, СЃРѕС…СЂР°РЅСЏС‚СЊ РЅРµ РЅСѓР¶РЅРѕ
 	std::vector<SPartyDependentInfo> partyDependentInfo;
 	SCommonInfo commonInfo;
 	STankPitInfo tankPitInfo;							
 
-	// положение бомбера с заданным номером ( в баундинг-боксах)
+	// РїРѕР»РѕР¶РµРЅРёРµ Р±РѕРјР±РµСЂР° СЃ Р·Р°РґР°РЅРЅС‹Рј РЅРѕРјРµСЂРѕРј ( РІ Р±Р°СѓРЅРґРёРЅРі-Р±РѕРєСЃР°С…)
 	void CalcPositionsForHeavyPlanes( int nMax, const CVec2 & box, const CVec2 & direction, std::vector<CVec2> * positions, CVec2 * offset, bool bRandom =false )const;
 
 	void DisableMainAviationButton( NTimer::STime time );
@@ -193,9 +193,9 @@ private:
 
 public:
 	CUnitCreation();
-	// для редактора
+	// РґР»СЏ СЂРµРґР°РєС‚РѕСЂР°
 	void Init();
-	// для игры
+	// РґР»СЏ РёРіСЂС‹
 	void Init( const struct SUnitCreationInfo &info );
 	void Clear();
 	
@@ -226,7 +226,7 @@ public:
 	class CFormation* CreateResupplyEngineers( class CAITransportUnit *pUnit ) const;
 	CFormation * CreateCrew( class CArtillery *pUnit, IObjectsDB *_pIDB = 0, const int nUnits = -1, const CVec3 vPos = CVec3(-1,-1,-1), const int nPlayer = -1, const bool bImmidiateAttach = true ) const;
 
-	// послать Юре формацию, чтобы ее можно было селектить и вообще чтобы она на клиенте существовала
+	// РїРѕСЃР»Р°С‚СЊ Р®СЂРµ С„РѕСЂРјР°С†РёСЋ, С‡С‚РѕР±С‹ РµРµ РјРѕР¶РЅРѕ Р±С‹Р»Рѕ СЃРµР»РµРєС‚РёС‚СЊ Рё РІРѕРѕР±С‰Рµ С‡С‚РѕР±С‹ РѕРЅР° РЅР° РєР»РёРµРЅС‚Рµ СЃСѓС‰РµСЃС‚РІРѕРІР°Р»Р°
 	void SendFormationToWorld( CFormation * pUnit ) const;
 
 	IObjectsDB* GetObjectDB() { return pIDB; }
@@ -248,7 +248,7 @@ public:
 	void PlaneLandedSafely( const int nPlayer, const int /*SUCAviation::AIRCRAFT_TYPE*/ nAvia );
 	void Segment();
 
-	// для активации по скрипту
+	// РґР»СЏ Р°РєС‚РёРІР°С†РёРё РїРѕ СЃРєСЂРёРїС‚Сѓ
 	void EnableAviationScript( const int nPlayer, const int nAvia );
 	void DisableAviationScript( const int nPlayer, const int nAvia );
 	// for inquiery from script
@@ -257,7 +257,7 @@ public:
 	// for weather.
 	void BadWeatherStarted();
 	
-	// вычисляет точку, в которой произойдет пересечение курса самолетов с краем карты ( при вылете )
+	// РІС‹С‡РёСЃР»СЏРµС‚ С‚РѕС‡РєСѓ, РІ РєРѕС‚РѕСЂРѕР№ РїСЂРѕРёР·РѕР№РґРµС‚ РїРµСЂРµСЃРµС‡РµРЅРёРµ РєСѓСЂСЃР° СЃР°РјРѕР»РµС‚РѕРІ СЃ РєСЂР°РµРј РєР°СЂС‚С‹ ( РїСЂРё РІС‹Р»РµС‚Рµ )
 	const CVec2 GetFirstIntercectWithMap( const int nPlayer );
 
 	bool IsAntiTank( const SHPObjectRPGStats *pStats ) const;

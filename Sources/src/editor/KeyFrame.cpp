@@ -14,17 +14,17 @@ static char THIS_FILE[] = __FILE__;
 /////////////////////////////////////////////////////////////////////////////
 // CKeyFrame
 
-static const int SCROLLBAR_SIZE = 15;		//ширина ScrollBar
-static const int XS = 25;								//размер клеточки экрана по горизонтали
-static const int YS = 25;								//по вертикали
-static const int LEFT = 43;							//отступ слева от края окошка до графика
-static const int BOTTOM = 30;						//снизу до графика
-static const int TEXT_SPACE = 4;				//отступ текста от графика
-static const int SELECT_SIZE = 3;				//размеры в пределах которых выбирается точка при клике мышкой
-static const int NODE_SPACE = 3;				//минимальное расстояние между нодами на экране в пикселях
+static const int SCROLLBAR_SIZE = 15;		//С€РёСЂРёРЅР° ScrollBar
+static const int XS = 25;								//СЂР°Р·РјРµСЂ РєР»РµС‚РѕС‡РєРё СЌРєСЂР°РЅР° РїРѕ РіРѕСЂРёР·РѕРЅС‚Р°Р»Рё
+static const int YS = 25;								//РїРѕ РІРµСЂС‚РёРєР°Р»Рё
+static const int LEFT = 43;							//РѕС‚СЃС‚СѓРї СЃР»РµРІР° РѕС‚ РєСЂР°СЏ РѕРєРѕС€РєР° РґРѕ РіСЂР°С„РёРєР°
+static const int BOTTOM = 30;						//СЃРЅРёР·Сѓ РґРѕ РіСЂР°С„РёРєР°
+static const int TEXT_SPACE = 4;				//РѕС‚СЃС‚СѓРї С‚РµРєСЃС‚Р° РѕС‚ РіСЂР°С„РёРєР°
+static const int SELECT_SIZE = 3;				//СЂР°Р·РјРµСЂС‹ РІ РїСЂРµРґРµР»Р°С… РєРѕС‚РѕСЂС‹С… РІС‹Р±РёСЂР°РµС‚СЃСЏ С‚РѕС‡РєР° РїСЂРё РєР»РёРєРµ РјС‹С€РєРѕР№
+static const int NODE_SPACE = 3;				//РјРёРЅРёРјР°Р»СЊРЅРѕРµ СЂР°СЃСЃС‚РѕСЏРЅРёРµ РјРµР¶РґСѓ РЅРѕРґР°РјРё РЅР° СЌРєСЂР°РЅРµ РІ РїРёРєСЃРµР»СЏС…
 
 
-int SIZES[5] = { 5, 10, 20, 50, 100 };	//доступные масштабы
+int SIZES[5] = { 5, 10, 20, 50, 100 };	//РґРѕСЃС‚СѓРїРЅС‹Рµ РјР°СЃС€С‚Р°Р±С‹
 
 CKeyFrame::CKeyFrame()
 {
@@ -76,7 +76,7 @@ BOOL CKeyFrame::Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwSt
 	if ( !CWnd::Create(lpszClassName, lpszWindowName, dwStyle, rect, pParentWnd, nID, pContext) )
 		return FALSE;
 
-	//Создаем парочку ScrollBar
+	//РЎРѕР·РґР°РµРј РїР°СЂРѕС‡РєСѓ ScrollBar
 	m_BottomScroll.Create( SBS_HORZ | SBS_TOPALIGN | WS_CHILD, CRect(5,5,100,30), this, 100 );
 	m_BottomScroll.ShowScrollBar();
 
@@ -274,30 +274,30 @@ void CKeyFrame::OnPaint()
 	CBitmap *pOldBitmap = dc.SelectObject( &bmp );
 
 
-	//Заливаем окошко минус скроллбары
+	//Р—Р°Р»РёРІР°РµРј РѕРєРѕС€РєРѕ РјРёРЅСѓСЃ СЃРєСЂРѕР»Р»Р±Р°СЂС‹
 	dc.FillSolidRect( rc.left+SCROLLBAR_SIZE, rc.top, rc.right-rc.left-SCROLLBAR_SIZE, rc.bottom-rc.top-SCROLLBAR_SIZE, RGB(255,255,255) );
-	//Заливаем пустующее пространство между скроллбарами
+	//Р—Р°Р»РёРІР°РµРј РїСѓСЃС‚СѓСЋС‰РµРµ РїСЂРѕСЃС‚СЂР°РЅСЃС‚РІРѕ РјРµР¶РґСѓ СЃРєСЂРѕР»Р»Р±Р°СЂР°РјРё
 //	dc.FillSolidRect( rc.left, rc.bottom-SCROLLBAR_SIZE, SCROLLBAR_SIZE, SCROLLBAR_SIZE, GetSysColor(COLOR_SCROLLBAR) );
 	paintDC.FillSolidRect( rc.left, rc.bottom-SCROLLBAR_SIZE, SCROLLBAR_SIZE, SCROLLBAR_SIZE, RGB(255,255,255) );
 	
 	if ( !m_BottomScroll.IsWindowVisible() )
 	{
-		//Если не видимый ScrollBar, то зарисовываю его белым цветом
+		//Р•СЃР»Рё РЅРµ РІРёРґРёРјС‹Р№ ScrollBar, С‚Рѕ Р·Р°СЂРёСЃРѕРІС‹РІР°СЋ РµРіРѕ Р±РµР»С‹Рј С†РІРµС‚РѕРј
 		paintDC.FillSolidRect( rc.left+SCROLLBAR_SIZE, rc.bottom-SCROLLBAR_SIZE, rc.right-rc.left-SCROLLBAR_SIZE, SCROLLBAR_SIZE, RGB(255,255,255) );
 	}
 
 	if ( !m_LeftScroll.IsWindowVisible() )
 	{
-		//Если не видимый ScrollBar, то зарисовываю его белым цветом
+		//Р•СЃР»Рё РЅРµ РІРёРґРёРјС‹Р№ ScrollBar, С‚Рѕ Р·Р°СЂРёСЃРѕРІС‹РІР°СЋ РµРіРѕ Р±РµР»С‹Рј С†РІРµС‚РѕРј
 		paintDC.FillSolidRect( rc.left, rc.top, SCROLLBAR_SIZE, rc.bottom-rc.top-SCROLLBAR_SIZE, RGB(255,255,255) );
 	}
 	
 
 /*
-	//Заливаем все окошко белым цветом
+	//Р—Р°Р»РёРІР°РµРј РІСЃРµ РѕРєРѕС€РєРѕ Р±РµР»С‹Рј С†РІРµС‚РѕРј
 	dc.FillSolidRect( rc.left, rc.top, rc.right-rc.left, rc.bottom-rc.top, RGB(255,255,255) );
 */
-	//Устанавливаем тоненький шрифт для отображения текста
+	//РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј С‚РѕРЅРµРЅСЊРєРёР№ С€СЂРёС„С‚ РґР»СЏ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ С‚РµРєСЃС‚Р°
 	CFont font;
 	LOGFONT lf;
 	memset(&lf, 0, sizeof(LOGFONT));       // zero out structure
@@ -309,15 +309,15 @@ void CKeyFrame::OnPaint()
 	CFont* def_font = dc.SelectObject(&font);
 	dc.SetBkMode( TRANSPARENT );
 
-	//Устанавливаем цвет карандаша для отображения линий
+	//РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј С†РІРµС‚ РєР°СЂР°РЅРґР°С€Р° РґР»СЏ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ Р»РёРЅРёР№
 	CPen grayPen( PS_SOLID, 1, RGB(200,200,200) );
 	dc.SelectObject( &grayPen );
 
 	int nMin = 0, nMax = 0;
-	float fMinValX = m_fMaxValX, fMaxValX = m_fMinValX;			//это минимально и максимально видимые координаты по оси X на экране
-	float fMinValY = m_fMaxValY, fMaxValY = m_fMinValY;			//по оси Y
+	float fMinValX = m_fMaxValX, fMaxValX = m_fMinValX;			//СЌС‚Рѕ РјРёРЅРёРјР°Р»СЊРЅРѕ Рё РјР°РєСЃРёРјР°Р»СЊРЅРѕ РІРёРґРёРјС‹Рµ РєРѕРѕСЂРґРёРЅР°С‚С‹ РїРѕ РѕСЃРё X РЅР° СЌРєСЂР°РЅРµ
+	float fMinValY = m_fMaxValY, fMaxValY = m_fMinValY;			//РїРѕ РѕСЃРё Y
 
-	//Отобразим вертикальную шкалу
+	//РћС‚РѕР±СЂР°Р·РёРј РІРµСЂС‚РёРєР°Р»СЊРЅСѓСЋ С€РєР°Р»Сѓ
 	if ( m_BottomScroll.IsWindowVisible() )
 	{
 		GetVisibleX( &nMin, &nMax );
@@ -343,17 +343,17 @@ void CKeyFrame::OnPaint()
 	}
 	for ( int x=nMin; x<=nMax; x++ )
 	{
-		//nVal это текст подпись к линии
+		//nVal СЌС‚Рѕ С‚РµРєСЃС‚ РїРѕРґРїРёСЃСЊ Рє Р»РёРЅРёРё
 		float fVal = m_fMinValX + x * m_fStepX;
 		if ( fVal > m_fMaxValX )
 			break;
 
-		//Рисуем линию
+		//Р РёСЃСѓРµРј Р»РёРЅРёСЋ
 		int nDrawX = (x - nMin)*m_XS + LEFT;
 		dc.MoveTo( nDrawX, rc.bottom - BOTTOM );
 		dc.LineTo( nDrawX, maxTop );
 		
-		//Рисуем текст
+		//Р РёСЃСѓРµРј С‚РµРєСЃС‚
 		RECT textRC;
 		textRC.left = nDrawX - m_XS;
 		textRC.right = nDrawX + m_XS;
@@ -367,7 +367,7 @@ void CKeyFrame::OnPaint()
 	}
 
 
-	//Отобразим горизонтальную шкалу
+	//РћС‚РѕР±СЂР°Р·РёРј РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅСѓСЋ С€РєР°Р»Сѓ
 	if ( m_LeftScroll.IsWindowVisible() )
 	{
 		GetVisibleY( &nMin, &nMax );
@@ -382,17 +382,17 @@ void CKeyFrame::OnPaint()
 	fMaxValY = m_fMinValY + nMax * m_fStepY;
 	for ( int y=nMin; y<=nMax; y++ )
 	{
-		//fVal это текст подпись к линии
+		//fVal СЌС‚Рѕ С‚РµРєСЃС‚ РїРѕРґРїРёСЃСЊ Рє Р»РёРЅРёРё
 		float fVal = m_fMinValY + y * m_fStepY;
 		if ( fVal > m_fMaxValY )
 			break;
 		
-		//Рисуем линию
+		//Р РёСЃСѓРµРј Р»РёРЅРёСЋ
 		int nDrawY = rc.bottom - BOTTOM - (y - nMin)*m_YS;
 		dc.MoveTo( rc.left+LEFT, nDrawY );
 		dc.LineTo( maxRight, nDrawY );
 		
-		//Рисуем текст
+		//Р РёСЃСѓРµРј С‚РµРєСЃС‚
 		RECT textRC;
 		textRC.left = rc.left;
 		textRC.right = rc.left + LEFT - TEXT_SPACE;
@@ -404,13 +404,13 @@ void CKeyFrame::OnPaint()
 		dc.DrawText( szStr, &textRC, DT_RIGHT | DT_BOTTOM );
 	}
 	
-	//Устанавливаем цвет карандаша для отображения линий
+	//РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј С†РІРµС‚ РєР°СЂР°РЅРґР°С€Р° РґР»СЏ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ Р»РёРЅРёР№
 	CPen blackPen( PS_SOLID, 1, RGB(0,0,0) );
 	CPen redPen( PS_SOLID, 1, RGB(255,0,0) );
 	CPen bluePen( PS_SOLID, 1, RGB(0,0,255) );
 	dc.SelectObject( &blackPen );
 
-	//Отображаем список точек
+	//РћС‚РѕР±СЂР°Р¶Р°РµРј СЃРїРёСЃРѕРє С‚РѕС‡РµРє
 	if ( framesList.size() > 0 )
 	{
 		int i = 0;
@@ -422,7 +422,7 @@ void CKeyFrame::OnPaint()
 			float x = it->first;
 			float y = it->second;
 			
-			//переводим координаты из настоящих в экранные
+			//РїРµСЂРµРІРѕРґРёРј РєРѕРѕСЂРґРёРЅР°С‚С‹ РёР· РЅР°СЃС‚РѕСЏС‰РёС… РІ СЌРєСЂР°РЅРЅС‹Рµ
 			float fScreenX;
 			float fScreenY;
 			GetScreenByValue( x, y, &fScreenX, &fScreenY );
@@ -481,7 +481,7 @@ void CKeyFrame::OnPaint()
 			i++;
 		}
 
-		//От последнего нода отображаем линию, уходящую вправо в бесконечность
+		//РћС‚ РїРѕСЃР»РµРґРЅРµРіРѕ РЅРѕРґР° РѕС‚РѕР±СЂР°Р¶Р°РµРј Р»РёРЅРёСЋ, СѓС…РѕРґСЏС‰СѓСЋ РІРїСЂР°РІРѕ РІ Р±РµСЃРєРѕРЅРµС‡РЅРѕСЃС‚СЊ
 		if ( bFlag )
 		{
 			dc.MoveTo( fPrevX, fPrevY );
@@ -538,8 +538,8 @@ void CKeyFrame::SetHDimention( float fMin, float fMax )
 
 		RECT rc;
 		GetClientRect( &rc );
-		//рассчитаем размеры ячейки
-		m_XS = (rc.right-rc.left-LEFT-15)/(m_fMaxValX - m_fMinValX)*m_fStepX;		//тут 15 это отступ справа
+		//СЂР°СЃСЃС‡РёС‚Р°РµРј СЂР°Р·РјРµСЂС‹ СЏС‡РµР№РєРё
+		m_XS = (rc.right-rc.left-LEFT-15)/(m_fMaxValX - m_fMinValX)*m_fStepX;		//С‚СѓС‚ 15 СЌС‚Рѕ РѕС‚СЃС‚СѓРї СЃРїСЂР°РІР°
 		Invalidate();
 		return;
 	}
@@ -557,13 +557,13 @@ void CKeyFrame::SetHDimention( float fMin, float fMax )
 		int nNumberOnTheScreen = (rc.right - rc.left - LEFT - m_XS/2) / m_XS + 0.5f;
 		if ( nNumberOnTheScreen > nNumberInSB )
 		{
-			//ScrollBar невидимый
+			//ScrollBar РЅРµРІРёРґРёРјС‹Р№
 			m_BottomScroll.ShowScrollBar( FALSE );
 			return;
 		}
 		else
 		{
-			//ScrollBar видимый
+			//ScrollBar РІРёРґРёРјС‹Р№
 			m_BottomScroll.ShowScrollBar();
 		}
 		
@@ -591,14 +591,14 @@ void CKeyFrame::SetVDimention( float fMin, float fMax )
 	int nNumberOnTheScreen = (rc.bottom - rc.top - BOTTOM - m_YS/4) / m_YS + 0.5f;
 	if ( nNumberOnTheScreen >= nNumberInSB )
 	{
-		//ScrollBar невидимый
+		//ScrollBar РЅРµРІРёРґРёРјС‹Р№
 		m_LeftScroll.ShowScrollBar( FALSE );
 		Invalidate();
 		return;
 	}
 	else
 	{
-		//ScrollBar видимый
+		//ScrollBar РІРёРґРёРјС‹Р№
 		m_LeftScroll.ShowScrollBar();
 	}
 	
@@ -635,7 +635,7 @@ void CKeyFrame::GetScreenByValue( float fValX, float fValY, float *pScreenX, flo
 {
 	int nMin, nMax;
 	
-	//Получим горизонтальную координату
+	//РџРѕР»СѓС‡РёРј РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅСѓСЋ РєРѕРѕСЂРґРёРЅР°С‚Сѓ
 	if ( m_BottomScroll.IsWindowVisible() )
 		GetVisibleX( &nMin, &nMax );
 	else
@@ -644,7 +644,7 @@ void CKeyFrame::GetScreenByValue( float fValX, float fValY, float *pScreenX, flo
 	float fScaleX = (float) m_XS / m_fStepX;
 	*pScreenX = (fValX - fMinValX) * fScaleX + LEFT;
 	
-	//Получим вертикальную координату
+	//РџРѕР»СѓС‡РёРј РІРµСЂС‚РёРєР°Р»СЊРЅСѓСЋ РєРѕРѕСЂРґРёРЅР°С‚Сѓ
 	if ( m_LeftScroll.IsWindowVisible() )
 		GetVisibleY( &nMin, &nMax );
 	else
@@ -661,7 +661,7 @@ void CKeyFrame::GetValueByScreen( int x, int y, float *pValX, float *pValY )
 {
 	int nMin, nMax;
 
-	//Получим горизонтальную координату
+	//РџРѕР»СѓС‡РёРј РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅСѓСЋ РєРѕРѕСЂРґРёРЅР°С‚Сѓ
 	if ( m_BottomScroll.IsWindowVisible() )
 		GetVisibleX( &nMin, &nMax );
 	else
@@ -670,7 +670,7 @@ void CKeyFrame::GetValueByScreen( int x, int y, float *pValX, float *pValY )
 	float fScaleX = m_fStepX / m_XS;
 	*pValX = fMinValX + (x - LEFT) * fScaleX;
 
-	//Получим вертикальную координату
+	//РџРѕР»СѓС‡РёРј РІРµСЂС‚РёРєР°Р»СЊРЅСѓСЋ РєРѕРѕСЂРґРёРЅР°С‚Сѓ
 	if ( m_LeftScroll.IsWindowVisible() )
 		GetVisibleY( &nMin, &nMax );
 	else
@@ -793,7 +793,7 @@ CFramesList::iterator CKeyFrame::GetNearNodeIndex( int x, int y, int *pIndex )
 		float x = it->first;
 		float y = it->second;
 		
-		//переводим координаты из настоящих в экранные
+		//РїРµСЂРµРІРѕРґРёРј РєРѕРѕСЂРґРёРЅР°С‚С‹ РёР· РЅР°СЃС‚РѕСЏС‰РёС… РІ СЌРєСЂР°РЅРЅС‹Рµ
 		float fScreenX;
 		float fScreenY;
 		GetScreenByValue( x, y, &fScreenX, &fScreenY );
@@ -822,8 +822,8 @@ void CKeyFrame::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	SetFocus();
 
-	//Прохожу по всем точкам с списке и нахожу screen coord.
-	//Если screen coord x мало отличается от point.x, тогда считаю что точка поселекчена
+	//РџСЂРѕС…РѕР¶Сѓ РїРѕ РІСЃРµРј С‚РѕС‡РєР°Рј СЃ СЃРїРёСЃРєРµ Рё РЅР°С…РѕР¶Сѓ screen coord.
+	//Р•СЃР»Рё screen coord x РјР°Р»Рѕ РѕС‚Р»РёС‡Р°РµС‚СЃСЏ РѕС‚ point.x, С‚РѕРіРґР° СЃС‡РёС‚Р°СЋ С‡С‚Рѕ С‚РѕС‡РєР° РїРѕСЃРµР»РµРєС‡РµРЅР°
 
 	int i = 0;
 	bool bFound = false;
@@ -833,7 +833,7 @@ void CKeyFrame::OnLButtonDown(UINT nFlags, CPoint point)
 		float x = it->first;
 		float y = it->second;
 		
-		//переводим координаты из настоящих в экранные
+		//РїРµСЂРµРІРѕРґРёРј РєРѕРѕСЂРґРёРЅР°С‚С‹ РёР· РЅР°СЃС‚РѕСЏС‰РёС… РІ СЌРєСЂР°РЅРЅС‹Рµ
 		float fScreenX;
 		float fScreenY;
 		GetScreenByValue( x, y, &fScreenX, &fScreenY );
@@ -845,14 +845,14 @@ void CKeyFrame::OnLButtonDown(UINT nFlags, CPoint point)
 		}
 		
 		if ( point.x < fScreenX )
-			break;					//в этом случае мы должны вставить новый нод перед it
+			break;					//РІ СЌС‚РѕРј СЃР»СѓС‡Р°Рµ РјС‹ РґРѕР»Р¶РЅС‹ РІСЃС‚Р°РІРёС‚СЊ РЅРѕРІС‹Р№ РЅРѕРґ РїРµСЂРµРґ it
 		
 		i++;
 	}
 	
 	if ( bFound )
 	{
-		//устанавливаем элементу нужную координату по Y
+		//СѓСЃС‚Р°РЅР°РІР»РёРІР°РµРј СЌР»РµРјРµРЅС‚Сѓ РЅСѓР¶РЅСѓСЋ РєРѕРѕСЂРґРёРЅР°С‚Сѓ РїРѕ Y
 		float fValX, fValY;
 		GetValueByScreen( point.x, point.y, &fValX, &fValY );
 		if ( fValY > m_fMaxValY )
@@ -873,10 +873,10 @@ void CKeyFrame::OnLButtonDown(UINT nFlags, CPoint point)
 	}
 	else
 	{
-		//Создаем новый нод и добавляем его в список
+		//РЎРѕР·РґР°РµРј РЅРѕРІС‹Р№ РЅРѕРґ Рё РґРѕР±Р°РІР»СЏРµРј РµРіРѕ РІ СЃРїРёСЃРѕРє
 		float fValX, fValY;
 		GetValueByScreen( point.x, point.y, &fValX, &fValY );
-		//тут надо проверить, не выходят ли координаты мышки за пределы контрола, в этом случае не надо добавлять новый элемент
+		//С‚СѓС‚ РЅР°РґРѕ РїСЂРѕРІРµСЂРёС‚СЊ, РЅРµ РІС‹С…РѕРґСЏС‚ Р»Рё РєРѕРѕСЂРґРёРЅР°С‚С‹ РјС‹С€РєРё Р·Р° РїСЂРµРґРµР»С‹ РєРѕРЅС‚СЂРѕР»Р°, РІ СЌС‚РѕРј СЃР»СѓС‡Р°Рµ РЅРµ РЅР°РґРѕ РґРѕР±Р°РІР»СЏС‚СЊ РЅРѕРІС‹Р№ СЌР»РµРјРµРЅС‚
 		if ( fValX >= m_fMinValX && fValX <= m_fMaxValX && fValY >= m_fMinValY && fValY <= m_fMaxValY )
 		{
 			pair<float, float> para;
@@ -912,7 +912,7 @@ void CKeyFrame::OnMouseMove(UINT nFlags, CPoint point)
 {
 	if ( m_mode == E_FREE_MODE )
 	{
-		//найдем подсвеченный нод, если такой имеется
+		//РЅР°Р№РґРµРј РїРѕРґСЃРІРµС‡РµРЅРЅС‹Р№ РЅРѕРґ, РµСЃР»Рё С‚Р°РєРѕР№ РёРјРµРµС‚СЃСЏ
 		int i = 0;
 		float fScreenX;
 		float fScreenY;
@@ -924,7 +924,7 @@ void CKeyFrame::OnMouseMove(UINT nFlags, CPoint point)
 			float x = it->first;
 			float y = it->second;
 			
-			//переводим координаты из настоящих в экранные
+			//РїРµСЂРµРІРѕРґРёРј РєРѕРѕСЂРґРёРЅР°С‚С‹ РёР· РЅР°СЃС‚РѕСЏС‰РёС… РІ СЌРєСЂР°РЅРЅС‹Рµ
 			GetScreenByValue( x, y, &fScreenX, &fScreenY );
 			
 			if ( fScreenX >= point.x-SELECT_SIZE && fScreenX <= point.x+SELECT_SIZE )
@@ -934,7 +934,7 @@ void CKeyFrame::OnMouseMove(UINT nFlags, CPoint point)
 			}
 			
 			if ( point.x < fScreenX )
-				break;					//в этом случае мы должны вставить новый нод перед it
+				break;					//РІ СЌС‚РѕРј СЃР»СѓС‡Р°Рµ РјС‹ РґРѕР»Р¶РЅС‹ РІСЃС‚Р°РІРёС‚СЊ РЅРѕРІС‹Р№ РЅРѕРґ РїРµСЂРµРґ it
 			
 			i++;
 		}
@@ -942,7 +942,7 @@ void CKeyFrame::OnMouseMove(UINT nFlags, CPoint point)
 		if ( bFound )
 		{
 			m_nHighNodeIndex = i;
-			//отобразим подсвеченную ноду
+			//РѕС‚РѕР±СЂР°Р·РёРј РїРѕРґСЃРІРµС‡РµРЅРЅСѓСЋ РЅРѕРґСѓ
 			Invalidate();
 		}
 		else if ( m_nHighNodeIndex != -1 )
@@ -960,8 +960,8 @@ void CKeyFrame::OnMouseMove(UINT nFlags, CPoint point)
 		RECT rc;
 		GetClientRect( &rc );
 
-		//Передвинем ноду с индексом m_nDragIndex в новые координаты
-		//Получим iterator ноды
+		//РџРµСЂРµРґРІРёРЅРµРј РЅРѕРґСѓ СЃ РёРЅРґРµРєСЃРѕРј m_nDragIndex РІ РЅРѕРІС‹Рµ РєРѕРѕСЂРґРёРЅР°С‚С‹
+		//РџРѕР»СѓС‡РёРј iterator РЅРѕРґС‹
 		int i = 0;
 		CFramesList::iterator it=framesList.begin();
 		for ( ; it!=framesList.end(); ++it )
@@ -973,8 +973,8 @@ void CKeyFrame::OnMouseMove(UINT nFlags, CPoint point)
 		}
 		NI_ASSERT( it != framesList.end() );
 
-		//найдем предыдущий и следующий ноды
-		//нода может двигаться по горизонтали только между этими двумя нодами
+		//РЅР°Р№РґРµРј РїСЂРµРґС‹РґСѓС‰РёР№ Рё СЃР»РµРґСѓСЋС‰РёР№ РЅРѕРґС‹
+		//РЅРѕРґР° РјРѕР¶РµС‚ РґРІРёРіР°С‚СЊСЃСЏ РїРѕ РіРѕСЂРёР·РѕРЅС‚Р°Р»Рё С‚РѕР»СЊРєРѕ РјРµР¶РґСѓ СЌС‚РёРјРё РґРІСѓРјСЏ РЅРѕРґР°РјРё
 		CFramesList::iterator prev = it, next = it;
 		if ( it != framesList.begin() )
 		{
@@ -987,7 +987,7 @@ void CKeyFrame::OnMouseMove(UINT nFlags, CPoint point)
 			{
 				if ( m_BottomScroll.IsWindowVisible() )
 				{
-					//сдвинем ScrollBar влево
+					//СЃРґРІРёРЅРµРј ScrollBar РІР»РµРІРѕ
 					int nPos = m_BottomScroll.GetScrollPos();
 					if ( nPos > 0 )
 						m_BottomScroll.SetScrollPos( nPos-1 );
@@ -1008,7 +1008,7 @@ void CKeyFrame::OnMouseMove(UINT nFlags, CPoint point)
 				point.x = fMaxX - NODE_SPACE;
 			else
 			{
-				//проверяем, не вышла ли точка за пределы контрола справа
+				//РїСЂРѕРІРµСЂСЏРµРј, РЅРµ РІС‹С€Р»Р° Р»Рё С‚РѕС‡РєР° Р·Р° РїСЂРµРґРµР»С‹ РєРѕРЅС‚СЂРѕР»Р° СЃРїСЂР°РІР°
 				int nMin, nMax;
 				GetVisibleX( &nMin, &nMax );
 				int nMaxScreenPosX = LEFT + (nMax - nMin)*m_XS;
@@ -1028,7 +1028,7 @@ void CKeyFrame::OnMouseMove(UINT nFlags, CPoint point)
 		}
 
 		{
-			//Контролируем, чтобы координата Y тоже была в пределах границ m_fMinValY, m_fMaxValY
+			//РљРѕРЅС‚СЂРѕР»РёСЂСѓРµРј, С‡С‚РѕР±С‹ РєРѕРѕСЂРґРёРЅР°С‚Р° Y С‚РѕР¶Рµ Р±С‹Р»Р° РІ РїСЂРµРґРµР»Р°С… РіСЂР°РЅРёС† m_fMinValY, m_fMaxValY
 			if ( point.y > rc.bottom - BOTTOM )
 			{
 				if ( m_LeftScroll.IsWindowVisible() )
@@ -1075,7 +1075,7 @@ void CKeyFrame::OnMouseMove(UINT nFlags, CPoint point)
 			GetValueByScreen( point.x, point.y, &it->first, &it->second );
 */
 
-		//Обновляем смещение
+		//РћР±РЅРѕРІР»СЏРµРј СЃРјРµС‰РµРЅРёРµ
 		m_beginDrag = point;
 		Invalidate();
 	}
@@ -1147,7 +1147,7 @@ void CKeyFrame::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 void CKeyFrame::ResetNodes()
 {
-	//Удаляем все ноды кроме первой
+	//РЈРґР°Р»СЏРµРј РІСЃРµ РЅРѕРґС‹ РєСЂРѕРјРµ РїРµСЂРІРѕР№
 	if ( framesList.size() > 0 )
 	{
 		pair<float, float> first = framesList.front();
@@ -1161,7 +1161,7 @@ void CKeyFrame::DeleteActiveNode()
 {
 	if ( m_nDragIndex != 0 )
 	{
-		//удаляем ноду с этим индексом
+		//СѓРґР°Р»СЏРµРј РЅРѕРґСѓ СЃ СЌС‚РёРј РёРЅРґРµРєСЃРѕРј
 		int i = 0;
 		CFramesList::iterator it=framesList.begin();
 		for ( ; it!=framesList.end(); ++it )

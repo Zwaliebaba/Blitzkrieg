@@ -42,7 +42,7 @@ void CObjectTreeRootItem::ComposeAnimations( const char *pszProjectFileName, con
 	CTreeItem *pGraphItem = GetChildItem( E_OBJECT_GRAPHICS_ITEM );
 	ASSERT( pGraphItem != 0 );
 	string szDir = GetDirectory( pszProjectFileName );
-	int i = 0;		//это номер сезона
+	int i = 0;		//СЌС‚Рѕ РЅРѕРјРµСЂ СЃРµР·РѕРЅР°
 	for ( CTreeItem::CTreeItemList::const_iterator it=pGraphItem->GetBegin(); it!=pGraphItem->GetEnd(); ++it )
 	{
 		CObjectGraphicPropsItem *pGraphPropsItem = static_cast<CObjectGraphicPropsItem *> ( it->GetPtr() );
@@ -253,7 +253,7 @@ void CObjectGraphicPropsItem::UpdateItemValue( int nItemId, const CVariant &valu
 	if ( nItemId == 1 || nItemId == 2 )
 	{
 		CObjectFrame *pFrame = static_cast<CObjectFrame *> ( g_frameManager.GetFrame( CFrameManager::E_OBJECT_FRAME ) );
-		//Изменилось имя файла, конвертируем его к относительному виду
+		//В»Р·РјРµРЅРёР»РѕСЃСЊ РёРјВ¤ С„Р°Р№Р»Р°, РєРѕРЅРІРµСЂС‚РёСЂСѓРµРј РµРіРѕ Рє РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕРјСѓ РІРёРґСѓ
 		if ( !IsRelatedPath( value ) )
 		{
 			string szProjectName = g_frameManager.GetFrame( CFrameManager::E_OBJECT_FRAME )->GetProjectFileName();
@@ -278,7 +278,7 @@ void CObjectGraphicPropsItem::UpdateItemValue( int nItemId, const CVariant &valu
 
 void CObjectGraphicPropsItem::MyLButtonClick()
 {
-	//этот item становится текущим спрайтом в Object composer
+	//СЌС‚РѕС‚ item СЃС‚Р°РЅРѕРІРёС‚СЃВ¤ С‚РµРєСѓС‰РёРј СЃРїСЂР°Р№С‚РѕРј РІ Object composer
 	CObjectFrame *pFrame = static_cast<CObjectFrame *> ( g_frameManager.GetFrame( CFrameManager::E_OBJECT_FRAME ) );
 	pFrame->SetActiveGraphicPropsItem( this );
 }

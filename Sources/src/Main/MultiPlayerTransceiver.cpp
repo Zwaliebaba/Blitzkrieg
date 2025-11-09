@@ -284,7 +284,7 @@ void CMultiPlayerTransceiver::SendChatMessages()
 	IConsoleBuffer *pBuffer = GetSingleton<IConsoleBuffer>();
 	while ( const wchar_t *pszString = pBuffer->Read( CONSOLE_STREAM_NET_CHAT ) )
 	{
-		// скопировать во временную переменную, чтобы не затёрлось следующим вызовом pBuffer->Read
+		// СЃРєРѕРїРёСЂРѕРІР°С‚СЊ РІРѕ РІСЂРµРјРµРЅРЅСѓСЋ РїРµСЂРµРјРµРЅРЅСѓСЋ, С‡С‚РѕР±С‹ РЅРµ Р·Р°С‚С‘СЂР»РѕСЃСЊ СЃР»РµРґСѓСЋС‰РёРј РІС‹Р·РѕРІРѕРј pBuffer->Read
 		std::wstring szMessageType = pszString;
 		const wchar_t *pszString1 = pBuffer->Read( CONSOLE_STREAM_NET_CHAT );
 		pMultiplayer->SendInGameChatMessage( szMessageType.c_str(), pszString1 );
@@ -296,7 +296,7 @@ void CMultiPlayerTransceiver::SegmentFinished()
 	if ( !bTotalOutOfSync )
 	{
 		IConsoleBuffer *pBuffer = GetSingleton<IConsoleBuffer>();
-		// checksums от AI
+		// checksums РѕС‚ AI
 		while ( const char *pszString = pBuffer->ReadASCII(CONSOLE_STREAM_MULTIPLAYER_CHECK) )
 		{
 			unsigned long checkSum = 0;
@@ -308,7 +308,7 @@ void CMultiPlayerTransceiver::SegmentFinished()
 
 		// add segment data
 		pktOutgoing << BYTE(NGM_ID_SEGMENT);
-		// послать об окончании команд моего сегмента
+		// РїРѕСЃР»Р°С‚СЊ РѕР± РѕРєРѕРЅС‡Р°РЅРёРё РєРѕРјР°РЅРґ РјРѕРµРіРѕ СЃРµРіРјРµРЅС‚Р°
 		pMultiplayer->SendClientCommands( pktOutgoing );
 		pktOutgoing->SetSize( 0 );
 	}
@@ -323,15 +323,15 @@ void CMultiPlayerTransceiver::SegmentFinished()
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CMultiPlayerTransceiver::SetLatency( int nSegments )
 {
-	// CRAP{ не всё так просто. для корректной работы надо послать команду на изменение latency для этого клиента
-	// выполнить лишние сегменты
+	// CRAP{ РЅРµ РІСЃС‘ С‚Р°Рє РїСЂРѕСЃС‚Рѕ. РґР»СЏ РєРѕСЂСЂРµРєС‚РЅРѕР№ СЂР°Р±РѕС‚С‹ РЅР°РґРѕ РїРѕСЃР»Р°С‚СЊ РєРѕРјР°РЅРґСѓ РЅР° РёР·РјРµРЅРµРЅРёРµ latency РґР»СЏ СЌС‚РѕРіРѕ РєР»РёРµРЅС‚Р°
+	// РІС‹РїРѕР»РЅРёС‚СЊ Р»РёС€РЅРёРµ СЃРµРіРјРµРЅС‚С‹
 	nLatency = nSegments;
 	// CRAP}
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const int CMultiPlayerTransceiver::GetPastSegmentNum( const int nLatency ) const
 {
-	// прибавляется MAX_LATENCY, т.к. модуль от отрицательных чисел считается неправильно
+	// РїСЂРёР±Р°РІР»СЏРµС‚СЃСЏ MAX_LATENCY, С‚.Рє. РјРѕРґСѓР»СЊ РѕС‚ РѕС‚СЂРёС†Р°С‚РµР»СЊРЅС‹С… С‡РёСЃРµР» СЃС‡РёС‚Р°РµС‚СЃСЏ РЅРµРїСЂР°РІРёР»СЊРЅРѕ
 	return ( nSegment - nLatency + MAX_LATENCY ) % MAX_LATENCY;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -472,8 +472,8 @@ void CMultiPlayerTransceiver::ProcessMultiplayerCommands()
 				{
 					const int nChange = pCommand->nParam;
 					IMainLoop *pMainLoop = GetSingleton<IMainLoop>();
-					// посылаем через interface команду, чтобы после старта multiplayer можно было 
-					// сразу давать команду на изменения скрости
+					// РїРѕСЃС‹Р»Р°РµРј С‡РµСЂРµР· interface РєРѕРјР°РЅРґСѓ, С‡С‚РѕР±С‹ РїРѕСЃР»Рµ СЃС‚Р°СЂС‚Р° multiplayer РјРѕР¶РЅРѕ Р±С‹Р»Рѕ 
+					// СЃСЂР°Р·Сѓ РґР°РІР°С‚СЊ РєРѕРјР°РЅРґСѓ РЅР° РёР·РјРµРЅРµРЅРёСЏ СЃРєСЂРѕСЃС‚Рё
 					for ( int i = 0; i < abs( nChange ); ++i )
 					{
 						if ( nChange < 0 )
@@ -683,19 +683,19 @@ void CMultiPlayerTransceiver::DoSegments()
 			if ( nCommonPastSegmentNum % nSegmentsPackSize == 0 )
 			{
 				// all commands received
-				// играется history или побитовое >=
+				// РёРіСЂР°РµС‚СЃСЏ history РёР»Рё РїРѕР±РёС‚РѕРІРѕРµ >=
 				if ( bHistoryPlaying || ( ~segmFinished[nPastSegment] & wMask ) == 0 )
 				{
-					// пришли сегменты от всех игроков, можно открыть туман и юниты
+					// РїСЂРёС€Р»Рё СЃРµРіРјРµРЅС‚С‹ РѕС‚ РІСЃРµС… РёРіСЂРѕРєРѕРІ, РјРѕР¶РЅРѕ РѕС‚РєСЂС‹С‚СЊ С‚СѓРјР°РЅ Рё СЋРЅРёС‚С‹
 					if ( nCommonSegment >= nLatency && nCommonSegment <= 2 * nLatency )
 						GetSingleton<IAILogic>()->NetGameStarted();
 					
 					// remove forced segment pause
 					pGameTimer->PauseGame( false, PAUSE_TYPE_MP_NO_SEGMENT_DATA );
-					// исполнить загруженную history команд
+					// РёСЃРїРѕР»РЅРёС‚СЊ Р·Р°РіСЂСѓР¶РµРЅРЅСѓСЋ history РєРѕРјР°РЅРґ
 					if ( nCommonSegment >= nSegmentsPackSize )
 					{
-						// цикл для того, чтобы single player history можно было проигрывать в multiplayer
+						// С†РёРєР» РґР»СЏ С‚РѕРіРѕ, С‡С‚РѕР±С‹ single player history РјРѕР¶РЅРѕ Р±С‹Р»Рѕ РїСЂРѕРёРіСЂС‹РІР°С‚СЊ РІ multiplayer
 						for ( int i = nCommonSegment - nSegmentsPackSize + 1; i <= nCommonSegment; ++i )
 							pCmdsHistory->ExecuteSegmentCommands( i, this );
 					}
@@ -711,7 +711,7 @@ void CMultiPlayerTransceiver::DoSegments()
 						{
 							(*it)->Execute( pAILogic );
 
-							// команда пришла на сегменте GetCommonPastSegmentNum(), добавить в список команд
+							// РєРѕРјР°РЅРґР° РїСЂРёС€Р»Р° РЅР° СЃРµРіРјРµРЅС‚Рµ GetCommonPastSegmentNum(), РґРѕР±Р°РІРёС‚СЊ РІ СЃРїРёСЃРѕРє РєРѕРјР°РЅРґ
 							pCmdsHistory->AddCommand( GetCommonPastSegmentNum(), *it );
 						}
 						cmds[nPastSegment][i].clear();
@@ -962,7 +962,7 @@ void CTimeOut::InitGameStart( const int n )
 void CTimeOut::SetTimeOut( const int nPlayer )
 {
 	NTimer::STime curTime = GetSingleton<IGameTimer>()->GetAbsTime();
-	// или команда пришла не от нашего клиента, или уже прошло время после предыдущего timeOut
+	// РёР»Рё РєРѕРјР°РЅРґР° РїСЂРёС€Р»Р° РЅРµ РѕС‚ РЅР°С€РµРіРѕ РєР»РёРµРЅС‚Р°, РёР»Рё СѓР¶Рµ РїСЂРѕС€Р»Рѕ РІСЂРµРјСЏ РїРѕСЃР»Рµ РїСЂРµРґС‹РґСѓС‰РµРіРѕ timeOut
 	const bool bCanSetTimeOutNow = nPlayer != nMyNumber || lastTimeOutTime + timeBWTimeOuts < curTime;
 	if ( bCanSetTimeOutNow && ( !IsActive() || nPlayer < nTimeOutPlayer ) )
 	{

@@ -26,7 +26,7 @@ struct CVectorStripeActivePoint
 	bool bBegin;
 	bool isValid;
 
-	//конструкторы и операторы присваивания
+	//РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂС‹ Рё РѕРїРµСЂР°С‚РѕСЂС‹ РїСЂРёСЃРІР°РёРІР°РЅРёСЏ
 	CVectorStripeActivePoint() : nIndex( 0 ), vDifference( VNULL3 ), fOpacity( 0.0f ), bControlPoint( true ), bBegin( true ), isValid( false ) {} 
 };
 
@@ -41,7 +41,7 @@ class CVSOSelectState : private IInputState
 	
 	class CVSOState* pParentState;
 	
-	//конструкторы и операторы присваивания
+	//РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂС‹ Рё РѕРїРµСЂР°С‚РѕСЂС‹ РїСЂРёСЃРІР°РёРІР°РЅРёСЏ
 	CVSOSelectState() : pParentState( 0 )
   {
 		NI_ASSERT_T( pParentState != 0,
@@ -69,7 +69,7 @@ class CVSOEditState : public IInputState
 	
 	class CVSOState* pParentState;
 	
-	//конструкторы и операторы присваивания
+	//РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂС‹ Рё РѕРїРµСЂР°С‚РѕСЂС‹ РїСЂРёСЃРІР°РёРІР°РЅРёСЏ
 	CVSOEditState() : pParentState( 0 )
   {
 		NI_ASSERT_T( pParentState != 0,
@@ -100,7 +100,7 @@ class CVSOAddState : public IInputState
 	
 	class CVSOState* pParentState;
 	
-	//конструкторы и операторы присваивания
+	//РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂС‹ Рё РѕРїРµСЂР°С‚РѕСЂС‹ РїСЂРёСЃРІР°РёРІР°РЅРёСЏ
 	CVSOAddState() : pParentState( 0 )
   {
 		NI_ASSERT_T( pParentState != 0,
@@ -188,7 +188,7 @@ private:
 	virtual void STDCALL Draw( CTemplateEditorFrame* pFrame );
 
 public:
-	//конструкторы и операторы присваивания
+	//РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂС‹ Рё РѕРїРµСЂР°С‚РѕСЂС‹ РїСЂРёСЃРІР°РёРІР°РЅРёСЏ
 	CVSOState() : nCurrentVSO ( INVALID_INDEX ), nSelectedIndex( INVALID_INDEX )
 	{
 		int nStateNumber = CInputStateParameter::INVALID_STATE;

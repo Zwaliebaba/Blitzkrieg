@@ -25,7 +25,7 @@ public:
 	virtual void GFXDraw();
 	virtual void ShowFrameWindows( int nCommand );
 
-	BOOL Run();										//Вызывается из EditorApp OnIdle()
+	BOOL Run();										//Р’С‹Р·С‹РІР°РµС‚СЃСЏ РёР· EditorApp OnIdle()
 	bool IsRunning() { return bRunning; }
 
 	void SetKeyFrameDockBar( CKeyFrameDockWnd *pWnd );
@@ -44,7 +44,7 @@ private:
 	bool bRunning;
 	bool bComplexSource;
 
-	//информация, отображаемая в status bar
+	//РёРЅС„РѕСЂРјР°С†РёСЏ, РѕС‚РѕР±СЂР°Р¶Р°РµРјР°СЏ РІ status bar
 	float m_fNumberOfParticles;
 	float m_fMaxSize;
 	float m_fAverageSize;

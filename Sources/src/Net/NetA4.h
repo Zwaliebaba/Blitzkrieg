@@ -201,7 +201,7 @@ public:
 	//
 	virtual void STDCALL AddChannel( const int nChannelID, const std::hash_set<BYTE> &channelMessages );
 	virtual void STDCALL RemoveChannel( const int nChannelID );
-	// received не заполняется!
+	// received РЅРµ Р·Р°РїРѕР»РЅСЏРµС‚СЃСЏ!
 	virtual bool STDCALL GetChannelMessage( EMessage *pMsg, int *pClientID, int *received, IDataStream *pPkt, const int nChannel );
 	// for debug
 	virtual const char* STDCALL GetAddressByClientID( const int nClientID ) const;

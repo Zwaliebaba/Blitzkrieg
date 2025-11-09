@@ -207,7 +207,7 @@ void CRMGFieldTerrainDialog::FillAvailableTiles( int nSeason )
 	{
 		if ( LoadDataResource( NStr::Format( "%stileset", CMapInfo::SEASON_FOLDERS[nSeason] ), "", false, 0, "tileset", tilesetDesc ) )
 		{
-			//по тайлам пробегаем
+			//РїРѕ С‚Р°Р№Р»Р°Рј РїСЂРѕР±РµРіР°РµРј
 			for ( int nTileIndex = 0; nTileIndex < tilesetDesc.terrtypes.size(); ++nTileIndex )
 			{
 				const int nImageIndex = pTabTileEditDialog->seasonTilesIndices[MAKELPARAM( nSeason, nTileIndex )];
@@ -353,7 +353,7 @@ void CRMGFieldTerrainDialog::FillShellTilesList( int nSeason, int nSelectedShell
 			CTabTileEditDialog *pTabTileEditDialog = g_frameManager.GetTemplateEditorFrame()->m_mapEditorBarPtr->GetTabTileEditDialog();
 			const SRMTileSetShell &rTileSetShell = pRMFieldSet->tilesShells[nSelectedShell];
 
-			//по тайлам пробегаем
+			//РїРѕ С‚Р°Р№Р»Р°Рј РїСЂРѕР±РµРіР°РµРј
 			for ( int nTileIndex = 0; nTileIndex < rTileSetShell.tiles.size(); ++nTileIndex )
 			{
 				const int nSelectedTileIndex = rTileSetShell.tiles[nTileIndex];

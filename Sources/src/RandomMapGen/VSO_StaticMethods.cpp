@@ -251,7 +251,7 @@ bool CVSOBuilder::Update( SVectorStripeObject *pVectorStripeObject, bool bKeepKe
 	NI_ASSERT_T( pVectorStripeObject != 0,
 							 NStr::Format( "Wrong parameter: %x\n", pVectorStripeObject ) );
 	
-	//сохряняем ширины
+	//СЃРѕС…СЂСЏРЅСЏРµРј С€РёСЂРёРЅС‹
 	SBackupKeyPoints backupKeyPoints;
 	if ( bKeepKeyPoints )
 	{
@@ -585,7 +585,7 @@ bool CVSOBuilder::FindPath( const CVec2 &vBegin0, const CVec2 &vEnd0, bool bBegi
 											 &currentPath1, rLockedPolygons, pUsedPoints,
 											 nDepth - 1 ) )
 				{
-					//слить оболочки
+					//СЃР»РёС‚СЊ РѕР±РѕР»РѕС‡РєРё
 					pPointsSequence->insert( pPointsSequence->end(), currentPath0.begin(), currentPath0.end() );
 					currentPath1.erase( currentPath1.begin() );
 					pPointsSequence->insert( pPointsSequence->end(), currentPath1.begin(), currentPath1.end() );
@@ -609,7 +609,7 @@ bool CVSOBuilder::FindPath( const CVec2 &vBegin0, const CVec2 &vEnd0, bool bBegi
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//первый VSO продолжается на 2 controlPoints, край уводится в 0
+//РїРµСЂРІС‹Р№ VSO РїСЂРѕРґРѕР»Р¶Р°РµС‚СЃСЏ РЅР° 2 controlPoints, РєСЂР°Р№ СѓРІРѕРґРёС‚СЃСЏ РІ 0
 bool CVSOBuilder::MergeVSO( SVectorStripeObject *pVSO0, bool bVSO0Begin,
 														SVectorStripeObject *pVSO1, bool bVSO1Begin )
 {
@@ -742,7 +742,7 @@ bool CVSOBuilder::MergeVSO( SVectorStripeObject *pVSO0, bool bVSO0Begin,
 	return true;
 }
 
-//вернуть первую не нулевую высоту или высоту на конце ( true )
+//РІРµСЂРЅСѓС‚СЊ РїРµСЂРІСѓСЋ РЅРµ РЅСѓР»РµРІСѓСЋ РІС‹СЃРѕС‚Сѓ РёР»Рё РІС‹СЃРѕС‚Сѓ РЅР° РєРѕРЅС†Рµ ( true )
 float CVSOBuilder::GetVSOEdgeHeght( const STerrainInfo::TVertexAltitudeArray2D &rAltitude, const SVectorStripeObject &rVectorStripeObject, bool bBegin, bool bFirst )
 {
 	float fHeight = 0.0f;

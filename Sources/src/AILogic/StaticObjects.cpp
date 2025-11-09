@@ -525,7 +525,7 @@ CStaticObject* CStaticObjects::AddNewMine( const SMineRPGStats *pStats, const fl
 
 	AddToAreaMap( pObj );
 	
-	// ставим только наши мины
+	// СЃС‚Р°РІРёРј С‚РѕР»СЊРєРѕ РЅР°С€Рё РјРёРЅС‹
 	if ( theDipl.GetDiplStatus( theDipl.GetMyNumber(), player ) == EDI_FRIEND || theCheats.IsHistoryPlaying() )
 		pObj->RegisterInWorld();
 
@@ -547,7 +547,7 @@ void CStaticObjects::AddToAreaMap( CExistingObject *pObj )
 	CTilesSet tiles;
 	pObj->GetCoveredTiles( &tiles );
 	
-	// чтобы не удалился после update
+	// С‡С‚РѕР±С‹ РЅРµ СѓРґР°Р»РёР»СЃСЏ РїРѕСЃР»Рµ update
 	if ( tiles.empty() )
 		AddObjectToAreaMapTile( pObj, AICellsTiles::GetTile( pObj->GetCenter() ) );
 	else
@@ -625,8 +625,8 @@ void CStaticObjects::Segment()
 		CExistingObject *pObj = *iter;
 		UnregisterSegment( pObj );
 
-		// пересчитать туман для ближайших юнитов
-		// CRAP{ не пересчитывать, если удаляемый стат. объект полностью прозрачен
+		// РїРµСЂРµСЃС‡РёС‚Р°С‚СЊ С‚СѓРјР°РЅ РґР»СЏ Р±Р»РёР¶Р°Р№С€РёС… СЋРЅРёС‚РѕРІ
+		// CRAP{ РЅРµ РїРµСЂРµСЃС‡РёС‚С‹РІР°С‚СЊ, РµСЃР»Рё СѓРґР°Р»СЏРµРјС‹Р№ СЃС‚Р°С‚. РѕР±СЉРµРєС‚ РїРѕР»РЅРѕСЃС‚СЊСЋ РїСЂРѕР·СЂР°С‡РµРЅ
 		theWarFog.ReclaculateFogAfterRemoveObject( pObj );
 		// CRAP}
 
@@ -648,7 +648,7 @@ void CStaticObjects::Segment()
 
 	deletedObjects.clear();
 
-	// горящие объекты
+	// РіРѕСЂСЏС‰РёРµ РѕР±СЉРµРєС‚С‹
 	std::list<int> burningList;
 	for ( std::hash_set<int>::const_iterator iter = burningObjects.begin(); iter != burningObjects.end(); ++iter )
 		burningList.push_back( *iter );

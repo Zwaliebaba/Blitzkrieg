@@ -7,24 +7,24 @@ class CBasicObjectFactory : public IObjectFactory
 {
 	typedef std::hash_map<int, ObjectFactoryNewFunc> CNewFuncsMap;
 	typedef std::hash_map<const type_info*, int, SDefaultPtrHash> CRTTIMap;
-	// таблица функций для создания новых объектов
+	// С‚Р°Р±Р»РёС†Р° С„СѓРЅРєС†РёР№ РґР»В¤ СЃРѕР·РґР°РЅРёВ¤ РЅРѕРІС‹С… РѕР±СЉРµРєС‚РѕРІ
 	CNewFuncsMap newfuncs;
 	CRTTIMap rttis;
 private:
-	// внутренняя регистраци
+	// РІРЅСѓС‚СЂРµРЅРЅВ¤В¤ СЂРµРіРёСЃС‚СЂР°С†Рё
 	void RegisterType( int nObjectTypeID, const type_info *pObjectTypeInfo, ObjectFactoryNewFunc newFunc );
 public:
-	// создать объект по его typeID
+	// СЃРѕР·РґР°С‚СЊ РѕР±СЉРµРєС‚ РїРѕ РµРіРѕ typeID
 	virtual IRefCount* STDCALL CreateObject( int nTypeID );
-	// зарегистрировать тип
+	// Р·Р°СЂРµРіРёСЃС‚СЂРёСЂРѕРІР°С‚СЊ С‚РёРї
 	virtual void STDCALL RegisterType( int nObjectTypeID, ObjectFactoryNewFunc newFunc );
-	// аггрегировать другую factory внутрь этой (перерегистрировать её объекты на эту фабрику)
+	// Р°РіРіСЂРµРіРёСЂРѕРІР°С‚СЊ РґСЂСѓРіСѓСЋ factory РІРЅСѓС‚СЂСЊ СЌС‚РѕР№ (РїРµСЂРµСЂРµРіРёСЃС‚СЂРёСЂРѕРІР°С‚СЊ РµР„ РѕР±СЉРµРєС‚С‹ РЅР° СЌС‚Сѓ С„Р°Р±СЂРёРєСѓ)
 	virtual void STDCALL Aggregate( IObjectFactory *pFactory );
-	// получить количество типов объектов, которые эта фабрика (+ все аггрегированные в неё) может создать
+	// РїРѕР»СѓС‡РёС‚СЊ РєРѕР»РёС‡РµСЃС‚РІРѕ С‚РёРїРѕРІ РѕР±СЉРµРєС‚РѕРІ, РєРѕС‚РѕСЂС‹Рµ СЌС‚Р° С„Р°Р±СЂРёРєР° (+ РІСЃРµ Р°РіРіСЂРµРіРёСЂРѕРІР°РЅРЅС‹Рµ РІ РЅРµР„) РјРѕР¶РµС‚ СЃРѕР·РґР°С‚СЊ
 	virtual int STDCALL GetNumKnownTypes() { return newfuncs.size(); }
-	// получить type info объектов, которые эта фабрика (+ все аггрегированные в неё) может создать
+	// РїРѕР»СѓС‡РёС‚СЊ type info РѕР±СЉРµРєС‚РѕРІ, РєРѕС‚РѕСЂС‹Рµ СЌС‚Р° С„Р°Р±СЂРёРєР° (+ РІСЃРµ Р°РіРіСЂРµРіРёСЂРѕРІР°РЅРЅС‹Рµ РІ РЅРµР„) РјРѕР¶РµС‚ СЃРѕР·РґР°С‚СЊ
 	virtual void STDCALL GetKnownTypes( SObjectFactoryTypeInfo *pInfoBuffer, int nBufferSize );
-	// получить typeID объекта по указателю на него
+	// РїРѕР»СѓС‡РёС‚СЊ typeID РѕР±СЉРµРєС‚Р° РїРѕ СѓРєР°Р·Р°С‚РµР»СЋ РЅР° РЅРµРіРѕ
 	virtual int STDCALL GetObjectTypeID( IRefCount *pObj ) const
 	{
 		NI_ASSERT_T( pObj != 0, "can't get object type ID from NULL pointer" );

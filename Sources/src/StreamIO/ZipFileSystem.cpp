@@ -147,14 +147,14 @@ bool CZipFileSystem::AddZipFile( IDataStream *pStream, const std::string &szZipF
 	return false;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// создать и открыть поток с указанным именем и правами доступа
+// СЃРѕР·РґР°С‚СЊ Рё РѕС‚РєСЂС‹С‚СЊ РїРѕС‚РѕРє СЃ СѓРєР°Р·Р°РЅРЅС‹Рј РёРјРµРЅРµРј Рё РїСЂР°РІР°РјРё РґРѕСЃС‚СѓРїР°
 IDataStream* CZipFileSystem::CreateStream( const char *pszName, DWORD dwAccessMode )
 {
 	NI_ASSERT_SLOW_T( 0, "Can't create zip stream - still not realized" );
 	return 0;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// открыть существующий поток с указанным именем и правами доступа
+// РѕС‚РєСЂС‹С‚СЊ СЃСѓС‰РµСЃС‚РІСѓСЋС‰РёР№ РїРѕС‚РѕРє СЃ СѓРєР°Р·Р°РЅРЅС‹Рј РёРјРµРЅРµРј Рё РїСЂР°РІР°РјРё РґРѕСЃС‚СѓРїР°
 IDataStream* CZipFileSystem::OpenStream( const char *pszName, DWORD dwAccessMode )
 {
 	NI_ASSERT_SLOW_TF( (dwAccessMode & dwStorageAccessMode) == dwAccessMode, "Can't create stream - invalid access mode", return 0 );
@@ -187,14 +187,14 @@ bool CZipFileSystem::GetStreamStats( const char *pszName, SStorageElementStats *
 	return true;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// убить элемент хранилища
+// СѓР±РёС‚СЊ СЌР»РµРјРµРЅС‚ С…СЂР°РЅРёР»РёС‰Р°
 bool CZipFileSystem::DestroyElement( const char *pszName )
 {
 	files.erase( pszName );
 	return true;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// переименовать элемент
+// РїРµСЂРµРёРјРµРЅРѕРІР°С‚СЊ СЌР»РµРјРµРЅС‚
 bool CZipFileSystem::RenameElement( const char *pszOldName, const char *pszNewName )
 {
 	files[pszNewName] = files[pszOldName];
@@ -202,20 +202,20 @@ bool CZipFileSystem::RenameElement( const char *pszOldName, const char *pszNewNa
 	return true;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// перечисление элементов
+// РїРµСЂРµС‡РёСЃР»РµРЅРёРµ СЌР»РµРјРµРЅС‚РѕРІ
 IStorageEnumerator* CZipFileSystem::CreateEnumerator()
 {
 	return new CZipFileSystemEnumerator( zipfiles, this );
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// добавить новый MOD
+// РґРѕР±Р°РІРёС‚СЊ РЅРѕРІС‹Р№ MOD
 bool CZipFileSystem::AddStorage( IDataStorage *pStorage, const char *pszName )
 {
 	NI_ASSERT_T( 0, "Can't add new storage to the zip file system" );
 	return false;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// убрать MOD
+// СѓР±СЂР°С‚СЊ MOD
 bool CZipFileSystem::RemoveStorage( const char *pszName )
 {
 	NI_ASSERT_T( 0, "Can't remove storage from zip file system" );

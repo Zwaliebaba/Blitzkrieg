@@ -49,7 +49,7 @@ void CUIStatusBar::SetUnitProperty( int nPropType, int nPropValue, const WORD *p
 	{
 		if ( nPropValue >= idVectors[nPropType].size() )
 		{
-			//выведем в консольный буфер сообщение об ошибке
+			//РІС‹РІРµРґРµРј РІ РєРѕРЅСЃРѕР»СЊРЅС‹Р№ Р±СѓС„РµСЂ СЃРѕРѕР±С‰РµРЅРёРµ РѕР± РѕС€РёР±РєРµ
 			GetSingleton<IConsoleBuffer>()->Write( CONSOLE_STREAM_CONSOLE, L"Error in CUIStatusBar::SetUnitProperty(): nPropValue < idVectors[nPropType].size()" );
 			return;
 		}
@@ -77,7 +77,7 @@ void CUIStatusBar::SetUnitProperty( int nPropType, int nPropValue, const WORD *p
 		nVisibleWindowPropIDs[nPropType] = nWindowID;
 	}
 
-	// установим текст тултипа
+	// СѓСЃС‚Р°РЅРѕРІРёРј С‚РµРєСЃС‚ С‚СѓР»С‚РёРїР°
 	if ( pszToolText )
 	{
 		if ( CSimpleWindow *pIcon = dynamic_cast<CSimpleWindow *> ( GetChildByID( nWindowID ) ) ) 
@@ -89,7 +89,7 @@ void CUIStatusBar::SetUnitIcons( DWORD dwIcons )
 {
 	if ( dwActiveIcons == dwIcons )
 	{
-		//ничего не изменилось
+		//РЅРёС‡РµРіРѕ РЅРµ РёР·РјРµРЅРёР»РѕСЃСЊ
 		return;
 	}
 
@@ -124,7 +124,7 @@ int CUIStatusBar::operator&( IDataTree &ss )
 
 	if ( saver.IsReading() )
 	{
-		//уже созданы все внутренние иконки, я хочу здесь проинициализировать положение их за счет самой первой иконки
+		//СѓР¶Рµ СЃРѕР·РґР°РЅС‹ РІСЃРµ РІРЅСѓС‚СЂРµРЅРЅРёРµ РёРєРѕРЅРєРё, СЏ С…РѕС‡Сѓ Р·РґРµСЃСЊ РїСЂРѕРёРЅРёС†РёР°Р»РёР·РёСЂРѕРІР°С‚СЊ РїРѕР»РѕР¶РµРЅРёРµ РёС… Р·Р° СЃС‡РµС‚ СЃР°РјРѕР№ РїРµСЂРІРѕР№ РёРєРѕРЅРєРё
 		if ( IUIElement *pElement = GetChildByID(56) )
 			pElement->GetWindowPlacement( &vInitialIconPos, 0, 0 );
 	}

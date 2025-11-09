@@ -782,8 +782,8 @@ bool CRMFieldGraph::ConnectLineToPatch( int nPatchIndex, int nLineIndex, bool bB
 		vLinePoint = rLine.points.back();
 	}
 
-	//определяем сторону к которой ближе всего точка привязки
-	//простой способ т.к стороны патча паралельны координатной сетке
+	//РѕРїСЂРµРґРµР»СЏРµРј СЃС‚РѕСЂРѕРЅСѓ Рє РєРѕС‚РѕСЂРѕР№ Р±Р»РёР¶Рµ РІСЃРµРіРѕ С‚РѕС‡РєР° РїСЂРёРІСЏР·РєРё
+	//РїСЂРѕСЃС‚РѕР№ СЃРїРѕСЃРѕР± С‚.Рє СЃС‚РѕСЂРѕРЅС‹ РїР°С‚С‡Р° РїР°СЂР°Р»РµР»СЊРЅС‹ РєРѕРѕСЂРґРёРЅР°С‚РЅРѕР№ СЃРµС‚РєРµ
 	//
 	// 1               2
 	//  *-------------*
@@ -801,7 +801,7 @@ bool CRMFieldGraph::ConnectLineToPatch( int nPatchIndex, int nLineIndex, bool bB
 	const CVec2 vLocalPoint = vLinePoint - ( ( rPatch.boundingPolygon[0] + rPatch.boundingPolygon[2] ) / 2.0f );
 	if ( vLocalPoint.x > vLocalPoint.y )
 	{
-		//2 или 3
+		//2 РёР»Рё 3
 		if ( ( vLocalPoint.x * ( -1 ) ) > vLocalPoint.y )
 		{
 			nSideIndex = 3;
@@ -813,7 +813,7 @@ bool CRMFieldGraph::ConnectLineToPatch( int nPatchIndex, int nLineIndex, bool bB
 	}
 	else
 	{
-		//0 или 1
+		//0 РёР»Рё 1
 		if ( ( vLocalPoint.x * ( -1 ) ) < vLocalPoint.y )
 		{
 			nSideIndex = 1;
@@ -824,7 +824,7 @@ bool CRMFieldGraph::ConnectLineToPatch( int nPatchIndex, int nLineIndex, bool bB
 		}
 	}
 
-	//определяем позицию куда необходимо поместить линиию
+	//РѕРїСЂРµРґРµР»СЏРµРј РїРѕР·РёС†РёСЋ РєСѓРґР° РЅРµРѕР±С…РѕРґРёРјРѕ РїРѕРјРµСЃС‚РёС‚СЊ Р»РёРЅРёРёСЋ
 	int nSideLineIndex = 0;
 	for ( ; nSideLineIndex < rPatch.linesIndices[nSideIndex].size(); ++nSideLineIndex )
 	{
@@ -908,13 +908,13 @@ int CRMFieldGraph::IndexLines()
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CRMFieldGraph::AddBorderLines( const CTRect<int> &rBoundingRect )
 {
-	//составим список патчей по краям карты
+	//СЃРѕСЃС‚Р°РІРёРј СЃРїРёСЃРѕРє РїР°С‚С‡РµР№ РїРѕ РєСЂР°СЏРј РєР°СЂС‚С‹
 	bool bNeedBoundingPolygon = true;
 	std::vector<std::vector<int> > borderPatchesInidces;
 	borderPatchesInidces.resize( 4 );
 	for ( int nPatchIndex = 0; nPatchIndex < patches.size(); ++nPatchIndex )
 	{
-		//некоторые патчи могут принадлежать нескольким сторонам
+		//РЅРµРєРѕС‚РѕСЂС‹Рµ РїР°С‚С‡Рё РјРѕРіСѓС‚ РїСЂРёРЅР°РґР»РµР¶Р°С‚СЊ РЅРµСЃРєРѕР»СЊРєРёРј СЃС‚РѕСЂРѕРЅР°Рј
 		std::vector<bool> sides;
 		sides.resize( 4 );
 		sides[0] = ( patches[nPatchIndex].boundingRect.minx == rBoundingRect.minx );
@@ -961,7 +961,7 @@ void CRMFieldGraph::AddBorderLines( const CTRect<int> &rBoundingRect )
 		}
 	}
 	
-	//отсюда берем точки для линков
+	//РѕС‚СЃСЋРґР° Р±РµСЂРµРј С‚РѕС‡РєРё РґР»СЏ Р»РёРЅРєРѕРІ
 	std::vector<CVec2> boundingPolygon;
 	boundingPolygon.resize( 4 );
 	boundingPolygon[0] = CVec2( rBoundingRect.minx * fWorldCellSize, rBoundingRect.miny * fWorldCellSize );
@@ -969,7 +969,7 @@ void CRMFieldGraph::AddBorderLines( const CTRect<int> &rBoundingRect )
 	boundingPolygon[2] = CVec2( rBoundingRect.maxx * fWorldCellSize, rBoundingRect.maxy * fWorldCellSize );
 	boundingPolygon[3] = CVec2( rBoundingRect.maxx * fWorldCellSize, rBoundingRect.miny * fWorldCellSize );
 
-	//вставляем новые линки
+	//РІСЃС‚Р°РІР»СЏРµРј РЅРѕРІС‹Рµ Р»РёРЅРєРё
 	for ( int nSideIndex = 0; nSideIndex < 4; ++nSideIndex )
 	{
 		for ( int nSidePatchIndex = 0; nSidePatchIndex < borderPatchesInidces[nSideIndex].size(); ++nSidePatchIndex )
@@ -1069,7 +1069,7 @@ bool CRMFieldGraph::FindUnmarkedVertex( int *pPatchIndex, int *pVertexIndex )
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool CRMFieldGraph::GetPolygonAndMarkVertices( int nBeginPatchIndex, int nBeginVertexIndex, std::list<CVec2> *pPolygon, int nMaximumIterations )
 {
-	//строим полигон
+	//СЃС‚СЂРѕРёРј РїРѕР»РёРіРѕРЅ
 	SCaret currentCaret;
 	currentCaret.nPatchIndex = nBeginPatchIndex;
 	currentCaret.nSideIndex = nBeginVertexIndex;
@@ -1129,26 +1129,26 @@ bool CRMFieldGraph::GetPolygonAndMarkVertices( int nBeginPatchIndex, int nBeginV
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool CRMFieldGraph::FindPolygons( const CTRect<int> &rBoundingRect )
 {
-	//вычистим полигоны
+	//РІС‹С‡РёСЃС‚РёРј РїРѕР»РёРіРѕРЅС‹
 	inclusivePolygons.clear();
 	exclusivePolygons.clear();
 	
 	UnmarkAllVertices();
 
-	//сначала добавим линки по краю карты
-	//если не довавили ни одного линка
-	//то в конечные полигоны добавим один общий inclusivePolygon
+	//СЃРЅР°С‡Р°Р»Р° РґРѕР±Р°РІРёРј Р»РёРЅРєРё РїРѕ РєСЂР°СЋ РєР°СЂС‚С‹
+	//РµСЃР»Рё РЅРµ РґРѕРІР°РІРёР»Рё РЅРё РѕРґРЅРѕРіРѕ Р»РёРЅРєР°
+	//С‚Рѕ РІ РєРѕРЅРµС‡РЅС‹Рµ РїРѕР»РёРіРѕРЅС‹ РґРѕР±Р°РІРёРј РѕРґРёРЅ РѕР±С‰РёР№ inclusivePolygon
 	AddBorderLines( rBoundingRect );
 	
-	//подровняем и пронумеруем линки
+	//РїРѕРґСЂРѕРІРЅСЏРµРј Рё РїСЂРѕРЅСѓРјРµСЂСѓРµРј Р»РёРЅРєРё
 	int nMaximumIterations = IndexLines();
 	
 	int nPatchIndex = 0;
 	int nVertexIndex =0;
-	//ищем не помеченный угол патча
+	//РёС‰РµРј РЅРµ РїРѕРјРµС‡РµРЅРЅС‹Р№ СѓРіРѕР» РїР°С‚С‡Р°
 	while( FindUnmarkedVertex( &nPatchIndex, &nVertexIndex ) )
 	{
-		//получаем полигон и метим углы патчей, которые он охватывает
+		//РїРѕР»СѓС‡Р°РµРј РїРѕР»РёРіРѕРЅ Рё РјРµС‚РёРј СѓРіР»С‹ РїР°С‚С‡РµР№, РєРѕС‚РѕСЂС‹Рµ РѕРЅ РѕС…РІР°С‚С‹РІР°РµС‚
 		std::list<CVec2> newPolygon;
 		if ( !GetPolygonAndMarkVertices( nPatchIndex, nVertexIndex, &newPolygon, nMaximumIterations ) )
 		{
@@ -1156,7 +1156,7 @@ bool CRMFieldGraph::FindPolygons( const CTRect<int> &rBoundingRect )
 		}
 		UniquePolygon<std::list<CVec2>, CVec2>( &newPolygon, RMGC_MINIMAL_VIS_POINT_DISTANCE );
 		
-		//определяем центральную точку патча
+		//РѕРїСЂРµРґРµР»СЏРµРј С†РµРЅС‚СЂР°Р»СЊРЅСѓСЋ С‚РѕС‡РєСѓ РїР°С‚С‡Р°
 		const CVec2 vCenterPoint = ( ( patches[nPatchIndex].boundingPolygon[0] + patches[nPatchIndex].boundingPolygon[2] ) / 2.0f );
 		EClassifyPolygon classifyPolygon = ClassifyPolygon( newPolygon, vCenterPoint );
 		
@@ -1273,7 +1273,7 @@ bool SRMContext::IsValid( int nLevelsCount, int nPlayersCount )
 		return false;
 	}
 
-	//проверяем количество уровеней сложности
+	//РїСЂРѕРІРµСЂСЏРµРј РєРѕР»РёС‡РµСЃС‚РІРѕ СѓСЂРѕРІРµРЅРµР№ СЃР»РѕР¶РЅРѕСЃС‚Рё
 	if ( ( levels.size() <= 0 ) || ( levels.size() < nLevelsCount ) )
 	{
 		NI_ASSERT_T( 0, NStr::Format( "SRMSetting::IsValid, invalid levels count: %d (%d). Press \"Continue\" for further information.",
@@ -1284,10 +1284,10 @@ bool SRMContext::IsValid( int nLevelsCount, int nPlayersCount )
 	
 	for ( int nLevelIndex = 0; nLevelIndex < levels.size(); ++nLevelIndex )
 	{
-		//берем таблицу для соответствующей сложности
+		//Р±РµСЂРµРј С‚Р°Р±Р»РёС†Сѓ РґР»СЏ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµР№ СЃР»РѕР¶РЅРѕСЃС‚Рё
 		const SRMTemplateUnitsTable &rTemplateUnitsTable = levels[nLevelIndex];
 	
-		//проверяем количество игроков
+		//РїСЂРѕРІРµСЂСЏРµРј РєРѕР»РёС‡РµСЃС‚РІРѕ РёРіСЂРѕРєРѕРІ
 		if ( ( rTemplateUnitsTable.unitCreationInfo.units.size() <= 0 ) || ( rTemplateUnitsTable.unitCreationInfo.units.size() < nPlayersCount ) )
 		{
 			NI_ASSERT_T( 0, NStr::Format( "SRMSetting::IsValid, level: %d, invalid players count in Unit Creation: %d (%d). Press \"Continue\" for further information.",
@@ -1307,10 +1307,10 @@ bool SRMContext::IsValid( int nLevelsCount, int nPlayersCount )
 		
 		for ( int nPlayerIndex = 0; nPlayerIndex < rTemplateUnitsTable.unitPlaceHolders.size(); ++nPlayerIndex )
 		{
-			//проверяем UnitCreationInfo;
+			//РїСЂРѕРІРµСЂСЏРµРј UnitCreationInfo;
 			//const SUnitCreation &rUnitCreation = rTemplateUnitsTable.unitCreationInfo.units[nPlayerIndex];
 			
-			//проверяем таблицу юнитов
+			//РїСЂРѕРІРµСЂСЏРµРј С‚Р°Р±Р»РёС†Сѓ СЋРЅРёС‚РѕРІ
 			int nUnitsTableEntriesCount = 0;
 			for ( CRMUnitsPlaceHoldersHashMap::const_iterator unitsIterator = rTemplateUnitsTable.unitPlaceHolders[nPlayerIndex].begin(); unitsIterator != rTemplateUnitsTable.unitPlaceHolders[nPlayerIndex].end(); ++unitsIterator )
 			{
@@ -1400,7 +1400,7 @@ bool SRMContext::IsValid( int nLevelsCount, int nPlayersCount )
 			}
 		}
 		
-		//проверяем бонусы:
+		//РїСЂРѕРІРµСЂСЏРµРј Р±РѕРЅСѓСЃС‹:
 		if ( rTemplateUnitsTable.bonuses.size() <= 0 )
 		{
 			NI_ASSERT_T( 0, NStr::Format( "SRMSetting::IsValid, level: %d, no bonuses: %d. Press \"Continue\" for further information.",

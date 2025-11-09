@@ -55,7 +55,7 @@ int CInterfaceChapter::operator &( interface IStructureSaver &ss )
 const SChapterStats *CInterfaceChapter::ReadChapterStats()
 {
 	std::string szChapterName = GetGlobalVar( "Chapter.Current.Name" );
-	//загружаем информацию о чаптере
+	//Р·Р°РіСЂСѓР¶Р°РµРј РёРЅС„РѕСЂРјР°С†РёСЋ Рѕ С‡Р°РїС‚РµСЂРµ
 	const SChapterStats *pStats = NGDB::GetGameStats<SChapterStats>( szChapterName.c_str(), IObjectsDB::CHAPTER );
 	return pStats;
 }
@@ -81,8 +81,8 @@ void CInterfaceChapter::IncrementChapterVisited()
 {
 	int nFinishStatus = GetGlobalVar( "Mission.Last.FinishStatus", -1 );
 //	NI_ASSERT_T( nFinishStatus != -1, "Global var Mission.Last.FinishStatus does not setted up, error" );
-	//если переменная 0, то значит миссия выйграна
-	//если -1, то переменная еще ни разу не устанавливалась, значит только начали играть и не прошли ни одной миссии
+	//РµСЃР»Рё РїРµСЂРµРјРµРЅРЅР°СЏ 0, С‚Рѕ Р·РЅР°С‡РёС‚ РјРёСЃСЃРёСЏ РІС‹Р№РіСЂР°РЅР°
+	//РµСЃР»Рё -1, С‚Рѕ РїРµСЂРµРјРµРЅРЅР°СЏ РµС‰Рµ РЅРё СЂР°Р·Сѓ РЅРµ СѓСЃС‚Р°РЅР°РІР»РёРІР°Р»Р°СЃСЊ, Р·РЅР°С‡РёС‚ С‚РѕР»СЊРєРѕ РЅР°С‡Р°Р»Рё РёРіСЂР°С‚СЊ Рё РЅРµ РїСЂРѕС€Р»Рё РЅРё РѕРґРЅРѕР№ РјРёСЃСЃРёРё
 	if ( nFinishStatus == ( -1 ) )
 	{
 		if ( CPtr<IScenarioTracker> pScenarioTracker = GetSingleton<IScenarioTracker>() )
@@ -95,10 +95,10 @@ void CInterfaceChapter::IncrementChapterVisited()
 
 	if ( nFinishStatus != 0 && nFinishStatus != -1 )
 	{
-		return;			//миссия не была выйграна, ничего перегенерировать не надо
+		return;			//РјРёСЃСЃРёСЏ РЅРµ Р±С‹Р»Р° РІС‹Р№РіСЂР°РЅР°, РЅРёС‡РµРіРѕ РїРµСЂРµРіРµРЅРµСЂРёСЂРѕРІР°С‚СЊ РЅРµ РЅР°РґРѕ
 	}
 
-	//составим список templates кампании, которые подходят под settings данного чаптера
+	//СЃРѕСЃС‚Р°РІРёРј СЃРїРёСЃРѕРє templates РєР°РјРїР°РЅРёРё, РєРѕС‚РѕСЂС‹Рµ РїРѕРґС…РѕРґСЏС‚ РїРѕРґ settings РґР°РЅРЅРѕРіРѕ С‡Р°РїС‚РµСЂР°
 	const SCampaignStats *pCampaignStats = CInterfaceCampaign::ReadCampaignStats();
 	if ( pCampaignStats == 0 ) 
 	{
@@ -112,7 +112,7 @@ void CInterfaceChapter::IncrementChapterVisited()
 	{
 		return;
 	}
-	//почистим все рандомные миссии в чаптере, они могли остаться от предыдущей записи инфы в чаптер.
+	//РїРѕС‡РёСЃС‚РёРј РІСЃРµ СЂР°РЅРґРѕРјРЅС‹Рµ РјРёСЃСЃРёРё РІ С‡Р°РїС‚РµСЂРµ, РѕРЅРё РјРѕРіР»Рё РѕСЃС‚Р°С‚СЊСЃСЏ РѕС‚ РїСЂРµРґС‹РґСѓС‰РµР№ Р·Р°РїРёСЃРё РёРЅС„С‹ РІ С‡Р°РїС‚РµСЂ.
 	pChapterStats->RemoveTemplateMissions();
 
 	/**
@@ -141,10 +141,10 @@ void CInterfaceChapter::IncrementChapterVisited()
 	do
 	{
 		int nNumberOfFinishedMissions = GetGlobalVar( "Mission.Finished.Counter", 0 );
-		int nTotalProbability = 0;			//для выбора миссии с учетом вероятности
+		int nTotalProbability = 0;			//РґР»СЏ РІС‹Р±РѕСЂР° РјРёСЃСЃРёРё СЃ СѓС‡РµС‚РѕРј РІРµСЂРѕСЏС‚РЅРѕСЃС‚Рё
 		
-		std::hash_map< std::string, int > missionFinishTimes;		//в этой таблице будут соответствия имени миссии и когда она пройдена последний раз
-		//заполняем табличку
+		std::hash_map< std::string, int > missionFinishTimes;		//РІ СЌС‚РѕР№ С‚Р°Р±Р»РёС†Рµ Р±СѓРґСѓС‚ СЃРѕРѕС‚РІРµС‚СЃС‚РІРёСЏ РёРјРµРЅРё РјРёСЃСЃРёРё Рё РєРѕРіРґР° РѕРЅР° РїСЂРѕР№РґРµРЅР° РїРѕСЃР»РµРґРЅРёР№ СЂР°Р·
+		//Р·Р°РїРѕР»РЅСЏРµРј С‚Р°Р±Р»РёС‡РєСѓ
 		for ( int i=0; i<nNumberOfFinishedMissions; i++ )
 		{
 			const std::string szVarName = NStr::Format( "Mission.Finished.%d", i );
@@ -164,11 +164,11 @@ void CInterfaceChapter::IncrementChapterVisited()
 			STemplateMission temp;
 			temp.szName = pCampaignStats->templateMissions[i];
 			
-			//определим, когда была пройдена последний раз эта миссия
+			//РѕРїСЂРµРґРµР»РёРј, РєРѕРіРґР° Р±С‹Р»Р° РїСЂРѕР№РґРµРЅР° РїРѕСЃР»РµРґРЅРёР№ СЂР°Р· СЌС‚Р° РјРёСЃСЃРёСЏ
 			int nFinishTime = 0;
 			std::hash_map< std::string, int >::iterator findIt = missionFinishTimes.find( temp.szName );
 			if ( findIt != missionFinishTimes.end() )
-				nFinishTime = findIt->second;			//миссия присутствует в табличке, значит когда-то проходилась
+				nFinishTime = findIt->second;			//РјРёСЃСЃРёСЏ РїСЂРёСЃСѓС‚СЃС‚РІСѓРµС‚ РІ С‚Р°Р±Р»РёС‡РєРµ, Р·РЅР°С‡РёС‚ РєРѕРіРґР°-С‚Рѕ РїСЂРѕС…РѕРґРёР»Р°СЃСЊ
 
 			temp.nProbability = nNumberOfFinishedMissions - nFinishTime + 1;
 			temp.nProbability *= temp.nProbability;
@@ -177,7 +177,7 @@ void CInterfaceChapter::IncrementChapterVisited()
 			templates.push_back( temp );
 		}
 		
-		//теперь у нас есть массив подходящих template миссий и их вероятности
+		//С‚РµРїРµСЂСЊ Сѓ РЅР°СЃ РµСЃС‚СЊ РјР°СЃСЃРёРІ РїРѕРґС…РѕРґСЏС‰РёС… template РјРёСЃСЃРёР№ Рё РёС… РІРµСЂРѕСЏС‚РЅРѕСЃС‚Рё
 		NI_ASSERT_T( nTotalProbability != 0, "Error while randomization template mission, nTotalProbability is 0" );
 		if ( nTotalProbability == 0 )
 			break;
@@ -189,47 +189,47 @@ void CInterfaceChapter::IncrementChapterVisited()
 		if ( !nRes )
 			break;
 		
-		// создадим временный список placeHolders
+		// СЃРѕР·РґР°РґРёРј РІСЂРµРјРµРЅРЅС‹Р№ СЃРїРёСЃРѕРє placeHolders
 		std::vector<CVec2> tempPlaceHolders;
 		for ( int i = 0; i < pChapterStats->placeHolders.size(); ++i )
 			tempPlaceHolders.push_back( pChapterStats->placeHolders[i].vPosOnMap );
 
-		// для каждой из сложностей подставим свою template карту
+		// РґР»СЏ РєР°Р¶РґРѕР№ РёР· СЃР»РѕР¶РЅРѕСЃС‚РµР№ РїРѕРґСЃС‚Р°РІРёРј СЃРІРѕСЋ template РєР°СЂС‚Сѓ
 		if ( CPtr<IScenarioTracker> pScenarioTracker = GetSingleton<IScenarioTracker>() )
 		{
 			for ( int nDifficulty = 0; nDifficulty < 3; ++nDifficulty )
 			{
 				if ( nTotalProbability == 0 )
-					break;			//скорее всего уже нету template миссий
+					break;			//СЃРєРѕСЂРµРµ РІСЃРµРіРѕ СѓР¶Рµ РЅРµС‚Сѓ template РјРёСЃСЃРёР№
 				if ( tempPlaceHolders.empty() )
-					break;			//похоже не хватает слотов (place holders) под миссии
+					break;			//РїРѕС…РѕР¶Рµ РЅРµ С…РІР°С‚Р°РµС‚ СЃР»РѕС‚РѕРІ (place holders) РїРѕРґ РјРёСЃСЃРёРё
 
 				int nRand = rand() % nTotalProbability;
-				//найдем соответствующее имя миссии
+				//РЅР°Р№РґРµРј СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРµ РёРјСЏ РјРёСЃСЃРёРё
 				int nCurrentTemplateMission = 0;
 				int nSum = 0;
 				for ( ; nCurrentTemplateMission < templates.size(); nCurrentTemplateMission++ )
 				{
 					nSum += templates[nCurrentTemplateMission].nProbability;
 					if ( nSum > nRand )
-						break;		//нашли
+						break;		//РЅР°С€Р»Рё
 				}
 				NI_ASSERT_T( nCurrentTemplateMission != templates.size(), "Error: Can not find mission name while generating template missions" );
 
 				SChapterStats::SMission mission;
 				mission.szMission = templates[nCurrentTemplateMission].szName;
 
-				//найдем положение на карте чаптера
+				//РЅР°Р№РґРµРј РїРѕР»РѕР¶РµРЅРёРµ РЅР° РєР°СЂС‚Рµ С‡Р°РїС‚РµСЂР°
 				nRand = rand() % tempPlaceHolders.size();
 				mission.vPosOnMap = tempPlaceHolders[nRand];
 				mission.pMission = NGDB::GetGameStats<SMissionStats> ( mission.szMission.c_str(), IObjectsDB::MISSION );
-				//сгенерируем бонус за прохождение random миссии
+				//СЃРіРµРЅРµСЂРёСЂСѓРµРј Р±РѕРЅСѓСЃ Р·Р° РїСЂРѕС…РѕР¶РґРµРЅРёРµ random РјРёСЃСЃРёРё
 				mission.nMissionDifficulty = nDifficulty;
 				
 				mission.szMissionBonus = pScenarioTracker->GetRandomBonus( nDifficulty );
 				if ( mission.szMissionBonus.empty() )
 				{
-					//создадим список бонусов
+					//СЃРѕР·РґР°РґРёРј СЃРїРёСЃРѕРє Р±РѕРЅСѓСЃРѕРІ
 					std::vector<std::string> bonuses;
 					chapterContext.GetRandomBonuses( nDifficulty, bonuses );
 					for ( std::vector<std::string>::const_iterator bonusIterator = bonuses.begin(); bonusIterator != bonuses.end(); ++bonusIterator )
@@ -243,20 +243,20 @@ void CInterfaceChapter::IncrementChapterVisited()
 				chapterContext.GetAllRandomBonuses( nDifficulty, mission.szAllBonuses );
 				pChapterStats->AddMission( mission );
 
-				//мы не должны генерировать второй раз этот template, поэтому его надо удалить из списка подходящих templates
-				//и также удалить из суммы вероятностей
+				//РјС‹ РЅРµ РґРѕР»Р¶РЅС‹ РіРµРЅРµСЂРёСЂРѕРІР°С‚СЊ РІС‚РѕСЂРѕР№ СЂР°Р· СЌС‚РѕС‚ template, РїРѕСЌС‚РѕРјСѓ РµРіРѕ РЅР°РґРѕ СѓРґР°Р»РёС‚СЊ РёР· СЃРїРёСЃРєР° РїРѕРґС…РѕРґСЏС‰РёС… templates
+				//Рё С‚Р°РєР¶Рµ СѓРґР°Р»РёС‚СЊ РёР· СЃСѓРјРјС‹ РІРµСЂРѕСЏС‚РЅРѕСЃС‚РµР№
 				nTotalProbability -= templates[nCurrentTemplateMission].nProbability;
 				std::vector<STemplateMission>::iterator it = templates.begin() + nCurrentTemplateMission;
 				templates.erase( it );
 
-				//теперь удалим позицию из временного списка placeHolders
+				//С‚РµРїРµСЂСЊ СѓРґР°Р»РёРј РїРѕР·РёС†РёСЋ РёР· РІСЂРµРјРµРЅРЅРѕРіРѕ СЃРїРёСЃРєР° placeHolders
 				std::vector<CVec2>::iterator tt = tempPlaceHolders.begin() + nRand;
 				tempPlaceHolders.erase( tt );
 			}
 		}
 	} while ( 0 );
 
-	//сохраним chapter stats
+	//СЃРѕС…СЂР°РЅРёРј chapter stats
 	IDataStorage *pStorage = GetSingleton<IDataStorage>();
 	const std::string szChapterFileName = pStorage->GetName() + szChapterName + ".xml";
 	{
@@ -297,7 +297,7 @@ void CInterfaceChapter::StartInterface()
 	pUIScreen->Load( "ui\\common\\chapter" );
 	pUIScreen->Reposition( pGFX->GetScreenRect() );
 
-	// запускаем ChapterScript
+	// Р·Р°РїСѓСЃРєР°РµРј ChapterScript
 	const bool bFirstEnter = GetSingleton<IScenarioTracker>()->StartChapter( GetGlobalVar("Chapter.Current.Name", "UnknownChapter") );
 	if ( bFirstEnter )
 	{
@@ -331,13 +331,13 @@ void CInterfaceChapter::InitWindow()
 {
 	IncrementChapterVisited();
 
-	//загружаем информацию о чаптере
+	//Р·Р°РіСЂСѓР¶Р°РµРј РёРЅС„РѕСЂРјР°С†РёСЋ Рѕ С‡Р°РїС‚РµСЂРµ
 	const SChapterStats *pStats = ReadChapterStats();
 	if ( pStats == 0 )
 		return;
-	int nMission = GetGlobalVar( "Mission.Current.Index", 0 );		//это активная миссия, если мы возвращались назад из выбора миссии, то он != 0
+	int nMission = GetGlobalVar( "Mission.Current.Index", 0 );		//СЌС‚Рѕ Р°РєС‚РёРІРЅР°СЏ РјРёСЃСЃРёСЏ, РµСЃР»Рё РјС‹ РІРѕР·РІСЂР°С‰Р°Р»РёСЃСЊ РЅР°Р·Р°Рґ РёР· РІС‹Р±РѕСЂР° РјРёСЃСЃРёРё, С‚Рѕ РѕРЅ != 0
 	
-	//установим правильный размер для map image control
+	//СѓСЃС‚Р°РЅРѕРІРёРј РїСЂР°РІРёР»СЊРЅС‹Р№ СЂР°Р·РјРµСЂ РґР»СЏ map image control
 	IUIContainer *pMap = checked_cast<IUIContainer *> ( pUIScreen->GetChildByID( 100 ) );
 	IGFXTexture *pTexture = GetSingleton<ITextureManager>()->GetTexture( pStats->szMapImage.c_str() );
 	NI_ASSERT_T( pTexture != 0, "Chapter map texture is invalid" );
@@ -346,7 +346,7 @@ void CInterfaceChapter::InitWindow()
 	pMap->SetWindowMap( rc );
 	pMap->SetWindowPlacement( 0, &CVec2( pStats->mapImageRect.x1, pStats->mapImageRect.y1 ) );
 	
-	//Загрузим миссии
+	//Р—Р°РіСЂСѓР·РёРј РјРёСЃСЃРёРё
 	CPtr<IDataStream> pMissionButtonStream = GetSingleton<IDataStorage>()->OpenStream( "ui\\common\\missionbutton.xml", STREAM_ACCESS_READ );
 	CTreeAccessor missionButtonSaver = CreateDataTreeSaver( pMissionButtonStream, IDataTree::READ );
 	
@@ -355,12 +355,12 @@ void CInterfaceChapter::InitWindow()
 
 	ITextManager *pTM = GetSingleton<ITextManager>();
 	CTemplateInfos templateInfos;
-	srand( timeGetTime() );			//инициализация random генератора
+	srand( timeGetTime() );			//РёРЅРёС†РёР°Р»РёР·Р°С†РёСЏ random РіРµРЅРµСЂР°С‚РѕСЂР°
 	missionIndeces.clear();
 	int nNumberOfScenarioMissions = 0;
 	int nCheatEnabledMissions = GetGlobalVar( "Cheat.Enable.Missions", -1 );
 	
-	// добавляем все сценарийные миссии
+	// РґРѕР±Р°РІР»СЏРµРј РІСЃРµ СЃС†РµРЅР°СЂРёР№РЅС‹Рµ РјРёСЃСЃРёРё
 	for ( int i = 0; i < pStats->missions.size(); ++i )
 	{
 		//Read mission stats
@@ -371,32 +371,32 @@ void CInterfaceChapter::InitWindow()
 		
 		if ( pMissionStats->IsTemplate() )
 			continue;
-		//обычная миссия
+		//РѕР±С‹С‡РЅР°СЏ РјРёСЃСЃРёСЏ
 		
 		if ( nCheatEnabledMissions == -1 )
 		{
-			//проверим, вдруг мы уже прошли эту миссию, тогда ее не нужно отображать во второй раз
+			//РїСЂРѕРІРµСЂРёРј, РІРґСЂСѓРі РјС‹ СѓР¶Рµ РїСЂРѕС€Р»Рё СЌС‚Сѓ РјРёСЃСЃРёСЋ, С‚РѕРіРґР° РµРµ РЅРµ РЅСѓР¶РЅРѕ РѕС‚РѕР±СЂР°Р¶Р°С‚СЊ РІРѕ РІС‚РѕСЂРѕР№ СЂР°Р·
 			std::string szVarName = "Mission.";
 			szVarName += szMissionName;
 			szVarName += ".Finished";
 			if ( GetGlobalVar( szVarName.c_str(), -1 ) == 1 )
 			{
-				//миссия уже пройдена
+				//РјРёСЃСЃРёСЏ СѓР¶Рµ РїСЂРѕР№РґРµРЅР°
 				continue;
 			}
 			
-			//проверяем, доступная ли эта миссия, иначе не отображаем ее в списке миссий
+			//РїСЂРѕРІРµСЂСЏРµРј, РґРѕСЃС‚СѓРїРЅР°СЏ Р»Рё СЌС‚Р° РјРёСЃСЃРёСЏ, РёРЅР°С‡Рµ РЅРµ РѕС‚РѕР±СЂР°Р¶Р°РµРј РµРµ РІ СЃРїРёСЃРєРµ РјРёСЃСЃРёР№
 			szVarName = "Mission.";
 			szVarName += szMissionName;
 			szVarName += ".Enabled";
 			if ( GetGlobalVar( szVarName.c_str(), -1 ) != 1 )
 			{
-				//миссия недоступна
+				//РјРёСЃСЃРёСЏ РЅРµРґРѕСЃС‚СѓРїРЅР°
 				continue;
 			}
 		}
 
-		//создаем кнопку и добавляем ее в карту
+		//СЃРѕР·РґР°РµРј РєРЅРѕРїРєСѓ Рё РґРѕР±Р°РІР»СЏРµРј РµРµ РІ РєР°СЂС‚Сѓ
 		CPtr<IUIElement> pMissionButton;
 		missionButtonSaver.Add( "Element", &pMissionButton );
 		CVec2 size;
@@ -412,7 +412,7 @@ void CInterfaceChapter::InitWindow()
 	}
 	nNumberOfScenarioMissions = missionIndeces.size();
 	
-	//добавляем все темплейтные миссии
+	//РґРѕР±Р°РІР»СЏРµРј РІСЃРµ С‚РµРјРїР»РµР№С‚РЅС‹Рµ РјРёСЃСЃРёРё
 	for ( int i = 0; i < pStats->missions.size(); ++i )
 	{
 		//Read mission stats
@@ -442,7 +442,7 @@ void CInterfaceChapter::InitWindow()
 	else
 		SetGlobalVar( "NumberOfButtons", 0 );
 	
-	//установим текст заголовка
+	//СѓСЃС‚Р°РЅРѕРІРёРј С‚РµРєСЃС‚ Р·Р°РіРѕР»РѕРІРєР°
 	IUIElement *pHeader = pUIScreen->GetChildByID( 20000 );
 	NI_ASSERT_T( pHeader != 0, "Invalid chapter header control" );
 	CPtr<IText> p2 = pTM->GetDialog( pStats->szHeaderText.c_str() );
@@ -454,20 +454,20 @@ void CInterfaceChapter::InitWindow()
 	int nFinishStatus = GetGlobalVar( "Mission.Last.FinishStatus", -1 );
 	if ( nFinishStatus == 0 || nFinishStatus == -1 )
 	{
-		//выберем активную миссию рандомно
-		SetGlobalVar( "Mission.Last.FinishStatus", MISSION_FINISH_LOSE );		//для того чтобы в будущем не перегенирировались random карты
+		//РІС‹Р±РµСЂРµРј Р°РєС‚РёРІРЅСѓСЋ РјРёСЃСЃРёСЋ СЂР°РЅРґРѕРјРЅРѕ
+		SetGlobalVar( "Mission.Last.FinishStatus", MISSION_FINISH_LOSE );		//РґР»СЏ С‚РѕРіРѕ С‡С‚РѕР±С‹ РІ Р±СѓРґСѓС‰РµРј РЅРµ РїРµСЂРµРіРµРЅРёСЂРёСЂРѕРІР°Р»РёСЃСЊ random РєР°СЂС‚С‹
 		do
 		{
 			nMission = 0;
 			
-			//найдем активную миссию, сперва среди сценарийных
+			//РЅР°Р№РґРµРј Р°РєС‚РёРІРЅСѓСЋ РјРёСЃСЃРёСЋ, СЃРїРµСЂРІР° СЃСЂРµРґРё СЃС†РµРЅР°СЂРёР№РЅС‹С…
 			if ( nNumberOfScenarioMissions > 0 )
 			{
 				nMission = rand() % nNumberOfScenarioMissions;
 				break;
 			}
 			
-			//найдем активную миссию среди template missions
+			//РЅР°Р№РґРµРј Р°РєС‚РёРІРЅСѓСЋ РјРёСЃСЃРёСЋ СЃСЂРµРґРё template missions
 			int nNumberOfTemplateMissions = missionIndeces.size() - nNumberOfScenarioMissions;
 			NI_ASSERT_T( nNumberOfTemplateMissions > 0, "Can not select active missions. Possibly chapter script has error" );
 			if ( nNumberOfTemplateMissions > 0 )
@@ -480,7 +480,7 @@ void CInterfaceChapter::InitWindow()
 	}
 	else
 	{
-		//активная миссия остается прежней
+		//Р°РєС‚РёРІРЅР°СЏ РјРёСЃСЃРёСЏ РѕСЃС‚Р°РµС‚СЃСЏ РїСЂРµР¶РЅРµР№
 		for ( int i=0; i<missionIndeces.size(); i++ )
 		{
 			if ( missionIndeces[i] == nMission )
@@ -494,7 +494,7 @@ void CInterfaceChapter::InitWindow()
 	NI_ASSERT_T( missionIndeces.size() > 0, "Error: There is no template or scenario missions" );
 	if ( !missionIndeces.empty() )
 	{
-		//установим активную миссию
+		//СѓСЃС‚Р°РЅРѕРІРёРј Р°РєС‚РёРІРЅСѓСЋ РјРёСЃСЃРёСЋ
 		SetMissionDescription( nMission );
 		int nActiveMissionId = 1000 + nMission;
 		IUIElement *pMissionButton = pMap->GetChildByID( nActiveMissionId );
@@ -593,7 +593,7 @@ bool CInterfaceChapter::ProcessMessage( const SGameMessage &msg )
 	{
 		case IMC_CANCEL:
 			{
-				//проверим, вдруг мы в custom chapter
+				//РїСЂРѕРІРµСЂРёРј, РІРґСЂСѓРі РјС‹ РІ custom chapter
 				int nCustomChapter = GetGlobalVar( "Custom.Chapter", 0 );
 				if ( nCustomChapter )
 				{
@@ -627,10 +627,10 @@ bool CInterfaceChapter::ProcessMessage( const SGameMessage &msg )
 			return true;
 			
 		case IMC_OK:
-			//считываем номер chapter'a
+			//СЃС‡РёС‚С‹РІР°РµРј РЅРѕРјРµСЂ chapter'a
 			IUIContainer *pMap = checked_cast<IUIContainer *> ( pUIScreen->GetChildByID( 100 ) );
 			NI_ASSERT_T( pMap != 0, "Can't find element 100 - missions map!" );
-			//найдем выделенную кнопку
+			//РЅР°Р№РґРµРј РІС‹РґРµР»РµРЅРЅСѓСЋ РєРЅРѕРїРєСѓ
 			
 			int nSelected = -1;
 			for ( int i=0; i<missionIndeces.size(); i++ )

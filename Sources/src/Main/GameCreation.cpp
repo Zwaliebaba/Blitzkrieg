@@ -375,7 +375,7 @@ void CCommonGameCreationInfo::SendPingMessage()
 	if ( startSendMessagesTime == 0 )
 		startSendMessagesTime = time;
 
-	// период, когда мы определяем ping и пора слать ping message
+	// РїРµСЂРёРѕРґ, РєРѕРіРґР° РјС‹ РѕРїСЂРµРґРµР»СЏРµРј ping Рё РїРѕСЂР° СЃР»Р°С‚СЊ ping message
 	if ( /*time < startSendMessagesTime + PERIOD_OF_TIME_TO_SEND_PING_MESSAGES &&*/
 			 time > lastPingMessageTime + TIME_TO_SEND_PING_MESSAGE )
 	{
@@ -423,7 +423,7 @@ void CCommonGameCreationInfo::SPackedInfo::PackFile( const std::string szFileNam
 		{
 			err = deflate( &stream, Z_FINISH );
 			deflateEnd( &stream );
-			// CRAP{ почему-то иногда при распаковке возвращается "buffer error" всесто "stream end"...
+			// CRAP{ РїРѕС‡РµРјСѓ-С‚Рѕ РёРЅРѕРіРґР° РїСЂРё СЂР°СЃРїР°РєРѕРІРєРµ РІРѕР·РІСЂР°С‰Р°РµС‚СЃСЏ "buffer error" РІСЃРµСЃС‚Рѕ "stream end"...
 			if ( (err == Z_STREAM_END) || (err == Z_BUF_ERROR) )
 				err = Z_OK;
 			// CRAP}
@@ -588,7 +588,7 @@ void CServerGameCreation::ConstructGameInfoPacket( CStreamAccessor &pkt )
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CServerGameCreation::ProcessNewClient( int nClientID, CStreamAccessor &pkt )
 {
-	// регистрируем нового клиента и выдаём ему logicID
+	// СЂРµРіРёСЃС‚СЂРёСЂСѓРµРј РЅРѕРІРѕРіРѕ РєР»РёРµРЅС‚Р° Рё РІС‹РґР°С‘Рј РµРјСѓ logicID
 	const int nLogicID = CreateNewLogicID();
 	if ( nLogicID < 0 || nLogicID >= 16 )
 	{
@@ -606,13 +606,13 @@ void CServerGameCreation::ProcessNewClient( int nClientID, CStreamAccessor &pkt 
 		players[nLogicID].nSide = sides.size() - 1;
 		players[nLogicID].eState = SPlayerInfo::EPS_CONNECTED;
 
-		// изменить game info
+		// РёР·РјРµРЅРёС‚СЊ game info
 		++gameInfo.nCurPlayers;
 
 		ConstructGameInfoPacket( pkt );
 		pInGameNetDriver->SendDirect( nClientID, pkt );
 
-		// посылаем этому клиенту его новый logic ID как 'DIRECT'
+		// РїРѕСЃС‹Р»Р°РµРј СЌС‚РѕРјСѓ РєР»РёРµРЅС‚Сѓ РµРіРѕ РЅРѕРІС‹Р№ logic ID РєР°Рє 'DIRECT'
 		const BYTE msgID = NGM_LOGIC_ID;
 		pkt->SetSize( 0 );
 		pkt << msgID << nLogicID;
@@ -622,7 +622,7 @@ void CServerGameCreation::ProcessNewClient( int nClientID, CStreamAccessor &pkt 
 		GetSingleton<IConsoleBuffer>()->WriteASCII( CONSOLE_STREAM_CONSOLE, NStr::Format( "NGM_GAME_INFO to client %d sent", nClientID ), 0xffffff00, true );
 #endif
 
-		// послать наружу, что количество игроков изменилось
+		// РїРѕСЃР»Р°С‚СЊ РЅР°СЂСѓР¶Сѓ, С‡С‚Рѕ РєРѕР»РёС‡РµСЃС‚РІРѕ РёРіСЂРѕРєРѕРІ РёР·РјРµРЅРёР»РѕСЃСЊ
 		SendGameInfoOutside();
 
 #ifdef DEBUG_NET_MESSAGES
@@ -729,7 +729,7 @@ void CServerGameCreation::ProcessBroadcastMessage( int nClientID, CStreamAccesso
 		case NGM_BROADCAST_PLAYER_INFO:
 			{
 				ReadPlayerInfo( nClientID, pkt );
-				// пошлём на 'nClientID' всю инфу о себе как 'DIRECT'
+				// РїРѕС€Р»С‘Рј РЅР° 'nClientID' РІСЃСЋ РёРЅС„Сѓ Рѕ СЃРµР±Рµ РєР°Рє 'DIRECT'
 				pkt->SetSize( 0 );
 				BYTE msgID = NGM_DIRECT_PLAYER_INFO;
 				pkt << msgID;
@@ -768,16 +768,16 @@ void CServerGameCreation::ProcessRemoveClient( int nClientID, CStreamAccessor &p
 		players[i].eState = SPlayerInfo::EPS_INVALID;
 		players[i].nClientID = -1;
 
-		// послать всем, что player удалён
+		// РїРѕСЃР»Р°С‚СЊ РІСЃРµРј, С‡С‚Рѕ player СѓРґР°Р»С‘РЅ
 		pkt->SetSize( 0 );
 		BYTE msgID = NGM_PLAYER_LEFT;
 		pkt << msgID << players[i].nLogicID;
 		pInGameNetDriver->SendBroadcast( pkt );
 
-		// изменить gameInfo
+		// РёР·РјРµРЅРёС‚СЊ gameInfo
 		--gameInfo.nCurPlayers;
 		NI_ASSERT_T( gameInfo.nCurPlayers > 0, "Wrong number of players in the game" );
-		// послать наружу, что количество игроков изменилось
+		// РїРѕСЃР»Р°С‚СЊ РЅР°СЂСѓР¶Сѓ, С‡С‚Рѕ РєРѕР»РёС‡РµСЃС‚РІРѕ РёРіСЂРѕРєРѕРІ РёР·РјРµРЅРёР»РѕСЃСЊ
 		SendGameInfoOutside();
 
 #ifdef DEBUG_NET_MESSAGES
@@ -952,7 +952,7 @@ void CServerGameCreation::KickPlayer( const int nLogicID )
 		players[nLogicID].eState = SPlayerInfo::EPS_INVALID;
 		players[nLogicID].nClientID = -1;
 
-		// послать всем, что player удалён
+		// РїРѕСЃР»Р°С‚СЊ РІСЃРµРј, С‡С‚Рѕ player СѓРґР°Р»С‘РЅ
 		CStreamAccessor pkt = CreateObject<IDataStream>( STREAMIO_MEMORY_STREAM );
 		BYTE msgID = NGM_PLAYER_KICKED;
 		pkt << msgID << nLogicID;
@@ -962,10 +962,10 @@ void CServerGameCreation::KickPlayer( const int nLogicID )
 		GetSingleton<IConsoleBuffer>()->WriteASCII( CONSOLE_STREAM_CONSOLE, NStr::Format( "NGM_PLAYER_KICKED, client %d", nLogicID ), 0xffffff00, true );
 #endif
 
-		// изменить gameInfo
+		// РёР·РјРµРЅРёС‚СЊ gameInfo
 		--gameInfo.nCurPlayers;
 		NI_ASSERT_T( gameInfo.nCurPlayers > 0, "Wrong number of players in the game" );
-		// послать наружу, что количество игроков изменилось
+		// РїРѕСЃР»Р°С‚СЊ РЅР°СЂСѓР¶Сѓ, С‡С‚Рѕ РєРѕР»РёС‡РµСЃС‚РІРѕ РёРіСЂРѕРєРѕРІ РёР·РјРµРЅРёР»РѕСЃСЊ
 		SendGameInfoOutside();
 
 		pInGameNetDriver->Kick( nClientID );
@@ -1040,7 +1040,7 @@ IGamePlaying* CServerGameCreation::CreateGamePlaying()
 	DistributePlayersNumbers();
 
 	// load randomseed and commands history
-	// если history загружена, то проставить распределение игроков, как записано в history
+	// РµСЃР»Рё history Р·Р°РіСЂСѓР¶РµРЅР°, С‚Рѕ РїСЂРѕСЃС‚Р°РІРёС‚СЊ СЂР°СЃРїСЂРµРґРµР»РµРЅРёРµ РёРіСЂРѕРєРѕРІ, РєР°Рє Р·Р°РїРёСЃР°РЅРѕ РІ history
 	ICommandsHistory *pHistory = GetSingleton<ICommandsHistory>();
 	if ( pHistory->LoadCommandLineHistory() )
 	{
@@ -1186,7 +1186,7 @@ void CClientGameCreation::ProcessLogicIDSet( int nClientID, CStreamAccessor &pkt
 
 	players[nLogicID].bReady = false;
 	
-	// узнать своё имя
+	// СѓР·РЅР°С‚СЊ СЃРІРѕС‘ РёРјСЏ
 	pkt->SetSize( 0 );
 	BYTE msgID = NGM_ASK_FOR_NAME;
 	pkt << msgID << nOurLogicID << players[nOurLogicID].szName;
@@ -1213,7 +1213,7 @@ void CClientGameCreation::ProcessReceivedOwnName( const int nClientID, CStreamAc
 	players[nOurLogicID].szName = wszOwnName;
 	players[nOurLogicID].eState = SPlayerInfo::EPS_VALID;
 
-	// послать всем информацию о себе
+	// РїРѕСЃР»Р°С‚СЊ РІСЃРµРј РёРЅС„РѕСЂРјР°С†РёСЋ Рѕ СЃРµР±Рµ
 	pkt->SetSize( 0 );
 	BYTE msgID = NGM_BROADCAST_PLAYER_INFO;
 	pkt << msgID;
@@ -1246,7 +1246,7 @@ void CClientGameCreation::ProcessNewPlayerJoinedInfo( int nClientID, CStreamAcce
 {
 	ProcessNewPlayerInfo( nClientID, pkt );
 
-	// послать информацию о себе
+	// РїРѕСЃР»Р°С‚СЊ РёРЅС„РѕСЂРјР°С†РёСЋ Рѕ СЃРµР±Рµ
 	pkt->SetSize( 0 );
 	BYTE msgID = NGM_DIRECT_PLAYER_INFO;
 	pkt << msgID;
@@ -1439,7 +1439,7 @@ void CClientGameCreation::ProcessGameStarted( CStreamAccessor &pkt )
 		while ( i < 16 && curPlayersIDs[i] != *iter )
 			++i;
 
-		// не получена информация обо всех игроках
+		// РЅРµ РїРѕР»СѓС‡РµРЅР° РёРЅС„РѕСЂРјР°С†РёСЏ РѕР±Рѕ РІСЃРµС… РёРіСЂРѕРєР°С…
 		if ( i >= 16 )
 		{
 			messages.AddMessage( new CConnectionFailed( INetDriver::MAXPLAYERS_REACHED ) );
@@ -1636,7 +1636,7 @@ IGamePlaying* CClientGameCreation::CreateGamePlaying()
 	
 	SetGlobalVars( players[nOurLogicID].nLogicID );
 
-	//{CRAP различать типы игры
+	//{CRAP СЂР°Р·Р»РёС‡Р°С‚СЊ С‚РёРїС‹ РёРіСЂС‹
 	IGamePlaying *pGamePlaying = new CGamePlaying();
 	//CRAP}
 
@@ -1725,7 +1725,7 @@ void CClientGameCreation::CLoadMap::ProcessMapLoadFinished()
 		{
 			err = inflate( &zstream, Z_FINISH );
 			inflateEnd( &zstream );
-			// CRAP{ почему-то иногда при распаковке возвращается "buffer error" всесто "stream end"...
+			// CRAP{ РїРѕС‡РµРјСѓ-С‚Рѕ РёРЅРѕРіРґР° РїСЂРё СЂР°СЃРїР°РєРѕРІРєРµ РІРѕР·РІСЂР°С‰Р°РµС‚СЃСЏ "buffer error" РІСЃРµСЃС‚Рѕ "stream end"...
 			if ( (err == Z_STREAM_END) || (err == Z_BUF_ERROR) )
 				err = Z_OK;
 			// CRAP}

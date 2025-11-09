@@ -44,11 +44,11 @@ void CCommonStaticPath::SetPath( const interface IStaticPathFinder &staticPathFi
 
 	if ( nLen > 0 )
 		staticPathFinder.GetStopTiles( &(path[0]), nLen );
-	// инициализация startTile и finishTile
+	// РёРЅРёС†РёР°Р»РёР·Р°С†РёСЏ startTile Рё finishTile
 	startTile = staticPathFinder.GetStartTile();
 	finishTile = staticPathFinder.GetFinishTile();
 
-	// инициализация finishPoint
+	// РёРЅРёС†РёР°Р»РёР·Р°С†РёСЏ finishPoint
 	if ( !theStaticMap.IsPointInside( _finishPoint ) || finishTile != AICellsTiles::GetTile( _finishPoint ) )
 		finishPoint = AICellsTiles::GetPointByTile( finishTile );
 	else 
@@ -102,7 +102,7 @@ void CStandartPath::SaveSmallPath( const int nToSave )
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CStandartPath::CalculateSmallPath( const bool bLastStep )
 {
-	// попробовать пойти, чтобы сохранить относительную позицию
+	// РїРѕРїСЂРѕР±РѕРІР°С‚СЊ РїРѕР№С‚Рё, С‡С‚РѕР±С‹ СЃРѕС…СЂР°РЅРёС‚СЊ РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅСѓСЋ РїРѕР·РёС†РёСЋ
 	SVector nextTile;
 	if ( curStPathTile == pStPath->GetFinishTile() )
 		nextTile = AICellsTiles::GetTile( finishPoint );
@@ -112,7 +112,7 @@ void CStandartPath::CalculateSmallPath( const bool bLastStep )
 	bool bFound = true;
 	if ( theStaticMap.CanUnitGo( nBoundTileRadius, nextTile, aiClass ) )
 	{
-		// путь в точку со сдвигом длины не больше, чем 4 * mDistance( pathPoint[nCurTile], nextTile )
+		// РїСѓС‚СЊ РІ С‚РѕС‡РєСѓ СЃРѕ СЃРґРІРёРіРѕРј РґР»РёРЅС‹ РЅРµ Р±РѕР»СЊС€Рµ, С‡РµРј 4 * mDistance( pathPoint[nCurTile], nextTile )
 		theStaticMap.MemMode();
 		theStaticMap.SetMode( ELM_STATIC );
 		const SVector goodTile = 
@@ -133,7 +133,7 @@ void CStandartPath::CalculateSmallPath( const bool bLastStep )
 	else
 		bFound = false;
 
-	// путь не найден
+	// РїСѓС‚СЊ РЅРµ РЅР°Р№РґРµРЅ
 	if ( !bFound )
 	{
 		theStaticMap.MemMode();
@@ -155,7 +155,7 @@ void CStandartPath::CalculateSmallPath( const bool bLastStep )
 	}
 	pPathFinder->SmoothPath();
 
-	// нельзя пойти точно в тайл последней точки
+	// РЅРµР»СЊР·СЏ РїРѕР№С‚Рё С‚РѕС‡РЅРѕ РІ С‚Р°Р№Р» РїРѕСЃР»РµРґРЅРµР№ С‚РѕС‡РєРё
 	if ( curStPathTile == pStPath->GetFinishTile() && nextTile != pPathFinder->GetFinishTile() )
 		finishPoint = AICellsTiles::GetPointByTile( pPathFinder->GetFinishTile() );
 
@@ -183,20 +183,20 @@ void CStandartPath::CalculateSmallPath( const bool bLastStep )
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool CStandartPath::CalculateNewPath( const bool bShift )
 {
-	// маленький путь был слишком длинён
+	// РјР°Р»РµРЅСЊРєРёР№ РїСѓС‚СЊ Р±С‹Р» СЃР»РёС€РєРѕРј РґР»РёРЅС‘РЅ
 	if ( bSmallPathTooLong )
 		CalculateSmallPath( nCurStaticPoint == pStPath->GetLength() );
 	else
 		if ( nCurStaticPoint < pStPath->GetLength() || !bShift )
 		{
-			// сдвинуть точку на большом пути
+			// СЃРґРІРёРЅСѓС‚СЊ С‚РѕС‡РєСѓ РЅР° Р±РѕР»СЊС€РѕРј РїСѓС‚Рё
 			int shift;
 			if ( bShift )
 				shift = Min( nCurStaticPoint + SConsts::BIG_PATH_SHIFT, pStPath->GetLength() );
 			else
 				shift = nCurStaticPoint;
 
-			// пропустить все залоканные тайлы
+			// РїСЂРѕРїСѓСЃС‚РёС‚СЊ РІСЃРµ Р·Р°Р»РѕРєР°РЅРЅС‹Рµ С‚Р°Р№Р»С‹
 			while ( shift < pStPath->GetLength() && !theStaticMap.CanUnitGo( nBoundTileRadius, pStPath->GetTile( shift - 1 ), aiClass ) )
 				++shift;
 
@@ -287,7 +287,7 @@ const CVec2 CStandartPath::PeekPoint( int nShift )
 	}
 
 	CVec2 result;
-	// потому что при проверке на конец пути могут поменяться pathPoints
+	// РїРѕС‚РѕРјСѓ С‡С‚Рѕ РїСЂРё РїСЂРѕРІРµСЂРєРµ РЅР° РєРѕРЅРµС† РїСѓС‚Рё РјРѕРіСѓС‚ РїРѕРјРµРЅСЏС‚СЊСЃСЏ pathPoints
 	if ( nPoint != nCurPathPoint )
 		result = AICellsTiles::GetPointByTile( pathPoints[nPoint] );
 

@@ -12,7 +12,7 @@ class CAntiArtilleryManager
 {
 	DECLARE_SERIALIZE;
 
-	// круги от выстрелов от собственной артиллерии для каждой из сторон
+	// РєСЂСѓРіРё РѕС‚ РІС‹СЃС‚СЂРµР»РѕРІ РѕС‚ СЃРѕР±СЃС‚РІРµРЅРЅРѕР№ Р°СЂС‚РёР»Р»РµСЂРёРё РґР»СЏ РєР°Р¶РґРѕР№ РёР· СЃС‚РѕСЂРѕРЅ
 	typedef std::hash_set<int> CAntiArtilleries;
 	std::vector<CAntiArtilleries> antiArtilleries;
 	
@@ -25,7 +25,7 @@ public:
 	void RemoveAA( CAntiArtillery *pAA );
 	void Segment();
 
-	// не сэйвится!
+	// РЅРµ СЃСЌР№РІРёС‚СЃСЏ!
 	class CIterator
 	{
 		int nIterParty;

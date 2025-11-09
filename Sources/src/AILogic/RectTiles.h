@@ -8,7 +8,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 typedef std::list<SVector> CTilesSet;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// для GetTilesCoveredByRectSides
+// РґР»СЏ GetTilesCoveredByRectSides
 class CTilesCollector
 {
 public:
@@ -18,17 +18,17 @@ public:
 };
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool IsRectOnLockedTiles( const SRect &rect, const BYTE aiClass );
-// возвращает tiles, которые накрывает данный четырёхугольник
+// РІРѕР·РІСЂР°С‰Р°РµС‚ tiles, РєРѕС‚РѕСЂС‹Рµ РЅР°РєСЂС‹РІР°РµС‚ РґР°РЅРЅС‹Р№ С‡РµС‚С‹СЂС‘С…СѓРіРѕР»СЊРЅРёРє
 void GetTilesCoveredByQuadrangle( const CVec2 &v1, const CVec2 &v2, const CVec2 &v3, const CVec2 &v4, CTilesSet *pTiles );
-// возвращает tiles, которые накрывает данный rect
+// РІРѕР·РІСЂР°С‰Р°РµС‚ tiles, РєРѕС‚РѕСЂС‹Рµ РЅР°РєСЂС‹РІР°РµС‚ РґР°РЅРЅС‹Р№ rect
 void GetTilesCoveredByRect( const SRect &rect, CTilesSet *pTiles );
-//возвращает tiles, которые пересекаются со сторонами данного rect
+//РІРѕР·РІСЂР°С‰Р°РµС‚ tiles, РєРѕС‚РѕСЂС‹Рµ РїРµСЂРµСЃРµРєР°СЋС‚СЃСЏ СЃРѕ СЃС‚РѕСЂРѕРЅР°РјРё РґР°РЅРЅРѕРіРѕ rect
 void GetTilesCoveredByRectSides( const SRect &rect, CTilesSet *pTiles );
-//то же самое, за исключением стороны, которая лежит в сторону dir от центра 
+//С‚Рѕ Р¶Рµ СЃР°РјРѕРµ, Р·Р° РёСЃРєР»СЋС‡РµРЅРёРµРј СЃС‚РѕСЂРѕРЅС‹, РєРѕС‚РѕСЂР°СЏ Р»РµР¶РёС‚ РІ СЃС‚РѕСЂРѕРЅСѓ dir РѕС‚ С†РµРЅС‚СЂР° 
 void GetTilesCoveredByRectSides( const SRect &rect, CTilesSet *pTiles, WORD dir );
-//тайлы под стороной, которая лежит в сторону dir от центра 
+//С‚Р°Р№Р»С‹ РїРѕРґ СЃС‚РѕСЂРѕРЅРѕР№, РєРѕС‚РѕСЂР°СЏ Р»РµР¶РёС‚ РІ СЃС‚РѕСЂРѕРЅСѓ dir РѕС‚ С†РµРЅС‚СЂР° 
 void GetTilesCoveredBySide( const SRect &rect, CTilesSet *pTiles, WORD dir );
-// свободна ли карта под rect ( нет залоканных тайлов и не пересекается с юнитами ), юнит pUnit не учитывается
+// СЃРІРѕР±РѕРґРЅР° Р»Рё РєР°СЂС‚Р° РїРѕРґ rect ( РЅРµС‚ Р·Р°Р»РѕРєР°РЅРЅС‹С… С‚Р°Р№Р»РѕРІ Рё РЅРµ РїРµСЂРµСЃРµРєР°РµС‚СЃСЏ СЃ СЋРЅРёС‚Р°РјРё ), СЋРЅРёС‚ pUnit РЅРµ СѓС‡РёС‚С‹РІР°РµС‚СЃСЏ
 bool IsMapFullyFree( const SRect &rect, interface IBasePathUnit *pUnit );
 void GetTilesNextToRect( const SRect &rect, CTilesSet *pTiles );
 //same as above, excludes tiles near given direction from center.

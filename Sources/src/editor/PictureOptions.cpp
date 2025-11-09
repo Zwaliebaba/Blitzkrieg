@@ -104,7 +104,7 @@ BOOL CPictureOptions::PreTranslateMessage(MSG* pMsg)
 {
 	if ( ( pMsg->message == WM_KEYDOWN ) && ( pMsg->wParam == VK_RETURN ) )
 	{
-//		OnEnterPressed();  // вызов диспетчера нажатия Enter
+//		OnEnterPressed();  // РІС‹Р·РѕРІ РґРёСЃРїРµС‚С‡РµСЂР° РЅР°Р¶Р°С‚РёСЏ Enter
 		CWnd *pWnd = GetFocus();
 		if ( pWnd == &m_editGamma )
 		{
@@ -113,7 +113,7 @@ BOOL CPictureOptions::PreTranslateMessage(MSG* pMsg)
 			fGamma = atof( szVal );
 			m_gammaSlider.SetPos( fGamma * 1000 );
 			UpdateData( TRUE );
-			return TRUE;       // запрет дальнейшей обработки
+			return TRUE;       // Р·Р°РїСЂРµС‚ РґР°Р»СЊРЅРµР№С€РµР№ РѕР±СЂР°Р±РѕС‚РєРё
 		}
 
 		if ( pWnd == &m_editContrast )
@@ -123,7 +123,7 @@ BOOL CPictureOptions::PreTranslateMessage(MSG* pMsg)
 			fContrast = atof( szVal );
 			m_contrastSlider.SetPos( fContrast * 1000 );
 			UpdateData( TRUE );
-			return TRUE;       // запрет дальнейшей обработки
+			return TRUE;       // Р·Р°РїСЂРµС‚ РґР°Р»СЊРЅРµР№С€РµР№ РѕР±СЂР°Р±РѕС‚РєРё
 		}
 		
 		if ( pWnd == &m_editBrightness )
@@ -133,7 +133,7 @@ BOOL CPictureOptions::PreTranslateMessage(MSG* pMsg)
 			fBrightness = atof( szVal );
 			m_brightnessSlider.SetPos( fBrightness * 1000 );
 			UpdateData( TRUE );
-			return TRUE;       // запрет дальнейшей обработки
+			return TRUE;       // Р·Р°РїСЂРµС‚ РґР°Р»СЊРЅРµР№С€РµР№ РѕР±СЂР°Р±РѕС‚РєРё
 		}
 	}
 	

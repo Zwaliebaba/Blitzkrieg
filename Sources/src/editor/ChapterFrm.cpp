@@ -9,7 +9,7 @@
 
 #include "editor.h"
 #include "MainFrm.h"
-#include "BuildCompose.h"			//для компоновки картинки в текстуру
+#include "BuildCompose.h"			//РґР»СЏ РєРѕРјРїРѕРЅРѕРІРєРё РєР°СЂС‚РёРЅРєРё РІ С‚РµРєСЃС‚СѓСЂСѓ
 #include "TreeDockWnd.h"
 #include "PropView.h"
 #include "TreeItem.h"
@@ -218,8 +218,8 @@ void CChapterFrame::LoadRPGStats( IDataTree *pDT, CTreeItem *pRootItem )
 	
 	if ( szProjectFileName.size() > 0 )
 	{
-		//загрузим и отобразим картинку на экране
-		//Скомпонуем спрайт в editor temp dir
+		//Р·Р°РіСЂСѓР·РёРј Рё РѕС‚РѕР±СЂР°Р·РёРј РєР°СЂС‚РёРЅРєСѓ РЅР° СЌРєСЂР°РЅРµ
+		//РЎРєРѕРјРїРѕРЅСѓРµРј СЃРїСЂР°Р№С‚ РІ editor temp dir
 		CChapterCommonPropsItem *pCommonProps = static_cast<CChapterCommonPropsItem *> ( pRootItem->GetChildItem( E_CHAPTER_COMMON_PROPS_ITEM ) );
 		std::string szMapFileName, szTemp;
 		szTemp = pCommonProps->GetMapImage();
@@ -291,7 +291,7 @@ bool CChapterFrame::ExportFrameData( IDataTree *pDT, const char *pszProjectName,
 	szPrefix = szAddDir + szPrevExportFileName.substr( 0, szPrevExportFileName.rfind('\\') + 1 );
 	SaveRPGStats( pDT, pRootItem, pszProjectName );
 	
-	//Скопирую все данные в экспорт директорию
+	//РЎРєРѕРїРёСЂСѓСЋ РІСЃРµ РґР°РЅРЅС‹Рµ РІ СЌРєСЃРїРѕСЂС‚ РґРёСЂРµРєС‚РѕСЂРёСЋ
 	szPrefix = theApp.GetDestDir() + szPrefix;
 	CChapterCommonPropsItem *pCommonProps = static_cast<CChapterCommonPropsItem *> ( pRootItem->GetChildItem( E_CHAPTER_COMMON_PROPS_ITEM ) );
 	std::string szTemp, szSource, szResult, szDir;
@@ -327,7 +327,7 @@ bool CChapterFrame::ExportFrameData( IDataTree *pDT, const char *pszProjectName,
 	if ( szTemp.length() > 0 )
 	{
 		szTemp += ".tga";
-		//Надо скомпоновать картинку, чтобы она загружалась из текстуры
+		//РќР°РґРѕ СЃРєРѕРјРїРѕРЅРѕРІР°С‚СЊ РєР°СЂС‚РёРЅРєСѓ, С‡С‚РѕР±С‹ РѕРЅР° Р·Р°РіСЂСѓР¶Р°Р»Р°СЃСЊ РёР· С‚РµРєСЃС‚СѓСЂС‹
 		MakeFullPath( szDir.c_str(), szTemp.c_str(), szSource );
 		szResult = szPrefix + pCommonProps->GetMapImage();
 		if ( !ComposeImageToTexture( szSource.c_str(), szResult.c_str() ) )
@@ -364,7 +364,7 @@ bool CChapterFrame::ExportFrameData( IDataTree *pDT, const char *pszProjectName,
 	}
 	
 /*
-	//копирую все mission bonus файлы
+	//РєРѕРїРёСЂСѓСЋ РІСЃРµ mission bonus С„Р°Р№Р»С‹
 	CTreeItem *pMissions = pRootItem->GetChildItem( E_CHAPTER_MISSIONS_ITEM );
 	for ( CTreeItem::CTreeItemList::const_iterator it=pMissions->GetBegin(); it!=pMissions->GetEnd(); ++it )
 	{
@@ -608,7 +608,7 @@ void CChapterFrame::OnLButtonDown(UINT nFlags, CPoint point)
 
 	if ( bEditCrosses )
 	{
-		//проверим, вдруг некий крест надо сделать активным
+		//РїСЂРѕРІРµСЂРёРј, РІРґСЂСѓРі РЅРµРєРёР№ РєСЂРµСЃС‚ РЅР°РґРѕ СЃРґРµР»Р°С‚СЊ Р°РєС‚РёРІРЅС‹Рј
 		FindActiveCross( point );
 	}
 	else

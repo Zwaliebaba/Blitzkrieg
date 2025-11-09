@@ -462,7 +462,7 @@ void CreateAIMarker( const float fX, const float fY, const STerrainInfo &info,
 		const DWORD dwSpecular = 0xff000000;
 		for ( int k = 0; k < nMarkerSize; ++k )
 		{
-			// humans, track, half-track, wheel <= öâåòà: îò ò¸ìíî-çåë¸íîãî (128) äî ñâåòëî-çåë¸íîãî (255)
+			// humans, track, half-track, wheel <= Ñ†Ð²ÐµÑ‚Ð°: Ð¾Ñ‚ Ñ‚Ñ‘Ð¼Ð½Ð¾-Ð·ÐµÐ»Ñ‘Ð½Ð¾Ð³Ð¾ (128) Ð´Ð¾ ÑÐ²ÐµÑ‚Ð»Ð¾-Ð·ÐµÐ»Ñ‘Ð½Ð¾Ð³Ð¾ (255)
 			// 3, 2, 1, 0
 			DWORD dwColor = marker[k].pass == 0 ? 0 : ( DWORD( 255UL - (GetMSB(DWORD(marker[k].pass)) + 1) * 32 ) << 8 ) | 0x80000000;
 			

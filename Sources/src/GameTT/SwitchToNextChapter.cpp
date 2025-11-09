@@ -39,7 +39,7 @@ void CInterfaceNextChapter::StartInterface()
 	
 	
 	std::string szChapterName = GetGlobalVar( "Chapter.Current.Name" );
-	//загружаем информацию о чаптере
+	//Р·Р°РіСЂСѓР¶Р°РµРј РёРЅС„РѕСЂРјР°С†РёСЋ Рѕ С‡Р°РїС‚РµСЂРµ
 	const SChapterStats *pStats = NGDB::GetGameStats<SChapterStats>( szChapterName.c_str(), IObjectsDB::CHAPTER );
 
 	bool bTemplateExists = false;
@@ -85,13 +85,13 @@ bool CInterfaceNextChapter::ProcessMessage( const SGameMessage &msg )
 			// no break - OK
 		case IMC_OK:
 		{
-			//установим global var, что текущий чаптер уже пройден
+			//СѓСЃС‚Р°РЅРѕРІРёРј global var, С‡С‚Рѕ С‚РµРєСѓС‰РёР№ С‡Р°РїС‚РµСЂ СѓР¶Рµ РїСЂРѕР№РґРµРЅ
 			std::string szChapterName = GetGlobalVar( "Chapter.Current.Name", "" );
 			NI_ASSERT_T( szChapterName.size() > 0, "There is no global var Chapter.Current.Name" );
 			std::string szVarName = "Chapter." + szChapterName + ".Status";
 			SetGlobalVar( szVarName.c_str(), 2 );
 
-			//Сменим глобальную переменную нового чаптера
+			//вЂ”РјРµРЅРёРј РіР»РѕР±Р°Р»СЊРЅСѓСЋ РїРµСЂРµРјРµРЅРЅСѓСЋ РЅРѕРІРѕРіРѕ С‡Р°РїС‚РµСЂР°
 			szVarName = "Chapter.New.Available";
 			std::string szNewChapter = GetGlobalVar( szVarName.c_str(), "" );
 			NI_ASSERT_T( szNewChapter.size() > 0, "New chapter name is empty" );

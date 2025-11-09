@@ -50,7 +50,7 @@ bool CInterfaceAboutMission::Init()
 void CInterfaceAboutMission::StartInterface()
 {
 	CInterfaceInterMission::StartInterface();
-	//загружаем информацию о миссии
+	//Р·Р°РіСЂСѓР¶Р°РµРј РёРЅС„РѕСЂРјР°С†РёСЋ Рѕ РјРёСЃСЃРёРё
 	const SMissionStats *pStats = ReadMissionStats();
 
 	NI_ASSERT_T( pStats != 0, "Invalid mission stats" );
@@ -89,7 +89,7 @@ void CInterfaceAboutMission::StartInterface()
 		
 		if ( IUserProfile *pUserProfile = GetSingleton<IUserProfile>() )
 		{
-			//граф
+			//РіСЂР°С„
 			SRMTemplate randomMapTemplate;
 			bool bResult = LoadDataResource( pStats->szTemplateMap, "", false, 0, RMGC_TEMPLATE_XML_NAME, randomMapTemplate );
 			NI_ASSERT_T( bResult,
@@ -129,7 +129,7 @@ void CInterfaceAboutMission::StartInterface()
 				}
 			}
 			
-			//угол
+			//СѓРіРѕР»
 			int nMinimumUsedAngle = pUserProfile->GetUsedAngles( 0 );
 			for ( int nAngleIndex = 1; nAngleIndex < 4; ++nAngleIndex )
 			{
@@ -170,7 +170,7 @@ void CInterfaceAboutMission::StartInterface()
 		if ( !bRes )
 			return;
 
-		//для сейвов
+		//РґР»СЏ СЃРµР№РІРѕРІ
 		SetGlobalVar( "Chapter.Units.Table.FileName", szChapterUnitsTableFileName.c_str() );
 		SetGlobalVar( "Chapter.Units.Table.Level", nLevel );
 		SetGlobalVar( "Chapter.Units.Table.GraphName", usedTemplateInfo.szGraphName.c_str() );
@@ -197,7 +197,7 @@ void CInterfaceAboutMission::StartInterface()
 	
 	ITextManager *pTM = GetSingleton<ITextManager>();
 	
-	//установим правильный размер для map image control
+	//СѓСЃС‚Р°РЅРѕРІРёРј РїСЂР°РІРёР»СЊРЅС‹Р№ СЂР°Р·РјРµСЂ РґР»СЏ map image control
 	IUIObjMap *pMap = checked_cast<IUIObjMap *> ( pUIScreen->GetChildByID( 100 ) );
 	IGFXTexture *pTexture = GetSingleton<ITextureManager>()->GetTexture( pStats->szMapImage.c_str() );
 	NI_ASSERT_T( pTexture != 0, "Mission map texture is invalid" );
@@ -214,7 +214,7 @@ void CInterfaceAboutMission::StartInterface()
 		vMapControlSize.y -= DELTAY*2;
 	}
 
-	//установим текст заголовка
+	//СѓСЃС‚Р°РЅРѕРІРёРј С‚РµРєСЃС‚ Р·Р°РіРѕР»РѕРІРєР°
 	IUIElement *pHeader = pUIScreen->GetChildByID( 20000 );
 	NI_ASSERT_T( pHeader != 0, "Invalid mission header control" );
 	CPtr<IText> p2 = pTM->GetDialog( pStats->szHeaderText.c_str() );
@@ -222,7 +222,7 @@ void CInterfaceAboutMission::StartInterface()
 	if ( p2 != 0 )
 		pHeader->SetWindowText( 0, p2->GetString() );
 	
-	//установим текст описания
+	//СѓСЃС‚Р°РЅРѕРІРёРј С‚РµРєСЃС‚ РѕРїРёСЃР°РЅРёСЏ
 	IUIElement *pDesc = checked_cast<IUIElement *> ( pUIScreen->GetChildByID( 2000 ) );
 	NI_ASSERT_T( pDesc != 0, "Invalid mission text description control" );
 	std::wstring szDescription;
@@ -234,9 +234,9 @@ void CInterfaceAboutMission::StartInterface()
 		//pDesc->SetWindowText( 0, pText->GetString() );
 	
 	IUIElement *pObjectivesScreen = pUIScreen->GetChildByID( 4000 );
-	pObjectivesScreen->ShowWindow( UI_SW_SHOW );		//здесь произойдет авто загрузка objectives
+	pObjectivesScreen->ShowWindow( UI_SW_SHOW );		//Р·РґРµСЃСЊ РїСЂРѕРёР·РѕР№РґРµС‚ Р°РІС‚Рѕ Р·Р°РіСЂСѓР·РєР° objectives
 
-	//загрузим флажки Objectives для отображения на минимапе
+	//Р·Р°РіСЂСѓР·РёРј С„Р»Р°Р¶РєРё Objectives РґР»СЏ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ РЅР° РјРёРЅРёРјР°РїРµ
 	CPtr<IDataStorage> pStorage = GetSingleton<IDataStorage>();
 	CPtr<IDataStream> pStream = pStorage->OpenStream( "ui\\common\\objective_flag.xml", STREAM_ACCESS_READ );
 	NI_ASSERT_T( pStream != 0, "CInterfaceAboutMission error: Can not open stream ui\\common\\objective_flag.xml" );
@@ -264,9 +264,9 @@ void CInterfaceAboutMission::StartInterface()
 		
 		nObjectiveState = GetGlobalVar( szObjName.c_str(), nDefault );
 		if ( nObjectiveState == -1 )
-			continue;		//objective не виден
+			continue;		//objective РЅРµ РІРёРґРµРЅ
 		
-		//рассчитаем координаты objective в статическом минимап контроле
+		//СЂР°СЃСЃС‡РёС‚Р°РµРј РєРѕРѕСЂРґРёРЅР°С‚С‹ objective РІ СЃС‚Р°С‚РёС‡РµСЃРєРѕРј РјРёРЅРёРјР°Рї РєРѕРЅС‚СЂРѕР»Рµ
 		const CVec2 &v = pStats->objectives[i].vPosOnMap;
 
 		CVec2 vPos;
@@ -309,7 +309,7 @@ void CInterfaceAboutMission::StartInterface()
 	// add UI screen to scene
 	pScene->AddUIScreen( pUIScreen );
 
-	//инициализируем свободные слоты в миссии дефалтовыми юнитами
+	//РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј СЃРІРѕР±РѕРґРЅС‹Рµ СЃР»РѕС‚С‹ РІ РјРёСЃСЃРёРё РґРµС„Р°Р»С‚РѕРІС‹РјРё СЋРЅРёС‚Р°РјРё
 //	bool bRes = CInterfaceAddUnitToMission::AddDefaultSlotsToST();
 	//NI_ASSERT_T( bRes != 0, "CInterfaceAddUnitToMission::AddDefaultSlotsToST() FAILED" );
 }
@@ -358,10 +358,10 @@ void CInterfaceAboutMission::UpdateActiveObjectiveFlag( bool bShow )
 	int nSelBar = 0, nSelItem = 0;
 	pBar->GetSelectionItem( &nSelBar, &nSelItem );
 
-	//скрываем предыдущий активный objective flag
+	//СЃРєСЂС‹РІР°РµРј РїСЂРµРґС‹РґСѓС‰РёР№ Р°РєС‚РёРІРЅС‹Р№ objective flag
 	ShowActiveObjective( false );
 
-	//показываем новый активный objective flag
+	//РїРѕРєР°Р·С‹РІР°РµРј РЅРѕРІС‹Р№ Р°РєС‚РёРІРЅС‹Р№ objective flag
 	if ( bShow || ( nSelBar != -1 && nSelItem != -1 ) )
 	{
 		m_nActiveObjective = nSelBar;

@@ -440,23 +440,23 @@ enum MINIMAP_CIRCLE_STYLE
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 interface IUIMiniMap : public IUIElement
 {
-  //установить размер поля для получения информации по fog of war, текстуры тумана будут созданы исходя из этих размеров
-	//этот метод необходимо вызывать до начала вызова методов Update и Draw иначе minimap не будет изображатьс
+  //СѓСЃС‚Р°РЅРѕРІРёС‚СЊ СЂР°Р·РјРµСЂ РїРѕР»В¤ РґР»В¤ РїРѕР»СѓС‡РµРЅРёВ¤ РёРЅС„РѕСЂРјР°С†РёРё РїРѕ fog of war, С‚РµРєСЃС‚СѓСЂС‹ С‚СѓРјР°РЅР° Р±СѓРґСѓС‚ СЃРѕР·РґР°РЅС‹ РёСЃС…РѕРґВ¤ РёР· СЌС‚РёС… СЂР°Р·РјРµСЂРѕРІ
+	//СЌС‚РѕС‚ РјРµС‚РѕРґ РЅРµРѕР±С…РѕРґРёРјРѕ РІС‹Р·С‹РІР°С‚СЊ РґРѕ РЅР°С‡Р°Р»Р° РІС‹Р·РѕРІР° РјРµС‚РѕРґРѕРІ Update Рё Draw РёРЅР°С‡Рµ minimap РЅРµ Р±СѓРґРµС‚ РёР·РѕР±СЂР°Р¶Р°С‚СЊСЃ
   virtual void STDCALL SetTerrainSize( int nXTerrainSize, int nYTerrainSize, int _nPlayersCount ) = 0;
-	//установить текстуру карты
+	//СѓСЃС‚Р°РЅРѕРІРёС‚СЊ С‚РµРєСЃС‚СѓСЂСѓ РєР°СЂС‚С‹
 	virtual void STDCALL SetBackgroundTexture( IGFXTexture *_pBackgroundTexture ) = 0;
-	//добавить информацию о fog of war, берется от AILogic вызовом метода:
-	//если получена последняя порция информации - возвращается true
-	//иначе - возвращается false
+	//РґРѕР±Р°РІРёС‚СЊ РёРЅС„РѕСЂРјР°С†РёСЋ Рѕ fog of war, Р±РµСЂРµС‚СЃВ¤ РѕС‚ AILogic РІС‹Р·РѕРІРѕРј РјРµС‚РѕРґР°:
+	//РµСЃР»Рё РїРѕР»СѓС‡РµРЅР° РїРѕСЃР»РµРґРЅВ¤В¤ РїРѕСЂС†РёВ¤ РёРЅС„РѕСЂРјР°С†РёРё - РІРѕР·РІСЂР°С‰Р°РµС‚СЃВ¤ true
+	//РёРЅР°С‡Рµ - РІРѕР·РІСЂР°С‰Р°РµС‚СЃВ¤ false
 	virtual bool STDCALL AddWarFogData( const BYTE *pVizBuffer, int nLength ) = 0;
-	//добавить информацию о юнитах, берется от AILogic вызовом метода:
+	//РґРѕР±Р°РІРёС‚СЊ РёРЅС„РѕСЂРјР°С†РёСЋ Рѕ СЋРЅРёС‚Р°С…, Р±РµСЂРµС‚СЃВ¤ РѕС‚ AILogic РІС‹Р·РѕРІРѕРј РјРµС‚РѕРґР°:
 	virtual void STDCALL AddUnitsData( const struct SMiniMapUnitInfo *pUnitsBuffer, int nUnitsCount ) = 0;
-	//добавить информацию об отображаемых радиусах и углах стрельбы
+	//РґРѕР±Р°РІРёС‚СЊ РёРЅС„РѕСЂРјР°С†РёСЋ РѕР± РѕС‚РѕР±СЂР°Р¶Р°РµРјС‹С… СЂР°РґРёСѓСЃР°С… Рё СѓРіР»Р°С… СЃС‚СЂРµР»СЊР±С‹
 	virtual void STDCALL AddFireRangeAreas( const struct SShootAreas *pShootAreasBuffer, int nShootAreasCount ) = 0;
-	//добавить информацию об артиллерии
-	//lParam - loWord - количество сторон у полигона ( должно быть строо больше 1 ), hiWord - количество полных оборотов в период показывания ( вольше или равно нулю, если 0 то не вращать )
+	//РґРѕР±Р°РІРёС‚СЊ РёРЅС„РѕСЂРјР°С†РёСЋ РѕР± Р°СЂС‚РёР»Р»РµСЂРёРё
+	//lParam - loWord - РєРѕР»РёС‡РµСЃС‚РІРѕ СЃС‚РѕСЂРѕРЅ Сѓ РїРѕР»РёРіРѕРЅР° ( РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ СЃС‚СЂРѕРѕ Р±РѕР»СЊС€Рµ 1 ), hiWord - РєРѕР»РёС‡РµСЃС‚РІРѕ РїРѕР»РЅС‹С… РѕР±РѕСЂРѕС‚РѕРІ РІ РїРµСЂРёРѕРґ РїРѕРєР°Р·С‹РІР°РЅРёВ¤ ( РІРѕР»СЊС€Рµ РёР»Рё СЂР°РІРЅРѕ РЅСѓР»СЋ, РµСЃР»Рё 0 С‚Рѕ РЅРµ РІСЂР°С‰Р°С‚СЊ )
 	virtual void STDCALL AddCircle( const CVec2 &vCenter, const float fRadius, int nStyle, WORD wColor, const NTimer::STime &rStart, const NTimer::STime &rDuration, bool bRelative, LPARAM lParam ) = 0;
-	//манипуляции с положением Marker'ов
+	//РјР°РЅРёРїСѓР»В¤С†РёРё СЃ РїРѕР»РѕР¶РµРЅРёРµРј Marker'РѕРІ
 	virtual int STDCALL AddMarker( const std::string &rszName, const CVec2 &vPos, bool _bActive, int _nID, const NTimer::STime &rStart, const NTimer::STime &rDuration, bool bRelative ) = 0;
 	virtual void STDCALL ActivateMarker( int _nID, bool _bActive ) = 0;
 	virtual void STDCALL ActivateMarker( const std::string &rszName, bool _bActive ) = 0;

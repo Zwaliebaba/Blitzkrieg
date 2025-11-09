@@ -15,9 +15,9 @@ class CInterfaceIMModsList : public CInterfaceBaseList
 protected:
 	CInterfaceIMModsList() {}
 	
-	//перегружаемые мной функции
-	virtual bool FillListItem( IUIListRow *pRow, const std::string &szFullFileName, bool *pSelectedItem = 0 );		//заполняем текущую строчку в списке
-	virtual bool OnOk( const std::string &szFullFileName );															//пользователь выбрал файл, обработаем выбор
+	//РїРµСЂРµРіСЂСѓР¶Р°РµРјС‹Рµ РјРЅРѕР№ С„СѓРЅРєС†РёРё
+	virtual bool FillListItem( IUIListRow *pRow, const std::string &szFullFileName, bool *pSelectedItem = 0 );		//Р·Р°РїРѕР»РЅСЏРµРј С‚РµРєСѓС‰СѓСЋ СЃС‚СЂРѕС‡РєСѓ РІ СЃРїРёСЃРєРµ
+	virtual bool OnOk( const std::string &szFullFileName );															//РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ РІС‹Р±СЂР°Р» С„Р°Р№Р», РѕР±СЂР°Р±РѕС‚Р°РµРј РІС‹Р±РѕСЂ
 	virtual void PrepareList( std::vector<std::string> *pFiles );
 public:
 	virtual bool STDCALL Init();

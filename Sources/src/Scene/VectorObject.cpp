@@ -43,8 +43,8 @@ void STVOLayer::SelectPatches( const std::vector<DWORD> &sels, const int nNumBas
 
 	std::vector<int> points2;
 	points2.reserve( points1.size() + 20 );
-	// добавим по одной с каждого конца на каждом 'подпромежутке'
-	// результат запишем в промежуточный массив 'points2'
+	// РґРѕР±Р°РІРёРј РїРѕ РѕРґРЅРѕР№ СЃ РєР°Р¶РґРѕРіРѕ РєРѕРЅС†Р° РЅР° РєР°Р¶РґРѕРј 'РїРѕРґРїСЂРѕРјРµР¶СѓС‚РєРµ'
+	// СЂРµР·СѓР»СЊС‚Р°С‚ Р·Р°РїРёС€РµРј РІ РїСЂРѕРјРµР¶СѓС‚РѕС‡РЅС‹Р№ РјР°СЃСЃРёРІ 'points2'
 	{
 		if ( points1.front() > 0 ) 
 			points2.push_back( points1.front() - 1 );
@@ -70,7 +70,7 @@ void STVOLayer::SelectPatches( const std::vector<DWORD> &sels, const int nNumBas
 		if ( points1.back() < nNumBasePoints - 1 ) 
 			points2.push_back( points1.back() + 1 );
 	}
-	// вертексы можно просто скопировать
+	// РІРµСЂС‚РµРєСЃС‹ РјРѕР¶РЅРѕ РїСЂРѕСЃС‚Рѕ СЃРєРѕРїРёСЂРѕРІР°С‚СЊ
 	const int N = nNumVertsPerLine;
 	vertices.clear();
 	vertices.reserve( points2.size() * N );
@@ -81,7 +81,7 @@ void STVOLayer::SelectPatches( const std::vector<DWORD> &sels, const int nNumBas
 				             allvertices.begin() + ((*it) * N), 
 										 allvertices.begin() + ((*it) * N + N) );			
 	}
-	// индексы можно добавлять только для непрерывных промежутков
+	// РёРЅРґРµРєСЃС‹ РјРѕР¶РЅРѕ РґРѕР±Р°РІР»СЏС‚СЊ С‚РѕР»СЊРєРѕ РґР»СЏ РЅРµРїСЂРµСЂС‹РІРЅС‹С… РїСЂРѕРјРµР¶СѓС‚РєРѕРІ
 	indices.clear();
 	indices.reserve( vertices.size() * 1.25f * 6 );
 	for ( int i = 1; i < points2.size(); ++i )

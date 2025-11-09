@@ -1,6 +1,6 @@
-//тут лишний код
+//С‚СѓС‚ Р»РёС€РЅРёР№ РєРѕРґ
 //REMOVE_OBJECTS_FROM_RECT
-//тут происходит апдейт linkID
+//С‚СѓС‚ РїСЂРѕРёСЃС…РѕРґРёС‚ Р°РїРґРµР№С‚ linkID
 //UPDATE_LINK_ID
 
 #include "stdafx.h"
@@ -82,7 +82,7 @@ bool CMapInfo::AddMapInfo( SLoadMapInfo *pDestLoadMapInfo, const CTPoint<int> &r
 								return false );
 
 	/**
-	//удаляем статические обьекты с карты под патчем 
+	//СѓРґР°Р»СЏРµРј СЃС‚Р°С‚РёС‡РµСЃРєРёРµ РѕР±СЊРµРєС‚С‹ СЃ РєР°СЂС‚С‹ РїРѕРґ РїР°С‚С‡РµРј 
 	//REMOVE_OBJECTS_FROM_RECT
 	std::vector<CVec3>	mapPolygon;
 	mapPolygon.push_back( CVec3( ( destPoint.x )																							 * fWorldCellSize, ( destPoint.y )																							 * fWorldCellSize, 0.0f ) );
@@ -94,11 +94,11 @@ bool CMapInfo::AddMapInfo( SLoadMapInfo *pDestLoadMapInfo, const CTPoint<int> &r
 		return false;
 	}
 	/**/
-	// Точка с инвертированной осью Y для вставки ттайлов земли и дорог
+	// РўРѕС‡РєР° СЃ РёРЅРІРµСЂС‚РёСЂРѕРІР°РЅРЅРѕР№ РѕСЃСЊСЋ Y РґР»СЏ РІСЃС‚Р°РІРєРё С‚С‚Р°Р№Р»РѕРІ Р·РµРјР»Рё Рё РґРѕСЂРѕРі
 	const CTPoint<int> terrainDestPoint( rDestPoint.x, pDestLoadMapInfo->terrain.tiles.GetSizeY() - rDestPoint.y - rSourceLoadMapInfo.terrain.tiles.GetSizeY() );
 
-	//Копируем  terrain ( STerrainInfo )
-	//заполняем tiles
+	//РљРѕРїРёСЂСѓРµРј  terrain ( STerrainInfo )
+	//Р·Р°РїРѕР»РЅСЏРµРј tiles
 	for ( int nXIndex = 0; nXIndex < rSourceLoadMapInfo.terrain.tiles.GetSizeX(); ++nXIndex )
 	{
 		for ( int nYIndex = 0; nYIndex < rSourceLoadMapInfo.terrain.tiles.GetSizeY(); ++nYIndex )
@@ -107,7 +107,7 @@ bool CMapInfo::AddMapInfo( SLoadMapInfo *pDestLoadMapInfo, const CTPoint<int> &r
 		}
 	}
 	
-	//заполняем altitude
+	//Р·Р°РїРѕР»РЅСЏРµРј altitude
 	if ( ( rSourceLoadMapInfo.terrain.altitudes.GetSizeX() > 0 ) && ( rSourceLoadMapInfo.terrain.altitudes.GetSizeY() > 0 ) )
 	{
 		for ( int nXIndex = 0; nXIndex < rSourceLoadMapInfo.terrain.altitudes.GetSizeX(); ++nXIndex )
@@ -119,7 +119,7 @@ bool CMapInfo::AddMapInfo( SLoadMapInfo *pDestLoadMapInfo, const CTPoint<int> &r
 		}
 	}
 	
-	//заполняем дороги
+	//Р·Р°РїРѕР»РЅСЏРµРј РґРѕСЂРѕРіРё
 	/**
 	for ( int nRoadIndex = 0; nRoadIndex < rSourceLoadMapInfo.terrain.roads.size(); ++nRoadIndex )
 	{
@@ -132,7 +132,7 @@ bool CMapInfo::AddMapInfo( SLoadMapInfo *pDestLoadMapInfo, const CTPoint<int> &r
 	}
 	/**/
 
-	//заполняем реки
+	//Р·Р°РїРѕР»РЅСЏРµРј СЂРµРєРё
 	for ( int nRiverIndex = 0; nRiverIndex < rSourceLoadMapInfo.terrain.rivers.size(); ++nRiverIndex )
 	{
 		const SVectorStripeObject &rSourceRiverInfo = rSourceLoadMapInfo.terrain.rivers[nRiverIndex];
@@ -152,7 +152,7 @@ bool CMapInfo::AddMapInfo( SLoadMapInfo *pDestLoadMapInfo, const CTPoint<int> &r
 		rDestRiverInfo.nID = pDestLoadMapInfo->terrain.rivers.size();
 	}
 
-	//заполняем 3D дороги
+	//Р·Р°РїРѕР»РЅСЏРµРј 3D РґРѕСЂРѕРіРё
 	for ( int nRoad3dIndex = 0; nRoad3dIndex < rSourceLoadMapInfo.terrain.roads3.size(); ++nRoad3dIndex )
 	{
 		const SVectorStripeObject &rSourceRoad3DInfo = rSourceLoadMapInfo.terrain.roads3[nRoad3dIndex];
@@ -172,15 +172,15 @@ bool CMapInfo::AddMapInfo( SLoadMapInfo *pDestLoadMapInfo, const CTPoint<int> &r
 		rDestRoad3DInfo.nID = pDestLoadMapInfo->terrain.roads3.size();
 	}
 
-	//заполняем обьекты
-	//нормализуем нумерацию обьектов
+	//Р·Р°РїРѕР»РЅСЏРµРј РѕР±СЊРµРєС‚С‹
+	//РЅРѕСЂРјР°Р»РёР·СѓРµРј РЅСѓРјРµСЂР°С†РёСЋ РѕР±СЊРµРєС‚РѕРІ
 	const int nMaxLinkID = UpdateObjects( pDestLoadMapInfo, CTRect<int>( 0, 0, pDestLoadMapInfo->terrain.tiles.GetSizeX(), pDestLoadMapInfo->terrain.tiles.GetSizeY() ) );
 
 	//UPDATE_LINK_ID
 	//usedIDs[old nLinkID] = new nLinkID;
 	std::hash_map<int, int> usedIDs;
 
-	//обновляем usedID
+	//РѕР±РЅРѕРІР»СЏРµРј usedID
 	int nCurrentLinkID = nMaxLinkID;
 	for ( int nObjectIndex = 0; nObjectIndex < rSourceLoadMapInfo.objects.size(); ++nObjectIndex )
 	{	
@@ -199,7 +199,7 @@ bool CMapInfo::AddMapInfo( SLoadMapInfo *pDestLoadMapInfo, const CTPoint<int> &r
 		nCurrentLinkID++;
 	}
 
-	//добавляем SMapObjectInfo к objects и раздаем новые nLinkID
+	//РґРѕР±Р°РІР»СЏРµРј SMapObjectInfo Рє objects Рё СЂР°Р·РґР°РµРј РЅРѕРІС‹Рµ nLinkID
 	nCurrentLinkID = nMaxLinkID;
 	for ( int nObjectIndex = 0; nObjectIndex < rSourceLoadMapInfo.objects.size(); ++nObjectIndex )
 	{	
@@ -236,7 +236,7 @@ bool CMapInfo::AddMapInfo( SLoadMapInfo *pDestLoadMapInfo, const CTPoint<int> &r
 		nCurrentLinkID++;
 	}
 
-	//Записываем новые nLinkID у entrenchments
+	//Р—Р°РїРёСЃС‹РІР°РµРј РЅРѕРІС‹Рµ nLinkID Сѓ entrenchments
 	for ( int nEntrenchmentIndex = 0; nEntrenchmentIndex < rSourceLoadMapInfo.entrenchments.size(); ++nEntrenchmentIndex )
 	{
 		const SEntrenchmentInfo &rSourceEntrenchmentInfo = rSourceLoadMapInfo.entrenchments[nEntrenchmentIndex];
@@ -252,7 +252,7 @@ bool CMapInfo::AddMapInfo( SLoadMapInfo *pDestLoadMapInfo, const CTPoint<int> &r
 		}
 	}
 
-	//добавляем std::vector<int> к bridges
+	//РґРѕР±Р°РІР»СЏРµРј std::vector<int> Рє bridges
 	for ( int nBridgeIndex = 0; nBridgeIndex < rSourceLoadMapInfo.bridges.size(); ++nBridgeIndex )
 	{
 		const std::vector<int> &rSourceBridge = rSourceLoadMapInfo.bridges[nBridgeIndex];
@@ -265,10 +265,10 @@ bool CMapInfo::AddMapInfo( SLoadMapInfo *pDestLoadMapInfo, const CTPoint<int> &r
 		}
 	}
 
-	//добавляем reinforcements
+	//РґРѕР±Р°РІР»СЏРµРј reinforcements
 	pDestLoadMapInfo->reinforcements.groups.insert( rSourceLoadMapInfo.reinforcements.groups.begin(), rSourceLoadMapInfo.reinforcements.groups.end() );
 
-	//добавляем scripAreas
+	//РґРѕР±Р°РІР»СЏРµРј scripAreas
 	for ( int nScriptAreaIndex = 0; nScriptAreaIndex < rSourceLoadMapInfo.scriptAreas.size(); ++nScriptAreaIndex )
 	{
 		const SScriptArea &rSourceScriptArea = rSourceLoadMapInfo.scriptAreas[nScriptAreaIndex];
@@ -279,7 +279,7 @@ bool CMapInfo::AddMapInfo( SLoadMapInfo *pDestLoadMapInfo, const CTPoint<int> &r
 		rDestScriptArea.center.y += rDestPoint.y * SAIConsts::TILE_SIZE * 2;
 	}
 
-	//добавляем TStartCommandsList к startCommandsList
+	//РґРѕР±Р°РІР»СЏРµРј TStartCommandsList Рє startCommandsList
 	for ( SLoadMapInfo::TStartCommandsList::const_iterator it = rSourceLoadMapInfo.startCommandsList.begin();
 	      it != rSourceLoadMapInfo.startCommandsList.end();
 				++it )
@@ -299,7 +299,7 @@ bool CMapInfo::AddMapInfo( SLoadMapInfo *pDestLoadMapInfo, const CTPoint<int> &r
 		rDestStartCommand.vPos.y += rDestPoint.y * SAIConsts::TILE_SIZE * 2;
 	}
 
-	//добавляем TReservePositionsList к reservePositionsList
+	//РґРѕР±Р°РІР»СЏРµРј TReservePositionsList Рє reservePositionsList
 	for ( SLoadMapInfo::TReservePositionsList::const_iterator it = rSourceLoadMapInfo.reservePositionsList.begin();
 	      it != rSourceLoadMapInfo.reservePositionsList.end();
 				++it )
@@ -319,7 +319,7 @@ bool CMapInfo::AddMapInfo( SLoadMapInfo *pDestLoadMapInfo, const CTPoint<int> &r
 		rDestReservePosition.vPos.y += rDestPoint.y * SAIConsts::TILE_SIZE * 2;
 	}
 
-	//добавляем звуки
+	//РґРѕР±Р°РІР»СЏРµРј Р·РІСѓРєРё
 	for ( TMapSoundInfoList::const_iterator soundIterator = rSourceLoadMapInfo.soundsList.begin(); soundIterator != rSourceLoadMapInfo.soundsList.end(); ++soundIterator )
 	{
 		pDestLoadMapInfo->soundsList.push_back( *soundIterator );
@@ -329,20 +329,20 @@ bool CMapInfo::AddMapInfo( SLoadMapInfo *pDestLoadMapInfo, const CTPoint<int> &r
 		rDestSoundInfo.vPos.y += rDestPoint.y * fWorldCellSize;
 	}
 	
-	//добавляем AIGeneral
+	//РґРѕР±Р°РІР»СЏРµРј AIGeneral
 	for ( int nSourceSideIndex = 0; nSourceSideIndex < rSourceLoadMapInfo.aiGeneralMapInfo.sidesInfo.size(); ++nSourceSideIndex )
 	{
 		const SAIGeneralSideInfo &rSourceAIGeneralSideInfo = rSourceLoadMapInfo.aiGeneralMapInfo.sidesInfo[nSourceSideIndex];
 		
-		//если сторона для генерала отсутствует - добавляем
+		//РµСЃР»Рё СЃС‚РѕСЂРѕРЅР° РґР»СЏ РіРµРЅРµСЂР°Р»Р° РѕС‚СЃСѓС‚СЃС‚РІСѓРµС‚ - РґРѕР±Р°РІР»СЏРµРј
 		if ( nSourceSideIndex == pDestLoadMapInfo->aiGeneralMapInfo.sidesInfo.size() )
 		{
 			pDestLoadMapInfo->aiGeneralMapInfo.sidesInfo.push_back( SAIGeneralSideInfo() );
 		}
 		SAIGeneralSideInfo &rDestAIGeneralSideInfo = pDestLoadMapInfo->aiGeneralMapInfo.sidesInfo[nSourceSideIndex];
 
-		//добавляем отсутствющие ScriptID
-		//возможна оптимизачия
+		//РґРѕР±Р°РІР»СЏРµРј РѕС‚СЃСѓС‚СЃС‚РІСЋС‰РёРµ ScriptID
+		//РІРѕР·РјРѕР¶РЅР° РѕРїС‚РёРјРёР·Р°С‡РёСЏ
 		for ( int nSourceScriptIDIndex = 0; nSourceScriptIDIndex < rSourceAIGeneralSideInfo.mobileScriptIDs.size(); ++nSourceScriptIDIndex )
 		{
 			const int &rSourceScriptID = rSourceAIGeneralSideInfo.mobileScriptIDs[nSourceScriptIDIndex];
@@ -361,7 +361,7 @@ bool CMapInfo::AddMapInfo( SLoadMapInfo *pDestLoadMapInfo, const CTPoint<int> &r
 			}
 		}
 
-		//добавляем позиции
+		//РґРѕР±Р°РІР»СЏРµРј РїРѕР·РёС†РёРё
 		for ( int nSourceParcelIndex = 0; nSourceParcelIndex < rSourceAIGeneralSideInfo.parcels.size(); ++nSourceParcelIndex )
 		{
 			const SAIGeneralParcelInfo &rSourceAIGeneralParcelInfo = rSourceAIGeneralSideInfo.parcels[nSourceParcelIndex];
@@ -377,11 +377,11 @@ bool CMapInfo::AddMapInfo( SLoadMapInfo *pDestLoadMapInfo, const CTPoint<int> &r
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//сервисная функция, определяет расстояние до полигона, у учетом знака,
-// fDistanse > 0 точка внутри полигона
-// fDistanse == 0 точка на границе полигона
-// fDistanse < 0 точка снаружи полигона ( расстояние не определено )
-//можно исключать часть области путем задавания исключающих полигонов
+//СЃРµСЂРІРёСЃРЅР°СЏ С„СѓРЅРєС†РёСЏ, РѕРїСЂРµРґРµР»СЏРµС‚ СЂР°СЃСЃС‚РѕСЏРЅРёРµ РґРѕ РїРѕР»РёРіРѕРЅР°, Сѓ СѓС‡РµС‚РѕРј Р·РЅР°РєР°,
+// fDistanse > 0 С‚РѕС‡РєР° РІРЅСѓС‚СЂРё РїРѕР»РёРіРѕРЅР°
+// fDistanse == 0 С‚РѕС‡РєР° РЅР° РіСЂР°РЅРёС†Рµ РїРѕР»РёРіРѕРЅР°
+// fDistanse < 0 С‚РѕС‡РєР° СЃРЅР°СЂСѓР¶Рё РїРѕР»РёРіРѕРЅР° ( СЂР°СЃСЃС‚РѕСЏРЅРёРµ РЅРµ РѕРїСЂРµРґРµР»РµРЅРѕ )
+//РјРѕР¶РЅРѕ РёСЃРєР»СЋС‡Р°С‚СЊ С‡Р°СЃС‚СЊ РѕР±Р»Р°СЃС‚Рё РїСѓС‚РµРј Р·Р°РґР°РІР°РЅРёСЏ РёСЃРєР»СЋС‡Р°СЋС‰РёС… РїРѕР»РёРіРѕРЅРѕРІ
 float GetInclusivePolygonSetDistance( const CVec2 &rPoint, const std::list<CVec2> &rInclusivePolygon, const std::list<std::list<CVec2> > &rExclusivePolygons )
 {
 	float fInclusiveDistance = -1;
@@ -393,7 +393,7 @@ float GetInclusivePolygonSetDistance( const CVec2 &rPoint, const std::list<CVec2
 			for ( std::list<std::list<CVec2> >::const_iterator exclusivePolygonIterator = rExclusivePolygons.begin(); exclusivePolygonIterator != rExclusivePolygons.end(); ++exclusivePolygonIterator )
 			{
 				float fDistance = PolygonDistance( ( *exclusivePolygonIterator ), rPoint );
-				//внутри 
+				//РІРЅСѓС‚СЂРё 
 				if ( fDistance > 0 )
 				{
 					fInclusiveDistance = -fDistance;
@@ -401,7 +401,7 @@ float GetInclusivePolygonSetDistance( const CVec2 &rPoint, const std::list<CVec2
 				}
 				else
 				{
-					//снаружи
+					//СЃРЅР°СЂСѓР¶Рё
 					fDistance = -fDistance;
 					if ( fDistance < fInclusiveDistance )
 					{
@@ -415,10 +415,10 @@ float GetInclusivePolygonSetDistance( const CVec2 &rPoint, const std::list<CVec2
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//сервисная функция, определяет точки вхождения в полигон для слоя сетки
-//возвращает количество элементов в pXPos
-//лист предствавляет из себя набор пар, - начало и конец отрезков входящих в полигон
-//концы отрезков включаются в полигон, для включения точек
+//СЃРµСЂРІРёСЃРЅР°СЏ С„СѓРЅРєС†РёСЏ, РѕРїСЂРµРґРµР»СЏРµС‚ С‚РѕС‡РєРё РІС…РѕР¶РґРµРЅРёСЏ РІ РїРѕР»РёРіРѕРЅ РґР»СЏ СЃР»РѕСЏ СЃРµС‚РєРё
+//РІРѕР·РІСЂР°С‰Р°РµС‚ РєРѕР»РёС‡РµСЃС‚РІРѕ СЌР»РµРјРµРЅС‚РѕРІ РІ pXPos
+//Р»РёСЃС‚ РїСЂРµРґСЃС‚РІР°РІР»СЏРµС‚ РёР· СЃРµР±СЏ РЅР°Р±РѕСЂ РїР°СЂ, - РЅР°С‡Р°Р»Рѕ Рё РєРѕРЅРµС† РѕС‚СЂРµР·РєРѕРІ РІС…РѕРґСЏС‰РёС… РІ РїРѕР»РёРіРѕРЅ
+//РєРѕРЅС†С‹ РѕС‚СЂРµР·РєРѕРІ РІРєР»СЋС‡Р°СЋС‚СЃСЏ РІ РїРѕР»РёРіРѕРЅ, РґР»СЏ РІРєР»СЋС‡РµРЅРёСЏ С‚РѕС‡РµРє
 int GetPolygonLine( int nYPos, float fSide, const std::list<CVec2> &rPolygon, std::vector<int> *pXPos )
 {
 	NI_ASSERT_TF( pXPos != 0,
@@ -522,13 +522,13 @@ bool CMapInfo::FillTileSet( STerrainInfo *pTerrainInfo,
 											 ( boundingBox.miny + ( fWorldCellSize / 2.0f ) ) / fWorldCellSize,
 											 ( boundingBox.maxx + ( fWorldCellSize / 2.0f ) ) / fWorldCellSize,
 											 ( boundingBox.maxy + ( fWorldCellSize / 2.0f ) ) / fWorldCellSize );
-	//проверяем
+	//РїСЂРѕРІРµСЂСЏРµРј
 	if ( ValidateIndices( boundingRect, &indices ) < 0 )
 	{
 		return false;
 	}
 
-	//пробегаем по тайлам
+	//РїСЂРѕР±РµРіР°РµРј РїРѕ С‚Р°Р№Р»Р°Рј
 	//
 	//FOR_DEBUG_ONLY
 	//_DEBUG_RECT_COUNT = indices.GetSizeX() * indices.GetSizeY();
@@ -581,7 +581,7 @@ bool CMapInfo::FillTileSet( STerrainInfo *pTerrainInfo,
 						//++_DEBUG_INSIDE_COUNT;
 
 						fInclusiveDistance /= fWorldCellSize;
-						//оределяем слой
+						//РѕСЂРµРґРµР»СЏРµРј СЃР»РѕР№
 						float fWidth = 0.0f;
 						for ( CRMTileSet::const_iterator tileSetShellIterator = rTileSet.begin(); tileSetShellIterator != rTileSet.end(); ++tileSetShellIterator )
 						{
@@ -652,23 +652,23 @@ bool CMapInfo::FillObjectSet( SLoadMapInfo *pLoadMapInfo,
 	CheckTilesFunctional<CArray2D<BYTE>, BYTE> tileMapCheckTiles( RMGC_LOCKED, pTileMap );
 	CTRect<int> tileMapRect( 0, 0, pLoadMapInfo->terrain.tiles.GetSizeX() * 2, pLoadMapInfo->terrain.tiles.GetSizeY() * 2 );
 	
-	//все площади и координаты в виз точках
-	//из-за того, что полигон изначально задан в виз точках
+	//РІСЃРµ РїР»РѕС‰Р°РґРё Рё РєРѕРѕСЂРґРёРЅР°С‚С‹ РІ РІРёР· С‚РѕС‡РєР°С…
+	//РёР·-Р·Р° С‚РѕРіРѕ, С‡С‚Рѕ РїРѕР»РёРіРѕРЅ РёР·РЅР°С‡Р°Р»СЊРЅРѕ Р·Р°РґР°РЅ РІ РІРёР· С‚РѕС‡РєР°С…
 	float fTileSide = fWorldCellSize / 2.0f;
 
 	CTRect<float> boundingBox = GetPolygonBoundingBox( rInclusivePolygon );
-	//определяем начальный и конечный AI тайл в VIS координатах
+	//РѕРїСЂРµРґРµР»СЏРµРј РЅР°С‡Р°Р»СЊРЅС‹Р№ Рё РєРѕРЅРµС‡РЅС‹Р№ AI С‚Р°Р№Р» РІ VIS РєРѕРѕСЂРґРёРЅР°С‚Р°С…
 	CTRect<int> indices( ( boundingBox.minx + ( fTileSide / 2.0f ) ) / fTileSide,
 											 ( boundingBox.miny + ( fTileSide / 2.0f ) ) / fTileSide,
 											 ( boundingBox.maxx + ( fTileSide / 2.0f ) ) / fTileSide,
 											 ( boundingBox.maxy + ( fTileSide / 2.0f ) ) / fTileSide );
-	//проверяем
+	//РїСЂРѕРІРµСЂСЏРµРј
 	if ( ValidateIndices( tileMapRect, &indices ) < 0 )
 	{
 		return false;
 	}
 
-	//пробегаем по тайлам
+	//РїСЂРѕР±РµРіР°РµРј РїРѕ С‚Р°Р№Р»Р°Рј
 	//
 	for ( int nYIndex = indices.miny; nYIndex < indices.maxy; ++nYIndex )
 	{
@@ -691,7 +691,7 @@ bool CMapInfo::FillObjectSet( SLoadMapInfo *pLoadMapInfo,
 					if ( fInclusiveDistance >= 0 )
 					{
 						fInclusiveDistance /= fWorldCellSize;
-						//оределяем слои
+						//РѕСЂРµРґРµР»СЏРµРј СЃР»РѕРё
 						float fWidth = 0.0f;
 						for ( CRMObjectSet::const_iterator objectSetShellIterator = rObjectSet.begin(); objectSetShellIterator != rObjectSet.end(); ++objectSetShellIterator )
 						{
@@ -731,7 +731,7 @@ bool CMapInfo::FillObjectSet( SLoadMapInfo *pLoadMapInfo,
 														 ( mapObjectInfo.vPos.x <  ( tileMapRect.maxx * SAIConsts::TILE_SIZE ) ) &&
 														 ( mapObjectInfo.vPos.y <  ( tileMapRect.maxy * SAIConsts::TILE_SIZE ) ) )
 												{
-													//Локаем тайлы обьекта
+													//Р›РѕРєР°РµРј С‚Р°Р№Р»С‹ РѕР±СЊРµРєС‚Р°
 													ApplyTilesInObjectsPassability( tileMapRect, mapObjectInfo, tileMapModifyTiles );
 													pLoadMapInfo->objects.push_back( mapObjectInfo );
 												}
@@ -781,7 +781,7 @@ bool CMapInfo::FillProfilePattern( STerrainInfo *pTerrainInfo,
 											 ( boundingBox.miny + ( fWorldCellSize / 2.0f ) ) / fWorldCellSize,
 											 ( boundingBox.maxx + ( fWorldCellSize / 2.0f ) ) / fWorldCellSize,
 											 ( boundingBox.maxy + ( fWorldCellSize / 2.0f ) ) / fWorldCellSize );
-	//проверяем
+	//РїСЂРѕРІРµСЂСЏРµРј
 	if ( ValidateIndices( boundingRect, &indices ) < 0 )
 	{
 		return false;
@@ -798,7 +798,7 @@ bool CMapInfo::FillProfilePattern( STerrainInfo *pTerrainInfo,
 	SVAAddPatternFunctional addPatternFunctional( &( pTerrainInfo->altitudes ) );
 	SVASubstractPatternFunctional substractPatternFunctional( &( pTerrainInfo->altitudes ) );
 	
-	//пробегаем по тайлам
+	//РїСЂРѕР±РµРіР°РµРј РїРѕ С‚Р°Р№Р»Р°Рј
 	//
 	for ( int nYIndex = indices.miny; nYIndex < indices.maxy; ++nYIndex )
 	{
@@ -921,14 +921,14 @@ bool CMapInfo::CreateRandomMap( SMissionStats *pMissionStats, const std::string 
 		pProgressHook->Step();
 	}
 
-	//грузми template
+	//РіСЂСѓР·РјРё template
 	SRMTemplate randomMapTemplate;
 	bool bResult = LoadDataResource( pMissionStats->szTemplateMap, "", false, 0, RMGC_TEMPLATE_XML_NAME, randomMapTemplate );
 	NI_ASSERT_TF( bResult,
 								NStr::Format( "CreateRandomMap, Can't load SRMTemplate from %s", pMissionStats->szTemplateMap.c_str() ), 
 								return false );
 	
-	//грузим сеттинг
+	//РіСЂСѓР·РёРј СЃРµС‚С‚РёРЅРі
 	SRMSetting missionSetting;
 	if ( LoadDataResource( pMissionStats->szSettingName, "", false, 0, RMGC_SETTING_NAME, missionSetting ) )
 	{
@@ -966,13 +966,13 @@ bool CMapInfo::CreateRandomMap( SMissionStats *pMissionStats, const std::string 
 		szRandomMapName = pMissionStats->szFinalMap;
 	}
 	
-	//проверяем правильность заполнения темлейта здесь!
-	//сезон и размер проверяется в CMapInfo::Create()
+	//РїСЂРѕРІРµСЂСЏРµРј РїСЂР°РІРёР»СЊРЅРѕСЃС‚СЊ Р·Р°РїРѕР»РЅРµРЅРёСЏ С‚РµРјР»РµР№С‚Р° Р·РґРµСЃСЊ!
+	//СЃРµР·РѕРЅ Рё СЂР°Р·РјРµСЂ РїСЂРѕРІРµСЂСЏРµС‚СЃСЏ РІ CMapInfo::Create()
 	NI_ASSERT_TF( ( randomMapTemplate.nDefaultFieldIndex >= 0 ) && ( randomMapTemplate.nDefaultFieldIndex < randomMapTemplate.fields.size() ),
 								NStr::Format( "CreateRandomMap,  invalid nDefaultFieldIndex %d [%d...%d]", randomMapTemplate.nDefaultFieldIndex, 0, randomMapTemplate.fields.size() ), 
 								return false );
 
-	//сохраняем random seed
+	//СЃРѕС…СЂР°РЅСЏРµРј random seed
 	{
 		CPtr<IRandomGenSeed> pRandomGenSeed = pRandomGen->GetSeed();
 		NI_ASSERT_TF( pRandomGenSeed != 0,
@@ -985,11 +985,11 @@ bool CMapInfo::CreateRandomMap( SMissionStats *pMissionStats, const std::string 
 		pRandomGenSeed->Store( pRandomSeedStream );
 	}	
 
-	//создаем карту
+	//СЃРѕР·РґР°РµРј РєР°СЂС‚Сѓ
 	CMapInfo mapInfo;
-	//CRAP{проставлять плееров
+	//CRAP{РїСЂРѕСЃС‚Р°РІР»СЏС‚СЊ РїР»РµРµСЂРѕРІ
 	bResult = mapInfo.Create( randomMapTemplate.size, randomMapTemplate.nSeason, randomMapTemplate.szSeasonFolder, 0, randomMapTemplate.nType );
-	//CRAP}проставлять плееров
+	//CRAP}РїСЂРѕСЃС‚Р°РІР»СЏС‚СЊ РїР»РµРµСЂРѕРІ
 	NI_ASSERT_TF( bResult != 0,
 								NStr::Format( "CreateRandomMap, Can't get Random Seed by pRandomGen->GetSeed()" ), 
 								return false );
@@ -1007,7 +1007,7 @@ bool CMapInfo::CreateRandomMap( SMissionStats *pMissionStats, const std::string 
 		pProgressHook->Step();
 	}
 
-	//получаем дескрипторы необходимые для построения terrain
+	//РїРѕР»СѓС‡Р°РµРј РґРµСЃРєСЂРёРїС‚РѕСЂС‹ РЅРµРѕР±С…РѕРґРёРјС‹Рµ РґР»СЏ РїРѕСЃС‚СЂРѕРµРЅРёСЏ terrain
 	STilesetDesc tilesetDesc;
 	bResult = LoadDataResource( mapInfo.terrain.szTilesetDesc, "", false, 1, "tileset", tilesetDesc );
 	NI_ASSERT_TF( bResult,
@@ -1027,7 +1027,7 @@ bool CMapInfo::CreateRandomMap( SMissionStats *pMissionStats, const std::string 
 								return false );
 	/**/
 
-	//записываем параметры из темплейта
+	//Р·Р°РїРёСЃС‹РІР°РµРј РїР°СЂР°РјРµС‚СЂС‹ РёР· С‚РµРјРїР»РµР№С‚Р°
 	mapInfo.szScriptFile = szRandomMapName;
 	mapInfo.diplomacies = randomMapTemplate.diplomacies;
 	mapInfo.playersCameraAnchors.clear();
@@ -1073,7 +1073,7 @@ bool CMapInfo::CreateRandomMap( SMissionStats *pMissionStats, const std::string 
 		}
 	}
 
-	//кешируем fieldSet'ы
+	//РєРµС€РёСЂСѓРµРј fieldSet'С‹
 	std::hash_map<std::string, SRMFieldSet> fieldSetsHashMap;
 	{
 		SRMFieldSet fieldSet;
@@ -1085,7 +1085,7 @@ bool CMapInfo::CreateRandomMap( SMissionStats *pMissionStats, const std::string 
 		fieldSetsHashMap[ randomMapTemplate.fields[randomMapTemplate.nDefaultFieldIndex] ] = fieldSet;
 	}
 
-	//заполняем карту первоначальной заливкой
+	//Р·Р°РїРѕР»РЅСЏРµРј РєР°СЂС‚Сѓ РїРµСЂРІРѕРЅР°С‡Р°Р»СЊРЅРѕР№ Р·Р°Р»РёРІРєРѕР№
 	{
 		std::list<std::list<CVec2> > exclusivePolygons;
 		const SRMFieldSet &rDefualtFieldSet = fieldSetsHashMap[ randomMapTemplate.fields[randomMapTemplate.nDefaultFieldIndex] ];
@@ -1101,7 +1101,7 @@ bool CMapInfo::CreateRandomMap( SMissionStats *pMissionStats, const std::string 
 		pProgressHook->Step();
 	}
 
-	//выбираем граф
+	//РІС‹Р±РёСЂР°РµРј РіСЂР°С„
 	std::string szSelectedGraphFileName;
 	SRMGraph selectedGraph;
 	if ( nGraph >= 0 )
@@ -1131,7 +1131,7 @@ bool CMapInfo::CreateRandomMap( SMissionStats *pMissionStats, const std::string 
 								NStr::Format( "CreateRandomMap, can't create file stream: %s", ( szSelectedGraphFileName + ".xml" ).c_str() ), 
 									return false );
 
-	//выбираем угол
+	//РІС‹Р±РёСЂР°РµРј СѓРіРѕР»
 	const int nCosAngles[] = { 1, 0, -1, 0 };
 	const int nSinAngles[] = { 0, -1, 0, 1 };
 	int nSelectedAngle = 0;
@@ -1162,7 +1162,7 @@ bool CMapInfo::CreateRandomMap( SMissionStats *pMissionStats, const std::string 
 	const int fCosSelecteAngle = nCosAngles[nSelectedAngle];
 	const int fSinSelecteAngle = nSinAngles[nSelectedAngle];
 
-	//поворачиваем координаты в vAppearPoints
+	//РїРѕРІРѕСЂР°С‡РёРІР°РµРј РєРѕРѕСЂРґРёРЅР°С‚С‹ РІ vAppearPoints
 	{
 		CVec3 vAICenter( ( ( mapInfo.terrain.tiles.GetSizeX() * SAIConsts::TILE_SIZE * 2.0f ) - 1.0f ) / 2.0f,
 										 ( ( mapInfo.terrain.tiles.GetSizeY() * SAIConsts::TILE_SIZE * 2.0f ) - 1.0f ) / 2.0f,
@@ -1180,16 +1180,16 @@ bool CMapInfo::CreateRandomMap( SMissionStats *pMissionStats, const std::string 
 		}
 	}	
 	
-	//вставляем патчи
+	//РІСЃС‚Р°РІР»СЏРµРј РїР°С‚С‡Рё
 	std::hash_map<std::string, SRMContainer> containersHashMap;
-	//для проводки дорог
+	//РґР»СЏ РїСЂРѕРІРѕРґРєРё РґРѕСЂРѕРі
 	std::vector<SRMPlacedPatch> placedPatches;
-	//для определения полей
+	//РґР»СЏ РѕРїСЂРµРґРµР»РµРЅРёСЏ РїРѕР»РµР№
 	CRMFieldGraph fieldGraph;
 	for ( int nNodeIndex = 0; nNodeIndex < selectedGraph.nodes.size(); ++nNodeIndex )
 	{
 		const SRMGraphNode &rGraphNode = selectedGraph.nodes[nNodeIndex];
-		//грузим контейнер
+		//РіСЂСѓР·РёРј РєРѕРЅС‚РµР№РЅРµСЂ
 		if ( containersHashMap.find( rGraphNode.szContainerFileName ) == containersHashMap.end() )
 		{
 			SRMContainer container;
@@ -1201,7 +1201,7 @@ bool CMapInfo::CreateRandomMap( SMissionStats *pMissionStats, const std::string 
 		}
 		const SRMContainer &rContainer = containersHashMap[rGraphNode.szContainerFileName];
 
-		//выбираем патч:
+		//РІС‹Р±РёСЂР°РµРј РїР°С‚С‡:
 		std::vector<int> availiableIndices;
 		rContainer.GetIndices( nSelectedAngle, pMissionStats->szSettingName, &availiableIndices );
 		NI_ASSERT_TF( !availiableIndices.empty(),
@@ -1251,20 +1251,20 @@ bool CMapInfo::CreateRandomMap( SMissionStats *pMissionStats, const std::string 
 																			rPlacedPatch.minXYCorner.x + rPlacedPatch.size.x * STerrainPatchInfo::nSizeX,
 																			rPlacedPatch.minXYCorner.y + rPlacedPatch.size.y * STerrainPatchInfo::nSizeY ) );
 		
-		//считываем информацию о патче
+		//СЃС‡РёС‚С‹РІР°РµРј РёРЅС„РѕСЂРјР°С†РёСЋ Рѕ РїР°С‚С‡Рµ
 		CMapInfo patchMapInfo;
 		bResult = LoadTypedSuperLatestDataResource( rPlacedPatch.szFileName, ".bzm", 1, patchMapInfo );
 		NI_ASSERT_TF( bResult,
 									NStr::Format( "CreateRandomMap, can't create file stream: %s", ( rPlacedPatch.szFileName + ".xml" ).c_str() ), 
 									return false );
-		//добавляем патч
+		//РґРѕР±Р°РІР»СЏРµРј РїР°С‚С‡
 		patchMapInfo.UnpackFrameIndices();
 		bResult = mapInfo.AddMapInfo( rPlacedPatch.minXYCorner, patchMapInfo );
 		NI_ASSERT_TF( bResult,
 									NStr::Format( "CreateRandomMap, can't add MapInfo: %s", ( rPlacedPatch.szFileName + ".xml" ).c_str() ), 
 									return false );
 		
-		//проставляем vCamera Anchor
+		//РїСЂРѕСЃС‚Р°РІР»СЏРµРј vCamera Anchor
 		for ( int nPlayerIndex = 0; nPlayerIndex < mapInfo.playersCameraAnchors.size(); ++nPlayerIndex )
 		{
 			CVec3 &rPlayerCameraAnchore = mapInfo.playersCameraAnchors[nPlayerIndex];
@@ -1285,9 +1285,9 @@ bool CMapInfo::CreateRandomMap( SMissionStats *pMissionStats, const std::string 
 			}
 		}
 
-		//инициализируем списки дорожных и речных connectionPoints
-		//они должны входить в большой полигон но не должны входить в маленький
-		//чтобы исключить рассмотрение дорог выходящие за край карты
+		//РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј СЃРїРёСЃРєРё РґРѕСЂРѕР¶РЅС‹С… Рё СЂРµС‡РЅС‹С… connectionPoints
+		//РѕРЅРё РґРѕР»Р¶РЅС‹ РІС…РѕРґРёС‚СЊ РІ Р±РѕР»СЊС€РѕР№ РїРѕР»РёРіРѕРЅ РЅРѕ РЅРµ РґРѕР»Р¶РЅС‹ РІС…РѕРґРёС‚СЊ РІ РјР°Р»РµРЅСЊРєРёР№
+		//С‡С‚РѕР±С‹ РёСЃРєР»СЋС‡РёС‚СЊ СЂР°СЃСЃРјРѕС‚СЂРµРЅРёРµ РґРѕСЂРѕРі РІС‹С…РѕРґСЏС‰РёРµ Р·Р° РєСЂР°Р№ РєР°СЂС‚С‹
 		std::list<CVec2> patchVisPointsPolygon;
 		patchVisPointsPolygon.push_back( CVec2( 0, 0 ) + fieldGraph.GetPatchMinXYVertex( nNodeIndex ) );
 		patchVisPointsPolygon.push_back( CVec2( 0, patchMapInfo.terrain.tiles.GetSizeY() * fWorldCellSize ) + fieldGraph.GetPatchMinXYVertex( nNodeIndex ) );
@@ -1296,8 +1296,8 @@ bool CMapInfo::CreateRandomMap( SMissionStats *pMissionStats, const std::string 
 		std::list<CVec2> smallPatchVisPointsPolygon;
 		EnlargePolygonCore<std::list<CVec2>, CVec2>( mapVisPointsPolygon, patchVisPointsPolygon, ( ( -1.0f ) * fWorldCellSize / 2.0f ), &smallPatchVisPointsPolygon );
 
-		//точки выходят за границу полигона половину VIS тайла 
-		//реки
+		//С‚РѕС‡РєРё РІС‹С…РѕРґСЏС‚ Р·Р° РіСЂР°РЅРёС†Сѓ РїРѕР»РёРіРѕРЅР° РїРѕР»РѕРІРёРЅСѓ VIS С‚Р°Р№Р»Р° 
+		//СЂРµРєРё
 		for ( int nRiverIndex = 0; nRiverIndex < patchMapInfo.terrain.rivers.size(); ++nRiverIndex )
 		{
 			NI_ASSERT_T( !patchMapInfo.terrain.rivers[nRiverIndex].controlpoints.empty(),
@@ -1335,7 +1335,7 @@ bool CMapInfo::CreateRandomMap( SMissionStats *pMissionStats, const std::string 
 				}
 			}
 		}
-		//дороги
+		//РґРѕСЂРѕРіРё
 		for ( int nRoad3DIndex = 0; nRoad3DIndex < patchMapInfo.terrain.roads3.size(); ++nRoad3DIndex )
 		{
 			NI_ASSERT_T( !patchMapInfo.terrain.roads3[nRoad3DIndex].controlpoints.empty(),
@@ -1397,10 +1397,10 @@ bool CMapInfo::CreateRandomMap( SMissionStats *pMissionStats, const std::string 
 																rszContextFileName.c_str() ),
 									return false );
 		
-		//берем таблицу для соответствующей сложности
+		//Р±РµСЂРµРј С‚Р°Р±Р»РёС†Сѓ РґР»СЏ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµР№ СЃР»РѕР¶РЅРѕСЃС‚Рё
 		const SRMTemplateUnitsTable &rTemplateUnitsTable = context.levels[nLevel];
 		
-		//копируем UnitCreationInfo;
+		//РєРѕРїРёСЂСѓРµРј UnitCreationInfo;
 		for ( int nUnitCreationPlayerIndex = 0; nUnitCreationPlayerIndex < rTemplateUnitsTable.unitCreationInfo.units.size(); ++nUnitCreationPlayerIndex )
 		{
 			const SUnitCreation &rUnitCreation = rTemplateUnitsTable.unitCreationInfo.units[nUnitCreationPlayerIndex];
@@ -1421,13 +1421,13 @@ bool CMapInfo::CreateRandomMap( SMissionStats *pMissionStats, const std::string 
 																rTemplateUnitsTable.unitPlaceHolders.size() ),
 									return false );
 		/**/
-		//пробегаемся по обьектам
+		//РїСЂРѕР±РµРіР°РµРјСЃСЏ РїРѕ РѕР±СЊРµРєС‚Р°Рј
 		CUsedLinkIDs usedlinkIDs;
 		mapInfo.GetUsedLinkIDs( &usedlinkIDs );
 
 		for ( std::vector<SMapObjectInfo>::iterator mapObjectIterator = mapInfo.objects.begin(); mapObjectIterator != mapInfo.objects.end(); )
 		{
-			//берем всех юнитов
+			//Р±РµСЂРµРј РІСЃРµС… СЋРЅРёС‚РѕРІ
 			int nUnitRPGType = SRMTemplateUnitsTable::INVALID_UNIT_RPG_TYPE;
 			{
 				CGDBPtr<SGDBObjectDesc> pDesc = pIDB->GetDesc( mapObjectIterator->szName.c_str() );
@@ -1459,7 +1459,7 @@ bool CMapInfo::CreateRandomMap( SMissionStats *pMissionStats, const std::string 
 			
 			if ( nUnitRPGType != SRMTemplateUnitsTable::INVALID_UNIT_RPG_TYPE )
 			{
-				//плеер присутсвует
+				//РїР»РµРµСЂ РїСЂРёСЃСѓС‚СЃРІСѓРµС‚
 				NI_ASSERT_TF( mapObjectIterator->nPlayer < rTemplateUnitsTable.unitPlaceHolders.size(),
 											NStr::Format( "CreateRandomMap, Place Chapter Units <%s>, invalid player number: %d [0...%d), unit: %s",
 																		rszContextFileName.c_str(),
@@ -1468,7 +1468,7 @@ bool CMapInfo::CreateRandomMap( SMissionStats *pMissionStats, const std::string 
 																		mapObjectIterator->szName.c_str() ),
 											return false );
 				
-				//берем нового юнита из таблицы всоответствии с весом
+				//Р±РµСЂРµРј РЅРѕРІРѕРіРѕ СЋРЅРёС‚Р° РёР· С‚Р°Р±Р»РёС†С‹ РІСЃРѕРѕС‚РІРµС‚СЃС‚РІРёРё СЃ РІРµСЃРѕРј
 				CRMUnitsPlaceHoldersHashMap::const_iterator unitsIterator = rTemplateUnitsTable.unitPlaceHolders[mapObjectIterator->nPlayer].find( nUnitRPGType );
 				if ( unitsIterator != rTemplateUnitsTable.unitPlaceHolders[mapObjectIterator->nPlayer].end() )
 				{
@@ -1544,7 +1544,7 @@ bool CMapInfo::CreateRandomMap( SMissionStats *pMissionStats, const std::string 
 		pProgressHook->Step();
 	}
 	
-	//проставляем линки рек и дорог по порядку следования 
+	//РїСЂРѕСЃС‚Р°РІР»СЏРµРј Р»РёРЅРєРё СЂРµРє Рё РґРѕСЂРѕРі РїРѕ РїРѕСЂСЏРґРєСѓ СЃР»РµРґРѕРІР°РЅРёСЏ 
 	for ( int nRiverIndex = 0; nRiverIndex < mapInfo.terrain.rivers.size(); ++nRiverIndex )
 	{
 		mapInfo.terrain.rivers[nRiverIndex].nID = nRiverIndex;
@@ -1554,9 +1554,9 @@ bool CMapInfo::CreateRandomMap( SMissionStats *pMissionStats, const std::string 
 		mapInfo.terrain.roads3[nRoad3DIndex].nID = nRoad3DIndex;
 	}
 	
-	//обрабатываем линки на основе собранной информации
-	//массив для отмечания тех линков, которые уже проставлены ( линки ставятся в несколько проходов )
-	//сделано чтобвы не удалять линки из списка, они еще пригодятся
+	//РѕР±СЂР°Р±Р°С‚С‹РІР°РµРј Р»РёРЅРєРё РЅР° РѕСЃРЅРѕРІРµ СЃРѕР±СЂР°РЅРЅРѕР№ РёРЅС„РѕСЂРјР°С†РёРё
+	//РјР°СЃСЃРёРІ РґР»СЏ РѕС‚РјРµС‡Р°РЅРёСЏ С‚РµС… Р»РёРЅРєРѕРІ, РєРѕС‚РѕСЂС‹Рµ СѓР¶Рµ РїСЂРѕСЃС‚Р°РІР»РµРЅС‹ ( Р»РёРЅРєРё СЃС‚Р°РІСЏС‚СЃСЏ РІ РЅРµСЃРєРѕР»СЊРєРѕ РїСЂРѕС…РѕРґРѕРІ )
+	//СЃРґРµР»Р°РЅРѕ С‡С‚РѕР±РІС‹ РЅРµ СѓРґР°Р»СЏС‚СЊ Р»РёРЅРєРё РёР· СЃРїРёСЃРєР°, РѕРЅРё РµС‰Рµ РїСЂРёРіРѕРґСЏС‚СЃСЏ
 	std::vector<bool> bLinkPlaced;
 	bLinkPlaced.resize( selectedGraph.links.size() );
 	for ( int nLinkIndex = 0; nLinkIndex < selectedGraph.links.size(); ++nLinkIndex )
@@ -1571,11 +1571,11 @@ bool CMapInfo::CreateRandomMap( SMissionStats *pMissionStats, const std::string 
 		bLinkPlaced[nLinkIndex] = false;
 	}
 	
-	//проставляем линки
-	//сначало точное соответствие обоих сторон
-	//затем совпадающие с одной стороны
-	//затем любые
-	//затем пустые
+	//РїСЂРѕСЃС‚Р°РІР»СЏРµРј Р»РёРЅРєРё
+	//СЃРЅР°С‡Р°Р»Рѕ С‚РѕС‡РЅРѕРµ СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРµ РѕР±РѕРёС… СЃС‚РѕСЂРѕРЅ
+	//Р·Р°С‚РµРј СЃРѕРІРїР°РґР°СЋС‰РёРµ СЃ РѕРґРЅРѕР№ СЃС‚РѕСЂРѕРЅС‹
+	//Р·Р°С‚РµРј Р»СЋР±С‹Рµ
+	//Р·Р°С‚РµРј РїСѓСЃС‚С‹Рµ
 	std::hash_map<std::string, SVectorStripeObjectDesc> vsodescHashMap;
 	for ( int nPSType = SRMPlacedPatch::PST_TWO; nPSType <= SRMPlacedPatch::PST_EMPTY; ++nPSType )
 	{
@@ -1595,13 +1595,13 @@ bool CMapInfo::CreateRandomMap( SMissionStats *pMissionStats, const std::string 
 				SRMPlacedPatch &rBeginPatch = placedPatches[rGraphLink.link.a];
 				SRMPlacedPatch &rEndPatch = placedPatches[rGraphLink.link.b];
 
-				//найдем две ближайшие точки
+				//РЅР°Р№РґРµРј РґРІРµ Р±Р»РёР¶Р°Р№С€РёРµ С‚РѕС‡РєРё
 				SRMPlacedPatch::SVSOPoint beginVSOPoint;
 				SRMPlacedPatch::SVSOPoint endVSOPoint;
 				NStr::ToLower( rGraphLink.szDescFileName );
 				if ( SRMPlacedPatch::GetAndRemoveClosestVSOPoints( rGraphLink.nType, rBeginPatch, rEndPatch, rGraphLink.szDescFileName, nPSType, &beginVSOPoint, &endVSOPoint ) )
 				{
-					//получим обьекты
+					//РїРѕР»СѓС‡РёРј РѕР±СЊРµРєС‚С‹
 					SVectorStripeObject* pBeginVSO = const_cast<SVectorStripeObject*>( ( rGraphLink.nType != SRMGraphLink::TYPE_ROAD ) ? mapInfo.GetRiver( beginVSOPoint.nID ) : mapInfo.GetRoad3D( beginVSOPoint.nID ) );
 					SVectorStripeObject* pEndVSO = const_cast<SVectorStripeObject*>( ( rGraphLink.nType != SRMGraphLink::TYPE_ROAD ) ? mapInfo.GetRiver( endVSOPoint.nID ) : mapInfo.GetRoad3D( endVSOPoint.nID ) );
 
@@ -1616,7 +1616,7 @@ bool CMapInfo::CreateRandomMap( SMissionStats *pMissionStats, const std::string 
 					{
 						rGraphLink.szDescFileName = CVSOBuilder::GetDescriptionName( pBeginVSO->szDescName, pEndVSO->szDescName );
 					}
-					//найдем путь
+					//РЅР°Р№РґРµРј РїСѓС‚СЊ
 					//
 					// end       begin                      begin          end
 					// <---------]                          [-------------->
@@ -1634,7 +1634,7 @@ bool CMapInfo::CreateRandomMap( SMissionStats *pMissionStats, const std::string 
 					float fBeginHeight = CVSOBuilder::DEFAULT_HEIGHT;
 					float fEndHeight = CVSOBuilder::DEFAULT_HEIGHT;
 					
-					//определим высоту VSO в начале и в конце:
+					//РѕРїСЂРµРґРµР»РёРј РІС‹СЃРѕС‚Сѓ VSO РІ РЅР°С‡Р°Р»Рµ Рё РІ РєРѕРЅС†Рµ:
 					const float fBeginVSOHeight = CVSOBuilder::GetVSOEdgeHeght( mapInfo.terrain.altitudes, ( *pBeginVSO ), beginVSOPoint.bBegin, false );
 					const float fEndVSOHeight = CVSOBuilder::GetVSOEdgeHeght( mapInfo.terrain.altitudes, ( *pEndVSO ), endVSOPoint.bBegin, false );
 
@@ -1694,7 +1694,7 @@ bool CMapInfo::CreateRandomMap( SMissionStats *pMissionStats, const std::string 
 											 NStr::Format( "CreateRandomMap, Can't find path: link: %d", nLinkIndex ) );
 					if ( bResult )
 					{
-						//создадим VSO
+						//СЃРѕР·РґР°РґРёРј VSO
 						if ( vsodescHashMap.find( rGraphLink.szDescFileName ) == vsodescHashMap.end() )
 						{
 							SVectorStripeObjectDesc vsoDesc;
@@ -1719,7 +1719,7 @@ bool CMapInfo::CreateRandomMap( SMissionStats *pMissionStats, const std::string 
 						}
 						CVSOBuilder::Update( &newVSO, false, CVSOBuilder::DEFAULT_STEP, CVSOBuilder::DEFAULT_WIDTH, CVSOBuilder::DEFAULT_OPACITY );
 
-						//проставим ширину, проапдейтим VSO
+						//РїСЂРѕСЃС‚Р°РІРёРј С€РёСЂРёРЅСѓ, РїСЂРѕР°РїРґРµР№С‚РёРј VSO
 						const float fAdditionalWidth = fEndWidth - fBeginWidth;
 						for ( int nPointIndex = 0; nPointIndex < newVSO.points.size(); ++nPointIndex )
 						{
@@ -1727,12 +1727,12 @@ bool CMapInfo::CreateRandomMap( SMissionStats *pMissionStats, const std::string 
 						}
 						CVSOBuilder::Update( &newVSO, true, CVSOBuilder::DEFAULT_STEP, CVSOBuilder::DEFAULT_WIDTH, CVSOBuilder::DEFAULT_OPACITY );
 							
-						//соединим VSO без швов
+						//СЃРѕРµРґРёРЅРёРј VSO Р±РµР· С€РІРѕРІ
 						CVSOBuilder::MergeVSO( pBeginVSO, beginVSOPoint.bBegin, &newVSO, !( beginVSOPoint.bBegin ) );
 						CVSOBuilder::MergeVSO( pEndVSO, endVSOPoint.bBegin, &newVSO, beginVSOPoint.bBegin );
 						
-						//в каждой точке VSO устанавливаем высоту равную вычисленной
-						//выравниватель
+						//РІ РєР°Р¶РґРѕР№ С‚РѕС‡РєРµ VSO СѓСЃС‚Р°РЅР°РІР»РёРІР°РµРј РІС‹СЃРѕС‚Сѓ СЂР°РІРЅСѓСЋ РІС‹С‡РёСЃР»РµРЅРЅРѕР№
+						//РІС‹СЂР°РІРЅРёРІР°С‚РµР»СЊ
 						{
 							const float fAdditionalHeight = fEndHeight - fBeginHeight;
 
@@ -1749,7 +1749,7 @@ bool CMapInfo::CreateRandomMap( SMissionStats *pMissionStats, const std::string 
 								CTPoint<int> terrainTile;
 								mapInfo.GetTerrainTileIndices( newVSO.points[nPointIndex].vPos, &terrainTile );
 
-								//паттерн состоит из четного числа полос
+								//РїР°С‚С‚РµСЂРЅ СЃРѕСЃС‚РѕРёС‚ РёР· С‡РµС‚РЅРѕРіРѕ С‡РёСЃР»Р° РїРѕР»РѕСЃ
 								SVAPattern vaPattern;
 								vaPattern.CreateFromGradient( vsoGradient, nVAPatternWidth * 2, 1.0f );
 								vaPattern.pos.x = terrainTile.x - ( nVAPatternWidth - 1 );
@@ -1759,7 +1759,7 @@ bool CMapInfo::CreateRandomMap( SMissionStats *pMissionStats, const std::string 
 							}
 						}
 
-						//добавим в карту
+						//РґРѕР±Р°РІРёРј РІ РєР°СЂС‚Сѓ
 						if ( rGraphLink.nType != SRMGraphLink::TYPE_ROAD )
 						{
 							newVSO.nID = mapInfo.terrain.rivers.size();
@@ -1771,7 +1771,7 @@ bool CMapInfo::CreateRandomMap( SMissionStats *pMissionStats, const std::string 
 							mapInfo.terrain.roads3.push_back( newVSO );
 						}
 						
-						//добавим к fieldGraph две стороны дороги
+						//РґРѕР±Р°РІРёРј Рє fieldGraph РґРІРµ СЃС‚РѕСЂРѕРЅС‹ РґРѕСЂРѕРіРё
 						std::list<CVec2> pointsLeft;
 						std::list<CVec2> pointsRight;
 
@@ -1792,7 +1792,7 @@ bool CMapInfo::CreateRandomMap( SMissionStats *pMissionStats, const std::string 
 						int nLineIndexLeft = fieldGraph.GetLinesCount() - 2;
 						int nLineIndexRight = fieldGraph.GetLinesCount() - 1;
 
-						//проставляем номера линков причем всовываем их в нужную сторону и в нужное место
+						//РїСЂРѕСЃС‚Р°РІР»СЏРµРј РЅРѕРјРµСЂР° Р»РёРЅРєРѕРІ РїСЂРёС‡РµРј РІСЃРѕРІС‹РІР°РµРј РёС… РІ РЅСѓР¶РЅСѓСЋ СЃС‚РѕСЂРѕРЅСѓ Рё РІ РЅСѓР¶РЅРѕРµ РјРµСЃС‚Рѕ
 						bResult = fieldGraph.ConnectLineToPatch( rGraphLink.link.a, nLineIndexLeft, !( beginVSOPoint.bBegin ) ) &&
 											fieldGraph.ConnectLineToPatch( rGraphLink.link.a, nLineIndexRight, !( beginVSOPoint.bBegin ) ) &&
 											fieldGraph.ConnectLineToPatch( rGraphLink.link.b, nLineIndexLeft, beginVSOPoint.bBegin ) &&
@@ -1805,7 +1805,7 @@ bool CMapInfo::CreateRandomMap( SMissionStats *pMissionStats, const std::string 
 							return false;
 						}
 						
-						//линк обработан
+						//Р»РёРЅРє РѕР±СЂР°Р±РѕС‚Р°РЅ
 						bLinkPlaced[nLinkIndex] = true;
 					}
 				}
@@ -1834,18 +1834,18 @@ bool CMapInfo::CreateRandomMap( SMissionStats *pMissionStats, const std::string 
 		pProgressHook->Step();
 	}
 
-	//заполняем пустые пространства
+	//Р·Р°РїРѕР»РЅСЏРµРј РїСѓСЃС‚С‹Рµ РїСЂРѕСЃС‚СЂР°РЅСЃС‚РІР°
 	std::hash_map<std::string, SVAGradient> gradientsHashMap;
 
 	if ( !fieldGraph.inclusivePolygons.empty() )
 	{
-		//массив с залоканными тайлами
+		//РјР°СЃСЃРёРІ СЃ Р·Р°Р»РѕРєР°РЅРЅС‹РјРё С‚Р°Р№Р»Р°РјРё
 		CArray2D<BYTE> tileMap( mapInfo.terrain.tiles.GetSizeX() * 2, mapInfo.terrain.tiles.GetSizeY() * 2 );
 		tileMap.Set( RMGC_UNLOCKED );
 		CTRect<int> tileMapRect( 0, 0, tileMap.GetSizeX(), tileMap.GetSizeY() );
 		ModifyTilesFunctional<CArray2D<BYTE>, BYTE> tileMapModifyTiles( RMGC_LOCKED, &tileMap );
 		
-		// заполняем массив лoканных тайлов (поле каждой вствки дерева его необходимо обновлять)
+		// Р·Р°РїРѕР»РЅСЏРµРј РјР°СЃСЃРёРІ Р»oРєР°РЅРЅС‹С… С‚Р°Р№Р»РѕРІ (РїРѕР»Рµ РєР°Р¶РґРѕР№ РІСЃС‚РІРєРё РґРµСЂРµРІР° РµРіРѕ РЅРµРѕР±С…РѕРґРёРјРѕ РѕР±РЅРѕРІР»СЏС‚СЊ)
 		if ( !mapInfo.objects.empty() )
 		{
 			ApplyTilesInObjectsPassability( tileMapRect, &( mapInfo.objects[0] ), mapInfo.objects.size(), tileMapModifyTiles, true );
@@ -1924,7 +1924,7 @@ bool CMapInfo::CreateRandomMap( SMissionStats *pMissionStats, const std::string 
 		pProgressHook->Step();
 	}
 	
-	//апдейтим карту
+	//Р°РїРґРµР№С‚РёРј РєР°СЂС‚Сѓ
 	mapInfo.UpdateTerrain( terrainPatchesRect );
 	mapInfo.UpdateObjects( terrainTilesRect );
 	
@@ -1937,7 +1937,7 @@ bool CMapInfo::CreateRandomMap( SMissionStats *pMissionStats, const std::string 
 		pProgressHook->Step();
 	}
 
-	//проставляем координаты objectives
+	//РїСЂРѕСЃС‚Р°РІР»СЏРµРј РєРѕРѕСЂРґРёРЅР°С‚С‹ objectives
 	bool bOnlyOneObject = false;
 	for ( std::vector<SMissionStats::SObjective>::iterator objectiveIterator = pMissionStats->objectives.begin(); objectiveIterator != pMissionStats->objectives.end(); ++objectiveIterator )
 	{
@@ -1986,7 +1986,7 @@ bool CMapInfo::CreateRandomMap( SMissionStats *pMissionStats, const std::string 
 	//TIME KEEPER
 	timeKeeper.Trace( "CreateRandomMap. Place objectives." );
 
-	//сохраняем minimap images
+	//СЃРѕС…СЂР°РЅСЏРµРј minimap images
 	CRMImageCreateParameterList imageCreateParameterList;
 	imageCreateParameterList.push_back( SRMImageCreateParameter( pMissionStats->szMapImage, CTPoint<int>( 0x200, 0x200 ), bSaveAsDDS, false, SRMImageCreateParameter::INTERMISSION_IMAGE_BRIGHTNESS, SRMImageCreateParameter::INTERMISSION_IMAGE_CONSTRAST, SRMImageCreateParameter::INTERMISSION_IMAGE_GAMMA ) ); 
 	imageCreateParameterList.push_back( SRMImageCreateParameter( szRandomMapName, CTPoint<int>( 0x100, 0x100 ), bSaveAsDDS ) ); 
@@ -1997,7 +1997,7 @@ bool CMapInfo::CreateRandomMap( SMissionStats *pMissionStats, const std::string 
 	//TIME KEEPER
 	timeKeeper.Trace( "CreateRandomMap. Create minimap image." );
 
-	//сохраняем карту
+	//СЃРѕС…СЂР°РЅСЏРµРј РєР°СЂС‚Сѓ
 	mapInfo.PackFrameIndices();
 	SQuickLoadMapInfo quickLoadMapInfo;
 	quickLoadMapInfo.FillFromMapInfo( mapInfo );
@@ -2046,7 +2046,7 @@ bool CMapInfo::CreateRandomMap( SMissionStats *pMissionStats, const std::string 
 		pProgressHook->Step();
 	}
 
-	//сохраняем script
+	//СЃРѕС…СЂР°РЅСЏРµРј script
 	{
 		CPtr<IDataStream> pSourceStream = pDataStorage->OpenStream( ( randomMapTemplate.szScriptFile  + ".lua" ).c_str(), STREAM_ACCESS_READ );
 		CPtr<IDataStream> pDestinationStream = CreateFileStream( ( szRandomMapName + ".lua" ).c_str(), STREAM_ACCESS_WRITE );
@@ -2079,7 +2079,7 @@ bool CMapInfo::CreateRandomMap( SMissionStats *pMissionStats, const std::string 
 // basement storage  
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /**
-	//ставим юниты если есть что ставить
+	//СЃС‚Р°РІРёРј СЋРЅРёС‚С‹ РµСЃР»Рё РµСЃС‚СЊ С‡С‚Рѕ СЃС‚Р°РІРёС‚СЊ
 	SRMContext context;
 	{
 		context.levels.push_back( SRMTemplateUnitsTable() );

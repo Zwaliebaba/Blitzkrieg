@@ -140,11 +140,11 @@ END_MESSAGE_MAP()
 BOOL CRMGCreateFieldDialog::OnInitDialog() 
 {
 	CResizeDialog::OnInitDialog();
-	//0 открытие TempatesHashMap
-	//1 добавление field
-	//2 текущий FieldsHashMap
-	//3 фильтр у обьектов
-	//4 путь до профиля
+	//0 РѕС‚РєСЂС‹С‚РёРµ TempatesHashMap
+	//1 РґРѕР±Р°РІР»РµРЅРёРµ field
+	//2 С‚РµРєСѓС‰РёР№ FieldsHashMap
+	//3 С„РёР»СЊС‚СЂ Сѓ РѕР±СЊРµРєС‚РѕРІ
+	//4 РїСѓС‚СЊ РґРѕ РїСЂРѕС„РёР»СЏ
 	
 	if ( resizeDialogOptions.szParameters.size() < 5 )
 	{
@@ -177,11 +177,11 @@ bool CRMGCreateFieldDialog::LoadFieldsList()
 
 	SetWindowText( NStr::Format( "%s - [%s]", CF_FIELDS_DIALOG_TITLE, resizeDialogOptions.szParameters[2] ) );
 	BeginWaitCursor();
-	//считываем fields с диска
+	//СЃС‡РёС‚С‹РІР°РµРј fields СЃ РґРёСЃРєР°
 	LoadDataResource( resizeDialogOptions.szParameters[2], "", false, 0, CF_FIELDS_XML_NAME, fields );
 	
-	//заполняем информацию по fields
-	//основной источник - база, если утеряня база, придется добавлять филды по новому, при сейве базы сейвятся и филды из базы
+	//Р·Р°РїРѕР»РЅСЏРµРј РёРЅС„РѕСЂРјР°С†РёСЋ РїРѕ fields
+	//РѕСЃРЅРѕРІРЅРѕР№ РёСЃС‚РѕС‡РЅРёРє - Р±Р°Р·Р°, РµСЃР»Рё СѓС‚РµСЂСЏРЅСЏ Р±Р°Р·Р°, РїСЂРёРґРµС‚СЃСЏ РґРѕР±Р°РІР»СЏС‚СЊ С„РёР»РґС‹ РїРѕ РЅРѕРІРѕРјСѓ, РїСЂРё СЃРµР№РІРµ Р±Р°Р·С‹ СЃРµР№РІСЏС‚СЃСЏ Рё С„РёР»РґС‹ РёР· Р±Р°Р·С‹
 	m_FieldsList.DeleteAllItems();
 	for ( CRMFieldSetsHashMap::const_iterator fieldIterator = fields.begin();  fieldIterator != fields.end(); ++fieldIterator )
 	{
@@ -210,7 +210,7 @@ bool CRMGCreateFieldDialog::SaveFieldsList()
 
 	SetWindowText( NStr::Format( "%s - [%s]", CF_FIELDS_DIALOG_TITLE, resizeDialogOptions.szParameters[2] ) );
 	BeginWaitCursor();
-	//сохраняем fields на диск
+	//СЃРѕС…СЂР°РЅСЏРµРј fields РЅР° РґРёСЃРє
 	for ( CRMFieldSetsHashMap::const_iterator fieldIterator = fields.begin();  fieldIterator != fields.end(); ++fieldIterator )
 	{
 		SRMFieldSet rmField = fieldIterator->second;
@@ -219,7 +219,7 @@ bool CRMGCreateFieldDialog::SaveFieldsList()
 			return false;
 		}
 	}
-	//сохраняем список fields на диск
+	//СЃРѕС…СЂР°РЅСЏРµРј СЃРїРёСЃРѕРє fields РЅР° РґРёСЃРє
 	if ( !SaveDataResource( resizeDialogOptions.szParameters[2], "", false, 0, CF_FIELDS_XML_NAME, fields ) )
 	{
 		EndWaitCursor();
@@ -232,7 +232,7 @@ bool CRMGCreateFieldDialog::SaveFieldsList()
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool CRMGCreateFieldDialog::LoadFieldToControls()
 {
-	//обновляем контролы по текущему field
+	//РѕР±РЅРѕРІР»СЏРµРј РєРѕРЅС‚СЂРѕР»С‹ РїРѕ С‚РµРєСѓС‰РµРјСѓ field
 	bCreateControls = true;
 
 	GetRMGFieldTerrainDialog()->pRMFieldSet = 0;
@@ -276,7 +276,7 @@ bool CRMGCreateFieldDialog::LoadFieldToControls()
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool CRMGCreateFieldDialog::UpdateFieldList( const SRMFieldSet *pRMFieldSet )
 {
-	//обновляем состояние темплейта в списке темплейтов
+	//РѕР±РЅРѕРІР»СЏРµРј СЃРѕСЃС‚РѕСЏРЅРёРµ С‚РµРјРїР»РµР№С‚Р° РІ СЃРїРёСЃРєРµ С‚РµРјРїР»РµР№С‚РѕРІ
 	{
 		int nSelectedItem = m_FieldsList.GetNextItem( CB_ERR, LVNI_SELECTED );
 		while ( nSelectedItem != CB_ERR )
@@ -601,7 +601,7 @@ void CRMGCreateFieldDialog::OnAddFieldButton()
 	CFileDialog fileDialog( true, ".xml", "", OFN_ALLOWMULTISELECT, "XML files (*.xml)|*.xml||" );
 	fileDialog.m_ofn.lpstrFile = new char[0xFFFF];
 	fileDialog.m_ofn.lpstrFile[0] = 0;			
-	fileDialog.m_ofn.nMaxFile = 0xFFFF - 1; //на всякий пожарный
+	fileDialog.m_ofn.nMaxFile = 0xFFFF - 1; //РЅР° РІСЃСЏРєРёР№ РїРѕР¶Р°СЂРЅС‹Р№
 	fileDialog.m_ofn.lpstrInitialDir = resizeDialogOptions.szParameters[1].c_str();
 
 	if ( fileDialog.DoModal() == IDOK )

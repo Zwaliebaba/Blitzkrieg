@@ -11,7 +11,7 @@ struct SAdapterDesc
 	int nIndex;                           // internal DX index...
 	std::list<D3DDISPLAYMODE> modes;      // available video modes (which is compatible with the 3D device)
 	mutable std::vector<SGFXDisplayMode> extmodes;// modes for ewxternal enumeration
-	D3DCAPS8 capsHWDevice;                // т.к. есть только один HW device для адаптера, то он нас и интересует
+	D3DCAPS8 capsHWDevice;                // С‚.Рє. РµСЃС‚СЊ С‚РѕР»СЊРєРѕ РѕРґРёРЅ HW device РґР»СЏ Р°РґР°РїС‚РµСЂР°, С‚Рѕ РѕРЅ РЅР°СЃ Рё РёРЅС‚РµСЂРµСЃСѓРµС‚
 	DWORD dwBehavior;
 };
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

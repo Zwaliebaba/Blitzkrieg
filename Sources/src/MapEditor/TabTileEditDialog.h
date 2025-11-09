@@ -41,7 +41,7 @@ protected:
 
 public:
 	
-	//std::hash_map<MAKELPARAM(íîìåð ñåçîíà, íîìåð_òàéëà), íîìåð_êàðòèíêè â ëèñòå>
+	//std::hash_map<MAKELPARAM(Ð½Ð¾Ð¼ÐµÑ€ ÑÐµÐ·Ð¾Ð½Ð°, Ð½Ð¾Ð¼ÐµÑ€_Ñ‚Ð°Ð¹Ð»Ð°), Ð½Ð¾Ð¼ÐµÑ€_ÐºÐ°Ñ€Ñ‚Ð¸Ð½ÐºÐ¸ Ð² Ð»Ð¸ÑÑ‚Ðµ>
 	std::hash_map<int, int> seasonTilesIndices;
 	void CreateTilesList( const std::string &rszSeasonFolder, int nSelectedTileIndex );
 

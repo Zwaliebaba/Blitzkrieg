@@ -34,10 +34,10 @@ struct SFileHeader
 struct SRandomHeader
 {
 	DWORD dwRandomDateTime;								// date and time of the random seed - to compare and, may be, restore maps and images
-	std::string szChapterUnitsTableFileName; //файл с чаптерными юнитами
-	int nLevel;															 //сложность
-	std::string szGraphName;								 //имя графа
-	int nAngle;															 //поворот
+	std::string szChapterUnitsTableFileName; //С„Р°Р№Р» СЃ С‡Р°РїС‚РµСЂРЅС‹РјРё СЋРЅРёС‚Р°РјРё
+	int nLevel;															 //СЃР»РѕР¶РЅРѕСЃС‚СЊ
+	std::string szGraphName;								 //РёРјСЏ РіСЂР°С„Р°
+	int nAngle;															 //РїРѕРІРѕСЂРѕС‚
 	//
 	SRandomHeader()
 		: dwRandomDateTime( 0 ), nLevel( 0 ), nAngle( 0 ) {}

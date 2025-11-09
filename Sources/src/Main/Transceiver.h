@@ -26,10 +26,10 @@ interface ITransceiver : public IRefCount
 	virtual int STDCALL CommandUnitCommand( const struct SAIUnitCmd *pCommand ) = 0;
 	// show different areas... this command actiually has been doing only on client, but it needs group to be registered
 	virtual void STDCALL CommandShowAreas( int nGroupID, int nAreaType, bool bShow ) = 0;
-	// обработать pCommand, пришедшую на текущем сегменте
+	// РѕР±СЂР°Р±РѕС‚Р°С‚СЊ pCommand, РїСЂРёС€РµРґС€СѓСЋ РЅР° С‚РµРєСѓС‰РµРј СЃРµРіРјРµРЅС‚Рµ
 	virtual void STDCALL AddCommandToSend( interface IAILogicCommand *pCommand ) = 0;
 	
-	// количество играющих сейчас игроков
+	// РєРѕР»РёС‡РµСЃС‚РІРѕ РёРіСЂР°СЋС‰РёС… СЃРµР№С‡Р°СЃ РёРіСЂРѕРєРѕРІ
 	virtual int STDCALL GetNumberOfPlayers() const = 0;
 	
 	virtual bool STDCALL JoinToServer( const char *pszIPAddress, const int nPort, bool bPasswordRequired, const char* pszPassword ) = 0;

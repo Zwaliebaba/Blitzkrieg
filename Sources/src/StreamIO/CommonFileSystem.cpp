@@ -103,26 +103,26 @@ void CCommonFileSystem::EnumerateFiles( const std::string &szName, IDataStorage 
 	}
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// создать и открыть поток с указанным именем и правами доступа
+// СЃРѕР·РґР°С‚СЊ Рё РѕС‚РєСЂС‹С‚СЊ РїРѕС‚РѕРє СЃ СѓРєР°Р·Р°РЅРЅС‹Рј РёРјРµРЅРµРј Рё РїСЂР°РІР°РјРё РґРѕСЃС‚СѓРїР°
 IDataStream* CCommonFileSystem::CreateStream( const char *pszName, DWORD dwAccessMode )
 {
 	NI_ASSERT_T( 0, "Have no write access to common file system" );
 	return 0;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// открыть существующий поток с указанным именем и правами доступа
+// РѕС‚РєСЂС‹С‚СЊ СЃСѓС‰РµСЃС‚РІСѓСЋС‰РёР№ РїРѕС‚РѕРє СЃ СѓРєР°Р·Р°РЅРЅС‹Рј РёРјРµРЅРµРј Рё РїСЂР°РІР°РјРё РґРѕСЃС‚СѓРїР°
 IDataStream* CCommonFileSystem::OpenStream( const char *pszName, DWORD dwAccessMode )
 {
 	std::string szName = pszName;
 	NStr::ToLower( szName );
 	CFilesMap::iterator pos = files.find( szName );
 	IDataStream *pRes = 0;
-	if ( pos != files.end() )							// открываем файл из соответствующего ему storage
+	if ( pos != files.end() )							// РѕС‚РєСЂС‹РІР°РµРј С„Р°Р№Р» РёР· СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРіРѕ РµРјСѓ storage
 		pRes = pos->second.pStorage->OpenStream( szName.c_str(), dwAccessMode );
-	else																	// попробуем открыть файл с диска (если он появился после инициализации common file system - для редакторов)
+	else																	// РїРѕРїСЂРѕР±СѓРµРј РѕС‚РєСЂС‹С‚СЊ С„Р°Р№Р» СЃ РґРёСЃРєР° (РµСЃР»Рё РѕРЅ РїРѕСЏРІРёР»СЃСЏ РїРѕСЃР»Рµ РёРЅРёС†РёР°Р»РёР·Р°С†РёРё common file system - РґР»СЏ СЂРµРґР°РєС‚РѕСЂРѕРІ)
 		pRes = pFileStorage->OpenStream( pszName, dwAccessMode );
 #ifndef _DONT_USE_SINGLETON	
-	// CRAP{ для отлова несуществующих файлов
+	// CRAP{ РґР»СЏ РѕС‚Р»РѕРІР° РЅРµСЃСѓС‰РµСЃС‚РІСѓСЋС‰РёС… С„Р°Р№Р»РѕРІ
 	if ( (pRes == 0) && (GetGlobalVar("report", 0) == 1) ) 
 		GetSingleton<IConsoleBuffer>()->WriteASCII( CONSOLE_STREAM_CONSOLE, NStr::Format("Can't open stream \"%s\" with access mode 0x%.8x", pszName, dwAccessMode), 0xffff0000, true );
 	// CRAP}
@@ -137,40 +137,40 @@ bool CCommonFileSystem::GetStreamStats( const char *pszName, SStorageElementStat
 	std::string szName = pszName;
 	NStr::ToLower( szName );
 	CFilesMap::iterator pos = files.find( szName );
-	if ( pos != files.end() )							// файл из соответствующего ему storage
+	if ( pos != files.end() )							// С„Р°Р№Р» РёР· СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРіРѕ РµРјСѓ storage
 		return pos->second.pStorage->GetStreamStats( pszName, pStats );
-	else																	// попробуем файл с диска (если он появился после инициализации common file system - для редакторов)
+	else																	// РїРѕРїСЂРѕР±СѓРµРј С„Р°Р№Р» СЃ РґРёСЃРєР° (РµСЃР»Рё РѕРЅ РїРѕСЏРІРёР»СЃСЏ РїРѕСЃР»Рµ РёРЅРёС†РёР°Р»РёР·Р°С†РёРё common file system - РґР»СЏ СЂРµРґР°РєС‚РѕСЂРѕРІ)
 		return pFileStorage->GetStreamStats( pszName, pStats );
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// убить элемент хранилища
+// СѓР±РёС‚СЊ СЌР»РµРјРµРЅС‚ С…СЂР°РЅРёР»РёС‰Р°
 bool CCommonFileSystem::DestroyElement( const char *pszName )
 {
 	NI_ASSERT_T( 0, "Have no write access to common file system" );
 	return false;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// переименовать элемент
+// РїРµСЂРµРёРјРµРЅРѕРІР°С‚СЊ СЌР»РµРјРµРЅС‚
 bool CCommonFileSystem::RenameElement( const char *pszOldName, const char *pszNewName )
 {
 	NI_ASSERT_T( 0, "Have no write access to common file system" );
 	return false;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// перечисление элементов
+// РїРµСЂРµС‡РёСЃР»РµРЅРёРµ СЌР»РµРјРµРЅС‚РѕРІ
 IStorageEnumerator* CCommonFileSystem::CreateEnumerator()
 {
 	return new CCommonFileSystemEnumerator( files );
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// добавить новый MOD
+// РґРѕР±Р°РІРёС‚СЊ РЅРѕРІС‹Р№ MOD
 bool CCommonFileSystem::AddStorage( IDataStorage *pStorage, const char *pszName )
 {
 	NI_ASSERT_T( 0, "Can't add new storage to the common file system" );
 	return false;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// убрать MOD
+// СѓР±СЂР°С‚СЊ MOD
 bool CCommonFileSystem::RemoveStorage( const char *pszName )
 {
 	NI_ASSERT_T( 0, "Can't remove storage from common file system" );

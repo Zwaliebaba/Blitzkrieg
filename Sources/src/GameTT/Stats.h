@@ -121,13 +121,13 @@ private:
 	bool bTutorialWindow;
 	bool bCheckReplay;
 	int m_nStatsType;
-	int nMedalIterator;			//текущий индекс медали
+	int nMedalIterator;			//С‚РµРєСѓС‰РёР№ РёРЅРґРµРєСЃ РјРµРґР°Р»Рё
 	bool bStatsShown;
 	bool bUpgradesShown;
 	bool bNewUnitsShown;
 	bool bNextChapterShown;
 	bool bPlayerRankShown;
-	bool bLastFullScreen;		//переменная для работы шторок, если true то последний раз отображался full screen interface
+	bool bLastFullScreen;		//РїРµСЂРµРјРµРЅРЅР°СЏ РґР»СЏ СЂР°Р±РѕС‚С‹ С€С‚РѕСЂРѕРє, РµСЃР»Рё true С‚Рѕ РїРѕСЃР»РµРґРЅРёР№ СЂР°Р· РѕС‚РѕР±СЂР°Р¶Р°Р»СЃСЏ full screen interface
 
 		//
 	virtual bool STDCALL ProcessMessage( const SGameMessage &msg );

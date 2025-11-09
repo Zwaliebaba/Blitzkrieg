@@ -29,14 +29,14 @@ int CMemFileStream::Write( const void *pBuffer, int nLength )
 	return nLength;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// объявить текущую позицию в потоке за начало потока
+// РѕР±СЉВ¤РІРёС‚СЊ С‚РµРєСѓС‰СѓСЋ РїРѕР·РёС†РёСЋ РІ РїРѕС‚РѕРєРµ Р·Р° РЅР°С‡Р°Р»Рѕ РїРѕС‚РѕРєР°
 int CMemFileStream::LockBegin()
 {
 	nBeginPos = nCurrPos;
 	return nBeginPos;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// вернуть начало потока в нулевую позицию
+// РІРµСЂРЅСѓС‚СЊ РЅР°С‡Р°Р»Рѕ РїРѕС‚РѕРєР° РІ РЅСѓР»РµРІСѓСЋ РїРѕР·РёС†РёСЋ
 int CMemFileStream::UnlockBegin()
 {
 	int nOldBeginPos = nBeginPos;
@@ -44,13 +44,13 @@ int CMemFileStream::UnlockBegin()
 	return nOldBeginPos;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// текущая позиция в потоке
+// С‚РµРєСѓС‰Р°В¤ РїРѕР·РёС†РёВ¤ РІ РїРѕС‚РѕРєРµ
 int CMemFileStream::GetPos() const
 {
 	return nCurrPos - nBeginPos;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// выставить текущую позицию в потоке
+// РІС‹СЃС‚Р°РІРёС‚СЊ С‚РµРєСѓС‰СѓСЋ РїРѕР·РёС†РёСЋ РІ РїРѕС‚РѕРєРµ
 int CMemFileStream::Seek( int offset, STREAM_SEEK from )
 {
 	switch ( from )
@@ -71,13 +71,13 @@ int CMemFileStream::Seek( int offset, STREAM_SEEK from )
 	return nCurrPos;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// получить размер потока
+// РїРѕР»СѓС‡РёС‚СЊ СЂР°Р·РјРµСЂ РїРѕС‚РѕРєР°
 int CMemFileStream::GetSize() const
 {
 	return data.size() - nBeginPos;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// изменить размер потока
+// РёР·РјРµРЅРёС‚СЊ СЂР°Р·РјРµСЂ РїРѕС‚РѕРєР°
 bool CMemFileStream::SetSize( int nSize )
 {
 	data.resize( nBeginPos + nSize );
@@ -86,7 +86,7 @@ bool CMemFileStream::SetSize( int nSize )
 	return true;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// скопировать 'nLength' байт из текущей позиции потока в текущю позицию 'pDstStream' потока
+// СЃРєРѕРїРёСЂРѕРІР°С‚СЊ 'nLength' Р±Р°Р№С‚ РёР· С‚РµРєСѓС‰РµР№ РїРѕР·РёС†РёРё РїРѕС‚РѕРєР° РІ С‚РµРєСѓС‰СЋ РїРѕР·РёС†РёСЋ 'pDstStream' РїРѕС‚РѕРєР°
 int CMemFileStream::CopyTo( IDataStream *pDstStream, int nLength )
 {
 	nLength = Min( nLength, int(data.size() - nCurrPos) );
@@ -95,12 +95,12 @@ int CMemFileStream::CopyTo( IDataStream *pDstStream, int nLength )
 	return nLength > 0 ? pDstStream->Write( &(data[nLastPos]), nLength ) : 0;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// сбросить все закешированные данные
+// СЃР±СЂРѕСЃРёС‚СЊ РІСЃРµ Р·Р°РєРµС€РёСЂРѕРІР°РЅРЅС‹Рµ РґР°РЅРЅС‹Рµ
 void CMemFileStream::Flush()
 {
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// получить информацию о потоке
+// РїРѕР»СѓС‡РёС‚СЊ РёРЅС„РѕСЂРјР°С†РёСЋ Рѕ РїРѕС‚РѕРєРµ
 void CMemFileStream::GetStats( SStorageElementStats *pStats )
 {
 	memcpy( pStats, &stats, sizeof(stats) );
@@ -135,7 +135,7 @@ CMemFileSystem::CMemFileSystem( DWORD dwAccessMode )
 
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// создать и открыть поток с указанным именем и правами доступа
+// СЃРѕР·РґР°С‚СЊ Рё РѕС‚РєСЂС‹С‚СЊ РїРѕС‚РѕРє СЃ СѓРєР°Р·Р°РЅРЅС‹Рј РёРјРµРЅРµРј Рё РїСЂР°РІР°РјРё РґРѕСЃС‚СѓРїР°
 IDataStream* CMemFileSystem::CreateStream( const char *pszName, DWORD dwAccessMode )
 {
 	NI_ASSERT_TF( (dwAccessMode & dwStorageAccessMode) == dwAccessMode, "Can't create stream - invalid access mode", return 0 );
@@ -144,7 +144,7 @@ IDataStream* CMemFileSystem::CreateStream( const char *pszName, DWORD dwAccessMo
 	return pStream;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// открыть существующий поток с указанным именем и правами доступа
+// РѕС‚РєСЂС‹С‚СЊ СЃСѓС‰РµСЃС‚РІСѓСЋС‰РёР№ РїРѕС‚РѕРє СЃ СѓРєР°Р·Р°РЅРЅС‹Рј РёРјРµРЅРµРј Рё РїСЂР°РІР°РјРё РґРѕСЃС‚СѓРїР°
 IDataStream* CMemFileSystem::OpenStream( const char *pszName, DWORD dwAccessMode )
 {
 	NI_ASSERT_TF( (dwAccessMode & dwStorageAccessMode) == dwAccessMode, "Can't open stream - invalid access mode", return 0 );
@@ -172,14 +172,14 @@ bool CMemFileSystem::GetStreamStats( const char *pszName, SStorageElementStats *
 	return false;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// убить элемент хранилища
+// СѓР±РёС‚СЊ СЌР»РµРјРµРЅС‚ С…СЂР°РЅРёР»РёС‰Р°
 bool CMemFileSystem::DestroyElement( const char *pszName )
 {
 	streams.erase( pszName );
 	return true;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// переименовать элемент
+// РїРµСЂРµРёРјРµРЅРѕРІР°С‚СЊ СЌР»РµРјРµРЅС‚
 bool CMemFileSystem::RenameElement( const char *pszOldName, const char *pszNewName )
 {
 	CPtr<IDataStream> pStream = streams[pszOldName];
@@ -192,20 +192,20 @@ bool CMemFileSystem::RenameElement( const char *pszOldName, const char *pszNewNa
 	return false;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// перечисление элементов
+// РїРµСЂРµС‡РёСЃР»РµРЅРёРµ СЌР»РµРјРµРЅС‚РѕРІ
 IStorageEnumerator* CMemFileSystem::CreateEnumerator()
 {
 	return 0;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// добавить новый MOD
+// РґРѕР±Р°РІРёС‚СЊ РЅРѕРІС‹Р№ MOD
 bool CMemFileSystem::AddStorage( IDataStorage *pStorage, const char *pszName )
 {
 	NI_ASSERT_T( 0, "Can't add new storage to the mem file system" );
 	return false;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// убрать MOD
+// СѓР±СЂР°С‚СЊ MOD
 bool CMemFileSystem::RemoveStorage( const char *pszName )
 {
 	NI_ASSERT_T( 0, "Can't remove storage from mem file system" );

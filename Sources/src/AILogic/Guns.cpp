@@ -115,7 +115,7 @@ const NTimer::STime CGun::GetActionPoint() const
 bool CGun::CanBreakArmor( CAIUnit *pTarget ) const
 {
 	int nSide ;
-	if ( pOwner->GetZ() > pTarget->GetZ() ) // ñòðåëüáà èç ñàìîëåòà ïî êðûøàì 
+	if ( pOwner->GetZ() > pTarget->GetZ() ) // ÑÑ‚Ñ€ÐµÐ»ÑŒÐ±Ð° Ð¸Ð· ÑÐ°Ð¼Ð¾Ð»ÐµÑ‚Ð° Ð¿Ð¾ ÐºÑ€Ñ‹ÑˆÐ°Ð¼ 
 	{
 		nSide = RPG_TOP;
 	}
@@ -288,19 +288,19 @@ bool CGun::IsFiring() const
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CGun::Aiming()
 {
-	// âðàã óáåæàë èç ðàäèóñà îáñòðåëà
+	// Ð²Ñ€Ð°Ð³ ÑƒÐ±ÐµÐ¶Ð°Ð» Ð¸Ð· Ñ€Ð°Ð´Ð¸ÑƒÑÐ° Ð¾Ð±ÑÑ‚Ñ€ÐµÐ»Ð°
 	if ( pEnemy != 0 && !InFireRange( pEnemy ) )
 		StopFire();
-	// âðàã óáåæàë èç ïðèöåëà
+	// Ð²Ñ€Ð°Ð³ ÑƒÐ±ÐµÐ¶Ð°Ð» Ð¸Ð· Ð¿Ñ€Ð¸Ñ†ÐµÐ»Ð°
 	else if ( !CanShootWOGunTurn( 1, z ) )
 	{
 		bAim = true;
 		shootState = EST_TURNING;
 	}
-	// ïðèöåëèëèñü è ïåðåçàðÿäèëèñü
+	// Ð¿Ñ€Ð¸Ñ†ÐµÐ»Ð¸Ð»Ð¸ÑÑŒ Ð¸ Ð¿ÐµÑ€ÐµÐ·Ð°Ñ€ÑÐ´Ð¸Ð»Ð¸ÑÑŒ
 	else 
 	{
-		// ÷òîáû íå ñðàçó ñòðåëÿòü, à ïåðåçàðÿæàòüñÿ ïîñëå ïîäâîçà ïàòðîíîâ
+		// Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð½Ðµ ÑÑ€Ð°Ð·Ñƒ ÑÑ‚Ñ€ÐµÐ»ÑÑ‚ÑŒ, Ð° Ð¿ÐµÑ€ÐµÐ·Ð°Ñ€ÑÐ¶Ð°Ñ‚ÑŒÑÑ Ð¿Ð¾ÑÐ»Ðµ Ð¿Ð¾Ð´Ð²Ð¾Ð·Ð° Ð¿Ð°Ñ‚Ñ€Ð¾Ð½Ð¾Ð²
 		if ( GetNAmmo() == 0 )
 		{
 			if ( pOwner->GetStats()->IsAviation() )			// but fuckin PLANES mustn't wait
@@ -343,7 +343,7 @@ void CGun::WaitForActionPoint()
 
 		if ( pOwner->GetStats()->IsInfantry() )
 			updater.Update( ACTION_NOTIFY_INFANTRY_SHOOT, this );
-		// äëÿ çåíèòîê âûñòðåë íóæíî ïðèñûëàòü íà êàæäûé ñíàðÿä, action point îòñóòñòâóåò
+		// Ð´Ð»Ñ Ð·ÐµÐ½Ð¸Ñ‚Ð¾Ðº Ð²Ñ‹ÑÑ‚Ñ€ÐµÐ» Ð½ÑƒÐ¶Ð½Ð¾ Ð¿Ñ€Ð¸ÑÑ‹Ð»Ð°Ñ‚ÑŒ Ð½Ð° ÐºÐ°Ð¶Ð´Ñ‹Ð¹ ÑÐ½Ð°Ñ€ÑÐ´, action point Ð¾Ñ‚ÑÑƒÑ‚ÑÑ‚Ð²ÑƒÐµÑ‚
 		else if ( pOwner->GetStats()->type != RPG_TYPE_ART_AAGUN && pOwner->GetStats()->type != RPG_TYPE_ART_ROCKET )
 			updater.Update( ACTION_NOTIFY_MECH_SHOOT, this );
 	}
@@ -351,7 +351,7 @@ void CGun::WaitForActionPoint()
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CGun::Shooting()
 {
-	// âðåìÿ äëÿ âûñòðåëà è åù¸ åñòü ïàòðîíû â î÷åðåäè
+	// Ð²Ñ€ÐµÐ¼Ñ Ð´Ð»Ñ Ð²Ñ‹ÑÑ‚Ñ€ÐµÐ»Ð° Ð¸ ÐµÑ‰Ñ‘ ÐµÑÑ‚ÑŒ Ð¿Ð°Ñ‚Ñ€Ð¾Ð½Ñ‹ Ð² Ð¾Ñ‡ÐµÑ€ÐµÐ´Ð¸
 	while ( curTime - pCommonGunInfo->lastShoot >= GetFireRate() && nShotsLast > 0 )
 	{
 		if ( pOwner->GetStats()->type == RPG_TYPE_ART_AAGUN || pOwner->GetStats()->type == RPG_TYPE_ART_ROCKET )
@@ -425,10 +425,10 @@ void CGun::Segment()
 {
 	NI_ASSERT_T( !pOwner || nOwnerParty == pOwner->GetParty(), "Wrong owner party" );
 
-	// âðàãà óáèëè
+	// Ð²Ñ€Ð°Ð³Ð° ÑƒÐ±Ð¸Ð»Ð¸
 	if ( shootState != EST_REST && pEnemy != 0 && !IsValidObj( pEnemy ) )
 	{
-		// ìîìåíò âûïóñêàíèÿ î÷åðåäè - ñòðåëüáó íå ïðåðûâàòü 
+		// Ð¼Ð¾Ð¼ÐµÐ½Ñ‚ Ð²Ñ‹Ð¿ÑƒÑÐºÐ°Ð½Ð¸Ñ Ð¾Ñ‡ÐµÑ€ÐµÐ´Ð¸ - ÑÑ‚Ñ€ÐµÐ»ÑŒÐ±Ñƒ Ð½Ðµ Ð¿Ñ€ÐµÑ€Ñ‹Ð²Ð°Ñ‚ÑŒ 
 		if ( shootState == EST_SHOOTING || shootState == WAIT_FOR_ACTION_POINT )
 			pEnemy == 0;
 		else
@@ -759,7 +759,7 @@ bool CGun::CanShootToObjectWOMove( CStaticObject *pObj )
 	if ( !CanShootToPointWOMove( pObj->GetAttackCenter( vOwnerCenter ), 0.0f ) )
 		return false;
 
-	// ïðîâåðêà íà âîçìîæíîñòü ïðîáèâàíèÿ áðîíè
+	// Ð¿Ñ€Ð¾Ð²ÐµÑ€ÐºÐ° Ð½Ð° Ð²Ð¾Ð·Ð¼Ð¾Ð¶Ð½Ð¾ÑÑ‚ÑŒ Ð¿Ñ€Ð¾Ð±Ð¸Ð²Ð°Ð½Ð¸Ñ Ð±Ñ€Ð¾Ð½Ð¸
 	{
 		SRect boundRect;
 		pObj->GetBoundRect( &boundRect );
@@ -827,10 +827,10 @@ bool CGun::CanShootToPointWOMove( const CVec2 &point, const float fZ, const WORD
 		return false;
 	}
 
-	// íåëüçÿ âðàùàòü áàçó
+	// Ð½ÐµÐ»ÑŒÐ·Ñ Ð²Ñ€Ð°Ñ‰Ð°Ñ‚ÑŒ Ð±Ð°Ð·Ñƒ
 	if ( !pOwner->CanRotate() && !pOwner->CanMove() || pOwner->NeedDeinstall() || pOwner->IsLocked( this ) )
 	{
-		if ( !IsOnTurret() || IsOnTurret() && GetTurret()->IsLocked( this ) ) // íåëüçÿ âðàùàòü turret, èëè gun íà áàçå
+		if ( !IsOnTurret() || IsOnTurret() && GetTurret()->IsLocked( this ) ) // Ð½ÐµÐ»ÑŒÐ·Ñ Ð²Ñ€Ð°Ñ‰Ð°Ñ‚ÑŒ turret, Ð¸Ð»Ð¸ gun Ð½Ð° Ð±Ð°Ð·Ðµ
 		{
 			if ( !IsGoodAngle( point, wHorAddAngle, wVertAddAngle, 1 ) )
 			{
@@ -953,7 +953,7 @@ const int CGun::GetFireRate() const
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool CGun::CanBreach( const CCommonUnit *pTarget ) const
 {
-	if ( pOwner->GetZ() > pTarget->GetZ() ) // ñèðåëüáà èç ñàìîëåòà ïî êðûøàì 
+	if ( pOwner->GetZ() > pTarget->GetZ() ) // ÑÐ¸Ñ€ÐµÐ»ÑŒÐ±Ð° Ð¸Ð· ÑÐ°Ð¼Ð¾Ð»ÐµÑ‚Ð° Ð¿Ð¾ ÐºÑ€Ñ‹ÑˆÐ°Ð¼ 
 	{
 		return GetMaxPossiblePiercing() >= pTarget->GetArmor( RPG_TOP );
 	}
@@ -1222,7 +1222,7 @@ bool CTurretGun::TurnArtilleryToEnemy( const CVec2 &vEnemyCenter )
 
 	bool bTurned = false;
 	const WORD wHorConstraint = GetHorTurnConstraint();
-	// æåëàåìûé óãîë âíå contraints íà ïîâîðîò
+	// Ð¶ÐµÐ»Ð°ÐµÐ¼Ñ‹Ð¹ ÑƒÐ³Ð¾Ð» Ð²Ð½Ðµ contraints Ð½Ð° Ð¿Ð¾Ð²Ð¾Ñ€Ð¾Ñ‚
 	if ( wHorConstraint == 0 && wDesirableAngle != 0 ||
 			 wDesirableAngle > wHorConstraint && wDesirableAngle < -wHorConstraint )
 	{
@@ -1300,13 +1300,13 @@ bool CTurretGun::TurnByBestWay( const WORD wDirToEnemy )
 		const WORD wTurretTurn = DirsDifference( wTurretGlobalAngle, wDirToEnemy );
 		const float fTurretOnlyTime = (float)wTurretTurn / fTurretSpeed;
 
-		// ïîâîðà÷èâàåì âìåñòå
+		// Ð¿Ð¾Ð²Ð¾Ñ€Ð°Ñ‡Ð¸Ð²Ð°ÐµÐ¼ Ð²Ð¼ÐµÑÑ‚Ðµ
 		if ( fTogetherTime <= fTurretOnlyTime && DirsDifference( 0, -GetGun().wDirection ) <= GetHorTurnConstraint() )
 		{
 			wBestWayDir = wDirToEnemy;
 			wFinalTurretDir = -GetGun().wDirection;
 		}
-		// òîëüêî ïóøêó
+		// Ñ‚Ð¾Ð»ÑŒÐºÐ¾ Ð¿ÑƒÑˆÐºÑƒ
 		else if ( DirsDifference( wDirToEnemy - wFrontDir - GetGun().wDirection, 0 ) <= GetHorTurnConstraint() )
 		{
 			wBestWayDir = wFrontDir;
@@ -1343,7 +1343,7 @@ bool CTurretGun::TurnByBestWay( const WORD wDirToEnemy )
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool CTurretGun::TurnGunToEnemy( const CVec2 &vEnemyCenter, const float zDiff )
 {
-	// ïóøêà
+	// Ð¿ÑƒÑˆÐºÐ°
 	if ( pOwner->NeedDeinstall() || pOwner->IsLocked( this ) || !pOwner->CanRotate() )
 	{
 		StopTracing();

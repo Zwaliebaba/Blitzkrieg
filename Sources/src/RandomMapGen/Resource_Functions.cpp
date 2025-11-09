@@ -57,7 +57,7 @@ bool SaveImageToDDSImageResource( IImage *pImage, const std::string &rszDDSImage
 		{
 			CPtr<IDDSImage> pDDSImage = pImageProcessor->Compress( pImage, nCompressedFormat );
 
-			//сохранаяем картинку
+			//СЃРѕС…СЂР°РЅР°СЏРµРј РєР°СЂС‚РёРЅРєСѓ
 			CPtr<IDataStream> pDDSStream = CreateFileStream( ( szDDSImageResourceFileName + GetDDSImageExtention( COMPRESSION_DXT ) ).c_str(), STREAM_ACCESS_WRITE );
 			if ( !pDDSStream )
 			{
@@ -69,7 +69,7 @@ bool SaveImageToDDSImageResource( IImage *pImage, const std::string &rszDDSImage
 		{
 			CPtr<IDDSImage> pDDSImage = pImageProcessor->Compress( pImage, nLowFormat );
 
-			//сохранаяем картинку
+			//СЃРѕС…СЂР°РЅР°СЏРµРј РєР°СЂС‚РёРЅРєСѓ
 			CPtr<IDataStream> pDDSStream = CreateFileStream( ( szDDSImageResourceFileName + GetDDSImageExtention( COMPRESSION_LOW_QUALITY ) ).c_str(), STREAM_ACCESS_WRITE );
 			if ( !pDDSStream )
 			{
@@ -81,7 +81,7 @@ bool SaveImageToDDSImageResource( IImage *pImage, const std::string &rszDDSImage
 		{
 			CPtr<IDDSImage> pDDSImage = pImageProcessor->Compress( pImage, nHighFormat );
 
-			//сохранаяем картинку
+			//СЃРѕС…СЂР°РЅР°СЏРµРј РєР°СЂС‚РёРЅРєСѓ
 			CPtr<IDataStream> pDDSStream = CreateFileStream( ( szDDSImageResourceFileName + GetDDSImageExtention( COMPRESSION_HIGH_QUALITY ) ).c_str(), STREAM_ACCESS_WRITE );
 			if ( !pDDSStream )
 			{

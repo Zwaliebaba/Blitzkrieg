@@ -69,21 +69,21 @@ private:
 
 	bool bEditCrossets;
 
-	std::list<int> freeTerrainIndexes;			//для хранения незаполненных индексов terrain
-	std::list<int> freeCrossetIndexes;			//для хранения незаполненных индексов crosset
+	std::list<int> freeTerrainIndexes;			//РґР»СЏ С…СЂР°РЅРµРЅРёСЏ РЅРµР·Р°РїРѕР»РЅРµРЅРЅС‹С… РёРЅРґРµРєСЃРѕРІ terrain
+	std::list<int> freeCrossetIndexes;			//РґР»СЏ С…СЂР°РЅРµРЅРёСЏ РЅРµР·Р°РїРѕР»РЅРµРЅРЅС‹С… РёРЅРґРµРєСЃРѕРІ crosset
 
 protected:
 	void ClickOnThumbList( int nID );
 	void DoubleClickOnThumbList( int nID );
 	void DeleteFrameInTree( int nID );
 
-	virtual void SpecificInit();														//для инициализации внутренних данных после загрузки проекта или создании нового
+	virtual void SpecificInit();														//РґР»СЏ РёРЅРёС†РёР°Р»РёР·Р°С†РёРё РІРЅСѓС‚СЂРµРЅРЅРёС… РґР°РЅРЅС‹С… РїРѕСЃР»Рµ Р·Р°РіСЂСѓР·РєРё РїСЂРѕРµРєС‚Р° РёР»Рё СЃРѕР·РґР°РЅРёРё РЅРѕРІРѕРіРѕ
 	virtual void SpecificClearBeforeBatchMode();
 	virtual BOOL SpecificTranslateMessage( MSG *pMsg );
 
 	virtual bool ExportFrameData( IDataTree *pDT, const char *pszProjectName, const char *pszResultFileName, CTreeItem *pRootItem );
 
-	//загружает RPG stats
+	//Р·Р°РіСЂСѓР¶Р°РµС‚ RPG stats
 	virtual void LoadRPGStats( IDataTree *pDT, CTreeItem *pRootItem );
 
 	//

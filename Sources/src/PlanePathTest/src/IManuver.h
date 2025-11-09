@@ -6,7 +6,7 @@
 
 extern float g;
 /**
- * у кажддого маневра есть ID.
+ * Сѓ РєР°Р¶РґРґРѕРіРѕ РјР°РЅРµРІСЂР° РµСЃС‚СЊ ID.
  * @interface
  */
 interface IManuver : public IRefCount

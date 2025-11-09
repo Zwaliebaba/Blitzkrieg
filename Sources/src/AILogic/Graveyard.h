@@ -17,16 +17,16 @@ public:
 	NTimer::STime endFogTime; 
 	NTimer::STime endSceneTime;
 	NTimer::STime timeToEndDieAnimation;
-	// отослан Юре, как мёртвый
+	// РѕС‚РѕСЃР»Р°РЅ С‘СЂРµ, РєР°Рє РјР„СЂС‚РІС‹Р№
 	bool bSentDead;
-	// кончилсась анимация смерти и проинициализировались endSceneTime и endFogTime
+	// РєРѕРЅС‡РёР»СЃР°СЃСЊ Р°РЅРёРјР°С†РёВ¤ СЃРјРµСЂС‚Рё Рё РїСЂРѕРёРЅРёС†РёР°Р»РёР·РёСЂРѕРІР°Р»РёСЃСЊ endSceneTime Рё endFogTime
 	bool bAnimFinished;
 	//
 	bool bDisappearUpdateSent;
 	
-	bool bFatality;						// играть ли фаталити
-	NTimer::STime actionTime;	// action time для фаталити
-	CTilesSet lockedTiles;		// залоканные тайлы для фаталити
+	bool bFatality;						// РёРіСЂР°С‚СЊ Р»Рё С„Р°С‚Р°Р»РёС‚Рё
+	NTimer::STime actionTime;	// action time РґР»В¤ С„Р°С‚Р°Р»РёС‚Рё
+	CTilesSet lockedTiles;		// Р·Р°Р»РѕРєР°РЅРЅС‹Рµ С‚Р°Р№Р»С‹ РґР»В¤ С„Р°С‚Р°Р»РёС‚Рё
 
 	bool bFogDeleted;
 

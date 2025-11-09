@@ -129,7 +129,7 @@ IStaticPath* CTrainPathUnit::CreateBigStaticPath( const CVec2 &vStartPoint, cons
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool CTrainPathUnit::SendAlongPath( IStaticPath *pStaticPath, const CVec2 &vShift, bool bSmoothTurn )
 {
-	// чтобы удалился
+	// С‡С‚РѕР±С‹ СѓРґР°Р»РёР»СЃСЏ
 	pPathToMove = pStaticPath;
 	if ( CanMovePathfinding() )
 	{
@@ -288,7 +288,7 @@ const float CTrainPathUnit::GetDistFromBackToFrontWheel( const int n, const int 
 	const SMechUnitRPGStats *pCarrierStats = static_cast<const SMechUnitRPGStats*>( GetCarriage( n )->GetStats() );
 	const SMechUnitRPGStats *pStats = static_cast<const SMechUnitRPGStats*>( GetCarriage( m )->GetStats() );
 
-	// расстояние от заднего колеса впереди стоящего поезда до переднего колеса нашего
+	// СЂР°СЃСЃС‚РѕСЏРЅРёРµ РѕС‚ Р·Р°РґРЅРµРіРѕ РєРѕР»РµСЃР° РІРїРµСЂРµРґРё СЃС‚РѕСЏС‰РµРіРѕ РїРѕРµР·РґР° РґРѕ РїРµСЂРµРґРЅРµРіРѕ РєРѕР»РµСЃР° РЅР°С€РµРіРѕ
 	const float fLen = GetDistanceForWheels(
 												pCarrierStats->vBackWheel.y, pCarrierStats->vTowPoint.y,
 												pStats->vFrontWheel.y, pStats->vHookPoint.y );
@@ -364,7 +364,7 @@ void CTrainPathUnit::SetFrontWheel( const int n )
 
 		NI_ASSERT_T( nBackWheelV1 == intermNodes[n-1].back() || nBackWheelV2 == intermNodes[n-1].back(), "Wrong edge" );
 
-		// нужно перевернуть pPoint
+		// РЅСѓР¶РЅРѕ РїРµСЂРµРІРµСЂРЅСѓС‚СЊ pPoint
 		if ( nBackWheelV2 == intermNodes[n-1].back() )
 		{
 			pPoint = new CEdgePoint( *(pSmoothPath->GetBackWheelPoint( n - 1 )) );
@@ -382,14 +382,14 @@ void CTrainPathUnit::SetFrontWheel( const int n )
 	std::list<int>::reverse_iterator iter = intermNodes[n-1].rbegin();
 	while ( iter != intermNodes[n-1].rend() && !bFinished )
 	{
-		// ребро, на котором откладывать
+		// СЂРµР±СЂРѕ, РЅР° РєРѕС‚РѕСЂРѕРј РѕС‚РєР»Р°РґС‹РІР°С‚СЊ
 		IEdge *pEdge = pPoint->GetEdge();
-		// точка, в направлении которой откладывать
+		// С‚РѕС‡РєР°, РІ РЅР°РїСЂР°РІР»РµРЅРёРё РєРѕС‚РѕСЂРѕР№ РѕС‚РєР»Р°РґС‹РІР°С‚СЊ
 		CPtr<CEdgePoint> pFirstPoint = pEdge->CreateFirstEdgePoint();
-		// точка на pEdge, куда отложили
+		// С‚РѕС‡РєР° РЅР° pEdge, РєСѓРґР° РѕС‚Р»РѕР¶РёР»Рё
 		pNewFrontWheel = pEdge->MakeIndent( vPointToMeasureDist, pPoint, pFirstPoint, fDist );
 
-		// если отложили между pPoint и pFirstPoint
+		// РµСЃР»Рё РѕС‚Р»РѕР¶РёР»Рё РјРµР¶РґСѓ pPoint Рё pFirstPoint
 		if ( !pNewFrontWheel->IsEqual( pFirstPoint ) )
 			bFinished = true;
 		else
@@ -417,12 +417,12 @@ void CTrainPathUnit::SetFrontWheel( const int n )
 		}
 	}
 
-	// нужно отложить от pNewFrontWheel до переднего колеса
+	// РЅСѓР¶РЅРѕ РѕС‚Р»РѕР¶РёС‚СЊ РѕС‚ pNewFrontWheel РґРѕ РїРµСЂРµРґРЅРµРіРѕ РєРѕР»РµСЃР°
 	if ( !bFinished )
 	{
-		// ребро, на котором откладывать
+		// СЂРµР±СЂРѕ, РЅР° РєРѕС‚РѕСЂРѕРј РѕС‚РєР»Р°РґС‹РІР°С‚СЊ
 		IEdge *pEdge = pPoint->GetEdge();
-		// точка, в направлении которой откладывать
+		// С‚РѕС‡РєР°, РІ РЅР°РїСЂР°РІР»РµРЅРёРё РєРѕС‚РѕСЂРѕР№ РѕС‚РєР»Р°РґС‹РІР°С‚СЊ
 		CPtr<CEdgePoint> pFirstPoint;
 		if ( pSmoothPath->GetFrontWheelPoint( n )->GetEdge() != pEdge )
 		{
@@ -431,14 +431,14 @@ void CTrainPathUnit::SetFrontWheel( const int n )
 		}
 		else
 			pFirstPoint = pSmoothPath->GetFrontWheelPoint( n );
-		// точка на pEdge, куда отложили
+		// С‚РѕС‡РєР° РЅР° pEdge, РєСѓРґР° РѕС‚Р»РѕР¶РёР»Рё
 		pNewFrontWheel = pEdge->MakeIndent( vPointToMeasureDist, pPoint, pFirstPoint, fDist );
 	}
 
-	// установить новую точку переднего колеса
+	// СѓСЃС‚Р°РЅРѕРІРёС‚СЊ РЅРѕРІСѓСЋ С‚РѕС‡РєСѓ РїРµСЂРµРґРЅРµРіРѕ РєРѕР»РµСЃР°
 	pSmoothPath->SetNewFrontWheel( n, pNewFrontWheel );
 
-	// переложить все невзятые вершины в вершины от первого колеса до последнего	
+	// РїРµСЂРµР»РѕР¶РёС‚СЊ РІСЃРµ РЅРµРІР·СЏС‚С‹Рµ РІРµСЂС€РёРЅС‹ РІ РІРµСЂС€РёРЅС‹ РѕС‚ РїРµСЂРІРѕРіРѕ РєРѕР»РµСЃР° РґРѕ РїРѕСЃР»РµРґРЅРµРіРѕ	
 	for ( std::list<int>::iterator forwardIterator = intermNodes[n-1].begin(); forwardIterator != iter.base(); ++forwardIterator )
 	{
 //		NStr::DebugTrace( "nodesInside[%d], added %d\n", n, *forwardIterator );
@@ -461,7 +461,7 @@ void CTrainPathUnit::SetBackWheel( const int n )
 
 		NI_ASSERT_T( nFrontWheelV1 == nodesInside[n].back() || nFrontWheelV2 == nodesInside[n].back(), "Wrong edge" );
 
-		// нужно перевернуть pPoint
+		// РЅСѓР¶РЅРѕ РїРµСЂРµРІРµСЂРЅСѓС‚СЊ pPoint
 		if ( nFrontWheelV2 == nodesInside[n].back() )
 		{
 			pPoint = new CEdgePoint( *(pSmoothPath->GetFrontWheelPoint( n )) );
@@ -480,14 +480,14 @@ void CTrainPathUnit::SetBackWheel( const int n )
 	std::list<int>::reverse_iterator iter = nodesInside[n].rbegin();
 	while ( iter!= nodesInside[n].rend() && !bFinished )
 	{
-		// ребро, на котором откладывать
+		// СЂРµР±СЂРѕ, РЅР° РєРѕС‚РѕСЂРѕРј РѕС‚РєР»Р°РґС‹РІР°С‚СЊ
 		IEdge *pEdge = pPoint->GetEdge();
-		// точка, в направлении которой откладывать
+		// С‚РѕС‡РєР°, РІ РЅР°РїСЂР°РІР»РµРЅРёРё РєРѕС‚РѕСЂРѕР№ РѕС‚РєР»Р°РґС‹РІР°С‚СЊ
 		CPtr<CEdgePoint> pFirstPoint = pEdge->CreateFirstEdgePoint();
-		// точка на pEdge, куда отложили
+		// С‚РѕС‡РєР° РЅР° pEdge, РєСѓРґР° РѕС‚Р»РѕР¶РёР»Рё
 		pNewBackWheel = pEdge->MakeIndent( vPointToMeasureDist, pPoint, pFirstPoint, fDist );
 
-		// если отложили между pPoint и pFirstPoint
+		// РµСЃР»Рё РѕС‚Р»РѕР¶РёР»Рё РјРµР¶РґСѓ pPoint Рё pFirstPoint
 		if ( !pNewBackWheel->IsEqual( pFirstPoint ) )
 			bFinished = true;
 		else
@@ -517,12 +517,12 @@ void CTrainPathUnit::SetBackWheel( const int n )
 		}
 	}
 
-	// нужно отложить от pNewFrontWheel до заднего колеса
+	// РЅСѓР¶РЅРѕ РѕС‚Р»РѕР¶РёС‚СЊ РѕС‚ pNewFrontWheel РґРѕ Р·Р°РґРЅРµРіРѕ РєРѕР»РµСЃР°
 	if ( !bFinished )
 	{
-		// ребро, на котором откладывать
+		// СЂРµР±СЂРѕ, РЅР° РєРѕС‚РѕСЂРѕРј РѕС‚РєР»Р°РґС‹РІР°С‚СЊ
 		IEdge *pEdge = pPoint->GetEdge();
-		// точка, в направлении которой откладывать
+		// С‚РѕС‡РєР°, РІ РЅР°РїСЂР°РІР»РµРЅРёРё РєРѕС‚РѕСЂРѕР№ РѕС‚РєР»Р°РґС‹РІР°С‚СЊ
 		CPtr<CEdgePoint> pFirstPoint;// = pSmoothPath->GetBackWheelPoint( n );
 		if ( pSmoothPath->GetBackWheelPoint( n )->GetEdge() != pEdge )
 		{
@@ -533,14 +533,14 @@ void CTrainPathUnit::SetBackWheel( const int n )
 			pFirstPoint = pSmoothPath->GetBackWheelPoint( n );
 			
 
-		// точка на pEdge, куда отложили
+		// С‚РѕС‡РєР° РЅР° pEdge, РєСѓРґР° РѕС‚Р»РѕР¶РёР»Рё
 		pNewBackWheel = pEdge->MakeIndent( vPointToMeasureDist, pPoint, pFirstPoint, fDist );
 	}
 
-	// установить новую точку заднего колеса
+	// СѓСЃС‚Р°РЅРѕРІРёС‚СЊ РЅРѕРІСѓСЋ С‚РѕС‡РєСѓ Р·Р°РґРЅРµРіРѕ РєРѕР»РµСЃР°
 	pSmoothPath->SetNewBackWheel( n, pNewBackWheel );
 
-	// переложить все невзятые вершины в вершины от первого колеса до последнего
+	// РїРµСЂРµР»РѕР¶РёС‚СЊ РІСЃРµ РЅРµРІР·СЏС‚С‹Рµ РІРµСЂС€РёРЅС‹ РІ РІРµСЂС€РёРЅС‹ РѕС‚ РїРµСЂРІРѕРіРѕ РєРѕР»РµСЃР° РґРѕ РїРѕСЃР»РµРґРЅРµРіРѕ
 	if ( n < intermNodes.size() )
 	{
 		for ( std::list<int>::iterator forwardIterator = nodesInside[n].begin(); forwardIterator != iter.base(); ++forwardIterator )
@@ -698,16 +698,16 @@ void CCarriagePathUnit::HookTo( CCarriagePathUnit *pUnit )
 			const SMechUnitRPGStats *pCarrierStats = static_cast<const SMechUnitRPGStats*>( pUnit->GetStats() );
 			const SMechUnitRPGStats *pStats = static_cast<const SMechUnitRPGStats*>(GetStats());
 
-			// расстояние от заднего колеса впереди стоящего поезда до переднего колеса нашего
+			// СЂР°СЃСЃС‚РѕСЏРЅРёРµ РѕС‚ Р·Р°РґРЅРµРіРѕ РєРѕР»РµСЃР° РІРїРµСЂРµРґРё СЃС‚РѕСЏС‰РµРіРѕ РїРѕРµР·РґР° РґРѕ РїРµСЂРµРґРЅРµРіРѕ РєРѕР»РµСЃР° РЅР°С€РµРіРѕ
 			const float fLen = GetDistanceForWheels(
 														pCarrierStats->vBackWheel.y, pCarrierStats->vTowPoint.y,
 														pStats->vFrontWheel.y, pStats->vHookPoint.y );
 
-			// поиск позиции для переднего колеса
+			// РїРѕРёСЃРє РїРѕР·РёС†РёРё РґР»СЏ РїРµСЂРµРґРЅРµРіРѕ РєРѕР»РµСЃР°
 			CPtr<CEdgePoint> pFrontWheelPoint = theRailRoadGraph.MakeIndent( -pUnit->GetFrontDirVec(), pCarrierBackWheelPoint, fLen );
 
 			CPtr<CEdgePoint> pBackWheelPoint;
-			// найти место для задних колёс
+			// РЅР°Р№С‚Рё РјРµСЃС‚Рѕ РґР»СЏ Р·Р°РґРЅРёС… РєРѕР»С‘СЃ
 			if ( pFrontWheelPoint )
 				pBackWheelPoint = theRailRoadGraph.MakeIndent( -GetFrontDirVec(), pFrontWheelPoint, GetDistanceBetweenWheels() );
 			
@@ -865,7 +865,7 @@ void CCarriagePathUnit::SecondSegment( const bool bUpdate )
 		pTrain->SecondSegment( bUpdate );
 		SetSpeed( pTrain->GetSpeed() );
 		
-		// сдвинулись
+		// СЃРґРІРёРЅСѓР»РёСЃСЊ
 		if ( vOldCenter != GetCenter() || vOldDir != GetFrontDirVec() )
 			stayTime = 0;
 		else

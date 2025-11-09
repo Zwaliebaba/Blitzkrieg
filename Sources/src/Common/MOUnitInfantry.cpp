@@ -211,7 +211,7 @@ void CMOUnitInfantry::AIUpdatePlacement( const struct SAINotifyPlacement &placem
 	{
 		if ( (placement.fSpeed > 0) && (pAnim->GetAnimation() > 0) ) 
 		{
-			// киломерты/час <=> точки/тик
+			// РєРёР»РѕРјРµСЂС‚С‹/С‡Р°СЃ <=> С‚РѕС‡РєРё/С‚РёРє
 			const float fAnimSpeed = pAnim->GetSpeed() * float( ( 1000.0 * double( SAIConsts::TILE_SIZE ) ) / ( 3600.0 * 1000.0 ) );
 			pAnim->SetAnimSpeedCoeff( placement.fSpeed / fAnimSpeed );
 		}
@@ -287,12 +287,12 @@ int CMOUnitInfantry::AIUpdateActions( const struct SAINotifyAction &action, cons
 		case ACTION_NOTIFY_DIE_TRANSPORT:
 			SendDeathAcknowledgement( pAckManager, currTime - Min( action.time, currTime )  );
 			pAckManager->UnitDead( this, pScene );
-			// "выходим" его из контейнера
+			// "РІС‹С…РѕРґРёРј" РµРіРѕ РёР· РєРѕРЅС‚РµР№РЅРµСЂР°
 			if ( GetContainer() )
 				GetContainer()->Load( this, false );
-			// при смерти удаляем все иконки из объекта
+			// РїСЂРё СЃРјРµСЂС‚Рё СѓРґР°Р»СЏРµРј РІСЃРµ РёРєРѕРЅРєРё РёР· РѕР±СЉРµРєС‚Р°
 			GetVisObj()->RemoveIcon( -1 );
-			// если перец умер в домике или в машинке, то он невидимый
+			// РµСЃР»Рё РїРµСЂРµС† СѓРјРµСЂ РІ РґРѕРјРёРєРµ РёР»Рё РІ РјР°С€РёРЅРєРµ, С‚Рѕ РѕРЅ РЅРµРІРёРґРёРјС‹Р№
 			SetVisible( !((action.typeID == ACTION_NOTIFY_DIE_BUILDING) || (action.typeID == ACTION_NOTIFY_DIE_TRANSPORT)) );
 			bDieAnimation = true;
 			break;

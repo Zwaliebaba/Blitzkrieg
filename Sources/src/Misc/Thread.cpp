@@ -53,7 +53,7 @@ void CThread::StopThread()
 	{
 		if ( hThread )
 		{
-			// нить сама не завершилась
+			// РЅРёС‚СЊ СЃР°РјР° РЅРµ Р·Р°РІРµСЂС€РёР»Р°СЃСЊ
 			if ( WaitForSingleObject( hFinishReport,0 ) != WAIT_OBJECT_0 )
 			{
 				SetEvent( hStopCommand );

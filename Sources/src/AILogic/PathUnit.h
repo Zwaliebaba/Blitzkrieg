@@ -22,18 +22,18 @@ class CPathUnit : public IRefCount
 	CObj<ICollision> pCollMemento;
 	CPtr<CPathUnit> pLastPushByHardCollUnit;
 
-	// "верное направление", т.е. куда "смотрит" перёд
+	// "РІРµСЂРЅРѕРµ РЅР°РїСЂР°РІР»РµРЅРёРµ", С‚.Рµ. РєСѓРґР° "СЃРјРѕС‚СЂРёС‚" РїРµСЂС‘Рґ
 	SAINotifyPlacement placement;
 	SVector curTile;
-	// вектор вдоль направления движения
+	// РІРµРєС‚РѕСЂ РІРґРѕР»СЊ РЅР°РїСЂР°РІР»РµРЅРёСЏ РґРІРёР¶РµРЅРёСЏ
 	CVec2 dirVec;
-	// правильное направление или движемся задом
+	// РїСЂР°РІРёР»СЊРЅРѕРµ РЅР°РїСЂР°РІР»РµРЅРёРµ РёР»Рё РґРІРёР¶РµРјСЃСЏ Р·Р°РґРѕРј
 	bool bRightDir;
 
 	bool bLocking;
-	// поворачивается ли в данный момент
+	// РїРѕРІРѕСЂР°С‡РёРІР°РµС‚СЃСЏ Р»Рё РІ РґР°РЅРЅС‹Р№ РјРѕРјРµРЅС‚
 	bool bTurning;
-	// если поворачивается, то к какому направлению движения
+	// РµСЃР»Рё РїРѕРІРѕСЂР°С‡РёРІР°РµС‚СЃСЏ, С‚Рѕ Рє РєР°РєРѕРјСѓ РЅР°РїСЂР°РІР»РµРЅРёСЋ РґРІРёР¶РµРЅРёСЏ
 	WORD desDir;
 	bool bFoolStop;
 	bool bFixUnlock;
@@ -54,9 +54,9 @@ class CPathUnit : public IRefCount
 
 	//
 	const CVec2 GetCenterShift() const;
-	// выбрать, как поворачиваться - чтобы оказаться задом по направлению к движению или передом
+	// РІС‹Р±СЂР°С‚СЊ, РєР°Рє РїРѕРІРѕСЂР°С‡РёРІР°С‚СЊСЃСЏ - С‡С‚РѕР±С‹ РѕРєР°Р·Р°С‚СЊСЃСЏ Р·Р°РґРѕРј РїРѕ РЅР°РїСЂР°РІР»РµРЅРёСЋ Рє РґРІРёР¶РµРЅРёСЋ РёР»Рё РїРµСЂРµРґРѕРј
 	void ChooseDirToTurn( const WORD &newDir );
-	// повернуться, когда уже известно, в какую сторону
+	// РїРѕРІРµСЂРЅСѓС‚СЊСЃСЏ, РєРѕРіРґР° СѓР¶Рµ РёР·РІРµСЃС‚РЅРѕ, РІ РєР°РєСѓСЋ СЃС‚РѕСЂРѕРЅСѓ
 	bool MakeTurnToDir( const WORD newDir );
 
 	bool CanMake180DegreesTurn( SRect rect );
@@ -70,7 +70,7 @@ public:
 	CPathUnit() : pOwner( 0 ) { }
 	virtual void Init( class CAIUnit *pOwner, const CVec2 &center, const int z, const WORD dir, const WORD id );
 
-	// ставит направление движения. false - ехать задом
+	// СЃС‚Р°РІРёС‚ РЅР°РїСЂР°РІР»РµРЅРёРµ РґРІРёР¶РµРЅРёСЏ. false - РµС…Р°С‚СЊ Р·Р°РґРѕРј
 	virtual void SetRightDir( bool bRightDir );
 	virtual bool GetRightDir() const { return bRightDir; }
 	//
@@ -80,7 +80,7 @@ public:
 
 	virtual void FirstSegment();
 	virtual void SecondSegment( const bool bUpdate = true );
-	// возвращает - поехал или нет
+	// РІРѕР·РІСЂР°С‰Р°РµС‚ - РїРѕРµС…Р°Р» РёР»Рё РЅРµС‚
 	virtual bool SendAlongPath( interface IStaticPath *pStaticPath, const CVec2 &vShift, bool bSmoothTurn = true );
 	virtual bool SendAlongPath( interface IPath *pPath );
 
@@ -101,17 +101,17 @@ public:
 	interface ICollision* GetCollision() const { return pCurCollision; }
 	void SetCollision( ICollision *pCollision );
 
-	// выдаются направления движения
+	// РІС‹РґР°СЋС‚СЃСЏ РЅР°РїСЂР°РІР»РµРЅРёСЏ РґРІРёР¶РµРЅРёСЏ
 	virtual const CVec2& GetDirVector() const ;
 	virtual const WORD GetDir() const;
-	// направление переда
+	// РЅР°РїСЂР°РІР»РµРЅРёРµ РїРµСЂРµРґР°
 	virtual const WORD GetFrontDir() const { return placement.dir; }
 
-	// направление, куда смотрит перед
+	// РЅР°РїСЂР°РІР»РµРЅРёРµ, РєСѓРґР° СЃРјРѕС‚СЂРёС‚ РїРµСЂРµРґ
 	const CVec2 GetFrontDirVec() const { if ( bRightDir ) return dirVec; else return -dirVec; }
 	
-	//bCanBackward - может повернуться либо задом либо передом, на свой выбор
-	//bForward - поворачиваться передом
+	//bCanBackward - РјРѕР¶РµС‚ РїРѕРІРµСЂРЅСѓС‚СЊСЃСЏ Р»РёР±Рѕ Р·Р°РґРѕРј Р»РёР±Рѕ РїРµСЂРµРґРѕРј, РЅР° СЃРІРѕР№ РІС‹Р±РѕСЂ
+	//bForward - РїРѕРІРѕСЂР°С‡РёРІР°С‚СЊСЃСЏ РїРµСЂРµРґРѕРј
 	virtual bool TurnToDir( const WORD &newDir, const bool bCanBackward = true, const bool bForward = true );
 	
 	virtual interface IStaticPathFinder* GetPathFinder() const { return pPathFinder; }
@@ -128,9 +128,9 @@ public:
 	virtual void LockTiles( bool bUpdate = true );
 	void ForceLockingTiles( bool bUpdate = true );
 
-	// локает в любом случае, если это в принципе возможно
+	// Р»РѕРєР°РµС‚ РІ Р»СЋР±РѕРј СЃР»СѓС‡Р°Рµ, РµСЃР»Рё СЌС‚Рѕ РІ РїСЂРёРЅС†РёРїРµ РІРѕР·РјРѕР¶РЅРѕ
 	void LockTilesForEditor();
-	// bUpdate - делать ли update maxes при unlock
+	// bUpdate - РґРµР»Р°С‚СЊ Р»Рё update maxes РїСЂРё unlock
 	virtual void UnlockTiles( const bool bUpdate );
 	void FixUnlocking() { bFixUnlock = true; }
 	void UnfixUnlocking() { bFixUnlock = false; }
@@ -153,7 +153,7 @@ public:
 	virtual void SetFrontDirWOUpdate( const WORD newDir );
 	bool CanSetNewCoord( const CVec3 &newCenter );
 
-	// проапдейдить направление по новому направлению движения
+	// РїСЂРѕР°РїРґРµР№РґРёС‚СЊ РЅР°РїСЂР°РІР»РµРЅРёРµ РїРѕ РЅРѕРІРѕРјСѓ РЅР°РїСЂР°РІР»РµРЅРёСЋ РґРІРёР¶РµРЅРёСЏ
 	void UpdateDirection( const WORD newDir );
 	void UpdateDirection( const CVec2 &dirVec );
 	virtual void UpdateDirectionForEditor( const CVec2 &dirVec );
@@ -183,15 +183,15 @@ public:
 	void UpdateCollStayTime( const NTimer::STime candStayTime );
 	const NTimer::STime GetCollStayTime() const { return collStayTime; }
 	
-	// можно ли повернуть к направлению vNewDir, если за bounding box берётся smallRect
+	// РјРѕР¶РЅРѕ Р»Рё РїРѕРІРµСЂРЅСѓС‚СЊ Рє РЅР°РїСЂР°РІР»РµРЅРёСЋ vNewDir, РµСЃР»Рё Р·Р° bounding box Р±РµСЂС‘С‚СЃСЏ smallRect
 	bool CanRotateTo( SRect smallRect, const CVec2 &vNewDir, bool bWithUnits, bool bCanGoBackward = true );
 	void SetSuspendedPoint( const CVec2 &vPoint ) { vSuspendedPoint = vPoint; }
 	bool HasSuspendedPoint() const { return vSuspendedPoint.x != -1.0f; }
-	// проверяет, можно ли повернуться к wNewDir, 
-	// если нельзя - возвращает false и посылает вдоль пути до точки, где можно сделать полный поворот, если такай точка найдена
+	// РїСЂРѕРІРµСЂСЏРµС‚, РјРѕР¶РЅРѕ Р»Рё РїРѕРІРµСЂРЅСѓС‚СЊСЃСЏ Рє wNewDir, 
+	// РµСЃР»Рё РЅРµР»СЊР·СЏ - РІРѕР·РІСЂР°С‰Р°РµС‚ false Рё РїРѕСЃС‹Р»Р°РµС‚ РІРґРѕР»СЊ РїСѓС‚Рё РґРѕ С‚РѕС‡РєРё, РіРґРµ РјРѕР¶РЅРѕ СЃРґРµР»Р°С‚СЊ РїРѕР»РЅС‹Р№ РїРѕРІРѕСЂРѕС‚, РµСЃР»Рё С‚Р°РєР°Р№ С‚РѕС‡РєР° РЅР°Р№РґРµРЅР°
 	virtual bool CheckToTurn( const WORD wNewDir );
 
-	// разрушение объектов, на которые наехали
+	// СЂР°Р·СЂСѓС€РµРЅРёРµ РѕР±СЉРµРєС‚РѕРІ, РЅР° РєРѕС‚РѕСЂС‹Рµ РЅР°РµС…Р°Р»Рё
 	void CheckForDestroyedObjects( const CVec2 &center ) const;
 	virtual IStaticPath* CreateBigStaticPath( const CVec2 &vStartPoint, const CVec2 &vFinishPoint, interface IPointChecking *pPointChecking );
 

@@ -35,14 +35,14 @@ void CUIObjMap::Visit( interface ISceneVisitor *pVisitor )
 
 	CSimpleWindow::Visit( pVisitor );
 	pVisitor->VisitUICustom( dynamic_cast<IUIElement*>(this) );
-	// ðèñóåì äåòåé
+	// Ñ€Ð¸ÑÑƒÐµÐ¼ Ð´ÐµÑ‚ÐµÐ¹
 	for ( CWindowList::reverse_iterator ri=childList.rbegin(); ri!=childList.rend(); ri++ )
 		(*ri)->Visit( pVisitor );
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CUIObjMap::Draw( IGFX *pGFX )
 {
-	// ðèñóåì êàðòó
+	// Ñ€Ð¸ÑÑƒÐµÐ¼ ÐºÐ°Ñ€Ñ‚Ñƒ
 	if ( pMapTexture )
 	{
 		pGFX->SetShadingEffect( 3 );

@@ -12,7 +12,7 @@ int GetNumPrimitives( D3DPRIMITIVETYPE type, int nNumElements );
 int GetVertexSize( DWORD dwFormat );
 int GetIndexSize( DWORD dwFormat );
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// аналог IDirect3DVertexBuffer/IDirect3DIndexBuffer с несколько расширенной функциональностью
+// Р°РЅР°Р»РѕРі IDirect3DVertexBuffer/IDirect3DIndexBuffer СЃ РЅРµСЃРєРѕР»СЊРєРѕ СЂР°СЃС€РёСЂРµРЅРЅРѕР№ С„СѓРЅРєС†РёРѕРЅР°Р»СЊРЅРѕСЃС‚СЊСЋ
 template <class TBuffer>
 class CDataBuffer : public CRefCount
 {
@@ -39,7 +39,7 @@ public:
 	TBuffer* GetInternalContainer() { return pBuffer; }
 	DWORD GetFormat() const { return dwFormat; }
   int GetElementSize() const { return nElementSize; }
-	// прямой доступ к данным (lock/unlock)
+	// РїСЂСЏРјРѕР№ РґРѕСЃС‚СѓРї Рє РґР°РЅРЅС‹Рј (lock/unlock)
 	void* Lock( int nStart, int nNumElements )
 	{
 		BYTE *pMemory = 0;
@@ -65,7 +65,7 @@ public:
 typedef CDataBuffer<IDirect3DVertexBuffer8> CVertexBuffer;
 typedef CDataBuffer<IDirect3DIndexBuffer8> CIndexBuffer;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// буффер, который может выделять range'и
+// Р±СѓС„С„РµСЂ, РєРѕС‚РѕСЂС‹Р№ РјРѕР¶РµС‚ РІС‹РґРµР»СЏС‚СЊ range'Рё
 template <class TBuffer, class TAllocator>
 class CRangeDataBuffer : public CDataBuffer<TBuffer>
 {
@@ -73,7 +73,7 @@ class CRangeDataBuffer : public CDataBuffer<TBuffer>
 public:
 	CRangeDataBuffer( TBuffer *pBuffer, int nElementSize, DWORD dwFormat, int nNumElements, bool bDynamic )
 		: CDataBuffer<TBuffer>( pBuffer, nElementSize, dwFormat, bDynamic ), tAllocator( nNumElements ) {  }
-	// проверка на наличие непрерывного блока на 'nAmount' элементов
+	// РїСЂРѕРІРµСЂРєР° РЅР° РЅР°Р»РёС‡РёРµ РЅРµРїСЂРµСЂС‹РІРЅРѕРіРѕ Р±Р»РѕРєР° РЅР° 'nAmount' СЌР»РµРјРµРЅС‚РѕРІ
 	bool HasSolidBlock( int nAmount ) const { return tAllocator.HasBlock(nAmount) == EAV_SUCCESS; };
 	// range allocation
   virtual bool AllocateRange( int nAmount, SRangeLimits *pRange ) { return tAllocator.Allocate(nAmount, pRange) == EAV_SUCCESS; }

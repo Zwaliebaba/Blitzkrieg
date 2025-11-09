@@ -94,7 +94,7 @@ void SetupGlobalVarConsts( CTableAccessor &table )
 	SetGlobalVar( "Scene.Haze.BottomColor.G", table.GetInt("Scene", "Haze.BottomColor.G", 174) );
 	SetGlobalVar( "Scene.Haze.BottomColor.B", table.GetInt("Scene", "Haze.BottomColor.B", 242) );
 	SetGlobalVar( "Scene.Haze.Height", table.GetFloat("Scene", "Haze.Height", 1.0f/3.0f) );
-	// параметры трассеров
+	// РїР°СЂР°РјРµС‚СЂС‹ С‚СЂР°СЃСЃРµСЂРѕРІ
 	SetGlobalVar( "Scene.GunTrace.Color.A", table.GetInt("Scene", "GunTrace.Color.A", 255 ) );
 	SetGlobalVar( "Scene.GunTrace.Color.R", table.GetInt("Scene", "GunTrace.Color.R", 255 ) );
 	SetGlobalVar( "Scene.GunTrace.Color.G", table.GetInt("Scene", "GunTrace.Color.G", 64  ) );
@@ -104,7 +104,7 @@ void SetupGlobalVarConsts( CTableAccessor &table )
 	SetGlobalVar( "Scene.GunTrace.Length", table.GetFloat("Scene", "GunTrace.Length", 0.33f ) );
 	// general scene vars
 	SetGlobalVar( "Scene.FadeOut.Time", table.GetInt("Scene", "FadeOutTime", 1000) );
-	// цвета обводки юнитов
+	// С†РІРµС‚Р° РѕР±РІРѕРґРєРё СЋРЅРёС‚РѕРІ
 	ProcessPlayerColor( table, "Player", 0xff000000 );
 	ProcessPlayerColor( table, "Neutral", 0xff808080 );
 	for ( int i = 1; i <= 15; i++ )
@@ -112,7 +112,7 @@ void SetupGlobalVarConsts( CTableAccessor &table )
 		ProcessPlayerColor( table, NStr::Format( "Allied%d", i ), 0xff00ffff );
 		ProcessPlayerColor( table, NStr::Format( "Enemy%d", i ), 0xffff0000 );
 	}
-	// погода
+	// РїРѕРіРѕРґР°
 	SetGlobalVar( "AI.Weather.TimeToFadeOff", table.GetFloat("AI", "Weather.TimeToFadeOff", 5.0f) );
 	//rain
 	SetGlobalVar( "Scene.Weather.Rain.Height", table.GetFloat("Scene", "Weather.Rain.Height", 300.0f) );

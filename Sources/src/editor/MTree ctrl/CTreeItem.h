@@ -60,7 +60,7 @@ public:
 	}
 	bool BuildEditor( HTREEITEM *item, CMultiTree *treePtr );												
 	bool KillEditor();											
-	//			înly for simple types
+	//			é ½ly for simple types
 	void SetOleData( COleVariant var ) { m_var = var; }
 	COleVariant GetOleData() const { return m_var; }
 	~CSTreeItem() {}

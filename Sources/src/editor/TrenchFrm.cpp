@@ -70,7 +70,7 @@ int CTrenchFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;
 	}
 
-	//инициализируем уникальное имя для проекта
+	//РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј СѓРЅРёРєР°Р»СЊРЅРѕРµ РёРјСЏ РґР»СЏ РїСЂРѕРµРєС‚Р°
 	GenerateProjectName();
 	return 0;
 }
@@ -167,10 +167,10 @@ void CTrenchFrame::SaveRPGStats( IDataTree *pDT, CTreeItem *pRootItem, const cha
 		rpgStats.defences[ nIndex ].fSilhouette = pCommonProps->GetTrenchCover();
 	}
 
-	std::list<SMySegment> segmentsToSort;		//вспомогательный список, сюда помещаю все сегменты
-	//потом сортирую по индексу чтобы заполнить дырявые индексы пустыми структурами
+	std::list<SMySegment> segmentsToSort;		//РІСЃРїРѕРјРѕРіР°С‚РµР»СЊРЅС‹Р№ СЃРїРёСЃРѕРє, СЃСЋРґР° РїРѕРјРµС‰Р°СЋ РІСЃРµ СЃРµРіРјРµРЅС‚С‹
+	//РїРѕС‚РѕРј СЃРѕСЂС‚РёСЂСѓСЋ РїРѕ РёРЅРґРµРєСЃСѓ С‡С‚РѕР±С‹ Р·Р°РїРѕР»РЅРёС‚СЊ РґС‹СЂСЏРІС‹Рµ РёРЅРґРµРєСЃС‹ РїСѓСЃС‚С‹РјРё СЃС‚СЂСѓРєС‚СѓСЂР°РјРё
 
-	//у окопа есть 4 разных части, прямые, прямые с бойницами, повороты и концы
+	//Сѓ РѕРєРѕРїР° РµСЃС‚СЊ 4 СЂР°Р·РЅС‹С… С‡Р°СЃС‚Рё, РїСЂСЏРјС‹Рµ, РїСЂСЏРјС‹Рµ СЃ Р±РѕР№РЅРёС†Р°РјРё, РїРѕРІРѕСЂРѕС‚С‹ Рё РєРѕРЅС†С‹
 	for ( int nTrenchIndex=0; nTrenchIndex<4; nTrenchIndex++ )
 	{
 		CTreeItem *pTrenchParts = pRootItem->GetChildItem( E_TRENCH_SOURCES_ITEM, nTrenchIndex );
@@ -182,15 +182,15 @@ void CTrenchFrame::SaveRPGStats( IDataTree *pDT, CTreeItem *pRootItem, const cha
 
 			string szFullName;
 			{
-				//Здесь я вычисляю полное имя .mod файла и копирую его в temp директорию редактора, чтобы потом можно было создать объект
-				//Получим полное имя файла
+				//Р—РґРµСЃСЊ СЏ РІС‹С‡РёСЃР»СЏСЋ РїРѕР»РЅРѕРµ РёРјСЏ .mod С„Р°Р№Р»Р° Рё РєРѕРїРёСЂСѓСЋ РµРіРѕ РІ temp РґРёСЂРµРєС‚РѕСЂРёСЋ СЂРµРґР°РєС‚РѕСЂР°, С‡С‚РѕР±С‹ РїРѕС‚РѕРј РјРѕР¶РЅРѕ Р±С‹Р»Рѕ СЃРѕР·РґР°С‚СЊ РѕР±СЉРµРєС‚
+				//РџРѕР»СѓС‡РёРј РїРѕР»РЅРѕРµ РёРјСЏ С„Р°Р№Р»Р°
 				string szRel = pTrenchProps->GetFileName();
 				if ( IsRelatedPath( szRel.c_str() ) )
 					MakeFullPath( GetDirectory( pszProjectName ).c_str(), szRel.c_str(), szFullName );
 				else
 					szFullName = szRel;
 
-				//Копирую файл .mod в temp директорию редактора
+				//РљРѕРїРёСЂСѓСЋ С„Р°Р№Р» .mod РІ temp РґРёСЂРµРєС‚РѕСЂРёСЋ СЂРµРґР°РєС‚РѕСЂР°
 				string szTempModFile = theApp.GetEditorTempDir();
 				szTempModFile += "1.mod";
 				if ( !CopyFile( szFullName.c_str(), szTempModFile.c_str(), FALSE ) )
@@ -201,7 +201,7 @@ void CTrenchFrame::SaveRPGStats( IDataTree *pDT, CTreeItem *pRootItem, const cha
 					continue;
 				}
 /*
-				//Копирую файл .tga в temp директорию редактора
+				//РљРѕРїРёСЂСѓСЋ С„Р°Р№Р» .tga РІ temp РґРёСЂРµРєС‚РѕСЂРёСЋ СЂРµРґР°РєС‚РѕСЂР°
 				string szTgaFile = GetDirectory( szFullName.c_str() );
 				szTgaFile += "1.tga";
 				string szTempTgaFile = theApp.GetEditorTempDir();
@@ -217,9 +217,9 @@ void CTrenchFrame::SaveRPGStats( IDataTree *pDT, CTreeItem *pRootItem, const cha
 			}
 
 
-			//запишем имя объекта
+			//Р·Р°РїРёС€РµРј РёРјСЏ РѕР±СЉРµРєС‚Р°
 			{
-				//нам нужно записать только имя файла без расширения
+				//РЅР°Рј РЅСѓР¶РЅРѕ Р·Р°РїРёСЃР°С‚СЊ С‚РѕР»СЊРєРѕ РёРјСЏ С„Р°Р№Р»Р° Р±РµР· СЂР°СЃС€РёСЂРµРЅРёСЏ
 				string szTemp = pTrenchProps->GetFileName();
 				int nPos = szTemp.rfind( '\\' );
 				if ( nPos != string::npos )
@@ -228,7 +228,7 @@ void CTrenchFrame::SaveRPGStats( IDataTree *pDT, CTreeItem *pRootItem, const cha
 				my.segment.szModel = szTemp;
 			}
 
-			//запишем информацию об AABB
+			//Р·Р°РїРёС€РµРј РёРЅС„РѕСЂРјР°С†РёСЋ РѕР± AABB
 			{
 				SAABBFormat aabb;											// axis-aligned bounding box
 				
@@ -253,9 +253,9 @@ void CTrenchFrame::SaveRPGStats( IDataTree *pDT, CTreeItem *pRootItem, const cha
 				my.segment.vAABBHalfSize.z = aabb.vHalfSize.z;
 			}
 
-			//запишем информацию об fire place, если таковой имеется
+			//Р·Р°РїРёС€РµРј РёРЅС„РѕСЂРјР°С†РёСЋ РѕР± fire place, РµСЃР»Рё С‚Р°РєРѕРІРѕР№ РёРјРµРµС‚СЃСЏ
 			{
-				//создаем объект, не добавляя его в сцену
+				//СЃРѕР·РґР°РµРј РѕР±СЉРµРєС‚, РЅРµ РґРѕР±Р°РІР»СЏСЏ РµРіРѕ РІ СЃС†РµРЅСѓ
 				string szTempModFile = theApp.GetEditorTempResourceDir();
 				szTempModFile += "\\1";
 				CPtr<IObjVisObj> pReadyObject;
@@ -269,7 +269,7 @@ void CTrenchFrame::SaveRPGStats( IDataTree *pDT, CTreeItem *pRootItem, const cha
 					continue;
 				}
 
-				//Тут прогружаю набор локаторов модели
+				//РўСѓС‚ РїСЂРѕРіСЂСѓР¶Р°СЋ РЅР°Р±РѕСЂ Р»РѕРєР°С‚РѕСЂРѕРІ РјРѕРґРµР»Рё
 				IMeshAnimation *pMeshAnim = static_cast<IMeshAnimation *> ( pReadyObject->GetAnimation() );
 				IMeshAnimationEdit *pMeshAnimEdit = dynamic_cast<IMeshAnimationEdit *> ( pMeshAnim );
 
@@ -290,7 +290,7 @@ void CTrenchFrame::SaveRPGStats( IDataTree *pDT, CTreeItem *pRootItem, const cha
 				}
 				
 /*
-				//тут дополнительные проверки на вшивость
+				//С‚СѓС‚ РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹Рµ РїСЂРѕРІРµСЂРєРё РЅР° РІС€РёРІРѕСЃС‚СЊ
 				if ( nNumLocators != 0 && nTrenchIndex != 0 )
 				{
 					CString szErr;
@@ -316,7 +316,7 @@ void CTrenchFrame::SaveRPGStats( IDataTree *pDT, CTreeItem *pRootItem, const cha
 							break;
 					}
 					
-					//значит это окоп с амбразурой, прогрузим fire place
+					//Р·РЅР°С‡РёС‚ СЌС‚Рѕ РѕРєРѕРї СЃ Р°РјР±СЂР°Р·СѓСЂРѕР№, РїСЂРѕРіСЂСѓР·РёРј fire place
 					pReadyObject->SetPosition( CVec3(0, 0, 0) );
 					pReadyObject->SetDirection( 0 );
 					
@@ -363,14 +363,14 @@ void CTrenchFrame::SaveRPGStats( IDataTree *pDT, CTreeItem *pRootItem, const cha
 		}
 	}
 
-	//сортируем
+	//СЃРѕСЂС‚РёСЂСѓРµРј
 	segmentsToSort.sort();
 	int nPrev = -1;
 	for ( std::list<SMySegment>::iterator it=segmentsToSort.begin(); it!=segmentsToSort.end(); ++it )
 	{
 		if ( it->nIndex != nPrev + 1 )
 		{
-			//вставляем пустые структуры
+			//РІСЃС‚Р°РІР»СЏРµРј РїСѓСЃС‚С‹Рµ СЃС‚СЂСѓРєС‚СѓСЂС‹
 			for ( int i=nPrev+1; i<it->nIndex; i++ )
 			{
 				SEntrenchmentRPGStats::SSegmentRPGStats segment;
@@ -428,7 +428,7 @@ void CTrenchFrame::LoadRPGStats( IDataTree *pDT, CTreeItem *pRootItem )
 		pDefProps->SetMaxArmor( rpgStats.defences[nIndex].nArmorMax );
 	}
 
-	//обновляем индексы окопов, если они еще не были проиндексированы
+	//РѕР±РЅРѕРІР»СЏРµРј РёРЅРґРµРєСЃС‹ РѕРєРѕРїРѕРІ, РµСЃР»Рё РѕРЅРё РµС‰Рµ РЅРµ Р±С‹Р»Рё РїСЂРѕРёРЅРґРµРєСЃРёСЂРѕРІР°РЅС‹
 	int nIndex = 0;
 	std::set<int> indexSet;
 	for ( int nTrenchIndex=0; nTrenchIndex<4; nTrenchIndex++ )
@@ -448,15 +448,15 @@ void CTrenchFrame::LoadRPGStats( IDataTree *pDT, CTreeItem *pRootItem )
 	int nPrev = -1;
 	for ( std::set<int>::iterator it=indexSet.begin(); it!=indexSet.end(); ++it )
 	{
-		if ( *it != nPrev + 1 )				//если есть пустые индексы
+		if ( *it != nPrev + 1 )				//РµСЃР»Рё РµСЃС‚СЊ РїСѓСЃС‚С‹Рµ РёРЅРґРµРєСЃС‹
 		{
 			for ( int i=nPrev+1; i!=*it; i++ )
 				freeIndexes.push_back( i );
 		}
 		nPrev = *it;
 	}
-	freeIndexes.push_back( nPrev + 1 );			//это самый последний индекс
-	//теперь freeIndexes должны быть отсортированы по возрастанию
+	freeIndexes.push_back( nPrev + 1 );			//СЌС‚Рѕ СЃР°РјС‹Р№ РїРѕСЃР»РµРґРЅРёР№ РёРЅРґРµРєСЃ
+	//С‚РµРїРµСЂСЊ freeIndexes РґРѕР»Р¶РЅС‹ Р±С‹С‚СЊ РѕС‚СЃРѕСЂС‚РёСЂРѕРІР°РЅС‹ РїРѕ РІРѕР·СЂР°СЃС‚Р°РЅРёСЋ
 }
 
 void CTrenchFrame::RemoveTrenchIndex( int nIndex )
@@ -477,7 +477,7 @@ int CTrenchFrame::GetFreeTrenchIndex()
 	int nRes = -1;
 	if ( freeIndexes.size() == 1 )
 	{
-		//возвращаем самый последний индекс
+		//РІРѕР·РІСЂР°С‰Р°РµРј СЃР°РјС‹Р№ РїРѕСЃР»РµРґРЅРёР№ РёРЅРґРµРєСЃ
 		nRes = freeIndexes.back()++;
 	}
 	else
@@ -493,7 +493,7 @@ bool CTrenchFrame::ExportFrameData( IDataTree *pDT, const char *pszProjectName, 
 {
 	SaveRPGStats( pDT, pRootItem, pszProjectName );
 
-	//Скопируем все .mod файлы в результирующую директорию
+	//РЎРєРѕРїРёСЂСѓРµРј РІСЃРµ .mod С„Р°Р№Р»С‹ РІ СЂРµР·СѓР»СЊС‚РёСЂСѓСЋС‰СѓСЋ РґРёСЂРµРєС‚РѕСЂРёСЋ
 	int nCount = 0;
 	for ( int nTrenchIndex=0; nTrenchIndex<4; nTrenchIndex++ )
 	{
@@ -518,21 +518,21 @@ bool CTrenchFrame::ExportFrameData( IDataTree *pDT, const char *pszProjectName, 
 
 			if ( nCount == 0 )
 			{
-				//скопируем летнюю текстуру
+				//СЃРєРѕРїРёСЂСѓРµРј Р»РµС‚РЅСЋСЋ С‚РµРєСЃС‚СѓСЂСѓ
 				string szTGA = GetDirectory( szFullName.c_str() );
 				szTGA += "1.tga";
 				string szResult = GetDirectory( pszResultFileName );
 				szResult += "1";
 				ConvertAndSaveImage( szTGA.c_str(), szResult.c_str() );
 
-				//скопируем зимнюю текстуру
+				//СЃРєРѕРїРёСЂСѓРµРј Р·РёРјРЅСЋСЋ С‚РµРєСЃС‚СѓСЂСѓ
 				szTGA = GetDirectory( szFullName.c_str() );
 				szTGA += "1w.tga";
 				szResult = GetDirectory( pszResultFileName );
 				szResult += "1w";
 				ConvertAndSaveImage( szTGA.c_str(), szResult.c_str() );
 
-				//скопируем африканскую текстуру
+				//СЃРєРѕРїРёСЂСѓРµРј Р°С„СЂРёРєР°РЅСЃРєСѓСЋ С‚РµРєСЃС‚СѓСЂСѓ
 				szTGA = GetDirectory( szFullName.c_str() );
 				szTGA += "1a.tga";
 				szResult = GetDirectory( pszResultFileName );
@@ -562,9 +562,9 @@ FILETIME CTrenchFrame::FindMaximalSourceTime( const char *pszProjectName, CTreeI
 		{
 			CTrenchSourcePropsItem *pTrenchProps = static_cast<CTrenchSourcePropsItem *> ( it->GetPtr() );
 			
-			//Здесь я вычисляю полное имя .mod файла
+			//Р—РґРµСЃСЊ СЏ РІС‹С‡РёСЃР»СЏСЋ РїРѕР»РЅРѕРµ РёРјСЏ .mod С„Р°Р№Р»Р°
 			string szFullName;
-			//Получим полное имя файла
+			//РџРѕР»СѓС‡РёРј РїРѕР»РЅРѕРµ РёРјСЏ С„Р°Р№Р»Р°
 			string szRel = pTrenchProps->GetFileName();
 			if ( IsRelatedPath( szRel.c_str() ) )
 				MakeFullPath( GetDirectory( pszProjectName ).c_str(), szRel.c_str(), szFullName );
@@ -573,7 +573,7 @@ FILETIME CTrenchFrame::FindMaximalSourceTime( const char *pszProjectName, CTreeI
 			
 			if ( nCount == 0 )
 			{
-				//возьму время изменения .tga файла, считаю что он под именем 1.tga в директории с первым .mod файлом
+				//РІРѕР·СЊРјСѓ РІСЂРµРјСЏ РёР·РјРµРЅРµРЅРёСЏ .tga С„Р°Р№Р»Р°, СЃС‡РёС‚Р°СЋ С‡С‚Рѕ РѕРЅ РїРѕРґ РёРјРµРЅРµРј 1.tga РІ РґРёСЂРµРєС‚РѕСЂРёРё СЃ РїРµСЂРІС‹Рј .mod С„Р°Р№Р»РѕРј
 				string szTGA = GetDirectory( szFullName.c_str() );
 				szTGA += "1.tga";
 				currentTime = GetFileChangeTime( szTGA.c_str() );
@@ -615,7 +615,7 @@ FILETIME CTrenchFrame::FindMinimalExportFileTime( const char *pszResultFileName,
 			if ( nPos != string::npos )
 				szShortName = szShortName.substr( nPos+1 );
 
-			//вычислим имя файла в destination directory
+			//РІС‹С‡РёСЃР»РёРј РёРјСЏ С„Р°Р№Р»Р° РІ destination directory
 			string szFullName = szDestDir;
 			szFullName += szShortName;
 			currentTime = GetFileChangeTime( szFullName.c_str() );

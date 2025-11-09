@@ -136,7 +136,7 @@ void CFieldsEditState::OnKeyDown( UINT nChar, UINT nRepCnt, UINT nFlags, CTempla
 				pFrame->RedrawWindow();
 			}
 		}
-		//не надо
+		//РЅРµ РЅР°РґРѕ
 		//pFrame->RedrawWindow();
 	}
 }
@@ -233,7 +233,7 @@ void CFieldsAddState::OnKeyDown( UINT nChar, UINT nRepCnt, UINT nFlags, CTemplat
 				pFrame->RedrawWindow();
 			}
 		}
-		//не надо
+		//РЅРµ РЅР°РґРѕ
 		//pFrame->RedrawWindow();
 	}
 }
@@ -392,7 +392,7 @@ void CFieldsState::PlaceField( bool bPlace )
 					polygon = cutPolygon;
 				}
 
-				//подчистим все чтобы не было обидно больно
+				//РїРѕРґС‡РёСЃС‚РёРј РІСЃРµ С‡С‚РѕР±С‹ РЅРµ Р±С‹Р»Рѕ РѕР±РёРґРЅРѕ Р±РѕР»СЊРЅРѕ
 				if ( pFrame->dlg ) 
 				{
 					pFrame->dlg->DestroyWindow();
@@ -408,11 +408,11 @@ void CFieldsState::PlaceField( bool bPlace )
 
 				pFrame->m_currentMovingObjectPtrAI = 0;
 				pFrame->m_currentMovingObjectsAI.clear();
-				//подчистили вроде
+				//РїРѕРґС‡РёСЃС‚РёР»Рё РІСЂРѕРґРµ
 				//remove objects
 				if ( pTabTerrainFieldsDialog->resizeDialogOptions.nParameters[1] > 0 )
 				{
-					//пока пропустили
+					//РїРѕРєР° РїСЂРѕРїСѓСЃС‚РёР»Рё
 				}
 
 				SRMFieldSet fieldSet;

@@ -84,7 +84,7 @@ public:
 	}
 	virtual interface ISmoothPath* GetCurPath() const;
 
-	// ну и уродство
+	// РЅСѓ Рё СѓСЂРѕРґСЃС‚РІРѕ
 	virtual const WORD GetID() const { NI_ASSERT_T( false, "WRONG CALL"); return 0; }
 	virtual const float GetRotateSpeed() const { NI_ASSERT_T( false, "WRONG CALL"); return 0; }
 	virtual const float GetMaxSpeedHere( const CVec2 &point, bool bAdjust = true ) const { NI_ASSERT_T( false, "WRONG CALL"); return 0; }
@@ -143,13 +143,13 @@ class CAviation : public CAIUnit, public IAviationUnit
 	
 	CGDBPtr<SMechUnitRPGStats> pStats;
 
-	// орудийные стволы
+	// РѕСЂСѓРґРёР№РЅС‹Рµ СЃС‚РІРѕР»С‹
 	CPtr<CUnitGuns> pGuns;
 
-	// вращающаяся пушка
+	// РІСЂР°С‰Р°СЋС‰Р°СЏСЃСЏ РїСѓС€РєР°
 	std::vector< CObj<CTurret> > turrets;
 
-	// для формации самолетов
+	// РґР»СЏ С„РѕСЂРјР°С†РёРё СЃР°РјРѕР»РµС‚РѕРІ
 	CPtr<CPlanesFormation> pFormation;
 	CVec2 vPlanesShift;										// shift in formation
 
@@ -158,11 +158,11 @@ class CAviation : public CAIUnit, public IAviationUnit
 	CVec3 vNormal, vFormerNormal;
 	float fFormerCurvatureSign;
 
-	float fTiltAnge;											//угол наклона при повороте
-	NTimer::STime timeLastTilt;						// пследний расчет угла наклона
+	float fTiltAnge;											//СѓРіРѕР» РЅР°РєР»РѕРЅР° РїСЂРё РїРѕРІРѕСЂРѕС‚Рµ
+	NTimer::STime timeLastTilt;						// РїСЃР»РµРґРЅРёР№ СЂР°СЃС‡РµС‚ СѓРіР»Р° РЅР°РєР»РѕРЅР°
 
-	CVec2 vSpeedHorVer;										//разложение скорости на горизонтальную и вертикальную составляющие
-	CVec2 vFormerHorVerSpeed;							//для пикирующих бомберов
+	CVec2 vSpeedHorVer;										//СЂР°Р·Р»РѕР¶РµРЅРёРµ СЃРєРѕСЂРѕСЃС‚Рё РЅР° РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅСѓСЋ Рё РІРµСЂС‚РёРєР°Р»СЊРЅСѓСЋ СЃРѕСЃС‚Р°РІР»СЏСЋС‰РёРµ
+	CVec2 vFormerHorVerSpeed;							//РґР»СЏ РїРёРєРёСЂСѓСЋС‰РёС… Р±РѕРјР±РµСЂРѕРІ
 	CVec2 vFormerDir;
 	
 	int /*SUCAviation::AIRCRAFT_TYPE*/ eAviationType;
@@ -177,7 +177,7 @@ public:
 	virtual void Init( const CVec2 &center, const int z, const SUnitBaseRPGStats *pStats, const float fHP, const WORD dir, const BYTE player, const WORD id, EObjVisType eVisType, const int dbID );
 
 	// IAviationUnit implementation
-	// для вертикальной скорости
+	// РґР»СЏ РІРµСЂС‚РёРєР°Р»СЊРЅРѕР№ СЃРєРѕСЂРѕСЃС‚Рё
 	virtual const CVec3 &GetNewPoint() const { NI_ASSERT_T(false, "wrong call"); return lastPos; }
 	virtual const CVec2 &GetSpeedHorVer() const { return vSpeedHorVer; }
 	void SetSpeedHorVer( const class CVec2 &_vSpeedHorVer){vSpeedHorVer=_vSpeedHorVer;}
@@ -197,7 +197,7 @@ public:
 	virtual class CTurret* GetTurret( const int nTurret ) const { return turrets[nTurret]; }
 	virtual const int GetNTurrets() const { return turrets.size(); }
 	
-	// для стрельбы
+	// РґР»СЏ СЃС‚СЂРµР»СЊР±С‹
 	virtual void GetShotInfo( struct SAINotifyMechShot *pShotInfo ) const { pShotInfo->typeID = GetShootAction(); pShotInfo->pObj = const_cast<CAviation*>(this); }
 	virtual const EActionNotify GetShootAction() const { return ACTION_NOTIFY_MECH_SHOOT; }
 	virtual const EActionNotify GetAimAction() const { return ACTION_NOTIFY_AIM; }
@@ -218,7 +218,7 @@ public:
 	
 	virtual NTimer::STime GetDisappearInterval() const { return 0; }
 
-	// для получения нормали у истребителей.
+	// РґР»СЏ РїРѕР»СѓС‡РµРЅРёСЏ РЅРѕСЂРјР°Р»Рё Сѓ РёСЃС‚СЂРµР±РёС‚РµР»РµР№.
 	virtual float GetTerrainHeight( const float x, const float y, const NTimer::STime timeDiff ) const { return 0; }
 
 	virtual void GetPlacement( struct SAINotifyPlacement *pPlacement, const NTimer::STime timeDiff );
@@ -234,11 +234,11 @@ public:
 	virtual void StopUnit() { }
 	virtual void Disappear();
 	
-	// залокать unit ( если уже был залокана, то старый lock исчезает )
+	// Р·Р°Р»РѕРєР°С‚СЊ unit ( РµСЃР»Рё СѓР¶Рµ Р±С‹Р» Р·Р°Р»РѕРєР°РЅР°, С‚Рѕ СЃС‚Р°СЂС‹Р№ lock РёСЃС‡РµР·Р°РµС‚ )
 	virtual void Lock( const CBasicGun *pGun ) { }
-	// unlock unit ( если залокан другим gun-ом, то ничего не делается )
+	// unlock unit ( РµСЃР»Рё Р·Р°Р»РѕРєР°РЅ РґСЂСѓРіРёРј gun-РѕРј, С‚Рѕ РЅРёС‡РµРіРѕ РЅРµ РґРµР»Р°РµС‚СЃСЏ )
 	virtual void Unlock( const CBasicGun *pGun ) { }
-	// залокан ли каким-либо gun-ом, не равным pGun
+	// Р·Р°Р»РѕРєР°РЅ Р»Рё РєР°РєРёРј-Р»РёР±Рѕ gun-РѕРј, РЅРµ СЂР°РІРЅС‹Рј pGun
 	virtual bool IsLocked( const CBasicGun *pGun ) const { return true; }
 	
 	// plane's formation, to force planes keep parade during flight.

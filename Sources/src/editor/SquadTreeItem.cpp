@@ -64,7 +64,7 @@ void CSquadCommonPropsItem::InitDefaultValues()
 	prop.szDefaultName = "Squad picture";
 	prop.szDisplayName = "Squad picture";
 	prop.value = "icon.tga";
-	prop.szStrings.push_back( "" );			//надо будет скопировать картинку при export проекта
+	prop.szStrings.push_back( "" );			//РЅР°РґРѕ Р±СѓРґРµС‚ СЃРєРѕРїРёСЂРѕРІР°С‚СЊ РєР°СЂС‚РёРЅРєСѓ РїСЂРё export РїСЂРѕРµРєС‚Р°
 	prop.szStrings.push_back( szTGAFilter );
 	defaultValues.push_back( prop );
 	prop.szStrings.clear();
@@ -133,7 +133,7 @@ void CSquadMembersItem::MyKeyDown( int nChar )
 			AddChild( pItem );
 			g_frameManager.GetFrame( CFrameManager::E_SQUAD_FRAME )->SetChangedFlag( true );
 
-			//прохожу по всем формациям и для них добавляю нового юнита
+			//РїСЂРѕС…РѕР¶Сѓ РїРѕ РІСЃРµРј С„РѕСЂРјР°С†РёВ¤Рј Рё РґР»В¤ РЅРёС… РґРѕР±Р°РІР»В¤СЋ РЅРѕРІРѕРіРѕ СЋРЅРёС‚Р°
 			CTreeItem *pFormations = GetSiblingItem( E_SQUAD_FORMATIONS_ITEM );
 			NI_ASSERT( pFormations != 0 );
 			for ( CTreeItemList::const_iterator it=pFormations->GetBegin(); it!=pFormations->GetEnd(); ++it )
@@ -155,7 +155,7 @@ void CSquadMembersItem::MyRButtonClick()
 		AddChild( pItem );
 		g_frameManager.GetFrame( CFrameManager::E_SQUAD_FRAME )->SetChangedFlag( true );
 
-		//прохожу по всем формациям и для них добавляю нового юнита
+		//РїСЂРѕС…РѕР¶Сѓ РїРѕ РІСЃРµРј С„РѕСЂРјР°С†РёВ¤Рј Рё РґР»В¤ РЅРёС… РґРѕР±Р°РІР»В¤СЋ РЅРѕРІРѕРіРѕ СЋРЅРёС‚Р°
 		CTreeItem *pFormations = GetSiblingItem( E_SQUAD_FORMATIONS_ITEM );
 		NI_ASSERT( pFormations != 0 );
 		for ( CTreeItemList::const_iterator it=pFormations->GetBegin(); it!=pFormations->GetEnd(); ++it )
@@ -187,7 +187,7 @@ void CSquadMemberPropsItem::UpdateItemValue( int nItemId, const CVariant &value 
 
 	if ( nItemId == 1 )
 	{
-		//Обновим имя у этого Tree Item
+		//СњР±РЅРѕРІРёРј РёРјВ¤ Сѓ СЌС‚РѕРіРѕ Tree Item
 		ChangeItemName( value );
 		CSquadFrame *pFrame = static_cast<CSquadFrame *> ( g_frameManager.GetFrame( CFrameManager::E_SQUAD_FRAME ) );
 		pFrame->UpdateActiveFormation();
@@ -199,7 +199,7 @@ void CSquadMemberPropsItem::MyKeyDown( int nChar )
 	switch ( nChar )
 	{
 		case VK_DELETE:
-			//прохожу по всем формациям и для них убиваю этого юнита
+			//РїСЂРѕС…РѕР¶Сѓ РїРѕ РІСЃРµРј С„РѕСЂРјР°С†РёВ¤Рј Рё РґР»В¤ РЅРёС… СѓР±РёРІР°СЋ СЌС‚РѕРіРѕ СЋРЅРёС‚Р°
 			CTreeItem *pParent = GetParentTreeItem();
 			CTreeItem *pFormations = pParent->GetSiblingItem( E_SQUAD_FORMATIONS_ITEM );
 			NI_ASSERT( pFormations != 0 );
@@ -222,7 +222,7 @@ void CSquadMemberPropsItem::MyRButtonClick()
 	int nRes = g_frameManager.GetFrame( CFrameManager::E_SQUAD_FRAME )->DisplayDeleteMenu();
 	if ( nRes == ID_MENU_DELETE_TREE_ITEM )
 	{
-		//прохожу по всем формациям и для них убиваю этого юнита
+		//РїСЂРѕС…РѕР¶Сѓ РїРѕ РІСЃРµРј С„РѕСЂРјР°С†РёВ¤Рј Рё РґР»В¤ РЅРёС… СѓР±РёРІР°СЋ СЌС‚РѕРіРѕ СЋРЅРёС‚Р°
 		CTreeItem *pParent = GetParentTreeItem();
 		CTreeItem *pFormations = pParent->GetSiblingItem( E_SQUAD_FORMATIONS_ITEM );
 		NI_ASSERT( pFormations != 0 );
@@ -239,7 +239,7 @@ void CSquadMemberPropsItem::MyRButtonClick()
 
 void CSquadMemberPropsItem::MyLButtonClick()
 {
-	//выделим спрайт, относящийся к данному юниту в сцене
+	//РІС‹РґРµР»РёРј СЃРїСЂР°Р№С‚, РѕС‚РЅРѕСЃВ¤С‰РёР№СЃВ¤ Рє РґР°РЅРЅРѕРјСѓ СЋРЅРёС‚Сѓ РІ СЃС†РµРЅРµ
 	CSquadFrame *pFrame = static_cast<CSquadFrame *> ( g_frameManager.GetFrame( CFrameManager::E_SQUAD_FRAME ) );
 	pFrame->SelectActiveUnit( this );
 }
@@ -260,7 +260,7 @@ void CSquadFormationsItem::MyKeyDown( int nChar )
 			AddChild( pItem );
 			g_frameManager.GetFrame( CFrameManager::E_SQUAD_FRAME )->SetChangedFlag( true );
 			
-			//прохожу по всем созданным members и добавляю их в новую формацию
+			//РїСЂРѕС…РѕР¶Сѓ РїРѕ РІСЃРµРј СЃРѕР·РґР°РЅРЅС‹Рј members Рё РґРѕР±Р°РІР»В¤СЋ РёС… РІ РЅРѕРІСѓСЋ С„РѕСЂРјР°С†РёСЋ
 			CTreeItem *pMembers = GetSiblingItem( E_SQUAD_MEMBERS_ITEM );
 			NI_ASSERT( pMembers != 0 );
 
@@ -283,7 +283,7 @@ void CSquadFormationsItem::MyRButtonClick()
 		AddChild( pItem );
 		g_frameManager.GetFrame( CFrameManager::E_SQUAD_FRAME )->SetChangedFlag( true );
 		
-		//прохожу по всем созданным members и добавляю их в новую формацию
+		//РїСЂРѕС…РѕР¶Сѓ РїРѕ РІСЃРµРј СЃРѕР·РґР°РЅРЅС‹Рј members Рё РґРѕР±Р°РІР»В¤СЋ РёС… РІ РЅРѕРІСѓСЋ С„РѕСЂРјР°С†РёСЋ
 		CTreeItem *pMembers = GetSiblingItem( E_SQUAD_MEMBERS_ITEM );
 		NI_ASSERT( pMembers != 0 );
 
@@ -411,7 +411,7 @@ void CSquadFormationPropsItem::UpdateItemValue( int nItemId, const CVariant &val
 	
 	if ( nItemId == 1 )
 	{
-		//Обновим направление формации в редакторе
+		//СњР±РЅРѕРІРёРј РЅР°РїСЂР°РІР»РµРЅРёРµ С„РѕСЂРјР°С†РёРё РІ СЂРµРґР°РєС‚РѕСЂРµ
 		CSquadFrame *pFrame = static_cast<CSquadFrame *> ( g_frameManager.GetFrame( CFrameManager::E_SQUAD_FRAME ) );
 		pFrame->SetChangedFlag( true );
 		pFrame->UpdateActiveFormation();
@@ -448,7 +448,7 @@ void CSquadFormationPropsItem::AddUnit( CTreeItem *pUnit )
 	SUnit newUnit;
 	newUnit.pMemberProps = pUnit;
 	
-	//подсчитаем позицию для нового юнита так, чтобы никакой старый на него не налезал
+	//РїРѕРґСЃС‡РёС‚Р°РµРј РїРѕР·РёС†РёСЋ РґР»В¤ РЅРѕРІРѕРіРѕ СЋРЅРёС‚Р° С‚Р°Рє, С‡С‚РѕР±С‹ РЅРёРєР°РєРѕР№ СЃС‚Р°СЂС‹Р№ РЅР° РЅРµРіРѕ РЅРµ РЅР°Р»РµР·Р°Р»
 	int nx, ny;
 	nx = units.size() % 8;
 	ny = units.size() / 8;
@@ -459,7 +459,7 @@ void CSquadFormationPropsItem::AddUnit( CTreeItem *pUnit )
 	newUnit.fDir = 0;
 	
 /*
-	//скомпонуем спрайт
+	//СЃРєРѕРјРїРѕРЅСѓРµРј СЃРїСЂР°Р№С‚
 	IVisObjBuilder *pVOB = GetSingleton<IVisObjBuilder>();
 	IScene *pSG = GetSingleton<IScene>();
 	string szName = "units\\humans\\";
@@ -481,7 +481,7 @@ void CSquadFormationPropsItem::AddUnit( CTreeItem *pUnit )
 
 void CSquadFormationPropsItem::DeleteUnit( CTreeItem *pUnit )
 {
-	//Удаляю юнит из сцены
+	//вЂќРґР°Р»В¤СЋ СЋРЅРёС‚ РёР· СЃС†РµРЅС‹
 	CSquadFrame *pFrame = static_cast<CSquadFrame *> ( g_frameManager.GetFrame( CFrameManager::E_SQUAD_FRAME ) );
 	pFrame->DeleteUnitFromScene( pUnit, this );
 

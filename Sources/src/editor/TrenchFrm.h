@@ -36,15 +36,15 @@ protected:
 
 // Implementation
 private:
-	std::list<int> freeIndexes;			//для хранения незаполненных индексов
+	std::list<int> freeIndexes;			//РґР»В¤ С…СЂР°РЅРµРЅРёВ¤ РЅРµР·Р°РїРѕР»РЅРµРЅРЅС‹С… РёРЅРґРµРєСЃРѕРІ
 
 protected:
-	virtual void SpecificInit();														//для инициализации внутренних данных после загрузки проекта или создании нового
+	virtual void SpecificInit();														//РґР»В¤ РёРЅРёС†РёР°Р»РёР·Р°С†РёРё РІРЅСѓС‚СЂРµРЅРЅРёС… РґР°РЅРЅС‹С… РїРѕСЃР»Рµ Р·Р°РіСЂСѓР·РєРё РїСЂРѕРµРєС‚Р° РёР»Рё СЃРѕР·РґР°РЅРёРё РЅРѕРІРѕРіРѕ
 	virtual void SpecificClearBeforeBatchMode();
 	void SaveRPGStats( IDataTree *pDT, CTreeItem *pRootItem, const char *pszProjectName );
 	void LoadRPGStats( IDataTree *pDT, CTreeItem *pRootItem );
 	
-	//экспортирует один проект, если все ОК, возвращает 0, иначе код ошибки
+	//СЌРєСЃРїРѕСЂС‚РёСЂСѓРµС‚ РѕРґРёРЅ РїСЂРѕРµРєС‚, РµСЃР»Рё РІСЃРµ СњВ , РІРѕР·РІСЂР°С‰Р°РµС‚ 0, РёРЅР°С‡Рµ РєРѕРґ РѕС€РёР±РєРё
 	virtual bool ExportFrameData( IDataTree *pDT, const char *pszProjectName, const char *pszResultFileName, CTreeItem *pRootItem );
 	
 	virtual FILETIME FindMaximalSourceTime( const char *pszProjectName, CTreeItem *pRootItem );

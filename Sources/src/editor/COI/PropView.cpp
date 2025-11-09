@@ -116,7 +116,7 @@ void CPropView::UpdatePropList()
 /////////////////////////////////////////////////////////////////////////////////////
 void CPropView::SetPropMap( const CPropMap *_pPropMap )
 { 
-	// если изменим pPropMap до ClearAll, то можем потерять последнее измененное значение
+	// РµСЃР»Рё РёР·РјРµРЅРёРј pPropMap РґРѕ ClearAll, С‚Рѕ РјРѕР¶РµРј РїРѕС‚РµСЂСЏС‚СЊ РїРѕСЃР»РµРґРЅРµРµ РёР·РјРµРЅРµРЅРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ
 	m_OIDlg.m_wndOI.ClearAll();
 	//
   pPropMap = _pPropMap;

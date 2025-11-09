@@ -321,8 +321,8 @@ void CDirectoryPropsItem::UpdateItemValue( int nItemId, const CVariant &value )
 
 	if ( nItemId == 1 )
 	{
-		//Изменилось значение директории, загружаем все картинки из этой диры в AllThumbList
-		//Проверяем, что этот TreeItem выделен в дереве, иначе делаю его выделенным
+		//РР·РјРµРЅРёР»РѕСЃСЊ Р·РЅР°С‡РµРЅРёРµ РґРёСЂРµРєС‚РѕСЂРёРё, Р·Р°РіСЂСѓР¶Р°РµРј РІСЃРµ РєР°СЂС‚РёРЅРєРё РёР· СЌС‚РѕР№ РґРёСЂС‹ РІ AllThumbList
+		//РџСЂРѕРІРµСЂСЏРµРј, С‡С‚Рѕ СЌС‚РѕС‚ TreeItem РІС‹РґРµР»РµРЅ РІ РґРµСЂРµРІРµ, РёРЅР°С‡Рµ РґРµР»Р°СЋ РµРіРѕ РІС‹РґРµР»РµРЅРЅС‹Рј
 		HTREEITEM hSelected = pTreeCtrl->GetSelectedItem();
 		if ( hSelected != hItem )
 		{
@@ -333,7 +333,7 @@ void CDirectoryPropsItem::UpdateItemValue( int nItemId, const CVariant &value )
 
 		if ( !IsRelatedPath( value ) )
 		{
-			//Тут вычисляется относительный путь, относительно файла с проектом
+			//РўСѓС‚ РІС‹С‡РёСЃР»СЏРµС‚СЃСЏ РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅС‹Р№ РїСѓС‚СЊ, РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕ С„Р°Р№Р»Р° СЃ РїСЂРѕРµРєС‚РѕРј
 			string szProjectName = g_frameManager.GetFrame( CFrameManager::E_ANIMATION_FRAME )->GetProjectFileName();
 			string szValue = value;
 			string szRelatedPath;
@@ -654,13 +654,13 @@ int CUnitAnimationPropsItem::GetAnimationType()
 bool CAnimationTreeRootItem::ComposeAnimations( const char *pszProjectFileName, const char *pszResultingDir, bool bSetCycledFlag, bool bShowUserMessages )
 {
 	if ( GetChildsCount() == 0 )
-		return false;			//пусто
+		return false;			//РїСѓСЃС‚Рѕ
 	
 	CParentFrame *pFrame = g_frameManager.GetFrame( CFrameManager::E_ANIMATION_FRAME );
 	CDirectoriesItem *pDirsItem = static_cast<CDirectoriesItem *> ( GetChildItem( E_UNIT_DIRECTORIES_ITEM ) );
 	CUnitAnimationsItem *pAnimsItem = static_cast<CUnitAnimationsItem *> ( GetChildItem( E_UNIT_ANIMATIONS_ITEM ) );
 
-	//узнаем, есть директория blood в директории проекта, или нет
+	//СѓР·РЅР°РµРј, РµСЃС‚СЊ РґРёСЂРµРєС‚РѕСЂРёСЏ blood РІ РґРёСЂРµРєС‚РѕСЂРёРё РїСЂРѕРµРєС‚Р°, РёР»Рё РЅРµС‚
 	bool bBloodDirExist = false;
 	{
 		std::string szBloodDir = GetDirectory( pszProjectFileName );
@@ -708,7 +708,7 @@ bool CAnimationTreeRootItem::ComposeAnimations( const char *pszProjectFileName, 
 				animDesc.ptFrameShift = CVec2( 0, 0 );
 				animDesc.szName = pAnimProps->GetItemName();
 
-				//Заполняем вектор directions
+				//Р—Р°РїРѕР»РЅСЏРµРј РІРµРєС‚РѕСЂ directions
 				fileNameVector.resize( nLastSprite );
 				animDesc.dirs.resize( nDirsCount );
 				animDesc.frames.resize( nDirsCount * pAnimProps->GetChildsCount() );
@@ -735,7 +735,7 @@ bool CAnimationTreeRootItem::ComposeAnimations( const char *pszProjectFileName, 
 					int k = 0;
 					if ( !bCommonSizeComputed && (*animIt)->GetChildsCount() > 0 )
 					{
-						//рассчитаем размер картинки
+						//СЂР°СЃСЃС‡РёС‚Р°РµРј СЂР°Р·РјРµСЂ РєР°СЂС‚РёРЅРєРё
 						CUnitFramePropsItem *pProps = static_cast<CUnitFramePropsItem *> ( (*animIt)->GetBegin()->GetPtr() );
 						string szTempFileName = szDirName + pProps->GetItemName() + ".tga";
 						if ( _access( szTempFileName.c_str(), 04 ) == 0 )
@@ -759,7 +759,7 @@ bool CAnimationTreeRootItem::ComposeAnimations( const char *pszProjectFileName, 
 						std::string szName = (*animIt)->GetItemName();
 						if ( bBloodDirExist && nBlood == 1 && ( szName == "Death" || szName == "Death down" ) )
 						{
-							//добавим директорию blood к имени
+							//РґРѕР±Р°РІРёРј РґРёСЂРµРєС‚РѕСЂРёСЋ blood Рє РёРјРµРЅРё
 							std::string szShortDirName;
 							if ( nDirsCount == 4 )
 								szShortDirName = pSeasonProps->GetDirName( i*2 );
@@ -807,7 +807,7 @@ bool CAnimationTreeRootItem::ComposeAnimations( const char *pszProjectFileName, 
 				AfxMessageBox( szErrorStr );
 			}
 
-			//если вообще ничего нету, то выходим
+			//РµСЃР»Рё РІРѕРѕР±С‰Рµ РЅРёС‡РµРіРѕ РЅРµС‚Сѓ, С‚Рѕ РІС‹С…РѕРґРёРј
 			if ( nCurrentFrame == 0 )
 			{
 				if ( bShowUserMessages )
@@ -848,7 +848,7 @@ bool CAnimationTreeRootItem::ComposeAnimations( const char *pszProjectFileName, 
 					NI_ASSERT_T( 0, "The number of seasons is above 3" );
 				szSaveSan += ".san";
 
-				//сохраняем .SAN
+				//СЃРѕС…СЂР°РЅСЏРµРј .SAN
 				CPtr<IDataStorage> pSaveStorage = CreateStorage( pszResultingDir, STREAM_ACCESS_WRITE, STORAGE_TYPE_FILE );
 				CPtr<IDataStream> pSaveSAFStream = pSaveStorage->CreateStream( szSaveSan.c_str(), STREAM_ACCESS_WRITE );
 				if ( !pSaveSAFStream )
@@ -857,7 +857,7 @@ bool CAnimationTreeRootItem::ComposeAnimations( const char *pszProjectFileName, 
 				CSaverAccessor saver = pSS;
 				saver.Add( 1, &spriteAnimFmt );
 
-				//сохраняем текстуру
+				//СЃРѕС…СЂР°РЅСЏРµРј С‚РµРєСЃС‚СѓСЂСѓ
 				SaveCompressedTexture( pImage, szSaveImage.c_str() );
 			}
 
@@ -874,7 +874,7 @@ FILETIME CAnimationTreeRootItem::FindMaximalSourceTime( const char *pszProjectFi
 	zero.dwHighDateTime = 0;
 	zero.dwLowDateTime = 0;
 	if ( GetChildsCount() == 0 )
-		return zero;			//пусто
+		return zero;			//РїСѓСЃС‚Рѕ
 	
 	CVectorOfStrings fileNameVector;
 	CDirectoriesItem *pDirsItem = static_cast<CDirectoriesItem *> ( GetChildItem( E_UNIT_DIRECTORIES_ITEM ) );
@@ -893,9 +893,9 @@ FILETIME CAnimationTreeRootItem::FindMaximalSourceTime( const char *pszProjectFi
 			if ( pAnimProps->GetChildsCount() == 0 )
 				continue;
 
-			//Здесь надо будет сделать дополнительное прохождение по сезонам...
+			//Р—РґРµСЃСЊ РЅР°РґРѕ Р±СѓРґРµС‚ СЃРґРµР»Р°С‚СЊ РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅРѕРµ РїСЂРѕС…РѕР¶РґРµРЅРёРµ РїРѕ СЃРµР·РѕРЅР°Рј...
 
-			//Заполняем вектор directions
+			//Р—Р°РїРѕР»РЅСЏРµРј РІРµРєС‚РѕСЂ directions
 			for ( int i=0; i<nDirsCount; i++ )
 			{
 				string szDirName;
@@ -922,11 +922,11 @@ FILETIME CAnimationTreeRootItem::FindMaximalSourceTime( const char *pszProjectFi
 		}
 	}
 
-	//если вообще ничего нету, то выходим
+	//РµСЃР»Рё РІРѕРѕР±С‰Рµ РЅРёС‡РµРіРѕ РЅРµС‚Сѓ, С‚Рѕ РІС‹С…РѕРґРёРј
 	if ( fileNameVector.empty() )
 		return zero;
 
-	//Проходим по всем файлам и находим максимальное время изменения
+	//РџСЂРѕС…РѕРґРёРј РїРѕ РІСЃРµРј С„Р°Р№Р»Р°Рј Рё РЅР°С…РѕРґРёРј РјР°РєСЃРёРјР°Р»СЊРЅРѕРµ РІСЂРµРјСЏ РёР·РјРµРЅРµРЅРёСЏ
 	FILETIME nMaxTime;
 	nMaxTime.dwHighDateTime = 0;
 	nMaxTime.dwLowDateTime = 0;
@@ -1012,7 +1012,7 @@ bool CUnitAnimationPropsItem::CopyItemTo( CTreeItem *pToItem )
 	if ( !CTreeItem::CopyItemTo( pTo ) )
 		return false;
 
-	//Теперь копируем список CUnitFramePropsItem
+	//РўРµРїРµСЂСЊ РєРѕРїРёСЂСѓРµРј СЃРїРёСЃРѕРє CUnitFramePropsItem
 	pTo->RemoveAllChilds();
 	for ( CTreeItemList::iterator it=treeItemList.begin(); it!=treeItemList.end(); ++it )
 	{
@@ -1110,7 +1110,7 @@ int CUnitAnimationPropsItem::operator&( interface IStructureSaver &ss )
 	return 0;
 /*
 	CSaverAccessor saver = pSS;
-	//Сохраняем имена внутри m_selectedItems
+	//РЎРѕС…СЂР°РЅСЏРµРј РёРјРµРЅР° РІРЅСѓС‚СЂРё m_selectedItems
 	saver.AddContainer( 10, &m_selectedItems.thumbDataList );
 */
 }
@@ -1135,7 +1135,7 @@ void CUnitFramePropsItem::InitDefaultValues()
 
 void CUnitFramePropsItem::MyLButtonClick()
 {
-	//В ThumbList отображаю Animations соответствующие этой папке
+	//Р’ ThumbList РѕС‚РѕР±СЂР°Р¶Р°СЋ Animations СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РёРµ СЌС‚РѕР№ РїР°РїРєРµ
 	CTreeItem *pPapa = GetParentTreeItem();
 	NI_ASSERT( pPapa->GetItemType() == E_UNIT_ANIMATION_PROPS_ITEM );
 
@@ -1143,7 +1143,7 @@ void CUnitFramePropsItem::MyLButtonClick()
 	CAnimationFrame *pFrame = static_cast<CAnimationFrame *> ( g_frameManager.GetFrame( CFrameManager::E_ANIMATION_FRAME ) );
 	pFrame->SetActiveAnimItem( pAnimProps );
 
-	//В накиданных ThumbList items выделяю item соответствующий this
+	//Р’ РЅР°РєРёРґР°РЅРЅС‹С… ThumbList items РІС‹РґРµР»СЏСЋ item СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РёР№ this
 	pFrame->SelectItemInSelectedThumbList( (long) this );
 }
 
@@ -1153,7 +1153,7 @@ void CUnitFramePropsItem::MyKeyDown( int nChar )
 	{
 		case VK_DELETE:
 		/*
-		//Смотрим какой frame будет следующим выделенным в дереве и выделяем его в SelectedThumbList
+		//РЎРјРѕС‚СЂРёРј РєР°РєРѕР№ frame Р±СѓРґРµС‚ СЃР»РµРґСѓСЋС‰РёРј РІС‹РґРµР»РµРЅРЅС‹Рј РІ РґРµСЂРµРІРµ Рё РІС‹РґРµР»СЏРµРј РµРіРѕ РІ SelectedThumbList
 		HTREEITEM hNextSibling = pTreeCtrl->GetNextItem( hItem, TVGN_NEXT );
 		if ( hNextSibling )
 		{
@@ -1163,7 +1163,7 @@ void CUnitFramePropsItem::MyKeyDown( int nChar )
 				}
 			*/
 			
-			//Убиваем этот frame
+			//РЈР±РёРІР°РµРј СЌС‚РѕС‚ frame
 			CAnimationFrame *pFrame = static_cast<CAnimationFrame *> ( g_frameManager.GetFrame( CFrameManager::E_ANIMATION_FRAME ) );
 			pFrame->DeleteFrameInSelectedList( (DWORD) this );
 			DeleteMeInParentTreeItem();

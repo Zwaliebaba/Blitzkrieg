@@ -292,13 +292,13 @@ void CTabVOVSODialog::CreateVSOList( const std::string &rVSOFolder )
 
 						for ( std::vector<std::string>::const_iterator fileIterator = vsoNames.begin(); fileIterator != vsoNames.end(); ++fileIterator )
 						{
-							//грузим картинку
+							//РіСЂСѓР·РёРј РєР°СЂС‚РёРЅРєСѓ
 							const std::string szImageFileName = ( *fileIterator ).substr( 0, ( *fileIterator ).rfind( '.' ) );
 							{
 								CPtr<IImage> pImage = LoadImageFromDDSImageResource( szImageFileName );
 								if ( !pImage )
 								{
-									//Загрузка паттерна VSO
+									//Р—Р°РіСЂСѓР·РєР° РїР°С‚С‚РµСЂРЅР° VSO
 									SVectorStripeObjectDesc vsoDesc;
 									if ( LoadDataResource( szImageFileName, "", false, 0, "VSODescription", vsoDesc ) )
 									{

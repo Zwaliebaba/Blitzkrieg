@@ -368,11 +368,11 @@ interface IScenarioTracker : public IRefCount
 	virtual const std::string& STDCALL GetTemplateName( const int nIndex ) const = 0;
 	//
 
-	//удаляет все рандомные бонуса
+	//СѓРґР°Р»СЏРµС‚ РІСЃРµ СЂР°РЅРґРѕРјРЅС‹Рµ Р±РѕРЅСѓСЃР°
 	virtual void STDCALL ClearRandomBonuses( int nDifficulty ) = 0;
-	//добавляет рандомный бонус
+	//РґРѕР±Р°РІР»СЏРµС‚ СЂР°РЅРґРѕРјРЅС‹Р№ Р±РѕРЅСѓСЃ
 	virtual bool STDCALL AddRandomBonus( int nDifficulty, const std::string &rszRandomBonus ) = 0;
-	//возвращает рандомный бонус, удаляя его из списка
+	//РІРѕР·РІСЂР°С‰Р°РµС‚ СЂР°РЅРґРѕРјРЅС‹Р№ Р±РѕРЅСѓСЃ, СѓРґР°Р»СЏСЏ РµРіРѕ РёР· СЃРїРёСЃРєР°
 	virtual std::string STDCALL GetRandomBonus( int nDifficulty ) = 0;
 
 	virtual IScenarioTracker* STDCALL Duplicate() const = 0;

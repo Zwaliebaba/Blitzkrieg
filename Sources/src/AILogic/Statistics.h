@@ -18,19 +18,19 @@ public:
 
 	// player captured oter player's unit
 	void UnitCaptured( const int nPlayer );
-	// игрок nPlayer уничтожил юниты игрока nKilledUnitsPlayer, nUnits - количество убитых, fTotalAIPrice - их price
+	// РёРіСЂРѕРє nPlayer СѓРЅРёС‡С‚РѕР¶РёР» СЋРЅРёС‚С‹ РёРіСЂРѕРєР° nKilledUnitsPlayer, nUnits - РєРѕР»РёС‡РµСЃС‚РІРѕ СѓР±РёС‚С‹С…, fTotalAIPrice - РёС… price
 	void UnitKilled( const int nPlayer, const int nKilledUnitsPlayer, const int nUnits, const float fTotalAIPrice );
-	// unit умер
+	// unit СѓРјРµСЂ
 	void UnitDead( class CCommonUnit *pUnit );
-	// игрок nPlayer уничтожил house
+	// РёРіСЂРѕРє nPlayer СѓРЅРёС‡С‚РѕР¶РёР» house
 	void ObjectDestroyed( const int nPlayer );
-	// игрок nPlayer вызвал авиацию
+	// РёРіСЂРѕРє nPlayer РІС‹Р·РІР°Р» Р°РІРёР°С†РёСЋ
 	void AviationCalled( const int nPlayer );
-	// игрок nPlayer использовал reinforcement
+	// РёРіСЂРѕРє nPlayer РёСЃРїРѕР»СЊР·РѕРІР°Р» reinforcement
 	void ReinforcementUsed( const int nPlayer );
-	// игрок nPlayer использовал ресурсы
+	// РёРіСЂРѕРє nPlayer РёСЃРїРѕР»СЊР·РѕРІР°Р» СЂРµСЃСѓСЂСЃС‹
 	void ResourceUsed( const int nPlayer, const float fResources );
-	// unit получил level
+	// unit РїРѕР»СѓС‡РёР» level
 	void UnitLeveledUp( class CCommonUnit *pUnit );
 	//player's experience
 	void IncreasePlayerExperience( const int nPlayer, const float fPrice ) ;

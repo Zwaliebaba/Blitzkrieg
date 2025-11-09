@@ -87,13 +87,13 @@ void CInterfaceUpgradeUnit::DefaultUpgrades()
 	const int nUpgradeClass = pUpgradeStats->GetRPGClass();
 	
 	int nBarIndex = 0;
-	//найдем юнит в данном RPG class, для которого данный upgrade лучше всего подойдет
+	//РЅР°Р№РґРµРј СЋРЅРёС‚ РІ РґР°РЅРЅРѕРј RPG class, РґР»В¤ РєРѕС‚РѕСЂРѕРіРѕ РґР°РЅРЅС‹Р№ upgrade Р»СѓС‡С€Рµ РІСЃРµРіРѕ РїРѕРґРѕР№РґРµС‚
 	int nUpgradeUnitIndex = -1;
 	float fMaxDelta = -100000;
 	int nUnitIndex = 0;
 
 	//Add bar
-	IUIElement *pBar = pSB->AddBar();		//bar невидимый
+	IUIElement *pBar = pSB->AddBar();		//bar РЅРµРІРёРґРёРјС‹Р№
 	std::string szKey = NStr::Format( "textes\\RPGClasses\\class%d", nUpgradeClass );
 	CPtr<IText> pText = pTextM->GetDialog( szKey.c_str() );
 	NI_ASSERT_T( pText != 0, NStr::Format( "Can not get text by key: %s", szKey.c_str() ) );
@@ -110,13 +110,13 @@ void CInterfaceUpgradeUnit::DefaultUpgrades()
 
 		if ( pOurUnitStats->GetRPGClass() == nUpgradeClass )
 		{
-			//это юнит такого же класса, как текущий upgrade и не убитый
+			//СЌС‚Рѕ СЋРЅРёС‚ С‚Р°РєРѕРіРѕ Р¶Рµ РєР»Р°СЃСЃР°, РєР°Рє С‚РµРєСѓС‰РёР№ upgrade Рё РЅРµ СѓР±РёС‚С‹Р№
 			if ( pUpgradeStats->fPrice - pOurUnitStats->fPrice > fMaxDelta )
 			{
 				fMaxDelta = pUpgradeStats->fPrice - pOurUnitStats->fPrice;
 				nUpgradeUnitIndex = nUnitIndex;
 			}
-			// добавим item с такими RPG stats
+			// РґРѕР±Р°РІРёРј item СЃ С‚Р°РєРёРјРё RPG stats
 			IUIDialog *pItem = checked_cast<IUIDialog *>( pSB->AddItem() );
 			FillUnitInfoItem( pOurUnitStats, pItem, nOurUnit, true );
 			nUnitIndex++;
@@ -127,25 +127,25 @@ void CInterfaceUpgradeUnit::DefaultUpgrades()
 	if ( nUpgradeUnitIndex == -1 )
 		return;
 			
-	//раскрываю барчик
+	//СЂР°СЃРєСЂС‹РІР°СЋ Р±Р°СЂС‡РёРє
 	pSB->SetBarExpandState( nBarIndex, true );
 	nBarIndex++;
 			
-	//добавляю upgrade в pUSB
+	//РґРѕР±Р°РІР»В¤СЋ upgrade РІ pUSB
 	{
-		pUSB->AddBar();		//bar невидимый
-		//добавим item с upgrade RPG stats
+		pUSB->AddBar();		//bar РЅРµРІРёРґРёРјС‹Р№
+		//РґРѕР±Р°РІРёРј item СЃ upgrade RPG stats
 		IUIDialog *pItem = checked_cast<IUIDialog *>( pUSB->AddItem() );
-		FillUnitInfoItem( pUpgradeStats, pItem, nNumUnits, false );		//заполнение без имени командира, у upgrade индекс всегда 0
+		FillUnitInfoItem( pUpgradeStats, pItem, nNumUnits, false );		//Р·Р°РїРѕР»РЅРµРЅРёРµ Р±РµР· РёРјРµРЅРё РєРѕРјР°РЅРґРёСЂР°, Сѓ upgrade РёРЅРґРµРєСЃ РІСЃРµРіРґР° 0
 
-		//раскрываю барчик
+		//СЂР°СЃРєСЂС‹РІР°СЋ Р±Р°СЂС‡РёРє
 		pUSB->SetBarExpandState( 0, true );
 		
-		//выделим этот item
+		//РІС‹РґРµР»РёРј СЌС‚РѕС‚ item
 		pItem->EnableWindow( true );
 		pUSB->SetSelectionItem( 0, pUSB->GetNumberOfItems( 0 ) - 1 );
 
-		//выделим юнит, соответствующий upgrade в основном списке
+		//РІС‹РґРµР»РёРј СЋРЅРёС‚, СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РёР№ upgrade РІ РѕСЃРЅРѕРІРЅРѕРј СЃРїРёСЃРєРµ
 		pSB->SetSelectionItem( nBarIndex - 1, nUpgradeUnitIndex );
 	}
 
@@ -216,7 +216,7 @@ bool CInterfaceUpgradeUnit::ProcessMessage( const SGameMessage &msg )
 	
 	if ( msg.nEventID >= 20000 && msg.nEventID < 29000 )
 	{
-		//вызовем энциклопедию
+		//РІС‹Р·РѕРІРµРј СЌРЅС†РёРєР»РѕРїРµРґРёСЋ
 		std::string szTemp = NStr::Format( "%d;", E_UNIT );
 		IPlayerScenarioInfo *pPlayerInfo = GetSingleton<IScenarioTracker>()->GetUserPlayer();
 		const int nUnitIndex = msg.nEventID - 20000;

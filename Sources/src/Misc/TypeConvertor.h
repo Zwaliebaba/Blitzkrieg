@@ -10,7 +10,7 @@
 template < class T1, class T2, class TH1 = std::hash<T1>, class TH2 = std::hash<T2> >
 class CTypeConvertor
 {
-protected: // сериализовать хочется.
+protected: // СЃРµСЂРёР°Р»РёР·РѕРІР°С‚СЊ С…РѕС‡РµС‚СЃСЏ.
 	std::hash_map<T1, T2, TH1> t1_t2;
 	std::hash_map<T2, T1, TH2> t2_t1;
 	//

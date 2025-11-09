@@ -12,13 +12,13 @@ class CRegistrySection
   CRegistrySection( HKEY hKey, REGSAM samDesired, LPCTSTR pszRegistrySection );
   ~CRegistrySection();
 
-  //STL строка
+  //STL СЃС‚СЂРѕРєР°
 	LONG LoadString( LPCTSTR pszRegistryKey, std::string *pszLoadValue, const std::string &rszDefaultValue ) const;
   LONG SaveString( LPCTSTR pszRegistryKey, const std::string &szSaveValue ) const;
  
 	bool IsValid() { return ( hRegistrySection != 0 ); }
 	
-	//Любое число ( сохраняется в виде строки "%g" )
+	//Р‹СЋР±РѕРµ С‡РёСЃР»Рѕ ( СЃРѕС…СЂР°РЅВ¤РµС‚СЃВ¤ РІ РІРёРґРµ СЃС‚СЂРѕРєРё "%g" )
 	template<class Type>
 	LONG LoadNumber( LPCTSTR pszRegistryKey, LPCTSTR pszMask, Type *pLoadValue, const Type rDefaultValue ) const
 	{

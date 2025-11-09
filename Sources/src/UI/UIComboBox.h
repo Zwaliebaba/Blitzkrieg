@@ -13,16 +13,16 @@ class CUIComboBox : public CMultipleWindow
 	int nItemLeftSpace;
 	CWindowList items;
 	bool bComboShown;
-	CTRect<float> saveRect;					//сохраненный размер окна, необходим для восстановления состояния после схлопывания окошек
+	CTRect<float> saveRect;					//СЃРѕС…СЂР°РЅРµРЅРЅС‹Р№ СЂР°Р·РјРµСЂ РѕРєРЅР°, РЅРµРѕР±С…РѕРґРёРј РґР»СЏ РІРѕСЃСЃС‚Р°РЅРѕРІР»РµРЅРёСЏ СЃРѕСЃС‚РѕСЏРЅРёСЏ РїРѕСЃР»Рµ СЃС…Р»РѕРїС‹РІР°РЅРёСЏ РѕРєРѕС€РµРє
 
-	//Для отрисовки Selection
-	int nSelItem;										//выделенный item
+	//Р”Р»СЏ РѕС‚СЂРёСЃРѕРІРєРё Selection
+	int nSelItem;										//РІС‹РґРµР»РµРЅРЅС‹Р№ item
 /*
 	std::vector<SWindowSubRect> selSubRects;
-	CPtr<IGFXTexture> pSelectionTexture;				// внешний вид - текстура
+	CPtr<IGFXTexture> pSelectionTexture;				// РІРЅРµС€РЅРёР№ РІРёРґ - С‚РµРєСЃС‚СѓСЂР°
 */
 
-	void UpdateItemsCoordinates();				//Обновляет координаты всех внутренних item
+	void UpdateItemsCoordinates();				//РћР±РЅРѕРІР»СЏРµС‚ РєРѕРѕСЂРґРёРЅР°С‚С‹ РІСЃРµС… РІРЅСѓС‚СЂРµРЅРЅРёС… item
 	void ShowCombo( bool bShow );
 
 public:

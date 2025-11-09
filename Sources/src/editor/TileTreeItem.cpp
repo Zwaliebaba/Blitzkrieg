@@ -54,7 +54,7 @@ void CTileSetTreeRootItem::ComposeTiles( const char *pszProjectFileName, const c
 	}
 	CPtr<IDataStorage> pStorage = CreateStorage( szFullDirName.c_str(), STREAM_ACCESS_READ, STORAGE_TYPE_FILE );
 
-	// Рассчитываем размер результирующей картинки
+	// Р Р°СЃСЃС‡РёС‚С‹РІР°РµРј СЂР°Р·РјРµСЂ СЂРµР·СѓР»СЊС‚РёСЂСѓСЋС‰РµР№ РєР°СЂС‚РёРЅРєРё
 	CTreeItemList::const_iterator it;
 	int nMaxIndex = -1;
 	for ( it=pTerrainsItem->GetBegin(); it!=pTerrainsItem->GetEnd(); ++it )
@@ -69,7 +69,7 @@ void CTileSetTreeRootItem::ComposeTiles( const char *pszProjectFileName, const c
 	}
 	int nNumberOfRaws = ( nMaxIndex ) / 7;
 	int nMinSizeY = nNumberOfRaws * 32 + 16;
-	// Текстура кратна степени 2, находим следующую верхнюю степень
+	// РўРµРєСЃС‚СѓСЂР° РєСЂР°С‚РЅР° СЃС‚РµРїРµРЅРё 2, РЅР°С…РѕРґРёРј СЃР»РµРґСѓСЋС‰СѓСЋ РІРµСЂС…РЅСЋСЋ СЃС‚РµРїРµРЅСЊ
 	nMinSizeY = GetNextPow2( nMinSizeY );
 	
 	IImageProcessor *pImageProcessor = GetImageProcessor();
@@ -77,7 +77,7 @@ void CTileSetTreeRootItem::ComposeTiles( const char *pszProjectFileName, const c
 	pTileSetImage->Set( 0 );
 	CPtr<IImage> pMaskImage;
 	{
-		//загружаю картинку маски
+		//Р·Р°РіСЂСѓР¶Р°СЋ РєР°СЂС‚РёРЅРєСѓ РјР°СЃРєРё
 		string szMaskName = theApp.GetEditorDataDir();
 		szMaskName += "editor\\terrain\\tilemask.tga";
 		CPtr<IDataStream> pMaskStream = OpenFileStream( szMaskName.c_str(), STREAM_ACCESS_READ );
@@ -114,7 +114,7 @@ void CTileSetTreeRootItem::ComposeTiles( const char *pszProjectFileName, const c
 		if ( pTerrainProps->GetDustFlag() )
 			terrType.cSoilParams |= STerrTypeDesc::ESP_DUST;
 		
-		//вычисляем AI классы
+		//РІС‹С‡РёСЃР»СЏРµРј AI РєР»Р°СЃСЃС‹
 		terrType.dwAIClasses = 0;
 		if ( pTerrainProps->GetPassForInfantry() )
 			terrType.dwAIClasses |= AI_CLASS_HUMAN;
@@ -131,7 +131,7 @@ void CTileSetTreeRootItem::ComposeTiles( const char *pszProjectFileName, const c
 			terrType.dwAIClasses &= 0x7fffffff;
 
 /*
-		//запишем ambient звуки
+		//Р·Р°РїРёС€РµРј ambient Р·РІСѓРєРё
 		CTreeItem *pASounds = pTerrainProps->GetChildItem( E_TILESET_ASOUNDS_ITEM );
 		NI_ASSERT( pASounds != 0 );
 		for ( CTreeItemList::const_iterator ss=pASounds->GetBegin(); ss!=pASounds->GetEnd(); ++ss )
@@ -144,7 +144,7 @@ void CTileSetTreeRootItem::ComposeTiles( const char *pszProjectFileName, const c
 			terrType.sounds.push_back( snd );
 		}
 
-		//запишем looped ambient звуки
+		//Р·Р°РїРёС€РµРј looped ambient Р·РІСѓРєРё
 		CTreeItem *pLSounds = pTerrainProps->GetChildItem( E_TILESET_LSOUNDS_ITEM );
 		NI_ASSERT( pLSounds != 0 );
 		for ( CTreeItemList::const_iterator ss=pLSounds->GetBegin(); ss!=pLSounds->GetEnd(); ++ss )
@@ -157,7 +157,7 @@ void CTileSetTreeRootItem::ComposeTiles( const char *pszProjectFileName, const c
 		}
 */
 
-		//запишем отдельные тайлы
+		//Р·Р°РїРёС€РµРј РѕС‚РґРµР»СЊРЅС‹Рµ С‚Р°Р№Р»С‹
 		CTreeItem *pTiles = pTerrainProps->GetChildItem( E_TILESET_TILES_ITEM );
 		NI_ASSERT( pTiles != 0 );
 		for ( in=pTiles->GetBegin(); in!=pTiles->GetEnd(); ++in )
@@ -189,7 +189,7 @@ void CTileSetTreeRootItem::ComposeTiles( const char *pszProjectFileName, const c
 				}
 			}
 
-			// Модулируем тайлы с помощью маски, обрезая лишнее и устанавливая альфу
+			// РњРѕРґСѓР»РёСЂСѓРµРј С‚Р°Р№Р»С‹ СЃ РїРѕРјРѕС‰СЊСЋ РјР°СЃРєРё, РѕР±СЂРµР·Р°СЏ Р»РёС€РЅРµРµ Рё СѓСЃС‚Р°РЅР°РІР»РёРІР°СЏ Р°Р»СЊС„Сѓ
 			RECT rc;
 			rc.left = 0;
 			rc.top = 0;
@@ -197,25 +197,25 @@ void CTileSetTreeRootItem::ComposeTiles( const char *pszProjectFileName, const c
 			rc.bottom = pMaskImage->GetSizeY();
 			pCurrentTileImage->ModulateColorFrom( pMaskImage, &rc, 0, 0 );
 
-			// Копируем тайлы в результирующую картинку, пользуясь альфа информацией
-			// Вычислим координаты куда надо копировать
+			// РљРѕРїРёСЂСѓРµРј С‚Р°Р№Р»С‹ РІ СЂРµР·СѓР»СЊС‚РёСЂСѓСЋС‰СѓСЋ РєР°СЂС‚РёРЅРєСѓ, РїРѕР»СЊР·СѓСЏСЃСЊ Р°Р»СЊС„Р° РёРЅС„РѕСЂРјР°С†РёРµР№
+			// Р’С‹С‡РёСЃР»РёРј РєРѕРѕСЂРґРёРЅР°С‚С‹ РєСѓРґР° РЅР°РґРѕ РєРѕРїРёСЂРѕРІР°С‚СЊ
 			int nMod7 = pTileProps->nTileIndex % 7;
 			int nPosX, nPosY;
 			if ( nMod7 < 4 )
 			{
-				// по 4 тайла в срочке
+				// РїРѕ 4 С‚Р°Р№Р»Р° РІ СЃСЂРѕС‡РєРµ
 				nPosX = nMod7 * 64;
 				nPosY = (pTileProps->nTileIndex / 7) * 32;
 			}
 			else
 			{
-				// по 3 тайла в строчке
+				// РїРѕ 3 С‚Р°Р№Р»Р° РІ СЃС‚СЂРѕС‡РєРµ
 				nPosX = (nMod7 - 4) * 64 + 32;
 				nPosY = (pTileProps->nTileIndex / 7) * 32 + 16;
 			}
 			pTileSetImage->CopyFromAB( pCurrentTileImage, &rc, nPosX, nPosY );
 
-			//Заполняем структурки
+			//Р—Р°РїРѕР»РЅСЏРµРј СЃС‚СЂСѓРєС‚СѓСЂРєРё
 			SMainTileDesc mainTileDesc;
 			mainTileDesc.fProbFrom = 0;
 			mainTileDesc.fProbTo = pTileProps->GetProbability();
@@ -251,7 +251,7 @@ void CTileSetTreeRootItem::ComposeTiles( const char *pszProjectFileName, const c
 		AfxMessageBox( szErr.c_str() );
 	}
 	
-	//Заполняем массив maps в зависимости от размера текстуры
+	//Р—Р°РїРѕР»РЅСЏРµРј РјР°СЃСЃРёРІ maps РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ СЂР°Р·РјРµСЂР° С‚РµРєСЃС‚СѓСЂС‹
 	std::string szTemp = pszResFileName;
 	szTemp = szTemp.substr( 0, szTemp.rfind( '.' ) );
 	FillTileMaps( 256, nMinSizeY, tileSetDesc.tilemaps, true );
@@ -261,7 +261,7 @@ void CTileSetTreeRootItem::ComposeTiles( const char *pszProjectFileName, const c
 	int nPos = szName.rfind( '\\' );
 	if ( nPos != std::string::npos )
 	szName = szName.substr( nPos + 1 );
-	//Сохраняем XML с описанием TilSet
+	//РЎРѕС…СЂР°РЅСЏРµРј XML СЃ РѕРїРёСЃР°РЅРёРµРј TilSet
 	CPtr<IDataStorage> pSaveStorage = CreateStorage( GetDirectory(pszResFileName).c_str(), STREAM_ACCESS_WRITE, STORAGE_TYPE_FILE );
 	CPtr<IDataStream> pSaveXMLStream = pSaveStorage->CreateStream( szName.c_str(), STREAM_ACCESS_WRITE );
 	CPtr<IDataTree> pDT = CreateDataTreeSaver( pSaveXMLStream, IDataTree::WRITE );
@@ -284,7 +284,7 @@ void CTileSetTreeRootItem::ComposeTiles( const char *pszProjectFileName, const c
 	}
 	pStorage = OpenStorage( szFullDirName.c_str(), STREAM_ACCESS_READ, STORAGE_TYPE_FILE );
 	
-	// Рассчитываем число тайлов, чтобы создать результирующую картинку
+	// Р Р°СЃСЃС‡РёС‚С‹РІР°РµРј С‡РёСЃР»Рѕ С‚Р°Р№Р»РѕРІ, С‡С‚РѕР±С‹ СЃРѕР·РґР°С‚СЊ СЂРµР·СѓР»СЊС‚РёСЂСѓСЋС‰СѓСЋ РєР°СЂС‚РёРЅРєСѓ
 	int nCrossCount = 0;
 	for ( it=pCrossetsItem->GetBegin(); it!=pCrossetsItem->GetEnd(); ++it )
 		nCrossCount += (*it)->GetChildsCount();
@@ -293,7 +293,7 @@ void CTileSetTreeRootItem::ComposeTiles( const char *pszProjectFileName, const c
 
 	nNumberOfRaws = ( nCrossCount + 6 ) / 7;
 	nMinSizeY = nNumberOfRaws * 32 + 16;
-	// Текстура кратна степени 2, находим следующую верхнюю степень
+	// РўРµРєСЃС‚СѓСЂР° РєСЂР°С‚РЅР° СЃС‚РµРїРµРЅРё 2, РЅР°С…РѕРґРёРј СЃР»РµРґСѓСЋС‰СѓСЋ РІРµСЂС…РЅСЋСЋ СЃС‚РµРїРµРЅСЊ
 	nMinSizeY = GetNextPow2( nMinSizeY );
 
 	CPtr<IImage> pCrossSetImage = pImageProcessor->CreateImage( 64*4, nMinSizeY );
@@ -344,7 +344,7 @@ void CTileSetTreeRootItem::ComposeTiles( const char *pszProjectFileName, const c
 					}
 				}
 				
-				// Модулируем тайлы с помощью маски, обрезая лишнее и устанавливая альфу
+				// РњРѕРґСѓР»РёСЂСѓРµРј С‚Р°Р№Р»С‹ СЃ РїРѕРјРѕС‰СЊСЋ РјР°СЃРєРё, РѕР±СЂРµР·Р°СЏ Р»РёС€РЅРµРµ Рё СѓСЃС‚Р°РЅР°РІР»РёРІР°СЏ Р°Р»СЊС„Сѓ
 				RECT rc;
 				rc.left = 0;
 				rc.top = 0;
@@ -352,25 +352,25 @@ void CTileSetTreeRootItem::ComposeTiles( const char *pszProjectFileName, const c
 				rc.bottom = pMaskImage->GetSizeY();
 				pCurrentTileImage->ModulateColorFrom( pMaskImage, &rc, 0, 0 );
 				
-				// Копируем тайлы в результирующую картинку, пользуясь альфа информацией
-				// Вычислим координаты куда надо копировать
+				// РљРѕРїРёСЂСѓРµРј С‚Р°Р№Р»С‹ РІ СЂРµР·СѓР»СЊС‚РёСЂСѓСЋС‰СѓСЋ РєР°СЂС‚РёРЅРєСѓ, РїРѕР»СЊР·СѓСЏСЃСЊ Р°Р»СЊС„Р° РёРЅС„РѕСЂРјР°С†РёРµР№
+				// Р’С‹С‡РёСЃР»РёРј РєРѕРѕСЂРґРёРЅР°С‚С‹ РєСѓРґР° РЅР°РґРѕ РєРѕРїРёСЂРѕРІР°С‚СЊ
 				int nMod7 = (pTileProps->nCrossIndex / 2) % 7;
 				int nPosX, nPosY;
 				if ( nMod7 < 4 )
 				{
-					// по 4 тайла в срочке
+					// РїРѕ 4 С‚Р°Р№Р»Р° РІ СЃСЂРѕС‡РєРµ
 					nPosX = nMod7 * 64;
 					nPosY = (pTileProps->nCrossIndex / 14) * 32;
 				}
 				else
 				{
-					// по 3 тайла в строчке
+					// РїРѕ 3 С‚Р°Р№Р»Р° РІ СЃС‚СЂРѕС‡РєРµ
 					nPosX = (nMod7 - 4) * 64 + 32;
 					nPosY = (pTileProps->nCrossIndex / 14) * 32 + 16;
 				}
 				pCrossSetImage->CopyFromAB( pCurrentTileImage, &rc, nPosX, nPosY );
 				
-				//Заполняем структурки
+				//Р—Р°РїРѕР»РЅСЏРµРј СЃС‚СЂСѓРєС‚СѓСЂРєРё
 				SMainTileDesc mainTileDesc;
 				mainTileDesc.fProbFrom = 0;
 				mainTileDesc.fProbTo = pTileProps->GetProbability();
@@ -395,7 +395,7 @@ void CTileSetTreeRootItem::ComposeTiles( const char *pszProjectFileName, const c
 	}
 
 	{
-		//стираем RGB из картинки
+		//СЃС‚РёСЂР°РµРј RGB РёР· РєР°СЂС‚РёРЅРєРё
 		SColor *p = pCrossSetImage->GetLFB();
 		int nX = pCrossSetImage->GetSizeX();
 		int nY = pCrossSetImage->GetSizeY();
@@ -409,14 +409,14 @@ void CTileSetTreeRootItem::ComposeTiles( const char *pszProjectFileName, const c
 	}
 	
 	
-	//Заполняем массив maps в зависимости от размера текстуры
+	//Р—Р°РїРѕР»РЅСЏРµРј РјР°СЃСЃРёРІ maps РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ СЂР°Р·РјРµСЂР° С‚РµРєСЃС‚СѓСЂС‹
 	FillTileMaps( 256, nMinSizeY, crossSetDesc.tilemaps, true );
 	szTemp = GetDirectory(pszResFileName);
 	szTemp += "crosset";
 
 	//CRAP{
-	//тут немного криво ибо этот композер не вписывается в общую структуру
-	//у него два разных формата для картинок
+	//С‚СѓС‚ РЅРµРјРЅРѕРіРѕ РєСЂРёРІРѕ РёР±Рѕ СЌС‚РѕС‚ РєРѕРјРїРѕР·РµСЂ РЅРµ РІРїРёСЃС‹РІР°РµС‚СЃСЏ РІ РѕР±С‰СѓСЋ СЃС‚СЂСѓРєС‚СѓСЂСѓ
+	//Сѓ РЅРµРіРѕ РґРІР° СЂР°Р·РЅС‹С… С„РѕСЂРјР°С‚Р° РґР»СЏ РєР°СЂС‚РёРЅРѕРє
 	CTileSetFrame *pFrame = static_cast<CTileSetFrame *> ( g_frameManager.GetFrame( CFrameManager::E_TILESET_FRAME ) );
 	int nC = pFrame->m_nCompressedFormat;
 	int nL = pFrame->m_nLowFormat;
@@ -427,7 +427,7 @@ void CTileSetTreeRootItem::ComposeTiles( const char *pszProjectFileName, const c
 	pFrame->m_nLowFormat = nL;
 	//CRAP}
 
-	//Сохраняем XML с описанием CrossSet
+	//РЎРѕС…СЂР°РЅСЏРµРј XML СЃ РѕРїРёСЃР°РЅРёРµРј CrossSet
 	szName = "crosset.xml";
 	pSaveXMLStream = pSaveStorage->CreateStream( szName.c_str(), STREAM_ACCESS_WRITE );
 	pDT = CreateDataTreeSaver( pSaveXMLStream, IDataTree::WRITE );
@@ -470,7 +470,7 @@ void CTileSetTerrainsItem::MyLButtonClick()
 	values[0].szStrings.resize( 1 );
 	values[0].szStrings[0] = GetDirectory( g_frameManager.GetFrame( CFrameManager::E_TILESET_FRAME )->GetProjectFileName().c_str() );
 
-	//переходим в режим редактирования terrains
+	//РїРµСЂРµС…РѕРґРёРј РІ СЂРµР¶РёРј СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёСЏ terrains
 	CTileSetFrame *pFrame = static_cast<CTileSetFrame *> ( g_frameManager.GetFrame( CFrameManager::E_TILESET_FRAME ) );
 	pFrame->SwitchToEditCrossetsMode( false );
 }
@@ -482,10 +482,10 @@ void CTileSetTerrainsItem::UpdateItemValue( int nItemId, const CVariant &value )
 	
 	if ( nItemId == 1 )
 	{
-		//Изменилось значение директории, загружаем все картинки из этой диры в AllThumbList
+		//РР·РјРµРЅРёР»РѕСЃСЊ Р·РЅР°С‡РµРЅРёРµ РґРёСЂРµРєС‚РѕСЂРёРё, Р·Р°РіСЂСѓР¶Р°РµРј РІСЃРµ РєР°СЂС‚РёРЅРєРё РёР· СЌС‚РѕР№ РґРёСЂС‹ РІ AllThumbList
 		if ( !IsRelatedPath( value ) )
 		{
-			//Тут вычисляется относительный путь, относительно файла с проектом
+			//РўСѓС‚ РІС‹С‡РёСЃР»СЏРµС‚СЃСЏ РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅС‹Р№ РїСѓС‚СЊ, РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕ С„Р°Р№Р»Р° СЃ РїСЂРѕРµРєС‚РѕРј
 			string szProjectName = g_frameManager.GetFrame( CFrameManager::E_TILESET_FRAME )->GetProjectFileName();
 			string szValue = value;
 			string szRelatedPath;
@@ -671,14 +671,14 @@ void CTileSetTerrainPropsItem::UpdateItemValue( int nItemId, const CVariant &val
 	
 	if ( nItemId == 1 )
 	{
-		//Изменилось имя terrain, изменим имя, отображаемое в дереве
+		//РР·РјРµРЅРёР»РѕСЃСЊ РёРјСЏ terrain, РёР·РјРµРЅРёРј РёРјСЏ, РѕС‚РѕР±СЂР°Р¶Р°РµРјРѕРµ РІ РґРµСЂРµРІРµ
 		ChangeItemName( value );
 		return;
 	}
 
 	if ( nItemId == 4 )
 	{
-		//проверим, чтобы passability всегда была между 0 и 1
+		//РїСЂРѕРІРµСЂРёРј, С‡С‚РѕР±С‹ passability РІСЃРµРіРґР° Р±С‹Р»Р° РјРµР¶РґСѓ 0 Рё 1
 		float fVal = GetPassability();
 		if ( fVal < 0 || fVal > 1 )
 		{
@@ -690,7 +690,7 @@ void CTileSetTerrainPropsItem::UpdateItemValue( int nItemId, const CVariant &val
 
 	if ( nItemId == 10 )
 	{
-		//проверим, чтобы sound volume был между 0 и 1
+		//РїСЂРѕРІРµСЂРёРј, С‡С‚РѕР±С‹ sound volume Р±С‹Р» РјРµР¶РґСѓ 0 Рё 1
 		float fVal = GetSoundVolume();
 		if ( fVal < 0 || fVal > 1 )
 		{
@@ -818,7 +818,7 @@ void CTileSetASoundPropsItem::MyKeyDown( int nChar )
 	switch ( nChar )
 	{
 		case VK_DELETE:
-			//Убиваем этот звук
+			//РЈР±РёРІР°РµРј СЌС‚РѕС‚ Р·РІСѓРє
 			CParentFrame *pFrame = g_frameManager.GetActiveFrame();
 			pFrame->ClearPropView();
 			DeleteMeInParentTreeItem();
@@ -833,7 +833,7 @@ void CTileSetASoundPropsItem::UpdateItemValue( int nItemId, const CVariant &valu
 	
 	if ( nItemId == 1 )
 	{
-		//сконвертим путь к звуковому файлу в относительный без расширения
+		//СЃРєРѕРЅРІРµСЂС‚РёРј РїСѓС‚СЊ Рє Р·РІСѓРєРѕРІРѕРјСѓ С„Р°Р№Р»Сѓ РІ РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅС‹Р№ Р±РµР· СЂР°СЃС€РёСЂРµРЅРёСЏ
 		if ( !IsRelatedPath( value ) )
 		{
 			string szValue = value;
@@ -841,7 +841,7 @@ void CTileSetASoundPropsItem::UpdateItemValue( int nItemId, const CVariant &valu
 			bool bRes =	MakeSubRelativePath( theApp.GetEditorDataDir().c_str(), szValue.c_str(), szRelatedPath );
 			if ( bRes )
 			{
-				//обрежем расширение в конце
+				//РѕР±СЂРµР¶РµРј СЂР°СЃС€РёСЂРµРЅРёРµ РІ РєРѕРЅС†Рµ
 				szRelatedPath = szRelatedPath.substr( 0, szRelatedPath.rfind( '.' ) );
 				CVariant newVal = szRelatedPath;
 				CTreeItem::UpdateItemValue( nItemId, newVal );
@@ -859,7 +859,7 @@ void CTileSetASoundPropsItem::UpdateItemValue( int nItemId, const CVariant &valu
 
 void CTileSetASoundPropsItem::MyLButtonClick()
 {
-	//В ThumbList отображаю Animations соответствующие этой папке
+	//Р’ ThumbList РѕС‚РѕР±СЂР°Р¶Р°СЋ Animations СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РёРµ СЌС‚РѕР№ РїР°РїРєРµ
 	CTreeItem *pPapa = GetParentTreeItem();
 	pPapa = pPapa->GetParentTreeItem();
 	NI_ASSERT( pPapa->GetItemType() == E_TILESET_TERRAIN_PROPS_ITEM );
@@ -925,7 +925,7 @@ void CTileSetLSoundPropsItem::MyKeyDown( int nChar )
 	switch ( nChar )
 	{
 		case VK_DELETE:
-			//Убиваем этот звук
+			//РЈР±РёРІР°РµРј СЌС‚РѕС‚ Р·РІСѓРє
 			CParentFrame *pFrame = g_frameManager.GetActiveFrame();
 			pFrame->ClearPropView();
 			DeleteMeInParentTreeItem();
@@ -940,7 +940,7 @@ void CTileSetLSoundPropsItem::UpdateItemValue( int nItemId, const CVariant &valu
 	
 	if ( nItemId == 1 )
 	{
-		//сконвертим путь к звуковому файлу в относительный без расширения
+		//СЃРєРѕРЅРІРµСЂС‚РёРј РїСѓС‚СЊ Рє Р·РІСѓРєРѕРІРѕРјСѓ С„Р°Р№Р»Сѓ РІ РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅС‹Р№ Р±РµР· СЂР°СЃС€РёСЂРµРЅРёСЏ
 		if ( !IsRelatedPath( value ) )
 		{
 			string szValue = value;
@@ -948,7 +948,7 @@ void CTileSetLSoundPropsItem::UpdateItemValue( int nItemId, const CVariant &valu
 			bool bRes =	MakeSubRelativePath( theApp.GetEditorDataDir().c_str(), szValue.c_str(), szRelatedPath );
 			if ( bRes )
 			{
-				//обрежем расширение в конце
+				//РѕР±СЂРµР¶РµРј СЂР°СЃС€РёСЂРµРЅРёРµ РІ РєРѕРЅС†Рµ
 				szRelatedPath = szRelatedPath.substr( 0, szRelatedPath.rfind( '.' ) );
 				CVariant newVal = szRelatedPath;
 				CTreeItem::UpdateItemValue( nItemId, newVal );
@@ -966,7 +966,7 @@ void CTileSetLSoundPropsItem::UpdateItemValue( int nItemId, const CVariant &valu
 
 void CTileSetLSoundPropsItem::MyLButtonClick()
 {
-	//В ThumbList отображаю Animations соответствующие этой папке
+	//Р’ ThumbList РѕС‚РѕР±СЂР°Р¶Р°СЋ Animations СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РёРµ СЌС‚РѕР№ РїР°РїРєРµ
 	CTreeItem *pPapa = GetParentTreeItem();
 	pPapa = pPapa->GetParentTreeItem();
 	NI_ASSERT( pPapa->GetItemType() == E_TILESET_TERRAIN_PROPS_ITEM );
@@ -1040,7 +1040,7 @@ void CTileSetTilePropsItem::MyKeyDown( int nChar )
 	switch ( nChar )
 	{
 		case VK_DELETE:
-			//Убиваем этот frame
+			//РЈР±РёРІР°РµРј СЌС‚РѕС‚ frame
 			CTileSetFrame *pFrame = static_cast<CTileSetFrame *> ( g_frameManager.GetFrame( CFrameManager::E_TILESET_FRAME ) );
 			pFrame->RemoveTerrainIndex( nTileIndex );
 			pFrame->DeleteFrameInSelectedList( (DWORD) this );
@@ -1051,7 +1051,7 @@ void CTileSetTilePropsItem::MyKeyDown( int nChar )
 
 void CTileSetTilePropsItem::MyLButtonClick()
 {
-	//В ThumbList отображаю Animations соответствующие этой папке
+	//Р’ ThumbList РѕС‚РѕР±СЂР°Р¶Р°СЋ Animations СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РёРµ СЌС‚РѕР№ РїР°РїРєРµ
 	CTreeItem *pPapa = GetParentTreeItem();
 	pPapa = pPapa->GetParentTreeItem();
 	NI_ASSERT( pPapa->GetItemType() == E_TILESET_TERRAIN_PROPS_ITEM );
@@ -1060,7 +1060,7 @@ void CTileSetTilePropsItem::MyLButtonClick()
 	CTileSetFrame *pFrame = static_cast<CTileSetFrame *> ( g_frameManager.GetFrame( CFrameManager::E_TILESET_FRAME ) );
 	pFrame->SetActiveTerrainItem( pTerrainProps );
 	
-	//В накиданных ThumbList items выделяю item соответствующий this
+	//Р’ РЅР°РєРёРґР°РЅРЅС‹С… ThumbList items РІС‹РґРµР»СЏСЋ item СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РёР№ this
 	pFrame->SelectItemInSelectedThumbList( (long) this );
 }
 
@@ -1098,10 +1098,10 @@ void CCrossetsItem::UpdateItemValue( int nItemId, const CVariant &value )
 	
 	if ( nItemId == 1 )
 	{
-		//Изменилось значение директории, загружаем все картинки из этой диры в AllThumbList
+		//РР·РјРµРЅРёР»РѕСЃСЊ Р·РЅР°С‡РµРЅРёРµ РґРёСЂРµРєС‚РѕСЂРёРё, Р·Р°РіСЂСѓР¶Р°РµРј РІСЃРµ РєР°СЂС‚РёРЅРєРё РёР· СЌС‚РѕР№ РґРёСЂС‹ РІ AllThumbList
 		if ( !IsRelatedPath( value ) )
 		{
-			//Тут вычисляется относительный путь, относительно файла с проектом
+			//РўСѓС‚ РІС‹С‡РёСЃР»СЏРµС‚СЃСЏ РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅС‹Р№ РїСѓС‚СЊ, РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕ С„Р°Р№Р»Р° СЃ РїСЂРѕРµРєС‚РѕРј
 			string szProjectName = g_frameManager.GetFrame( CFrameManager::E_TILESET_FRAME )->GetProjectFileName();
 			string szValue = value;
 			string szRelatedPath;
@@ -1246,7 +1246,7 @@ void CCrossetPropsItem::UpdateItemValue( int nItemId, const CVariant &value )
 	
 	if ( nItemId == 1 )
 	{
-		//Изменилось имя crosset, изменим имя, отображаемое в дереве
+		//РР·РјРµРЅРёР»РѕСЃСЊ РёРјСЏ crosset, РёР·РјРµРЅРёРј РёРјСЏ, РѕС‚РѕР±СЂР°Р¶Р°РµРјРѕРµ РІ РґРµСЂРµРІРµ
 		ChangeItemName( value );
 		return;
 	}
@@ -1257,7 +1257,7 @@ void CCrossetPropsItem::MyKeyDown( int nChar )
 	switch ( nChar )
 	{
 		case VK_DELETE:
-			//Убиваем этот frame
+			//РЈР±РёРІР°РµРј СЌС‚РѕС‚ frame
 			g_frameManager.GetFrame( CFrameManager::E_TILESET_FRAME )->ClearPropView();
 			DeleteMeInParentTreeItem();
 			g_frameManager.GetFrame( CFrameManager::E_TILESET_FRAME )->SetChangedFlag( true );
@@ -1326,7 +1326,7 @@ void CCrossetTilePropsItem::MyKeyDown( int nChar )
 	switch ( nChar )
 	{
 		case VK_DELETE:
-			//Убиваем этот frame
+			//РЈР±РёРІР°РµРј СЌС‚РѕС‚ frame
 			CTileSetFrame *pFrame = static_cast<CTileSetFrame *> ( g_frameManager.GetFrame( CFrameManager::E_TILESET_FRAME ) );
 			pFrame->RemoveCrossetIndex( nCrossIndex );
 			pFrame->DeleteFrameInSelectedList( (DWORD) this );
@@ -1337,7 +1337,7 @@ void CCrossetTilePropsItem::MyKeyDown( int nChar )
 
 void CCrossetTilePropsItem::MyLButtonClick()
 {
-	//В ThumbList отображаю Animations соответствующие этой папке
+	//Р’ ThumbList РѕС‚РѕР±СЂР°Р¶Р°СЋ Animations СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РёРµ СЌС‚РѕР№ РїР°РїРєРµ
 	CTreeItem *pPapa = GetParentTreeItem();
 	NI_ASSERT( pPapa->GetItemType() == E_CROSSET_TILES_ITEM );
 	
@@ -1345,7 +1345,7 @@ void CCrossetTilePropsItem::MyLButtonClick()
 	CTileSetFrame *pFrame = static_cast<CTileSetFrame *> ( g_frameManager.GetFrame( CFrameManager::E_TILESET_FRAME ) );
 	pFrame->SetActiveCrossetItem( pCrossetProps );
 	
-	//В накиданных ThumbList items выделяю item соответствующий this
+	//Р’ РЅР°РєРёРґР°РЅРЅС‹С… ThumbList items РІС‹РґРµР»СЏСЋ item СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РёР№ this
 	pFrame->SelectItemInSelectedThumbList( (long) this );
 }
 

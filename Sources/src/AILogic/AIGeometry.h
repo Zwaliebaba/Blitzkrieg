@@ -124,11 +124,11 @@ struct SVector
 	SVector& operator-=( const SVector &vec ) { x -= vec.x; y -= vec.y; return *this; }
 	const int operator*( const SVector &vec ) const { return x*vec.x + y*vec.y; }
 	SVector& operator*=( const int n ) { x *= n; y *= n; return *this; }
-	// деление нацело
+	// РґРµР»РµРЅРёРµ РЅР°С†РµР»Рѕ
 	SVector& operator/=( const int n ) { const float coeff = 1.0f / float(n); x *= coeff; y *= coeff; return *this; }
 };
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// только с достаточно близкими точками
+// С‚РѕР»СЊРєРѕ СЃ РґРѕСЃС‚Р°С‚РѕС‡РЅРѕ Р±Р»РёР·РєРёРјРё С‚РѕС‡РєР°РјРё
 inline long SquareOfDistance( const SVector &v1, const SVector &v2 )
 {
 	return square(long(v1.x-v2.x))+square(long(v1.y-v2.y));
@@ -228,7 +228,7 @@ class CBres
 	}
 
 public:
-	// для того, чтобы выдавал направления
+	// РґР»СЏ С‚РѕРіРѕ, С‡С‚РѕР±С‹ РІС‹РґР°РІР°Р» РЅР°РїСЂР°РІР»РµРЅРёСЏ
 	void Init( const SVector &start, const SVector &finish)
 	{ 
 		xlen = finish.x - start.x;
@@ -237,7 +237,7 @@ public:
 		Initialize(); 
 	}
 
-	// для того, чтобы выдавал точки
+	// РґР»СЏ С‚РѕРіРѕ, С‡С‚РѕР±С‹ РІС‹РґР°РІР°Р» С‚РѕС‡РєРё
 	void InitPointByDirection( const SVector& start, const SVector &direction )
 	{ 
 		dir = start;
@@ -247,7 +247,7 @@ public:
 		Initialize(); 
 	}
 	
-	// для того, чтобы выдавал точки
+	// РґР»СЏ С‚РѕРіРѕ, С‡С‚РѕР±С‹ РІС‹РґР°РІР°Р» С‚РѕС‡РєРё
 	void InitPoint( const SVector &start, const SVector &finish)
 	{
 		dir = start;
@@ -305,14 +305,14 @@ struct SRect
 
 //public:
 	void InitRect( const CVec2 &_v1, const CVec2 &_v2, const CVec2 &_v3, const CVec2 &_v4 );
-	// задаётся половина реальной длины и ширины (как бы радиусы)
+	// Р·Р°РґР°С‘С‚СЃСЏ РїРѕР»РѕРІРёРЅР° СЂРµР°Р»СЊРЅРѕР№ РґР»РёРЅС‹ Рё С€РёСЂРёРЅС‹ (РєР°Рє Р±С‹ СЂР°РґРёСѓСЃС‹)
 	void InitRect( const CVec2 &center, const CVec2 &dir, const float length, const float width );
-	// задаются длины вперёд и назад, половина ширины
+	// Р·Р°РґР°СЋС‚СЃСЏ РґР»РёРЅС‹ РІРїРµСЂС‘Рґ Рё РЅР°Р·Р°Рґ, РїРѕР»РѕРІРёРЅР° С€РёСЂРёРЅС‹
 	void InitRect( const CVec2 &center, const CVec2 &dir, const float lengthAhead, const float lengthBack, const float width );
 
 	bool IsIntersected( const SRect &rect ) const;
 	
-	// границы прямоугольника не принадлежат ему
+	// РіСЂР°РЅРёС†С‹ РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРєР° РЅРµ РїСЂРёРЅР°РґР»РµР¶Р°С‚ РµРјСѓ
 	bool IsPointInside( const CVec2 &point ) const;
 	bool IsIntersectCircle( const CVec2 &circleCenter, const float r ) const;
 	bool IsIntersectCircle( const CCircle &circle ) const { return IsIntersectCircle( circle.center, circle.r ); }
@@ -324,7 +324,7 @@ struct SRect
 };
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const float fabs( const SRect rect1, const SRect rect2 );
-// угол, под которым rect виден из точки point
+// СѓРіРѕР», РїРѕРґ РєРѕС‚РѕСЂС‹Рј rect РІРёРґРµРЅ РёР· С‚РѕС‡РєРё point
 const WORD GetVisibleAngle( const CVec2 point, const SRect rect );
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //*******************************************************************
@@ -427,9 +427,9 @@ class CBSpline
 	float t, tForward;
 	BYTE cntToForward;
 public:
-	// для вычисления сплайна
+	// РґР»СЏ РІС‹С‡РёСЃР»РµРЅРёСЏ СЃРїР»Р°Р№РЅР°
 	const static float DELTA;
-	// для просмотра вперёд на предмет залоканных тайлов на пути
+	// РґР»СЏ РїСЂРѕСЃРјРѕС‚СЂР° РІРїРµСЂС‘Рґ РЅР° РїСЂРµРґРјРµС‚ Р·Р°Р»РѕРєР°РЅРЅС‹С… С‚Р°Р№Р»РѕРІ РЅР° РїСѓС‚Рё
 	const static float DELTA_FORWARD;
 	const static int N_OF_ITERATONS;
 	const static int N_ITERS_TO_FORWARD;
@@ -449,7 +449,7 @@ public:
 		CVec2 fw_dx, fw_d2x, fw_d3x;
 	};
 
-	// если pIter->t == -1, то дальше итерировать нельзя, т.к. сплайн кончился
+	// РµСЃР»Рё pIter->t == -1, С‚Рѕ РґР°Р»СЊС€Рµ РёС‚РµСЂРёСЂРѕРІР°С‚СЊ РЅРµР»СЊР·СЏ, С‚.Рє. СЃРїР»Р°Р№РЅ РєРѕРЅС‡РёР»СЃСЏ
 	const void StartForwardIterating( SForwardIter *pIter );
 	const void IterateForward( SForwardIter *pIter );
 	
@@ -461,17 +461,17 @@ const WORD GetDirectionByVector( float x, float y );
 const CVec2 GetVectorByDirection( const WORD dir );
 const WORD GetZDirectionBy3DVector( const float x, const float y, const float z );
 const WORD GetZDirectionBy3DVector( const CVec2 &vec, const float z );
-// угол между между вектором и OXY
+// СѓРіРѕР» РјРµР¶РґСѓ РјРµР¶РґСѓ РІРµРєС‚РѕСЂРѕРј Рё OXY
 const WORD GetZAngle( const float x, const float y, float z );
-// угол между между вектором и OXY
+// СѓРіРѕР» РјРµР¶РґСѓ РјРµР¶РґСѓ РІРµРєС‚РѕСЂРѕРј Рё OXY
 const WORD GetZAngle( const CVec2 &vec, const float z );
 const WORD DirsDifference( const WORD dir1, const WORD dir2 );
 const int DifferenceSign( const WORD dir1, const WORD dir2 );
-// в угле от startAngleDir до finishAngleDir против часовой
+// РІ СѓРіР»Рµ РѕС‚ startAngleDir РґРѕ finishAngleDir РїСЂРѕС‚РёРІ С‡Р°СЃРѕРІРѕР№
 bool IsInTheAngle( const WORD dir, const WORD startAngleDir, const WORD finishAngleDir );
-// dir в минимальном угле мжду dir1 и dir2
+// dir РІ РјРёРЅРёРјР°Р»СЊРЅРѕРј СѓРіР»Рµ РјР¶РґСѓ dir1 Рё dir2
 bool IsInTheMinAngle( const WORD dir, const WORD dir1, const WORD dir2 );
-// минимальное расстояние от точки до отрезка
+// РјРёРЅРёРјР°Р»СЊРЅРѕРµ СЂР°СЃСЃС‚РѕСЏРЅРёРµ РѕС‚ С‚РѕС‡РєРё РґРѕ РѕС‚СЂРµР·РєР°
 const float GetDistanceToSegment( const CVec2 &vSegmentStart, const CVec2 &vSegmentEnd, const CVec2 &vPoint );
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #endif // __AI_GEOMETRY_H__

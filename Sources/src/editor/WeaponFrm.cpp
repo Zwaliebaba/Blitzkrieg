@@ -76,7 +76,7 @@ bool CWeaponFrame::ExportFrameData( IDataTree *pDT, const char *pszProjectName, 
 {
 	NI_ASSERT( pRootItem != 0 );
 	NI_ASSERT( pRootItem->GetItemType() == E_WEAPON_ROOT_ITEM );
-	//Сохраняем RPG stats
+	//РЎРѕС…СЂР°РЅСЏРµРј RPG stats
 	SaveRPGStats( pDT, pRootItem, pszProjectName );
 
 	return true;
@@ -281,7 +281,7 @@ void CWeaponFrame::LoadRPGStats( IDataTree *pDT, CTreeItem *pRootItem )
 {
 	NI_ASSERT( pRootItem != 0 );
 	SWeaponRPGStats rpgStats;
-	//	FillRPGStats( rpgStats, pRootItem );			//перед загрузкой инициализирую значениями по умолчанию
+	//	FillRPGStats( rpgStats, pRootItem );			//РїРµСЂРµРґ Р·Р°РіСЂСѓР·РєРѕР№ РёРЅРёС†РёР°Р»РёР·РёСЂСѓСЋ Р·РЅР°С‡РµРЅРёСЏРјРё РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
 	
 	CTreeAccessor tree = pDT;
 	tree.Add( "RPG", &rpgStats );

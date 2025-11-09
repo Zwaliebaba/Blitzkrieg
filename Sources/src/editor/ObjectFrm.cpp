@@ -210,7 +210,7 @@ int CObjectFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;
 	}
 	
-	//инициализируем уникальное имя для проекта
+	//РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј СѓРЅРёРєР°Р»СЊРЅРѕРµ РёРјСЏ РґР»СЏ РїСЂРѕРµРєС‚Р°
 	GenerateProjectName();
 	
 	SECToolBarManager* pToolBarMgr = theApp.GetMainFrame()->GetControlBarManager();
@@ -311,7 +311,7 @@ void CObjectFrame::SpecificInit()
 
 	m_mode = -1;
 	CreateKrest();
-	//Загружаем спрайт
+	//Р—Р°РіСЂСѓР¶Р°РµРј СЃРїСЂР°Р№С‚
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
 	CTreeItem *pRootItem = pTree->GetRootItem();
 	CTreeItem *pGraphicsItem = pRootItem->GetChildItem( E_OBJECT_GRAPHICS_ITEM );
@@ -356,7 +356,7 @@ BOOL CObjectFrame::SpecificTranslateMessage( MSG *pMsg )
 				{
 					if ( i == m_nSelected )
 					{
-						//удаляем закрашенные тайлы, соответствующие этой линии
+						//СѓРґР°Р»СЏРµРј Р·Р°РєСЂР°С€РµРЅРЅС‹Рµ С‚Р°Р№Р»С‹, СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РёРµ СЌС‚РѕР№ Р»РёРЅРёРё
 						STransLine &line = *it;
 						std::list<CVec2> coords;
 						float ftx1, fty1, ftx2, fty2;
@@ -371,11 +371,11 @@ BOOL CObjectFrame::SpecificTranslateMessage( MSG *pMsg )
 						MyFillBrezenham( ftx1, fty1, ftx2, fty2, coords );
 						for ( std::list<CVec2>::iterator it=coords.begin(); it!=coords.end(); ++it )
 						{
-							//найдем индекс тайла в массиве тайлов
+							//РЅР°Р№РґРµРј РёРЅРґРµРєСЃ С‚Р°Р№Р»Р° РІ РјР°СЃСЃРёРІРµ С‚Р°Р№Р»РѕРІ
 							DeleteTileInListOfNormalTiles( dirTiles, it->x, it->y );
 						}
 						
-						//удаляем выделенную линию
+						//СѓРґР°Р»СЏРµРј РІС‹РґРµР»РµРЅРЅСѓСЋ Р»РёРЅРёСЋ
 						transLines.erase( it );
 						break;
 					}
@@ -387,11 +387,11 @@ BOOL CObjectFrame::SpecificTranslateMessage( MSG *pMsg )
 				SetChangedFlag( true );
 				
 				bDragging = true;
-				//прохожу по всем линиям и обновляю прозрачности, чтобы избежать удаления общих тайлов
+				//РїСЂРѕС…РѕР¶Сѓ РїРѕ РІСЃРµРј Р»РёРЅРёСЏРј Рё РѕР±РЅРѕРІР»СЏСЋ РїСЂРѕР·СЂР°С‡РЅРѕСЃС‚Рё, С‡С‚РѕР±С‹ РёР·Р±РµР¶Р°С‚СЊ СѓРґР°Р»РµРЅРёСЏ РѕР±С‰РёС… С‚Р°Р№Р»РѕРІ
 				for ( it=transLines.begin(); it!=transLines.end(); ++it )
 				{
 					currentLine = *it;
-					int nRes = UpdateNormalForSelectedLine();		//обновляем нормаль
+					int nRes = UpdateNormalForSelectedLine();		//РѕР±РЅРѕРІР»СЏРµРј РЅРѕСЂРјР°Р»СЊ
 					std::list<CVec2> coords;
 					float ftx1, fty1, ftx2, fty2;
 					POINT pt;
@@ -405,7 +405,7 @@ BOOL CObjectFrame::SpecificTranslateMessage( MSG *pMsg )
 					MyFillBrezenham( ftx1, fty1, ftx2, fty2, coords );
 					for ( std::list<CVec2>::iterator ext=coords.begin(); ext!=coords.end(); ++ext )
 					{
-						//обновим значение тайла в массиве тайлов
+						//РѕР±РЅРѕРІРёРј Р·РЅР°С‡РµРЅРёРµ С‚Р°Р№Р»Р° РІ РјР°СЃСЃРёРІРµ С‚Р°Р№Р»РѕРІ
 						SetTileInListOfNormalTiles( dirTiles, ext->x, ext->y, nRes );
 					}
 				}
@@ -428,7 +428,7 @@ void CObjectFrame::SetActiveGraphicPropsItem( CTreeItem *pGraphicProps )
 	CObjectGraphicPropsItem *pGraphicPropsItem = static_cast<CObjectGraphicPropsItem *> ( pActiveGraphicProps );
 	NI_ASSERT( pGraphicPropsItem != 0 );
 	
-	//так как имя файла относительное, здесь я должен собрать полный путь
+	//С‚Р°Рє РєР°Рє РёРјСЏ С„Р°Р№Р»Р° РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕРµ, Р·РґРµСЃСЊ СЏ РґРѕР»Р¶РµРЅ СЃРѕР±СЂР°С‚СЊ РїРѕР»РЅС‹Р№ РїСѓС‚СЊ
 	string szDir = GetDirectory( szProjectFileName.c_str() );
 	string szObjName;
 	const char *pszFileName = pGraphicPropsItem->GetFileName();
@@ -445,7 +445,7 @@ void CObjectFrame::UpdateActiveSprite()
 	CObjectGraphicPropsItem *pGraphicPropsItem = static_cast<CObjectGraphicPropsItem *> ( pActiveGraphicProps );
 	NI_ASSERT( pGraphicPropsItem != 0 );
 	
-	//так как имя файла относительное, здесь я должен собрать полный путь
+	//С‚Р°Рє РєР°Рє РёРјСЏ С„Р°Р№Р»Р° РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕРµ, Р·РґРµСЃСЊ СЏ РґРѕР»Р¶РµРЅ СЃРѕР±СЂР°С‚СЊ РїРѕР»РЅС‹Р№ РїСѓС‚СЊ
 	string szDir = GetDirectory( szProjectFileName.c_str() );
 	string szObjName;
 	const char *pszFileName = pGraphicPropsItem->GetFileName();
@@ -472,7 +472,7 @@ bool CObjectFrame::ExportFrameData( IDataTree *pDT, const char *pszProjectName, 
 	CVec3 realZeroPos3;
 	pSG->GetPos3( &realZeroPos3, krestPos2 );
 	
-	// Сохраняем данные о тайловой проходимости
+	// РЎРѕС…СЂР°РЅСЏРµРј РґР°РЅРЅС‹Рµ Рѕ С‚Р°Р№Р»РѕРІРѕР№ РїСЂРѕС…РѕРґРёРјРѕСЃС‚Рё
 	CVec3 mostLeft3 = realZeroPos3;
 	if ( lockedTiles.empty() )
 	{
@@ -482,7 +482,7 @@ bool CObjectFrame::ExportFrameData( IDataTree *pDT, const char *pszProjectName, 
 	}
 	else
 	{
-		//Сперва найдем минимальные и максимальные координаты тайлов в lockedTiles
+		//РЎРїРµСЂРІР° РЅР°Р№РґРµРј РјРёРЅРёРјР°Р»СЊРЅС‹Рµ Рё РјР°РєСЃРёРјР°Р»СЊРЅС‹Рµ РєРѕРѕСЂРґРёРЅР°С‚С‹ С‚Р°Р№Р»РѕРІ РІ lockedTiles
 		int nTileMinX = lockedTiles.front().nTileX;
 		int nTileMaxX = lockedTiles.front().nTileX;
 		int nTileMinY = lockedTiles.front().nTileY;
@@ -537,11 +537,11 @@ bool CObjectFrame::ExportFrameData( IDataTree *pDT, const char *pszProjectName, 
 	CVec2 zeroPos2 = ::ComputeSpriteNewZeroPos( pSprite, m_zeroPos, CVec2(zeroShiftX, zeroShiftY) );
 	pObjectRoot->ComposeAnimations( pszProjectName, GetDirectory(pszResultFileName).c_str(), zeroPos2, objectRPGStats.passability, objectRPGStats.vOrigin );
 	
-	//Сохраняем RPG stats
+	//РЎРѕС…СЂР°РЅСЏРµРј RPG stats
 	SaveRPGStats( pDT, pRootItem, pszProjectName );
 	
 	
-	//создадим файл icon.tga с изображением объекта
+	//СЃРѕР·РґР°РґРёРј С„Р°Р№Р» icon.tga СЃ РёР·РѕР±СЂР°Р¶РµРЅРёРµРј РѕР±СЉРµРєС‚Р°
 	CTreeItem *pGraphicsItem = pRootItem->GetChildItem( E_OBJECT_GRAPHICS_ITEM );
 	NI_ASSERT( pGraphicsItem != 0 );
 	CObjectGraphicPropsItem *pGraphicPropsItem = (CObjectGraphicPropsItem *) pGraphicsItem->GetChildItem( E_OBJECT_GRAPHIC1_PROPS_ITEM );
@@ -599,7 +599,7 @@ void CObjectFrame::SaveRPGStats( IDataTree *pDT, CTreeItem *pRootItem, const cha
 	CVec3 realZeroPos3;
 	pSG->GetPos3( &realZeroPos3, krestPos2 );
 
-	// Сохраняем данные о тайловой проходимости
+	// РЎРѕС…СЂР°РЅСЏРµРј РґР°РЅРЅС‹Рµ Рѕ С‚Р°Р№Р»РѕРІРѕР№ РїСЂРѕС…РѕРґРёРјРѕСЃС‚Рё
 	CVec3 mostLeft3 = realZeroPos3;
 	if ( lockedTiles.empty() )
 	{
@@ -609,7 +609,7 @@ void CObjectFrame::SaveRPGStats( IDataTree *pDT, CTreeItem *pRootItem, const cha
 	}
 	else
 	{
-		//Сперва найдем минимальные и максимальные координаты тайлов в lockedTiles
+		//РЎРїРµСЂРІР° РЅР°Р№РґРµРј РјРёРЅРёРјР°Р»СЊРЅС‹Рµ Рё РјР°РєСЃРёРјР°Р»СЊРЅС‹Рµ РєРѕРѕСЂРґРёРЅР°С‚С‹ С‚Р°Р№Р»РѕРІ РІ lockedTiles
 		int nTileMinX = lockedTiles.front().nTileX;
 		int nTileMaxX = lockedTiles.front().nTileX;
 		int nTileMinY = lockedTiles.front().nTileY;
@@ -661,7 +661,7 @@ void CObjectFrame::SaveRPGStats( IDataTree *pDT, CTreeItem *pRootItem, const cha
 	}
 
 
-	// Сохраняем данные о прозрачности объекта
+	// РЎРѕС…СЂР°РЅСЏРµРј РґР°РЅРЅС‹Рµ Рѕ РїСЂРѕР·СЂР°С‡РЅРѕСЃС‚Рё РѕР±СЉРµРєС‚Р°
 	{
 		if ( transeparences.empty() && dirTiles.empty() )
 		{
@@ -671,7 +671,7 @@ void CObjectFrame::SaveRPGStats( IDataTree *pDT, CTreeItem *pRootItem, const cha
 		}
 		else
 		{
-			//Сперва найдем минимальные и максимальные координаты тайлов в transeparences и dirTiles
+			//РЎРїРµСЂРІР° РЅР°Р№РґРµРј РјРёРЅРёРјР°Р»СЊРЅС‹Рµ Рё РјР°РєСЃРёРјР°Р»СЊРЅС‹Рµ РєРѕРѕСЂРґРёРЅР°С‚С‹ С‚Р°Р№Р»РѕРІ РІ transeparences Рё dirTiles
 			int nTileMinX, nTileMaxX, nTileMinY, nTileMaxY;
 			if ( !transeparences.empty() )
 			{
@@ -795,14 +795,14 @@ void CObjectFrame::LoadRPGStats( IDataTree *pDT, CTreeItem *pRootItem )
 	pEffects->SetEffectExplosion( objectRPGStats.szEffectExplosion.c_str() );
 	pEffects->SetEffectDeath( objectRPGStats.szEffectDeath.c_str() );
 
-	//Загружаем инфу о проходимости AI тайлов
-	CVec3 beginPos3;						//координаты самого левого тайла, который связан с vOrigin
+	//Р—Р°РіСЂСѓР¶Р°РµРј РёРЅС„Сѓ Рѕ РїСЂРѕС…РѕРґРёРјРѕСЃС‚Рё AI С‚Р°Р№Р»РѕРІ
+	CVec3 beginPos3;						//РєРѕРѕСЂРґРёРЅР°С‚С‹ СЃР°РјРѕРіРѕ Р»РµРІРѕРіРѕ С‚Р°Р№Р»Р°, РєРѕС‚РѕСЂС‹Р№ СЃРІСЏР·Р°РЅ СЃ vOrigin
 	beginPos3.x = 16*fWorldCellSize;
 	beginPos3.y = 16*fWorldCellSize;
 	beginPos3.z = 0;
 	
 	CVec2 realZeroPos2;
-	CVec3 realZeroPos3;				//тут будет точная координата перекрестия
+	CVec3 realZeroPos3;				//С‚СѓС‚ Р±СѓРґРµС‚ С‚РѕС‡РЅР°СЏ РєРѕРѕСЂРґРёРЅР°С‚Р° РїРµСЂРµРєСЂРµСЃС‚РёСЏ
 	{
 		pSG->GetPos2( &realZeroPos2, m_zeroPos );
 		realZeroPos2.x += zeroShiftX;
@@ -819,7 +819,7 @@ void CObjectFrame::LoadRPGStats( IDataTree *pDT, CTreeItem *pRootItem )
 	
 	{
 		pSG->GetPos2( &pos2, beginPos3 );
-		//сдвинемся на центр тайла
+		//СЃРґРІРёРЅРµРјСЃСЏ РЅР° С†РµРЅС‚СЂ С‚Р°Р№Р»Р°
 		pt.x = pos2.x + fCellSizeX/2;
 		pt.y = pos2.y;
 		CGridFrame::ComputeGameTileCoordinates( pt, ftX, ftY );
@@ -840,13 +840,13 @@ void CObjectFrame::LoadRPGStats( IDataTree *pDT, CTreeItem *pRootItem )
 	}
 	
 	{
-		//Загружаем инфу о видимости AI тайлов
-		CVec3 beginVis3;						//координаты самого левого тайла, который связан с vVisOrigin
+		//Р—Р°РіСЂСѓР¶Р°РµРј РёРЅС„Сѓ Рѕ РІРёРґРёРјРѕСЃС‚Рё AI С‚Р°Р№Р»РѕРІ
+		CVec3 beginVis3;						//РєРѕРѕСЂРґРёРЅР°С‚С‹ СЃР°РјРѕРіРѕ Р»РµРІРѕРіРѕ С‚Р°Р№Р»Р°, РєРѕС‚РѕСЂС‹Р№ СЃРІСЏР·Р°РЅ СЃ vVisOrigin
 		beginVis3.x = realZeroPos3.x - objectRPGStats.vVisOrigin.x;
 		beginVis3.y = realZeroPos3.y - objectRPGStats.vVisOrigin.y;
 		beginVis3.z = 0;
 		pSG->GetPos2( &pos2, beginVis3 );
-		//сдвинемся на центр тайла
+		//СЃРґРІРёРЅРµРјСЃСЏ РЅР° С†РµРЅС‚СЂ С‚Р°Р№Р»Р°
 		pt.x = pos2.x + fCellSizeX/2;
 		pt.y = pos2.y;
 		CGridFrame::ComputeGameTileCoordinates( pt, ftX, ftY );
@@ -864,7 +864,7 @@ void CObjectFrame::LoadRPGStats( IDataTree *pDT, CTreeItem *pRootItem )
 				}
 				else if ( nTemp & 0x08 )
 				{
-					//направленная прозрачность
+					//РЅР°РїСЂР°РІР»РµРЅРЅР°СЏ РїСЂРѕР·СЂР°С‡РЅРѕСЃС‚СЊ
 					SetTileInListOfNormalTiles( dirTiles, nVisTileX + x, nVisTileY + y, nTemp >> 4 );
 				}
 			}
@@ -887,20 +887,20 @@ void CObjectFrame::SaveFrameOwnData( IDataTree *pDT )
 /*
 	if ( pSprite )
 	{
-		//Сохраняем позицию спрайта
+		//РЎРѕС…СЂР°РЅСЏРµРј РїРѕР·РёС†РёСЋ СЃРїСЂР°Р№С‚Р°
 		CVec3 pos3 = pSprite->GetPosition();
 		tree.Add( "sprite_pos", &pos3 );
 	}
 */
 	tree.Add( "sprite_pos", &m_SpriteLoadPos );
 	
-	//Сохраняем позицию креста
+	//РЎРѕС…СЂР°РЅСЏРµРј РїРѕР·РёС†РёСЋ РєСЂРµСЃС‚Р°
 	tree.Add( "krest_pos", &m_zeroPos );
 	
-	//Сохраняем export file name
+	//РЎРѕС…СЂР°РЅСЏРµРј export file name
 	tree.Add( "export_file_name", &szPrevExportFileName );
 	
-	//сохраним тайлы
+	//СЃРѕС…СЂР°РЅРёРј С‚Р°Р№Р»С‹
 	//	tree.Add( "LockedTiles", &lockedTiles );
 	//	tree.Add( "DirectionTiles", &dirTiles );
 	//	tree.Add( "Transeparences", &transeparences );
@@ -914,7 +914,7 @@ void CObjectFrame::LoadFrameOwnData( IDataTree *pDT )
 	pDT->StartChunk( "own_data" );
 	CTreeAccessor tree = pDT;
 	
-	//Загружаем позицию спрайта
+	//Р—Р°РіСЂСѓР¶Р°РµРј РїРѕР·РёС†РёСЋ СЃРїСЂР°Р№С‚Р°
 	tree.Add( "sprite_pos", &m_SpriteLoadPos );
 	if ( pSprite )
 	{
@@ -922,10 +922,10 @@ void CObjectFrame::LoadFrameOwnData( IDataTree *pDT )
 		pSprite->SetPosition( m_SpriteLoadPos );
 	}
 
-	//Загружаем позицию креста
+	//Р—Р°РіСЂСѓР¶Р°РµРј РїРѕР·РёС†РёСЋ РєСЂРµСЃС‚Р°
 	tree.Add( "krest_pos", &m_zeroPos );
 	
-	//Загружаем export file name
+	//Р—Р°РіСЂСѓР¶Р°РµРј export file name
 	string szPrevExportDir;
 	tree.Add( "export_dir", &szPrevExportDir );
 	if ( szPrevExportDir.size() > 0 )
@@ -936,7 +936,7 @@ void CObjectFrame::LoadFrameOwnData( IDataTree *pDT )
 	else
 		tree.Add( "export_file_name", &szPrevExportFileName );
 	
-	//загрузим тайлы
+	//Р·Р°РіСЂСѓР·РёРј С‚Р°Р№Р»С‹
 //	tree.Add( "LockedTiles", &lockedTiles );
 //	tree.Add( "DirectionTiles", &dirTiles );
 //	tree.Add( "Transeparences", &transeparences );
@@ -968,21 +968,21 @@ int CObjectFrame::UpdateNormalForSelectedLine()
 	NI_ASSERT( bDragging == true );
 
 	IScene *pSG = GetSingleton<IScene>();
-	CVec3 v1, v2, r;												//r это вторая точка нормали
+	CVec3 v1, v2, r;												//r СЌС‚Рѕ РІС‚РѕСЂР°СЏ С‚РѕС‡РєР° РЅРѕСЂРјР°Р»Рё
 	r.z = 0;
 	pSG->GetPos3( &v1, currentLine.p1 );
 	pSG->GetPos3( &v2, currentLine.p2 );
 	
-	//нормаль
+	//РЅРѕСЂРјР°Р»СЊ
 	CVerticesLock<SGFXTLVertex> vertices( currentLine.pNormalVertices );
 	float fcx = (v1.x + v2.x) / 2;
 	float fcy = (v1.y + v2.y) / 2;
 	float alpha = atan2( v2.y - v1.y, v2.x - v1.x );
 	alpha += FP_PI / 16.0f;
-	if ( alpha > FP_PI )								//от -PI до PI
+	if ( alpha > FP_PI )								//РѕС‚ -PI РґРѕ PI
 		alpha -= FP_2PI;
 
-	int nRes = (float) ( FP_PI + alpha ) * 8 / FP_PI;				//угол в единицах 0..15
+	int nRes = (float) ( FP_PI + alpha ) * 8 / FP_PI;				//СѓРіРѕР» РІ РµРґРёРЅРёС†Р°С… 0..15
 	nRes = ( nRes + 8 ) % 16;
 	NI_ASSERT( nRes >= 0 && nRes <= 15 );
 	alpha = (float) nRes * FP_PI8;
@@ -1011,7 +1011,7 @@ void CObjectFrame::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	SetFocus();
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
-	if ( pTree == 0 )			//Если проект не был создан
+	if ( pTree == 0 )			//Р•СЃР»Рё РїСЂРѕРµРєС‚ РЅРµ Р±С‹Р» СЃРѕР·РґР°РЅ
 		return;
 	
 	if ( tbStyle == E_DRAW_GRID )
@@ -1063,16 +1063,16 @@ void CObjectFrame::OnLButtonDown(UINT nFlags, CPoint point)
 	{
 		if ( bDragging )
 		{
-			//помещаем линию в массив уже созданных
+			//РїРѕРјРµС‰Р°РµРј Р»РёРЅРёСЋ РІ РјР°СЃСЃРёРІ СѓР¶Рµ СЃРѕР·РґР°РЅРЅС‹С…
 			currentLine.p2.x = point.x;
 			currentLine.p2.y = point.y;
 			{
 				CVerticesLock<SGFXTLVertex> vertices( currentLine.pVertices );
 				vertices[1].Setup( point.x, point.y, 1, 1, 0xff0000ff, 0xff000000, 0, 0 );
 			}
-			int nRes = UpdateNormalForSelectedLine();		//обновляем нормаль
+			int nRes = UpdateNormalForSelectedLine();		//РѕР±РЅРѕРІР»СЏРµРј РЅРѕСЂРјР°Р»СЊ
 
-			//обновляем список залоканных тайлов
+			//РѕР±РЅРѕРІР»СЏРµРј СЃРїРёСЃРѕРє Р·Р°Р»РѕРєР°РЅРЅС‹С… С‚Р°Р№Р»РѕРІ
 			float ftx1, fty1, ftx2, fty2;
 			POINT pt;
 			pt.x = currentLine.p1.x;
@@ -1094,7 +1094,7 @@ void CObjectFrame::OnLButtonDown(UINT nFlags, CPoint point)
 		}
 		else
 		{
-			//проверим, вдруг точка внутри центрального прямоугольника
+			//РїСЂРѕРІРµСЂРёРј, РІРґСЂСѓРі С‚РѕС‡РєР° РІРЅСѓС‚СЂРё С†РµРЅС‚СЂР°Р»СЊРЅРѕРіРѕ РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРєР°
 			CTransLineList::iterator it = transLines.begin();
 			int i = 0;
 			for ( ; it!=transLines.end(); ++it )
@@ -1103,11 +1103,11 @@ void CObjectFrame::OnLButtonDown(UINT nFlags, CPoint point)
 				float fcy = (it->p1.y + it->p2.y) / 2;
 				if ( point.x >= fcx - DELTA_X && point.x <= fcx + DELTA_X && point.y >= fcy - DELTA_Y && point.y <= fcy + DELTA_Y )
 				{
-					//нашли прямоугольник, выделяем эту линию
+					//РЅР°С€Р»Рё РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРє, РІС‹РґРµР»СЏРµРј СЌС‚Сѓ Р»РёРЅРёСЋ
 					{
-						//сперва развыделяем старую
+						//СЃРїРµСЂРІР° СЂР°Р·РІС‹РґРµР»СЏРµРј СЃС‚Р°СЂСѓСЋ
 						if ( m_nSelected == i )
-							break;		//выделена опять та же самая линия
+							break;		//РІС‹РґРµР»РµРЅР° РѕРїСЏС‚СЊ С‚Р° Р¶Рµ СЃР°РјР°СЏ Р»РёРЅРёСЏ
 						
 						int k = 0;
 						for ( CTransLineList::iterator it=transLines.begin(); it!=transLines.end(); ++it )
@@ -1137,7 +1137,7 @@ void CObjectFrame::OnLButtonDown(UINT nFlags, CPoint point)
 			{
 				if ( m_nSelected >= 0 )
 				{
-					//развыделяем старую линию
+					//СЂР°Р·РІС‹РґРµР»СЏРµРј СЃС‚Р°СЂСѓСЋ Р»РёРЅРёСЋ
 					int i = 0;
 					for ( it=transLines.begin(); it!=transLines.end(); ++it )
 					{
@@ -1155,7 +1155,7 @@ void CObjectFrame::OnLButtonDown(UINT nFlags, CPoint point)
 					NI_ASSERT( it != transLines.end() );
 				}
 				
-				//создаем новую линию
+				//СЃРѕР·РґР°РµРј РЅРѕРІСѓСЋ Р»РёРЅРёСЋ
 				currentLine.p1.x = point.x;
 				currentLine.p1.y = point.y;
 				currentLine.p2.x = point.x;
@@ -1185,7 +1185,7 @@ void CObjectFrame::OnRButtonDown(UINT nFlags, CPoint point)
 {
 	SetFocus();
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
-	if ( pTree == 0 )			//Если проект не был создан
+	if ( pTree == 0 )			//Р•СЃР»Рё РїСЂРѕРµРєС‚ РЅРµ Р±С‹Р» СЃРѕР·РґР°РЅ
 		return;
 	SetChangedFlag( true );
 	
@@ -1219,7 +1219,7 @@ void CObjectFrame::OnRButtonDown(UINT nFlags, CPoint point)
 void CObjectFrame::OnMouseMove(UINT nFlags, CPoint point) 
 {
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
-	if ( pTree == 0 )			//Если проект не был создан
+	if ( pTree == 0 )			//Р•СЃР»Рё РїСЂРѕРµРєС‚ РЅРµ Р±С‹Р» СЃРѕР·РґР°РЅ
 		return;
 	
 	if ( tbStyle == E_DRAW_GRID && nFlags & MK_RBUTTON )
@@ -1293,11 +1293,11 @@ void CObjectFrame::OnMouseMove(UINT nFlags, CPoint point)
 			currentLine.p2.y = point.y;
 			CVerticesLock<SGFXTLVertex> vertices( currentLine.pVertices );
 			vertices[1].Setup( point.x, point.y, 1, 1, 0xff0000ff, 0xff000000, 0, 0 );
-			UpdateNormalForSelectedLine();		//обновляем нормаль
+			UpdateNormalForSelectedLine();		//РѕР±РЅРѕРІР»СЏРµРј РЅРѕСЂРјР°Р»СЊ
 		}
 		else
 		{
-			//проверим, если мышка вблизи центра линии, то рисую прямоугольник выделения
+			//РїСЂРѕРІРµСЂРёРј, РµСЃР»Рё РјС‹С€РєР° РІР±Р»РёР·Рё С†РµРЅС‚СЂР° Р»РёРЅРёРё, С‚Рѕ СЂРёСЃСѓСЋ РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРє РІС‹РґРµР»РµРЅРёСЏ
 			bDrawRect = false;
 			for ( CTransLineList::iterator it=transLines.begin(); it!=transLines.end(); ++it )
 			{
@@ -1347,7 +1347,7 @@ void CObjectFrame::LoadSprite( const char *pszSpriteFullName )
 	if ( pSprite )
 		pSG->RemoveObject( pSprite );
 	
-	//Скомпонуем спрайт в editor temp dir
+	//РЎРєРѕРјРїРѕРЅСѓРµРј СЃРїСЂР°Р№С‚ РІ editor temp dir
 	string szTempDir = theApp.GetEditorTempDir();
 	if ( !ComposeSingleSprite( pszSpriteFullName, szTempDir.c_str(), "Object" ) )
 	{
@@ -1378,7 +1378,7 @@ bool CObjectFrame::LoadFramePreExportData( const char *pszProjectFile, CTreeItem
 	const char *pszFileName = pGraphicPropsItem->GetFileName();
 	NI_ASSERT( pszFileName != 0 );
 	
-	//так как имя файла относительное, здесь я должен собрать полный путь
+	//С‚Р°Рє РєР°Рє РёРјСЏ С„Р°Р№Р»Р° РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕРµ, Р·РґРµСЃСЊ СЏ РґРѕР»Р¶РµРЅ СЃРѕР±СЂР°С‚СЊ РїРѕР»РЅС‹Р№ РїСѓС‚СЊ
 	string szDir = GetDirectory( pszProjectFile );
 	string szObjName;
 	bool bRes = MakeFullPath( szDir.c_str(), pszFileName, szObjName );
@@ -1388,7 +1388,7 @@ bool CObjectFrame::LoadFramePreExportData( const char *pszProjectFile, CTreeItem
 	LoadSprite( szObjName.c_str() );
 	pSprite->Update( timeGetTime() );
 	
-	//временно сохраним, чтобы не испортилась координата
+	//РІСЂРµРјРµРЅРЅРѕ СЃРѕС…СЂР°РЅРёРј, С‡С‚РѕР±С‹ РЅРµ РёСЃРїРѕСЂС‚РёР»Р°СЃСЊ РєРѕРѕСЂРґРёРЅР°С‚Р°
 	CVec3 vSave = m_zeroPos;
 	CreateKrest();
 	m_zeroPos = vSave;
@@ -1502,7 +1502,7 @@ void CObjectFrame::OnUpdateMoveObject(CCmdUI* pCmdUI)
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
 	if ( pTree != 0 )
 	{
-		//Если уже был создан проект
+		//Р•СЃР»Рё СѓР¶Рµ Р±С‹Р» СЃРѕР·РґР°РЅ РїСЂРѕРµРєС‚
 		pCmdUI->Enable( true );
 	}
 	else
@@ -1514,7 +1514,7 @@ void CObjectFrame::OnUpdateDrawGrid(CCmdUI* pCmdUI)
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
 	if ( pTree != 0 )
 	{
-		//Если уже был создан проект
+		//Р•СЃР»Рё СѓР¶Рµ Р±С‹Р» СЃРѕР·РґР°РЅ РїСЂРѕРµРєС‚
 		pCmdUI->Enable( true );
 	}
 	else
@@ -1526,7 +1526,7 @@ void CObjectFrame::OnUpdateSetZeroButton(CCmdUI* pCmdUI)
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
 	if ( pTree != 0 )
 	{
-		//Если уже был создан проект
+		//Р•СЃР»Рё СѓР¶Рµ Р±С‹Р» СЃРѕР·РґР°РЅ РїСЂРѕРµРєС‚
 		pCmdUI->Enable( true );
 	}
 	else
@@ -1591,7 +1591,7 @@ FILETIME CObjectFrame::FindMinimalExportFileTime( const char *pszResultFileName,
 	NI_ASSERT( pWinterGraphProps != 0 );
 	if ( strlen( pWinterGraphProps->GetFileName() ) )
 	{
-		//Если есть зимний спрайт
+		//Р•СЃР»Рё РµСЃС‚СЊ Р·РёРјРЅРёР№ СЃРїСЂР°Р№С‚
 		string szTempFileName = szDestDir;
 		szTempFileName += "1w.san";
 		current = GetFileChangeTime( szTempFileName.c_str() );

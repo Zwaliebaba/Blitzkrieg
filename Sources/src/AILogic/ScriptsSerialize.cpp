@@ -34,7 +34,7 @@ int CScripts::operator&( IStructureSaver &ss )
 	if ( saver.IsReading() )
 	{
 		pScripts = this;
-		// очистить lua state
+		// РѕС‡РёСЃС‚РёС‚СЊ lua state
 		script.Clear();
 		script.Init();
 	}
@@ -43,10 +43,10 @@ int CScripts::operator&( IStructureSaver &ss )
 		pConsole = GetSingleton<IConsoleBuffer>();
 
 	saver.Add( 3, &groups );
-//	saver.Add( 7, &name2script );										// сохранять не нужно
+//	saver.Add( 7, &name2script );										// СЃРѕС…СЂР°РЅСЏС‚СЊ РЅРµ РЅСѓР¶РЅРѕ
 	saver.Add( 8, &szScriptFile );
 
-	// сохранить информацию об активных скриптах
+	// СЃРѕС…СЂР°РЅРёС‚СЊ РёРЅС„РѕСЂРјР°С†РёСЋ РѕР± Р°РєС‚РёРІРЅС‹С… СЃРєСЂРёРїС‚Р°С…
 	if ( !saver.IsReading() )
 	{
 		std::list<SScriptInfo> activeScriptsInfo;
@@ -56,7 +56,7 @@ int CScripts::operator&( IStructureSaver &ss )
 		saver.Add( 9, &activeScriptsInfo );
 	}
 	else
-	// восстановить состояние lua	
+	// РІРѕСЃСЃС‚Р°РЅРѕРІРёС‚СЊ СЃРѕСЃС‚РѕСЏРЅРёРµ lua	
 	{
 		std::list<SScriptInfo> activeScriptsInfo;
 		saver.Add( 9, &activeScriptsInfo );

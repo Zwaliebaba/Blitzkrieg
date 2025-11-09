@@ -9,10 +9,10 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 struct SExtendedParticleSource
 {
-	CPtr<IParticleSource> pSource;        // то, что летит
-	CVec3 vSpeed;                         // просто скорость
-	CVec3 vWind;                          // ветер для частицы
-	STrackContext contextSpeed;						// контексты для расчета интегралов
+	CPtr<IParticleSource> pSource;        // С‚Рѕ, С‡С‚Рѕ Р»РµС‚РёС‚
+	CVec3 vSpeed;                         // РїСЂРѕСЃС‚Рѕ СЃРєРѕСЂРѕСЃС‚СЊ
+	CVec3 vWind;                          // РІРµС‚РµСЂ РґР»В¤ С‡Р°СЃС‚РёС†С‹
+	STrackContext contextSpeed;						// РєРѕРЅС‚РµРєСЃС‚С‹ РґР»В¤ СЂР°СЃС‡РµС‚Р° РёРЅС‚РµРіСЂР°Р»РѕРІ
 	STrackContext contextZSpeed;          // 
 	//
 	int operator&( IStructureSaver &ss );
@@ -22,18 +22,18 @@ class CSmokinParticleSource : public IParticleSource, public IParticleSourceWith
 {
 	OBJECT_NORMAL_METHODS(CSmokinParticleSource);
 	DECLARE_SERIALIZE;
-	CPtr<SSmokinParticleSourceData> pData;			// данные об источнике
-	NTimer::STime nStartTime;             // время рождения
-	NTimer::STime nLastUpdateTime;				// время последнего обновления
-	CVec3 vPosition;											// относительно положение источника
-	float fDirectionPhi;                   // направление источника в сферической системе координат
-	float fDirectionTheta;                 // направление источника в сферической системе координат
-	CVec3 vDirection;                     // направление источника без учета pData
-	float lastError;                      // поправка на нецелое число партиклов при последней генерации
-	std::list<SExtendedParticleSource> particles; // они
-	float fScale;                         // масштаб эффекта
-	bool bStopped;                        // остановка эффекта
-	STrackContext contextDensity;         // контекст для интегрирования плотности партиклов
+	CPtr<SSmokinParticleSourceData> pData;			// РґР°РЅРЅС‹Рµ РѕР± РёСЃС‚РѕС‡РЅРёРєРµ
+	NTimer::STime nStartTime;             // РІСЂРµРјВ¤ СЂРѕР¶РґРµРЅРёВ¤
+	NTimer::STime nLastUpdateTime;				// РІСЂРµРјВ¤ РїРѕСЃР»РµРґРЅРµРіРѕ РѕР±РЅРѕРІР»РµРЅРёВ¤
+	CVec3 vPosition;											// РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕ РїРѕР»РѕР¶РµРЅРёРµ РёСЃС‚РѕС‡РЅРёРєР°
+	float fDirectionPhi;                   // РЅР°РїСЂР°РІР»РµРЅРёРµ РёСЃС‚РѕС‡РЅРёРєР° РІ СЃС„РµСЂРёС‡РµСЃРєРѕР№ СЃРёСЃС‚РµРјРµ РєРѕРѕСЂРґРёРЅР°С‚
+	float fDirectionTheta;                 // РЅР°РїСЂР°РІР»РµРЅРёРµ РёСЃС‚РѕС‡РЅРёРєР° РІ СЃС„РµСЂРёС‡РµСЃРєРѕР№ СЃРёСЃС‚РµРјРµ РєРѕРѕСЂРґРёРЅР°С‚
+	CVec3 vDirection;                     // РЅР°РїСЂР°РІР»РµРЅРёРµ РёСЃС‚РѕС‡РЅРёРєР° Р±РµР· СѓС‡РµС‚Р° pData
+	float lastError;                      // РїРѕРїСЂР°РІРєР° РЅР° РЅРµС†РµР»РѕРµ С‡РёСЃР»Рѕ РїР°СЂС‚РёРєР»РѕРІ РїСЂРё РїРѕСЃР»РµРґРЅРµР№ РіРµРЅРµСЂР°С†РёРё
+	std::list<SExtendedParticleSource> particles; // РѕРЅРё
+	float fScale;                         // РјР°СЃС€С‚Р°Р± СЌС„С„РµРєС‚Р°
+	bool bStopped;                        // РѕСЃС‚Р°РЅРѕРІРєР° СЌС„С„РµРєС‚Р°
+	STrackContext contextDensity;         // РєРѕРЅС‚РµРєСЃС‚ РґР»В¤ РёРЅС‚РµРіСЂРёСЂРѕРІР°РЅРёВ¤ РїР»РѕС‚РЅРѕСЃС‚Рё РїР°СЂС‚РёРєР»РѕРІ
 	typedef CVec3 GetParticlePositionFunction( const float area, const CVec3 &vPosition );
 	GetParticlePositionFunction *pfnGPPfunc;
 public:

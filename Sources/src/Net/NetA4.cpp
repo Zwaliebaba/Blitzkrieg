@@ -205,7 +205,7 @@ CNetDriver::~CNetDriver()
 
 	if ( hThread )
 	{
-		// нить сама не завершилась
+		// РЅРёС‚СЊ СЃР°РјР° РЅРµ Р·Р°РІРµСЂС€РёР»Р°СЃСЊ
 		if ( WaitForSingleObject( hFinishReport,0 ) != WAIT_OBJECT_0 )
 		{
 			SetEvent( hStopCommand );
@@ -790,7 +790,7 @@ void CNetDriver::StepActive( float fDeltaTime )
 /*
 			if ( !it->data.HasOutData() )
 			{
-				// самый свободный? получи
+				// СЃР°РјС‹Р№ СЃРІРѕР±РѕРґРЅС‹Р№? РїРѕР»СѓС‡Рё
 				CMemoryStream shit;
 				static int nShit = 0;
 				shit.SetSize( 7000 );//15000 );
@@ -1092,9 +1092,9 @@ void CNetDriver::StepMultiChannel()
 	int received[128];
 	CStreamAccessor pkt = CreateObject<IDataStream>( STREAMIO_MEMORY_STREAM );
 	//
-	// чтобы без помех считывать полученные сообщения
+	// С‡С‚РѕР±С‹ Р±РµР· РїРѕРјРµС… СЃС‡РёС‚С‹РІР°С‚СЊ РїРѕР»СѓС‡РµРЅРЅС‹Рµ СЃРѕРѕР±С‰РµРЅРёСЏ
 	bMultiChannel = false;
-	// по всем полученным сообщениям
+	// РїРѕ РІСЃРµРј РїРѕР»СѓС‡РµРЅРЅС‹Рј СЃРѕРѕР±С‰РµРЅРёСЏРј
 
 	criticalSectionLock.Leave();
 #ifdef __TEST_LAGS__
@@ -1103,7 +1103,7 @@ void CNetDriver::StepMultiChannel()
 	while ( GetMessage(&eMsgID, &nClientID, received, pkt) )
 	{
 		criticalSectionLock.Enter();
-		// узнать тип
+		// СѓР·РЅР°С‚СЊ С‚РёРї
 		BYTE msg;
 		int i = 0;
 		const int nCurStreamPosition = pkt->GetPos();
@@ -1157,7 +1157,7 @@ bool CNetDriver::GetChannelMessage( EMessage *pMsg, int *pClientID, int *receive
 
 		pPkt->SetSize( 0 );		
 		IDataStream *pMemStream = channelMsgs[nChannel].front().pPkt;
-		// скопировать 'nLength' байт из текущей позиции потока в текущю позицию 'pDstStream' потока
+		// СЃРєРѕРїРёСЂРѕРІР°С‚СЊ 'nLength' Р±Р°Р№С‚ РёР· С‚РµРєСѓС‰РµР№ РїРѕР·РёС†РёРё РїРѕС‚РѕРєР° РІ С‚РµРєСѓС‰СЋ РїРѕР·РёС†РёСЋ 'pDstStream' РїРѕС‚РѕРєР°
 		pMemStream->CopyTo( pPkt, pMemStream->GetSize() );
 		pPkt->Seek( 0, STREAM_SEEK_SET );
 

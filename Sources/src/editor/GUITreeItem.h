@@ -36,7 +36,7 @@ public:
 
 	int GetWindowType() { return nWindowType; }
 
-	virtual void InsertChildItems();					//Вызывается после создания всех компонентов для занесения их в дерево
+	virtual void InsertChildItems();					//Р’С‹Р·С‹РІР°РµС‚СЃСЏ РїРѕСЃР»Рµ СЃРѕР·РґР°РЅРёСЏ РІСЃРµС… РєРѕРјРїРѕРЅРµРЅС‚РѕРІ РґР»СЏ Р·Р°РЅРµСЃРµРЅРёСЏ РёС… РІ РґРµСЂРµРІРѕ
 	virtual int operator&( IDataTree &ss );
 };
 
@@ -108,7 +108,7 @@ public:
 class CTemplatePropsTreeItem : public CTreeItem
 {
 private:
-	int nWindowType;			//инициализируется из XML файла при загрузке
+	int nWindowType;			//РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµС‚СЃСЏ РёР· XML С„Р°Р№Р»Р° РїСЂРё Р·Р°РіСЂСѓР·РєРµ
 	string szXMLFile;
 	
 public:
@@ -124,7 +124,7 @@ public:
 	virtual void MyLButtonClick();
 
 /*
-	virtual void InsertChildItems();					//Вызывается после создания всех компонентов для занесения их в дерево
+	virtual void InsertChildItems();					//Р’С‹Р·С‹РІР°РµС‚СЃСЏ РїРѕСЃР»Рµ СЃРѕР·РґР°РЅРёСЏ РІСЃРµС… РєРѕРјРїРѕРЅРµРЅС‚РѕРІ РґР»СЏ Р·Р°РЅРµСЃРµРЅРёСЏ РёС… РІ РґРµСЂРµРІРѕ
 */
 	virtual int operator&( IDataTree &ss );
 	virtual void MyKeyDown( int nChar );

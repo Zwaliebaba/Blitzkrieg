@@ -301,7 +301,7 @@ class CWorldClient : public CWorldBase
 	typedef std::vector<SSelectionGroup> CSelectionsList;
 	CSelectionsList selectionGroups;			// selection groups
 	CSelector selunits, selbuildings;			// selected units & buildings
-	CMapObjectsList preselectedObjects;		// pre-selected objects (т.е. объекты, которые обведены рамочкой, но ещё не выбраны)
+	CMapObjectsList preselectedObjects;		// pre-selected objects (С‚.Рµ. РѕР±СЉРµРєС‚С‹, РєРѕС‚РѕСЂС‹Рµ РѕР±РІРµРґРµРЅС‹ СЂР°РјРѕС‡РєРѕР№, РЅРѕ РµС‰С‘ РЅРµ РІС‹Р±СЂР°РЅС‹)
 	CUserActions availActions;						// current available actions (of the current selection)
 	CUserActions availCrossActions;				// actions, which one can do on the current point
 	CUserActions lastActions;							// available actions from the last frame (to compare)

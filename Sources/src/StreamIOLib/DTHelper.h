@@ -447,7 +447,7 @@ class CTreeAccessor
 			{
 				int nTypeID = -1;
 				Add( "ClassTypeID", &nTypeID );
-				// CRAP{ для совместимости со старыми проектами
+				// CRAP{ РґР»СЏ СЃРѕРІРјРµСЃС‚РёРјРѕСЃС‚Рё СЃРѕ СЃС‚Р°СЂС‹РјРё РїСЂРѕРµРєС‚Р°РјРё
 				if ( nTypeID == -1 )
 					Add( "type", &nTypeID );
 				// CRAP}

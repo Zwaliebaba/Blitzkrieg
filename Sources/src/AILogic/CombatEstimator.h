@@ -5,7 +5,7 @@
 #include "AIHashFuncs.h"
 class CAIUnit;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// для определения комбатной стуации
+// РґР»СЏ РѕРїСЂРµРґРµР»РµРЅРёСЏ РєРѕРјР±Р°С‚РЅРѕР№ СЃС‚СѓР°С†РёРё
 class CCombatEstimator
 {
 	DECLARE_SERIALIZE;
@@ -21,11 +21,11 @@ class CCombatEstimator
 	};
 
 	typedef std::hash_set<int> CRegisteredUnits;
-	CRegisteredUnits registeredMechUnits;			// вражескте юниты (не пехота)с ненулевой текущей скоростью
-	CRegisteredUnits registeredInfantry;			// вражескте юниты (пехота)с ненулевой текущей скоростью
+	CRegisteredUnits registeredMechUnits;			// РІСЂР°Р¶РµСЃРєС‚Рµ СЋРЅРёС‚С‹ (РЅРµ РїРµС…РѕС‚Р°)СЃ РЅРµРЅСѓР»РµРІРѕР№ С‚РµРєСѓС‰РµР№ СЃРєРѕСЂРѕСЃС‚СЊСЋ
+	CRegisteredUnits registeredInfantry;			// РІСЂР°Р¶РµСЃРєС‚Рµ СЋРЅРёС‚С‹ (РїРµС…РѕС‚Р°)СЃ РЅРµРЅСѓР»РµРІРѕР№ С‚РµРєСѓС‰РµР№ СЃРєРѕСЂРѕСЃС‚СЊСЋ
 
 	typedef std::list<SShellInfo> CShellTimes;
-	CShellTimes shellTimes;								// время выстрела
+	CShellTimes shellTimes;								// РІСЂРµРјСЏ РІС‹СЃС‚СЂРµР»Р°
 
 public:
 	CCombatEstimator();

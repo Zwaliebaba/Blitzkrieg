@@ -96,7 +96,7 @@ void CTileDrawState::OnMouseMove( UINT nFlags, const CTPoint<int> &rMousePoint, 
 					}
 					pTerrainEditor->Update( rTilepdate );
 					
-					// красный квадратик под курсором
+					// РєСЂР°СЃРЅС‹Р№ РєРІР°РґСЂР°С‚РёРє РїРѕРґ РєСѓСЂСЃРѕСЂРѕРј
 					if ( GRect(r).contains( mousePoint.x , mousePoint.y ) )
 					{
 						std::vector< CTPoint<int> > pointsForUpdate;
@@ -142,7 +142,7 @@ void CTileDrawState::OnMouseMove( UINT nFlags, const CTPoint<int> &rMousePoint, 
 			GRect terrainRect( 0, 0 , terrainInfo.patches.GetSizeX() * 16 - 1, terrainInfo.patches.GetSizeY() * 16 - 1);
 			dynamic_cast< ITerrainEditor* >(terra)->GetTileIndex( v, &tileX, &tileY );	
 			
-			// красный квадратик под курсором
+			// РєСЂР°СЃРЅС‹Р№ РєРІР°РґСЂР°С‚РёРє РїРѕРґ РєСѓСЂСЃРѕСЂРѕРј
 			CPoint pt;
 			GetCursorPos(&pt);
       pFrame->ScreenToClient(&pt);
@@ -179,7 +179,7 @@ void CTileDrawState::OnLButtonDown( UINT nFlags, const CTPoint<int> &rMousePoint
 		return;
 	}
 
-	// включим режим рисования кисточкой 	и нарисуем один тайл
+	// РІРєР»СЋС‡РёРј СЂРµР¶РёРј СЂРёСЃРѕРІР°РЅРёСЏ РєРёСЃС‚РѕС‡РєРѕР№ 	Рё РЅР°СЂРёСЃСѓРµРј РѕРґРёРЅ С‚Р°Р№Р»
 	CTPoint<int> mousePoint( rMousePoint );
 	RECT r;
 	g_frameManager.GetGameWnd()->GetClientRect( &r );

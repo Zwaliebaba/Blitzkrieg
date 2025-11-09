@@ -33,7 +33,7 @@ public:
 	virtual void GetSpeed3( CVec3 *vSpeed ) const;
 
 	virtual const CVec2& GetFinishPoint() const { return vFinishPoint2D; }
-//ненужные функции
+//РЅРµРЅСѓР¶РЅС‹Рµ С„СѓРЅРєС†РёРё
 	virtual bool Init( interface IBasePathUnit *pUnit, IPath *pPath, bool bSmoothTurn = true, bool bCheckTurn = true ) { CPtr<IPath> p = pPath; return true; }
 	virtual bool InitByFormationPath( class CFormation *pFormation, interface IBasePathUnit *pUnit ) { return true; }
 	virtual bool Init( interface IMemento *pMemento, interface IBasePathUnit *pUnit ) { CPtr<IMemento> p = pMemento; return true; }

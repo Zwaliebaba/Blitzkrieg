@@ -292,13 +292,13 @@ void CP2PTracker::ReceiveAddClient( SPeer *pWho, const UCID &who, PEER_ID id, co
 	{
 		if ( !pTest->IsActive() )
 		{
-			// pWho áğåäèò - ıòîãî ïàğíÿ ìû êàê ğàç êèêàåì
+			// pWho Ğ±Ñ€ĞµĞ´Ğ¸Ñ‚ - ÑÑ‚Ğ¾Ğ³Ğ¾ Ğ¿Ğ°Ñ€Ğ½Ñ Ğ¼Ñ‹ ĞºĞ°Ğº Ñ€Ğ°Ğ· ĞºĞ¸ĞºĞ°ĞµĞ¼
 			SendRemoveClient( *pWho, who );
 			return;
 		}
 	}
 	else
-		AddNewClient( who, _addrInfo ); // ıòî ÷òî-òî íîâîå, íóæíî äîáàâèòü â ñâîé ñïèñîê
+		AddNewClient( who, _addrInfo ); // ÑÑ‚Ğ¾ Ñ‡Ñ‚Ğ¾-Ñ‚Ğ¾ Ğ½Ğ¾Ğ²Ğ¾Ğµ, Ğ½ÑƒĞ¶Ğ½Ğ¾ Ğ´Ğ¾Ğ±Ğ°Ğ²Ğ¸Ñ‚ÑŒ Ğ² ÑĞ²Ğ¾Ğ¹ ÑĞ¿Ğ¸ÑĞ¾Ğº
 	// now to remove buddy we need to receive kick messages from every client pWho talked about him
 	AddKickApprove( who, pWho->addr );
 	for ( std::list<SPeerClient>::iterator i = pWho->clients.begin(); i != pWho->clients.end(); ++i )
@@ -458,7 +458,7 @@ void CP2PTracker::KickClient( const UCID &addr )
 		pVictim->bActive = false;
 		for ( std::list<SPeer>::iterator i1 = clients.begin(); i1 != clients.end(); ++i1 )
 		{
-			ApproveKick( &(*i1), addr ); // ìåğòâûå íå êóñàşòñÿ è âğÿä ëè ïğèøëşò ïîäòâåğæäåíèå î kick
+			ApproveKick( &(*i1), addr ); // Ğ¼ĞµÑ€Ñ‚Ğ²Ñ‹Ğµ Ğ½Ğµ ĞºÑƒÑĞ°ÑÑ‚ÑÑ Ğ¸ Ğ²Ñ€ÑĞ´ Ğ»Ğ¸ Ğ¿Ñ€Ğ¸ÑˆĞ»ÑÑ‚ Ğ¿Ğ¾Ğ´Ñ‚Ğ²ĞµÑ€Ğ¶Ğ´ĞµĞ½Ğ¸Ğµ Ğ¾ kick
 			if ( i1->IsActive() )
 				SendRemoveClient( *i1, pVictim->addr );
 		}

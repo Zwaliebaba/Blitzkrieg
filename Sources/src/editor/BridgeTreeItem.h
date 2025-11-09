@@ -57,12 +57,12 @@ public:
 	CBridgeDefencePropsItem() { nItemType = E_BRIDGE_DEFENCE_PROPS_ITEM; nImageIndex = 3; InitDefaultValues(); }
 	~CBridgeDefencePropsItem() {};
 	
-	//Получение внутренних параметров
+	//РџРѕР»СѓС‡РµРЅРёРµ РІРЅСѓС‚СЂРµРЅРЅРёС… РїР°СЂР°РјРµС‚СЂРѕРІ
 	int GetMinArmor() { return values[0].value; }
 	int GetMaxArmor() { return values[1].value; }
 	float GetSilhouette() { return values[2].value; }
 	
-	//Установка внутренних параметров
+	//РЈСЃС‚Р°РЅРѕРІРєР° РІРЅСѓС‚СЂРµРЅРЅРёС… РїР°СЂР°РјРµС‚СЂРѕРІ
 	void SetMinArmor( int nVal ) { values[0].value = nVal; }
 	void SetMaxArmor( int nVal ) { values[1].value = nVal; }
 	void SetSilhouette( float fVal ) { values[2].value = fVal; }
@@ -77,7 +77,7 @@ public:
 	CBridgeStagePropsItem() { bStaticElements = true; nItemType = E_BRIDGE_STAGE_PROPS_ITEM; InitDefaultValues(); nImageIndex = 2; }
 	~CBridgeStagePropsItem() {};
 	
-	//для рассчета активного состояния моста, целый, полуразрушенный или разрушенный
+	//РґР»СЏ СЂР°СЃСЃС‡РµС‚Р° Р°РєС‚РёРІРЅРѕРіРѕ СЃРѕСЃС‚РѕСЏРЅРёСЏ РјРѕСЃС‚Р°, С†РµР»С‹Р№, РїРѕР»СѓСЂР°Р·СЂСѓС€РµРЅРЅС‹Р№ РёР»Рё СЂР°Р·СЂСѓС€РµРЅРЅС‹Р№
 	enum
 	{
 		E_WHOLE,

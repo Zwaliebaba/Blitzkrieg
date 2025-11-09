@@ -112,7 +112,7 @@ int CAnimationFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;
 	}
 	
-	//инициализируем уникальное имя для проекта
+	//РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј СѓРЅРёРєР°Р»СЊРЅРѕРµ РёРјСЏ РґР»СЏ РїСЂРѕРµРєС‚Р°
 	GenerateProjectName();
 	return 0;
 }
@@ -211,13 +211,13 @@ void CAnimationFrame::ClickOnThumbList( int nID )
 {
 	if ( nID == ID_ALL_DIR_THUMB_ITEMS )
 	{
-		//Выделяем в дереве текущую директорию с анимациями
+		//Р’С‹РґРµР»СЏРµРј РІ РґРµСЂРµРІРµ С‚РµРєСѓС‰СѓСЋ РґРёСЂРµРєС‚РѕСЂРёСЋ СЃ Р°РЅРёРјР°С†РёСЏРјРё
 		if ( m_pActiveAnimation )
 			m_pActiveAnimation->SelectMeInTheTree();
 	}
 	else if ( nID == ID_SELECTED_THUMB_ITEMS )
 	{
-		//Выделяем в дереве item с user data в selected thumb list
+		//Р’С‹РґРµР»СЏРµРј РІ РґРµСЂРµРІРµ item СЃ user data РІ selected thumb list
 		int nSel = m_wndSelectedThumbItems.GetSelectedItemIndex();
 		if ( nSel == -1 )
 			return;
@@ -231,7 +231,7 @@ void CAnimationFrame::DoubleClickOnThumbList( int nID )
 {
 	if ( nID == ID_ALL_DIR_THUMB_ITEMS )
 	{
-		//Добавляем новый элемент в текущую Animations диру дерева и в список накиданных frame
+		//Р”РѕР±Р°РІР»СЏРµРј РЅРѕРІС‹Р№ СЌР»РµРјРµРЅС‚ РІ С‚РµРєСѓС‰СѓСЋ Animations РґРёСЂСѓ РґРµСЂРµРІР° Рё РІ СЃРїРёСЃРѕРє РЅР°РєРёРґР°РЅРЅС‹С… frame
 		if ( !m_pActiveAnimation )
 			return;
 		SetChangedFlag( true );
@@ -247,7 +247,7 @@ void CAnimationFrame::DoubleClickOnThumbList( int nID )
 //		int nNewItemIndex = m_wndSelectedThumbItems.InsertItemAfterSelection( szFileName, m_pActiveAnimation->GetDirName() );
 		NI_ASSERT( nNewItemIndex != -1 );
 		
-		//Добавляем frame в дерево в текущую папку Animations
+		//Р”РѕР±Р°РІР»СЏРµРј frame РІ РґРµСЂРµРІРѕ РІ С‚РµРєСѓС‰СѓСЋ РїР°РїРєСѓ Animations
 		CUnitFramePropsItem *pFrame = new CUnitFramePropsItem();
 		pFrame->SetItemName( szItemName.c_str() );
 		m_pActiveAnimation->AddChild( pFrame );
@@ -279,7 +279,7 @@ void CAnimationFrame::DeleteFrameInTree( int nID )
 	SetChangedFlag( true );
 	bComposed = false;
 
-	//Находим выделенный элемент
+	//РќР°С…РѕРґРёРј РІС‹РґРµР»РµРЅРЅС‹Р№ СЌР»РµРјРµРЅС‚
 	int nSel = m_wndSelectedThumbItems.GetSelectedItemIndex();
 	if ( nSel == -1 )
 		return;
@@ -287,15 +287,15 @@ void CAnimationFrame::DeleteFrameInTree( int nID )
 	DWORD dwData = m_wndSelectedThumbItems.GetUserDataForItem( nSel );
 	ASSERT( dwData != 0 );
 
-	//Удаляем frame из дерева
+	//РЈРґР°Р»СЏРµРј frame РёР· РґРµСЂРµРІР°
 	CTreeItem *pFrame = (CTreeItem *) dwData;
 	NI_ASSERT( pFrame->GetItemType() == E_UNIT_FRAME_PROPS_ITEM );
 	pFrame->DeleteMeInParentTreeItem();
 
-	//Выделяем следующий элемент в списке
+	//Р’С‹РґРµР»СЏРµРј СЃР»РµРґСѓСЋС‰РёР№ СЌР»РµРјРµРЅС‚ РІ СЃРїРёСЃРєРµ
 	m_wndSelectedThumbItems.SelectItem( nSel + 1 );
 	
-	//Удаляем элемент в списке
+	//РЈРґР°Р»СЏРµРј СЌР»РµРјРµРЅС‚ РІ СЃРїРёСЃРєРµ
 	m_wndSelectedThumbItems.DeleteItem( nSel );
 }
 
@@ -332,14 +332,14 @@ void CAnimationFrame::FillRPGStats( SInfantryRPGStats &rpgStats, CTreeItem *pRoo
 	CUnitExposuresItem *pExposures = static_cast<CUnitExposuresItem*>( pRootItem->GetChildItem( E_UNIT_EXPOSURES_ITEM ) );
 	pExposures->GetExposures( &rpgStats );
 	
-	//зануляем неиспользуемые параметры
+	//Р·Р°РЅСѓР»СЏРµРј РЅРµРёСЃРїРѕР»СЊР·СѓРµРјС‹Рµ РїР°СЂР°РјРµС‚СЂС‹
 	rpgStats.fRotateSpeed = 0.0f;
 	rpgStats.nPriority = 0;
 	rpgStats.nUninstallRotate = 0;
 	rpgStats.nUninstallTransport = 0;
 	
 	//weapon settings
-	//инициализируем платформы
+	//РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј РїР»Р°С‚С„РѕСЂРјС‹
 
 	CUnitWeaponPropsItem *pWeaponProps = static_cast<CUnitWeaponPropsItem *> ( pRootItem->GetChildItem( E_UNIT_WEAPON_PROPS_ITEM ) );
 	rpgStats.guns.resize( 2 );
@@ -353,7 +353,7 @@ void CAnimationFrame::FillRPGStats( SInfantryRPGStats &rpgStats, CTreeItem *pRoo
 	CUnitGrenadePropsItem *pGrenadeProps = static_cast<CUnitGrenadePropsItem *> ( pRootItem->GetChildItem( E_UNIT_GRENADE_PROPS_ITEM ) );
 	if ( string( "generic" ) == pGrenadeProps->GetGrenadeName() )
 	{
-		rpgStats.guns.resize( 1 );				//типа убиваю второй элемент, гранату
+		rpgStats.guns.resize( 1 );				//С‚РёРїР° СѓР±РёРІР°СЋ РІС‚РѕСЂРѕР№ СЌР»РµРјРµРЅС‚, РіСЂР°РЅР°С‚Сѓ
 	}
 	else
 	{
@@ -365,11 +365,11 @@ void CAnimationFrame::FillRPGStats( SInfantryRPGStats &rpgStats, CTreeItem *pRoo
 		}
 		else
 		{
-			rpgStats.guns.resize( 1 );				//типа убиваю второй элемент, гранату
+			rpgStats.guns.resize( 1 );				//С‚РёРїР° СѓР±РёРІР°СЋ РІС‚РѕСЂРѕР№ СЌР»РµРјРµРЅС‚, РіСЂР°РЅР°С‚Сѓ
 		}
 	}
 
-	//тут я заполняю времена анимаций
+	//С‚СѓС‚ СЏ Р·Р°РїРѕР»РЅСЏСЋ РІСЂРµРјРµРЅР° Р°РЅРёРјР°С†РёР№
 	CUnitAnimationsItem *pAnimsItem = static_cast<CUnitAnimationsItem *> ( pRootItem->GetChildItem( E_UNIT_ANIMATIONS_ITEM ) );
 	NI_ASSERT( pAnimsItem != 0 );
 
@@ -399,7 +399,7 @@ void CAnimationFrame::FillRPGStats( SInfantryRPGStats &rpgStats, CTreeItem *pRoo
 		}
 	}
 	
-	//заполняю вектор активных анимаций
+	//Р·Р°РїРѕР»РЅСЏСЋ РІРµРєС‚РѕСЂ Р°РєС‚РёРІРЅС‹С… Р°РЅРёРјР°С†РёР№
 	int nIndex = 0;
 	rpgStats.animdescs.resize( ANIMATION_LAST_ANIMATION );
 	for ( animIt=pAnimsItem->GetBegin(); animIt!=pAnimsItem->GetEnd(); ++animIt )
@@ -571,7 +571,7 @@ void CAnimationFrame::LoadRPGStats( IDataTree *pDT, CTreeItem *pRootItem )
 	ASSERT( pDT->IsReading() );
 	
 	SInfantryRPGStats rpgStats;
-	FillRPGStats( rpgStats, pRootItem );			//перед загрузкой инициализирую значениями по умолчанию
+	FillRPGStats( rpgStats, pRootItem );			//РїРµСЂРµРґ Р·Р°РіСЂСѓР·РєРѕР№ РёРЅРёС†РёР°Р»РёР·РёСЂСѓСЋ Р·РЅР°С‡РµРЅРёСЏРјРё РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
 	
 	CTreeAccessor tree = pDT;
 	tree.Add( "RPG", &rpgStats );
@@ -589,7 +589,7 @@ void CAnimationFrame::OnFileExportOnlyRpgStats()
 void CAnimationFrame::OnUpdateFileExportOnlyRpgStats(CCmdUI* pCmdUI) 
 {
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
-	if ( pTree != 0 )			//Если уже был создан проект
+	if ( pTree != 0 )			//Р•СЃР»Рё СѓР¶Рµ Р±С‹Р» СЃРѕР·РґР°РЅ РїСЂРѕРµРєС‚
 		pCmdUI->Enable( true );
 	else
 		pCmdUI->Enable( false );
@@ -611,15 +611,15 @@ bool CAnimationFrame::ExportFrameData( IDataTree *pDT, const char *pszProjectNam
 	NI_ASSERT( pRootItem->GetItemType() == E_ANIMATION_ROOT_ITEM );
 	CAnimationTreeRootItem *pAnimRoot = (CAnimationTreeRootItem *) pRootItem;
 
-	//Составляем один большой .tga, пользуясь данными всех анимаций
+	//РЎРѕСЃС‚Р°РІР»СЏРµРј РѕРґРёРЅ Р±РѕР»СЊС€РѕР№ .tga, РїРѕР»СЊР·СѓСЏСЃСЊ РґР°РЅРЅС‹РјРё РІСЃРµС… Р°РЅРёРјР°С†РёР№
 	string szResDir = GetDirectory(pszResultFileName);
 	if ( !bExportOnlyRPGStats )
 		pAnimRoot->ComposeAnimations( pszProjectName, szResDir.c_str(), false, false );
 
-	//Сохраняем RPG stats
+	//РЎРѕС…СЂР°РЅСЏРµРј RPG stats
 	SaveRPGStats( pDT, pRootItem, pszProjectName );
 	
-	//скопируем локализационные данные
+	//СЃРєРѕРїРёСЂСѓРµРј Р»РѕРєР°Р»РёР·Р°С†РёРѕРЅРЅС‹Рµ РґР°РЅРЅС‹Рµ
 	CLocalizationItem *pLocItem = static_cast<CLocalizationItem *> ( pRootItem->GetChildItem( E_LOCALIZATION_ITEM ) );
 	NI_ASSERT( pLocItem != 0 );
 
@@ -653,7 +653,7 @@ void CAnimationFrame::OnRunButton()
 	bRunning = !bRunning;
 	BeginWaitCursor();
 	
-	//Скрываем Thumb окошки и показываем Game окно
+	//РЎРєСЂС‹РІР°РµРј Thumb РѕРєРѕС€РєРё Рё РїРѕРєР°Р·С‹РІР°РµРј Game РѕРєРЅРѕ
 	g_frameManager.GetGameWnd()->ShowWindow( SW_SHOW );
 	m_wndAllDirThumbItems.ShowWindow( SW_HIDE );
 	m_wndSelectedThumbItems.ShowWindow( SW_HIDE );
@@ -670,7 +670,7 @@ void CAnimationFrame::OnRunButton()
 	m_wndScrollBar.SetScrollPos( 0 );
 
 
-	//Получаем имена для всех анимаций
+	//РџРѕР»СѓС‡Р°РµРј РёРјРµРЅР° РґР»СЏ РІСЃРµС… Р°РЅРёРјР°С†РёР№
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
 	NI_ASSERT( pTree != 0 );
 	CTreeItem *pRootItem = pTree->GetRootItem();
@@ -793,13 +793,13 @@ void CAnimationFrame::OnStopButton()
 	
 	bRunning = !bRunning;
 	
-	//Скрываем Game окно и показываем Thumb окошки
+	//РЎРєСЂС‹РІР°РµРј Game РѕРєРЅРѕ Рё РїРѕРєР°Р·С‹РІР°РµРј Thumb РѕРєРѕС€РєРё
 	m_wndScrollBar.ShowScrollBar( FALSE );
 	g_frameManager.GetGameWnd()->ShowWindow( SW_HIDE );
 	m_wndAllDirThumbItems.ShowWindow( SW_SHOW );
 	m_wndSelectedThumbItems.ShowWindow( SW_SHOW );
 
-	// Удаляем объекты созданные в OnRunButton() из SceneGraph
+	// РЈРґР°Р»СЏРµРј РѕР±СЉРµРєС‚С‹ СЃРѕР·РґР°РЅРЅС‹Рµ РІ OnRunButton() РёР· SceneGraph
 	units.clear();
 	IScene *pSG = GetSingleton<IScene>();
 	pSG->Clear();
@@ -808,7 +808,7 @@ void CAnimationFrame::OnStopButton()
 void CAnimationFrame::OnUpdateRunButton(CCmdUI* pCmdUI) 
 {
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
-	if ( pTree == 0 )			//Если проект не был создан
+	if ( pTree == 0 )			//Р•СЃР»Рё РїСЂРѕРµРєС‚ РЅРµ Р±С‹Р» СЃРѕР·РґР°РЅ
 	{
 		pCmdUI->Enable( false );
 		return;
@@ -834,7 +834,7 @@ bool CAnimationFrame::ComposeAnimations()
 	
 	BeginWaitCursor();
 	
-	//Составляем один большой .tga, пользуясь данными всех анимаций
+	//РЎРѕСЃС‚Р°РІР»СЏРµРј РѕРґРёРЅ Р±РѕР»СЊС€РѕР№ .tga, РїРѕР»СЊР·СѓСЏСЃСЊ РґР°РЅРЅС‹РјРё РІСЃРµС… Р°РЅРёРјР°С†РёР№
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
 	NI_ASSERT( pTree != 0 );
 	
@@ -857,7 +857,7 @@ void CAnimationFrame::SetActiveDirTreeItem( CDirectoryPropsItem *pDirPropsItem )
 	{
 		if ( !m_pActiveDirTreeItem->GetLoadedFlag() )
 		{
-			//Сперва загружаем невалидную иконку, она всегда будет под индексом 0
+			//РЎРїРµСЂРІР° Р·Р°РіСЂСѓР¶Р°РµРј РЅРµРІР°Р»РёРґРЅСѓСЋ РёРєРѕРЅРєСѓ, РѕРЅР° РІСЃРµРіРґР° Р±СѓРґРµС‚ РїРѕРґ РёРЅРґРµРєСЃРѕРј 0
 			string szEditorDataDir = theApp.GetEditorDataDir();
 			szEditorDataDir += "editor\\";
 
@@ -883,7 +883,7 @@ void CAnimationFrame::ActiveDirNameChanged()
 
 	if ( m_pActiveDirTreeItem )
 	{
-		//так как директория задается относительно, здесь я должен собрать полный путь
+		//С‚Р°Рє РєР°Рє РґРёСЂРµРєС‚РѕСЂРёСЏ Р·Р°РґР°РµС‚СЃСЏ РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕ, Р·РґРµСЃСЊ СЏ РґРѕР»Р¶РµРЅ СЃРѕР±СЂР°С‚СЊ РїРѕР»РЅС‹Р№ РїСѓС‚СЊ
 		string szDir = GetDirectory( szProjectFileName.c_str() );
 		string szFull;
 		bool bRes = MakeFullPath( szDir.c_str(), m_pActiveDirTreeItem->GetDirName(), szFull );
@@ -1012,7 +1012,7 @@ FILETIME CAnimationFrame::FindMinimalExportFileTime( const char *pszResultFileNa
 	FILETIME minTime, current;
 	string szDestDir = GetDirectory( pszResultFileName );
 
-	//Найдем время создания 1.san файла
+	//РќР°Р№РґРµРј РІСЂРµРјСЏ СЃРѕР·РґР°РЅРёСЏ 1.san С„Р°Р№Р»Р°
 	string szTempFileName = szDestDir;
 	szTempFileName += "1.san";
 	current = GetFileChangeTime( szTempFileName.c_str() );

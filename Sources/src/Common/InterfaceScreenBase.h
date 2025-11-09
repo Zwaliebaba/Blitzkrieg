@@ -56,7 +56,7 @@ class CInterfaceScreenBase : public IInterfaceBase
 	float fAveTPS;												// average TPS -~-
 	int nCPUFreq;													// main CPU frequence
 	//
-	std::list<SGameMessage> messages;			// сообщения наверх
+	std::list<SGameMessage> messages;			// СЃРѕРѕР±С‰РµРЅРёСЏ РЅР°РІРµСЂС…
 	// 
 	std::string szBindSection;						// this interface bind section
 	const std::string szInterfaceType;		// interface type - "InterMission", "Mission"

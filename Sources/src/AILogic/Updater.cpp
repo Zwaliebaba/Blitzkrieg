@@ -58,7 +58,7 @@ void CUpdater::AddUpdate( const EActionNotify updateType, IUpdatableObj *pObj, c
 {
 	if ( updateType & 1 )
 	{
-		// чтобы, если пришли 2 update с одним объектом, но разными nParam, то записался последний
+		// С‡С‚РѕР±С‹, РµСЃР»Рё РїСЂРёС€Р»Рё 2 update СЃ РѕРґРЅРёРј РѕР±СЉРµРєС‚РѕРј, РЅРѕ СЂР°Р·РЅС‹РјРё nParam, С‚Рѕ Р·Р°РїРёСЃР°Р»СЃСЏ РїРѕСЃР»РµРґРЅРёР№
 		const SSimpleUpdate update( pObj, nParam );
 		simpleUpdates[updateType >> 4][pObj->GetUniqueId()] = update;
 	}
@@ -72,7 +72,7 @@ void CUpdater::Update( const EActionNotify updateType, IUpdatableObj *pObj, cons
 	{
 		NI_ASSERT_T( ( updateType & 1 ) || nParam == -1, "Complex update with nParam" );
 
-		// если симметричный update на new/deleted object, то не посылать
+		// РµСЃР»Рё СЃРёРјРјРµС‚СЂРёС‡РЅС‹Р№ update РЅР° new/deleted object, С‚Рѕ РЅРµ РїРѕСЃС‹Р»Р°С‚СЊ
 		if ( updateType == ACTION_NOTIFY_NEW_ST_OBJ || updateType == ACTION_NOTIFY_DELETED_ST_OBJ )
 		{
 			if ( complexUpdates[updateType >> 4].find( pObj->GetUniqueId() ) == complexUpdates[updateType >> 4].end() )
@@ -87,7 +87,7 @@ void CUpdater::Update( const EActionNotify updateType, IUpdatableObj *pObj, cons
 		}
 
 		const int nAnimation = GetAnimationFromAction( updateType );
-		// это анимация с параметром
+		// СЌС‚Рѕ Р°РЅРёРјР°С†РёСЏ СЃ РїР°СЂР°РјРµС‚СЂРѕРј
 		const bool bAnimation = ( (updateType & 1) == 1 && nAnimation != -1 );
 
 		if ( nAnimation != -1 )
@@ -127,7 +127,7 @@ void CUpdater::Update( const EActionNotify updateType, IUpdatableObj *pObj, cons
 		if ( updateType != ACTION_NOTIFY_NONE && ( bAnimation && DoWeNeedAction( updateType ) || !bAnimation ) )
 			AddUpdate( updateType, pObj, nParam );
 
-			// для того, чтобы пока этот объект не ушёл к Юре, на его месте не создался новый	
+			// РґР»СЏ С‚РѕРіРѕ, С‡С‚РѕР±С‹ РїРѕРєР° СЌС‚РѕС‚ РѕР±СЉРµРєС‚ РЅРµ СѓС€С‘Р» Рє Р®СЂРµ, РЅР° РµРіРѕ РјРµСЃС‚Рµ РЅРµ СЃРѕР·РґР°Р»СЃСЏ РЅРѕРІС‹Р№	
 		if ( updateType != ACTION_NOTIFY_NONE )
 			garbage.insert( CComplexUpdatesSet::value_type( pObj->GetUniqueId(), pObj ) );
 
@@ -218,7 +218,7 @@ void AddRecalled( const EActionNotify &eAction, SNewUnitInfo *pObjects, int *pnL
 		std::construct( &pObjects[(*pnLen)] );
 		theSuspendedUpdates.GetRecalled( eAction, &pObjects[(*pnLen)] );
 
-		// т.к. для следа после смерти записывается не dbID, а специальный параметр
+		// С‚.Рє. РґР»СЏ СЃР»РµРґР° РїРѕСЃР»Рµ СЃРјРµСЂС‚Рё Р·Р°РїРёСЃС‹РІР°РµС‚СЃСЏ РЅРµ dbID, Р° СЃРїРµС†РёР°Р»СЊРЅС‹Р№ РїР°СЂР°РјРµС‚СЂ
 		if ( pObjects[(*pnLen)].nFrameIndex != -2 )
 			pObjects[(*pnLen)].dbID = checked_cast<IUpdatableObj*>(pObjects[(*pnLen)].pObj)->GetDBID();
 
@@ -248,7 +248,7 @@ void CUpdater::UpdateActions( SAINotifyAction **pActionsBuffer, int *pnLen )
 		*pnLen = 0;
 		*pActionsBuffer = GetTempBuffer<SAINotifyAction>( nTotalSize );
 
-		// по всем actions
+		// РїРѕ РІСЃРµРј actions
 		for ( int i = 0; i < simpleUpdates.size(); ++i )
 		{
 			EActionNotify eAction = EActionNotify( ( i << 4 ) | 1 );
@@ -264,7 +264,7 @@ void CUpdater::UpdateActions( SAINotifyAction **pActionsBuffer, int *pnLen )
 				(*pActionsBuffer)[*pnLen].typeID = eAction;
 				(*pActionsBuffer)[*pnLen].pObj = update.pObj;
 
-					// в nParam нужно послать IRefCount*
+					// РІ nParam РЅСѓР¶РЅРѕ РїРѕСЃР»Р°С‚СЊ IRefCount*
 				if ( eAction == ACTION_NOTIFY_SERVED_ARTILLERY || eAction == ACTION_NOTIFY_SELECT_CHECKED ||
 						 eAction == ACTION_SET_SELECTION_GROUP )
 				{
@@ -484,7 +484,7 @@ void CUpdater::GetDisappearedUnits( IRefCount ***pUnitsBuffer, int *pnLen )
 			IUpdatableObj *pObj = iter->second->GetDieObject();
 			(*pUnitsBuffer)[(*pnLen)++] = pObj;
 
-			// если отложенный update на смерть юнита и юнит должен оставить после себя кратер
+			// РµСЃР»Рё РѕС‚Р»РѕР¶РµРЅРЅС‹Р№ update РЅР° СЃРјРµСЂС‚СЊ СЋРЅРёС‚Р° Рё СЋРЅРёС‚ РґРѕР»Р¶РµРЅ РѕСЃС‚Р°РІРёС‚СЊ РїРѕСЃР»Рµ СЃРµР±СЏ РєСЂР°С‚РµСЂ
 			const bool bShouldPlaceDeathCrater = 
 				theSuspendedUpdates.DoesExistSuspendedUpdate( pObj, ACTION_NOTIFY_DEAD_UNIT ) && 
 				iter->second->ShouldSuspendAction( ACTION_NOTIFY_NEW_ST_OBJ );
@@ -493,15 +493,15 @@ void CUpdater::GetDisappearedUnits( IRefCount ***pUnitsBuffer, int *pnLen )
 
 			if ( bShouldPlaceDeathCrater )
 			{
-				// взять центр юнита
+				// РІР·СЏС‚СЊ С†РµРЅС‚СЂ СЋРЅРёС‚Р°
 				CTilesSet tiles;
 				iter->second->GetTilesForVisibility( &tiles );
 
-				// взять информацию об юните
+				// РІР·СЏС‚СЊ РёРЅС„РѕСЂРјР°С†РёСЋ РѕР± СЋРЅРёС‚Рµ
 				SAINotifyAction dyingInfo;
 				iter->second->GetDyingInfo( &dyingInfo );
 
-				// сделать update для кратера
+				// СЃРґРµР»Р°С‚СЊ update РґР»СЏ РєСЂР°С‚РµСЂР°
 				if ( (dyingInfo.nParam & 0x80000000) != 0 && !theStaticMap.IsBridge( tiles.front() ) )
 				{
 					SNewUnitInfo deathCraterUpdate;
@@ -813,7 +813,7 @@ void CUpdater::UpdateRangeAreas( SShootAreas **pRangeAreas, int *pnLen )
 				}
 			}
 
-			// если есть пристрелочная область
+			// РµСЃР»Рё РµСЃС‚СЊ РїСЂРёСЃС‚СЂРµР»РѕС‡РЅР°СЏ РѕР±Р»Р°СЃС‚СЊ
 			if ( bGoodAreas )
 				++(*pnLen);
 		}

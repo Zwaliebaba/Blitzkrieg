@@ -12,7 +12,7 @@ interface IAILogicCommand : public IRefCount
 	//
 	virtual void Store( IDataStream *pStream ) = 0;
 	virtual void Restore( IDataStream *pStream ) = 0;
-	// нужно ли сохранять в истории команд
+	// РЅСѓР¶РЅРѕ Р»Рё СЃРѕС…СЂР°РЅСЏС‚СЊ РІ РёСЃС‚РѕСЂРёРё РєРѕРјР°РЅРґ
 	virtual bool NeedToBeStored() const = 0;
 };
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

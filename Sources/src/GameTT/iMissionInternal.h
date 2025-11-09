@@ -18,7 +18,7 @@
 #include "ListControlWrapper.h"
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 typedef std::pair<IVisObj*, CVec2> CPickVisObj;
-typedef std::list<CPickVisObj> CPickVisObjList;	// эти объекты не живут долго, поэтому им не нужен ref counting
+typedef std::list<CPickVisObj> CPickVisObjList;	// СЌС‚Рё РѕР±СЉРµРєС‚С‹ РЅРµ Р¶РёРІСѓС‚ РґРѕР»РіРѕ, РїРѕСЌС‚РѕРјСѓ РёРј РЅРµ РЅСѓР¶РµРЅ ref counting
 typedef std::vector<IVisObj*> CVisObjList;
 class CInterfaceMission : public CInterfaceScreenBase
 {

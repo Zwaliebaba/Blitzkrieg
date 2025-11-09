@@ -29,7 +29,7 @@ protected:
 protected:
 	const static int vID[];
 
-	//минимальные размеры клиентской части диалога
+	//РјРёРЅРёРјР°Р»СЊРЅС‹Рµ СЂР°Р·РјРµСЂС‹ РєР»РёРµРЅС‚СЃРєРѕР№ С‡Р°СЃС‚Рё РґРёР°Р»РѕРіР°
 	virtual int GetMinimumXDimension() { return 200; }
 	virtual int GetMinimumYDimension() { return 200; }
 	virtual std::string GetXMLOptionsLabel() { return "CPESelectStringsDialog"; }

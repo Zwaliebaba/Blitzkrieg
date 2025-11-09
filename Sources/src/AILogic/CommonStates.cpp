@@ -174,7 +174,7 @@ void CMechAttackUnitState::AnalyzeBruteMovingPosition()
 	{
 		TraceAim();
 		
-		// враг в зоне огня
+		// РІСЂР°Рі РІ Р·РѕРЅРµ РѕРіРЅСЏ
 		if ( bEnemyVisible && pGun->CanShootToUnitWOMove( pEnemy ) )
 		{
 			if ( TurnToBestPos() )
@@ -191,7 +191,7 @@ void CMechAttackUnitState::AnalyzeBruteMovingPosition()
 		{
 			StopFire();
 		}
-		// позиция врага сменилась или уже стоим
+		// РїРѕР·РёС†РёСЏ РІСЂР°РіР° СЃРјРµРЅРёР»Р°СЃСЊ РёР»Рё СѓР¶Рµ СЃС‚РѕРёРј
 		else if ( bIdle || lastEnemyTile != vEnemyTile )
 		{
 			CPtr<IStaticPath> pStaticPath;
@@ -241,7 +241,7 @@ void CMechAttackUnitState::AnalyzeMovingPosition()
 	{
 		TraceAim();
 		
-		// в зоне поиска пути к стороне
+		// РІ Р·РѕРЅРµ РїРѕРёСЃРєР° РїСѓС‚Рё Рє СЃС‚РѕСЂРѕРЅРµ
 		if ( !bEnemyVisible || pGun->InGoToSideRange( pEnemy ) )
 		{
 			nBestSide = -1;
@@ -251,13 +251,13 @@ void CMechAttackUnitState::AnalyzeMovingPosition()
 			
 			state = ESAS_MOVING_TO_SIDE;
 		}
-		// слишком близко
+		// СЃР»РёС€РєРѕРј Р±Р»РёР·РєРѕ
 		else if ( pGun->TooCloseToFire( pEnemy ) )
 		{
 			pUnit->SendAcknowledgement( ACK_ENEMY_IS_TO_CLOSE );
 			StopFire();
 		}
-		// позиция врага сменилась или уже стоим, но далеко, чтобы идти к стороне
+		// РїРѕР·РёС†РёСЏ РІСЂР°РіР° СЃРјРµРЅРёР»Р°СЃСЊ РёР»Рё СѓР¶Рµ СЃС‚РѕРёРј, РЅРѕ РґР°Р»РµРєРѕ, С‡С‚РѕР±С‹ РёРґС‚Рё Рє СЃС‚РѕСЂРѕРЅРµ
 		else if ( bIdle || lastEnemyTile != enemyTile )
 		{
 			CPtr<IStaticPath> pStaticPath;
@@ -265,7 +265,7 @@ void CMechAttackUnitState::AnalyzeMovingPosition()
 				pStaticPath = CreateStaticPathForAttack( pUnit, pEnemy, pGun->GetWeapon()->fRangeMin, 2 * pGun->GetFireRange(pEnemy->GetZ()) );
 			else
 				pStaticPath = CreateStaticPathToPoint( vEnemyCenter, VNULL2, pUnit );
-			// путь до расстояния, достаточно близкого до юнита, чтобы оттуда потом бежать к стороне
+			// РїСѓС‚СЊ РґРѕ СЂР°СЃСЃС‚РѕСЏРЅРёСЏ, РґРѕСЃС‚Р°С‚РѕС‡РЅРѕ Р±Р»РёР·РєРѕРіРѕ РґРѕ СЋРЅРёС‚Р°, С‡С‚РѕР±С‹ РѕС‚С‚СѓРґР° РїРѕС‚РѕРј Р±РµР¶Р°С‚СЊ Рє СЃС‚РѕСЂРѕРЅРµ
 			bool bSent = false;
 			if ( pStaticPath )
 			{
@@ -297,16 +297,16 @@ IStaticPath* CMechAttackUnitState::BestSidePath()
 
 	CVec2 posDir = pEnemy->GetDirVector();
 
-	// цикл по всем направлениям
+	// С†РёРєР» РїРѕ РІСЃРµРј РЅР°РїСЂР°РІР»РµРЅРёСЏРј
 	for ( int i = 0; i < 4; ++i )
 	{
-		// можно пробить по этому направлению
+		// РјРѕР¶РЅРѕ РїСЂРѕР±РёС‚СЊ РїРѕ СЌС‚РѕРјСѓ РЅР°РїСЂР°РІР»РµРЅРёСЋ
 		if ( pGun->CanBreach( pEnemy, i ) )
 		{
 			if ( eAttackType == EAT_GOOD_PROB && fProb[i] >= SConsts::GOOD_ATTACK_RPOBABILITY ||
 					 eAttackType == EAT_POOR_PROB && fProb[i] >= fBestProbability )
 			{
-				// не CPtr, т.к. pPath не должен удаляться в случае, если он оптимален
+				// РЅРµ CPtr, С‚.Рє. pPath РЅРµ РґРѕР»Р¶РµРЅ СѓРґР°Р»СЏС‚СЊСЃСЏ РІ СЃР»СѓС‡Р°Рµ, РµСЃР»Рё РѕРЅ РѕРїС‚РёРјР°Р»РµРЅ
 				IStaticPath *pPath = 
 					CreateStaticPathForSideAttack( pUnit, pEnemy, posDir, fRangeMin, fRangeMax, 8.0f * SConsts::TILE_SIZE );
 
@@ -314,14 +314,14 @@ IStaticPath* CMechAttackUnitState::BestSidePath()
 				{
 					if ( eAttackType == EAT_GOOD_PROB && pPath->GetLength() < fMinLength )
 					{
-						// чтобы удалился
+						// С‡С‚РѕР±С‹ СѓРґР°Р»РёР»СЃСЏ
 						CPtr<IStaticPath> pGarbage = pBestPath;
 						pBestPath = pPath;
 						fMinLength = pPath->GetLength();
 					}
 					else if ( eAttackType == EAT_POOR_PROB && ( fProb[i] > fBestProbability || fProb[i] == fBestProbability && pPath->GetLength() < fMinLength ) )
 					{
-						// чтобы удалился
+						// С‡С‚РѕР±С‹ СѓРґР°Р»РёР»СЃСЏ
 						CPtr<IStaticPath> pGarbage = pBestPath;
 						pBestPath = pPath;
 						fBestProbability = fProb[i];
@@ -329,7 +329,7 @@ IStaticPath* CMechAttackUnitState::BestSidePath()
 						nBestSide = i;
 					}
 					else
-						// чтоб удалился
+						// С‡С‚РѕР± СѓРґР°Р»РёР»СЃСЏ
 						CPtr<IStaticPath> pGarbage = pPath;
 				}
 			}
@@ -354,31 +354,31 @@ void CMechAttackUnitState::AnalyzeMovingToSidePosition()
 		return;
 	}
 
-	// можно стрельнуть прямо сейчас, не поворачиваясь
+	// РјРѕР¶РЅРѕ СЃС‚СЂРµР»СЊРЅСѓС‚СЊ РїСЂСЏРјРѕ СЃРµР№С‡Р°СЃ, РЅРµ РїРѕРІРѕСЂР°С‡РёРІР°СЏСЃСЊ
 	if ( bEnemyVisible && !pGun->IsRelaxing() && CanShootToEnemyNow() )
 		FireToEnemy();
-	// стоим или пора проверять позицию и враг сдвинулся или намного повернулся
+	// СЃС‚РѕРёРј РёР»Рё РїРѕСЂР° РїСЂРѕРІРµСЂСЏС‚СЊ РїРѕР·РёС†РёСЋ Рё РІСЂР°Рі СЃРґРІРёРЅСѓР»СЃСЏ РёР»Рё РЅР°РјРЅРѕРіРѕ РїРѕРІРµСЂРЅСѓР»СЃСЏ
 	else
 	{
 		const bool bEnemyChangedPosition = 
 			bEnemyVisible &&
 			( lastEnemyTile != enemyTile || DirsDifference( wEnemyDir, wLastEnemyDir ) >= ENEMY_DIR_TOLERANCE );
 
-		// если стоим, или пора проверять позицию врага, и враг её поменял
+		// РµСЃР»Рё СЃС‚РѕРёРј, РёР»Рё РїРѕСЂР° РїСЂРѕРІРµСЂСЏС‚СЊ РїРѕР·РёС†РёСЋ РІСЂР°РіР°, Рё РІСЂР°Рі РµС‘ РїРѕРјРµРЅСЏР»
 		if ( pUnit->IsIdle() || bTurningToBest || curTime - lastShootCheck >= SHOOTING_CHECK && bEnemyChangedPosition )
 		{
 			TraceAim();
 
-			// враг подставился удобной стороной брони к нам
+			// РІСЂР°Рі РїРѕРґСЃС‚Р°РІРёР»СЃСЏ СѓРґРѕР±РЅРѕР№ СЃС‚РѕСЂРѕРЅРѕР№ Р±СЂРѕРЅРё Рє РЅР°Рј
 			const bool bGoodSideToShoot = 
 				bEnemyVisible &&
 				eAttackType == EAT_GOOD_PROB && fProb[pEnemy->GetUnitRect().GetSide( pUnit->GetCenter() )] >= SConsts::GOOD_ATTACK_RPOBABILITY ||
 				eAttackType == EAT_POOR_PROB && pEnemy->GetUnitRect().GetSide( pUnit->GetCenter() ) == nBestSide;
 
-			// можно выстрелить из этой позиции по хорошей по пробиваемости стороне; может быть, придётся повернуться
+			// РјРѕР¶РЅРѕ РІС‹СЃС‚СЂРµР»РёС‚СЊ РёР· СЌС‚РѕР№ РїРѕР·РёС†РёРё РїРѕ С…РѕСЂРѕС€РµР№ РїРѕ РїСЂРѕР±РёРІР°РµРјРѕСЃС‚Рё СЃС‚РѕСЂРѕРЅРµ; РјРѕР¶РµС‚ Р±С‹С‚СЊ, РїСЂРёРґС‘С‚СЃСЏ РїРѕРІРµСЂРЅСѓС‚СЊСЃСЏ
 			if ( bGoodSideToShoot && pGun->CanShootToUnitWOMove( pEnemy ) )
 			{
-				// довернуться в хорошую позицию по пробиваемости, если сейчас relax у gun
+				// РґРѕРІРµСЂРЅСѓС‚СЊСЃСЏ РІ С…РѕСЂРѕС€СѓСЋ РїРѕР·РёС†РёСЋ РїРѕ РїСЂРѕР±РёРІР°РµРјРѕСЃС‚Рё, РµСЃР»Рё СЃРµР№С‡Р°СЃ relax Сѓ gun
 				if ( TurnToBestPos() )
 					bTurn = false;
 				else
@@ -387,13 +387,13 @@ void CMechAttackUnitState::AnalyzeMovingToSidePosition()
 					nBestAngle = -1;
 				}
 			}
-			// стоим или враг сменил положение
+			// СЃС‚РѕРёРј РёР»Рё РІСЂР°Рі СЃРјРµРЅРёР» РїРѕР»РѕР¶РµРЅРёРµ
 			else if ( pUnit->IsIdle() || bEnemyChangedPosition )
 			{
-				// убежал слишком далеко
+				// СѓР±РµР¶Р°Р» СЃР»РёС€РєРѕРј РґР°Р»РµРєРѕ
 				if ( !pGun->InGoToSideRange( pEnemy ) )
 					state = ESAS_MOVING;
-				// в радиуса поиска пути к стороне
+				// РІ СЂР°РґРёСѓСЃР° РїРѕРёСЃРєР° РїСѓС‚Рё Рє СЃС‚РѕСЂРѕРЅРµ
 				else 
 				{
 					CPtr<IStaticPath> pStaticPath;
@@ -554,7 +554,7 @@ void CMechAttackUnitState::Segment()
 			if ( !IsValidObj( pEnemy ) || pEnemy == pUnit || pEnemy->GetParty() != nEnemyParty )
 				FinishState();
 
-			// если можно перевыбирать цель, то выбрать цель
+			// РµСЃР»Рё РјРѕР¶РЅРѕ РїРµСЂРµРІС‹Р±РёСЂР°С‚СЊ С†РµР»СЊ, С‚Рѕ РІС‹Р±СЂР°С‚СЊ С†РµР»СЊ
 			if ( bSwarmAttack )
 				pUnit->AnalyzeTargetScan( pEnemy, damageToEnemyUpdater.IsDamageUpdated(), false );
 			else
@@ -641,7 +641,7 @@ void CMechAttackUnitState::FireNow()
 	pUnit->StopUnit();
 	if ( pGun->IsOnTurret() )
 		pGun->GetTurret()->Lock( pGun );
-	// выстрелить
+	// РІС‹СЃС‚СЂРµР»РёС‚СЊ
 	pGun->StartEnemyBurst( pEnemy, bAim );
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -709,7 +709,7 @@ void CCommonAttackCommonStatObjState::FinishState()
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CCommonAttackCommonStatObjState::AnalyzePosition()
 {
-	// объект в зоне огня
+	// РѕР±СЉРµРєС‚ РІ Р·РѕРЅРµ РѕРіРЅСЏ
 	const CVec2 vUnitCenter = GetUnit()->GetCenter();
 	if ( pGun->InFireRange( CVec3( pObj->GetAttackCenter( vUnitCenter ), 0.0f ) ) )
 	{
@@ -784,7 +784,7 @@ void CCommonAttackCommonStatObjState::Segment()
 	{
 		if ( IsValidObj( pObj ) )
 		{
-			// обстрел всего объекта из чего-нибудь тяжёлого
+			// РѕР±СЃС‚СЂРµР» РІСЃРµРіРѕ РѕР±СЉРµРєС‚Р° РёР· С‡РµРіРѕ-РЅРёР±СѓРґСЊ С‚СЏР¶С‘Р»РѕРіРѕ
 			pGun = 0;
 			EUnitAckType eRejectFireToObjReason = ACK_NONE;
 			if ( pObj->GetObjectType() != ESOT_ENTRENCHMENT )
@@ -809,12 +809,12 @@ void CCommonAttackCommonStatObjState::Segment()
 				return;
 			}
 
-			// здание целиком не обстрелять, но внутри могут быть люди
+			// Р·РґР°РЅРёРµ С†РµР»РёРєРѕРј РЅРµ РѕР±СЃС‚СЂРµР»СЏС‚СЊ, РЅРѕ РІРЅСѓС‚СЂРё РјРѕРіСѓС‚ Р±С‹С‚СЊ Р»СЋРґРё
 			if ( pGun == 0 )
 			{
 				if ( pObj->GetObjectType() == ESOT_BUILDING || pObj->GetObjectType() == ESOT_ENTRENCHMENT )
 				{
-					// юнитов внутри обстрелять нельзя
+					// СЋРЅРёС‚РѕРІ РІРЅСѓС‚СЂРё РѕР±СЃС‚СЂРµР»СЏС‚СЊ РЅРµР»СЊР·СЏ
 					if ( !AttackUnits( pObj ) )
 					{
 						if ( pObj->GetObjectType() == ESOT_ENTRENCHMENT )
@@ -840,12 +840,12 @@ void CCommonAttackCommonStatObjState::Segment()
 		else
 			FinishState();
 	}
-	// не момент стрельбы
+	// РЅРµ РјРѕРјРµРЅС‚ СЃС‚СЂРµР»СЊР±С‹
 	else if ( !pGun->IsBursting() && ( !IsValidObj( pObj ) || bFinish || theDipl.GetNParty( pObj->GetPlayer() ) != nStartObjParty ) )
 		FinishState();
 	else if ( !pGun->IsFiring() )
 	{
-		// если объект разрушен
+		// РµСЃР»Рё РѕР±СЉРµРєС‚ СЂР°Р·СЂСѓС€РµРЅ
 		if ( !IsValidObj( pObj ) || bFinish || theDipl.GetNParty( pObj->GetPlayer() ) != nStartObjParty )
 			FinishState();
 		else if ( pGun->GetNAmmo() == 0 )
@@ -1139,12 +1139,12 @@ ETryStateInterruptResult CCommonAmbushState::TryInterruptState( CAICommand *pCom
 	for ( int i = 0; i < pUnit->GetNGuns(); ++i )
 		pUnit->GetGun(i)->CanShoot();
 
-	// если следующая команда - стрелять по юниту, который мы отслеживали
+	// РµСЃР»Рё СЃР»РµРґСѓСЋС‰Р°СЏ РєРѕРјР°РЅРґР° - СЃС‚СЂРµР»СЏС‚СЊ РїРѕ СЋРЅРёС‚Сѓ, РєРѕС‚РѕСЂС‹Р№ РјС‹ РѕС‚СЃР»РµР¶РёРІР°Р»Рё
 	//CAICommand *pCommand = pUnit->GetNextCommand();
 	if ( pCommand != 0 && pCommand->ToUnitCmd().cmdType == ACTION_COMMAND_ATTACK_UNIT 
 				&& pTarget == pCommand->ToUnitCmd().pObject )
 	{
-		// целиться не надо
+		// С†РµР»РёС‚СЊСЃСЏ РЅРµ РЅР°РґРѕ
 		pCommand->ToUnitCmd().fNumber = 1;
 		eState = EAS_FIRING;
 	}
@@ -1243,7 +1243,7 @@ void CCommonAttackUnitInBuildingState::Segment()
 {
 	if ( !IsValidObj( pTarget ) || !pTarget->IsInBuilding() || nSlot == -1 )
 		FinishState();
-	// бегает
+	// Р±РµРіР°РµС‚
 	else if ( nSlot != pTarget->GetSlot() )
 	{
 		CBuilding *pBuilding = pTarget->GetBuilding();

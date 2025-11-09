@@ -399,7 +399,7 @@ CTemplateEditorFrame::CTemplateEditorFrame() : isReservePositionActive( false ),
 {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // ************************************************************************************************************************ //
-// новые поля
+// РЅРѕРІС‹Рµ РїРѕР»СЏ
 	inputStates.AddInputState( static_cast<CTerrainState*>( 0 ) );								//STATE_TERRAN								= 0
 	inputStates.AddInputState( static_cast<CSimpleObjectsState*>( 0 ) );					//STATE_SIMPLE_OBJECTS				= 1
 	inputStates.AddInputState( static_cast<CVectorObjectsState*>( 0 ) );					//STATE_VECTOR_OBJECTS				= 2
@@ -658,7 +658,7 @@ void CTemplateEditorFrame::OnPaint()
 			inputStates.Draw( this );
 		}
 
-		//------------------ рисуем области--------------------------------
+		//------------------ СЂРёСЃСѓРµРј РѕР±Р»Р°СЃС‚Рё--------------------------------
 		if ( ITerrainEditor *pTerrainEditor = dynamic_cast<ITerrainEditor*>( pTerrain ) )
 		{
 			STerrainInfo &rTerrainInfo = const_cast<STerrainInfo&>( pTerrainEditor->GetTerrainInfo() );
@@ -723,7 +723,7 @@ void CTemplateEditorFrame::OnPaint()
 		dc.FrameRect( &r2, &brA );
 	}
 
-	//------------------ рисуем области--------------------------------
+	//------------------ СЂРёСЃСѓРµРј РѕР±Р»Р°СЃС‚Рё--------------------------------
 	if ( ITerrain *pTerrain = pScene->GetTerrain() )
 	{
 		if ( ITerrainEditor *pTerrainEditor = dynamic_cast<ITerrainEditor*>( pTerrain ) )
@@ -752,7 +752,7 @@ void CTemplateEditorFrame::OnPaint()
 	pGFX->EndScene();
 	pGFX->Flip();
 
-	//--------------- для minimap'a-----------------------------
+	//--------------- РґР»СЏ minimap'a-----------------------------
 	if ( g_frameManager.GetMiniMapWindow() && ::IsWindow( g_frameManager.GetMiniMapWindow()->GetSafeHwnd() ) ) 
 	{
 		g_frameManager.GetMiniMapWindow()->UpdateScreenFrame();
@@ -970,7 +970,7 @@ void CTemplateEditorFrame::OnKillFocus(CWnd* pNewWnd)
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 LRESULT CTemplateEditorFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lParam) 
 {
-	if ( message == UM_CHANGE_SHORTCUT_BAR_PAGE ) //поменяли режим работы
+	if ( message == UM_CHANGE_SHORTCUT_BAR_PAGE ) //РїРѕРјРµРЅСЏР»Рё СЂРµР¶РёРј СЂР°Р±РѕС‚С‹
 	{
 	
 		ITerrain *terra = GetSingleton<IScene>()->GetTerrain();
@@ -986,16 +986,16 @@ LRESULT CTemplateEditorFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lPa
 		if ( m_currentMovingObjectPtrAI ) { m_currentMovingObjectPtrAI = 0; }	
 		*/
 		//if ( m_currentObjectForPastePtrAI ) { m_currentObjectForPastePtrAI = 0; }	
-		if ( m_currentMovingObjectForPlacementPtr != 0 ) //вырубим полупрозрачную картинку
+		if ( m_currentMovingObjectForPlacementPtr != 0 ) //РІС‹СЂСѓР±РёРј РїРѕР»СѓРїСЂРѕР·СЂР°С‡РЅСѓСЋ РєР°СЂС‚РёРЅРєСѓ
 		{
 			RemoveObject( m_currentMovingObjectForPlacementPtr );
 			m_currentMovingObjectForPlacementPtr = 0;
 		}	
 		
-		//============== сброс объектов при advanced clipboard=====
+		//============== СЃР±СЂРѕСЃ РѕР±СЉРµРєС‚РѕРІ РїСЂРё advanced clipboard=====
 		if ( m_currentMovingPasteGroupName != "" )
 		{
-			// вначале замочим предыдущие картинки
+			// РІРЅР°С‡Р°Р»Рµ Р·Р°РјРѕС‡РёРј РїСЂРµРґС‹РґСѓС‰РёРµ РєР°СЂС‚РёРЅРєРё
 			for( std:: vector<CPtr<IVisObj> >::iterator it = m_currentMovingObjectsForPlacementPtr.begin();
 			it != m_currentMovingObjectsForPlacementPtr.end(); ++it )
 			{
@@ -1031,7 +1031,7 @@ LRESULT CTemplateEditorFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lPa
 		}
 		return 0;
 	}
-	if ( message == WM_USER + 2 ) //изменили фильтр 
+	if ( message == WM_USER + 2 ) //РёР·РјРµРЅРёР»Рё С„РёР»СЊС‚СЂ 
 	{
 		CPtr<IObjectsDB> pODB = GetSingleton<IObjectsDB>();
 	
@@ -1074,14 +1074,14 @@ LRESULT CTemplateEditorFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lPa
 		}
 		return 0;
 	}
-	if ( message == WM_USER + 3 ) //изменили текущего выбранного юнита  
+	if ( message == WM_USER + 3 ) //РёР·РјРµРЅРёР»Рё С‚РµРєСѓС‰РµРіРѕ РІС‹Р±СЂР°РЅРЅРѕРіРѕ СЋРЅРёС‚Р°  
 	{
 		static_cast<CObjectPlacerState*>( inputStates.GetInputState( STATE_SIMPLE_OBJECTS ) )->ClearAllSelection( this ); 		
 
-		//================ сброс объектов при advanced clipboard =====================
+		//================ СЃР±СЂРѕСЃ РѕР±СЉРµРєС‚РѕРІ РїСЂРё advanced clipboard =====================
 		if ( m_currentMovingPasteGroupName != "" )
 		{
-			// вначале замочим предыдущие картинки
+			// РІРЅР°С‡Р°Р»Рµ Р·Р°РјРѕС‡РёРј РїСЂРµРґС‹РґСѓС‰РёРµ РєР°СЂС‚РёРЅРєРё
 			for( std:: vector<CPtr<IVisObj> >::iterator it = m_currentMovingObjectsForPlacementPtr.begin();
 			it != m_currentMovingObjectsForPlacementPtr.end(); ++it )
 			{
@@ -1093,14 +1093,14 @@ LRESULT CTemplateEditorFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lPa
 		}
 		//=============================================================================
 /*	for delete
-		if ( m_currentMovingObjectPtrAI ) // отменим выделение
+		if ( m_currentMovingObjectPtrAI ) // РѕС‚РјРµРЅРёРј РІС‹РґРµР»РµРЅРёРµ
 		{
 			m_currentMovingObjectPtrAI->pVisObj->Select( SGVOSS_UNSELECTED );
 			m_currentMovingObjectPtrAI = 0;
 		}
 		*/
 
-		if ( m_currentMovingObjectForPlacementPtr != 0 ) //вырубим полупрозрачную картинку
+		if ( m_currentMovingObjectForPlacementPtr != 0 ) //РІС‹СЂСѓР±РёРј РїРѕР»СѓРїСЂРѕР·СЂР°С‡РЅСѓСЋ РєР°СЂС‚РёРЅРєСѓ
 		{
 			//static_cast<IScene*>( GetSingleton()->Get( SCNGRPH_SCENE_GRAPH ) )->RemoveObject( m_currentMovingObjectForPlacementPtr );
 			RemoveObject( m_currentMovingObjectForPlacementPtr );
@@ -1108,7 +1108,7 @@ LRESULT CTemplateEditorFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lPa
 		}
 	}
 
-	if ( message == WM_USER + 4 ) //изменили угол у  текущего выбранного юнита  
+	if ( message == WM_USER + 4 ) //РёР·РјРµРЅРёР»Рё СѓРіРѕР» Сѓ  С‚РµРєСѓС‰РµРіРѕ РІС‹Р±СЂР°РЅРЅРѕРіРѕ СЋРЅРёС‚Р°  
 	{
 		if ( m_currentMovingObjectForPlacementPtr != 0 ) 
 		{
@@ -1129,7 +1129,7 @@ LRESULT CTemplateEditorFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lPa
 			SetMapModified();
 			RedrawWindow();
 		}
-		//если мультиселект
+		//РµСЃР»Рё РјСѓР»СЊС‚РёСЃРµР»РµРєС‚
 		if ( m_currentMovingObjectsAI.size() )
 		{
 			for ( std::vector<SMapObject*>::iterator it = m_currentMovingObjectsAI.begin(); it != m_currentMovingObjectsAI.end(); ++it )
@@ -1138,7 +1138,7 @@ LRESULT CTemplateEditorFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lPa
 				{			
 					if ( (*it)->pAIObj && GetSingleton<IAIEditor>()->GetFormationOfUnit( (*it)->pAIObj ) )
 					{
-						// поворачиваем формацию 
+						// РїРѕРІРѕСЂР°С‡РёРІР°РµРј С„РѕСЂРјР°С†РёСЋ 
 						IRefCount* obj = GetSingleton<IAIEditor>()->GetFormationOfUnit( (*it)->pAIObj ) ;
 						GetSingleton<IAIEditor>()->TurnObject( obj, m_mapEditorBarPtr->GetObjectWnd()->GetDefaultDirAngel() * 182.04f );					
 					}
@@ -1155,7 +1155,7 @@ LRESULT CTemplateEditorFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lPa
 			RedrawWindow();
 		}
 	}
-	if ( message == WM_USER + 5 ) //надо замочить окно свойств
+	if ( message == WM_USER + 5 ) //РЅР°РґРѕ Р·Р°РјРѕС‡РёС‚СЊ РѕРєРЅРѕ СЃРІРѕР№СЃС‚РІ
 	{
 		if ( dlg ) 
 		{
@@ -1179,7 +1179,7 @@ LRESULT CTemplateEditorFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lPa
 			/**/
 		}
 	}
-	if ( message == WM_USER + 6 ) //надо попробовать взять свойства
+	if ( message == WM_USER + 6 ) //РЅР°РґРѕ РїРѕРїСЂРѕР±РѕРІР°С‚СЊ РІР·СЏС‚СЊ СЃРІРѕР№СЃС‚РІР°
 	{
 		if ( isStartCommandPropertyActive )
 		{
@@ -1212,9 +1212,9 @@ LRESULT CTemplateEditorFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lPa
 			RedrawWindow();
 		}
 	}
-	if ( message == WM_USER + 7 ) //изменили состояние check box'ов в менеджере группы
+	if ( message == WM_USER + 7 ) //РёР·РјРµРЅРёР»Рё СЃРѕСЃС‚РѕСЏРЅРёРµ check box'РѕРІ РІ РјРµРЅРµРґР¶РµСЂРµ РіСЂСѓРїРїС‹
 	{
-		//если что-то было заселектированно то надо сбросить
+		//РµСЃР»Рё С‡С‚Рѕ-С‚Рѕ Р±С‹Р»Рѕ Р·Р°СЃРµР»РµРєС‚РёСЂРѕРІР°РЅРЅРѕ С‚Рѕ РЅР°РґРѕ СЃР±СЂРѕСЃРёС‚СЊ
 		
 		/* for delete
 		if ( m_currentMovingObjectPtrAI ) 
@@ -1257,12 +1257,12 @@ void CTemplateEditorFrame::OnUpdateTileCoord(CCmdUI* pCmdUI)
 			if ( inputStates.GetActiveState() != STATE_AI_GENERAL )
 			{
 				int nControlIndex = -1;
-				//здесь же напишем имя объекта и его  номер и координаты  для Виталика
+				//Р·РґРµСЃСЊ Р¶Рµ РЅР°РїРёС€РµРј РёРјСЏ РѕР±СЉРµРєС‚Р° Рё РµРіРѕ  РЅРѕРјРµСЂ Рё РєРѕРѕСЂРґРёРЅР°С‚С‹  РґР»СЏ Р’РёС‚Р°Р»РёРєР°
 				if ( m_currentMovingObjectPtrAI && g_frameManager.GetActiveFrameType() == CFrameManager::E_TEMPLATE_FRAME )
 				{
 					nControlIndex = theApp.GetMainFrame()->m_wndStatusBar.CommandToIndex( ID_INDICATOR_OBJECTTYPE );
 					CString text;
-					// для Виталика
+					// РґР»СЏ Р’РёС‚Р°Р»РёРєР°
 					/**
 					int numObj = GetSingleton<IScene>()->GetNumSceneObjects();
 					vector< std::pair<const SGDBObjectDesc*, CVec3> > vecTmp( numObj );
@@ -1446,10 +1446,10 @@ void CTemplateEditorFrame::OnFileLoadMap( const std::string &rszFileName )
 		return;
 	}
 	
-	//находим все зарегистрированные моды
+	//РЅР°С…РѕРґРёРј РІСЃРµ Р·Р°СЂРµРіРёСЃС‚СЂРёСЂРѕРІР°РЅРЅС‹Рµ РјРѕРґС‹
 	modCollector.Collect();
 	COpenMapDialog openMapDialog;
-	//находим все зарегистрированные карты
+	//РЅР°С…РѕРґРёРј РІСЃРµ Р·Р°СЂРµРіРёСЃС‚СЂРёСЂРѕРІР°РЅРЅС‹Рµ РєР°СЂС‚С‹
 	{
 		const std::string szMapsFolder( "Maps\\" );
 		GetEnumFilesInDataStorage( szMapsFolder, &( openMapDialog.mapNames ) );
@@ -1471,7 +1471,7 @@ void CTemplateEditorFrame::OnFileLoadMap( const std::string &rszFileName )
 		NStr::ToLower( szSelectedFileMap );
 		const std::string szSelectedFileMapFullName = szSelectedFileMap;
 		
-		//открываем карту
+		//РѕС‚РєСЂС‹РІР°РµРј РєР°СЂС‚Сѓ
 		CPtr<IDataStream> pStream = 0;
 		{
 			IDataStorage *pDataStorage = GetSingleton<IDataStorage>();
@@ -1639,7 +1639,7 @@ void CTemplateEditorFrame::OnFileLoadMap( const std::string &rszFileName )
 		NStr::ToLower( m_currentMapName );
 		theApp.GetMainFrame()->AddToRecentList( m_currentMapName + ( mapEditorOptions.bSaveAsBZM ? ".bzm" : ".xml" ) );
 
-		//грузим мод:
+		//РіСЂСѓР·РёРј РјРѕРґ:
 		if ( szOldMODKey != szNewMODKey )
 		{
 			if ( progressDialog.GetSafeHwnd() != 0 )
@@ -1726,7 +1726,7 @@ void CTemplateEditorFrame::OnFileLoadMap( const std::string &rszFileName )
 			{
 				szShortOutputString += NStr::Format( "\nSome objects was deleted.\nFor further information see %s%s file.", pDataStorage->GetName(), szOutputFile.c_str() );
 			}
-			//изменяется мод - требуем сохранения
+			//РёР·РјРµРЅСЏРµС‚СЃСЏ РјРѕРґ - С‚СЂРµР±СѓРµРј СЃРѕС…СЂР°РЅРµРЅРёСЏ
 			bSomeRemoved = true;
 		}
 
@@ -1776,7 +1776,7 @@ void CTemplateEditorFrame::OnFileLoadMap( const std::string &rszFileName )
 
 		progressDialog.IterateProgressPosition();
 
-		//Загрузим в  AI terrain
+		//Р—Р°РіСЂСѓР·РёРј РІ  AI terrain
 		pAIEditor->SetDiplomacies( currentMapInfo.diplomacies );
 		pAIEditor->Init( currentMapInfo.terrain );
 		pAIEditor->ToggleShow( 0 );
@@ -1820,7 +1820,7 @@ void CTemplateEditorFrame::OnFileLoadMap( const std::string &rszFileName )
 		}		
 
 		std::vector<SMapObjectInfo> tmpSpans;
-		std::map<SMapObject*,SMapObjectInfo > m_objectsTmpMap; // запомним для всех объектов SMapObjectInfo
+		std::map<SMapObject*,SMapObjectInfo > m_objectsTmpMap; // Р·Р°РїРѕРјРЅРёРј РґР»СЏ РІСЃРµС… РѕР±СЉРµРєС‚РѕРІ SMapObjectInfo
  
 		for ( std::vector<SMapObjectInfo>::iterator it = currentMapInfo.objects.begin(); it != currentMapInfo.objects.end(); ++it )
 		{			
@@ -1829,7 +1829,7 @@ void CTemplateEditorFrame::OnFileLoadMap( const std::string &rszFileName )
 			AI2Vis( &vPos, it->vPos );
 			if( pAIEditor->IsObjectInsideOfMap( *it ) )
 			{
-				if( pObjectsDB->GetDesc( it->szName.c_str() )->eGameType != SGVOGT_BRIDGE ) // мосты надо ставить по особому
+				if( pObjectsDB->GetDesc( it->szName.c_str() )->eGameType != SGVOGT_BRIDGE ) // РјРѕСЃС‚С‹ РЅР°РґРѕ СЃС‚Р°РІРёС‚СЊ РїРѕ РѕСЃРѕР±РѕРјСѓ
 				{
 					if ( terrainRect.contains( vPos.x, vPos.y ) )				
 					{
@@ -1860,7 +1860,7 @@ void CTemplateEditorFrame::OnFileLoadMap( const std::string &rszFileName )
 			AI2Vis( &vPos, it->vPos );
 			if( pAIEditor->IsObjectInsideOfMap( *it ) )
 			{
-				if( pObjectsDB->GetDesc( it->szName.c_str() )->eGameType != SGVOGT_BRIDGE ) // мосты надо ставить по особому
+				if( pObjectsDB->GetDesc( it->szName.c_str() )->eGameType != SGVOGT_BRIDGE ) // РјРѕСЃС‚С‹ РЅР°РґРѕ СЃС‚Р°РІРёС‚СЊ РїРѕ РѕСЃРѕР±РѕРјСѓ
 				{
 					if ( terrainRect.contains( vPos.x, vPos.y ) )				
 					{
@@ -1884,32 +1884,32 @@ void CTemplateEditorFrame::OnFileLoadMap( const std::string &rszFileName )
 
 		progressDialog.IterateProgressPosition();
 		//----------------------------------------------------------------------------------------------------------
-		// расставляем линки ( тепрь уже для каждого SMapObject есть SMapObjectInfo) т.е известен его link 
+		// СЂР°СЃСЃС‚Р°РІР»СЏРµРј Р»РёРЅРєРё ( С‚РµРїСЂСЊ СѓР¶Рµ РґР»СЏ РєР°Р¶РґРѕРіРѕ SMapObject РµСЃС‚СЊ SMapObjectInfo) С‚.Рµ РёР·РІРµСЃС‚РµРЅ РµРіРѕ link 
 		for ( std::map<SMapObject*,SMapObjectInfo >::iterator it = m_objectsTmpMap.begin(); it != m_objectsTmpMap.end(); ++it )
 		{			
 			SMapObjectInfo tmpInfo = it->second;
 
-			if( it->second.link.nLinkWith != 0 )  // это означает что есть link 
+			if( it->second.link.nLinkWith != 0 )  // СЌС‚Рѕ РѕР·РЅР°С‡Р°РµС‚ С‡С‚Рѕ РµСЃС‚СЊ link 
 			{
-				// найдем SMapObject с таким linkId 
+				// РЅР°Р№РґРµРј SMapObject СЃ С‚Р°РєРёРј linkId 
 				for ( std::map<SMapObject*,SMapObjectInfo >::iterator it2 = m_objectsTmpMap.begin(); it2 != m_objectsTmpMap.end(); ++it2 )
 				{
 					if( it2->second.link.nLinkID == it->second.link.nLinkWith &&  it2->first != it->first )
 					{
-						//нашли хороший SMapObject присвоим ему link 
+						//РЅР°С€Р»Рё С…РѕСЂРѕС€РёР№ SMapObject РїСЂРёСЃРІРѕРёРј РµРјСѓ link 
 						GetEditorObjectItem( it->first )->pLink =  it2->first;
 	
 						IRefCount* pFormation = pAIEditor->GetFormationOfUnit( it->first->pAIObj  );
 						if( pFormation )
 						{
-							// значит надо посадить не одного солдатика а целый взвод
+							// Р·РЅР°С‡РёС‚ РЅР°РґРѕ РїРѕСЃР°РґРёС‚СЊ РЅРµ РѕРґРЅРѕРіРѕ СЃРѕР»РґР°С‚РёРєР° Р° С†РµР»С‹Р№ РІР·РІРѕРґ
 							IRefCount **pUnits;
 							int nLength;
 							pAIEditor->GetUnitsInFormation( pFormation, &pUnits, &nLength);	
 							for( int i = 0; i != nLength; ++i )
 							{
 								GetEditorObjectItem( FindByAI( pUnits[i] ) )->pLink = it2->first;
-								// посадили а теперь подвинем его ( просто у Виталика они при постановке на карту встают в 0- ую  формацию )
+								// РїРѕСЃР°РґРёР»Рё Р° С‚РµРїРµСЂСЊ РїРѕРґРІРёРЅРµРј РµРіРѕ ( РїСЂРѕСЃС‚Рѕ Сѓ Р’РёС‚Р°Р»РёРєР° РѕРЅРё РїСЂРё РїРѕСЃС‚Р°РЅРѕРІРєРµ РЅР° РєР°СЂС‚Сѓ РІСЃС‚Р°СЋС‚ РІ 0- СѓСЋ  С„РѕСЂРјР°С†РёСЋ )
 								CVec2 vTmp = pAIEditor->GetCenter( it2->first->pAIObj );
 								pAIEditor->MoveObject(  FindByAI( pUnits[i] )->pAIObj, vTmp.x - 30 , vTmp.y + 30 );
 							}
@@ -1923,8 +1923,8 @@ void CTemplateEditorFrame::OnFileLoadMap( const std::string &rszFileName )
 		progressDialog.IterateProgressPosition();
 	
 		//----------------------------------------------------------------------------------------------------------
-		//обновляем ReservePositions:
-		//для каждой резервной позиции
+		//РѕР±РЅРѕРІР»СЏРµРј ReservePositions:
+		//РґР»СЏ РєР°Р¶РґРѕР№ СЂРµР·РµСЂРІРЅРѕР№ РїРѕР·РёС†РёРё
 		for ( TMutableReservePositionList::iterator reservePositionIterator = m_reservePositions.begin(); reservePositionIterator != m_reservePositions.end(); )
 		{
 			reservePositionIterator->pArtilleryObject = 0;
@@ -1932,10 +1932,10 @@ void CTemplateEditorFrame::OnFileLoadMap( const std::string &rszFileName )
 			if ( reservePositionIterator->nArtilleryLinkID != 0 ) 
 					 //( reservePositionIterator->nTruckLinkID != 0 ) )
 			{
-				//для каждого зарегистрированного обьекта
-				//находим linkID
-				//если не squad
-				// найдем SMapObject с таким linkId 
+				//РґР»СЏ РєР°Р¶РґРѕРіРѕ Р·Р°СЂРµРіРёСЃС‚СЂРёСЂРѕРІР°РЅРЅРѕРіРѕ РѕР±СЊРµРєС‚Р°
+				//РЅР°С…РѕРґРёРј linkID
+				//РµСЃР»Рё РЅРµ squad
+				// РЅР°Р№РґРµРј SMapObject СЃ С‚Р°РєРёРј linkId 
 				for ( std::map<SMapObject*,SMapObjectInfo>::iterator it2 = m_objectsTmpMap.begin(); it2 != m_objectsTmpMap.end(); ++it2 )
 				{
 					if ( it2->second.link.nLinkID == reservePositionIterator->nArtilleryLinkID )
@@ -1961,7 +1961,7 @@ void CTemplateEditorFrame::OnFileLoadMap( const std::string &rszFileName )
 					}
 				}
 			}
-			//если нет ни одного обьекта, то удаляем стартовую команду
+			//РµСЃР»Рё РЅРµС‚ РЅРё РѕРґРЅРѕРіРѕ РѕР±СЊРµРєС‚Р°, С‚Рѕ СѓРґР°Р»СЏРµРј СЃС‚Р°СЂС‚РѕРІСѓСЋ РєРѕРјР°РЅРґСѓ
 			if ( ( reservePositionIterator->pArtilleryObject == 0 ) && 
 				   ( reservePositionIterator->pTruckObject == 0 ) )
 			{
@@ -1975,19 +1975,19 @@ void CTemplateEditorFrame::OnFileLoadMap( const std::string &rszFileName )
 		
 		progressDialog.IterateProgressPosition();
 		//----------------------------------------------------------------------------------------------------------
-		//обновляем StartCommands:
-		//для каждой стартовой команды
+		//РѕР±РЅРѕРІР»СЏРµРј StartCommands:
+		//РґР»СЏ РєР°Р¶РґРѕР№ СЃС‚Р°СЂС‚РѕРІРѕР№ РєРѕРјР°РЅРґС‹
 		for ( TMutableAIStartCommandList::iterator startCommandIterator = m_startCommands.begin(); startCommandIterator != m_startCommands.end(); )
 		{
-			//для каждого зарегистрированного обьекта
+			//РґР»СЏ РєР°Р¶РґРѕРіРѕ Р·Р°СЂРµРіРёСЃС‚СЂРёСЂРѕРІР°РЅРЅРѕРіРѕ РѕР±СЊРµРєС‚Р°
 			//bool isAllPresent = true;
 			startCommandIterator->pMapObjects.clear();
 			for ( std::vector<int>::iterator mapObjectIterator = startCommandIterator->unitLinkIDs.begin(); mapObjectIterator	!= startCommandIterator->unitLinkIDs.end(); ++mapObjectIterator )
 			{
-				//если его не удалили
+				//РµСЃР»Рё РµРіРѕ РЅРµ СѓРґР°Р»РёР»Рё
 				if ( (*mapObjectIterator) != 0 )
 				{
-					// найдем SMapObject с таким linkId 
+					// РЅР°Р№РґРµРј SMapObject СЃ С‚Р°РєРёРј linkId 
 					for ( std::map<SMapObject*,SMapObjectInfo>::iterator it2 = m_objectsTmpMap.begin(); it2 != m_objectsTmpMap.end(); ++it2 )
 					{
 						if( it2->second.link.nLinkID == (*mapObjectIterator) )
@@ -2013,7 +2013,7 @@ void CTemplateEditorFrame::OnFileLoadMap( const std::string &rszFileName )
 				}
 			}
 			startCommandIterator->unitLinkIDs.clear();
-			//если нет ни одного обьекта, то удаляем стартовую команду
+			//РµСЃР»Рё РЅРµС‚ РЅРё РѕРґРЅРѕРіРѕ РѕР±СЊРµРєС‚Р°, С‚Рѕ СѓРґР°Р»СЏРµРј СЃС‚Р°СЂС‚РѕРІСѓСЋ РєРѕРјР°РЅРґСѓ
 			if ( !startCommandIterator->pMapObjects.empty() )
 			{
 				 ++startCommandIterator;		
@@ -2025,12 +2025,12 @@ void CTemplateEditorFrame::OnFileLoadMap( const std::string &rszFileName )
 		}
 		progressDialog.IterateProgressPosition();
 		//----------------------------------------------------------------------------------------------------------
-		//-----------------Расставим групповые логики -------------------------------------------------------------- 
+		//-----------------Р Р°СЃСЃС‚Р°РІРёРј РіСЂСѓРїРїРѕРІС‹Рµ Р»РѕРіРёРєРё -------------------------------------------------------------- 
 		//					std::pair< std::string, int > FindGroupIdForObject( SLoadMapInfo::TLogicsMap &logics, int linkId )
 		/**
 		for ( std::map<SMapObject*,SMapObjectInfo >::iterator it = m_objectsTmpMap.begin(); it != m_objectsTmpMap.end(); ++it )
 		{
-				// не взводы 
+				// РЅРµ РІР·РІРѕРґС‹ 
 				SMapObject* pMapObject = it->first;
 				if ( pMapObject )
 				{
@@ -2041,8 +2041,8 @@ void CTemplateEditorFrame::OnFileLoadMap( const std::string &rszFileName )
 					}
 					else
 					{
-						// для них чуть сложнее 
-						// m_objectsTmpMap -  там содержится только один солдатик из каждого взвода ( по построению )
+						// РґР»СЏ РЅРёС… С‡СѓС‚СЊ СЃР»РѕР¶РЅРµРµ 
+						// m_objectsTmpMap -  С‚Р°Рј СЃРѕРґРµСЂР¶РёС‚СЃСЏ С‚РѕР»СЊРєРѕ РѕРґРёРЅ СЃРѕР»РґР°С‚РёРє РёР· РєР°Р¶РґРѕРіРѕ РІР·РІРѕРґР° ( РїРѕ РїРѕСЃС‚СЂРѕРµРЅРёСЋ )
 						//
 						IRefCount* pFormation = GetSingleton<IAIEditor>()->GetFormationOfUnit( it->first->pAIObj  );					
 						IRefCount **pUnits;
@@ -2096,7 +2096,7 @@ void CTemplateEditorFrame::OnFileLoadMap( const std::string &rszFileName )
 		// turn warfog off
 		while ( pScene->ToggleShow( SCENE_SHOW_WARFOG ) == true ){}
 
-		//-------------Нарисуем модельку камеры------------
+		//-------------РќР°СЂРёСЃСѓРµРј РјРѕРґРµР»СЊРєСѓ РєР°РјРµСЂС‹------------
 		m_mapEditorBarPtr->GetObjectWnd()->FillPlayers();
 		MakeCamera();
 		CVec3 vCamera( VNULL3 );
@@ -2138,7 +2138,7 @@ void CTemplateEditorFrame::OnFileLoadMap( const std::string &rszFileName )
 		CalculateReinforcementGroups();	
 		SendMessage( WM_USER + 7 );
 
-		// почитаем окопы
+		// РїРѕС‡РёС‚Р°РµРј РѕРєРѕРїС‹
 		CalculateTrenchToAI();
 
 		if ( isReservePositionActive )
@@ -2378,10 +2378,10 @@ void CTemplateEditorFrame::OnEditCopy()
 		m_currentForPasteObjectsAI.clear();
 		m_shiftsForPasteObjectsAI.clear();
 
-	// если мультиселект
+	// РµСЃР»Рё РјСѓР»СЊС‚РёСЃРµР»РµРєС‚
 	if ( m_currentMovingObjectsAI.size() )
 	{
-			//запомним объекты и смещение между ними
+			//Р·Р°РїРѕРјРЅРёРј РѕР±СЉРµРєС‚С‹ Рё СЃРјРµС‰РµРЅРёРµ РјРµР¶РґСѓ РЅРёРјРё
 			CVec3 v = m_currentMovingObjectsAI[0]->pVisObj->GetPosition();
 			for ( std::vector<SMapObject*>::iterator it = m_currentMovingObjectsAI.begin(); it != m_currentMovingObjectsAI.end(); ++it )
 			{
@@ -2439,7 +2439,7 @@ IVisObj* CTemplateEditorFrame::AddObject( const SGDBObjectDesc &desc, int p, boo
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// удаление по IVisObj надо для временных каринок ( AI о них не знает ) 
+// СѓРґР°Р»РµРЅРёРµ РїРѕ IVisObj РЅР°РґРѕ РґР»СЏ РІСЂРµРјРµРЅРЅС‹С… РєР°СЂРёРЅРѕРє ( AI Рѕ РЅРёС… РЅРµ Р·РЅР°РµС‚ ) 
 void CTemplateEditorFrame::RemoveObject(IVisObj *object)
 {
 	GetSingleton<IScene>()->RemoveObject( object );
@@ -2468,8 +2468,8 @@ void CTemplateEditorFrame::RemoveObject(SMapObject *object)
 					}
 				}		
 
-				// может возникнуть ситуация когда при undo надо замочить 
-				// поселекченного unit'aы
+				// РјРѕР¶РµС‚ РІРѕР·РЅРёРєРЅСѓС‚СЊ СЃРёС‚СѓР°С†РёСЏ РєРѕРіРґР° РїСЂРё undo РЅР°РґРѕ Р·Р°РјРѕС‡РёС‚СЊ 
+				// РїРѕСЃРµР»РµРєС‡РµРЅРЅРѕРіРѕ unit'aС‹
 				if ( object == m_currentMovingObjectPtrAI )
 				{
 					m_currentMovingObjectPtrAI = 0;
@@ -2569,7 +2569,7 @@ void CTemplateEditorFrame::OnFileNewMap()
 
 		ClearAllDataBeforeNewMap();
 		
-		//грузим мод:
+		//РіСЂСѓР·РёРј РјРѕРґ:
 		if ( szOldMODKey != szNewMODKey )
 		{
 			if ( progressDialog.GetSafeHwnd() != 0 )
@@ -2706,7 +2706,7 @@ void CTemplateEditorFrame::OnFileNewMap()
 
 		progressDialog.IterateProgressPosition();
 
-		//-------------Нарисуем миодельку камеры------------
+		//-------------РќР°СЂРёСЃСѓРµРј РјРёРѕРґРµР»СЊРєСѓ РєР°РјРµСЂС‹------------
 		m_mapEditorBarPtr->GetObjectWnd()->FillPlayers();
 		MakeCamera();
 		CVec3 vCamera( VNULL3 );
@@ -2773,7 +2773,7 @@ void CTemplateEditorFrame::OnFileNewMap()
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CTemplateEditorFrame::AddTileCmd( std::vector<STileRedoCmdInfo> &inf, bool cmd)
 {
-	//cmd - поставить и запомнить команду, !cmd - сделать откат
+	//cmd - РїРѕСЃС‚Р°РІРёС‚СЊ Рё Р·Р°РїРѕРјРЅРёС‚СЊ РєРѕРјР°РЅРґСѓ, !cmd - СЃРґРµР»Р°С‚СЊ РѕС‚РєР°С‚
 	ITerrain *terra = GetSingleton<IScene>()->GetTerrain();
 	if ( terra )
 	{
@@ -2801,7 +2801,7 @@ void CTemplateEditorFrame::AddTileCmd( std::vector<STileRedoCmdInfo> &inf, bool 
 			x = it->posX;
 			y = it->posY;
 		}
-		if ( !cmd )//если AddTileCmd пришел из undo то update
+		if ( !cmd )//РµСЃР»Рё AddTileCmd РїСЂРёС€РµР» РёР· undo С‚Рѕ update
 		{
 			const STerrainInfo &terrainInfo =  (dynamic_cast< ITerrainEditor* >(terra))->GetTerrainInfo();
 			GRect gr( (x - 2 )  >> 4 ,(y - 2 )>> 4 , ( x + 3 ) >> 4 , ( y + 3 )>> 4  ) ;
@@ -2869,8 +2869,8 @@ bool CTemplateEditorFrame::IfCashedFile( std::string name)
 	std::string szFileName1 = std::string( GetSingleton<IDataStorage>()->GetName() ) +  std::string("editor\\cache\\") + name;
 	std::string szFileName2 = std::string( GetSingleton<IDataStorage>()->GetName() ) + name;
 	
-	HANDLE handle1 = CreateFile(szFileName1.c_str(), GENERIC_READ, 0, NULL, OPEN_EXISTING, 0, NULL); // tmp картинка
-	HANDLE handle2 = CreateFile(szFileName2.c_str(), GENERIC_READ, 0, NULL, OPEN_EXISTING, 0, NULL); // - эту еще надо уменьшать
+	HANDLE handle1 = CreateFile(szFileName1.c_str(), GENERIC_READ, 0, NULL, OPEN_EXISTING, 0, NULL); // tmp РєР°СЂС‚РёРЅРєР°
+	HANDLE handle2 = CreateFile(szFileName2.c_str(), GENERIC_READ, 0, NULL, OPEN_EXISTING, 0, NULL); // - СЌС‚Сѓ РµС‰Рµ РЅР°РґРѕ СѓРјРµРЅСЊС€Р°С‚СЊ
 	
 	bool ifShouldScaleAndLoad = false;
 	if ( handle1 != INVALID_HANDLE_VALUE ) 
@@ -2933,7 +2933,7 @@ void CTemplateEditorFrame::GetTileIndexBy2DPoint(int x, int y, int &xtile, int &
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//просто заполняет прямоугольник точками
+//РїСЂРѕСЃС‚Рѕ Р·Р°РїРѕР»РЅСЏРµС‚ РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРє С‚РѕС‡РєР°РјРё
 void CTemplateEditorFrame::FillGRect( GRect &r, std::vector< CTPoint<int> > &points  )
 {
 	for ( int i = r.top(); i != r.bottom(); ++i )
@@ -2954,7 +2954,7 @@ SMapObject* CTemplateEditorFrame::AddObjectByAI(SMapObjectInfo &info, int p ,boo
 	{
 		info.fHP = 1.0f; 
 	}
-	// у вызводов надо nFrameIndex == -1
+	// Сѓ РІС‹Р·РІРѕРґРѕРІ РЅР°РґРѕ nFrameIndex == -1
 	const SGDBObjectDesc* descTmp = GetSingleton<IObjectsDB>()->GetDesc( info.szName.c_str() ); 
 	if ( !descTmp )
 		return 0;
@@ -2983,7 +2983,7 @@ SMapObject* CTemplateEditorFrame::AddObjectByAI(SMapObjectInfo &info, int p ,boo
 
 	if ( pAiObject )
 	{
-		if( !GetSingleton<IAIEditor>()->IsFormation( pAiObject ) )  // просто солдатики 
+		if( !GetSingleton<IAIEditor>()->IsFormation( pAiObject ) )  // РїСЂРѕСЃС‚Рѕ СЃРѕР»РґР°С‚РёРєРё 
 		{
 			IGameTimer *pTimer = GetSingleton<IGameTimer>();
 			int time = pTimer->GetGameTime( );
@@ -3130,25 +3130,25 @@ void CTemplateEditorFrame::SaveMap( std::string &name, bool isBinary )
 	{
 		CheckMap( false );
 
-		//перераспределяем линки
+		//РїРµСЂРµСЂР°СЃРїСЂРµРґРµР»СЏРµРј Р»РёРЅРєРё
 		GetSingleton<IAIEditor>()->HandOutLinks();
 
-		//обновляем nLinkID у ReservePositions:
-		//для каждой резервной позиции
+		//РѕР±РЅРѕРІР»СЏРµРј nLinkID Сѓ ReservePositions:
+		//РґР»СЏ РєР°Р¶РґРѕР№ СЂРµР·РµСЂРІРЅРѕР№ РїРѕР·РёС†РёРё
 		for ( TMutableReservePositionList::iterator reservePositionIterator = m_reservePositions.begin(); reservePositionIterator != m_reservePositions.end(); )
 		{
 			reservePositionIterator->nArtilleryLinkID = 0;
 			reservePositionIterator->nTruckLinkID = 0;
 			if ( reservePositionIterator->pArtilleryObject ) //&& reservePositionIterator->pTruckObject )
 			{
-				//для каждого зарегистрированного обьекта
-				//находим linkID
-				//если не squad
+				//РґР»СЏ РєР°Р¶РґРѕРіРѕ Р·Р°СЂРµРіРёСЃС‚СЂРёСЂРѕРІР°РЅРЅРѕРіРѕ РѕР±СЊРµРєС‚Р°
+				//РЅР°С…РѕРґРёРј linkID
+				//РµСЃР»Рё РЅРµ squad
 				if ( !GetSingleton<IAIEditor>()->GetFormationOfUnit( reservePositionIterator->pArtilleryObject->pAIObj ) )
 				{
 					reservePositionIterator->nArtilleryLinkID  = GetSingleton<IAIEditor>()->AIToLink( reservePositionIterator->pArtilleryObject->pAIObj );
 				}
-				//если не squad
+				//РµСЃР»Рё РЅРµ squad
 				if ( reservePositionIterator->pTruckObject )
 				{
 					if ( !GetSingleton<IAIEditor>()->GetFormationOfUnit( reservePositionIterator->pTruckObject->pAIObj ) )
@@ -3161,7 +3161,7 @@ void CTemplateEditorFrame::SaveMap( std::string &name, bool isBinary )
 					reservePositionIterator->nTruckLinkID = RMGC_INVALID_LINK_ID_VALUE;
 				}
 			}
-			//если нет ни одного обьекта, то удаляем стартовую команду
+			//РµСЃР»Рё РЅРµС‚ РЅРё РѕРґРЅРѕРіРѕ РѕР±СЊРµРєС‚Р°, С‚Рѕ СѓРґР°Р»СЏРµРј СЃС‚Р°СЂС‚РѕРІСѓСЋ РєРѕРјР°РЅРґСѓ
 			if ( ( reservePositionIterator->nArtilleryLinkID == RMGC_INVALID_LINK_ID_VALUE ) && 
 					 ( reservePositionIterator->nTruckLinkID == RMGC_INVALID_LINK_ID_VALUE ) )
 			{
@@ -3176,31 +3176,31 @@ void CTemplateEditorFrame::SaveMap( std::string &name, bool isBinary )
 			
 		progressDialog.IterateProgressPosition();
 
-		//обновляем nLinkID у StartCommands:
-		//для каждой стартовой команды
+		//РѕР±РЅРѕРІР»СЏРµРј nLinkID Сѓ StartCommands:
+		//РґР»СЏ РєР°Р¶РґРѕР№ СЃС‚Р°СЂС‚РѕРІРѕР№ РєРѕРјР°РЅРґС‹
 		for ( TMutableAIStartCommandList::iterator startCommandIterator = m_startCommands.begin(); startCommandIterator != m_startCommands.end(); )
 		{
-			//для каждого зарегистрированного обьекта
+			//РґР»СЏ РєР°Р¶РґРѕРіРѕ Р·Р°СЂРµРіРёСЃС‚СЂРёСЂРѕРІР°РЅРЅРѕРіРѕ РѕР±СЊРµРєС‚Р°
 			//bool isAllPresent = true;
 			startCommandIterator->unitLinkIDs.clear();
 			for ( std::list<SMapObject*>::iterator mapObjectIterator = startCommandIterator->pMapObjects.begin(); mapObjectIterator	!= startCommandIterator->pMapObjects.end(); ++mapObjectIterator )
 			{
-				//если его не удалили
+				//РµСЃР»Рё РµРіРѕ РЅРµ СѓРґР°Р»РёР»Рё
 				if ( m_objectsAI.find(*mapObjectIterator) != m_objectsAI.end() )
 				{
-					//находим linkID
+					//РЅР°С…РѕРґРёРј linkID
 					int linkID = 0;
-					//в случае если это squad
+					//РІ СЃР»СѓС‡Р°Рµ РµСЃР»Рё СЌС‚Рѕ squad
 					if ( GetSingleton<IAIEditor>()->GetFormationOfUnit( (*mapObjectIterator)->pAIObj ) )
 					{
 						linkID = GetSingleton<IAIEditor>()->AIToLink( GetSingleton<IAIEditor>()->GetFormationOfUnit( (*mapObjectIterator)->pAIObj ) );
 					}
-					//если не squad
+					//РµСЃР»Рё РЅРµ squad
 					else
 					{
 						linkID = GetSingleton<IAIEditor>()->AIToLink( (*mapObjectIterator)->pAIObj );
 					}
-					//если linkID найден
+					//РµСЃР»Рё linkID РЅР°Р№РґРµРЅ
 					if ( linkID != 0 )
 					{
 						bool isNotPresent = true;
@@ -3212,10 +3212,10 @@ void CTemplateEditorFrame::SaveMap( std::string &name, bool isBinary )
 								break;
 							}
 						}
-						//и он не присутствует больше
+						//Рё РѕРЅ РЅРµ РїСЂРёСЃСѓС‚СЃС‚РІСѓРµС‚ Р±РѕР»СЊС€Рµ
 						if ( isNotPresent )
 						{
-							//добавляем его
+							//РґРѕР±Р°РІР»СЏРµРј РµРіРѕ
 							startCommandIterator->unitLinkIDs.push_back( linkID );
 						}
 					}
@@ -3227,7 +3227,7 @@ void CTemplateEditorFrame::SaveMap( std::string &name, bool isBinary )
 				//}
 			}
 				
-			//если нет ни одного обьекта, то удаляем стартовую команду
+			//РµСЃР»Рё РЅРµС‚ РЅРё РѕРґРЅРѕРіРѕ РѕР±СЊРµРєС‚Р°, С‚Рѕ СѓРґР°Р»СЏРµРј СЃС‚Р°СЂС‚РѕРІСѓСЋ РєРѕРјР°РЅРґСѓ
 			if ( startCommandIterator->unitLinkIDs.empty() )
 			{
 				 startCommandIterator = m_startCommands.erase( startCommandIterator );		
@@ -3253,7 +3253,7 @@ void CTemplateEditorFrame::SaveMap( std::string &name, bool isBinary )
 		progressDialog.IterateProgressPosition();
 			
 		//---------------------------------------------------------------------
-		//		пишем объекты которые не взводы
+		//		РїРёС€РµРј РѕР±СЉРµРєС‚С‹ РєРѕС‚РѕСЂС‹Рµ РЅРµ РІР·РІРѕРґС‹
 		//---------------------------------------------------------------------
 		CPtr<IObjectsDB> pODB = GetSingleton<IObjectsDB>();
 		for ( std::hash_map< SMapObject*, SEditorObjectItem*, SDefaultPtrHash >::iterator it = m_objectsAI.begin(); it != m_objectsAI.end(); ++it )
@@ -3274,7 +3274,7 @@ void CTemplateEditorFrame::SaveMap( std::string &name, bool isBinary )
 				SMapObjectInfo::SLinkInfo link;
 				link.nLinkID = GetSingleton<IAIEditor>()->AIToLink( it->first->pAIObj ); 
 
-				// к моменту записи уже может и не существовать объекта на который ссылаемся 
+				// Рє РјРѕРјРµРЅС‚Сѓ Р·Р°РїРёСЃРё СѓР¶Рµ РјРѕР¶РµС‚ Рё РЅРµ СЃСѓС‰РµСЃС‚РІРѕРІР°С‚СЊ РѕР±СЉРµРєС‚Р° РЅР° РєРѕС‚РѕСЂС‹Р№ СЃСЃС‹Р»Р°РµРјСЃСЏ 
 				if( it->second->pLink )
 				{
 					if( it->second->pLink->IsValid() )
@@ -3299,12 +3299,12 @@ void CTemplateEditorFrame::SaveMap( std::string &name, bool isBinary )
 		progressDialog.IterateProgressPosition();
 		
 		//---------------------------------------------------------------------
-		//			 теперь взводы 
+		//			 С‚РµРїРµСЂСЊ РІР·РІРѕРґС‹ 
 		//---------------------------------------------------------------------
 		//CPtr<IObjectsDB> pODB = GetSingleton<IObjectsDB>();
 		for( std::hash_map<IRefCount*, int, SDefaultPtrHash>::iterator it = squads.begin(); it != squads.end(); ++it )
 		{
-			// возьмем хотя бы одного солдатика из взвода 
+			// РІРѕР·СЊРјРµРј С…РѕС‚СЏ Р±С‹ РѕРґРЅРѕРіРѕ СЃРѕР»РґР°С‚РёРєР° РёР· РІР·РІРѕРґР° 
 			IRefCount **pUnits;
 			int nLength;
 			GetSingleton<IAIEditor>()->GetUnitsInFormation( it->first, &pUnits, &nLength);	
@@ -3331,7 +3331,7 @@ void CTemplateEditorFrame::SaveMap( std::string &name, bool isBinary )
 			}
 			link.nLinkID = GetSingleton<IAIEditor>()->AIToLink( it->first );
 
-			// к моменту записи уже может и не существовать объекта на который ссылаемся 
+			// Рє РјРѕРјРµРЅС‚Сѓ Р·Р°РїРёСЃРё СѓР¶Рµ РјРѕР¶РµС‚ Рё РЅРµ СЃСѓС‰РµСЃС‚РІРѕРІР°С‚СЊ РѕР±СЉРµРєС‚Р° РЅР° РєРѕС‚РѕСЂС‹Р№ СЃСЃС‹Р»Р°РµРјСЃСЏ 
 			if( tmpEditiorObj->pLink )
 			{
 				if( tmpEditiorObj->pLink->IsValid() )
@@ -3352,7 +3352,7 @@ void CTemplateEditorFrame::SaveMap( std::string &name, bool isBinary )
 			//currentMapInfo.objects.push_back( tmpObj );	
 		}
 		//---------------------------------------------------------------------
-		//		мосты
+		//		РјРѕСЃС‚С‹
 		//---------------------------------------------------------------------
 		for( int i = 0; i != m_Spans.size(); ++i )
 		{
@@ -3571,7 +3571,7 @@ void CTemplateEditorFrame::CalculateReinforcementGroups( bool update )
 	}
 	else
 	{
-		//запишем состояние
+		//Р·Р°РїРёС€РµРј СЃРѕСЃС‚РѕСЏРЅРёРµ
 		m_reinforcementGroupCheckBoxes.groupsCheckBoxes.clear();
 		for ( std::hash_map< int, SReinforcementGroupInfo::SGroupsVector >::iterator it = m_reinforcementGroup.groups.begin(); it != m_reinforcementGroup.groups.end(); ++it )
 		{ 
@@ -3648,7 +3648,7 @@ void CTemplateEditorFrame::Pick( const CTRect<float> &rcRect, std::pair<IVisObj*
 		if ( IsExistByVis( (*ppObjects)[i].first ) && ( IsMoving || FindByVis( (*ppObjects)[i].first )->pDesc->eGameType != SGVOGT_ENTRENCHMENT )
 			&& FindByVis( (*ppObjects)[i].first )->pDesc->eGameType != SGVOGT_BRIDGE  
 			&&  GetEditorObjectItem( FindByVis( (*ppObjects)[i].first ) )->pLink == 0 )
-			// тех кто в домике не выделяем 
+			// С‚РµС… РєС‚Рѕ РІ РґРѕРјРёРєРµ РЅРµ РІС‹РґРµР»СЏРµРј 
 		{
 			(*ppObjects)[nRealPos] = (*ppObjects)[i];
 			++nRealPos;
@@ -3699,11 +3699,11 @@ void CTemplateEditorFrame::CalculateTrenchFromAI()
 	for( int i = 0; i != m_entrenchmentsAI.size() ; ++i )
 	{
 			SEntrenchmentInfo tmpTrench;
-			// проходимся по i - ому окопу ( т.е по его сегментам  )
+			// РїСЂРѕС…РѕРґРёРјСЃСЏ РїРѕ i - РѕРјСѓ РѕРєРѕРїСѓ ( С‚.Рµ РїРѕ РµРіРѕ СЃРµРіРјРµРЅС‚Р°Рј  )
 			for( int i2 = 0; i2 != m_entrenchmentsAI[i].size(); ++i2 )
 			{
 				std::vector< int >  tmpSegment;
-				// теперь идем по сегменту т.е по частичкам 
+				// С‚РµРїРµСЂСЊ РёРґРµРј РїРѕ СЃРµРіРјРµРЅС‚Сѓ С‚.Рµ РїРѕ С‡Р°СЃС‚РёС‡РєР°Рј 
 				for( int i3 = 0; i3 != m_entrenchmentsAI[i][i2].size(); ++i3 )
 				{
 					tmpSegment.push_back(  GetSingleton<IAIEditor>()->AIToLink( m_entrenchmentsAI[i][i2][i3] ) );
@@ -3722,11 +3722,11 @@ void CTemplateEditorFrame::CalculateTrenchToAI()
 	for( int i = 0; i != m_entrenchments.size() ; ++i )
 	{
 		std::vector< std::vector< IRefCount* > >  tmpTrench;
-			// проходимся по i - ому окопу ( т.е по его сегментам  )
+			// РїСЂРѕС…РѕРґРёРјСЃСЏ РїРѕ i - РѕРјСѓ РѕРєРѕРїСѓ ( С‚.Рµ РїРѕ РµРіРѕ СЃРµРіРјРµРЅС‚Р°Рј  )
 			for( int i2 = 0; i2 != m_entrenchments[i].sections.size(); ++i2 )
 			{
 				std::vector< IRefCount* >  tmpSegment;
-				// теперь идем по сегменту т.е по частичкам 
+				// С‚РµРїРµСЂСЊ РёРґРµРј РїРѕ СЃРµРіРјРµРЅС‚Сѓ С‚.Рµ РїРѕ С‡Р°СЃС‚РёС‡РєР°Рј 
 				for( int i3 = 0; i3 != m_entrenchments[i].sections[i2].size(); ++i3 )
 				{
 					tmpSegment.push_back(  GetSingleton<IAIEditor>()->LinkToAI( m_entrenchments[i].sections[i2][i3] ) );
@@ -3807,7 +3807,7 @@ void CTemplateEditorFrame::CalculateAreasToAI()
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void  CTemplateEditorFrame::FillMapInfoParamForObject( SMapObjectInfo &info, SMapObject* obj  )
 {
-	// !!Важно - в AdvancedClipboarde все хранится в экранных координатах 
+	// !!Р’Р°Р¶РЅРѕ - РІ AdvancedClipboarde РІСЃРµ С…СЂР°РЅРёС‚СЃСЏ РІ СЌРєСЂР°РЅРЅС‹С… РєРѕРѕСЂРґРёРЅР°С‚Р°С… 
 	info.szName =obj->pDesc->szKey;
 	info.vPos = obj->pVisObj->GetPosition( );
 	info.nDir = GetSingleton<IAIEditor>()->GetDir( obj->pAIObj );
@@ -4069,7 +4069,7 @@ void CTemplateEditorFrame::MoveObject( IRefCount *pAiObject, short x, short y, b
 		CVec2 oldPos = GetSingleton<IAIEditor>()->GetCenter( pAiObject );
 		oldPos.x = x - oldPos.x;
 		oldPos.y = y - oldPos.y;
-		// теперь oldPos - приращение 
+		// С‚РµРїРµСЂСЊ oldPos - РїСЂРёСЂР°С‰РµРЅРёРµ 
 
 		GetSingleton<IAIEditor>()->MoveObject( pAiObject, x, y );
 		SMapObject *pObject = FindByAI( pAiObject );
@@ -4138,7 +4138,7 @@ void CTemplateEditorFrame::NewObjectAdded( SMapObject *pMO )
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//Работа со стартовыми командами
+//Р Р°Р±РѕС‚Р° СЃРѕ СЃС‚Р°СЂС‚РѕРІС‹РјРё РєРѕРјР°РЅРґР°РјРё
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CTemplateEditorFrame::OnAddStartCommand()
 {
@@ -4275,8 +4275,8 @@ void CTemplateEditorFrame::AddObjectToAIStartCommand( SMapObject *object, bool i
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CTemplateEditorFrame::ClearAIStartCommandFlags()
 {
-	//обновляем StartCommands:
-	//для каждой стартовой команды
+	//РѕР±РЅРѕРІР»СЏРµРј StartCommands:
+	//РґР»СЏ РєР°Р¶РґРѕР№ СЃС‚Р°СЂС‚РѕРІРѕР№ РєРѕРјР°РЅРґС‹
 	for ( TMutableAIStartCommandList::iterator startCommandIterator = m_startCommands.begin(); startCommandIterator != m_startCommands.end(); ++startCommandIterator )
 	{
 		startCommandIterator->flag = false;
@@ -4305,11 +4305,11 @@ void CTemplateEditorFrame::CreateSelectedAIStartCommandList( bool isRemove )
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CTemplateEditorFrame::RemoveObjectFromAIStartCommand( SMapObject *object )
 {
-	//обновляем StartCommands:
-	//для каждой стартовой команды
+	//РѕР±РЅРѕРІР»СЏРµРј StartCommands:
+	//РґР»СЏ РєР°Р¶РґРѕР№ СЃС‚Р°СЂС‚РѕРІРѕР№ РєРѕРјР°РЅРґС‹
 	for ( TMutableAIStartCommandList::iterator startCommandIterator = m_startCommands.begin(); startCommandIterator != m_startCommands.end(); )
 	{
-		//для каждого зарегистрированного обьекта
+		//РґР»СЏ РєР°Р¶РґРѕРіРѕ Р·Р°СЂРµРіРёСЃС‚СЂРёСЂРѕРІР°РЅРЅРѕРіРѕ РѕР±СЊРµРєС‚Р°
 		for ( std::list<SMapObject*>::iterator mapObjectIterator = startCommandIterator->pMapObjects.begin(); mapObjectIterator	!= startCommandIterator->pMapObjects.end(); )
 		{
 			if ( (*mapObjectIterator) == object )
@@ -4318,11 +4318,11 @@ void CTemplateEditorFrame::RemoveObjectFromAIStartCommand( SMapObject *object )
 			}
 			else
 			{
-				//если его не удалили
+				//РµСЃР»Рё РµРіРѕ РЅРµ СѓРґР°Р»РёР»Рё
 				++mapObjectIterator;
 			}
 		}
-		//если нет ни одного обьекта, то удаляем стартовую команду
+		//РµСЃР»Рё РЅРµС‚ РЅРё РѕРґРЅРѕРіРѕ РѕР±СЊРµРєС‚Р°, С‚Рѕ СѓРґР°Р»СЏРµРј СЃС‚Р°СЂС‚РѕРІСѓСЋ РєРѕРјР°РЅРґСѓ
 		if ( !startCommandIterator->pMapObjects.empty() )
 		{
 			 ++startCommandIterator;		
@@ -4490,12 +4490,12 @@ void CTemplateEditorFrame::OnUpdateReservePositions(CCmdUI* pCmdUI)
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CTemplateEditorFrame::RemoveObjectFromReservePositions( SMapObject *object )
 {
-	//обновляем StartCommands:
-	//для каждой стартовой команды
+	//РѕР±РЅРѕРІР»СЏРµРј StartCommands:
+	//РґР»СЏ РєР°Р¶РґРѕР№ СЃС‚Р°СЂС‚РѕРІРѕР№ РєРѕРјР°РЅРґС‹
 	for ( TMutableReservePositionList::iterator reservePositionIterator = m_reservePositions.begin();
 				reservePositionIterator != m_reservePositions.end(); )
 	{
-		//если нет ни одного обьекта, то удаляем стартовую команду
+		//РµСЃР»Рё РЅРµС‚ РЅРё РѕРґРЅРѕРіРѕ РѕР±СЊРµРєС‚Р°, С‚Рѕ СѓРґР°Р»СЏРµРј СЃС‚Р°СЂС‚РѕРІСѓСЋ РєРѕРјР°РЅРґСѓ
 		if ( ( reservePositionIterator->pArtilleryObject == object ) || 
 			   ( reservePositionIterator->pTruckObject == object ) )
 		{
@@ -5399,7 +5399,7 @@ void CTemplateEditorFrame::OnUpdateButtonsetcamera( CCmdUI* pCmdUI )
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//Задание авиации
+//Р—Р°РґР°РЅРёРµ Р°РІРёР°С†РёРё
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CTemplateEditorFrame::OnEditUnitCreationInfo()
 {
@@ -5521,7 +5521,7 @@ void CTemplateEditorFrame::OnButtonUpdate()
 				
 				progressDialog.IterateProgressPosition();
 				progressDialog.SetProgressMessage( "Updating objects..." );
-				//приведем все коодинаты к AI тайлам
+				//РїСЂРёРІРµРґРµРј РІСЃРµ РєРѕРѕРґРёРЅР°С‚С‹ Рє AI С‚Р°Р№Р»Р°Рј
 				if ( ifFitToAI )
 				{
 					for ( std::hash_map< SMapObject *, SEditorObjectItem*, SDefaultPtrHash >::iterator it = m_objectsAI.begin(); it != m_objectsAI.end(); ++it )
@@ -5537,7 +5537,7 @@ void CTemplateEditorFrame::OnButtonUpdate()
 							ISpriteVisObj *pSprite = static_cast<ISpriteVisObj*>( pMO->pVisObj.GetPtr() );
 							const int nFrameIndex = static_cast<ISpriteAnimation*>( pSprite->GetAnimation() )->GetFrameIndex();
 							const CArray2D<BYTE> &passability = pRPG->GetPassability( nFrameIndex );
-							// fit применяется только к объектам, которые имеют ненулевой массив проходимости
+							// fit РїСЂРёРјРµРЅСЏРµС‚СЃСЏ С‚РѕР»СЊРєРѕ Рє РѕР±СЉРµРєС‚Р°Рј, РєРѕС‚РѕСЂС‹Рµ РёРјРµСЋС‚ РЅРµРЅСѓР»РµРІРѕР№ РјР°СЃСЃРёРІ РїСЂРѕС…РѕРґРёРјРѕСЃС‚Рё
 							if ( !passability.IsEmpty() )
 							{
 								CVec3 vPos = pMO->pVisObj->GetPosition();
@@ -6384,7 +6384,7 @@ void CTemplateEditorFrame::CheckMap( bool bProgressIsVisible )
 					int nCount2 = 0;
 					int nMaxCount = 8;
 
-					//убираем объекты с одинаковыми коодинатами
+					//СѓР±РёСЂР°РµРј РѕР±СЉРµРєС‚С‹ СЃ РѕРґРёРЅР°РєРѕРІС‹РјРё РєРѕРѕРґРёРЅР°С‚Р°РјРё
 					if ( bProgressIsVisible )
 					{
 						progressDialog.SetProgressMessage( "Deleting double objects..." );
@@ -6466,7 +6466,7 @@ void CTemplateEditorFrame::CheckMap( bool bProgressIsVisible )
 						progressDialog.SetProgressMessage( "Fixing invalid object links..." );
 					}
 					
-					//фиксим юнитов ссылающихся на несуществующие обьекты + на один обьект ссылаются два обьекта ( вагоны и грузовики )
+					//С„РёРєСЃРёРј СЋРЅРёС‚РѕРІ СЃСЃС‹Р»Р°СЋС‰РёС…СЃСЏ РЅР° РЅРµСЃСѓС‰РµСЃС‚РІСѓСЋС‰РёРµ РѕР±СЊРµРєС‚С‹ + РЅР° РѕРґРёРЅ РѕР±СЊРµРєС‚ СЃСЃС‹Р»Р°СЋС‚СЃСЏ РґРІР° РѕР±СЊРµРєС‚Р° ( РІР°РіРѕРЅС‹ Рё РіСЂСѓР·РѕРІРёРєРё )
 					bool bSomeDeleted = true;
 					//while ( bSomeDeleted )
 					{
@@ -6605,7 +6605,7 @@ void CTemplateEditorFrame::CheckMap( bool bProgressIsVisible )
 						progressDialog.SetProgressMessage( "Fixing invalid player numbers..." );
 					}
 					
-					//Исправляем номер игрока у юнитов
+					//РСЃРїСЂР°РІР»СЏРµРј РЅРѕРјРµСЂ РёРіСЂРѕРєР° Сѓ СЋРЅРёС‚РѕРІ
 					if ( !mapForChangePalyer.empty() )
 					{
 						std::map<IRefCount*, int> squadsMapForChangePalyer;
@@ -7233,7 +7233,7 @@ bool CTemplateEditorFrame::NeedUpdateStorages()
 		progressDialog.IterateProgressPosition();
 			
 		//---------------------------------------------------------------------
-		//		пишем объекты которые не взводы
+		//		РїРёС€РµРј РѕР±СЉРµРєС‚С‹ РєРѕС‚РѕСЂС‹Рµ РЅРµ РІР·РІРѕРґС‹
 		//---------------------------------------------------------------------
 		CPtr<IObjectsDB> pODB = GetSingleton<IObjectsDB>();
 		for ( std::hash_map< SMapObject*, SEditorObjectItem*, SDefaultPtrHash >::iterator it = m_objectsAI.begin(); it != m_objectsAI.end(); ++it )
@@ -7254,7 +7254,7 @@ bool CTemplateEditorFrame::NeedUpdateStorages()
 				SMapObjectInfo::SLinkInfo link;
 				link.nLinkID = GetSingleton<IAIEditor>()->AIToLink( it->first->pAIObj ); 
 
-				// к моменту записи уже может и не существовать объекта на который ссылаемся 
+				// Рє РјРѕРјРµРЅС‚Сѓ Р·Р°РїРёСЃРё СѓР¶Рµ РјРѕР¶РµС‚ Рё РЅРµ СЃСѓС‰РµСЃС‚РІРѕРІР°С‚СЊ РѕР±СЉРµРєС‚Р° РЅР° РєРѕС‚РѕСЂС‹Р№ СЃСЃС‹Р»Р°РµРјСЃСЏ 
 				if( it->second->pLink )
 				{
 					if( it->second->pLink->IsValid() )
@@ -7279,12 +7279,12 @@ bool CTemplateEditorFrame::NeedUpdateStorages()
 		progressDialog.IterateProgressPosition();
 		
 		//---------------------------------------------------------------------
-		//			 теперь взводы 
+		//			 С‚РµРїРµСЂСЊ РІР·РІРѕРґС‹ 
 		//---------------------------------------------------------------------
 		//CPtr<IObjectsDB> pODB = GetSingleton<IObjectsDB>();
 		for( std::set< IRefCount* >::iterator it = squads.begin(); it != squads.end(); ++it )
 		{
-			// возьмем хотя бы одного солдатика из взвода 
+			// РІРѕР·СЊРјРµРј С…РѕС‚СЏ Р±С‹ РѕРґРЅРѕРіРѕ СЃРѕР»РґР°С‚РёРєР° РёР· РІР·РІРѕРґР° 
 			IRefCount **pUnits;
 			int nLength;
 			GetSingleton<IAIEditor>()->GetUnitsInFormation( (*it), &pUnits, &nLength);	
@@ -7306,7 +7306,7 @@ bool CTemplateEditorFrame::NeedUpdateStorages()
 			SMapObjectInfo::SLinkInfo link;
 			link.nLinkID = GetSingleton<IAIEditor>()->AIToLink( *it );
 
-			// к моменту записи уже может и не существовать объекта на который ссылаемся 
+			// Рє РјРѕРјРµРЅС‚Сѓ Р·Р°РїРёСЃРё СѓР¶Рµ РјРѕР¶РµС‚ Рё РЅРµ СЃСѓС‰РµСЃС‚РІРѕРІР°С‚СЊ РѕР±СЉРµРєС‚Р° РЅР° РєРѕС‚РѕСЂС‹Р№ СЃСЃС‹Р»Р°РµРјСЃСЏ 
 			if( tmpEditiorObj->pLink )
 			{
 				if( tmpEditiorObj->pLink->IsValid() )

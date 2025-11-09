@@ -47,7 +47,7 @@ public:
 	CEdgePoint* GetLastPoint( std::list< SPathEdge >::iterator iter );
 
 	const CVec2 GetStartPoint() const { return vStartPoint; }
-	// направление начала движения
+	// РЅР°РїСЂР°РІР»РµРЅРёРµ РЅР°С‡Р°Р»Р° РґРІРёР¶РµРЅРёСЏ
 	const CVec2 GetDirToGo();
 };
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -84,13 +84,13 @@ class CTrainSmoothPath : public ISmoothPath
 	bool bRecalculatedPath;
 	CVec2 vRealFinishPoint;
 
-	// для saver/load
+	// РґР»СЏ saver/load
 	int iteratorShift;
 	bool bJustLoaded;
 
 	//
 	void InitTrain();
-	// передвинуть переднее колесо вагона n на расстояние fDist
+	// РїРµСЂРµРґРІРёРЅСѓС‚СЊ РїРµСЂРµРґРЅРµРµ РєРѕР»РµСЃРѕ РІР°РіРѕРЅР° n РЅР° СЂР°СЃСЃС‚РѕСЏРЅРёРµ fDist
 	void MoveFrontWheel( const int n, float const fDist );
 
 	void CheckPath();
@@ -121,7 +121,7 @@ public:
 	virtual bool CanGoBackward() const { return false; }
 	virtual bool CanGoForward() const { return true; }
 	virtual void GetNextTiles( std::list<SVector> *pTiles ) { pTiles->clear(); }
-	// погрешность до SAIConsts::SPLINE_STEP, используется в основном для формации
+	// РїРѕРіСЂРµС€РЅРѕСЃС‚СЊ РґРѕ SAIConsts::SPLINE_STEP, РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РІ РѕСЃРЅРѕРІРЅРѕРј РґР»СЏ С„РѕСЂРјР°С†РёРё
 	virtual CVec2 GetShift( const int nToShift ) const { return VNULL2; }
 	
 	virtual IMemento* GetMemento() const;
@@ -133,7 +133,7 @@ public:
 
 	virtual void GetSpeed3( CVec3 *vSpeed ) const
 	{
-	//CRAP{ пока Виталик в своих путях не станет вычислать скорость
+	//CRAP{ РїРѕРєР° Р’РёС‚Р°Р»РёРє РІ СЃРІРѕРёС… РїСѓС‚СЏС… РЅРµ СЃС‚Р°РЅРµС‚ РІС‹С‡РёСЃР»Р°С‚СЊ СЃРєРѕСЂРѕСЃС‚СЊ
 	*vSpeed = VNULL3;
 	//CRAP}
 	}
@@ -144,7 +144,7 @@ public:
 	void SetNewFrontWheel( const int n, CEdgePoint *pNewPoint );
 	void SetNewBackWheel( const int n, CEdgePoint *pNewPoint );
 
-	// для save/load
+	// РґР»СЏ save/load
 	virtual void SetOwner( interface IBasePathUnit *pUnit );
 	virtual IBasePathUnit* GetOwner() const;
 };

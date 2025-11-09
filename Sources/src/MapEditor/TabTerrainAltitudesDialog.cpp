@@ -364,7 +364,7 @@ void CShadeEditorWnd::OnShadeGenerateButton()
 						ITerrainEditor *pTerrainEditor = dynamic_cast<ITerrainEditor*>( pTerrain );
 						STerrainInfo &rTerrainInfo = const_cast<STerrainInfo&>( pTerrainEditor->GetTerrainInfo() );
 
-						//сгенерим высоты
+						//СЃРіРµРЅРµСЂРёРј РІС‹СЃРѕС‚С‹
 						NPerlinNoise::Init();
 						CHField hfield( rTerrainInfo.altitudes.GetSizeX(), rTerrainInfo.altitudes.GetSizeY() );
 
@@ -372,11 +372,11 @@ void CShadeEditorWnd::OnShadeGenerateButton()
 						fBmValue.featSize = resizeDialogOptions.fParameters[4];
 						hfield.Generate( fBmValue );
 						
-						//посчитаем максимум и минимум
+						//РїРѕСЃС‡РёС‚Р°РµРј РјР°РєСЃРёРјСѓРј Рё РјРёРЅРёРјСѓРј
 						CTPoint<float> currentRange( 0.0f, 0.0f );
 						float fCurrentRange = hfield.AltitudeRange( &( currentRange.min ), &( currentRange.max ) );
 						
-						//перенесем в terrain
+						//РїРµСЂРµРЅРµСЃРµРј РІ terrain
 						for ( int nXIndex = 0; nXIndex < rTerrainInfo.altitudes.GetSizeX(); ++nXIndex )
 						{
 							for ( int nYIndex = 0; nYIndex < rTerrainInfo.altitudes.GetSizeY(); ++nYIndex )
@@ -412,7 +412,7 @@ void CShadeEditorWnd::OnShadeZeroButton()
 					strTitle.LoadString( IDR_EDITORTYPE );
 					if ( MessageBox( "Do you really want to zero all heights?", strTitle, MB_YESNO | MB_ICONQUESTION | MB_DEFBUTTON2 ) == IDYES )
 					{
-						//обнулим terrain
+						//РѕР±РЅСѓР»РёРј terrain
 						ITerrainEditor *pTerrainEditor = dynamic_cast<ITerrainEditor*>( pTerrain );
 						STerrainInfo &rTerrainInfo = const_cast<STerrainInfo&>( pTerrainEditor->GetTerrainInfo() );
 						rTerrainInfo.altitudes.SetZero();

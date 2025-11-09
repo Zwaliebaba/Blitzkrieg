@@ -15,7 +15,7 @@ extern const int RMGC_INVALID_SCRIPT_ID_VALUE;		//-1
 extern const int RMGC_DEFAULT_SCRIPT_ID_VALUE;		//0
 extern const int RMGC_INVALID_FRAME_INDEX_VALUE;	//-1
 
-//строковые костанты используемые для работы с xml файлами
+//СЃС‚СЂРѕРєРѕРІС‹Рµ РєРѕСЃС‚Р°РЅС‚С‹ РёСЃРїРѕР»СЊР·СѓРµРјС‹Рµ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ xml С„Р°Р№Р»Р°РјРё
 extern const char *RMGC_TEMPLATES_XML_NAME;
 extern const char *RMGC_TEMPLATES_FILE_NAME;
 
@@ -30,16 +30,16 @@ extern const char *RMGC_NOISE_FILE_NAME;
 extern const char *RMGC_QUICK_LOAD_MAP_INFO_NAME;
 extern const int RMGC_QUICK_LOAD_MAP_INFO_CHUNK_NUMBER;
 
-//значение маски разрешенных углов по умолчанию
+//Р·РЅР°С‡РµРЅРёРµ РјР°СЃРєРё СЂР°Р·СЂРµС€РµРЅРЅС‹С… СѓРіР»РѕРІ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
 extern const char *RMGC_DEFAULT_ANGLE_MASK;
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//isUpdateTerain - служит для оптимизации, можно вызвать несколько методов c isUpdateTerain = false, а потом проапдейтить
-//isUpdateRoad - аналогично
+//isUpdateTerain - СЃР»СѓР¶РёС‚ РґР»СЏ РѕРїС‚РёРјРёР·Р°С†РёРё, РјРѕР¶РЅРѕ РІС‹Р·РІР°С‚СЊ РЅРµСЃРєРѕР»СЊРєРѕ РјРµС‚РѕРґРѕРІ c isUpdateTerain = false, Р° РїРѕС‚РѕРј РїСЂРѕР°РїРґРµР№С‚РёС‚СЊ
+//isUpdateRoad - Р°РЅР°Р»РѕРіРёС‡РЅРѕ
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 struct SQuickLoadMapInfo
 {
-	std::vector<std::string> playerParties;												// для каждого игрока в карте свой набор параметров авиации и других юнитов
-	std::vector<BYTE> diplomacies;																// дипломатии, 0, 1 - враждующие стороны, 2 - нейтралы
+	std::vector<std::string> playerParties;												// РґР»СЏ РєР°Р¶РґРѕРіРѕ РёРіСЂРѕРєР° РІ РєР°СЂС‚Рµ СЃРІРѕР№ РЅР°Р±РѕСЂ РїР°СЂР°РјРµС‚СЂРѕРІ Р°РІРёР°С†РёРё Рё РґСЂСѓРіРёС… СЋРЅРёС‚РѕРІ
+	std::vector<BYTE> diplomacies;																// РґРёРїР»РѕРјР°С‚РёРё, 0, 1 - РІСЂР°Р¶РґСѓСЋС‰РёРµ СЃС‚РѕСЂРѕРЅС‹, 2 - РЅРµР№С‚СЂР°Р»С‹
 	CTPoint<int> size;
 	int nType;
 	int nAttackingSide;
@@ -221,27 +221,27 @@ public:
 	int GetSelectedSeason();
 	void FillDefaultDiplomacies();
 	void Clear();
-	//создание пустой карты заданного размера и сезона ( в VIS патчах )
+	//СЃРѕР·РґР°РЅРёРµ РїСѓСЃС‚РѕР№ РєР°СЂС‚С‹ Р·Р°РґР°РЅРЅРѕРіРѕ СЂР°Р·РјРµСЂР° Рё СЃРµР·РѕРЅР° ( РІ VIS РїР°С‚С‡Р°С… )
 	bool Create( const CTPoint<int> &rSize, int _nSeason, const std::string &rzSeasonFolder, int nPlayersCount, int _nType );
 	bool IsValid();
 
 	//----------------------------------------------------------------------------------------------------
-	// загрузить карту из файла
+	// Р·Р°РіСЂСѓР·РёС‚СЊ РєР°СЂС‚Сѓ РёР· С„Р°Р№Р»Р°
 	bool Load( const char* pszMapName );
 	//----------------------------------------------------------------------------------------------------
 	// serializing...
 	virtual int STDCALL operator&( IStructureSaver &ss );
 	virtual int STDCALL operator&( IDataTree &ss );
 
-	//все координаты отсчитываются от левого угла
+	//РІСЃРµ РєРѕРѕСЂРґРёРЅР°С‚С‹ РѕС‚СЃС‡РёС‚С‹РІР°СЋС‚СЃСЏ РѕС‚ Р»РµРІРѕРіРѕ СѓРіР»Р°
 	//----------------------------------------------------------------------------------------------------
-	//удалить обьект по индексу
+	//СѓРґР°Р»РёС‚СЊ РѕР±СЊРµРєС‚ РїРѕ РёРЅРґРµРєСЃСѓ
 	bool RemoveObject( int nObjectIndex );
-	//удалить обьекты в прямоугольнке (в VIS точках)
+	//СѓРґР°Р»РёС‚СЊ РѕР±СЊРµРєС‚С‹ РІ РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРєРµ (РІ VIS С‚РѕС‡РєР°С…)
 	bool RemoveObjects( const std::list<CVec2> &rClearPolygon );
 
 	//----------------------------------------------------------------------------------------------------
-	//получить все обьекты террайна указанного типа, захватывающие данную точку
+	//РїРѕР»СѓС‡РёС‚СЊ РІСЃРµ РѕР±СЊРµРєС‚С‹ С‚РµСЂСЂР°Р№РЅР° СѓРєР°Р·Р°РЅРЅРѕРіРѕ С‚РёРїР°, Р·Р°С…РІР°С‚С‹РІР°СЋС‰РёРµ РґР°РЅРЅСѓСЋ С‚РѕС‡РєСѓ
 	inline bool PointInMap( float x, float y, bool bAIPoint = false )
 	{
 		return PointInMap ( ( *this ), x, y, bAIPoint );
@@ -256,55 +256,55 @@ public:
 	const SVectorStripeObject* GetRoad3D( int nID );
 
 	//----------------------------------------------------------------------------------------------------
-	//Проапдейтить поля terrain ( в VIS патчах )
+	//РџСЂРѕР°РїРґРµР№С‚РёС‚СЊ РїРѕР»СЏ terrain ( РІ VIS РїР°С‚С‡Р°С… )
 	bool UpdateTerrain( const CTRect<int> &rUpdateRect );
-	//заполнить тайлы стыков ( в VIS патчах )
+	//Р·Р°РїРѕР»РЅРёС‚СЊ С‚Р°Р№Р»С‹ СЃС‚С‹РєРѕРІ ( РІ VIS РїР°С‚С‡Р°С… )
 	bool UpdateTerrainCrosses( const CTRect<int> &rUpdateRect );
-	//перераспределить ID'шники рек ( по порядку ) ( в VIS тайлах ) + апдейт высот
+	//РїРµСЂРµСЂР°СЃРїСЂРµРґРµР»РёС‚СЊ ID'С€РЅРёРєРё СЂРµРє ( РїРѕ РїРѕСЂСЏРґРєСѓ ) ( РІ VIS С‚Р°Р№Р»Р°С… ) + Р°РїРґРµР№С‚ РІС‹СЃРѕС‚
 	bool UpdateTerrainRivers( const CTRect<int> &rUpdateRect );
-	//перераспределить ID'шники дорог ( по порядку ) ( в VIS тайлах ) + апдейт высот
+	//РїРµСЂРµСЂР°СЃРїСЂРµРґРµР»РёС‚СЊ ID'С€РЅРёРєРё РґРѕСЂРѕРі ( РїРѕ РїРѕСЂСЏРґРєСѓ ) ( РІ VIS С‚Р°Р№Р»Р°С… ) + Р°РїРґРµР№С‚ РІС‹СЃРѕС‚
 	bool UpdateTerrainRoads3D( const CTRect<int> &rUpdateRect );
-	//пересчитать освещенностиь исходя из высот, прямоугольник в террайн тайлах ( максимальный размер - altitudes ) ( в VIS тайлах )
+	//РїРµСЂРµСЃС‡РёС‚Р°С‚СЊ РѕСЃРІРµС‰РµРЅРЅРѕСЃС‚РёСЊ РёСЃС…РѕРґСЏ РёР· РІС‹СЃРѕС‚, РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРє РІ С‚РµСЂСЂР°Р№РЅ С‚Р°Р№Р»Р°С… ( РјР°РєСЃРёРјР°Р»СЊРЅС‹Р№ СЂР°Р·РјРµСЂ - altitudes ) ( РІ VIS С‚Р°Р№Р»Р°С… )
 	bool UpdateTerrainShades( const CTRect<int> &rUpdateRect );
-	//перераспределить ID'шники юнитов ( по порядку ) ( в VIS тайлах )
-	//возвращает минимальный валидный linkID для дальнейшего использования
+	//РїРµСЂРµСЂР°СЃРїСЂРµРґРµР»РёС‚СЊ ID'С€РЅРёРєРё СЋРЅРёС‚РѕРІ ( РїРѕ РїРѕСЂСЏРґРєСѓ ) ( РІ VIS С‚Р°Р№Р»Р°С… )
+	//РІРѕР·РІСЂР°С‰Р°РµС‚ РјРёРЅРёРјР°Р»СЊРЅС‹Р№ РІР°Р»РёРґРЅС‹Р№ linkID РґР»СЏ РґР°Р»СЊРЅРµР№С€РµРіРѕ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ
 	int UpdateObjects( const CTRect<int> &rUpdateRect );
-	//запаковать frameIndices в типы
-	//возвращает количество запакованных обьектов
+	//Р·Р°РїР°РєРѕРІР°С‚СЊ frameIndices РІ С‚РёРїС‹
+	//РІРѕР·РІСЂР°С‰Р°РµС‚ РєРѕР»РёС‡РµСЃС‚РІРѕ Р·Р°РїР°РєРѕРІР°РЅРЅС‹С… РѕР±СЊРµРєС‚РѕРІ
 	void PackFrameIndices();
-	//распаковать типы в frameIndices
-	//возвращает количество распакованных обьектов
+	//СЂР°СЃРїР°РєРѕРІР°С‚СЊ С‚РёРїС‹ РІ frameIndices
+	//РІРѕР·РІСЂР°С‰Р°РµС‚ РєРѕР»РёС‡РµСЃС‚РІРѕ СЂР°СЃРїР°РєРѕРІР°РЅРЅС‹С… РѕР±СЊРµРєС‚РѕРІ
 	void UnpackFrameIndices();
-	//удаляет обьекты если они не присутствуют в Data storage
+	//СѓРґР°Р»СЏРµС‚ РѕР±СЊРµРєС‚С‹ РµСЃР»Рё РѕРЅРё РЅРµ РїСЂРёСЃСѓС‚СЃС‚РІСѓСЋС‚ РІ Data storage
 	bool RemoveNonExistingObjects( IDataStorage *pDataStorage, IObjectsDB *pObjectsDB, std::string *pszOutputString = 0 );
 
 	//----------------------------------------------------------------------------------------------------
-	//создать катринку с minimap в соответствующем файле
+	//СЃРѕР·РґР°С‚СЊ РєР°С‚СЂРёРЅРєСѓ СЃ minimap РІ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРј С„Р°Р№Р»Рµ
 	bool CreateMiniMapImage( const CRMImageCreateParameterList &rImageCreateParameterList, interface IProgressHook *pProgressHook = 0 );
-	//сгенерировать звуки рек, домов и лесов
+	//СЃРіРµРЅРµСЂРёСЂРѕРІР°С‚СЊ Р·РІСѓРєРё СЂРµРє, РґРѕРјРѕРІ Рё Р»РµСЃРѕРІ
 	bool AddSounds( TMapSoundInfoList *pSoundsList, DWORD dwSoundTypeBits );
 	bool GetUsedLinkIDs( CUsedLinkIDs *pUsedLinkIDs );
 	bool GetUsedScriptIDs( CUsedScriptIDs *pUsedScriptIDs );
 	bool GetUsedScriptAreas( CUsedScriptAreas *pUsedScriptAreas );
 
 	//----------------------------------------------------------------------------------------------------
-	//координаты отсчитываются инвертированно отмосительно terrain Y
+	//РєРѕРѕСЂРґРёРЅР°С‚С‹ РѕС‚СЃС‡РёС‚С‹РІР°СЋС‚СЃСЏ РёРЅРІРµСЂС‚РёСЂРѕРІР°РЅРЅРѕ РѕС‚РјРѕСЃРёС‚РµР»СЊРЅРѕ terrain Y
 	bool GetTerrainTileIndices( const CVec3 &rPoint, CTPoint<int> *pPoint );
 	bool GetTileIndices( const CVec3 &rPoint, CTPoint<int> *pPoint );
 	bool GetAITileIndices( const CVec3 &rPoint, CTPoint<int> *pPoint );
 
 	//----------------------------------------------------------------------------------------------------
-	//перевод координат
+	//РїРµСЂРµРІРѕРґ РєРѕРѕСЂРґРёРЅР°С‚
 	void InvertYTile( CTPoint<int> *pPoint );
 	void InvertYPosition( CTPoint<float> *pPoint );
 
 	//----------------------------------------------------------------------------------------------------
-	// взятие checksums
-	// pResourcesCheckSum - ресурсы, используемые на карте
-	// pMapCheckSum - checksum карты
+	// РІР·СЏС‚РёРµ checksums
+	// pResourcesCheckSum - СЂРµСЃСѓСЂСЃС‹, РёСЃРїРѕР»СЊР·СѓРµРјС‹Рµ РЅР° РєР°СЂС‚Рµ
+	// pMapCheckSum - checksum РєР°СЂС‚С‹
 	void GetCheckSums( uLong *pResourcesCheckSum, uLong *pMapCheckSum );
 	//----------------------------------------------------------------------------------------------------
-	// статические функции для редактирования отдельных компонент CMapInfo
+	// СЃС‚Р°С‚РёС‡РµСЃРєРёРµ С„СѓРЅРєС†РёРё РґР»СЏ СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёСЏ РѕС‚РґРµР»СЊРЅС‹С… РєРѕРјРїРѕРЅРµРЅС‚ CMapInfo
 	static int GetSelectedSeason( int nSeason, const std::string &rszSeasonFolder );
 	static void FillDefaultDiplomacies( SLoadMapInfo *pLoadMapInfo );
 	static void Clear( SLoadMapInfo *pLoadMapInfo );
@@ -354,14 +354,14 @@ public:
 	static bool GetUsedScriptAreas( const SLoadMapInfo &rLoadMapInfo, CUsedScriptAreas *pUsedScriptAreas );
 
 	//----------------------------------------------------------------------------------------------------
-	//создание рандомных карт
+	//СЃРѕР·РґР°РЅРёРµ СЂР°РЅРґРѕРјРЅС‹С… РєР°СЂС‚
 	bool AddMapInfo( const CTPoint<int> &rDestPoint, const SLoadMapInfo &rSourceLoadMapInfo );
 	bool FillTerrain( int nTileIndex );
 	bool FillTileSet( const std::list<CVec2> &rInclusivePolygon,
 										const std::list<std::list<CVec2> > &rExclusivePolygons,
 										const CRMTileSet &rTileSet,
 										std::hash_map<LPARAM, float> *pDistances = 0 );
-	//CArray2D<BYTE> *pTileMap - в AI тайлах ( в два раза больше чем VIS тайлов )
+	//CArray2D<BYTE> *pTileMap - РІ AI С‚Р°Р№Р»Р°С… ( РІ РґРІР° СЂР°Р·Р° Р±РѕР»СЊС€Рµ С‡РµРј VIS С‚Р°Р№Р»РѕРІ )
 	bool FillObjectSet( const std::list<CVec2> &rInclusivePolygon,
 											const std::list<std::list<CVec2> > &rExclusivePolygons,
 											const CRMObjectSet &rObjectSet,
@@ -398,7 +398,7 @@ public:
 	//static const DWORD ROAD_CROSS_BITS_DIMENSION;
 	//static const DWORD ROAD_CROSS_BITS_CASES;
 
-	//заполнить тайлы дорог, выкинуть лишние дороги ( состыковать дороги )
+	//Р·Р°РїРѕР»РЅРёС‚СЊ С‚Р°Р№Р»С‹ РґРѕСЂРѕРі, РІС‹РєРёРЅСѓС‚СЊ Р»РёС€РЅРёРµ РґРѕСЂРѕРіРё ( СЃРѕСЃС‚С‹РєРѕРІР°С‚СЊ РґРѕСЂРѕРіРё )
 	//bool UpdateTerrainRoads( const CTRect<int> &rUpdateRect );
 	//static bool UpdateTerrainRoads( struct STerrainInfo *pTerrainInfo, const CTRect<int> &rUpdateRect, const struct SRoadsetDesc &rRoadsetDesc );
 	//bool AddRoad( const CTRect<int> &rRoadRect, int nRoadType, int nRoadDirection, std::vector<SRoadItem> *pRoad = 0  );

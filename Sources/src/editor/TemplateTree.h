@@ -5,11 +5,11 @@
 
 #define IDC_TEMPLATE_TREE_CONTROL 2000
 
-// Это сообщения от дерева
-const UINT WM_USERTREESEL				= WM_USER + 1;				// поселекчен другой элемент
-const UINT WM_USERDROPITEM			= WM_USER + 2;				// Drop вне текущего дерева
-const UINT WM_USERKEYDOWN				= WM_USER + 3;				// нажата клавиша
-const UINT WM_USERRBUTTONCLICK	= WM_USER + 4;				// клик правой мышой
+// Р­С‚Рѕ СЃРѕРѕР±С‰РµРЅРёСЏ РѕС‚ РґРµСЂРµРІР°
+const UINT WM_USERTREESEL				= WM_USER + 1;				// РїРѕСЃРµР»РµРєС‡РµРЅ РґСЂСѓРіРѕР№ СЌР»РµРјРµРЅС‚
+const UINT WM_USERDROPITEM			= WM_USER + 2;				// Drop РІРЅРµ С‚РµРєСѓС‰РµРіРѕ РґРµСЂРµРІР°
+const UINT WM_USERKEYDOWN				= WM_USER + 3;				// РЅР°Р¶Р°С‚Р° РєР»Р°РІРёС€Р°
+const UINT WM_USERRBUTTONCLICK	= WM_USER + 4;				// РєР»РёРє РїСЂР°РІРѕР№ РјС‹С€РѕР№
 
 class CTemplateTreeProperty;
 

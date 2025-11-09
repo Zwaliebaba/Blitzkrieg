@@ -192,7 +192,7 @@ class CGlobalWarFog
 //			pTiles->push_back( point );
 //#endif // #if !defined(_FINALRELEASE) && !defined(_BETARELEASE)
 
-			// увидели тайл, который был до этого невидим
+			// СѓРІРёРґРµР»Рё С‚Р°Р№Р», РєРѕС‚РѕСЂС‹Р№ Р±С‹Р» РґРѕ СЌС‚РѕРіРѕ РЅРµРІРёРґРёРј
 			if ( theWarFog.fogCnts[nParty][point.y][point.x] == 0 )
 				theSuspendedUpdates.TileBecameVisible( point, nParty );
 			
@@ -209,7 +209,7 @@ class CGlobalWarFog
 		}
 	};
 
-	// зависит от клиента!
+	// Р·Р°РІРёСЃРёС‚ РѕС‚ РєР»РёРµРЅС‚Р°!
 	struct SScriptAreaFog
 	{
 		bool bOpen;
@@ -272,21 +272,21 @@ class CGlobalWarFog
 	CHeap<SWeightInfo, SCommonSort, SWillSwap> weights;
 
 
-	// сколько юнитов данной дипл. стороны видят тайл
+	// СЃРєРѕР»СЊРєРѕ СЋРЅРёС‚РѕРІ РґР°РЅРЅРѕР№ РґРёРїР». СЃС‚РѕСЂРѕРЅС‹ РІРёРґСЏС‚ С‚Р°Р№Р»
 	std::vector< CArray2D<WORD> > fogCnts;
-	// максимальная видимость тайла для дипл. стороны
+	// РјР°РєСЃРёРјР°Р»СЊРЅР°СЏ РІРёРґРёРјРѕСЃС‚СЊ С‚Р°Р№Р»Р° РґР»СЏ РґРёРїР». СЃС‚РѕСЂРѕРЅС‹
 	std::vector<CArray2D4Bit> maxVis;
 	
-	// для камуфлирования - мин. из квадратов отношений < расст. от центра юнита / радиус видимости юнита >
+	// РґР»СЏ РєР°РјСѓС„Р»РёСЂРѕРІР°РЅРёСЏ - РјРёРЅ. РёР· РєРІР°РґСЂР°С‚РѕРІ РѕС‚РЅРѕС€РµРЅРёР№ < СЂР°СЃСЃС‚. РѕС‚ С†РµРЅС‚СЂР° СЋРЅРёС‚Р° / СЂР°РґРёСѓСЃ РІРёРґРёРјРѕСЃС‚Рё СЋРЅРёС‚Р° >
 	std::vector< CArray2D<BYTE> > minCoeff2;
 
 	std::vector<SUnitInfo> unitsInfo;
 	std::vector<SFogInfo> newUnitsInfo;
 
 	typedef std::list< CObj<CExistingObject> > CObjectsList;
-	// объекты, удалённые между перерасчётами тумана для юнита
+	// РѕР±СЉРµРєС‚С‹, СѓРґР°Р»С‘РЅРЅС‹Рµ РјРµР¶РґСѓ РїРµСЂРµСЂР°СЃС‡С‘С‚Р°РјРё С‚СѓРјР°РЅР° РґР»СЏ СЋРЅРёС‚Р°
 	std::vector<CObjectsList> removedObjects4Units;
-	// объекты, добавленные между перерасчётами тумана для юнита
+	// РѕР±СЉРµРєС‚С‹, РґРѕР±Р°РІР»РµРЅРЅС‹Рµ РјРµР¶РґСѓ РїРµСЂРµСЂР°СЃС‡С‘С‚Р°РјРё С‚СѓРјР°РЅР° РґР»СЏ СЋРЅРёС‚Р°
 	std::vector<CObjectsList> addedObjects4Units;
 
 	struct SDeletedUnitInfo
@@ -335,7 +335,7 @@ public:
 	void ChangeUnitState( const int id, SFogInfo &newFogInfo );
 	void ChangeUnitCoord( const int id, SFogInfo &newFogInfo );
 
-	// пересчитать весь необходимый туман при добавлении/удалении юнита
+	// РїРµСЂРµСЃС‡РёС‚Р°С‚СЊ РІРµСЃСЊ РЅРµРѕР±С…РѕРґРёРјС‹Р№ С‚СѓРјР°РЅ РїСЂРё РґРѕР±Р°РІР»РµРЅРёРё/СѓРґР°Р»РµРЅРёРё СЋРЅРёС‚Р°
 	void ReclaculateFogAfterRemoveObject( class CExistingObject *pObj );
 	void ReclaculateFogAfterAddObject( class CExistingObject *pObj );
 
@@ -347,7 +347,7 @@ public:
 	bool IsTileVisible( const SVector &tile, const int nParty ) const;
 	BYTE GetTileVis( const SVector &tile, const int nParty ) const { return GetTileVis( tile.x, tile.y, nParty ); }
 	BYTE GetTileVis( const int tileX, const int tileY, const int nParty ) const;
-	// для клиента, учитывая, играется hisotry или нет
+	// РґР»СЏ РєР»РёРµРЅС‚Р°, СѓС‡РёС‚С‹РІР°СЏ, РёРіСЂР°РµС‚СЃСЏ hisotry РёР»Рё РЅРµС‚
 	BYTE GetClientTileVis( const SVector &tile, const int nParty ) const { return GetClientTileVis( tile.x, tile.y, nParty ); }
 	BYTE GetClientTileVis( const int tileX, const int tileY, const int nParty ) const;
 	bool IsUnitVisible( const int nParty, const SVector &tile, bool bCamouflated, const float fCamouflage ) const;
@@ -360,9 +360,9 @@ public:
 	bool IsOpenBySriptArea( const int x, const int y ) const;
 	bool IsOpenBySriptArea( const SVector &tile ) const { return IsOpenBySriptArea( tile.x, tile.y ); }
 
-	// пересчитать туман для юнита id, когда удалили объект pObject
+	// РїРµСЂРµСЃС‡РёС‚Р°С‚СЊ С‚СѓРјР°РЅ РґР»СЏ СЋРЅРёС‚Р° id, РєРѕРіРґР° СѓРґР°Р»РёР»Рё РѕР±СЉРµРєС‚ pObject
 	void RecalculateForRemovedObject( const int id, const float fDist, class CExistingObject *pObject );
-	// пересчитать туман для юнита id, когда добавили объект pObject
+	// РїРµСЂРµСЃС‡РёС‚Р°С‚СЊ С‚СѓРјР°РЅ РґР»СЏ СЋРЅРёС‚Р° id, РєРѕРіРґР° РґРѕР±Р°РІРёР»Рё РѕР±СЉРµРєС‚ pObject
 	void RecalculateForAddedObject( const int id, const float fDist, class CExistingObject *pObject );
 
 	//

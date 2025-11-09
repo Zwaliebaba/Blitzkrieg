@@ -10,8 +10,8 @@
 #include "GUIFrame.h"
 #include "GUITreeItem.h"
 
-static const int WIDTH = 3;			//ширина и высота прямоугольника растягивания
-static const int MINIMAL = 5;		//минимальная ширина и высота контрола
+static const int WIDTH = 3;			//С€РёСЂРёРЅР° Рё РІС‹СЃРѕС‚Р° РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРєР° СЂР°СЃС‚СЏРіРёРІР°РЅРёСЏ
+static const int MINIMAL = 5;		//РјРёРЅРёРјР°Р»СЊРЅР°СЏ С€РёСЂРёРЅР° Рё РІС‹СЃРѕС‚Р° РєРѕРЅС‚СЂРѕР»Р°
 
 CTRect<float> CGUIFrame::GetElementRect( IUIElement *pElement )
 {
@@ -126,7 +126,7 @@ void CGUIFrame::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
 	if ( nChar == VK_DELETE )
 	{
-		//удаляю все выделенные компоненты
+		//СѓРґР°Р»СЏСЋ РІСЃРµ РІС‹РґРµР»РµРЅРЅС‹Рµ РєРѕРјРїРѕРЅРµРЅС‚С‹
 		for ( CWindowList::iterator it=m_selectedList.begin(); it!=m_selectedList.end(); ++it )
 		{
 			m_pContainer->RemoveChild( *it );
@@ -248,12 +248,12 @@ void CGUIFrame::GFXDraw()
 	m_pScreen->Draw( pGFX );
 	if ( m_pHigh )
 	{
-		//рисуем подсвеченный компонент
+		//СЂРёСЃСѓРµРј РїРѕРґСЃРІРµС‡РµРЅРЅС‹Р№ РєРѕРјРїРѕРЅРµРЅС‚
 		CTRect<float> rc = GetElementRect( m_pHigh );
 		GFXDrawFrame( rc, RED_COLOR, 1 );
 	}
 
-	//рисуем выделенные компоненты
+	//СЂРёСЃСѓРµРј РІС‹РґРµР»РµРЅРЅС‹Рµ РєРѕРјРїРѕРЅРµРЅС‚С‹
 	for ( CWindowList::iterator it=m_selectedList.begin(); it!=m_selectedList.end(); ++it )
 	{
 		CTRect<float> rc = GetElementRect( *it );
@@ -305,7 +305,7 @@ void CGUIFrame::GFXDraw()
 	}
 
 /*
-	//рисуем изменяемые компоненты
+	//СЂРёСЃСѓРµРј РёР·РјРµРЅСЏРµРјС‹Рµ РєРѕРјРїРѕРЅРµРЅС‚С‹
 	for ( CRectList::iterator it=m_dragRectList.begin(); it!=m_dragRectList.end(); ++it )
 	{
 //		CTRect<float> rc = GetElementRect( *it );
@@ -327,7 +327,7 @@ void CGUIFrame::OnMouseMove(UINT nFlags, CPoint point)
 
 	if ( nFlags & MK_LBUTTON && !m_selectedList.empty() && m_mode == MODE_FREE )
 	{
-		//если выделен всего один элемент и мышка над одним из углов, то начинаю изменять его размер
+		//РµСЃР»Рё РІС‹РґРµР»РµРЅ РІСЃРµРіРѕ РѕРґРёРЅ СЌР»РµРјРµРЅС‚ Рё РјС‹С€РєР° РЅР°Рґ РѕРґРЅРёРј РёР· СѓРіР»РѕРІ, С‚Рѕ РЅР°С‡РёРЅР°СЋ РёР·РјРµРЅСЏС‚СЊ РµРіРѕ СЂР°Р·РјРµСЂ
 		if ( m_selectedList.size() == 1 )
 		{
 			m_resizeMode = GetResizeMode( m_selectedList.front(), point.x, point.y );
@@ -372,15 +372,15 @@ void CGUIFrame::OnMouseMove(UINT nFlags, CPoint point)
 		CWindowList::iterator it=m_selectedList.begin();
 		for ( ; it!=m_selectedList.end(); ++it )
 		{
-			//проверяем, что мышка над одним из выделенных окошек
-			//если так, то устанавливаю мод перетаскивания выделенных компонентов
+			//РїСЂРѕРІРµСЂСЏРµРј, С‡С‚Рѕ РјС‹С€РєР° РЅР°Рґ РѕРґРЅРёРј РёР· РІС‹РґРµР»РµРЅРЅС‹С… РѕРєРѕС€РµРє
+			//РµСЃР»Рё С‚Р°Рє, С‚Рѕ СѓСЃС‚Р°РЅР°РІР»РёРІР°СЋ РјРѕРґ РїРµСЂРµС‚Р°СЃРєРёРІР°РЅРёСЏ РІС‹РґРµР»РµРЅРЅС‹С… РєРѕРјРїРѕРЅРµРЅС‚РѕРІ
 			CTRect<float> rc = GetElementRect( *it );
 			if ( rc.IsInside( point.x, point.y ) )
 				break;
 		}
 		if ( it != m_selectedList.end() )
 		{
-			//Начинаем перетаскивать выделенные компоненты
+			//РќР°С‡РёРЅР°РµРј РїРµСЂРµС‚Р°СЃРєРёРІР°С‚СЊ РІС‹РґРµР»РµРЅРЅС‹Рµ РєРѕРјРїРѕРЅРµРЅС‚С‹
 			SetChangedFlag( true );
 			m_undoStack.push_back( new CSaveAllUndo( m_pContainer ) );
 			m_mode = MODE_SELECT;
@@ -392,11 +392,11 @@ void CGUIFrame::OnMouseMove(UINT nFlags, CPoint point)
 	}
 	else if ( nFlags & MK_LBUTTON && !m_selectedList.empty() && m_mode == MODE_SELECT )
 	{
-		CTRect<float> clientRc = GetElementRect( m_pContainer );		//перетаскивание осуществляется только внутри этого прямоугольника
+		CTRect<float> clientRc = GetElementRect( m_pContainer );		//РїРµСЂРµС‚Р°СЃРєРёРІР°РЅРёРµ РѕСЃСѓС‰РµСЃС‚РІР»СЏРµС‚СЃСЏ С‚РѕР»СЊРєРѕ РІРЅСѓС‚СЂРё СЌС‚РѕРіРѕ РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРєР°
 		if ( m_selectedList.front().GetPtr() == m_pContainer.GetPtr() )
 			clientRc = GetElementRect( m_pScreen );
 
-		//прохожу по всем компонентам и ищу их минимальные и максимальные координаты
+		//РїСЂРѕС…РѕР¶Сѓ РїРѕ РІСЃРµРј РєРѕРјРїРѕРЅРµРЅС‚Р°Рј Рё РёС‰Сѓ РёС… РјРёРЅРёРјР°Р»СЊРЅС‹Рµ Рё РјР°РєСЃРёРјР°Р»СЊРЅС‹Рµ РєРѕРѕСЂРґРёРЅР°С‚С‹
 		CTRect<float> maxRC = GetElementRect( m_selectedList.front() );
 		for ( CWindowList::iterator it=m_selectedList.begin(); it!=m_selectedList.end(); ++it )
 		{
@@ -437,7 +437,7 @@ void CGUIFrame::OnMouseMove(UINT nFlags, CPoint point)
 		
 		for ( CWindowList::iterator it=m_selectedList.begin(); it!=m_selectedList.end(); ++it )
 		{
-			//Перетаскиваем выделенные компоненты
+			//РџРµСЂРµС‚Р°СЃРєРёРІР°РµРј РІС‹РґРµР»РµРЅРЅС‹Рµ РєРѕРјРїРѕРЅРµРЅС‚С‹
 			CTRect<float> rc = GetElementRect( *it );
 			rc.left += fDeltaX;
 			rc.right += fDeltaX;
@@ -454,11 +454,11 @@ void CGUIFrame::OnMouseMove(UINT nFlags, CPoint point)
 	}
 	else if ( nFlags & MK_LBUTTON && !m_selectedList.empty() && m_mode == MODE_RESIZE )
 	{
-		CTRect<float> clientRc = GetElementRect( m_pContainer );		//ресайзирование осуществляется только внутри этого прямоугольника
+		CTRect<float> clientRc = GetElementRect( m_pContainer );		//СЂРµСЃР°Р№Р·РёСЂРѕРІР°РЅРёРµ РѕСЃСѓС‰РµСЃС‚РІР»СЏРµС‚СЃСЏ С‚РѕР»СЊРєРѕ РІРЅСѓС‚СЂРё СЌС‚РѕРіРѕ РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРєР°
 		if ( m_selectedList.front().GetPtr() == m_pContainer.GetPtr() )
 			clientRc = GetElementRect( m_pScreen );
 
-		//Изменяем размер выделенного контрола
+		//РР·РјРµРЅСЏРµРј СЂР°Р·РјРµСЂ РІС‹РґРµР»РµРЅРЅРѕРіРѕ РєРѕРЅС‚СЂРѕР»Р°
 		CTRect<float> rc = GetElementRect( m_selectedList.front() );
 		switch ( m_resizeMode )
 		{
@@ -643,7 +643,7 @@ void CGUIFrame::OnMouseMove(UINT nFlags, CPoint point)
 	}
 	else if ( m_mode == MODE_FREE )
 	{
-		//Подсвечиваем компонент под мышкой
+		//РџРѕРґСЃРІРµС‡РёРІР°РµРј РєРѕРјРїРѕРЅРµРЅС‚ РїРѕРґ РјС‹С€РєРѕР№
 		IUIElement *pNewHigh = 0;
 		pNewHigh = m_pContainer->PickElement( CVec2(point.x, point.y), 1 );
 		if ( !pNewHigh )
@@ -656,11 +656,11 @@ void CGUIFrame::OnMouseMove(UINT nFlags, CPoint point)
 		
 		if ( pNewHigh == m_pContainer )
 		{
-			//контейнер не может быть highlighted, сбрасываю режим highlighted
+			//РєРѕРЅС‚РµР№РЅРµСЂ РЅРµ РјРѕР¶РµС‚ Р±С‹С‚СЊ highlighted, СЃР±СЂР°СЃС‹РІР°СЋ СЂРµР¶РёРј highlighted
 			m_pHigh = 0;
 			GFXDraw();
 
-			//если контейнер выделен и выбран mouse select, то включаю режим ресайзирования или передвижения контейнера
+			//РµСЃР»Рё РєРѕРЅС‚РµР№РЅРµСЂ РІС‹РґРµР»РµРЅ Рё РІС‹Р±СЂР°РЅ mouse select, С‚Рѕ РІРєР»СЋС‡Р°СЋ СЂРµР¶РёРј СЂРµСЃР°Р№Р·РёСЂРѕРІР°РЅРёСЏ РёР»Рё РїРµСЂРµРґРІРёР¶РµРЅРёСЏ РєРѕРЅС‚РµР№РЅРµСЂР°
 			if ( m_selectedList.size() == 1 && m_selectedList.front().GetPtr() == m_pContainer.GetPtr() )
 			{
 				if ( pTemplatePropsItem == 0 )
@@ -697,12 +697,12 @@ void CGUIFrame::OnMouseMove(UINT nFlags, CPoint point)
 			}
 		}
 
-		//здесь обрабатываются все случаи, когда мышка внутри контейнера, но сам контейнер не выделен
+		//Р·РґРµСЃСЊ РѕР±СЂР°Р±Р°С‚С‹РІР°СЋС‚СЃСЏ РІСЃРµ СЃР»СѓС‡Р°Рё, РєРѕРіРґР° РјС‹С€РєР° РІРЅСѓС‚СЂРё РєРѕРЅС‚РµР№РЅРµСЂР°, РЅРѕ СЃР°Рј РєРѕРЅС‚РµР№РЅРµСЂ РЅРµ РІС‹РґРµР»РµРЅ
 		if ( !m_selectedList.empty() )
 		{
 			if ( m_selectedList.size() == 1 )
 			{
-				//проверяем, вдруг надо выставить курсор в режим изменения размера
+				//РїСЂРѕРІРµСЂСЏРµРј, РІРґСЂСѓРі РЅР°РґРѕ РІС‹СЃС‚Р°РІРёС‚СЊ РєСѓСЂСЃРѕСЂ РІ СЂРµР¶РёРј РёР·РјРµРЅРµРЅРёСЏ СЂР°Р·РјРµСЂР°
 				int nResizeMode = GetResizeMode( m_selectedList.front(), point.x, point.y );
 				const char *pCursorName = IDC_SIZEALL;
 				if ( nResizeMode == R_NORESIZE && !m_selectedList.front()->IsInside( CVec2(point.x, point.y) ) )
@@ -733,7 +733,7 @@ void CGUIFrame::OnMouseMove(UINT nFlags, CPoint point)
 		}
 
 		if ( pNewHigh == m_pHigh || pNewHigh == m_pContainer )
-			return;				//этот элемент уже был подсвечен, не надо его выделять
+			return;				//СЌС‚РѕС‚ СЌР»РµРјРµРЅС‚ СѓР¶Рµ Р±С‹Р» РїРѕРґСЃРІРµС‡РµРЅ, РЅРµ РЅР°РґРѕ РµРіРѕ РІС‹РґРµР»СЏС‚СЊ
 
 		m_pHigh = pNewHigh;
 		GFXDraw();
@@ -748,7 +748,7 @@ void CGUIFrame::OnLButtonDown(UINT nFlags, CPoint point)
 {
 /*
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
-	if ( pTree == 0 )			//Если проект не был создан
+	if ( pTree == 0 )			//Р•СЃР»Рё РїСЂРѕРµРєС‚ РЅРµ Р±С‹Р» СЃРѕР·РґР°РЅ
 		return;
 */
 	SetFocus();
@@ -759,7 +759,7 @@ void CGUIFrame::OnLButtonDown(UINT nFlags, CPoint point)
 	}
 	
 	{
-		//если мышка над каким-то элементом, выделим его
+		//РµСЃР»Рё РјС‹С€РєР° РЅР°Рґ РєР°РєРёРј-С‚Рѕ СЌР»РµРјРµРЅС‚РѕРј, РІС‹РґРµР»РёРј РµРіРѕ
 		IUIElement *pNewSelected;
 		if ( IsCtrlKeyDown() )
 			pNewSelected = m_pContainer->PickElement( CVec2(point.x, point.y), 10 );
@@ -768,7 +768,7 @@ void CGUIFrame::OnLButtonDown(UINT nFlags, CPoint point)
 		
 		if ( pNewSelected == m_pContainer && m_selectedList.size() == 1 )
 		{
-			//проверим, вдруг выделен один из 8ми растягивающих прямоугольников
+			//РїСЂРѕРІРµСЂРёРј, РІРґСЂСѓРі РІС‹РґРµР»РµРЅ РѕРґРёРЅ РёР· 8РјРё СЂР°СЃС‚СЏРіРёРІР°СЋС‰РёС… РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРєРѕРІ
 			m_resizeMode = GetResizeMode( m_selectedList.front(), point.x, point.y );
 			if ( m_resizeMode != R_NORESIZE )
 				return;
@@ -781,7 +781,7 @@ void CGUIFrame::OnLButtonDown(UINT nFlags, CPoint point)
 			return;
 		}
 
-		//проверим, если этот элемент уже присутствует в списке выделенных
+		//РїСЂРѕРІРµСЂРёРј, РµСЃР»Рё СЌС‚РѕС‚ СЌР»РµРјРµРЅС‚ СѓР¶Рµ РїСЂРёСЃСѓС‚СЃС‚РІСѓРµС‚ РІ СЃРїРёСЃРєРµ РІС‹РґРµР»РµРЅРЅС‹С…
 		CWindowList::iterator it=m_selectedList.begin();
 		for ( ; it!=m_selectedList.end(); ++it )
 		{
@@ -789,12 +789,12 @@ void CGUIFrame::OnLButtonDown(UINT nFlags, CPoint point)
 			{
 				if ( IsShiftKeyDown() )
 				{
-					//развыделим компонент
+					//СЂР°Р·РІС‹РґРµР»РёРј РєРѕРјРїРѕРЅРµРЅС‚
 					m_selectedList.erase( it );
 					GFXDraw();
 					SetCursor( LoadCursor(0, IDC_ARROW ) );
 				}
-				//иначе ничего не делаем, обработка будет в OnLButtonUp()
+				//РёРЅР°С‡Рµ РЅРёС‡РµРіРѕ РЅРµ РґРµР»Р°РµРј, РѕР±СЂР°Р±РѕС‚РєР° Р±СѓРґРµС‚ РІ OnLButtonUp()
 
 				CParentFrame::OnLButtonDown(nFlags, point);
 				return;
@@ -803,11 +803,11 @@ void CGUIFrame::OnLButtonDown(UINT nFlags, CPoint point)
 
 		if ( m_selectedList.size() == 1 && pNewSelected == 0 )
 		{
-			//тут спецом проверка, может нажато вне элемента, но внутри одного из 8ми растягивающих прямоугольников
+			//С‚СѓС‚ СЃРїРµС†РѕРј РїСЂРѕРІРµСЂРєР°, РјРѕР¶РµС‚ РЅР°Р¶Р°С‚Рѕ РІРЅРµ СЌР»РµРјРµРЅС‚Р°, РЅРѕ РІРЅСѓС‚СЂРё РѕРґРЅРѕРіРѕ РёР· 8РјРё СЂР°СЃС‚СЏРіРёРІР°СЋС‰РёС… РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРєРѕРІ
 			m_resizeMode = GetResizeMode( m_selectedList.front(), point.x, point.y );
 			if ( m_resizeMode == R_NORESIZE )
 			{
-				//если не нажат Shift то развыделяем компонент
+				//РµСЃР»Рё РЅРµ РЅР°Р¶Р°С‚ Shift С‚Рѕ СЂР°Р·РІС‹РґРµР»СЏРµРј РєРѕРјРїРѕРЅРµРЅС‚
 				if ( !IsShiftKeyDown() )
 				{
 					m_selectedList.clear();
@@ -843,7 +843,7 @@ void CGUIFrame::OnLButtonDown(UINT nFlags, CPoint point)
 			return;
 		}
 
-		if ( it == m_selectedList.end() )			//если не нажат уже выделенный элемент
+		if ( it == m_selectedList.end() )			//РµСЃР»Рё РЅРµ РЅР°Р¶Р°С‚ СѓР¶Рµ РІС‹РґРµР»РµРЅРЅС‹Р№ СЌР»РµРјРµРЅС‚
 		{
 			if ( !IsShiftKeyDown() )
 			{
@@ -854,13 +854,13 @@ void CGUIFrame::OnLButtonDown(UINT nFlags, CPoint point)
 					m_selectedList.push_back( pNewSelected );
 					SetCursor( LoadCursor(0, IDC_SIZEALL ) );
 
-					//TODO покажем манипулятор
+					//TODO РїРѕРєР°Р¶РµРј РјР°РЅРёРїСѓР»СЏС‚РѕСЂ
 					pPropertyDockBar->AddObjectWithProp( pNewSelected->GetManipulator() );
 				}
 			}
 			else
 			{
-				//нажата клавиша shift, мышка над новым еще не выделенным элементом, добавим его в выделенные
+				//РЅР°Р¶Р°С‚Р° РєР»Р°РІРёС€Р° shift, РјС‹С€РєР° РЅР°Рґ РЅРѕРІС‹Рј РµС‰Рµ РЅРµ РІС‹РґРµР»РµРЅРЅС‹Рј СЌР»РµРјРµРЅС‚РѕРј, РґРѕР±Р°РІРёРј РµРіРѕ РІ РІС‹РґРµР»РµРЅРЅС‹Рµ
 				if ( pNewSelected )
 				{
 					m_selectedList.push_back( pNewSelected );
@@ -916,7 +916,7 @@ void CGUIFrame::OnLButtonUp(UINT nFlags, CPoint point)
 	{
 		IUIElement *pNewSelected = 0;
 		pNewSelected = m_pContainer->PickElement( CVec2(point.x, point.y), 1 );
-		//проверим, если этот элемент уже присутствует в списке выделенных
+		//РїСЂРѕРІРµСЂРёРј, РµСЃР»Рё СЌС‚РѕС‚ СЌР»РµРјРµРЅС‚ СѓР¶Рµ РїСЂРёСЃСѓС‚СЃС‚РІСѓРµС‚ РІ СЃРїРёСЃРєРµ РІС‹РґРµР»РµРЅРЅС‹С…
 		CWindowList::iterator it=m_selectedList.begin();
 		for ( ; it!=m_selectedList.end(); ++it )
 		{
@@ -924,7 +924,7 @@ void CGUIFrame::OnLButtonUp(UINT nFlags, CPoint point)
 			{
 				if ( !IsShiftKeyDown() )
 				{
-					//Сбрасываем выделение со всех выделенных компонентов, выделяем только этот компонент
+					//РЎР±СЂР°СЃС‹РІР°РµРј РІС‹РґРµР»РµРЅРёРµ СЃРѕ РІСЃРµС… РІС‹РґРµР»РµРЅРЅС‹С… РєРѕРјРїРѕРЅРµРЅС‚РѕРІ, РІС‹РґРµР»СЏРµРј С‚РѕР»СЊРєРѕ СЌС‚РѕС‚ РєРѕРјРїРѕРЅРµРЅС‚
 					m_selectedList.clear();
 					m_selectedList.push_back( pNewSelected );
 //					pPropertyDockBar->AddObjectWithProp( pNewSelected->GetManipulator() );
@@ -941,14 +941,14 @@ void CGUIFrame::OnLButtonUp(UINT nFlags, CPoint point)
 		if ( m_pScreen != m_pContainer && !m_pContainer->IsInside( CVec2(point.x, point.y) ) )
 			return;
 
-		//Создаю и добавляю новый компонент
+		//РЎРѕР·РґР°СЋ Рё РґРѕР±Р°РІР»СЏСЋ РЅРѕРІС‹Р№ РєРѕРјРїРѕРЅРµРЅС‚
 		IUIElement *pWindow = GUICreateElement();
-		//определим, что за тип у компонента
+		//РѕРїСЂРµРґРµР»РёРј, С‡С‚Рѕ Р·Р° С‚РёРї Сѓ РєРѕРјРїРѕРЅРµРЅС‚Р°
 		if ( pTemplatePropsItem->GetWindowType() == UI_DIALOG )
 		{
 			if ( m_pContainer.GetPtr() == m_pScreen.GetPtr() )
 			{
-				//это действие убьет все уже созданные элементы
+				//СЌС‚Рѕ РґРµР№СЃС‚РІРёРµ СѓР±СЊРµС‚ РІСЃРµ СѓР¶Рµ СЃРѕР·РґР°РЅРЅС‹Рµ СЌР»РµРјРµРЅС‚С‹
 				int nRes = IDYES;
 				if ( !m_pScreen->IsEmpty() )
 					nRes = AfxMessageBox( "Adding dialog will remove all created childs, confirm?", MB_YESNO );
@@ -960,10 +960,10 @@ void CGUIFrame::OnLButtonUp(UINT nFlags, CPoint point)
 					m_pScreen->AddChild( m_pContainer );
 				}
 				else
-					return;			//нажата NO
+					return;			//РЅР°Р¶Р°С‚Р° NO
 			}
 			else
-				return;		//создался второй диалог
+				return;		//СЃРѕР·РґР°Р»СЃСЏ РІС‚РѕСЂРѕР№ РґРёР°Р»РѕРі
 /*
 				else if ( m_pContainer)
 				{
@@ -981,7 +981,7 @@ void CGUIFrame::OnLButtonUp(UINT nFlags, CPoint point)
 		IManipulator *pManipulator = pWindow->GetManipulator();
 		variant_t var;
 		
-		CTRect<float> clientRc = GetElementRect( m_pContainer );		//перетаскивание осуществляется только внутри этого прямоугольника
+		CTRect<float> clientRc = GetElementRect( m_pContainer );		//РїРµСЂРµС‚Р°СЃРєРёРІР°РЅРёРµ РѕСЃСѓС‰РµСЃС‚РІР»СЏРµС‚СЃСЏ С‚РѕР»СЊРєРѕ РІРЅСѓС‚СЂРё СЌС‚РѕРіРѕ РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРєР°
 		if ( pTemplatePropsItem->GetWindowType() == UI_DIALOG )
 			clientRc = GetElementRect( m_pScreen );
 		CVec2 vPos, vSize;
@@ -1030,7 +1030,7 @@ void CGUIFrame::OnRButtonUp(UINT nFlags, CPoint point)
 		CTRect<float> rc = GetElementRect( m_selectedList.front() );
 		if ( rc.IsInside( point.x, point.y ) )
 		{
-			//Отобразим меню об добавлении нового template
+			//РћС‚РѕР±СЂР°Р·РёРј РјРµРЅСЋ РѕР± РґРѕР±Р°РІР»РµРЅРёРё РЅРѕРІРѕРіРѕ template
 			ClientToScreen( &point );
 			CMenu menu;
 			menu.LoadMenu( IDR_ADD_TEMPLATE_MENU );
@@ -1078,7 +1078,7 @@ void CGUIFrame::OnCreatenewtemplate()
 	string szShortFileName = GetDirectoryFromWindowType( nClassTypeID );
 	szShortFileName = szShortFileName.substr( 0, szShortFileName.size() - 2 );
 	
-	//сгенерируем имя файла
+	//СЃРіРµРЅРµСЂРёСЂСѓРµРј РёРјСЏ С„Р°Р№Р»Р°
 	string szTempFileName;
 	bool bFound = false;
 	for ( int i=0; i<100; i++ )
@@ -1108,12 +1108,12 @@ void CGUIFrame::OnCreatenewtemplate()
 	pTemplatePropsItem->SetXMLFile( szFileName.c_str() );
 	pTemplatePropsItem->SetItemName( szShortFileName.c_str() );
 
-	//находим папку для этого item
+	//РЅР°С…РѕРґРёРј РїР°РїРєСѓ РґР»СЏ СЌС‚РѕРіРѕ item
 	CTreeItem *pParentTreeItem = GetParentTreeItemForWindowType( nClassTypeID );
 	NI_ASSERT( pParentTreeItem != 0 );
 	pParentTreeItem->AddChild( pTemplatePropsItem );
 
-	//Создаем новый template с именем szShortFileName и добавляем его в дерево
+	//РЎРѕР·РґР°РµРј РЅРѕРІС‹Р№ template СЃ РёРјРµРЅРµРј szShortFileName Рё РґРѕР±Р°РІР»СЏРµРј РµРіРѕ РІ РґРµСЂРµРІРѕ
 /*
 	CPtr<IDataStream> *pStream = CreateFileStream( )
 		CTreeAccessor

@@ -80,11 +80,11 @@ interface ITerrain : public IRefCount
 	virtual float STDCALL GetSoundVolume( int nTerrainType ) const = 0 ;
 };
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// специальный интерфейс террейна для работы в редакторе.
-// NOTE: этот интерфейс НЕ поддерживает refcounting
+// СЃРїРµС†РёР°Р»СЊРЅС‹Р№ РёРЅС‚РµСЂС„РµР№СЃ С‚РµСЂСЂРµР№РЅР° РґР»СЏ СЂР°Р±РѕС‚С‹ РІ СЂРµРґР°РєС‚РѕСЂРµ.
+// NOTE: СЌС‚РѕС‚ РёРЅС‚РµСЂС„РµР№СЃ РќР• РїРѕРґРґРµСЂР¶РёРІР°РµС‚ refcounting
 interface ITerrainEditor
 {
-	// import/export в картинку
+	// import/export РІ РєР°СЂС‚РёРЅРєСѓ
 	virtual bool STDCALL Import( interface IImage *pImage ) = 0;
 	virtual interface IImage* STDCALL Export() = 0;
 	// editor part
@@ -94,7 +94,7 @@ interface ITerrainEditor
 	virtual BYTE STDCALL GetTile( int x, int y ) = 0;
 	virtual void STDCALL SetShade( int x, int y, BYTE shade ) = 0;
 	virtual BYTE STDCALL GetShade( int x, int y ) = 0;
-	//патчи включительно!
+	//РїР°С‚С‡Рё РІРєР»СЋС‡РёС‚РµР»СЊРЅРѕ!
 	virtual void STDCALL Update( const CTRect<int> &rcPatches ) = 0;
 	virtual void STDCALL SetMarker( const CTPoint<int> *pPoints, int nNumPoints ) = 0;
 	//virtual void STDCALL SetRoads( const struct SRoadItem *pItems, int nNumItems ) = 0;
@@ -109,9 +109,9 @@ interface ITerrainEditor
 	virtual int STDCALL AddRoad( const struct SVectorStripeObject &road ) = 0;
 	virtual bool STDCALL UpdateRoad( const int nID ) = 0;
 	virtual bool STDCALL RemoveRoad( const int nID ) = 0;
-	// получить внутренний описатель террейна
+	// РїРѕР»СѓС‡РёС‚СЊ РІРЅСѓС‚СЂРµРЅРЅРёР№ РѕРїРёСЃР°С‚РµР»СЊ С‚РµСЂСЂРµР№РЅР°
 	virtual const struct STerrainInfo& STDCALL GetTerrainInfo() const = 0;
-	// описатели сетов
+	// РѕРїРёСЃР°С‚РµР»Рё СЃРµС‚РѕРІ
 	virtual const struct STilesetDesc& STDCALL GetTilesetDesc() const = 0;
 	virtual const struct SCrossetDesc& STDCALL GetCrossetDesc() const = 0;
 	//virtual const struct SRoadsetDesc& STDCALL GetRoadsetDesc() const = 0;

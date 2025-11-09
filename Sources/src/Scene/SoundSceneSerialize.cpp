@@ -22,7 +22,7 @@ int CSoundScene::operator&( IStructureSaver &ss )
 	saver.Add( 8, &substTable );
 	saver.Add( 9, &vLimit );
 	saver.Add( 10, &soundIDs );
-	// а теперь самое сложное - звуки
+	// Р° С‚РµРїРµСЂСЊ СЃР°РјРѕРµ СЃР»РѕР¶РЅРѕРµ - Р·РІСѓРєРё
 	saver.Add( 12, &interfaceSounds );
 	saver.Add( 13, &soundCellsInBounds  );
 	saver.Add( 14, &streamingSounds );
@@ -57,7 +57,7 @@ int CMapSounds::CMapSoundCell::SMapSounds::operator&( IStructureSaver &ss )
 {
 	CSaverAccessor saver = &ss;
 
-	saver.Add( 2, &instanceIDs ); // это не сериализовать
+	saver.Add( 2, &instanceIDs ); // СЌС‚Рѕ РЅРµ СЃРµСЂРёР°Р»РёР·РѕРІР°С‚СЊ
 	saver.Add( 3, &nCount );
 	return 0;
 }
@@ -66,7 +66,7 @@ int CMapSounds::operator&( IStructureSaver &ss )
 {
 	CSaverAccessor saver = &ss;
 
-	//saver.Add( 2, &pSoundScene ); // это не сериализовать
+	//saver.Add( 2, &pSoundScene ); // СЌС‚Рѕ РЅРµ СЃРµСЂРёР°Р»РёР·РѕРІР°С‚СЊ
 	saver.Add( 4, &soundIDs );
 	saver.Add( 16, &mapCells );
 	saver.Add( 17, &cells );

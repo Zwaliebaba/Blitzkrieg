@@ -37,19 +37,19 @@ public:
 class CMutableAIStartCommand : public SAIStartCommand
 {
 public:
-	//добавочные поля
+	//РґРѕР±Р°РІРѕС‡РЅС‹Рµ РїРѕР»СЏ
 	std::list<SMapObject*> pMapObjects;
 	bool flag;
 	
-	//манипулятор
+	//РјР°РЅРёРїСѓР»СЏС‚РѕСЂ
 	virtual IManipulator* GetManipulator();
 	//void Update( CTemplateEditorFrame *pFrame );
 	//static void Update( TMutableAIStartCommandList *pCommands, CTemplateEditorFrame *pFrame );
 
-	//конструктор
+	//РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
 	CMutableAIStartCommand() : flag( false ) {}
 	
-	//преобразование
+	//РїСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµ
 	CMutableAIStartCommand( const SAIStartCommand &rAIStartCommand )
 		: flag( false ),
 			SAIStartCommand( rAIStartCommand ) {}

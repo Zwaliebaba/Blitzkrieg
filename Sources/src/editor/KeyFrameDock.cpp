@@ -87,7 +87,7 @@ BOOL CKeyFrameDockWnd::PreTranslateMessage(MSG* pMsg)
 	{
 	case WM_KEY_FRAME_RCLICK:
 		{
-			//Îòîáðàæàåì ìåíþ
+			//ÑœÑ‚Ð¾Ð±Ñ€Ð°Ð¶Ð°ÐµÐ¼ Ð¼ÐµÐ½ÑŽ
 			CMenu menu;
 			menu.LoadMenu( IDR_KEYFRAME_ZOOM_MENU );
 			CMenu *popupMenu = menu.GetSubMenu( 0 );
@@ -98,9 +98,9 @@ BOOL CKeyFrameDockWnd::PreTranslateMessage(MSG* pMsg)
 	case WM_KEY_FRAME_UPDATE:
 		if ( pActiveKeyItem )
 		{
-			//Îáíîâëÿåì ñïèñîê çíà÷åíèé
+			//ÑœÐ±Ð½Ð¾Ð²Ð»Â¤ÐµÐ¼ ÑÐ¿Ð¸ÑÐ¾Ðº Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ð¹
 			pActiveKeyItem->SetFramesList( m_pKeyFramer->GetFramesList() );
-			//ñåé÷àñ ðàáîòàåò òîëüêî ñ ParticleFrame
+			//ÑÐµÐ¹Ñ‡Ð°Ñ Ñ€Ð°Ð±Ð¾Ñ‚Ð°ÐµÑ‚ Ñ‚Ð¾Ð»ÑŒÐºÐ¾ Ñ ParticleFrame
 			g_frameManager.GetFrame( CFrameManager::E_PARTICLE_FRAME )->SetChangedFlag( true );
 		}
 		return true;

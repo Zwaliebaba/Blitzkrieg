@@ -118,7 +118,7 @@ void CKeyBasedParticleSource::Update( const NTimer::STime &time )
 	const int dt = time - nLastUpdateTime;
 	if ( dt > 64 && pData->nLifeTime + nStartTime > time )
 	{
-		const int nStep = 16; // т.е работаем с  промежутками в 16 миллисек.
+		const int nStep = 16; // С‚.Рµ СЂР°Р±РѕС‚Р°РµРј СЃ  РїСЂРѕРјРµР¶СѓС‚РєР°РјРё РІ 16 РјРёР»Р»РёСЃРµРє.
 		for ( int i = 0; i < dt; i += nStep )
 		{
 			const float fRelTime = (nLastUpdateTime + i - nStartTime) / float(pData->nLifeTime);
@@ -128,7 +128,7 @@ void CKeyBasedParticleSource::Update( const NTimer::STime &time )
 			CParticleGenerator::ResetGenerator( nNumForGenerating );
 			while ( nNumForGenerating > 0 && !bStopped && !bSuspended )
 			{
-				// непосредственно добавление частицы
+				// РЅРµРїРѕСЃСЂРµРґСЃС‚РІРµРЅРЅРѕ РґРѕР±Р°РІР»РµРЅРёРµ С‡Р°СЃС‚РёС†С‹
 				SExtendedParticle part;
 				part.birthTime = nLastUpdateTime + i; 
 				part.deathTime = part.birthTime + pData->trackLife.GetValue( fRelTime, pData->trackLifeRandomizer );

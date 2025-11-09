@@ -305,9 +305,9 @@ void CAviation::Segment()
 		pFormation->AddAlive();
 	
 	/*bool bDiveBomberTilt = false;
-	if ( pStats->type == RPG_TYPE_AVIA_BOMBER ) // бомбер может быть пикирующим
+	if ( pStats->type == RPG_TYPE_AVIA_BOMBER ) // Р±РѕРјР±РµСЂ РјРѕР¶РµС‚ Р±С‹С‚СЊ РїРёРєРёСЂСѓСЋС‰РёРј
 	{
-		// пикирование усиливается, нужно упасть на крыло
+		// РїРёРєРёСЂРѕРІР°РЅРёРµ СѓСЃРёР»РёРІР°РµС‚СЃСЏ, РЅСѓР¶РЅРѕ СѓРїР°СЃС‚СЊ РЅР° РєСЂС‹Р»Рѕ
 		if ( vFormerHorVerSpeed.y < 0 && vSpeedHorVer.y < vFormerHorVerSpeed.y )
 		{
 			bDiveBomberTilt = true;
@@ -368,9 +368,9 @@ void CAviation::Segment()
 		vPerp.y = vSpeedHorVer.y * vSpeepHor.y / fSpLengh;
 		vPerp.z = -vSpeedHorVer.x;
 	}
-	Normalize( &vPerp ); // это нормаль к скорости, расположенная в плоскости симметрии самолета
+	Normalize( &vPerp ); // СЌС‚Рѕ РЅРѕСЂРјР°Р»СЊ Рє СЃРєРѕСЂРѕСЃС‚Рё, СЂР°СЃРїРѕР»РѕР¶РµРЅРЅР°СЏ РІ РїР»РѕСЃРєРѕСЃС‚Рё СЃРёРјРјРµС‚СЂРёРё СЃР°РјРѕР»РµС‚Р°
 	float mult = 1.0f;
-	// определить наклон плоскости симметрии
+	// РѕРїСЂРµРґРµР»РёС‚СЊ РЅР°РєР»РѕРЅ РїР»РѕСЃРєРѕСЃС‚Рё СЃРёРјРјРµС‚СЂРёРё
 	CVec3 dirToCenter( VNULL3 );
 	float fCurvatureRadiusSign = /*bDiveBomberTilt ? 1 : */Sign( GetCurPath()->GetCurvatureRadius() );
 	if ( fTiltAnge != 0.0f )
@@ -432,7 +432,7 @@ void CAviation::GetPlacement( SAINotifyPlacement *pPlacement, const NTimer::STim
 	
 	if ( vFormerNormal != VNULL3 )
 	{
-		// аппроксимировать нормаль
+		// Р°РїРїСЂРѕРєСЃРёРјРёСЂРѕРІР°С‚СЊ РЅРѕСЂРјР°Р»СЊ
 		const CVec3 vNormalDiff( vFormerNormal - vNormal );
 		const CVec3 vCurNormal( vNormal + vNormalDiff * (float)timeDiff / (float)SConsts::AI_SEGMENT_DURATION );
 		pPlacement->dwNormal =  Vec3ToDWORD( vCurNormal );
@@ -440,7 +440,7 @@ void CAviation::GetPlacement( SAINotifyPlacement *pPlacement, const NTimer::STim
 	else
 		pPlacement->dwNormal =  Vec3ToDWORD( V3_AXIS_Z );	
 
-	// скорость не передаётся
+	// СЃРєРѕСЂРѕСЃС‚СЊ РЅРµ РїРµСЂРµРґР°С‘С‚СЃСЏ
 	pPlacement->fSpeed = 1.0f;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -93,7 +93,7 @@ class CTemplateEditorFrame : public   SECWorksheet, public CWorldBase
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // ************************************************************************************************************************ //
-// новые поля
+// РЅРѕРІС‹Рµ РїРѕР»СЏ
 public:
 	enum INPUT_STATES
 	{
@@ -231,12 +231,12 @@ private:
 	//-----------------------------------------------------
 
 	//-----------------------------------------------------
-	std::vector<SScriptArea> m_scriptAreas;									// скриптовые области
+	std::vector<SScriptArea> m_scriptAreas;									// СЃРєСЂРёРїС‚РѕРІС‹Рµ РѕР±Р»Р°СЃС‚Рё
 	void CalculateAreasFromAI();
 	void CalculateAreasToAI();
 	//-----------------------------------------------------
 
-	//----------------------------------------------------- // все для мостов 
+	//----------------------------------------------------- // РІСЃРµ РґР»СЏ РјРѕСЃС‚РѕРІ 
 		std::vector< CPtr<SBridgeSpanObject> >									m_tempSpans;
 		std::vector< std::vector< CPtr<SBridgeSpanObject> > >		m_Spans;
 	//-----------------------------------------------------
@@ -244,7 +244,7 @@ private:
 	std::map< std::string, int >						m_objectFor;	
 
 		
-	//=====================Всякие Default'ные для редактора==============================
+	//=====================Р’СЃСЏРєРёРµ Default'РЅС‹Рµ РґР»СЏ СЂРµРґР°РєС‚РѕСЂР°==============================
 	
 	///SRiverInfo				 m_defaultRiver;
 	//===================================================================================
@@ -257,7 +257,7 @@ private:
 	CInputControlBar *m_mapEditorBarPtr;
 
 	//SRoadsetDesc descrRoads;
-	// для групп поддержки
+	// РґР»СЏ РіСЂСѓРїРї РїРѕРґРґРµСЂР¶РєРё
 	//std::map< int, std::vector< SMapObject * > > m_reinforcementGroups;  
 	SReinforcementGroupInfo m_reinforcementGroup;
 	SReinforcementCheckBoxesInfo m_reinforcementGroupCheckBoxes;
@@ -336,13 +336,13 @@ private:
 	//std::vector< SRoadItem > m_roads;
 	
 	std::hash_map< IVisObj*, SEditorObjectItem, SDefaultPtrHash > m_objects;  
-	//----------- возим полупрозрачные картинки перед постановкой -------------------
+	//----------- РІРѕР·РёРј РїРѕР»СѓРїСЂРѕР·СЂР°С‡РЅС‹Рµ РєР°СЂС‚РёРЅРєРё РїРµСЂРµРґ РїРѕСЃС‚Р°РЅРѕРІРєРѕР№ -------------------
 	CPtr<IVisObj> m_currentMovingObjectForPlacementPtr;	
 	
 	std:: vector<CPtr<IVisObj> > m_currentMovingObjectsForPlacementPtr;
-	std::string						 m_currentMovingPasteGroupName;	// когда из Advanced clippboard'a делаем paste 
-																												// то перед постановкой нужна возможность 
-																												// повозить.
+	std::string						 m_currentMovingPasteGroupName;	// РєРѕРіРґР° РёР· Advanced clippboard'a РґРµР»Р°РµРј paste 
+																												// С‚Рѕ РїРµСЂРµРґ РїРѕСЃС‚Р°РЅРѕРІРєРѕР№ РЅСѓР¶РЅР° РІРѕР·РјРѕР¶РЅРѕСЃС‚СЊ 
+																												// РїРѕРІРѕР·РёС‚СЊ.
 	//-------------------------------------------------------------------------------
 	std::vector< std::pair<IVisObj*, CVec2> > m_pickedObjects;
 
@@ -354,7 +354,7 @@ private:
 	std::vector<SMapObject*>											m_currentForPasteObjectsAI;
 	std::map<SMapObject*, CVec3>									m_shiftsForPasteObjectsAI;
 	//SMapObject*																		m_currentObjectForPastePtrAI;	
-	// для предварительного рисования заборов
+	// РґР»СЏ РїСЂРµРґРІР°СЂРёС‚РµР»СЊРЅРѕРіРѕ СЂРёСЃРѕРІР°РЅРёСЏ Р·Р°Р±РѕСЂРѕРІ
 	std::vector<IVisObj*>	m_currentFences;
 	
 	bool				m_ifCanMultiSelect;
@@ -398,7 +398,7 @@ public:
 	CPropertieDialog *dlg;
 
 	//---------------------------------------------------------------------------------------
-	// для сохранения размеров ресайзовых диалогов
+	// РґР»СЏ СЃРѕС…СЂР°РЅРµРЅРёСЏ СЂР°Р·РјРµСЂРѕРІ СЂРµСЃР°Р№Р·РѕРІС‹С… РґРёР°Р»РѕРіРѕРІ
 	//CMiniMapDialog, CCreateForestDilaog
 	CTRect<int> m_minimapDialogRect;
 	//---------------------------------------------------------------------------------------
@@ -448,12 +448,12 @@ public:
 
 // Implementation
 public: 
-	//=============================== Функции для посадки =========================================
-	void PopFromBuilding( SEditorObjectItem *obj ); // выгоним всех солдатиков если они есть 
-	int  GetNumSoldiersInBuilding( SEditorObjectItem *obj ); // сколько солдатиков в этом объекте сидит  
-	int  GetSoldiersInBuilding( SEditorObjectItem *obj, std::vector<SEditorObjectItem*> &units );// возвращает всех солдатиков в obj
+	//=============================== Р¤СѓРЅРєС†РёРё РґР»СЏ РїРѕСЃР°РґРєРё =========================================
+	void PopFromBuilding( SEditorObjectItem *obj ); // РІС‹РіРѕРЅРёРј РІСЃРµС… СЃРѕР»РґР°С‚РёРєРѕРІ РµСЃР»Рё РѕРЅРё РµСЃС‚СЊ 
+	int  GetNumSoldiersInBuilding( SEditorObjectItem *obj ); // СЃРєРѕР»СЊРєРѕ СЃРѕР»РґР°С‚РёРєРѕРІ РІ СЌС‚РѕРј РѕР±СЉРµРєС‚Рµ СЃРёРґРёС‚  
+	int  GetSoldiersInBuilding( SEditorObjectItem *obj, std::vector<SEditorObjectItem*> &units );// РІРѕР·РІСЂР°С‰Р°РµС‚ РІСЃРµС… СЃРѕР»РґР°С‚РёРєРѕРІ РІ obj
 
-	void MoveObject( IRefCount *pAiObject, short x, short y, bool isFormation = false ); // двигает с учетом сидящих unit' ов   
+	void MoveObject( IRefCount *pAiObject, short x, short y, bool isFormation = false ); // РґРІРёРіР°РµС‚ СЃ СѓС‡РµС‚РѕРј СЃРёРґСЏС‰РёС… unit' РѕРІ   
 	//=============================================================================================
 	
 	void  FillMapInfoParamForObject( SMapObjectInfo &info, SMapObject* obj  );
@@ -478,7 +478,7 @@ public:
 	void RemoveObject( IVisObj* object);
 	void RemoveObject(SMapObject *object);
 	
-	//Работа со стартовыми командами
+	//Р Р°Р±РѕС‚Р° СЃРѕ СЃС‚Р°СЂС‚РѕРІС‹РјРё РєРѕРјР°РЅРґР°РјРё
 	void RemoveObjectFromAIStartCommand( SMapObject *object );
 	void AddObjectToAIStartCommand( SMapObject *object, bool isRemove = false );
 	
@@ -491,11 +491,11 @@ public:
 	void DrawUnitsSelection();
 	//
 
-	//Работа с reserve positions
+	//Р Р°Р±РѕС‚Р° СЃ reserve positions
 	void RemoveObjectFromReservePositions( SMapObject *object );
 	void DrawReservePositionRedLines();
 	
-	//temp == true если надо заносаить в список undo / redo
+	//temp == true РµСЃР»Рё РЅР°РґРѕ Р·Р°РЅРѕСЃР°РёС‚СЊ РІ СЃРїРёСЃРѕРє undo / redo
 	IVisObj* AddObject( const SGDBObjectDesc &desc, int p = 0 ,bool temp = false);
 	SMapObject*	AddObjectByAI( SMapObjectInfo &info , int p = 0 ,bool temp = false, bool bScenarioUnit = false );
 	//void CalculateRoads();

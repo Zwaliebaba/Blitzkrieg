@@ -38,7 +38,7 @@ void CLinkObject::SetUniqueId()
 void CLinkObject::SetLink( const int _nLink )
 {
 	nLink = _nLink;
-	// CRAP{ ÷òîáû ãðóçèëèñü ñòàðûå êàðòû
+	// CRAP{ Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð³Ñ€ÑƒÐ·Ð¸Ð»Ð¸ÑÑŒ ÑÑ‚Ð°Ñ€Ñ‹Ðµ ÐºÐ°Ñ€Ñ‚Ñ‹
 	if ( _nLink > 0 )
 	// }CRAP
 	{

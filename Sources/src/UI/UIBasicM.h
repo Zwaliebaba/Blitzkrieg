@@ -39,8 +39,8 @@ public:
 
 	void SetWindow( CSimpleWindow *_pWindow ) { pWindow = _pWindow; }
 	
-	//эти функции вызываются из редактора
-	//в качестве параметров фигурируют экранные координаты
+	//СЌС‚Рё С„СѓРЅРєС†РёРё РІС‹Р·С‹РІР°СЋС‚СЃСЏ РёР· СЂРµРґР°РєС‚РѕСЂР°
+	//РІ РєР°С‡РµСЃС‚РІРµ РїР°СЂР°РјРµС‚СЂРѕРІ С„РёРіСѓСЂРёСЂСѓСЋС‚ СЌРєСЂР°РЅРЅС‹Рµ РєРѕРѕСЂРґРёРЅР°С‚С‹
 	void SetPosX( const variant_t &value );
 	void SetPosY( const variant_t &value );
 	void SetSizeX( const variant_t &value );

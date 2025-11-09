@@ -561,7 +561,7 @@ void CMeshSoundPropsItem::UpdateItemValue( int nItemId, const CVariant &value )
 
 	if ( nItemId == 1 )
 	{
-		//сконвертим путь к звуковому файлу в относительный без расширения
+		//СЃРєРѕРЅРІРµСЂС‚РёРј РїСѓС‚СЊ Рє Р·РІСѓРєРѕРІРѕРјСѓ С„Р°Р№Р»Сѓ РІ РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅС‹Р№ Р±РµР· СЂР°СЃС€РёСЂРµРЅРёВ¤
 		if ( !IsRelatedPath( value ) )
 		{
 			string szValue = value;
@@ -569,7 +569,7 @@ void CMeshSoundPropsItem::UpdateItemValue( int nItemId, const CVariant &value )
 			bool bRes =	MakeSubRelativePath( theApp.GetEditorDataDir().c_str(), szValue.c_str(), szRelatedPath );
 			if ( bRes )
 			{
-				//обрежем расширение в конце
+				//РѕР±СЂРµР¶РµРј СЂР°СЃС€РёСЂРµРЅРёРµ РІ РєРѕРЅС†Рµ
 				szRelatedPath = szRelatedPath.substr( 0, szRelatedPath.rfind( '.' ) );
 				CVariant newVal = szRelatedPath;
 				CTreeItem::UpdateItemValue( nItemId, newVal );
@@ -1000,7 +1000,7 @@ void CMeshPlatformPropsItem::UpdateItemValue( int nItemId, const CVariant &value
 	
 	if ( nItemId == 4 )
 	{
-		//сконвертим путь к звуковому файлу в относительный без расширения
+		//СЃРєРѕРЅРІРµСЂС‚РёРј РїСѓС‚СЊ Рє Р·РІСѓРєРѕРІРѕРјСѓ С„Р°Р№Р»Сѓ РІ РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅС‹Р№ Р±РµР· СЂР°СЃС€РёСЂРµРЅРёВ¤
 		if ( !IsRelatedPath( value ) )
 		{
 			string szValue = value;
@@ -1008,7 +1008,7 @@ void CMeshPlatformPropsItem::UpdateItemValue( int nItemId, const CVariant &value
 			bool bRes =	MakeSubRelativePath( theApp.GetEditorDataDir().c_str(), szValue.c_str(), szRelatedPath );
 			if ( bRes )
 			{
-				//обрежем расширение в конце
+				//РѕР±СЂРµР¶РµРј СЂР°СЃС€РёСЂРµРЅРёРµ РІ РєРѕРЅС†Рµ
 				szRelatedPath = szRelatedPath.substr( 0, szRelatedPath.rfind( '.' ) );
 				CVariant newVal = szRelatedPath;
 				CTreeItem::UpdateItemValue( nItemId, newVal );
@@ -1319,7 +1319,7 @@ void CMeshGraphicsItem::UpdateItemValue( int nItemId, const CVariant &value )
 		string szProjectName = g_frameManager.GetFrame( CFrameManager::E_MESH_FRAME )->GetProjectFileName();
 		if ( !IsRelatedPath(szFull.c_str()) )
 		{
-			//Тут вычисляется относительный путь, относительно файла с проектом
+			//вЂњСѓС‚ РІС‹С‡РёСЃР»В¤РµС‚СЃВ¤ РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅС‹Р№ РїСѓС‚СЊ, РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕ С„Р°Р№Р»Р° СЃ РїСЂРѕРµРєС‚РѕРј
 			string szRelatedPath;
 			MakeRelativePath( szProjectName.c_str(), szFull.c_str(), szRelatedPath );
 
@@ -1347,13 +1347,13 @@ void CMeshGraphicsItem::UpdateItemValue( int nItemId, const CVariant &value )
 		return;
 	}
 
-	//все остальные случаи, считаю что в Graphics хранятся имена текстур, конвертирую эти имена
+	//РІСЃРµ РѕСЃС‚Р°Р»СЊРЅС‹Рµ СЃР»СѓС‡Р°Рё, СЃС‡РёС‚Р°СЋ С‡С‚Рѕ РІ Graphics С…СЂР°РЅВ¤С‚СЃВ¤ РёРјРµРЅР° С‚РµРєСЃС‚СѓСЂ, РєРѕРЅРІРµСЂС‚РёСЂСѓСЋ СЌС‚Рё РёРјРµРЅР°
 	{
 		string szFull = value;
 		string szProjectName = g_frameManager.GetFrame( CFrameManager::E_MESH_FRAME )->GetProjectFileName();
 		if ( !IsRelatedPath(szFull.c_str()) )
 		{
-			//Тут вычисляется относительный путь, относительно файла с проектом
+			//вЂњСѓС‚ РІС‹С‡РёСЃР»В¤РµС‚СЃВ¤ РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅС‹Р№ РїСѓС‚СЊ, РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕ С„Р°Р№Р»Р° СЃ РїСЂРѕРµРєС‚РѕРј
 			string szRelatedPath;
 			if ( !MakeRelativePath( szProjectName.c_str(), szFull.c_str(), szRelatedPath ) )
 			{
@@ -1437,15 +1437,15 @@ void CMeshDeathCratersItem::UpdateItemValue( int nItemId, const CVariant &value 
 	
 	if ( nItemId == 1 )
 	{
-		//изменилась директория, считываю все *.san файлы из поддиректорий
+		//РёР·РјРµРЅРёР»Р°СЃСЊ РґРёСЂРµРєС‚РѕСЂРёВ¤, СЃС‡РёС‚С‹РІР°СЋ РІСЃРµ *.san С„Р°Р№Р»С‹ РёР· РїРѕРґРґРёСЂРµРєС‚РѕСЂРёР№
 		std::string szVal = value;
 		string szMask = "*.san";
 		vector<string> files;
 		
-		//Сперва составляю полный список san файлов
+		//вЂ”РїРµСЂРІР° СЃРѕСЃС‚Р°РІР»В¤СЋ РїРѕР»РЅС‹Р№ СЃРїРёСЃРѕРє san С„Р°Р№Р»РѕРІ
 		std::string szBaseDir = theApp.GetEditorDataDir();
 		
-		//обновим имя директории
+		//РѕР±РЅРѕРІРёРј РёРјВ¤ РґРёСЂРµРєС‚РѕСЂРёРё
 		std::string szShortDirName;
 		bool bRes = MakeSubRelativePath( szBaseDir.c_str(), szVal.c_str(), szShortDirName );
 		if ( !bRes )
@@ -1476,7 +1476,7 @@ void CMeshDeathCratersItem::UpdateItemValue( int nItemId, const CVariant &value 
 			NI_ASSERT( szName.size() > 0 );
 			int nLast = szName[szName.size() - 1];
 			if ( nLast == 'a' || nLast == 'w' || nLast == 'A' || nLast == 'W' )
-				continue;		//считается что это африканские или зимние картинки
+				continue;		//СЃС‡РёС‚Р°РµС‚СЃВ¤ С‡С‚Рѕ СЌС‚Рѕ Р°С„СЂРёРєР°РЅСЃРєРёРµ РёР»Рё Р·РёРјРЅРёРµ РєР°СЂС‚РёРЅРєРё
 
 			CMeshDeathCraterPropsItem *pProps = new CMeshDeathCraterPropsItem;
 			pProps->SetItemName( szName.c_str() );

@@ -76,14 +76,14 @@ void CInterfaceUnitsEncyclopediaBase::FillUnitsList( const int nListType, IUISho
 	
 	if ( nListType >= unitsArray.size() )		// merge all lists and show it in separate window 
 	{
-		//обображаем инфу из всех трех вспомогательных списков
+		//РѕР±РѕР±СЂР°Р¶Р°РµРј РёРЅС„Сѓ РёР· РІСЃРµС… С‚СЂРµС… РІСЃРїРѕРјРѕРіР°С‚РµР»СЊРЅС‹С… СЃРїРёСЃРєРѕРІ
 		for ( int i = 0; i < nUnitTypesSize; ++i )
 		{
 			int nSum = 0;
 			for ( int z = 0; z < nSides; ++z )
 				nSum += unitsArray[z][i].size();
 			if ( nSum == 0 )
-				continue;			//не надо барчик добавлять
+				continue;			//РЅРµ РЅР°РґРѕ Р±Р°СЂС‡РёРє РґРѕР±Р°РІР»СЏС‚СЊ
 			
 			//Add bar
 			IUIElement *pBar = pSB->AddBar();
@@ -105,7 +105,7 @@ void CInterfaceUnitsEncyclopediaBase::FillUnitsList( const int nListType, IUISho
 				
 				for ( int k = 0; k < vec[i].size(); ++k )
 				{
-					//добавим item с такими RPG stats
+					//РґРѕР±Р°РІРёРј item СЃ С‚Р°РєРёРјРё RPG stats
 					IUIDialog *pItem = checked_cast<IUIDialog *>( pSB->GetItem( nBarIndex-1, nItemIndex + k ) );
 					const SUnitBaseRPGStats *pRPG = vec[i][k];
 					if ( pProgress )
@@ -144,7 +144,7 @@ void CInterfaceUnitsEncyclopediaBase::FillUnitsList( const int nListType, IUISho
 			pSB->AddMultyItems( vec[i].size() );
 			for ( int k = 0; k < vec[i].size(); ++k )
 			{
-				//добавим item с такими RPG stats
+				//РґРѕР±Р°РІРёРј item СЃ С‚Р°РєРёРјРё RPG stats
 				IUIDialog *pItem = checked_cast<IUIDialog *>( pSB->GetItem( nBarIndex-1, k ) );
 				const SUnitBaseRPGStats *pRPG = vec[i][k];
 				if ( pProgress )
@@ -189,7 +189,7 @@ void CInterfaceTotalEncyclopedia::StartInterface()
 	pUIScreen->Load( "ui\\TotalEncyclopedia" );
 	pUIScreen->Reposition( pGFX->GetScreenRect() );
 
-	//считаем информацию об юнитах и заполним вспомогательные массивы
+	//СЃС‡РёС‚Р°РµРј РёРЅС„РѕСЂРјР°С†РёСЋ РѕР± СЋРЅРёС‚Р°С… Рё Р·Р°РїРѕР»РЅРёРј РІСЃРїРѕРјРѕРіР°С‚РµР»СЊРЅС‹Рµ РјР°СЃСЃРёРІС‹
 	InitUnitLists();
 
 	int nType = 0;
@@ -233,7 +233,7 @@ void CInterfaceTotalEncyclopedia::InitUnitLists()
 {
 	IObjectsDB *pIDB = GetSingleton<IObjectsDB>();
 	const int nMaxDescs = pIDB->GetNumDescs();
-	NI_ASSERT( nMaxDescs < 9000);		// Ну что бля, будут баги, энциклопедия может не вызываться для некоторых юнитов из TotalEncyclopedia. Можно завести hash_map, так чтобы юниты в TotalEncyclopedia имели E_START_WINDOW_ID <= id <= E_START_WINDOW_ID +9000. Можно править скрипты. Можно долго ругаться на Славика, который знал, но не сделал...
+	NI_ASSERT( nMaxDescs < 9000);		// РќСѓ С‡С‚Рѕ Р±Р»СЏ, Р±СѓРґСѓС‚ Р±Р°РіРё, СЌРЅС†РёРєР»РѕРїРµРґРёСЏ РјРѕР¶РµС‚ РЅРµ РІС‹Р·С‹РІР°С‚СЊСЃСЏ РґР»СЏ РЅРµРєРѕС‚РѕСЂС‹С… СЋРЅРёС‚РѕРІ РёР· TotalEncyclopedia. РњРѕР¶РЅРѕ Р·Р°РІРµСЃС‚Рё hash_map, С‚Р°Рє С‡С‚РѕР±С‹ СЋРЅРёС‚С‹ РІ TotalEncyclopedia РёРјРµР»Рё E_START_WINDOW_ID <= id <= E_START_WINDOW_ID +9000. РњРѕР¶РЅРѕ РїСЂР°РІРёС‚СЊ СЃРєСЂРёРїС‚С‹. РњРѕР¶РЅРѕ РґРѕР»РіРѕ СЂСѓРіР°С‚СЊСЃСЏ РЅР° РЎР»Р°РІРёРєР°, РєРѕС‚РѕСЂС‹Р№ Р·РЅР°Р», РЅРѕ РЅРµ СЃРґРµР»Р°Р»...
 	const SGDBObjectDesc *pDescs = pIDB->GetAllDescs();
 
 	CPtr<IMovieProgressHook> pProgress = CreateObject<IMovieProgressHook>( MAIN_PROGRESS_INDICATOR );
@@ -262,7 +262,7 @@ void CInterfaceTotalEncyclopedia::InitUnitLists()
 				if ( !pTemp )
 					continue;
 
-				//добавим юнит в массив в зависимости от типа
+				//РґРѕР±Р°РІРёРј СЋРЅРёС‚ РІ РјР°СЃСЃРёРІ РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ С‚РёРїР°
 				CUnitTypesVector &vec = unitsArray[z];
 				const SUnitBaseRPGStats *pRPG = checked_cast<const SUnitBaseRPGStats *>( pIDB->GetRPGStats( pDescs+i ) );
 				// check if this unit has desc.txt file
@@ -282,12 +282,12 @@ void CInterfaceTotalEncyclopedia::InitUnitLists()
 					}
 				}
 				NI_ASSERT_T( k != nUnitTypesSize, "Can not find unit type in list of types" );
-				break;		//нашли сторону данного юнита
+				break;		//РЅР°С€Р»Рё СЃС‚РѕСЂРѕРЅСѓ РґР°РЅРЅРѕРіРѕ СЋРЅРёС‚Р°
 			}
 			NI_ASSERT_T( z != nSides, NStr::Format( "Unit of unknown side: %s", pDescs[i].szPath.c_str() ) );
 		}
 	}
-	//сортируем массивы по типам юнитов
+	//СЃРѕСЂС‚РёСЂСѓРµРј РјР°СЃСЃРёРІС‹ РїРѕ С‚РёРїР°Рј СЋРЅРёС‚РѕРІ
 	SUnitTypeSortFunctor sf;
 	for ( int z = 0; z < nSides; ++z )
 	{
@@ -308,7 +308,7 @@ void CInterfaceTotalEncyclopedia::InitUnitLists()
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CInterfaceTotalEncyclopedia::SetActiveUnitsType( int nType )
 {
-	//сбросим выделенный state у текущей кнопочки
+	//СЃР±СЂРѕСЃРёРј РІС‹РґРµР»РµРЅРЅС‹Р№ state Сѓ С‚РµРєСѓС‰РµР№ РєРЅРѕРїРѕС‡РєРё
 	IUIElement *pElement = 0;
 	if ( GetViewIndex() != -1 )
 	{
@@ -317,7 +317,7 @@ void CInterfaceTotalEncyclopedia::SetActiveUnitsType( int nType )
 		pElement->EnableWindow( true );
 	}
 	
-	//установим выделенный state у кнопочки nType
+	//СѓСЃС‚Р°РЅРѕРІРёРј РІС‹РґРµР»РµРЅРЅС‹Р№ state Сѓ РєРЅРѕРїРѕС‡РєРё nType
 	pElement = pUIScreen->GetChildByID( nType + 1000 );
 	NI_ASSERT_T( pElement != 0, NStr::Format( "No control with id %d", nType + 1000 ) );
 	pElement->EnableWindow( false );
@@ -371,7 +371,7 @@ bool CInterfaceTotalEncyclopedia::ProcessMessage( const SGameMessage &msg )
 
 	if ( msg.nEventID >= 1000 && msg.nEventID < 1010 )
 	{
-		//нажали на кнопку смены текущей стороны, обновим список
+		//РЅР°Р¶Р°Р»Рё РЅР° РєРЅРѕРїРєСѓ СЃРјРµРЅС‹ С‚РµРєСѓС‰РµР№ СЃС‚РѕСЂРѕРЅС‹, РѕР±РЅРѕРІРёРј СЃРїРёСЃРѕРє
 		SetActiveUnitsType( msg.nEventID - 1000 );
 		return true;
 	}
@@ -440,7 +440,7 @@ void CInterfaceWarehouse::CUnitInfoItem::ApplyRPGStats( const std::string &szNew
 	
 	IUIElement * pHelpButton = pSBItem->GetChildByID( 10000 );
 	if ( pHelpButton )
-		pHelpButton->SetWindowID( 20000 + nWindowID );		//для энциклопедии
+		pHelpButton->SetWindowID( 20000 + nWindowID );		//РґР»СЏ СЌРЅС†РёРєР»РѕРїРµРґРёРё
 	pSBItem->SetWindowID( nWindowID );
 
 	FillUnitInfoItemNoIDs( pRPG, pSBItem, nCommanderName, nCommanderName != -1, 0 );

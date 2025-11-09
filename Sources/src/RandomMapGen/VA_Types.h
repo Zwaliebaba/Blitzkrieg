@@ -90,7 +90,7 @@ struct SVAPattern
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//функционал определяющий среднее значение высоты
+//С„СѓРЅРєС†РёРѕРЅР°Р» РѕРїСЂРµРґРµР»В¤СЋС‰РёР№ СЃСЂРµРґРЅРµРµ Р·РЅР°С‡РµРЅРёРµ РІС‹СЃРѕС‚С‹
 struct SVACalculateAverageHeightFunctional
 {
 	const STerrainInfo::TVertexAltitudeArray2D *pAltidude;
@@ -118,7 +118,7 @@ struct SVACalculateAverageHeightFunctional
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//заравнивающий функционал
+//Р·Р°СЂР°РІРЅРёРІР°СЋС‰РёР№ С„СѓРЅРєС†РёРѕРЅР°Р»
 struct SVALevelFunctional
 {
 	STerrainInfo::TVertexAltitudeArray2D *pAltidude;
@@ -144,7 +144,7 @@ struct SVALevelFunctional
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//заравнивающий функционал попутно создающий паттерн отмены заравнивания (его нужно вычесть из результата)
+//Р·Р°СЂР°РІРЅРёРІР°СЋС‰РёР№ С„СѓРЅРєС†РёРѕРЅР°Р» РїРѕРїСѓС‚РЅРѕ СЃРѕР·РґР°СЋС‰РёР№ РїР°С‚С‚РµСЂРЅ РѕС‚РјРµРЅС‹ Р·Р°СЂР°РІРЅРёРІР°РЅРёВ¤ (РµРіРѕ РЅСѓР¶РЅРѕ РІС‹С‡РµСЃС‚СЊ РёР· СЂРµР·СѓР»СЊС‚Р°С‚Р°)
 struct SVALevelAndCreateUndoPatternFunctional
 {
 	STerrainInfo::TVertexAltitudeArray2D *pAltidude;
@@ -174,7 +174,7 @@ struct SVALevelAndCreateUndoPatternFunctional
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//функционал устанавливающий значения SVAPattern в STerrainInfo::TVertexAltitudeArray2D
+//С„СѓРЅРєС†РёРѕРЅР°Р» СѓСЃС‚Р°РЅР°РІР»РёРІР°СЋС‰РёР№ Р·РЅР°С‡РµРЅРёВ¤ SVAPattern РІ STerrainInfo::TVertexAltitudeArray2D
 struct SVASetPatternFunctional
 {
 	STerrainInfo::TVertexAltitudeArray2D *pAltidude;
@@ -198,7 +198,7 @@ struct SVASetPatternFunctional
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//функционал прибавляющий значения SVAPattern к STerrainInfo::TVertexAltitudeArray2D
+//С„СѓРЅРєС†РёРѕРЅР°Р» РїСЂРёР±Р°РІР»В¤СЋС‰РёР№ Р·РЅР°С‡РµРЅРёВ¤ SVAPattern Рє STerrainInfo::TVertexAltitudeArray2D
 struct SVAAddPatternFunctional
 {
 	STerrainInfo::TVertexAltitudeArray2D *pAltidude;
@@ -218,7 +218,7 @@ struct SVAAddPatternFunctional
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//функционал вычитающий значения SVAPattern из STerrainInfo::TVertexAltitudeArray2D
+//С„СѓРЅРєС†РёРѕРЅР°Р» РІС‹С‡РёС‚Р°СЋС‰РёР№ Р·РЅР°С‡РµРЅРёВ¤ SVAPattern РёР· STerrainInfo::TVertexAltitudeArray2D
 struct SVASubstractPatternFunctional
 {
 	STerrainInfo::TVertexAltitudeArray2D *pAltidude;
@@ -238,7 +238,7 @@ struct SVASubstractPatternFunctional
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//функционал устанавливающий значения SVAPattern в STerrainInfo::TVertexAltitudeArray2D, условие - расстояние до центра
+//С„СѓРЅРєС†РёРѕРЅР°Р» СѓСЃС‚Р°РЅР°РІР»РёРІР°СЋС‰РёР№ Р·РЅР°С‡РµРЅРёВ¤ SVAPattern РІ STerrainInfo::TVertexAltitudeArray2D, СѓСЃР»РѕРІРёРµ - СЂР°СЃСЃС‚РѕВ¤РЅРёРµ РґРѕ С†РµРЅС‚СЂР°
 struct SVASetMaxPatternFunctional
 {
 	STerrainInfo::TVertexAltitudeArray2D *pAltidude;
@@ -261,12 +261,12 @@ struct SVASetMaxPatternFunctional
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//применение функционалов для всех элементов SVAPattern.heights
+//РїСЂРёРјРµРЅРµРЅРёРµ С„СѓРЅРєС†РёРѕРЅР°Р»РѕРІ РґР»В¤ РІСЃРµС… СЌР»РµРјРµРЅС‚РѕРІ SVAPattern.heights
 template<class TYPE>
 bool ApplyVAPatterns( const CTRect<int> &rRect,
 											const std::vector<SVAPattern> &rPatterns,
-											TYPE &rApplyFunctional,								//функционал
-											bool isIgnoreInvalidIndices = false )	//пропускать обьекты за краями карты
+											TYPE &rApplyFunctional,								//С„СѓРЅРєС†РёРѕРЅР°Р»
+											bool isIgnoreInvalidIndices = false )	//РїСЂРѕРїСѓСЃРєР°С‚СЊ РѕР±СЊРµРєС‚С‹ Р·Р° РєСЂР°В¤РјРё РєР°СЂС‚С‹
 {
 	for ( int nPatternIndex = 0; nPatternIndex < rPatterns.size(); ++nPatternIndex )
 	{
@@ -276,29 +276,29 @@ bool ApplyVAPatterns( const CTRect<int> &rRect,
 												 rPatterns[nPatternIndex].pos.y + rPatterns[nPatternIndex].heights.GetSizeY() );
 		int result = ValidateIndices( rRect, &indices );
 
-		//нет ни одного вертекса
+		//РЅРµС‚ РЅРё РѕРґРЅРѕРіРѕ РІРµСЂС‚РµРєСЃР°
 		if ( result < 0 )
 		{
 			if ( isIgnoreInvalidIndices )
 			{
-				//скипаем обьект, переходим к следующему
+				//СЃРєРёРїР°РµРј РѕР±СЊРµРєС‚, РїРµСЂРµС…РѕРґРёРј Рє СЃР»РµРґСѓСЋС‰РµРјСѓ
 				continue;
 			}
 			else
 			{
-				//возвращаем ошибку
+				//РІРѕР·РІСЂР°С‰Р°РµРј РѕС€РёР±РєСѓ
 				return false;
 			}
 		}
 		
-		//некоторые вертексы лишние
+		//РЅРµРєРѕС‚РѕСЂС‹Рµ РІРµСЂС‚РµРєСЃС‹ Р»РёС€РЅРёРµ
 		if ( ( result == 0 ) && !isIgnoreInvalidIndices )
 		{
-			//возвращаем ошибку
+			//РІРѕР·РІСЂР°С‰Р°РµРј РѕС€РёР±РєСѓ
 			return false;
 		}
 
-		//пробегаем по тайлам
+		//РїСЂРѕР±РµРіР°РµРј РїРѕ С‚Р°Р№Р»Р°Рј
 		for ( int nXIndex = indices.minx; nXIndex < indices.maxx; ++nXIndex )
 		{
 			for ( int nYIndex = indices.miny; nYIndex < indices.maxy; ++nYIndex )
@@ -314,7 +314,7 @@ bool ApplyVAPatterns( const CTRect<int> &rRect,
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//применение функционалов для всех элементов SVAPattern.heights
+//РїСЂРёРјРµРЅРµРЅРёРµ С„СѓРЅРєС†РёРѕРЅР°Р»РѕРІ РґР»В¤ РІСЃРµС… СЌР»РµРјРµРЅС‚РѕРІ SVAPattern.heights
 template<class TYPE>
 bool ApplyVAPattern( const CTRect<int> &rRect,
 										 const SVAPattern &rPattern,
@@ -327,29 +327,29 @@ bool ApplyVAPattern( const CTRect<int> &rRect,
 											 rPattern.pos.y + rPattern.heights.GetSizeY() );
 	int result = ValidateIndices( rRect, &indices );
 
-	//нет ни одного вертекса
+	//РЅРµС‚ РЅРё РѕРґРЅРѕРіРѕ РІРµСЂС‚РµРєСЃР°
 	if ( result < 0 )
 	{
 		if ( isIgnoreInvalidIndices )
 		{
-			//скипаем обьект
+			//СЃРєРёРїР°РµРј РѕР±СЊРµРєС‚
 			return true;
 		}
 		else
 		{
-			//возвращаем ошибку
+			//РІРѕР·РІСЂР°С‰Р°РµРј РѕС€РёР±РєСѓ
 			return false;
 		}
 	}
 	
-	//некоторые вертексы лишние
+	//РЅРµРєРѕС‚РѕСЂС‹Рµ РІРµСЂС‚РµРєСЃС‹ Р»РёС€РЅРёРµ
 	if ( ( result == 0 ) && !isIgnoreInvalidIndices )
 	{
-		//возвращаем ошибку
+		//РІРѕР·РІСЂР°С‰Р°РµРј РѕС€РёР±РєСѓ
 		return false;
 	}
 
-	//пробегаем по тайлам
+	//РїСЂРѕР±РµРіР°РµРј РїРѕ С‚Р°Р№Р»Р°Рј
 	for ( int nXIndex = indices.minx; nXIndex < indices.maxx; ++nXIndex )
 	{
 		for ( int nYIndex = indices.miny; nYIndex < indices.maxy; ++nYIndex )
@@ -365,7 +365,7 @@ bool ApplyVAPattern( const CTRect<int> &rRect,
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//Специальнй случай - применение функционала в цепочке точек (не нужно создавать несколько функционалов)
+//вЂ”РїРµС†РёР°Р»СЊРЅР№ СЃР»СѓС‡Р°Р№ - РїСЂРёРјРµРЅРµРЅРёРµ С„СѓРЅРєС†РёРѕРЅР°Р»Р° РІ С†РµРїРѕС‡РєРµ С‚РѕС‡РµРє (РЅРµ РЅСѓР¶РЅРѕ СЃРѕР·РґР°РІР°С‚СЊ РЅРµСЃРєРѕР»СЊРєРѕ С„СѓРЅРєС†РёРѕРЅР°Р»РѕРІ)
 template<class TYPE>
 bool ApplyVAPatternInChain( const CTRect<int> &rRect,
 														SVAPattern *pPattern,
@@ -386,29 +386,29 @@ bool ApplyVAPatternInChain( const CTRect<int> &rRect,
 												 pPattern->pos.y + pPattern->heights.GetSizeY() );
 		int result = ValidateIndices( rRect, &indices );
 
-		//нет ни одного вертекса
+		//РЅРµС‚ РЅРё РѕРґРЅРѕРіРѕ РІРµСЂС‚РµРєСЃР°
 		if ( result < 0 )
 		{
 			if ( isIgnoreInvalidIndices )
 			{
-				//скипаем обьект, переходим к следующему
+				//СЃРєРёРїР°РµРј РѕР±СЊРµРєС‚, РїРµСЂРµС…РѕРґРёРј Рє СЃР»РµРґСѓСЋС‰РµРјСѓ
 				continue;
 			}
 			else
 			{
-				//возвращаем ошибку
+				//РІРѕР·РІСЂР°С‰Р°РµРј РѕС€РёР±РєСѓ
 				return false;
 			}
 		}
 		
-		//некоторые вертексы лишние
+		//РЅРµРєРѕС‚РѕСЂС‹Рµ РІРµСЂС‚РµРєСЃС‹ Р»РёС€РЅРёРµ
 		if ( ( result == 0 ) && !isIgnoreInvalidIndices )
 		{
-			//возвращаем ошибку
+			//РІРѕР·РІСЂР°С‰Р°РµРј РѕС€РёР±РєСѓ
 			return false;
 		}
 
-		//пробегаем по тайлам
+		//РїСЂРѕР±РµРіР°РµРј РїРѕ С‚Р°Р№Р»Р°Рј
 		for ( int nXIndex = indices.minx; nXIndex < indices.maxx; ++nXIndex )
 		{
 			for ( int nYIndex = indices.miny; nYIndex < indices.maxy; ++nYIndex )
@@ -440,7 +440,7 @@ bool ApplyVAPatternInChain( const CTRect<int> &rRect,
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//функционал создающий паттерн по градиенту
+//С„СѓРЅРєС†РёРѕРЅР°Р» СЃРѕР·РґР°СЋС‰РёР№ РїР°С‚С‚РµСЂРЅ РїРѕ РіСЂР°РґРёРµРЅС‚Сѓ
 struct SVACreatePatternByGradientFunctional
 {
 	SVAPattern *pPattern;
@@ -483,7 +483,7 @@ struct SVASetPatternToValueFunctional
 };
 	
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//применение функционалов внутри эллипса для полея heights
+//РїСЂРёРјРµРЅРµРЅРёРµ С„СѓРЅРєС†РёРѕРЅР°Р»РѕРІ РІРЅСѓС‚СЂРё СЌР»Р»РёРїСЃР° РґР»В¤ РїРѕР»РµВ¤ heights
 template<class TYPE>
 static bool ApplyVAInRadius( const CTRect<int> &rRect, TYPE &rApplyFunctional )
 {
@@ -525,8 +525,8 @@ public:
 	static const CVec3 V3_CAMERA_NEGATIVE;
 	static const CVec3 V3_CAMERA_POSITIVE;
 		
-	//статические функции
-	//метод получения sunlight
+	//СЃС‚Р°С‚РёС‡РµСЃРєРёРµ С„СѓРЅРєС†РёРё
+	//РјРµС‚РѕРґ РїРѕР»СѓС‡РµРЅРёВ¤ sunlight
 	inline static SGFXLightDirectional GetSunLight( CMapInfo::SEASON nSeason )
 	{
 		NI_ASSERT_T( ( nSeason >= 0 ) && ( nSeason < CMapInfo::SEASON_COUNT ),
@@ -553,14 +553,14 @@ public:
 		return sunlight;
 	}
 
-	//пересчитать освещенностиь исходя из высот
+	//РїРµСЂРµСЃС‡РёС‚Р°С‚СЊ РѕСЃРІРµС‰РµРЅРЅРѕСЃС‚РёСЊ РёСЃС…РѕРґВ¤ РёР· РІС‹СЃРѕС‚
 	static bool UpdateShades( STerrainInfo::TVertexAltitudeArray2D *pAltitude, const CTRect<int> &rUpdateRect, const SGFXLightDirectional &rSunlight );
 
-	//получить нормаль в точке, координаты в terrain Y оси
+	//РїРѕР»СѓС‡РёС‚СЊ РЅРѕСЂРјР°Р»СЊ РІ С‚РѕС‡РєРµ, РєРѕРѕСЂРґРёРЅР°С‚С‹ РІ terrain Y РѕСЃРё
 	static const CVec3 GetNormale( const STerrainInfo::TVertexAltitudeArray2D &rAltitude, int nXPos, int nYPos );
 	static const CVec3 GetNormale( const STerrainInfo::TVertexAltitudeArray2D &rAltitude, const CTPoint<int> &rPoint );
 	
-	//получить высоту в произвольной точке, координаты инвертированы относительно terrain Y оси
+	//РїРѕР»СѓС‡РёС‚СЊ РІС‹СЃРѕС‚Сѓ РІ РїСЂРѕРёР·РІРѕР»СЊРЅРѕР№ С‚РѕС‡РєРµ, РєРѕРѕСЂРґРёРЅР°С‚С‹ РёРЅРІРµСЂС‚РёСЂРѕРІР°РЅС‹ РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕ terrain Y РѕСЃРё
 	static bool GetHeight( const STerrainInfo::TVertexAltitudeArray2D &rAltitude, float fXPos, float fYPos, float *pfHeight );
 	static bool GetHeight( const STerrainInfo::TVertexAltitudeArray2D &rAltitude, const CVec2 &rvPos, float *pfHeight );
 	
@@ -568,7 +568,7 @@ public:
 	static bool IsValidHeight( const STerrainInfo::TVertexAltitudeArray2D &rAltitude, const CTPoint<int> &rPoint );
 	static bool IsValidHeight( const STerrainInfo::TVertexAltitudeArray2D &rAltitude, const CTRect<int> &rRect );
 
-	//подровнять землю ( центр в указанном тайле, координаты в terain Y оси )
+	//РїРѕРґСЂРѕРІРЅВ¤С‚СЊ Р·РµРјР»СЋ ( С†РµРЅС‚СЂ РІ СѓРєР°Р·Р°РЅРЅРѕРј С‚Р°Р№Р»Рµ, РєРѕРѕСЂРґРёРЅР°С‚С‹ РІ terain Y РѕСЃРё )
 	static bool ValidateHeights( STerrainInfo::TVertexAltitudeArray2D *pAltitude, int nPosX, int nPosY, int nSize, CTRect<int> *pAffectedRect );
 	static bool ValidateHeights( STerrainInfo::TVertexAltitudeArray2D *pAltitude, const CTPoint<int> &rPoint, int nSize, CTRect<int> *pAffectedRect );
 

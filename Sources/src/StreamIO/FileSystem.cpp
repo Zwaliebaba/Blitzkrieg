@@ -189,14 +189,14 @@ CFileStream::~CFileStream()
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 inline int GetCurrPos( HANDLE hFile ) { return SetFilePointer( hFile, 0, 0, FILE_CURRENT ); }
-// объявить текущую позицию в потоке за начало потока
+// РѕР±СЉВ¤РІРёС‚СЊ С‚РµРєСѓС‰СѓСЋ РїРѕР·РёС†РёСЋ РІ РїРѕС‚РѕРєРµ Р·Р° РЅР°С‡Р°Р»Рѕ РїРѕС‚РѕРєР°
 int CFileStream::LockBegin()
 {
 	nStreamBegin = GetCurrPos( hFile );
 	return nStreamBegin;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// вернуть начало потока в нулевую позицию
+// РІРµСЂРЅСѓС‚СЊ РЅР°С‡Р°Р»Рѕ РїРѕС‚РѕРєР° РІ РЅСѓР»РµРІСѓСЋ РїРѕР·РёС†РёСЋ
 int CFileStream::UnlockBegin()
 {
 	int nOldBegin = nStreamBegin;
@@ -204,13 +204,13 @@ int CFileStream::UnlockBegin()
 	return nOldBegin;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// текущая позиция в потоке
+// С‚РµРєСѓС‰Р°В¤ РїРѕР·РёС†РёВ¤ РІ РїРѕС‚РѕРєРµ
 int CFileStream::GetPos() const
 {
 	return GetCurrPos( hFile ) - nStreamBegin;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// выставить текущую позицию в потоке
+// РІС‹СЃС‚Р°РІРёС‚СЊ С‚РµРєСѓС‰СѓСЋ РїРѕР·РёС†РёСЋ РІ РїРѕС‚РѕРєРµ
 inline int StreamSeekToFileSeek( STREAM_SEEK from )
 {
 	switch ( from )
@@ -231,7 +231,7 @@ int CFileStream::Seek( int offset, STREAM_SEEK from )
 	return GetPos();
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// чтение данных
+// С‡С‚РµРЅРёРµ РґР°РЅРЅС‹С…
 int CFileStream::Read( void *pBuffer, int nLength )
 {
 	if ( !CanRead() )
@@ -240,7 +240,7 @@ int CFileStream::Read( void *pBuffer, int nLength )
 	return ReadFile( hFile, pBuffer, nLength, &dwRead, 0 ) != FALSE ? dwRead : 0;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// запись данных
+// Р·Р°РїРёСЃСЊ РґР°РЅРЅС‹С…
 int CFileStream::Write( const void *pBuffer, int nLength )
 {
 	if ( !CanWrite() )
@@ -283,13 +283,13 @@ int CFileStream::CopyTo( IDataStream *pDstStream, int nLength )
 	return nTotalWrote;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// сбросить все закешированные данные
+// СЃР±СЂРѕСЃРёС‚СЊ РІСЃРµ Р·Р°РєРµС€РёСЂРѕРІР°РЅРЅС‹Рµ РґР°РЅРЅС‹Рµ
 void CFileStream::Flush()
 {
 	FlushFileBuffers( hFile );
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// получить информацию о потоке
+// РїРѕР»СѓС‡РёС‚СЊ РёРЅС„РѕСЂРјР°С†РёСЋ Рѕ РїРѕС‚РѕРєРµ
 void CFileStream::GetStats( SStorageElementStats *pStats )
 {
 	if ( pStats == 0 )
@@ -346,7 +346,7 @@ bool CFileSystem::CreatePathRecursive( const std::string &szName )
 	return true;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// создать и открыть поток с указанным именем и правами доступа
+// СЃРѕР·РґР°С‚СЊ Рё РѕС‚РєСЂС‹С‚СЊ РїРѕС‚РѕРє СЃ СѓРєР°Р·Р°РЅРЅС‹Рј РёРјРµРЅРµРј Рё РїСЂР°РІР°РјРё РґРѕСЃС‚СѓРїР°
 IDataStream* CFileSystem::CreateStream( const char *pszName, DWORD dwAccessMode )
 {
 	std::string szName = szBase + pszName;
@@ -359,7 +359,7 @@ IDataStream* CFileSystem::CreateStream( const char *pszName, DWORD dwAccessMode 
 	return 0;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// открыть существующий поток с указанным именем и правами доступа
+// РѕС‚РєСЂС‹С‚СЊ СЃСѓС‰РµСЃС‚РІСѓСЋС‰РёР№ РїРѕС‚РѕРє СЃ СѓРєР°Р·Р°РЅРЅС‹Рј РёРјРµРЅРµРј Рё РїСЂР°РІР°РјРё РґРѕСЃС‚СѓРїР°
 IDataStream* CFileSystem::OpenStream( const char *pszName, DWORD dwAccessMode )
 {
 	std::string szName = szBase + pszName;
@@ -385,32 +385,32 @@ bool CFileSystem::GetStreamStats( const char *pszName, SStorageElementStats *pSt
 	return false;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// убить элемент хранилища
+// СѓР±РёС‚СЊ СЌР»РµРјРµРЅС‚ С…СЂР°РЅРёР»РёС‰Р°
 bool CFileSystem::DestroyElement( const char *pszName )
 {
 	return DeleteFile( pszName ) != 0;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// переименовать элемент
+// РїРµСЂРµРёРјРµРЅРѕРІР°С‚СЊ СЌР»РµРјРµРЅС‚
 bool CFileSystem::RenameElement( const char *pszOldName, const char *pszNewName )
 {
 	return MoveFile( pszOldName, pszNewName ) != 0;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// перечисление элементов
+// РїРµСЂРµС‡РёСЃР»РµРЅРёРµ СЌР»РµРјРµРЅС‚РѕРІ
 IStorageEnumerator* CFileSystem::CreateEnumerator()
 {
 	return new CFileSystemEnumerator( szBase );
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// добавить новый MOD
+// РґРѕР±Р°РІРёС‚СЊ РЅРѕРІС‹Р№ MOD
 bool CFileSystem::AddStorage( IDataStorage *pStorage, const char *pszName )
 {
 	NI_ASSERT_T( 0, "Can't add new storage to the file file system" );
 	return false;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// убрать MOD
+// СѓР±СЂР°С‚СЊ MOD
 bool CFileSystem::RemoveStorage( const char *pszName )
 {
 	NI_ASSERT_T( 0, "Can't remove storage from file file system" );

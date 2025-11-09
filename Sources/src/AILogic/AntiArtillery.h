@@ -33,11 +33,11 @@ class CAntiArtillery : public CLinkObject
 	int nParty;
 
 	NTimer::STime lastScan;
-	// время последнего услышанного выстрела и последнего посланного круга из этой артиллерии для каждой из сторон
+	// РІСЂРµРјСЏ РїРѕСЃР»РµРґРЅРµРіРѕ СѓСЃР»С‹С€Р°РЅРЅРѕРіРѕ РІС‹СЃС‚СЂРµР»Р° Рё РїРѕСЃР»РµРґРЅРµРіРѕ РїРѕСЃР»Р°РЅРЅРѕРіРѕ РєСЂСѓРіР° РёР· СЌС‚РѕР№ Р°СЂС‚РёР»Р»РµСЂРёРё РґР»СЏ РєР°Р¶РґРѕР№ РёР· СЃС‚РѕСЂРѕРЅ
 	std::vector<NTimer::STime> lastShotTime;
 	std::vector<NTimer::STime> lastRevealCircleTime;
 
-	// расстояние до ближайшего врага ( считается только для врагов )
+	// СЂР°СЃСЃС‚РѕСЏРЅРёРµ РґРѕ Р±Р»РёР¶Р°Р№С€РµРіРѕ РІСЂР°РіР° ( СЃС‡РёС‚Р°РµС‚СЃСЏ С‚РѕР»СЊРєРѕ РґР»СЏ РІСЂР°РіРѕРІ )
 	std::vector<float> closestEnemyDist2;
 	std::vector<CVec2> lastHeardPos;
 	std::vector<BYTE> nHeardShots;
@@ -54,7 +54,7 @@ public:
 	void Init( const float fMaxRadius, const int nParty );
 	void Fired( const float fGunRadius, const CVec2 &center );
 
-	// bOwnerVisible - видет ли owner игроком
+	// bOwnerVisible - РІРёРґРµС‚ Р»Рё owner РёРіСЂРѕРєРѕРј
 	void Segment( bool bOwnerVisible );
 
 	const CCircle GetRevealCircle( const int nParty ) const;

@@ -42,7 +42,7 @@ void CInterfaceQuitMission::StartInterface()
 	pUIScreen = CreateObject<IUIScreen>( UI_SCREEN );
 	pUIScreen->Load( "ui\\quitmission" );
 	pUIScreen->Reposition( pGFX->GetScreenRect() );
-	//инициализируем disabled кнопочки
+	//РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј disabled РєРЅРѕРїРѕС‡РєРё
 	int nMG = GetGlobalVar( "MultiplayerGame", -1 );
 	if ( nMG > 0 )
 	{
@@ -69,7 +69,7 @@ bool CInterfaceQuitMission::ProcessMessage( const SGameMessage &msg )
 		{
 			IMainLoop *pML = GetSingleton<IMainLoop>();
 			CloseInterface();
-			pML->Command( MAIN_COMMAND_CMD, NStr::Format("%d", MC_SHOW_ESCAPE_MENU) );	//покажем escape menu
+			pML->Command( MAIN_COMMAND_CMD, NStr::Format("%d", MC_SHOW_ESCAPE_MENU) );	//РїРѕРєР°Р¶РµРј escape menu
 			return true;
 		}
 		

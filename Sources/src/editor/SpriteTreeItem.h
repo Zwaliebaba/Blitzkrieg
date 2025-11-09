@@ -35,10 +35,10 @@ public:
 	OBJECT_NORMAL_METHODS( CSpritesItem );
 
 private:
-	SThumbItems m_allThumbItems;		//эти items отображаются в AllDirThumbList
-	SThumbItems m_selThumbItems;		//эти items отображаются в SelectedDirThumbList
-	CImageList imageList;						//один image list для обоих ThumbList
-	bool bLoaded;										//этот флаг для подкачки items только в момент когда пользователь выбирает папку с анимациями или тыкает во frame
+	SThumbItems m_allThumbItems;		//СЌС‚Рё items РѕС‚РѕР±СЂР°Р¶Р°СЋС‚СЃСЏ РІ AllDirThumbList
+	SThumbItems m_selThumbItems;		//СЌС‚Рё items РѕС‚РѕР±СЂР°Р¶Р°СЋС‚СЃСЏ РІ SelectedDirThumbList
+	CImageList imageList;						//РѕРґРёРЅ image list РґР»СЏ РѕР±РѕРёС… ThumbList
+	bool bLoaded;										//СЌС‚РѕС‚ С„Р»Р°Рі РґР»СЏ РїРѕРґРєР°С‡РєРё items С‚РѕР»СЊРєРѕ РІ РјРѕРјРµРЅС‚ РєРѕРіРґР° РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ РІС‹Р±РёСЂР°РµС‚ РїР°РїРєСѓ СЃ Р°РЅРёРјР°С†РёСЏРјРё РёР»Рё С‚С‹РєР°РµС‚ РІРѕ frame
 
 public:
 	CSpritesItem() {
@@ -57,14 +57,14 @@ public:
 
 	virtual bool CopyItemTo( CTreeItem *pTo );
 
-	//Получение внутренних параметров
+	//РџРѕР»СѓС‡РµРЅРёРµ РІРЅСѓС‚СЂРµРЅРЅРёС… РїР°СЂР°РјРµС‚СЂРѕРІ
 	const char *GetDirName();
 	int GetFrameTime();
 	CVec2 GetPosition();
 
 	void SetLoadedFlag( bool bState ) { bLoaded = bState; }
 	bool GetLoadedFlag() { return bLoaded; }
-	virtual void InsertChildItems();					//Вызывается после создания всех компонентов для занесения их в дерево
+	virtual void InsertChildItems();					//Р’С‹Р·С‹РІР°РµС‚СЃСЏ РїРѕСЃР»Рµ СЃРѕР·РґР°РЅРёСЏ РІСЃРµС… РєРѕРјРїРѕРЅРµРЅС‚РѕРІ РґР»СЏ Р·Р°РЅРµСЃРµРЅРёСЏ РёС… РІ РґРµСЂРµРІРѕ
 
 	virtual void InitDefaultValues();
 	virtual void UpdateItemValue( int nItemId, const CVariant &value );

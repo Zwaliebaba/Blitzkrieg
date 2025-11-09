@@ -128,7 +128,7 @@ public:
 	virtual int STDCALL operator&( IStructureSaver &ss )
 	{
 		CSaverAccessor saver = &ss;
-		// CRAP{ не сохраняем video mode в сейве и options
+		// CRAP{ РЅРµ СЃРѕС…СЂР°РЅСЏРµРј video mode РІ СЃРµР№РІРµ Рё options
 		if ( saver.IsReading() ) 
 		{
 			std::list< std::pair<std::string, std::string> > vals2restore;

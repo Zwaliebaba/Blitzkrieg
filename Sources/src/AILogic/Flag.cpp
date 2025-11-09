@@ -68,7 +68,7 @@ void CFlag::Segment()
 					nEnemyParty = nUnitParty;
 					nEnemyPlayer = pUnit->GetPlayer();
 				}
-				// два различных врага - никто не может захватить
+				// РґРІР° СЂР°Р·Р»РёС‡РЅС‹С… РІСЂР°РіР° - РЅРёРєС‚Рѕ РЅРµ РјРѕР¶РµС‚ Р·Р°С…РІР°С‚РёС‚СЊ
 				else if ( nEnemyParty != nUnitParty )
 				{
 					bOnlyEnemyUnitsOfOneTypeInZone = false;
@@ -99,7 +99,7 @@ void CFlag::Segment()
 		}
 	}
 
-	// только враги в зоне и кто-то новый хочет взять флаг
+	// С‚РѕР»СЊРєРѕ РІСЂР°РіРё РІ Р·РѕРЅРµ Рё РєС‚Рѕ-С‚Рѕ РЅРѕРІС‹Р№ С…РѕС‡РµС‚ РІР·СЏС‚СЊ С„Р»Р°Рі
 	if ( bOnlyEnemyUnitsOfOneTypeInZone && bGoingToCapture && nPartyToCapture != nEnemyParty )
 		bGoingToCapture = false;
 

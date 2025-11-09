@@ -87,7 +87,7 @@ void CStaticMap::LoadPassabilities( const struct STerrainInfo &terrainInfo )
 			soil[rightY * 2][rightX * 2 ] = soil[rightY * 2][rightX * 2 + 1] = 
 			soil[rightY * 2 + 1][rightX * 2	] = soil[rightY * 2 + 1][rightX * 2 + 1] = cSoilType;
 
-			// инициализировать возможность строительства окопов
+			// РёРЅРёС†РёР°Р»РёР·РёСЂРѕРІР°С‚СЊ РІРѕР·РјРѕР¶РЅРѕСЃС‚СЊ СЃС‚СЂРѕРёС‚РµР»СЊСЃС‚РІР° РѕРєРѕРїРѕРІ
 			if ( !tileEntrenchPossibility[terrSubTypes[terrainInfo.tiles[y][x].tile]] )
 			{
 				entrenchPossibility.SetData( rightX * 2,			rightY * 2 );
@@ -111,7 +111,7 @@ void CStaticMap::LoadPassabilities( const struct STerrainInfo &terrainInfo )
 				LockTile( rightX * 2 + 1, rightY * 2 + 1, aiClass );
 			}
 
-			// инициализировать типы terrain для воронок
+			// РёРЅРёС†РёР°Р»РёР·РёСЂРѕРІР°С‚СЊ С‚РёРїС‹ terrain РґР»СЏ РІРѕСЂРѕРЅРѕРє
 			if ( passClasses[ terrSubTypes[terrainInfo.tiles[y][x].tile] ] & 0x80000000 )
 			{				
 				int nX = Clamp( rightX * 2, 0, terrainTypes.GetSizeX() - 1 );
@@ -209,7 +209,7 @@ void GetRiverTiles( const SVectorStripeObject &vectorStripeObject, const int j, 
 	}
 	
 
-	// отсортировать точки против часовой стрелки
+	// РѕС‚СЃРѕСЂС‚РёСЂРѕРІР°С‚СЊ С‚РѕС‡РєРё РїСЂРѕС‚РёРІ С‡Р°СЃРѕРІРѕР№ СЃС‚СЂРµР»РєРё
 	const CVec2 vCenter = ( v[0] + v[1] + v[2] + v[3] ) / 4.0f;
 	for ( int i = 0; i < 3; ++i )
 	{
@@ -260,10 +260,10 @@ void CStaticMap::Load3DRoads( const STerrainInfo &terrainInfo )
 				{
 					entrenchPossibility.SetData( tile.x, tile.y );
 
-					// влияние на скорость юнитов
+					// РІР»РёСЏРЅРёРµ РЅР° СЃРєРѕСЂРѕСЃС‚СЊ СЋРЅРёС‚РѕРІ
 					passTypes[tile.y / 2][tile.x / 2] = nPassIndex;
 
-					// проходимость
+					// РїСЂРѕС…РѕРґРёРјРѕСЃС‚СЊ
 					for ( int i = 1; i < 16; i *= 2 )
 						UnlockTile( tile.x, tile.y, i );
 					UnlockTile( tile.x, tile.y, AI_CLASS_ANY );
@@ -281,7 +281,7 @@ void CStaticMap::UpdateRiverPassability( const SVectorStripeObject &river, bool 
 {
 	for ( int j = 0; j < river.points.size() - 1; ++j )
 	{
-		// залокать тайлы реки
+		// Р·Р°Р»РѕРєР°С‚СЊ С‚Р°Р№Р»С‹ СЂРµРєРё
 		CTilesSet tiles;			
 		GetRiverTiles( river, j, 1.0f, &tiles );
 
@@ -327,7 +327,7 @@ void CStaticMap::UpdateRiverPassability( const SVectorStripeObject &river, bool 
 			RestoreMode();
 		}
 
-		// добавить реку для разрывов снарядов
+		// РґРѕР±Р°РІРёС‚СЊ СЂРµРєСѓ РґР»СЏ СЂР°Р·СЂС‹РІРѕРІ СЃРЅР°СЂСЏРґРѕРІ
 		if ( bAdd )
 		{
 			tiles.clear();
@@ -730,7 +730,7 @@ void CStaticMap::AddLockedUnitTiles( const SRect &rect, const int id, bool bAddT
 	SetMode( ELM_ALL );
 	
 	CTilesSet tiles;
-	//CRAP{ какие-то глюки с float
+	//CRAP{ РєР°РєРёРµ-С‚Рѕ РіР»СЋРєРё СЃ float
 	GetTilesCoveredByQuadrangle( SVector(rect.v1).ToCVec2(), SVector(rect.v2).ToCVec2(), SVector(rect.v3).ToCVec2(), SVector(rect.v4).ToCVec2(), &tiles );
 	//}CRAP
 
@@ -783,7 +783,7 @@ void CStaticMap::RemoveLockedUnitTiles( const int id, const bool bUpdate )
 	
 	CTilesSet tiles;
 	const SRect rect = unitsRects[id];
-	//CRAP{ какие-то глюки с float
+	//CRAP{ РєР°РєРёРµ-С‚Рѕ РіР»СЋРєРё СЃ float
 	GetTilesCoveredByQuadrangle( SVector(rect.v1).ToCVec2(), SVector(rect.v2).ToCVec2(), SVector(rect.v3).ToCVec2(), SVector(rect.v4).ToCVec2(), &tiles );
 	//}CRAP
 
@@ -1063,7 +1063,7 @@ void CStaticMap::GetPoint4Spline( const CVec2 &vPoint, float *pu, float *pv, flo
 	NI_ASSERT_T( *pu >= 0 && *pu <= 1, "Wrong u" );
 	NI_ASSERT_T( *pv >= 0 && *pv <= 1, "Wrong v" );
 
-	// высоты сжимаются, т.к. для сплайна даётся сетка с шагом 1 ( а не 2 * TILE_SIZE )
+	// РІС‹СЃРѕС‚С‹ СЃР¶РёРјР°СЋС‚СЃСЏ, С‚.Рє. РґР»СЏ СЃРїР»Р°Р№РЅР° РґР°С‘С‚СЃСЏ СЃРµС‚РєР° СЃ С€Р°РіРѕРј 1 ( Р° РЅРµ 2 * TILE_SIZE )
 	for ( int i = 0; i < 4; ++i )
 	{
 		for ( int j = 0; j < 4; ++j )
@@ -1101,8 +1101,8 @@ const float CStaticMap::GetVisZ( float x, float y ) const
 		return 0;
 	//
 	GetPoint4Spline( CVec2( x, y ), &u, &v, ptCtrls );
-	// высоты разжимаются обратно, т.к. для сплайна даётся сетка с шагом 1 ( а не 2 * TILE_SIZE )
-	// умножается на fAITileZCoeff1, чтобы перевести в AI высоты
+	// РІС‹СЃРѕС‚С‹ СЂР°Р·Р¶РёРјР°СЋС‚СЃСЏ РѕР±СЂР°С‚РЅРѕ, С‚.Рє. РґР»СЏ СЃРїР»Р°Р№РЅР° РґР°С‘С‚СЃСЏ СЃРµС‚РєР° СЃ С€Р°РіРѕРј 1 ( Р° РЅРµ 2 * TILE_SIZE )
+	// СѓРјРЅРѕР¶Р°РµС‚СЃСЏ РЅР° fAITileZCoeff1, С‡С‚РѕР±С‹ РїРµСЂРµРІРµСЃС‚Рё РІ AI РІС‹СЃРѕС‚С‹
 	return betaSpline3D.Value( u, v, ptCtrls ) * 2.0f * SConsts::TILE_SIZE * fAITileZCoeff1;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1130,10 +1130,10 @@ const bool CStaticMap::GetIntersectionWithTerrain( CVec3 *pvResult, const CVec3 
 		return VNULL3;
 */
 	
-	// не проинициализирована
+	// РЅРµ РїСЂРѕРёРЅРёС†РёР°Р»РёР·РёСЂРѕРІР°РЅР°
 	if ( GetSizeX() + GetSizeY() == 0 ) 
 		return false;
-	// неправильные точки
+	// РЅРµРїСЂР°РІРёР»СЊРЅС‹Рµ С‚РѕС‡РєРё
 	if ( GetVisZ( vBegin.x, vBegin.y ) >= vBegin.z ) 
 		return false;
 

@@ -155,13 +155,13 @@ void CMemoryStream::AllocForDirectReadAccess( unsigned int nSize )
 	FixupBufferSize( GetPosition() + nSize );
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// äîëæíà ñîõðàíÿòü òåêóùåå ñîäåðæèìîå áóôåðà â ïàìÿòè
+// Ð´Ð¾Ð»Ð¶Ð½Ð° ÑÐ¾Ñ…Ñ€Ð°Ð½ÑÑ‚ÑŒ Ñ‚ÐµÐºÑƒÑ‰ÐµÐµ ÑÐ¾Ð´ÐµÑ€Ð¶Ð¸Ð¼Ð¾Ðµ Ð±ÑƒÑ„ÐµÑ€Ð° Ð² Ð¿Ð°Ð¼ÑÑ‚Ð¸
 void CMemoryStream::AllocForDirectWriteAccess( unsigned int nSize )
 {
 	FixupBufferSize( GetPosition() + nSize );
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// c) ÷òåíèå/çàïèñü íå óêëàäûâàþùèåñÿ â òåêóùèé áóôåð
+// c) Ñ‡Ñ‚ÐµÐ½Ð¸Ðµ/Ð·Ð°Ð¿Ð¸ÑÑŒ Ð½Ðµ ÑƒÐºÐ»Ð°Ð´Ñ‹Ð²Ð°ÑŽÑ‰Ð¸ÐµÑÑ Ð² Ñ‚ÐµÐºÑƒÑ‰Ð¸Ð¹ Ð±ÑƒÑ„ÐµÑ€
 unsigned int CMemoryStream::DirectRead( void *pDest, unsigned int nSize )
 {
 	// should never happen
@@ -297,7 +297,7 @@ void CBufferedStream::ShiftBuffer()
 	LoadBufferForced( nPos ); // also shifts pCurrent to pBuffer
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// a) íåäîñòàòîê ðàçìåðà áóôåðà äëÿ îïåðàöèÿ ïðÿìîãî äîñòóïà
+// a) Ð½ÐµÐ´Ð¾ÑÑ‚Ð°Ñ‚Ð¾Ðº Ñ€Ð°Ð·Ð¼ÐµÑ€Ð° Ð±ÑƒÑ„ÐµÑ€Ð° Ð´Ð»Ñ Ð¾Ð¿ÐµÑ€Ð°Ñ†Ð¸Ñ Ð¿Ñ€ÑÐ¼Ð¾Ð³Ð¾ Ð´Ð¾ÑÑ‚ÑƒÐ¿Ð°
 void CBufferedStream::AllocForDirectReadAccess( unsigned int nSize )
 {
 	if ( nSize > pReservedEnd - pBuffer )

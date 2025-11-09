@@ -408,7 +408,7 @@ void CWorldClient::SetAutoAction( int nAction )
 // setup forced action for further execution
 bool CWorldClient::SetForcedAction( int nAction )
 {
-	// check for reset this action (повторная активация)
+	// check for reset this action (РїРѕРІС‚РѕСЂРЅР°СЏ Р°РєС‚РёРІР°С†РёСЏ)
 	if ( nForcedAction == nAction )
 	{
 		ResetForcedAction();
@@ -417,7 +417,7 @@ bool CWorldClient::SetForcedAction( int nAction )
 	//
 	if ( !CanDoAction(nAction) )
 		return false;
-	// TODO{ сделать проверку на "действия без активного селекшена" как-то по другому
+	// TODO{ СЃРґРµР»Р°С‚СЊ РїСЂРѕРІРµСЂРєСѓ РЅР° "РґРµР№СЃС‚РІРёСЏ Р±РµР· Р°РєС‚РёРІРЅРѕРіРѕ СЃРµР»РµРєС€РµРЅР°" РєР°Рє-С‚Рѕ РїРѕ РґСЂСѓРіРѕРјСѓ
 	if ( ( IsSelectionEmpty() && 
 		     (nAction != USER_ACTION_OFFICER_CALL_BOMBERS) && 
 				 (nAction != USER_ACTION_OFFICER_CALL_FIGHTERS) && 
@@ -537,7 +537,7 @@ bool CWorldClient::PerformActionObjParam( int nAction, IRefCount *pAIObj, float 
 	static SAIUnitCmd cmd;
 	PrepareActionObjParam( &cmd, nAction, pAIObj, fParam );
 	pTransceiver->CommandGroupCommand( &cmd, selunits.GetAIGroup(), bAddAction );
-	// для того, чтобы убрать ненужную ссылку на объект!
+	// РґР»СЏ С‚РѕРіРѕ, С‡С‚РѕР±С‹ СѓР±СЂР°С‚СЊ РЅРµРЅСѓР¶РЅСѓСЋ СЃСЃС‹Р»РєСѓ РЅР° РѕР±СЉРµРєС‚!
 	cmd.pObject = 0;
 	//
 	return true;

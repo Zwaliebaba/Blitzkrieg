@@ -42,15 +42,15 @@ public:
 	
 	virtual const int STDCALL GetUnitDBID( IRefCount *pObj ) const;
 	
-	// проверяется: лежит ли объект внутри карты
+	// РїСЂРѕРІРµСЂСЏРµС‚СЃСЏ: Р»РµР¶РёС‚ Р»Рё РѕР±СЉРµРєС‚ РІРЅСѓС‚СЂРё РєР°СЂС‚С‹
 	virtual bool STDCALL IsObjectInsideOfMap( const struct SMapObjectInfo &object ) const;
-	// проверяется: лежит ли объект внутри карты и не ставится ли он на залоканные тайлы
+	// РїСЂРѕРІРµСЂСЏРµС‚СЃСЏ: Р»РµР¶РёС‚ Р»Рё РѕР±СЉРµРєС‚ РІРЅСѓС‚СЂРё РєР°СЂС‚С‹ Рё РЅРµ СЃС‚Р°РІРёС‚СЃСЏ Р»Рё РѕРЅ РЅР° Р·Р°Р»РѕРєР°РЅРЅС‹Рµ С‚Р°Р№Р»С‹
 	virtual bool STDCALL CanAddObject( const struct SMapObjectInfo &object ) const;
 	
 	virtual void STDCALL ApplyPattern( const struct SVAPattern &rPattern );
 	virtual void STDCALL UpdateAllHeights();
 
-	// влючить - выключить что-нибудь, возвращает: true - включено, false - выключено
+	// РІР»СЋС‡РёС‚СЊ - РІС‹РєР»СЋС‡РёС‚СЊ С‡С‚Рѕ-РЅРёР±СѓРґСЊ, РІРѕР·РІСЂР°С‰Р°РµС‚: true - РІРєР»СЋС‡РµРЅРѕ, false - РІС‹РєР»СЋС‡РµРЅРѕ
 	virtual bool STDCALL ToggleShow( const int nShowType );
 	
 	virtual void STDCALL UpdateTerrain( const CTRect<int> &rect, const struct STerrainInfo &terrainInfo );

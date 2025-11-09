@@ -23,7 +23,7 @@ public:
 	CTileSetCommonPropsItem() { nItemType = E_TILESET_COMMON_PROPS_ITEM; InitDefaultValues(); nImageIndex = 0; }
 	~CTileSetCommonPropsItem() {};
 
-	//Получение внутренних параметров
+	//РџРѕР»СѓС‡РµРЅРёРµ РІРЅСѓС‚СЂРµРЅРЅРёС… РїР°СЂР°РјРµС‚СЂРѕРІ
 	const char *GetTileSetName() { return values[0].value; }
 	
 	void SetTileSetName( const char *pszVal ) { values[0].value = pszVal; }
@@ -33,7 +33,7 @@ public:
 
 class CTileSetTerrainsItem : public CTreeItem
 {
-	SThumbItems m_thumbItems;			//эти items отображаются в AllDirThumbList
+	SThumbItems m_thumbItems;			//СЌС‚Рё items РѕС‚РѕР±СЂР°Р¶Р°СЋС‚СЃСЏ РІ AllDirThumbList
 	CImageList imageList;
 
 	OBJECT_NORMAL_METHODS( CTileSetTerrainsItem );
@@ -61,7 +61,7 @@ public:
 	CTileSetTerrainPropsItem() { bStaticElements = true; nItemType = E_TILESET_TERRAIN_PROPS_ITEM; InitDefaultValues(); nImageIndex = 5; }
 	~CTileSetTerrainPropsItem() {};
 
-	//Получение внутренних параметров
+	//РџРѕР»СѓС‡РµРЅРёРµ РІРЅСѓС‚СЂРµРЅРЅРёС… РїР°СЂР°РјРµС‚СЂРѕРІ
 	const char *GetTerrainName() { return values[0].value; }
 	int GetCrossetNumber() { return values[1].value; }
 	int GetMaskPriority() { return values[2].value; }
@@ -106,8 +106,8 @@ public:
 class CTileSetTilesItem : public CTreeItem
 {
 private:
-	SThumbItems m_thumbItems;			//эти items отображаются в SelectedThumbList
-	bool bLoaded;									//этот флаг для подкачки items только в момент когда пользователь выбирает папку c этим terrain или тыкает во frame
+	SThumbItems m_thumbItems;			//СЌС‚Рё items РѕС‚РѕР±СЂР°Р¶Р°СЋС‚СЃСЏ РІ SelectedThumbList
+	bool bLoaded;									//СЌС‚РѕС‚ С„Р»Р°Рі РґР»СЏ РїРѕРґРєР°С‡РєРё items С‚РѕР»СЊРєРѕ РІ РјРѕРјРµРЅС‚ РєРѕРіРґР° РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ РІС‹Р±РёСЂР°РµС‚ РїР°РїРєСѓ c СЌС‚РёРј terrain РёР»Рё С‚С‹РєР°РµС‚ РІРѕ frame
 	
 	OBJECT_NORMAL_METHODS( CTileSetTilesItem );
 public:
@@ -119,7 +119,7 @@ public:
 	SThumbItems* GetThumbItems() { return &m_thumbItems; }
 	
 	virtual void InitDefaultValues();
-	virtual void InsertChildItems();					//Вызывается после создания всех компонентов для занесения их в дерево
+	virtual void InsertChildItems();					//Р’С‹Р·С‹РІР°РµС‚СЃСЏ РїРѕСЃР»Рµ СЃРѕР·РґР°РЅРёСЏ РІСЃРµС… РєРѕРјРїРѕРЅРµРЅС‚РѕРІ РґР»СЏ Р·Р°РЅРµСЃРµРЅРёСЏ РёС… РІ РґРµСЂРµРІРѕ
 	virtual void MyLButtonClick();
 };
 
@@ -218,7 +218,7 @@ public:
 
 class CCrossetsItem : public CTreeItem
 {
-	SThumbItems m_thumbItems;			//эти items отображаются в AllDirThumbList
+	SThumbItems m_thumbItems;			//СЌС‚Рё items РѕС‚РѕР±СЂР°Р¶Р°СЋС‚СЃСЏ РІ AllDirThumbList
 	CImageList imageList;
 	bool bLoaded;
 	
@@ -250,7 +250,7 @@ public:
 	CCrossetPropsItem() { bStaticElements = true; nItemType = E_CROSSET_PROPS_ITEM; InitDefaultValues(); nImageIndex = 2; }
 	~CCrossetPropsItem() {};
 	
-	//Получение внутренних параметров
+	//РџРѕР»СѓС‡РµРЅРёРµ РІРЅСѓС‚СЂРµРЅРЅРёС… РїР°СЂР°РјРµС‚СЂРѕРІ
 	const char *GetCrossetName() { return values[0].value; }
 	
 	void SetCrossetName( const char *pszVal ) { values[0].value = pszVal; }
@@ -265,8 +265,8 @@ public:
 class CCrossetTilesItem : public CTreeItem
 {
 private:
-	SThumbItems m_thumbItems;			//эти items отображаются в SelectedThumbList
-	bool bLoaded;									//этот флаг для подкачки items только в момент когда пользователь выбирает папку c этим crosset
+	SThumbItems m_thumbItems;			//СЌС‚Рё items РѕС‚РѕР±СЂР°Р¶Р°СЋС‚СЃСЏ РІ SelectedThumbList
+	bool bLoaded;									//СЌС‚РѕС‚ С„Р»Р°Рі РґР»СЏ РїРѕРґРєР°С‡РєРё items С‚РѕР»СЊРєРѕ РІ РјРѕРјРµРЅС‚ РєРѕРіРґР° РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ РІС‹Р±РёСЂР°РµС‚ РїР°РїРєСѓ c СЌС‚РёРј crosset
 	
 	OBJECT_NORMAL_METHODS( CCrossetTilesItem );
 public:
@@ -277,7 +277,7 @@ public:
 	bool GetLoadedFlag() { return bLoaded; }
 	SThumbItems* GetThumbItems() { return &m_thumbItems; }
 
-	virtual void InsertChildItems();					//Вызывается после создания всех компонентов для занесения их в дерево
+	virtual void InsertChildItems();					//Р’С‹Р·С‹РІР°РµС‚СЃСЏ РїРѕСЃР»Рµ СЃРѕР·РґР°РЅРёСЏ РІСЃРµС… РєРѕРјРїРѕРЅРµРЅС‚РѕРІ РґР»СЏ Р·Р°РЅРµСЃРµРЅРёСЏ РёС… РІ РґРµСЂРµРІРѕ
 	virtual void InitDefaultValues();
 	virtual void MyLButtonClick();
 };

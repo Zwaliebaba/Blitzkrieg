@@ -68,7 +68,7 @@ public:
 bool EnumAdapters( std::list<SAdapterDesc> *pAdapters )
 {
 	pAdapters->clear();
-	// создадим временный D3D для перечисления необходимых параметров
+	// СЃРѕР·РґР°РґРёРј РІСЂРµРјРµРЅРЅС‹Р№ D3D РґР»СЏ РїРµСЂРµС‡РёСЃР»РµРЅРёСЏ РЅРµРѕР±С…РѕРґРёРјС‹С… РїР°СЂР°РјРµС‚СЂРѕРІ
 	NWin32Helper::com_ptr<IDirect3D8> pD3D = Direct3DCreate8( D3D_SDK_VERSION );
 	NI_ASSERT_TF( pD3D != 0, NStr::Format("Can't create Direct3D8 of build %d. Pls, install latest DX", D3D_SDK_VERSION), return false );
 	pD3D->Release();
@@ -91,7 +91,7 @@ bool EnumAdapters( std::list<SAdapterDesc> *pAdapters )
 				                         D3DDEVCAPS_TEXTUREVIDEOMEMORY |
 																 D3DDEVCAPS_TEXTURENONLOCALVIDMEM ) ) == 0) )
 			continue;
-		// теперь мы уверены, что хотим этот device. посмотрим на его video modes
+		// С‚РµРїРµСЂСЊ РјС‹ СѓРІРµСЂРµРЅС‹, С‡С‚Рѕ С…РѕС‚РёРј СЌС‚РѕС‚ device. РїРѕСЃРјРѕС‚СЂРёРј РЅР° РµРіРѕ video modes
 		std::list<D3DDISPLAYMODE> modes;
     DWORD dwNumAdapterModes = pD3D->GetAdapterModeCount( i );
 		CD3DDisplayModeFilterFunctional dispfilter = CD3DDisplayModeFilterFunctional( pD3D, i, capsDevice.DeviceType, false );
@@ -103,7 +103,7 @@ bool EnumAdapters( std::list<SAdapterDesc> *pAdapters )
       // Filter out low-resolution modes
       if ( (displayMode.Width < 640) || (displayMode.Height < 400) )
         continue;
-			// отфильтруем только те video modes, которые compatible with D3D device.
+			// РѕС‚С„РёР»СЊС‚СЂСѓРµРј С‚РѕР»СЊРєРѕ С‚Рµ video modes, РєРѕС‚РѕСЂС‹Рµ compatible with D3D device.
 			if ( dispfilter(displayMode) ) 
 				continue;
       // Check if the mode already exist (to filter out refresh rates)
@@ -117,7 +117,7 @@ bool EnumAdapters( std::list<SAdapterDesc> *pAdapters )
 		else
 			dwBehavior = D3DCREATE_SOFTWARE_VERTEXPROCESSING;
 		//
-		// после того, как мы провели все проверки и перечисления, добавим адаптер в список
+		// РїРѕСЃР»Рµ С‚РѕРіРѕ, РєР°Рє РјС‹ РїСЂРѕРІРµР»Рё РІСЃРµ РїСЂРѕРІРµСЂРєРё Рё РїРµСЂРµС‡РёСЃР»РµРЅРёСЏ, РґРѕР±Р°РІРёРј Р°РґР°РїС‚РµСЂ РІ СЃРїРёСЃРѕРє
 		//
 		SAdapterDesc ad;
 		ad.szName = adapterInfo.Driver;
@@ -135,7 +135,7 @@ bool EnumAdapters( std::list<SAdapterDesc> *pAdapters )
 	return true;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// найти желаемый адаптер по имени...
+// РЅР°Р№С‚Рё Р¶РµР»Р°РµРјС‹Р№ Р°РґР°РїС‚РµСЂ РїРѕ РёРјРµРЅРё...
 const SAdapterDesc* FindAdapter( const char *pszName, const std::list<SAdapterDesc> &adapters )
 {
 	for ( std::list<SAdapterDesc>::const_iterator pos = adapters.begin(); pos != adapters.end(); ++pos )
@@ -157,7 +157,7 @@ public:
 			return desc1.capsHWDevice.VertexShaderVersion < desc2.capsHWDevice.VertexShaderVersion;
 	}
 };
-// найти имя наилучшего адаптера
+// РЅР°Р№С‚Рё РёРјСЏ РЅР°РёР»СѓС‡С€РµРіРѕ Р°РґР°РїС‚РµСЂР°
 // iterate all drivers in order to find one with best 3D caps.
 // main criteria of the best 3D caps - existence of the HW T&L and pixel & vertex shaders
 // if can't find best driver with 3D then return last one
@@ -1341,8 +1341,8 @@ bool CGraphicsEngine::Clear( int nNumRects, RECT *pRects, DWORD dwFlags, DWORD d
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // ************************************************************************************************************************ //
 // **
-// ** работа с геометрией
-// ** создание вертексов/индексов
+// ** СЂР°Р±РѕС‚Р° СЃ РіРµРѕРјРµС‚СЂРёРµР№
+// ** СЃРѕР·РґР°РЅРёРµ РІРµСЂС‚РµРєСЃРѕРІ/РёРЅРґРµРєСЃРѕРІ
 // **
 // **
 // ************************************************************************************************************************ //
@@ -1471,7 +1471,7 @@ void* CGraphicsEngine::GetTempIndices( int nNumElements, DWORD dwFormat, EGFXPri
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // ************************************************************************************************************************ //
 // **
-// ** работа с геометрией
+// ** СЂР°Р±РѕС‚Р° СЃ РіРµРѕРјРµС‚СЂРёРµР№
 // ** solid blocks
 // **
 // **

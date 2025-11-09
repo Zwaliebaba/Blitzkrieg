@@ -136,7 +136,7 @@ const float GetDistanceToSegment( const CVec2 &vSegmentStart, const CVec2 &vSegm
 	const float fDiff2 = fabs( vSegmentEnd - vNormal );
 	const float fDiff3 = fabs( vSegmentEnd - vSegmentStart );
 	
-	if ( fDiff3 < fDiff2 + fDiff1 ) // нормаль от точки не падает на отрезок
+	if ( fDiff3 < fDiff2 + fDiff1 ) // РЅРѕСЂРјР°Р»СЊ РѕС‚ С‚РѕС‡РєРё РЅРµ РїР°РґР°РµС‚ РЅР° РѕС‚СЂРµР·РѕРє
 	{
 		const float fDist1 = fabs( vSegmentStart - vPoint );
 		const float fDist2 = fabs( vSegmentEnd - vPoint );
@@ -243,7 +243,7 @@ bool SRect::IsPointInside( const CVec2 &point ) const
 	const CVec2 center( ( v1.x + v2.x + v3.x + v4.x ) / 4, ( v1.y + v2.y + v3.y + v4.y ) / 4 );
 	const short int rightSign = Sign( STriangle( v1, v2, center ) );
 	
-	// вырожденный прямоугольник
+	// РІС‹СЂРѕР¶РґРµРЅРЅС‹Р№ РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРє
 	if ( rightSign == 0 )
 		return fabs2( point - center ) < 0.001f;
 
@@ -277,7 +277,7 @@ bool SRect::IsIntersectCircle( const CVec2 &circleCenter, const float r ) const
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const int SRect::GetSide( const WORD dirFromRectCenter ) const
 {
-	// разница по модулю 65536	
+	// СЂР°Р·РЅРёС†Р° РїРѕ РјРѕРґСѓР»СЋ 65536	
 	const WORD diff = dirFromRectCenter - GetDirectionByVector( dir );
 
 	if ( diff <= 8192 )
@@ -328,7 +328,7 @@ const float fabs( const SRect rect1, const SRect rect2 )
 	const float segm2Min = Min( Min( f2_1, f2_2 ), Min( f2_3, f2_4 ) );
 	const float segm2Max = Max( Max( f2_1, f2_2 ), Max( f2_3, f2_4 ) );
 
-	// не пересекаются
+	// РЅРµ РїРµСЂРµСЃРµРєР°СЋС‚СЃСЏ
 	if ( segm1Max < segm2Min || segm2Max < segm1Min )
 		return Min( fabs( segm1Max - segm2Min ), fabs( segm2Max - segm1Min ) );
 	else
@@ -368,7 +368,7 @@ void CBSpline::Init( const CVec2 &p3, const CVec2 &p2, const CVec2 &p1, const CV
 	c = 1.0f/6.0f * ( -3 * p3 + 3 * p1 );
 	d = 1.0f/6.0f * ( p3 + 4 * p2 + p1 );
 
-	// для построения сплайна
+	// РґР»СЏ РїРѕСЃС‚СЂРѕРµРЅРёСЏ СЃРїР»Р°Р№РЅР°
 	d3x = a * sqr( DELTA ) * DELTA;
 	dx = d3x + b * sqr( DELTA );
 	d2x = 2 * ( 2 * d3x + dx );
@@ -376,7 +376,7 @@ void CBSpline::Init( const CVec2 &p3, const CVec2 &p2, const CVec2 &p1, const CV
 	d3x *= 6;
 	x = d;
 
-	// для просмотра вперёд
+	// РґР»СЏ РїСЂРѕСЃРјРѕС‚СЂР° РІРїРµСЂС‘Рґ
 	fw_d3x = a * sqr( DELTA_FORWARD ) * DELTA_FORWARD;
 	fw_dx = fw_d3x + b * sqr( DELTA_FORWARD );
 	fw_d2x = 2 * ( 2 * fw_d3x + fw_dx );

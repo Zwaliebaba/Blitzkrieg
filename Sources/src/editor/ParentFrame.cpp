@@ -32,7 +32,7 @@
 
 
 static const int TRANSACTION_LIMIT = 100;
-//фильтр для открытия файлов только нужного типа
+//С„РёР»СЊС‚СЂ РґР»СЏ РѕС‚РєСЂС‹С‚РёСЏ С„Р°Р№Р»РѕРІ С‚РѕР»СЊРєРѕ РЅСѓР¶РЅРѕРіРѕ С‚РёРїР°
 static char BASED_CODE szComposerFilter[] =
 "Resource editor files|*.unt;*.gui;*.spt;*.eff;*.obt;*.msh;*.wpn;*.bld;*.til"
 ";*.rdc;*.fnc;*.pcp;*.trc;*.scp;*.mcp;*.bdg;*.mip;*.chc;*.cgc;*.3rd;*.3rv;*.mdc|"
@@ -364,7 +364,7 @@ BOOL CParentFrame::SaveFrame( bool bUnlock )
 			OnFileSave();
 			if ( bUnlock )
 			{
-				//разлочиваем файл
+				//СЂР°Р·Р»РѕС‡РёРІР°РµРј С„Р°Р№Р»
 				UnLockFile();
 			}
 			return FALSE;
@@ -373,10 +373,10 @@ BOOL CParentFrame::SaveFrame( bool bUnlock )
 			return TRUE;
 		else
 		{
-			//не сохраняем, но разлочиваем
+			//РЅРµ СЃРѕС…СЂР°РЅСЏРµРј, РЅРѕ СЂР°Р·Р»РѕС‡РёРІР°РµРј
 			if ( bUnlock )
 			{
-				//разлочиваем файл
+				//СЂР°Р·Р»РѕС‡РёРІР°РµРј С„Р°Р№Р»
 				UnLockFile();
 			}
 			return FALSE;
@@ -385,7 +385,7 @@ BOOL CParentFrame::SaveFrame( bool bUnlock )
 	
 	if ( bUnlock )
 	{
-		//разлочиваем файл
+		//СЂР°Р·Р»РѕС‡РёРІР°РµРј С„Р°Р№Р»
 		UnLockFile();
 	}
 	return FALSE;
@@ -471,7 +471,7 @@ void CParentFrame::SaveFrameOwnData( IDataTree *pDT )
 	pDT->StartChunk( "own_data" );
 	CTreeAccessor tree = pDT;
 	
-	//Сохраняем export file name
+	//РЎРѕС…СЂР°РЅСЏРµРј export file name
 	tree.Add( "export_file_name", &szPrevExportFileName );
 		
 	pDT->FinishChunk();
@@ -482,7 +482,7 @@ void CParentFrame::LoadFrameOwnData( IDataTree *pDT )
 	pDT->StartChunk( "own_data" );
 	CTreeAccessor tree = pDT;
 	
-	//Загружаем export dir
+	//Р—Р°РіСЂСѓР¶Р°РµРј export dir
 	//TODO 
 	string szPrevExportDir;
 	tree.Add( "export_dir", &szPrevExportDir );
@@ -507,15 +507,15 @@ void CParentFrame::OnSetFocus(CWnd* pOldWnd)
 void CParentFrame::OnFileCreateNewProject() 
 {
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
-	if ( pTree != 0 )			//Если уже был создан проект
+	if ( pTree != 0 )			//Р•СЃР»Рё СѓР¶Рµ Р±С‹Р» СЃРѕР·РґР°РЅ РїСЂРѕРµРєС‚
 	{
-		//Сохраняем предыдущий проект
+		//РЎРѕС…СЂР°РЅСЏРµРј РїСЂРµРґС‹РґСѓС‰РёР№ РїСЂРѕРµРєС‚
 		if ( SaveFrame( true ) )
-			return;						//нажали cancel
+			return;						//РЅР°Р¶Р°Р»Рё cancel
 	}
 	
 	GenerateProjectName();
-	//Просим пользователя сразу ввести имя для проекта
+	//РџСЂРѕСЃРёРј РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ СЃСЂР°Р·Сѓ РІРІРµСЃС‚Рё РёРјСЏ РґР»СЏ РїСЂРѕРµРєС‚Р°
 	string szTempFileName = szProjectFileName.substr( szProjectFileName.rfind('\\') + 1 );
 	string szNewProjectName;
 	string szTitle = "Create New ";
@@ -537,7 +537,7 @@ void CParentFrame::OnFileCreateNewProject()
 	pTree = CreateTrees();
 	
 	bNewProjectJustCreated = true;
-	OnFileSave();				//сразу сохраняем проект
+	OnFileSave();				//СЃСЂР°Р·Сѓ СЃРѕС…СЂР°РЅСЏРµРј РїСЂРѕРµРєС‚
 	bNewProjectJustCreated = false;
 	SetChangedFlag( false );
 	ComputeCaption();
@@ -551,11 +551,11 @@ void CParentFrame::OnFileCreateNewProject()
 void CParentFrame::OnFileOpen() 
 {
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
-	if ( pTree != 0 )			//Если уже был создан проект
+	if ( pTree != 0 )			//Р•СЃР»Рё СѓР¶Рµ Р±С‹Р» СЃРѕР·РґР°РЅ РїСЂРѕРµРєС‚
 	{
-		//Сохраняем предыдущий проект
+		//РЎРѕС…СЂР°РЅСЏРµРј РїСЂРµРґС‹РґСѓС‰РёР№ РїСЂРѕРµРєС‚
 		if ( SaveFrame( true ) )
-			return;						//нажали cancel
+			return;						//РЅР°Р¶Р°Р»Рё cancel
 		pOIDockBar->ClearControl();
 	}
 	
@@ -563,7 +563,7 @@ void CParentFrame::OnFileOpen()
 	string szTitle = "Open ";
 	szTitle += szComposerName;
 	szTitle += " Project";
-	//Спрашиваем у пользователя имя файла
+	//РЎРїСЂР°С€РёРІР°РµРј Сѓ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ РёРјСЏ С„Р°Р№Р»Р°
 	if ( !ShowFileDialog( szNewProjectFile, (theApp.GetSourceDir() + szAddDir).c_str(), szTitle.c_str(), TRUE, szExtension.c_str(), 0, szComposerFilter ) )
 		return;
 	
@@ -578,7 +578,7 @@ void CParentFrame::OnFileOpen()
 	if ( pFrame )
 		pFrame->LoadComposerFile( szNewProjectFile.c_str() );
 
-	//Убиваем все сообщения от мышки нах
+	//РЈР±РёРІР°РµРј РІСЃРµ СЃРѕРѕР±С‰РµРЅРёСЏ РѕС‚ РјС‹С€РєРё РЅР°С…
 	MSG msg;
 	PeekMessage( &msg, GetSafeHwnd(), WM_MOUSEMOVE, WM_RBUTTONUP, PM_REMOVE );
 }
@@ -593,7 +593,7 @@ void CParentFrame::LoadComposerFile( const char *pszFileName )
 	CETreeCtrl *pTree = CreateTrees();
 	CTreeItem *pRootItem = pTree->GetRootItem();
 	
-	//Загружаем дерево
+	//Р—Р°РіСЂСѓР¶Р°РµРј РґРµСЂРµРІРѕ
 	{
 		CPtr<IDataStream> pXMLStream = OpenFileStream( szProjectFileName.c_str(), STREAM_ACCESS_READ );
 		if ( !pXMLStream )
@@ -605,7 +605,7 @@ void CParentFrame::LoadComposerFile( const char *pszFileName )
 		}
 		
 		CPtr<IDataTree> pDT = CreateDataTreeSaver( pXMLStream, IDataTree::READ, szComposerSaveName.c_str() );
-		//Загружаем проект
+		//Р—Р°РіСЂСѓР¶Р°РµРј РїСЂРѕРµРєС‚
 		try
 		{
 			pTreeDockBar->LoadTrees( pDT );
@@ -625,7 +625,7 @@ void CParentFrame::LoadComposerFile( const char *pszFileName )
 		LoadFrameOwnData( pDT );
 		LoadRPGStats( pDT, pRootItem );
 		
-		//загружаем данные о транзакциях
+		//Р·Р°РіСЂСѓР¶Р°РµРј РґР°РЅРЅС‹Рµ Рѕ С‚СЂР°РЅР·Р°РєС†РёСЏС…
 		LoadTransactions( pDT );
 	}
 	
@@ -641,8 +641,8 @@ void CParentFrame::OnFileSave()
 		m_szOldProjectName = szProjectFileName;
 	time = GetFileChangeTime( m_szOldProjectName.c_str() );
 	
-	//сначала перенесем старый проект в temp file, нужно для восстановления проектов, если при сохранении редактор упадет
-	//также с помощью dir /Q можно посмотреть автора последнего save file.
+	//СЃРЅР°С‡Р°Р»Р° РїРµСЂРµРЅРµСЃРµРј СЃС‚Р°СЂС‹Р№ РїСЂРѕРµРєС‚ РІ temp file, РЅСѓР¶РЅРѕ РґР»СЏ РІРѕСЃСЃС‚Р°РЅРѕРІР»РµРЅРёСЏ РїСЂРѕРµРєС‚РѕРІ, РµСЃР»Рё РїСЂРё СЃРѕС…СЂР°РЅРµРЅРёРё СЂРµРґР°РєС‚РѕСЂ СѓРїР°РґРµС‚
+	//С‚Р°РєР¶Рµ СЃ РїРѕРјРѕС‰СЊСЋ dir /Q РјРѕР¶РЅРѕ РїРѕСЃРјРѕС‚СЂРµС‚СЊ Р°РІС‚РѕСЂР° РїРѕСЃР»РµРґРЅРµРіРѕ save file.
 	{
 		std::string szTemp = GetDirectory( szProjectFileName.c_str() );
 		szTemp += "backup.tmp";
@@ -656,7 +656,7 @@ void CParentFrame::OnFileSave()
 		return;
 	CPtr<IDataTree> pDT = CreateDataTreeSaver( pXMLStream, IDataTree::WRITE, szComposerSaveName.c_str() );
 	
-	//Сохраняем проект
+	//РЎРѕС…СЂР°РЅСЏРµРј РїСЂРѕРµРєС‚
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
 	CTreeItem *pRoot = pTree->GetRootItem();
 	
@@ -682,7 +682,7 @@ void CParentFrame::OnFileSaveProjectAs()
 	GenerateProjectName();
 	string szTempFileName = szProjectFileName.substr( szProjectFileName.rfind('\\') + 1 );
 	
-	//Спрашиваем у пользователя имя файла
+	//РЎРїСЂР°С€РёРІР°РµРј Сѓ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ РёРјСЏ С„Р°Р№Р»Р°
 	if ( !ShowFileDialog( szNewProjectFile, (theApp.GetSourceDir()+szAddDir).c_str(), szTitle.c_str(), FALSE, szExtension.c_str(), szTempFileName.c_str(), szComposerFilter ) )
 	{
 		szProjectFileName = szOldProjectName;
@@ -691,8 +691,8 @@ void CParentFrame::OnFileSaveProjectAs()
 	szProjectFileName = szOldProjectName;
 	
 	/*
-	//сначала перенесем старый проект в temp file, нужно для восстановления проектов, если при сохранении редактор упадет
-	//также с помощью dir /Q можно посмотреть автора последнего save file.
+	//СЃРЅР°С‡Р°Р»Р° РїРµСЂРµРЅРµСЃРµРј СЃС‚Р°СЂС‹Р№ РїСЂРѕРµРєС‚ РІ temp file, РЅСѓР¶РЅРѕ РґР»СЏ РІРѕСЃСЃС‚Р°РЅРѕРІР»РµРЅРёСЏ РїСЂРѕРµРєС‚РѕРІ, РµСЃР»Рё РїСЂРё СЃРѕС…СЂР°РЅРµРЅРёРё СЂРµРґР°РєС‚РѕСЂ СѓРїР°РґРµС‚
+	//С‚Р°РєР¶Рµ СЃ РїРѕРјРѕС‰СЊСЋ dir /Q РјРѕР¶РЅРѕ РїРѕСЃРјРѕС‚СЂРµС‚СЊ Р°РІС‚РѕСЂР° РїРѕСЃР»РµРґРЅРµРіРѕ save file.
 	{
 		std::string szTemp = GetDirectory( szProjectFileName.c_str() );
 		szTemp += "backup.tmp";
@@ -700,14 +700,14 @@ void CParentFrame::OnFileSaveProjectAs()
 		}
 	*/
 	
-	//скопирую рекурсивно директорию
+	//СЃРєРѕРїРёСЂСѓСЋ СЂРµРєСѓСЂСЃРёРІРЅРѕ РґРёСЂРµРєС‚РѕСЂРёСЋ
 	std::string szDirFrom = GetDirectory( szProjectFileName.c_str() );
 	std::string szDirTo = GetDirectory( szNewProjectFile.c_str() );
 	if ( szDirFrom != szDirTo )
 	{
 		string szMask = "*.*";
 		vector<string> dirs;
-		//составляю полный список директорий
+		//СЃРѕСЃС‚Р°РІР»СЏСЋ РїРѕР»РЅС‹Р№ СЃРїРёСЃРѕРє РґРёСЂРµРєС‚РѕСЂРёР№
 		NFile::EnumerateFiles( szDirFrom.c_str(), szMask.c_str(), NFile::CGetAllDirectoriesRelative( szDirFrom.c_str(), &dirs ), true );
 		for ( int i=0; i<dirs.size(); i++ )
 		{
@@ -715,7 +715,7 @@ void CParentFrame::OnFileSaveProjectAs()
 			CreateDirectory( szRes.c_str(), NULL );
 		}
 
-		//составляю полный список файлов
+		//СЃРѕСЃС‚Р°РІР»СЏСЋ РїРѕР»РЅС‹Р№ СЃРїРёСЃРѕРє С„Р°Р№Р»РѕРІ
 		vector<string> files;
 		NFile::EnumerateFiles( szDirFrom.c_str(), szMask.c_str(), NFile::CGetAllFilesRelative( szDirFrom.c_str(), &files ), true );
 		for ( int i=0; i<files.size(); i++ )
@@ -742,18 +742,18 @@ string CParentFrame::GetExportFileName()
 
 bool CParentFrame::ReadConfigFile( const char *pszDirectory, bool bBatchMode )
 {
-	//Считываю конфигурационный файл
+	//РЎС‡РёС‚С‹РІР°СЋ РєРѕРЅС„РёРіСѓСЂР°С†РёРѕРЅРЅС‹Р№ С„Р°Р№Р»
 	std::string szConfigFile = pszDirectory;
 	szConfigFile += szConfigFileName;		//gamma.cfg
 	
 	CPtr<IDataStream> pConfigStream = OpenFileStream( szConfigFile.c_str(), STREAM_ACCESS_READ );
 	if ( !pConfigStream )
 	{
-		//нету такого файла
+		//РЅРµС‚Сѓ С‚Р°РєРѕРіРѕ С„Р°Р№Р»Р°
 		std::string szTempDir = pszDirectory;
 		if ( szTempDir.size() <= 3 )
 		{
-			//если мы поднялись до корня диска
+			//РµСЃР»Рё РјС‹ РїРѕРґРЅСЏР»РёСЃСЊ РґРѕ РєРѕСЂРЅСЏ РґРёСЃРєР°
 			m_fBrightness = 0;
 			m_fContrast = 0;
 			m_fGamma = 0;
@@ -772,13 +772,13 @@ bool CParentFrame::ReadConfigFile( const char *pszDirectory, bool bBatchMode )
 				return false;
 		}
 
-		//если мы еще не поднялись до корня диска, поднимемся в верхнюю директорию
+		//РµСЃР»Рё РјС‹ РµС‰Рµ РЅРµ РїРѕРґРЅСЏР»РёСЃСЊ РґРѕ РєРѕСЂРЅСЏ РґРёСЃРєР°, РїРѕРґРЅРёРјРµРјСЃСЏ РІ РІРµСЂС…РЅСЋСЋ РґРёСЂРµРєС‚РѕСЂРёСЋ
 		szTempDir = szTempDir.substr( 0, szTempDir.size() - 1 );
 		szTempDir = GetDirectory( szTempDir.c_str() );
 		return ReadConfigFile( szTempDir.c_str(), bBatchMode );
 	}
 	
-	//файл найден, считаем из него информацию
+	//С„Р°Р№Р» РЅР°Р№РґРµРЅ, СЃС‡РёС‚Р°РµРј РёР· РЅРµРіРѕ РёРЅС„РѕСЂРјР°С†РёСЋ
 	CPtr<IDataTree> pDT = CreateDataTreeSaver( pConfigStream, IDataTree::READ );
 	CTreeAccessor saver = pDT;
 	saver.Add( "Brightness", &m_fBrightness );
@@ -789,17 +789,17 @@ bool CParentFrame::ReadConfigFile( const char *pszDirectory, bool bBatchMode )
 
 bool CParentFrame::WriteConfigFile( bool bAsk, bool bCurrentProjectOnly )
 {
-	//Записываю конфигурационный файл
+	//Р—Р°РїРёСЃС‹РІР°СЋ РєРѕРЅС„РёРіСѓСЂР°С†РёРѕРЅРЅС‹Р№ С„Р°Р№Р»
 	std::string szConfigFile;
 	if ( !bCurrentProjectOnly )
 		szConfigFile = theApp.GetSourceDir() + szAddDir + szConfigFileName;
 	else
 		szConfigFile = GetDirectory( szProjectFileName.c_str() ) + szConfigFileName;
 
-	//Параметр bAsk сейчас всегда false, потому что тревожит лишний раз пользователя
+	//РџР°СЂР°РјРµС‚СЂ bAsk СЃРµР№С‡Р°СЃ РІСЃРµРіРґР° false, РїРѕС‚РѕРјСѓ С‡С‚Рѕ С‚СЂРµРІРѕР¶РёС‚ Р»РёС€РЅРёР№ СЂР°Р· РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
 	if ( bAsk && _access( szConfigFile.c_str(), 04 ) )
 	{
-		//файл не существует
+		//С„Р°Р№Р» РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚
 		CString szErr;
 		szErr.Format( "Error: Can not find file\n%s\nDo you want to create new config file?", szConfigFile.c_str() );
 		int nRes = AfxMessageBox( szErr, MB_YESNO );
@@ -829,7 +829,7 @@ void CParentFrame::OnFileExportFiles()
 	if ( !ReadConfigFile( GetDirectory( szProjectFileName.c_str() ).c_str(), false ) )
 		return;
 
-	//Проверяем, экспортился ли этот проект раньше, если да, то предлагаем прежнее имя файла
+	//РџСЂРѕРІРµСЂСЏРµРј, СЌРєСЃРїРѕСЂС‚РёР»СЃСЏ Р»Рё СЌС‚РѕС‚ РїСЂРѕРµРєС‚ СЂР°РЅСЊС€Рµ, РµСЃР»Рё РґР°, С‚Рѕ РїСЂРµРґР»Р°РіР°РµРј РїСЂРµР¶РЅРµРµ РёРјСЏ С„Р°Р№Р»Р°
 	string szExportFileName;
 	if ( !szPrevExportFileName.empty() )
 	{
@@ -879,15 +879,15 @@ void CParentFrame::OnFileExportFiles()
 			return;
 
 		szExportFileName = brs.GetFileName();
-		//Создаем директорию, если ее еще нету
+		//РЎРѕР·РґР°РµРј РґРёСЂРµРєС‚РѕСЂРёСЋ, РµСЃР»Рё РµРµ РµС‰Рµ РЅРµС‚Сѓ
 		CPtr<IDataStorage> pStorage = CreateStorage( GetDirectory( szExportFileName.c_str()).c_str(), STREAM_ACCESS_WRITE );
 
-		//Вычисляем относительное имя файла
+		//Р’С‹С‡РёСЃР»СЏРµРј РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕРµ РёРјСЏ С„Р°Р№Р»Р°
 		nRes = MakeSubRelativePath( (theApp.GetDestDir() + szAddDir).c_str(), szExportFileName.c_str(), szRelFileName );
 		if ( !nRes )
 		{
 			szRelFileName = szExportFileName;
-			//выведем предупреждение об возможных ошибках
+			//РІС‹РІРµРґРµРј РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёРµ РѕР± РІРѕР·РјРѕР¶РЅС‹С… РѕС€РёР±РєР°С…
 			int nBox = AfxMessageBox( "This project is exporting to incorrect directory.\nThe export directory should be sub path relative to 'Export Directory' settings\nDo you want to continue export to that file?\n\n", MB_OKCANCEL );
 			if ( nBox == IDOK )
 				break;
@@ -901,14 +901,14 @@ void CParentFrame::OnFileExportFiles()
 		if ( !ShowFileDialog( szExportFileName, szExportDir.c_str(), szTitle.c_str(), FALSE, szExportExtension.c_str(), szShortExportFileName.c_str(), szXMLFilter.c_str() ) )
 			return;
 		
-		//Вычисляем относительное имя файла
+		//Р’С‹С‡РёСЃР»СЏРµРј РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕРµ РёРјСЏ С„Р°Р№Р»Р°
 		nRes = MakeSubRelativePath( (theApp.GetDestDir() + szAddDir).c_str(), szExportFileName.c_str(), szRelFileName );
 		if ( !nRes )
 		{
 			szRelFileName = szExportFileName;
-			//выведем предупреждение об возможных ошибках
+			//РІС‹РІРµРґРµРј РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёРµ РѕР± РІРѕР·РјРѕР¶РЅС‹С… РѕС€РёР±РєР°С…
 			int nBox = AfxMessageBox( "This project is exporting to incorrect directory.\nThe export directory should be sub path relative to 'Export Directory' settings\nDo you want to continue export to that file?\n\n"
-				"Задаваемая Export директория для проекта должна быть вложенной\nотносительно настроек редактора. Иначе будут баги при batch mode\nПродолжить экспорт в эту директорию?", MB_OKCANCEL );
+				"Р—Р°РґР°РІР°РµРјР°СЏ Export РґРёСЂРµРєС‚РѕСЂРёСЏ РґР»СЏ РїСЂРѕРµРєС‚Р° РґРѕР»Р¶РЅР° Р±С‹С‚СЊ РІР»РѕР¶РµРЅРЅРѕР№\nРѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕ РЅР°СЃС‚СЂРѕРµРє СЂРµРґР°РєС‚РѕСЂР°. РРЅР°С‡Рµ Р±СѓРґСѓС‚ Р±Р°РіРё РїСЂРё batch mode\nРџСЂРѕРґРѕР»Р¶РёС‚СЊ СЌРєСЃРїРѕСЂС‚ РІ СЌС‚Сѓ РґРёСЂРµРєС‚РѕСЂРёСЋ?", MB_OKCANCEL );
 			if ( nBox == IDOK )
 				break;
 		}
@@ -926,12 +926,12 @@ void CParentFrame::OnFileExportFiles()
 	NI_ASSERT( pTree != 0 );
 	CTreeItem *pRootItem = pTree->GetRootItem();
 	
-	//Сохраняем RPG stats
+	//РЎРѕС…СЂР°РЅСЏРµРј RPG stats
 	bool bErr = false;
 	CPtr<IDataTree> pDT;
 	if ( nFrameType == CFrameManager::E_SPRITE_FRAME || nFrameType == CFrameManager::E_TILESET_FRAME )
 	{
-		//для этих фреймов нету файла 1.xml поэтому stream не создается
+		//РґР»СЏ СЌС‚РёС… С„СЂРµР№РјРѕРІ РЅРµС‚Сѓ С„Р°Р№Р»Р° 1.xml РїРѕСЌС‚РѕРјСѓ stream РЅРµ СЃРѕР·РґР°РµС‚СЃСЏ
 		pDT = 0;
 	}
 	else
@@ -969,7 +969,7 @@ void CParentFrame::OnFileExportFiles()
 void CParentFrame::OnUpdateFileExportFiles(CCmdUI* pCmdUI) 
 {
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
-	if ( pTree != 0 )			//Если уже был создан проект
+	if ( pTree != 0 )			//Р•СЃР»Рё СѓР¶Рµ Р±С‹Р» СЃРѕР·РґР°РЅ РїСЂРѕРµРєС‚
 		pCmdUI->Enable( true );
 	else
 		pCmdUI->Enable( false );
@@ -978,7 +978,7 @@ void CParentFrame::OnUpdateFileExportFiles(CCmdUI* pCmdUI)
 void CParentFrame::OnUpdateFileSave(CCmdUI* pCmdUI) 
 {
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
-	if ( pTree != 0 )			//Если уже был создан проект
+	if ( pTree != 0 )			//Р•СЃР»Рё СѓР¶Рµ Р±С‹Р» СЃРѕР·РґР°РЅ РїСЂРѕРµРєС‚
 		pCmdUI->Enable( true );
 	else
 		pCmdUI->Enable( false );
@@ -987,7 +987,7 @@ void CParentFrame::OnUpdateFileSave(CCmdUI* pCmdUI)
 void CParentFrame::OnUpdateSaveProjectAs(CCmdUI* pCmdUI) 
 {
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
-	if ( pTree != 0 )			//Если уже был создан проект
+	if ( pTree != 0 )			//Р•СЃР»Рё СѓР¶Рµ Р±С‹Р» СЃРѕР·РґР°РЅ РїСЂРѕРµРєС‚
 		pCmdUI->Enable( true );
 	else
 		pCmdUI->Enable( false );
@@ -996,7 +996,7 @@ void CParentFrame::OnUpdateSaveProjectAs(CCmdUI* pCmdUI)
 void CParentFrame::OnUpdateCloseFile(CCmdUI* pCmdUI) 
 {
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
-	if ( pTree != 0 )			//Если уже был создан проект
+	if ( pTree != 0 )			//Р•СЃР»Рё СѓР¶Рµ Р±С‹Р» СЃРѕР·РґР°РЅ РїСЂРѕРµРєС‚
 		pCmdUI->Enable( true );
 	else
 		pCmdUI->Enable( false );
@@ -1035,9 +1035,9 @@ void CParentFrame::OnFileClose()
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
 	if ( pTree )
 	{
-		//Сохраняем предыдущий проект
+		//РЎРѕС…СЂР°РЅСЏРµРј РїСЂРµРґС‹РґСѓС‰РёР№ РїСЂРѕРµРєС‚
 		if ( SaveFrame( true ) )
-			return;						//нажали cancel
+			return;						//РЅР°Р¶Р°Р»Рё cancel
 
 		pTreeDockBar->DeleteTree( 0 );
 		pOIDockBar->ClearControl();
@@ -1134,7 +1134,7 @@ void CParentFrame::RunBatchExporter( const char *pszSourceDir, const char *pszDe
 {
 	vector<string> files, errorFiles, noConfigFiles;
 
-	//Сперва составляю полный список файлов, который потом будет конвертиться
+	//РЎРїРµСЂРІР° СЃРѕСЃС‚Р°РІР»СЏСЋ РїРѕР»РЅС‹Р№ СЃРїРёСЃРѕРє С„Р°Р№Р»РѕРІ, РєРѕС‚РѕСЂС‹Р№ РїРѕС‚РѕРј Р±СѓРґРµС‚ РєРѕРЅРІРµСЂС‚РёС‚СЊСЃСЏ
 	NFile::EnumerateFiles( pszSourceDir, pszMask, NFile::CGetAllFiles( &files ), true );
 
 	BeginWaitCursor();
@@ -1145,7 +1145,7 @@ void CParentFrame::RunBatchExporter( const char *pszSourceDir, const char *pszDe
 	szProjectFileName = "";
 //	progressDialog.DoModal();
 
-	//Теперь прохожу по списку файлов и для каждого вызываю конверт, неудавшиеся имена записываются в errorFiles
+	//РўРµРїРµСЂСЊ РїСЂРѕС…РѕР¶Сѓ РїРѕ СЃРїРёСЃРєСѓ С„Р°Р№Р»РѕРІ Рё РґР»СЏ РєР°Р¶РґРѕРіРѕ РІС‹Р·С‹РІР°СЋ РєРѕРЅРІРµСЂС‚, РЅРµСѓРґР°РІС€РёРµСЃСЏ РёРјРµРЅР° Р·Р°РїРёСЃС‹РІР°СЋС‚СЃСЏ РІ errorFiles
 	for ( int i=0; i<files.size(); i++ )
 	{
 		progressDialog.SetProjectName( files[i].c_str() );
@@ -1222,11 +1222,11 @@ int CParentFrame::ExportSingleFile( const char *pszFileName, const char *pszDest
 		else
 			return -4;
 		
-		//Создаем директорию, если ее еще нету
+		//РЎРѕР·РґР°РµРј РґРёСЂРµРєС‚РѕСЂРёСЋ, РµСЃР»Рё РµРµ РµС‰Рµ РЅРµС‚Сѓ
 		CPtr<IDataStorage> pStorage = CreateStorage( GetDirectory(szExportFileName.c_str()).c_str(), STREAM_ACCESS_WRITE );
 		if ( !bForceFlag )
 		{
-			//Рассчитываем максимальное время для исходников проекта
+			//Р Р°СЃСЃС‡РёС‚С‹РІР°РµРј РјР°РєСЃРёРјР°Р»СЊРЅРѕРµ РІСЂРµРјСЏ РґР»СЏ РёСЃС…РѕРґРЅРёРєРѕРІ РїСЂРѕРµРєС‚Р°
 			FILETIME sourceTime = FindMaximalSourceTime( pszFileName, pRootItem );
 			if ( sourceTime.dwHighDateTime == 0 && sourceTime.dwLowDateTime == 0 )
 				return -5;
@@ -1234,7 +1234,7 @@ int CParentFrame::ExportSingleFile( const char *pszFileName, const char *pszDest
 			if ( projectTime > sourceTime )
 				sourceTime = projectTime;
 			
-			//Рассчитываем минимальное время для результатов экспорта проекта
+			//Р Р°СЃСЃС‡РёС‚С‹РІР°РµРј РјРёРЅРёРјР°Р»СЊРЅРѕРµ РІСЂРµРјСЏ РґР»СЏ СЂРµР·СѓР»СЊС‚Р°С‚РѕРІ СЌРєСЃРїРѕСЂС‚Р° РїСЂРѕРµРєС‚Р°
 			FILETIME exportTime = FindMinimalExportFileTime( szExportFileName.c_str(), pRootItem );
 			if ( exportTime < sourceTime )
 				bForceFlag = true;
@@ -1261,8 +1261,8 @@ int CParentFrame::ExportSingleFile( const char *pszFileName, const char *pszDest
 	
 	else
 	{
-		//сначала перенесем старый проект в temp file, нужно для восстановления проектов, если при сохранении редактор упадет
-		//также с помощью dir /Q можно посмотреть автора последнего save file.
+		//СЃРЅР°С‡Р°Р»Р° РїРµСЂРµРЅРµСЃРµРј СЃС‚Р°СЂС‹Р№ РїСЂРѕРµРєС‚ РІ temp file, РЅСѓР¶РЅРѕ РґР»СЏ РІРѕСЃСЃС‚Р°РЅРѕРІР»РµРЅРёСЏ РїСЂРѕРµРєС‚РѕРІ, РµСЃР»Рё РїСЂРё СЃРѕС…СЂР°РЅРµРЅРёРё СЂРµРґР°РєС‚РѕСЂ СѓРїР°РґРµС‚
+		//С‚Р°РєР¶Рµ СЃ РїРѕРјРѕС‰СЊСЋ dir /Q РјРѕР¶РЅРѕ РїРѕСЃРјРѕС‚СЂРµС‚СЊ Р°РІС‚РѕСЂР° РїРѕСЃР»РµРґРЅРµРіРѕ save file.
 		{
 			std::string szTemp = GetDirectory( pszFileName );
 			szTemp += "backup.tmp";
@@ -1270,12 +1270,12 @@ int CParentFrame::ExportSingleFile( const char *pszFileName, const char *pszDest
 			CopyFile( pszFileName, szTemp.c_str(), FALSE );
 		}
 
-		//этот код открывает проект, сохраняет его и закрывает
+		//СЌС‚РѕС‚ РєРѕРґ РѕС‚РєСЂС‹РІР°РµС‚ РїСЂРѕРµРєС‚, СЃРѕС…СЂР°РЅСЏРµС‚ РµРіРѕ Рё Р·Р°РєСЂС‹РІР°РµС‚
 		CETreeCtrl *pTree = CreateTrees();
 		CPtr<CTreeItem> pRootItem = pTree->GetRootItem();
 //		CPtr<CTreeItem> pRootItem = pTree->CreateRootItem( nTreeRootItemID );
 		
-		//Загружаем дерево
+		//Р—Р°РіСЂСѓР¶Р°РµРј РґРµСЂРµРІРѕ
 		{
 			szProjectFileName = pszFileName;
 			CPtr<IDataStream> pXMLStream = OpenFileStream( pszFileName, STREAM_ACCESS_READ );
@@ -1300,7 +1300,7 @@ int CParentFrame::ExportSingleFile( const char *pszFileName, const char *pszDest
 */
 		}
 
-		//сохраню проект нах
+		//СЃРѕС…СЂР°РЅСЋ РїСЂРѕРµРєС‚ РЅР°С…
 		FILETIME time;
 		m_szOldProjectName = pszFileName;
 		time = GetFileChangeTime( m_szOldProjectName.c_str() );
@@ -1310,7 +1310,7 @@ int CParentFrame::ExportSingleFile( const char *pszFileName, const char *pszDest
 
 		SaveTransactions( &time, pDT, pszFileName, E_BATCH_SAVE );
 
-		//Сохраняем проект
+		//РЎРѕС…СЂР°РЅСЏРµРј РїСЂРѕРµРєС‚
 		pRootItem->operator &( *pDT );
 		SaveFrameOwnData( pDT );
 		SaveRPGStats( pDT, pRootItem, szProjectFileName.c_str() );
@@ -1358,7 +1358,7 @@ bool CParentFrame::LockFile()
 	NI_ASSERT( szProjectFileName.size() > 0 );
 	
 	std::string szDir = GetDirectory( szProjectFileName.c_str() );
-	//ищем залоченный файл
+	//РёС‰РµРј Р·Р°Р»РѕС‡РµРЅРЅС‹Р№ С„Р°Р№Р»
 	vector<string> files, errorFiles;
 	
 	std::string szUserName;
@@ -1369,7 +1369,7 @@ bool CParentFrame::LockFile()
 		szUserName = temp;
 	}
 
-	//Сперва составляю полный список файлов, который потом будет конвертиться
+	//РЎРїРµСЂРІР° СЃРѕСЃС‚Р°РІР»СЏСЋ РїРѕР»РЅС‹Р№ СЃРїРёСЃРѕРє С„Р°Р№Р»РѕРІ, РєРѕС‚РѕСЂС‹Р№ РїРѕС‚РѕРј Р±СѓРґРµС‚ РєРѕРЅРІРµСЂС‚РёС‚СЊСЃСЏ
 	NFile::EnumerateFiles( szDir.c_str(), "locked_*", NFile::CGetAllFiles( &files ), false );
 	if ( !files.empty() )
 	{
@@ -1388,9 +1388,9 @@ bool CParentFrame::LockFile()
 		{
 			string szTemp = files[0].c_str();
 			szTemp = szTemp.substr( szTemp.rfind('\\') + 8 );
-			//проверяем, что файл не залочен этим же юзером
+			//РїСЂРѕРІРµСЂСЏРµРј, С‡С‚Рѕ С„Р°Р№Р» РЅРµ Р·Р°Р»РѕС‡РµРЅ СЌС‚РёРј Р¶Рµ СЋР·РµСЂРѕРј
 			if ( szUserName == szTemp )
-				return true;			//файл уже залочен этим же юзером
+				return true;			//С„Р°Р№Р» СѓР¶Рµ Р·Р°Р»РѕС‡РµРЅ СЌС‚РёРј Р¶Рµ СЋР·РµСЂРѕРј
 			int nRes = AfxMessageBox( NStr::Format("The file %s is locked by %s, do you want to open it?", szProjectFileName.c_str(), szTemp.c_str() ), MB_YESNO );
 			if ( nRes == IDNO )
 				return false;
@@ -1399,7 +1399,7 @@ bool CParentFrame::LockFile()
 		}
 	}
 	
-	//создаем залоченный файл
+	//СЃРѕР·РґР°РµРј Р·Р°Р»РѕС‡РµРЅРЅС‹Р№ С„Р°Р№Р»
 	const std::string szLockedFile = NStr::Format( "locked_%s", szUserName );
 	CPtr<IDataStream> pStream = CreateFileStream( (szDir + szLockedFile).c_str(), STREAM_ACCESS_WRITE );
 	return true;

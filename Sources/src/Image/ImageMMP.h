@@ -36,7 +36,7 @@ public:
 	}
 	std::vector<BYTE>& GetMipLevel( const int nLevel ) { return mips[nLevel]; }
 	const std::vector<BYTE>& GetMipLevel( const int nLevel ) const { return mips[nLevel]; }
-	// эта функция нужна для ускорения конветрации картинок путём удаления одного memcpy
+	// СЌС‚Р° С„СѓРЅРєС†РёСЏ РЅСѓР¶РЅР° РґР»СЏ СѓСЃРєРѕСЂРµРЅРёСЏ РєРѕРЅРІРµС‚СЂР°С†РёРё РєР°СЂС‚РёРЅРѕРє РїСѓС‚С‘Рј СѓРґР°Р»РµРЅРёСЏ РѕРґРЅРѕРіРѕ memcpy
 	std::vector<BYTE>& AddEmptyMipLevel() { mips.resize( mips.size() + 1 ); return mips.back(); }
 };
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

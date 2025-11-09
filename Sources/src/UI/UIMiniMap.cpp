@@ -89,17 +89,17 @@ void CUIMiniMap::CreateMiniMapTextures()
 
 	if ( IsInitialized() )
 	{
-		//Создаем текстуры нужного размера
+		//РЎРѕР·РґР°РµРј С‚РµРєСЃС‚СѓСЂС‹ РЅСѓР¶РЅРѕРіРѕ СЂР°Р·РјРµСЂР°
 		pWarFog = _pGFX->CreateTexture( GetNextPow2( terrainSize.x ), GetNextPow2( terrainSize.y ), 1, GFXPF_ARGB4444, GFXD_SYSMEM );
 		pWarFogTexture = _pGFX->CreateTexture( GetNextPow2( terrainSize.x ), GetNextPow2( terrainSize.y ), 1, GFXPF_ARGB4444, GFXD_STATIC );
 
 		pInstantObjects = _pGFX->CreateTexture( GetNextPow2( static_cast<int>( wndRect.right - wndRect.left ) ), GetNextPow2( static_cast<int>( wndRect.bottom - wndRect.top ) ), 1, GFXPF_ARGB4444, GFXD_SYSMEM );
 		pInstantObjectsTexture = _pGFX->CreateTexture( GetNextPow2( static_cast<int>(wndRect.right - wndRect.left ) ), GetNextPow2( static_cast<int>( wndRect.bottom - wndRect.top ) ), 1, GFXPF_ARGB4444, GFXD_STATIC );
 
-		//Инициализируем текстуры для видеопамяти
+		//РРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј С‚РµРєСЃС‚СѓСЂС‹ РґР»СЏ РІРёРґРµРѕРїР°РјСЏС‚Рё
 		if ( pWarFog )
 		{
-			//инициализируем текстуру pWarFog
+			//РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј С‚РµРєСЃС‚СѓСЂСѓ pWarFog
 			{
 				CTextureLock<SGFXColor4444> textureLock( pWarFog , 0 );
 				const int nNumElements = pWarFog->GetSizeX( 0 );
@@ -113,7 +113,7 @@ void CUIMiniMap::CreateMiniMapTextures()
 		}
 		if ( pInstantObjects )
 		{
-			//инициализируем текстуру pInstantObjects
+			//РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј С‚РµРєСЃС‚СѓСЂСѓ pInstantObjects
 			{
 				CTextureLock<SGFXColor4444> textureLock( pInstantObjects , 0 );
 				int nBytesCount = pInstantObjects->GetSizeX( 0 ) * sizeof( WORD );
@@ -125,7 +125,7 @@ void CUIMiniMap::CreateMiniMapTextures()
 			}
 		}
 
-		//Обновляем  текстуру pWarFog в видеопамяти
+		//РћР±РЅРѕРІР»СЏРµРј  С‚РµРєСЃС‚СѓСЂСѓ pWarFog РІ РІРёРґРµРѕРїР°РјСЏС‚Рё
 		if ( pWarFog && pWarFogTexture && isWarFogNeedUpdate )
 		{
 			pWarFog->AddDirtyRect( &( static_cast<RECT>( CTRect<int>( 0, 0, pWarFog->GetSizeX( 0 ), pWarFog->GetSizeY( 0 ) ) ) ) );
@@ -133,7 +133,7 @@ void CUIMiniMap::CreateMiniMapTextures()
 			isWarFogNeedUpdate = false;
 		}
 
-		//Обновляем  текстуру pInstantObjects в видеопамяти
+		//РћР±РЅРѕРІР»СЏРµРј  С‚РµРєСЃС‚СѓСЂСѓ pInstantObjects РІ РІРёРґРµРѕРїР°РјСЏС‚Рё
 		if ( pInstantObjects && pInstantObjectsTexture && isInstantObjectsNeedUpdate )
 		{
 			pInstantObjects->AddDirtyRect( &( static_cast<RECT>( CTRect<int>( 0, 0, pInstantObjects->GetSizeX( 0 ), pInstantObjects->GetSizeY( 0 ) ) ) ) );
@@ -172,7 +172,7 @@ int CUIMiniMap::operator&( IStructureSaver &ss )
   
   saver.Add( 11, &shootAreas );
   saver.Add( 12, &circles );
-	//не нужны, задаются в CreateMiniMapTextures()
+	//РЅРµ РЅСѓР¶РЅС‹, Р·Р°РґР°СЋС‚СЃСЏ РІ CreateMiniMapTextures()
 	//saver.Add( 13, &isWarFogNeedUpdate );
 	//saver.Add( 14, &isInstantObjectsNeedUpdate );
 	saver.Add( 13, &dwScreenFrameColorShadow );
@@ -304,13 +304,13 @@ void CUIMiniMap::GetVerticalClippedScreenEdge( const CTPoint<float> &v0, const C
 	float fXMax = terrainSize.x;
 	float fYMax = terrainSize.y;
 	
-	//расматриваем вершину 0 и ребро 0 - 1
+	//СЂР°СЃРјР°С‚СЂРёРІР°РµРј РІРµСЂС€РёРЅСѓ 0 Рё СЂРµР±СЂРѕ 0 - 1
 	if ( InMiniMap( v0.x, v0.y ) )
 	{
 		if ( InMiniMap ( v1.x, v1.y ) )
 		{
-			//добавляем ребро 0 - 1 без изменений
-			//обе точки внутри
+			//РґРѕР±Р°РІР»СЏРµРј СЂРµР±СЂРѕ 0 - 1 Р±РµР· РёР·РјРµРЅРµРЅРёР№
+			//РѕР±Рµ С‚РѕС‡РєРё РІРЅСѓС‚СЂРё
 			pvPoints->push_back( CTPoint<float>( v0.x, v0.y ) );
 			pvPoints->push_back( CTPoint<float>( v1.x, v1.y ) );
 		}
@@ -319,16 +319,16 @@ void CUIMiniMap::GetVerticalClippedScreenEdge( const CTPoint<float> &v0, const C
 			float fXbyY0_0_1 = GetXByY( 0.0f, v0.x, v0.y, v1.x, v1.y );
 			if ( fXbyY0_0_1 <= fXMax )
 			{
-				//добавляем ребро 0 - 1 c отсечением по ребру (0,0)-(fXMax, 0)
-				//точка 0 внутри, точка 1 снаружи со стороны точки (0,0)
+				//РґРѕР±Р°РІР»СЏРµРј СЂРµР±СЂРѕ 0 - 1 c РѕС‚СЃРµС‡РµРЅРёРµРј РїРѕ СЂРµР±СЂСѓ (0,0)-(fXMax, 0)
+				//С‚РѕС‡РєР° 0 РІРЅСѓС‚СЂРё, С‚РѕС‡РєР° 1 СЃРЅР°СЂСѓР¶Рё СЃРѕ СЃС‚РѕСЂРѕРЅС‹ С‚РѕС‡РєРё (0,0)
 				pvPoints->push_back( CTPoint<float>( v0.x, v0.y ) );
 				pvPoints->push_back( CTPoint<float>( fXbyY0_0_1, 0 ) );
 			}
 			else
 			{
 				float fYbyXmax_0_1 = GetYByX( fXMax, v0.x, v0.y, v1.x, v1.y );
-				//добавляем ребро 0 - 1 c отсечением по ребру (fXMax,0)-(fXMax,fYMax)
-				//точка 0 внутри, точка 1 снаружи со стороны точки (fXMax,fYMax)
+				//РґРѕР±Р°РІР»СЏРµРј СЂРµР±СЂРѕ 0 - 1 c РѕС‚СЃРµС‡РµРЅРёРµРј РїРѕ СЂРµР±СЂСѓ (fXMax,0)-(fXMax,fYMax)
+				//С‚РѕС‡РєР° 0 РІРЅСѓС‚СЂРё, С‚РѕС‡РєР° 1 СЃРЅР°СЂСѓР¶Рё СЃРѕ СЃС‚РѕСЂРѕРЅС‹ С‚РѕС‡РєРё (fXMax,fYMax)
 				pvPoints->push_back( CTPoint<float>( v0.x, v0.y ) );
 				pvPoints->push_back( CTPoint<float>( fXMax, fYbyXmax_0_1 ) );
 			}
@@ -341,16 +341,16 @@ void CUIMiniMap::GetVerticalClippedScreenEdge( const CTPoint<float> &v0, const C
 		{
 			if ( fYbyX0_0_1 <= fYMax )
 			{
-				//добавляем ребро 0 - 1 c отсечением по ребру (0,0)-(0, fYMax)
-				//точка 0 снаружи, точка 1 внутри со стороны точки (0,0)
+				//РґРѕР±Р°РІР»СЏРµРј СЂРµР±СЂРѕ 0 - 1 c РѕС‚СЃРµС‡РµРЅРёРµРј РїРѕ СЂРµР±СЂСѓ (0,0)-(0, fYMax)
+				//С‚РѕС‡РєР° 0 СЃРЅР°СЂСѓР¶Рё, С‚РѕС‡РєР° 1 РІРЅСѓС‚СЂРё СЃРѕ СЃС‚РѕСЂРѕРЅС‹ С‚РѕС‡РєРё (0,0)
 				pvPoints->push_back( CTPoint<float>( 0, fYbyX0_0_1 ) );
 				pvPoints->push_back( CTPoint<float>( v1.x, v1.y ) );
 			}
 			else
 			{
 				float fXbyYmax_0_1 = GetXByY( fYMax, v0.x, v0.y, v1.x, v1.y );
-				//добавляем ребро 0 - 1 c отсечением по ребру (0,fYMax)-(fXMax, fYMax)
-				//точка 0 снаружи, точка 1 внутри со стороны точки (fXMax, fYMax)
+				//РґРѕР±Р°РІР»СЏРµРј СЂРµР±СЂРѕ 0 - 1 c РѕС‚СЃРµС‡РµРЅРёРµРј РїРѕ СЂРµР±СЂСѓ (0,fYMax)-(fXMax, fYMax)
+				//С‚РѕС‡РєР° 0 СЃРЅР°СЂСѓР¶Рё, С‚РѕС‡РєР° 1 РІРЅСѓС‚СЂРё СЃРѕ СЃС‚РѕСЂРѕРЅС‹ С‚РѕС‡РєРё (fXMax, fYMax)
 				pvPoints->push_back( CTPoint<float>( fXbyYmax_0_1, fYMax ) );
 				pvPoints->push_back( CTPoint<float>( v1.x, v1.y ) );
 			}
@@ -362,14 +362,14 @@ void CUIMiniMap::GetVerticalClippedScreenEdge( const CTPoint<float> &v0, const C
 				if ( ( fYbyX0_0_1 >= v1.y )  && ( fYbyX0_0_1 <= v0.y ) )
 				{
 					float fXbyY0_0_1 = GetXByY( 0.0f, v0.x, v0.y, v1.x, v1.y );
-					//добавляем ребро 0 - 1 c отсечением по ребрам (0,0)-(0, fYMax) и (0,0)-(fXMax, 0)
-					//точка 0 снаружи, точка 1 снаружи со стороны точки (0, 0)
+					//РґРѕР±Р°РІР»СЏРµРј СЂРµР±СЂРѕ 0 - 1 c РѕС‚СЃРµС‡РµРЅРёРµРј РїРѕ СЂРµР±СЂР°Рј (0,0)-(0, fYMax) Рё (0,0)-(fXMax, 0)
+					//С‚РѕС‡РєР° 0 СЃРЅР°СЂСѓР¶Рё, С‚РѕС‡РєР° 1 СЃРЅР°СЂСѓР¶Рё СЃРѕ СЃС‚РѕСЂРѕРЅС‹ С‚РѕС‡РєРё (0, 0)
 					pvPoints->push_back( CTPoint<float>( 0, fYbyX0_0_1 ) );
 					pvPoints->push_back( CTPoint<float>( fXbyY0_0_1, 0 ) );
 				}
 				else
 				{
-					//нет ребра
+					//РЅРµС‚ СЂРµР±СЂР°
 				}
 			}
 			else
@@ -380,19 +380,19 @@ void CUIMiniMap::GetVerticalClippedScreenEdge( const CTPoint<float> &v0, const C
 					if ( ( fYbyXmax_0_1 >= v1.y ) && ( fYbyXmax_0_1 <= v0.y ) )
 					{
 						float fXbyYmax_0_1 = GetXByY( fYMax, v0.x, v0.y, v1.x, v1.y );
-						//добавляем ребро 0 - 1 c отсечением по ребрам (0,fYmax)-(fXMax, fYMax) и (fXmax,0)-(fXMax, fYMax)
-						//точка 0 снаружи, точка 1 снаружи со стороны точки (fXMax, fYMax)
+						//РґРѕР±Р°РІР»СЏРµРј СЂРµР±СЂРѕ 0 - 1 c РѕС‚СЃРµС‡РµРЅРёРµРј РїРѕ СЂРµР±СЂР°Рј (0,fYmax)-(fXMax, fYMax) Рё (fXmax,0)-(fXMax, fYMax)
+						//С‚РѕС‡РєР° 0 СЃРЅР°СЂСѓР¶Рё, С‚РѕС‡РєР° 1 СЃРЅР°СЂСѓР¶Рё СЃРѕ СЃС‚РѕСЂРѕРЅС‹ С‚РѕС‡РєРё (fXMax, fYMax)
 						pvPoints->push_back( CTPoint<float>( fXbyYmax_0_1, fYMax ) );
 						pvPoints->push_back( CTPoint<float>( fXMax, fYbyXmax_0_1 ) );
 					}
 					else
 					{
-						//нет ребра
+						//РЅРµС‚ СЂРµР±СЂР°
 					}
 				}
 				else
 				{
-					//нет ребра
+					//РЅРµС‚ СЂРµР±СЂР°
 				}
 			}
 		}
@@ -411,8 +411,8 @@ void CUIMiniMap::GetHorizontalClippedScreenEdge( const CTPoint<float> &v1, const
 	{
 		if ( InMiniMap ( v2.x, v2.y ) )
 		{
-			//добавляем ребро 1 - 2 без изменений
-			//обе точки внутри
+			//РґРѕР±Р°РІР»СЏРµРј СЂРµР±СЂРѕ 1 - 2 Р±РµР· РёР·РјРµРЅРµРЅРёР№
+			//РѕР±Рµ С‚РѕС‡РєРё РІРЅСѓС‚СЂРё
 			pvPoints->push_back( CTPoint<float>( v1.x, v1.y ) );
 			pvPoints->push_back( CTPoint<float>( v2.x, v2.y ) );
 		}
@@ -421,16 +421,16 @@ void CUIMiniMap::GetHorizontalClippedScreenEdge( const CTPoint<float> &v1, const
 			float fYbyXmax_1_2 = GetYByX( fXMax, v1.x, v1.y, v2.x, v2.y );
 			if ( fYbyXmax_1_2 <= fYMax )
 			{
-				//добавляем ребро 1 - 2 c отсечением по ребру (fXMax,0)-(fXMax, fYmax)
-				//точка 1 внутри, точка 2 снаружи со стороны точки (fXMax,0)
+				//РґРѕР±Р°РІР»СЏРµРј СЂРµР±СЂРѕ 1 - 2 c РѕС‚СЃРµС‡РµРЅРёРµРј РїРѕ СЂРµР±СЂСѓ (fXMax,0)-(fXMax, fYmax)
+				//С‚РѕС‡РєР° 1 РІРЅСѓС‚СЂРё, С‚РѕС‡РєР° 2 СЃРЅР°СЂСѓР¶Рё СЃРѕ СЃС‚РѕСЂРѕРЅС‹ С‚РѕС‡РєРё (fXMax,0)
 				pvPoints->push_back( CTPoint<float>( v1.x, v1.y ) );
 				pvPoints->push_back( CTPoint<float>( fXMax, fYbyXmax_1_2 ) );
 			}
 			else
 			{
 				float fXbyYmax_1_2 = GetXByY( fYMax, v1.x, v1.y, v2.x, v2.y );
-				//добавляем ребро 1 - 2 c отсечением по ребру (0,fYMax)-(fXMax,fYMax)
-				//точка 1 внутри, точка 2 снаружи со стороны точки (0,fYMax)
+				//РґРѕР±Р°РІР»СЏРµРј СЂРµР±СЂРѕ 1 - 2 c РѕС‚СЃРµС‡РµРЅРёРµРј РїРѕ СЂРµР±СЂСѓ (0,fYMax)-(fXMax,fYMax)
+				//С‚РѕС‡РєР° 1 РІРЅСѓС‚СЂРё, С‚РѕС‡РєР° 2 СЃРЅР°СЂСѓР¶Рё СЃРѕ СЃС‚РѕСЂРѕРЅС‹ С‚РѕС‡РєРё (0,fYMax)
 				pvPoints->push_back( CTPoint<float>( v1.x, v1.y ) );
 				pvPoints->push_back( CTPoint<float>( fXbyYmax_1_2, fYMax ) );
 			}
@@ -443,16 +443,16 @@ void CUIMiniMap::GetHorizontalClippedScreenEdge( const CTPoint<float> &v1, const
 		{
 			if ( fXbyY0_1_2 >= 0 )
 			{
-				//добавляем ребро 1 - 2 c отсечением по ребру (0,0)-(0, fYMax)
-				//точка 1 снаружи, точка 2 внутри со стороны точки (fXMax,0)
+				//РґРѕР±Р°РІР»СЏРµРј СЂРµР±СЂРѕ 1 - 2 c РѕС‚СЃРµС‡РµРЅРёРµРј РїРѕ СЂРµР±СЂСѓ (0,0)-(0, fYMax)
+				//С‚РѕС‡РєР° 1 СЃРЅР°СЂСѓР¶Рё, С‚РѕС‡РєР° 2 РІРЅСѓС‚СЂРё СЃРѕ СЃС‚РѕСЂРѕРЅС‹ С‚РѕС‡РєРё (fXMax,0)
 				pvPoints->push_back( CTPoint<float>( fXbyY0_1_2 , 0.0f ) );
 				pvPoints->push_back( CTPoint<float>( v2.x, v2.y ) );
 			}
 			else
 			{
 				float fYbyX0_1_2 = GetYByX( 0.0f, v1.x, v1.y, v2.x, v2.y );
-				//добавляем ребро 1 - 2 c отсечением по ребру (0,0-(0, fYMax)
-				//точка 1 снаружи, точка 2 внутри со стороны точки (0, fYMax)
+				//РґРѕР±Р°РІР»СЏРµРј СЂРµР±СЂРѕ 1 - 2 c РѕС‚СЃРµС‡РµРЅРёРµРј РїРѕ СЂРµР±СЂСѓ (0,0-(0, fYMax)
+				//С‚РѕС‡РєР° 1 СЃРЅР°СЂСѓР¶Рё, С‚РѕС‡РєР° 2 РІРЅСѓС‚СЂРё СЃРѕ СЃС‚РѕСЂРѕРЅС‹ С‚РѕС‡РєРё (0, fYMax)
 				pvPoints->push_back( CTPoint<float>( 0.0f, fYbyX0_1_2 ) );
 				pvPoints->push_back( CTPoint<float>( v2.x, v2.y ) );
 			}
@@ -464,14 +464,14 @@ void CUIMiniMap::GetHorizontalClippedScreenEdge( const CTPoint<float> &v1, const
 				if ( ( fXbyY0_1_2 >= v1.x )  && ( fXbyY0_1_2 <= v2.x ) )
 				{
 					float fYbyXmax_1_2 = GetYByX( fXMax, v1.x, v1.y, v2.x, v2.y );
-					//добавляем ребро 1 - 2 c отсечением по ребрам (0,0)-(fXMax, 0) и (fXMax,0)-(fXMax, fYMax)
-					//точка 1 снаружи, точка 2 снаружи со стороны точки (fxMax, 0)
+					//РґРѕР±Р°РІР»СЏРµРј СЂРµР±СЂРѕ 1 - 2 c РѕС‚СЃРµС‡РµРЅРёРµРј РїРѕ СЂРµР±СЂР°Рј (0,0)-(fXMax, 0) Рё (fXMax,0)-(fXMax, fYMax)
+					//С‚РѕС‡РєР° 1 СЃРЅР°СЂСѓР¶Рё, С‚РѕС‡РєР° 2 СЃРЅР°СЂСѓР¶Рё СЃРѕ СЃС‚РѕСЂРѕРЅС‹ С‚РѕС‡РєРё (fxMax, 0)
 					pvPoints->push_back( CTPoint<float>( fXbyY0_1_2, 0 ) );
 					pvPoints->push_back( CTPoint<float>( fXMax, fYbyXmax_1_2 ) );
 				}
 				else
 				{
-					//нет ребра
+					//РЅРµС‚ СЂРµР±СЂР°
 				}
 			}
 			else
@@ -482,19 +482,19 @@ void CUIMiniMap::GetHorizontalClippedScreenEdge( const CTPoint<float> &v1, const
 					if ( ( fXbyYmax_1_2 >= v1.x ) && ( fXbyYmax_1_2 <= v2.x ) )
 					{
 						float fYbyX0_1_2 = GetYByX( 0.0f, v1.x, v1.y, v2.x, v2.y );
-						//добавляем ребро 0 - 1 c отсечением по ребрам (0,fYmax)-(fXMax, fYMax) и (fXmax,0)-(fXMax, fYMax)
-						//точка 0 снаружи, точка 1 снаружи со стороны точки (fXMax, fYMax)
+						//РґРѕР±Р°РІР»СЏРµРј СЂРµР±СЂРѕ 0 - 1 c РѕС‚СЃРµС‡РµРЅРёРµРј РїРѕ СЂРµР±СЂР°Рј (0,fYmax)-(fXMax, fYMax) Рё (fXmax,0)-(fXMax, fYMax)
+						//С‚РѕС‡РєР° 0 СЃРЅР°СЂСѓР¶Рё, С‚РѕС‡РєР° 1 СЃРЅР°СЂСѓР¶Рё СЃРѕ СЃС‚РѕСЂРѕРЅС‹ С‚РѕС‡РєРё (fXMax, fYMax)
 						pvPoints->push_back( CTPoint<float>( 0, fYbyX0_1_2 ) );
 						pvPoints->push_back( CTPoint<float>( fXbyYmax_1_2, fYMax ) );
 					}
 					else
 					{
-						//нет ребра
+						//РЅРµС‚ СЂРµР±СЂР°
 					}
 				}
 				else
 				{
-					//нет ребра
+					//РЅРµС‚ СЂРµР±СЂР°
 				}
 			}
 		}
@@ -506,7 +506,7 @@ void CUIMiniMap::GetClippedScreenFrame( std::vector<CTPoint<float> > *pvPoints, 
 	NI_ASSERT_SLOW_T( pvPoints != 0,
 										NStr::Format( "Wrong parameter: (%x)", pvPoints ) );
 
-	//получаем мировые координаты рамки экрана
+	//РїРѕР»СѓС‡Р°РµРј РјРёСЂРѕРІС‹Рµ РєРѕРѕСЂРґРёРЅР°С‚С‹ СЂР°РјРєРё СЌРєСЂР°РЅР°
 	CTRect<float> screenRect = _pGFX->GetScreenRect();
 	
 	CVec3 v0;	//left top
@@ -566,7 +566,7 @@ bool CUIMiniMap::AddWarFogData( const BYTE *pVizBuffer, int nLength )
 		NI_ASSERT_SLOW_T( pVizBuffer != 0,
 											NStr::Format( "Wrong parameter: (%x)", pVizBuffer ) );
 
-		//добавляем к текстуре pWarFog в оперативной памяти данные от AI
+		//РґРѕР±Р°РІР»СЏРµРј Рє С‚РµРєСЃС‚СѓСЂРµ pWarFog РІ РѕРїРµСЂР°С‚РёРІРЅРѕР№ РїР°РјСЏС‚Рё РґР°РЅРЅС‹Рµ РѕС‚ AI
 		if ( nFiledVISTiles < ( terrainSize.x * terrainSize.y ) )
 		{
 			NI_ASSERT_SLOW_T( ( nFiledVISTiles + nLength ) <= ( terrainSize.x * terrainSize.y ),
@@ -574,7 +574,7 @@ bool CUIMiniMap::AddWarFogData( const BYTE *pVizBuffer, int nLength )
 
 			CTextureLock<SGFXColor4444> textureLock( pWarFog , 0 );
 
-			//обновляем текстуру pWarFog в оперативной памяти
+			//РѕР±РЅРѕРІР»СЏРµРј С‚РµРєСЃС‚СѓСЂСѓ pWarFog РІ РѕРїРµСЂР°С‚РёРІРЅРѕР№ РїР°РјСЏС‚Рё
 			for ( int nYIndex = 0; nYIndex < ( nLength / terrainSize.x ); ++nYIndex )
 			{
 				int nYPosition = terrainSize.y - ( nYIndex + ( nFiledVISTiles / terrainSize.x ) ) - 1;
@@ -588,7 +588,7 @@ bool CUIMiniMap::AddWarFogData( const BYTE *pVizBuffer, int nLength )
 		}
 		if ( nFiledVISTiles >= ( terrainSize.x * terrainSize.y ) )
 		{
-			//Устанавливает счетчик vis тайлов в ноль
+			//РЈСЃС‚Р°РЅР°РІР»РёРІР°РµС‚ СЃС‡РµС‚С‡РёРє vis С‚Р°Р№Р»РѕРІ РІ РЅРѕР»СЊ
 			isWarFogNeedUpdate = true;
 			nFiledVISTiles = 0;
 			return true;
@@ -607,7 +607,7 @@ void CUIMiniMap::AddUnitsData( const SMiniMapUnitInfo *pUnitsBuffer, int nUnitsC
 			NI_ASSERT_SLOW_T( pUnitsBuffer != 0, NStr::Format( "Wrong parameter: (%x)", pUnitsBuffer ) );
 		}
 
-		//обновляем юнитов
+		//РѕР±РЅРѕРІР»СЏРµРј СЋРЅРёС‚РѕРІ
 		units.clear();
 		CTPoint<float> miniMapPoint( 0.0f, 0.0f );
 		const float fRatio = FP_SQRT_3 / ( FP_SQRT_2 * fWorldCellSize );
@@ -630,7 +630,7 @@ void CUIMiniMap::AddFireRangeAreas( const SShootAreas *pShootAreasBuffer, int nS
 		{
 			NI_ASSERT_SLOW_T( pShootAreasBuffer != 0, NStr::Format( "Wrong parameter: (%x)", pShootAreasBuffer ) );
 		}
-		//обновляем линии обстрела
+		//РѕР±РЅРѕРІР»СЏРµРј Р»РёРЅРёРё РѕР±СЃС‚СЂРµР»Р°
 		shootAreas.clear();
 		for ( int index = 0; index < nShootAreasCount; ++index )
 			shootAreas.push_back( pShootAreasBuffer[index] );
@@ -758,7 +758,7 @@ void CUIMiniMap::DrawFireRanges( CTextureLock<SGFXColor4444> *pTextureLock )
 
 				if ( area.wStartAngle != area.wFinishAngle )
 				{
-					// первый угол
+					// РїРµСЂРІС‹Р№ СѓРіРѕР»
 					{
 						const float fAngle = fmod( float( area.wStartAngle ) / 65535.0f * FP_2PI + FP_PI2, FP_2PI );
 						const float fCos = cos( fAngle );
@@ -774,7 +774,7 @@ void CUIMiniMap::DrawFireRanges( CTextureLock<SGFXColor4444> *pTextureLock )
 											 markSectors );
 					}
 					
-					// второй угол
+					// РІС‚РѕСЂРѕР№ СѓРіРѕР»
 					{
 						const float fAngle = fmod( float( area.wFinishAngle ) / 65535.0f * FP_2PI + FP_PI2, FP_2PI );
 						const float fCos = cos( fAngle );
@@ -816,11 +816,11 @@ bool CUIMiniMap::Update( const NTimer::STime &currTime )
 	CTPoint<float> miniMapPoint( 0.0f, 0.0f );
 	CTPoint<float> additionalPoint( 0.0f, 0.0f );
 
-	//инициализируем текстуру pInstantObjects
+	//РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј С‚РµРєСЃС‚СѓСЂСѓ pInstantObjects
 	if ( pInstantObjects )
 	{
 		CTextureLock<SGFXColor4444> textureLock( pInstantObjects , 0 );
-		//очищаем текстуру
+		//РѕС‡РёС‰Р°РµРј С‚РµРєСЃС‚СѓСЂСѓ
 		{
 			int nBytesCount = pInstantObjects->GetSizeX( 0 ) * sizeof( WORD );
 			for ( int nYIndex = 0; nYIndex < pInstantObjects->GetSizeY( 0 ); ++nYIndex )
@@ -828,7 +828,7 @@ bool CUIMiniMap::Update( const NTimer::STime &currTime )
 				memset( static_cast<void*>( textureLock[nYIndex] ), 0x00, nBytesCount );
 			}
 		}
-		//Рисуем юнитов
+		//Р РёСЃСѓРµРј СЋРЅРёС‚РѕРІ
 		{
 
 			for( int nUnitIndex = 0; nUnitIndex < units.size() ; ++nUnitIndex )
@@ -862,11 +862,11 @@ bool CUIMiniMap::Update( const NTimer::STime &currTime )
 			}
 		}
 		
-		//добавляем линии обстрела если они есть
+		//РґРѕР±Р°РІР»СЏРµРј Р»РёРЅРёРё РѕР±СЃС‚СЂРµР»Р° РµСЃР»Рё РѕРЅРё РµСЃС‚СЊ
 		DrawFireRanges( &textureLock );
 		isInstantObjectsNeedUpdate = true;
 		
-		//Круги
+		//РљСЂСѓРіРё
 		{
 			for ( std::list<SMiniMapCircle>::iterator it = circles.begin(); it != circles.end(); )
 			{
@@ -1011,7 +1011,7 @@ bool CUIMiniMap::Update( const NTimer::STime &currTime )
 		}
 	}
 		
-	//Обновляем текстуру pWarFogTexture в видео памяти
+	//РћР±РЅРѕРІР»СЏРµРј С‚РµРєСЃС‚СѓСЂСѓ pWarFogTexture РІ РІРёРґРµРѕ РїР°РјСЏС‚Рё
 	if ( pWarFog && pWarFogTexture && isWarFogNeedUpdate )
 	{
 		pWarFog->AddDirtyRect( &( static_cast<RECT>( CTRect<int>( 0, 0, pWarFog->GetSizeX( 0 ), pWarFog->GetSizeY( 0 ) ) ) ) );
@@ -1019,7 +1019,7 @@ bool CUIMiniMap::Update( const NTimer::STime &currTime )
 		isWarFogNeedUpdate = false;
 	}
 
-	//Обновляем  текстуру pInstantObjects в видеопамяти
+	//РћР±РЅРѕРІР»СЏРµРј  С‚РµРєСЃС‚СѓСЂСѓ pInstantObjects РІ РІРёРґРµРѕРїР°РјСЏС‚Рё
 	if ( pInstantObjects && pInstantObjectsTexture && isInstantObjectsNeedUpdate )
 	{
 		pInstantObjects->AddDirtyRect( &( static_cast<RECT>( CTRect<int>( 0, 0, pInstantObjects->GetSizeX( 0 ), pInstantObjects->GetSizeY( 0 ) ) ) ) );
@@ -1049,7 +1049,7 @@ void CUIMiniMap::Draw( IGFX *_pGFX )
 		// const CTRect<float> &wndRect = GetScreenRect();
 		nSize = wndRect.right - wndRect.left;
 
-		// устанавливаем координаты вертексов, последовательность обхода вертексов в треугольниках
+		// СѓСЃС‚Р°РЅР°РІР»РёРІР°РµРј РєРѕРѕСЂРґРёРЅР°С‚С‹ РІРµСЂС‚РµРєСЃРѕРІ, РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚СЊ РѕР±С…РѕРґР° РІРµСЂС‚РµРєСЃРѕРІ РІ С‚СЂРµСѓРіРѕР»СЊРЅРёРєР°С…
 		std::vector<CTPoint<float> > vPoints;
 		vPoints.resize(4);
 		vPoints[0] = CTPoint<float>( 0.0f, terrainSize.y );
@@ -1061,15 +1061,15 @@ void CUIMiniMap::Draw( IGFX *_pGFX )
 
 		_pGFX->SetShadingEffect( 21 );
 		
-		// рисуем текстуру pBackgroundTexture и pWarFogTexture
+		// СЂРёСЃСѓРµРј С‚РµРєСЃС‚СѓСЂСѓ pBackgroundTexture Рё pWarFogTexture
 		IGFXTexture *pTextures[3] = { pBackgroundTexture, pWarFogTexture, pInstantObjectsTexture };
 		for ( int textureIndex = 0; textureIndex < 3; ++textureIndex )
 		{
-			// Получаем массивы вертексов и последовательностей обхода вертексов в треугольниках
+			// РџРѕР»СѓС‡Р°РµРј РјР°СЃСЃРёРІС‹ РІРµСЂС‚РµРєСЃРѕРІ Рё РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚РµР№ РѕР±С…РѕРґР° РІРµСЂС‚РµРєСЃРѕРІ РІ С‚СЂРµСѓРіРѕР»СЊРЅРёРєР°С…
 			CTempBufferLock<SGFXLVertex> vertices = _pGFX->GetTempVertices( vPoints.size(), SGFXLVertex::format, GFXPT_TRIANGLELIST );
 			CTempBufferLock<WORD> indices = _pGFX->GetTempIndices( 6, GFXIF_INDEX16, GFXPT_TRIANGLELIST );
 
-			// Заполняем массив вертексов
+			// Р—Р°РїРѕР»РЅСЏРµРј РјР°СЃСЃРёРІ РІРµСЂС‚РµРєСЃРѕРІ
 			for ( int index = 0; index < vPoints.size(); ++index )
 			{
 				PointToTextureMiniMap( vPoints[index].x, vPoints[index].y, &( miniMapPoint.x ), &( miniMapPoint.y ) );
@@ -1104,7 +1104,7 @@ void CUIMiniMap::Draw( IGFX *_pGFX )
 															 wndRect.top + miniMapPoint.y,
 															 zCoord, 1.0f, 0xFFffFFff, 0xFF000000, tU, tV );
 			}
-			//Заполняем массив последовательностей обхода вертексов в треугольниках
+			//Р—Р°РїРѕР»РЅСЏРµРј РјР°СЃСЃРёРІ РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚РµР№ РѕР±С…РѕРґР° РІРµСЂС‚РµРєСЃРѕРІ РІ С‚СЂРµСѓРіРѕР»СЊРЅРёРєР°С…
 			indices[0] = 0;
 			indices[1] = 1;
 			indices[2] = 2;
@@ -1112,7 +1112,7 @@ void CUIMiniMap::Draw( IGFX *_pGFX )
 			indices[4] = 2;
 			indices[5] = 3;
 
-			//Рисуем что получилось
+			//Р РёСЃСѓРµРј С‡С‚Рѕ РїРѕР»СѓС‡РёР»РѕСЃСЊ
 			_pGFX->SetTexture( 0, pTextures[textureIndex] );
 			_pGFX->DrawTemp();
 		}		
@@ -1145,7 +1145,7 @@ void CUIMiniMap::Draw( IGFX *_pGFX )
 		
 		if ( nActiveMarkersCount > 0 )
 		{
-			//Получаем массивы вертексов и последовательностей обхода вертексов в треугольниках
+			//РџРѕР»СѓС‡Р°РµРј РјР°СЃСЃРёРІС‹ РІРµСЂС‚РµРєСЃРѕРІ Рё РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚РµР№ РѕР±С…РѕРґР° РІРµСЂС‚РµРєСЃРѕРІ РІ С‚СЂРµСѓРіРѕР»СЊРЅРёРєР°С…
 			CTempBufferLock<SGFXLVertex> vertices = _pGFX->GetTempVertices( 4 * nActiveMarkersCount, SGFXLVertex::format, GFXPT_TRIANGLELIST );
 			CTempBufferLock<WORD> indices = _pGFX->GetTempIndices( 6 * nActiveMarkersCount, GFXIF_INDEX16, GFXPT_TRIANGLELIST );
 
@@ -1192,7 +1192,7 @@ void CUIMiniMap::Draw( IGFX *_pGFX )
 																											markerIterator->textureRect.maxx,
 																											markerIterator->textureRect.maxy );
 
-					//Заполняем массив последовательностей обхода вертексов в треугольниках
+					//Р—Р°РїРѕР»РЅСЏРµРј РјР°СЃСЃРёРІ РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚РµР№ РѕР±С…РѕРґР° РІРµСЂС‚РµРєСЃРѕРІ РІ С‚СЂРµСѓРіРѕР»СЊРЅРёРєР°С…
 					indices[nActiveMarkerIndex * 6 + 0] = nActiveMarkerIndex * 4 + 0;
 					indices[nActiveMarkerIndex * 6 + 1] = nActiveMarkerIndex * 4 + 2;
 					indices[nActiveMarkerIndex * 6 + 2] = nActiveMarkerIndex * 4 + 1;
@@ -1208,25 +1208,25 @@ void CUIMiniMap::Draw( IGFX *_pGFX )
 		/**/
 		_pGFX->SetTexture( 0, 0 );
 
-		// рисуем рамку
-		// заполняем информацию по ребрам рамки экрана
+		// СЂРёСЃСѓРµРј СЂР°РјРєСѓ
+		// Р·Р°РїРѕР»РЅСЏРµРј РёРЅС„РѕСЂРјР°С†РёСЋ РїРѕ СЂРµР±СЂР°Рј СЂР°РјРєРё СЌРєСЂР°РЅР°
 		vPoints.clear();
 		GetClippedScreenFrame( &vPoints, _pGFX );
 
 		if ( vPoints.size() > 0 )
 		{
-			// Получаем массивы вертексов
+			// РџРѕР»СѓС‡Р°РµРј РјР°СЃСЃРёРІС‹ РІРµСЂС‚РµРєСЃРѕРІ
 			CTempBufferLock<SGFXLineVertex> vertices = _pGFX->GetTempVertices( vPoints.size() * 2, SGFXLineVertex::format, GFXPT_LINELIST );
 
-			// заполняем вертексы четырех сторон рамки экрана
+			// Р·Р°РїРѕР»РЅСЏРµРј РІРµСЂС‚РµРєСЃС‹ С‡РµС‚С‹СЂРµС… СЃС‚РѕСЂРѕРЅ СЂР°РјРєРё СЌРєСЂР°РЅР°
 			for ( int index = 0; index < vPoints.size(); ++index )
 			{
-				// получаем экранные координаты вершины рамки экрана
+				// РїРѕР»СѓС‡Р°РµРј СЌРєСЂР°РЅРЅС‹Рµ РєРѕРѕСЂРґРёРЅР°С‚С‹ РІРµСЂС€РёРЅС‹ СЂР°РјРєРё СЌРєСЂР°РЅР°
 				PointToTextureMiniMap( vPoints[index].x, vPoints[index].y, &( miniMapPoint.x ), &( miniMapPoint.y ) );
 				vertices[static_cast<int>( index + vPoints.size() )].Setup( wndRect.left + miniMapPoint.x , wndRect.top + miniMapPoint.y, zCoord, dwScreenFrameColor );
 				vertices[index].Setup( wndRect.left + miniMapPoint.x + 1, wndRect.top + miniMapPoint.y + 1, zCoord, dwScreenFrameColorShadow );
 			}			
-			// Рисуем что получилось
+			// Р РёСЃСѓРµРј С‡С‚Рѕ РїРѕР»СѓС‡РёР»РѕСЃСЊ
 			_pGFX->DrawTemp();
 		}
 	}
@@ -1236,13 +1236,13 @@ bool CUIMiniMap::OnLButtonDown( const CVec2 &vPos, EMouseState mouseState )
 {
 	if ( IsInitialized() )
 	{
-		//wndRect - из базового класса
+		//wndRect - РёР· Р±Р°Р·РѕРІРѕРіРѕ РєР»Р°СЃСЃР°
 		nSize = wndRect.right - wndRect.left;
 		
 		ICursor *_pCursor = GetSingleton<ICursor>();
 		_pCursor->SetBounds( wndRect.left, wndRect.top, wndRect.right, wndRect.bottom );
 
-		//получаем экранные координаты мыши
+		//РїРѕР»СѓС‡Р°РµРј СЌРєСЂР°РЅРЅС‹Рµ РєРѕРѕСЂРґРёРЅР°С‚С‹ РјС‹С€Рё
 		CTPoint<float> miniMapMousePos;
 		miniMapMousePos.x = vPos.x - wndRect.left;
 		miniMapMousePos.y = vPos.y - wndRect.top;
@@ -1292,7 +1292,7 @@ bool CUIMiniMap::OnRButtonUp( const CVec2 &vPos, EMouseState mouseState )
 {
 	if ( IsInitialized() )
 	{
-		//получаем экранные координаты мыши
+		//РїРѕР»СѓС‡Р°РµРј СЌРєСЂР°РЅРЅС‹Рµ РєРѕРѕСЂРґРёРЅР°С‚С‹ РјС‹С€Рё
 		CTPoint<float> miniMapMousePos;
 		miniMapMousePos.x = vPos.x - wndRect.left;
 		miniMapMousePos.y = vPos.y - wndRect.top;
@@ -1301,14 +1301,14 @@ bool CUIMiniMap::OnRButtonUp( const CVec2 &vPos, EMouseState mouseState )
 		TextureMiniMapToPoint( miniMapMousePos.x, miniMapMousePos.y, &( mapMousePos.x ), &( mapMousePos.y ) );
 		if ( InMiniMap( mapMousePos.x, mapMousePos.y ) )
 		{
-			//это получаются координаты из параметра мессаги
-			//(для посылки надо проделать это в обратную сторону)
+			//СЌС‚Рѕ РїРѕР»СѓС‡Р°СЋС‚СЃСЏ РєРѕРѕСЂРґРёРЅР°С‚С‹ РёР· РїР°СЂР°РјРµС‚СЂР° РјРµСЃСЃР°РіРё
+			//(РґР»СЏ РїРѕСЃС‹Р»РєРё РЅР°РґРѕ РїСЂРѕРґРµР»Р°С‚СЊ СЌС‚Рѕ РІ РѕР±СЂР°С‚РЅСѓСЋ СЃС‚РѕСЂРѕРЅСѓ)
 			//CVec2( DWORD(msg.nParam) & 0x00007fff, (DWORD(msg.nParam) & 0x7fff0000) >> 15 );
-			//для определения того, что в параметре есть координаты, старший бит должен быть включен
+			//РґР»СЏ РѕРїСЂРµРґРµР»РµРЅРёСЏ С‚РѕРіРѕ, С‡С‚Рѕ РІ РїР°СЂР°РјРµС‚СЂРµ РµСЃС‚СЊ РєРѕРѕСЂРґРёРЅР°С‚С‹, СЃС‚Р°СЂС€РёР№ Р±РёС‚ РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ РІРєР»СЋС‡РµРЅ
 			//(msg.nParam |= 0x80000000) msg.nEventID = CMD_END_ACTION2;
-			//посылается как GetSingleton<IInput>()->AddMessage( SGameMessage(ID, PARAM) );
-			//координаты должны быть в экранных координатах на плоскости (т.е. (0, 0) => в левом верхнем углу,
-			//Y => вниз, X => вправо)
+			//РїРѕСЃС‹Р»Р°РµС‚СЃСЏ РєР°Рє GetSingleton<IInput>()->AddMessage( SGameMessage(ID, PARAM) );
+			//РєРѕРѕСЂРґРёРЅР°С‚С‹ РґРѕР»Р¶РЅС‹ Р±С‹С‚СЊ РІ СЌРєСЂР°РЅРЅС‹С… РєРѕРѕСЂРґРёРЅР°С‚Р°С… РЅР° РїР»РѕСЃРєРѕСЃС‚Рё (С‚.Рµ. (0, 0) => РІ Р»РµРІРѕРј РІРµСЂС…РЅРµРј СѓРіР»Сѓ,
+			//Y => РІРЅРёР·, X => РІРїСЂР°РІРѕ)
 			DWORD dwParam = 0x80000000 + 
 											( ( DWORD )( mapMousePos.x * fWorldCellSize ) & 0x00007fff ) + 
 											( ( ( ( DWORD )( mapMousePos.y * fWorldCellSize ) & 0x00007fff ) << 15 ) & 0x7fff0000 );
@@ -1323,7 +1323,7 @@ bool CUIMiniMap::IsInside( const CVec2 &vPos )
 {
 	if ( IsInitialized() )
 	{
-		//получаем экранные координаты мыши
+		//РїРѕР»СѓС‡Р°РµРј СЌРєСЂР°РЅРЅС‹Рµ РєРѕРѕСЂРґРёРЅР°С‚С‹ РјС‹С€Рё
 		CTPoint<float> miniMapMousePos;
 		miniMapMousePos.x = vPos.x - wndRect.left;
 		miniMapMousePos.y = vPos.y - wndRect.top;

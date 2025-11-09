@@ -32,7 +32,7 @@ public:
 	virtual void GFXDraw();
 	virtual void ShowFrameWindows( int nCommand );
 	
-	BOOL Run();										//Вызывается из EditorApp OnIdle()
+	BOOL Run();										//Р’С‹Р·С‹РІР°РµС‚СЃСЏ РёР· EditorApp OnIdle()
 	bool IsRunning() { return bRunning; }
 	
 	void SetDirectionButtonDockBar( CDirectionButtonDockBar *pDock ) { pDirectionButtonDockBar = pDock; }
@@ -46,7 +46,7 @@ protected:
 	
 	// Implementation
 private:
-	bool bRunning;								//есть два состояния, редактирование и предварительный просмотр
+	bool bRunning;								//РµСЃС‚СЊ РґРІР° СЃРѕСЃС‚РѕСЏРЅРёСЏ, СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёРµ Рё РїСЂРµРґРІР°СЂРёС‚РµР»СЊРЅС‹Р№ РїСЂРѕСЃРјРѕС‚СЂ
 	CDirectionButtonDockBar *pDirectionButtonDockBar;
 	CPtr<IEffectVisObj> pRunningEffect;
 	bool bHorizontalCamera;

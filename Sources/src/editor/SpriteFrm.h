@@ -33,7 +33,7 @@ public:
 	virtual void GFXDraw();
 	virtual void ShowFrameWindows( int nCommand );
 	
-	BOOL Run();										//Вызывается из EditorApp OnIdle()
+	BOOL Run();										//Р’С‹Р·С‹РІР°РµС‚СЃСЏ РёР· EditorApp OnIdle()
 	bool IsRunning() { return bRunning; }
 	void ClearComposedFlag() { bComposed = false; }
 
@@ -58,7 +58,7 @@ private:
 	CThumbList m_wndAllDirThumbItems;
 	CThumbList m_wndSelectedThumbItems;
 
-	bool bRunning;								//есть два состояния, редактирование и предварительный просмотр
+	bool bRunning;								//РµСЃС‚СЊ РґРІР° СЃРѕСЃС‚РѕСЏРЅРёСЏ, СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёРµ Рё РїСЂРµРґРІР°СЂРёС‚РµР»СЊРЅС‹Р№ РїСЂРѕСЃРјРѕС‚СЂ
 	bool bComposed;
 
 protected:
@@ -69,10 +69,10 @@ protected:
 	void SetActiveSpritesItem( CSpritesItem *pSpritesItem );
 
 	virtual BOOL SpecificTranslateMessage( MSG *pMsg );
-	virtual void SpecificInit();													//для инициализации внутренних данных после загрузки проекта или создании нового
+	virtual void SpecificInit();													//РґР»СЏ РёРЅРёС†РёР°Р»РёР·Р°С†РёРё РІРЅСѓС‚СЂРµРЅРЅРёС… РґР°РЅРЅС‹С… РїРѕСЃР»Рµ Р·Р°РіСЂСѓР·РєРё РїСЂРѕРµРєС‚Р° РёР»Рё СЃРѕР·РґР°РЅРёРё РЅРѕРІРѕРіРѕ
 	virtual void SpecificClearBeforeBatchMode();
 	
-	//экспортирует один проект, если все ОК, возвращает 0, иначе код ошибки
+	//СЌРєСЃРїРѕСЂС‚РёСЂСѓРµС‚ РѕРґРёРЅ РїСЂРѕРµРєС‚, РµСЃР»Рё РІСЃРµ РћРљ, РІРѕР·РІСЂР°С‰Р°РµС‚ 0, РёРЅР°С‡Рµ РєРѕРґ РѕС€РёР±РєРё
 	virtual bool ExportFrameData( IDataTree *pDT, const char *pszProjectName, const char *pszResultFileName, CTreeItem *pRootItem );
 //	virtual FILETIME FindMaximalSourceTime( const char *pszProjectName, CTreeItem *pRootItem );
 	virtual FILETIME FindMinimalExportFileTime( const char *pszResultFileName, CTreeItem *pRootItem );

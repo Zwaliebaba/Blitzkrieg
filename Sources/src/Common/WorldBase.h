@@ -101,39 +101,39 @@ class CWorldBase
 		SObjectSounds() : wSoundID( 0 ), wLoopedSoundID( 0 ) {  }
 	};
 	typedef std::hash_map< CPtr<SMapObject>, SObjectSounds, SPtrHash > ObjectsSounds;
-	ObjectsSounds objectsSounds;						// у некогорых объектов есть звуки, которые нужно убрать
+	ObjectsSounds objectsSounds;						// Сѓ РЅРµРєРѕРіРѕСЂС‹С… РѕР±СЉРµРєС‚РѕРІ РµСЃС‚СЊ Р·РІСѓРєРё, РєРѕС‚РѕСЂС‹Рµ РЅСѓР¶РЅРѕ СѓР±СЂР°С‚СЊ
 	//
 	typedef std::hash_map< CPtr<IRefCount>, CPtr<IRefCount>, SDefaultPtrHash> CLinksMap;
 	
 	// update check values
-	CVec3 vLastAnchor;										// последняя позиция камеры
-	NTimer::STime warFogLastTime;					// последнее время обновления тумана войны
+	CVec3 vLastAnchor;										// РїРѕСЃР»РµРґРЅСЏСЏ РїРѕР·РёС†РёСЏ РєР°РјРµСЂС‹
+	NTimer::STime warFogLastTime;					// РїРѕСЃР»РµРґРЅРµРµ РІСЂРµРјСЏ РѕР±РЅРѕРІР»РµРЅРёСЏ С‚СѓРјР°РЅР° РІРѕР№РЅС‹
 	// world object maps
-	CMapObjectsMap aiobjects;							// все объекты мира и AI объекты как их ключи
-	CMapObjectsMap visobjects;						// соответствие Vis obj <=> map object для получения информации при всяческих селектах
+	CMapObjectsMap aiobjects;							// РІСЃРµ РѕР±СЉРµРєС‚С‹ РјРёСЂР° Рё AI РѕР±СЉРµРєС‚С‹ РєР°Рє РёС… РєР»СЋС‡Рё
+	CMapObjectsMap visobjects;						// СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРµ Vis obj <=> map object РґР»СЏ РїРѕР»СѓС‡РµРЅРёСЏ РёРЅС„РѕСЂРјР°С†РёРё РїСЂРё РІСЃСЏС‡РµСЃРєРёС… СЃРµР»РµРєС‚Р°С…
 	CMapObjectsList delayedRemoveAIObjes;	// list of objects for delayed remove from AI
 	// bridges
-	CBridgeSpanObjectsMap aispans;				// все пролёты мостов и AI объекты как их ключи
-	CBridgeSpanObjectsMap visspans;				// соответствие Vis obj <=> bridge span object
+	CBridgeSpanObjectsMap aispans;				// РІСЃРµ РїСЂРѕР»С‘С‚С‹ РјРѕСЃС‚РѕРІ Рё AI РѕР±СЉРµРєС‚С‹ РєР°Рє РёС… РєР»СЋС‡Рё
+	CBridgeSpanObjectsMap visspans;				// СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРµ Vis obj <=> bridge span object
 	//
-	CComplexObjects entrenchments;				// связывание окопов в единые объекты
+	CComplexObjects entrenchments;				// СЃРІСЏР·С‹РІР°РЅРёРµ РѕРєРѕРїРѕРІ РІ РµРґРёРЅС‹Рµ РѕР±СЉРµРєС‚С‹
 	CLinksMap inContainer;								// units in containers. unit => container
 	// delayed lists
 	std::list< CPtr<IMOUnit> > updatable;	// units, which require update
 	//
 	bool bEnableAIInfo;										// enable to show (and retrieve from AI) info for the current screen
 	//std::hash_map<int, bool> showicons;
-	// CRAP{ для принудительного вращения моделек в процессе отладки
+	// CRAP{ РґР»СЏ РїСЂРёРЅСѓРґРёС‚РµР»СЊРЅРѕРіРѕ РІСЂР°С‰РµРЅРёСЏ РјРѕРґРµР»РµРє РІ РїСЂРѕС†РµСЃСЃРµ РѕС‚Р»Р°РґРєРё
 	bool bForceRotation;
 	// CRAP}
 	// AI updates
 	typedef void (CWorldBase::*AI_UPDATE)( const NTimer::STime &currTime );
 	std::vector<AI_UPDATE> fnAIUpdates;
 	//
-	int nSeason;													// сезон (СССР лето/зима, Европа лето/зима, Африка)
+	int nSeason;													// СЃРµР·РѕРЅ (РЎРЎРЎР  Р»РµС‚Рѕ/Р·РёРјР°, Р•РІСЂРѕРїР° Р»РµС‚Рѕ/Р·РёРјР°, РђС„СЂРёРєР°)
 	DWORD dwFlashFireColor;								// flash color diring firing
 	DWORD dwFlashExpColor;								// flash color diring exploding
-	// messages наверх
+	// messages РЅР°РІРµСЂС…
 	std::list<SGameMessage> messages;
 protected:
 	typedef CWorldObjectsIterator iterator;
@@ -185,7 +185,7 @@ private:
 	void AIUpdateWarFogLocal();
 protected:
 	// iteration.
-	// NOTE{ это специально для редактора. При итерировании нельзя (!) удалять объекты и изменять их.
+	// NOTE{ СЌС‚Рѕ СЃРїРµС†РёР°Р»СЊРЅРѕ РґР»СЏ СЂРµРґР°РєС‚РѕСЂР°. РџСЂРё РёС‚РµСЂРёСЂРѕРІР°РЅРёРё РЅРµР»СЊР·СЏ (!) СѓРґР°Р»СЏС‚СЊ РѕР±СЉРµРєС‚С‹ Рё РёР·РјРµРЅСЏС‚СЊ РёС….
 	iterator begin() { return CWorldObjectsIterator( aiobjects.begin() ); }
 	iterator end() { return CWorldObjectsIterator( aiobjects.end() ); }
 	// NOTE}
@@ -244,7 +244,7 @@ protected:
 	bool ToggleAIInfo();
 	bool ToggleSceneDepthComplexity() { return pScene->ToggleShow( SCENE_SHOW_DEPTH_COMPLEXITY ); }
 	bool ToggleBoundingBoxes() { return pScene->ToggleShow( SCENE_SHOW_BBS ); }
-	// CRAP{ для принудительного вращения моделек
+	// CRAP{ РґР»СЏ РїСЂРёРЅСѓРґРёС‚РµР»СЊРЅРѕРіРѕ РІСЂР°С‰РµРЅРёСЏ РјРѕРґРµР»РµРє
 	bool ToggleRotation() { bForceRotation = !bForceRotation; return bForceRotation; }
 	// CRAP}
 	//

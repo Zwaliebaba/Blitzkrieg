@@ -9,15 +9,15 @@ class CUIComplexScroll : public CMultipleWindow
 {
 	DECLARE_SERIALIZE;
 	
-	class CUIScrollBar *pScrollBar;				//инициализируется во время загрузки и используется для ускорения доступа к компонентам
+	class CUIScrollBar *pScrollBar;				//РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµС‚СЃСЏ РІРѕ РІСЂРµРјСЏ Р·Р°РіСЂСѓР·РєРё Рё РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РґР»СЏ СѓСЃРєРѕСЂРµРЅРёСЏ РґРѕСЃС‚СѓРїР° Рє РєРѕРјРїРѕРЅРµРЅС‚Р°Рј
 	struct IUIDialog * pItemContainer;
 
 	int nCurrentPosToAdd;									// position to add new element to
 
 	int nScrollBarWidth;
-	int m_nY;												//сдвиг по Y от начала текста, чтобы текст скроллировался
-	int nLeftSpace, nRightSpace;		//отступ текста соответственно слева от края и справа от скроллбара
-	int nTopSpace, nBottomSpace;		//отступ текста соответственно сверху и снизу
+	int m_nY;												//СЃРґРІРёРі РїРѕ Y РѕС‚ РЅР°С‡Р°Р»Р° С‚РµРєСЃС‚Р°, С‡С‚РѕР±С‹ С‚РµРєСЃС‚ СЃРєСЂРѕР»Р»РёСЂРѕРІР°Р»СЃСЏ
+	int nLeftSpace, nRightSpace;		//РѕС‚СЃС‚СѓРї С‚РµРєСЃС‚Р° СЃРѕРѕС‚РІРµС‚СЃС‚РІРµРЅРЅРѕ СЃР»РµРІР° РѕС‚ РєСЂР°СЏ Рё СЃРїСЂР°РІР° РѕС‚ СЃРєСЂРѕР»Р»Р±Р°СЂР°
+	int nTopSpace, nBottomSpace;		//РѕС‚СЃС‚СѓРї С‚РµРєСЃС‚Р° СЃРѕРѕС‚РІРµС‚СЃС‚РІРµРЅРЅРѕ СЃРІРµСЂС…Сѓ Рё СЃРЅРёР·Сѓ
 	bool bScrollBarAlwaysVisible;
 	int nVSubSpace;									// subspace between elements
 

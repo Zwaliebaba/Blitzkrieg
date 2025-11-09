@@ -247,7 +247,7 @@ void CInterfaceMPCreateGame::OnSelectionChanged()
 		const std::string szMapName = "maps\\" + pInfo->szPath;
 		CMinimapCreation::Create1Minimap( szMapName, szMapName );
 		
-		//установим правильный размер для map image control
+		//СѓСЃС‚Р°РЅРѕРІРёРј РїСЂР°РІРёР»СЊРЅС‹Р№ СЂР°Р·РјРµСЂ РґР»СЏ map image control
 		IUIObjMap *pMap = checked_cast<IUIObjMap *> ( pUIScreen->GetChildByID( E_MINIMAP ) );
 		IGFXTexture *pTexture = GetSingleton<ITextureManager>()->GetTexture(  CUIConsts::CreateTexturePathFromMapPath( pInfo->szPath.c_str() ).c_str() );
 		if ( pTexture )

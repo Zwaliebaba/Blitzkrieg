@@ -24,7 +24,7 @@ CETreeCtrl::CETreeCtrl()
 CETreeCtrl::~CETreeCtrl()
 {
 //	delete pRootItem;
-	pRootItem = 0;					//óäàëÿåòñÿ êàê CPtr
+	pRootItem = 0;					//ÑƒÐ´Ð°Ð»ÑÐµÑ‚ÑÑ ÐºÐ°Ðº CPtr
 }
 
 void CETreeCtrl::OnDestroy() 
@@ -33,7 +33,7 @@ void CETreeCtrl::OnDestroy()
 	HTREEITEM handle = m_treeCtrl.GetRootItem();
 	if ( handle )
 		DestroySiblingItems( handle );
-*/		//Âñå óäàëÿåòñÿ êàê ÷àñòü pRootItem
+*/		//Ð’ÑÐµ ÑƒÐ´Ð°Ð»ÑÐµÑ‚ÑÑ ÐºÐ°Ðº Ñ‡Ð°ÑÑ‚ÑŒ pRootItem
 	CWnd::OnDestroy();
 }
 
@@ -221,7 +221,7 @@ void CETreeCtrl::OnMouseMove(UINT nFlags, CPoint point)
 		hitem = m_treeCtrl.HitTest(ptTree, &flags);
 		if ( hitem && (TVHT_ONITEM & flags) )
 		{
-			//Ïðîâåðÿåì òèïû item drag & item drop
+			//ÐŸÑ€Ð¾Ð²ÐµÑ€ÑÐµÐ¼ Ñ‚Ð¸Ð¿Ñ‹ item drag & item drop
 			CTreeItem *pDrag = GetTreeItem( m_hitemDrag );
 			CTreeItem *pDrop = GetTreeItem( hitem );
 
@@ -284,7 +284,7 @@ void CETreeCtrl::OnLButtonUp(UINT nFlags, CPoint point)
 /*
 		CRect rect;
 		GetClientRect( &rect );
-		// åñëè îáúåêò êèíóëè ìèìî íàøåãî îêíà, ïîñûëàåì ñîîáùåíèå ðîäèòåëüñêîìó îêíó è âûõîäèì
+		// ÐµÑÐ»Ð¸ Ð¾Ð±ÑŠÐµÐºÑ‚ ÐºÐ¸Ð½ÑƒÐ»Ð¸ Ð¼Ð¸Ð¼Ð¾ Ð½Ð°ÑˆÐµÐ³Ð¾ Ð¾ÐºÐ½Ð°, Ð¿Ð¾ÑÑ‹Ð»Ð°ÐµÐ¼ ÑÐ¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ðµ Ñ€Ð¾Ð´Ð¸Ñ‚ÐµÐ»ÑŒÑÐºÐ¾Ð¼Ñƒ Ð¾ÐºÐ½Ñƒ Ð¸ Ð²Ñ‹Ñ…Ð¾Ð´Ð¸Ð¼
 		if ( !rect.PtInRect( point )
 			//&& !IsFolder( tvidrag.lParam )
 			)
@@ -301,7 +301,7 @@ void CETreeCtrl::OnLButtonUp(UINT nFlags, CPoint point)
 		if ( hItemDrop == NULL || hItemDrop == m_hitemDrag )
 			return;
 
-		//Ïðîâåðÿåì òèïû item drag & item drop
+		//ÐŸÑ€Ð¾Ð²ÐµÑ€ÑÐµÐ¼ Ñ‚Ð¸Ð¿Ñ‹ item drag & item drop
 		CTreeItem *pDrag = GetTreeItem( m_hitemDrag );
 		CTreeItem *pDrop = GetTreeItem( hItemDrop );
 		pDrag->CopyItemTo( pDrop );
@@ -312,12 +312,12 @@ void CETreeCtrl::OnLButtonUp(UINT nFlags, CPoint point)
 		{
 			if ( m_treeCtrl.ItemHasChildren(hItemDrop) )
 			{
-				//Äðîïàåì drag item â íà÷àëî ïàïêè hItemDrop
+				//Ð”Ñ€Ð¾Ð¿Ð°ÐµÐ¼ drag item Ð² Ð½Ð°Ñ‡Ð°Ð»Ð¾ Ð¿Ð°Ð¿ÐºÐ¸ hItemDrop
 				m_treeCtrl.SetNodeParent( m_hitemDrag, hItemDrop, TRUE, TVI_FIRST );
 			}
 			else
 			{
-				//Äðîïàåì ïîñëå ïîäñâå÷åííîãî ýëåìåíòà
+				//Ð”Ñ€Ð¾Ð¿Ð°ÐµÐ¼ Ð¿Ð¾ÑÐ»Ðµ Ð¿Ð¾Ð´ÑÐ²ÐµÑ‡ÐµÐ½Ð½Ð¾Ð³Ð¾ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð°
 				HTREEITEM htiNewParent = m_treeCtrl.GetParentItem( hItemDrop );
 				m_treeCtrl.SetNodeParent( m_hitemDrag, htiNewParent, TRUE, hItemDrop );
 			}
@@ -325,7 +325,7 @@ void CETreeCtrl::OnLButtonUp(UINT nFlags, CPoint point)
 */
 
 /*
-		if ( IsFolder( tvi.lParam ) ) // ìîæíî êèäàòü òîëüêî â ïàïêó
+		if ( IsFolder( tvi.lParam ) ) // Ð¼Ð¾Ð¶Ð½Ð¾ ÐºÐ¸Ð´Ð°Ñ‚ÑŒ Ñ‚Ð¾Ð»ÑŒÐºÐ¾ Ð² Ð¿Ð°Ð¿ÐºÑƒ
 			ChangeParent( m_hitemDrag, hItemDrop );
 		else
 		{
@@ -358,14 +358,14 @@ void CETreeCtrl::OnShowWindow(BOOL bShow, UINT nStatus)
 {
 	CWnd::OnShowWindow(bShow, nStatus);
 	
-	// äëÿ ïðàâèëüíîé ðàáîòû QuickView îêíà, 
-	// êîòîðîå ïîêàçûâàåò òåêóùèé ïîñåëåê÷åííûé îáúåêò
+	// Ð´Ð»Ñ Ð¿Ñ€Ð°Ð²Ð¸Ð»ÑŒÐ½Ð¾Ð¹ Ñ€Ð°Ð±Ð¾Ñ‚Ñ‹ QuickView Ð¾ÐºÐ½Ð°, 
+	// ÐºÐ¾Ñ‚Ð¾Ñ€Ð¾Ðµ Ð¿Ð¾ÐºÐ°Ð·Ñ‹Ð²Ð°ÐµÑ‚ Ñ‚ÐµÐºÑƒÑ‰Ð¸Ð¹ Ð¿Ð¾ÑÐµÐ»ÐµÐºÑ‡ÐµÐ½Ð½Ñ‹Ð¹ Ð¾Ð±ÑŠÐµÐºÑ‚
 	if ( !bShow )
 		m_treeCtrl.DeselectAllItems();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////
-// Áåç ýòîé ôóíêöèè òðèêîíòðîëà ìû íå óâèäèì
+// Ð‘ÐµÐ· ÑÑ‚Ð¾Ð¹ Ñ„ÑƒÐ½ÐºÑ†Ð¸Ð¸ Ñ‚Ñ€Ð¸ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð° Ð¼Ñ‹ Ð½Ðµ ÑƒÐ²Ð¸Ð´Ð¸Ð¼
 void CETreeCtrl::OnSize(UINT nType, int cx, int cy) 
 {
 	CWnd::OnSize(nType, cx, cy);
@@ -454,7 +454,7 @@ void CETreeCtrl::SaveTree( IStructureSaver *pSS )
 
 void CETreeCtrl::LoadTree( IStructureSaver *pSS )
 {
-	//Ñïåðâà óáèâàåì âñå childs â äåðåâå
+	//Ð¡Ð¿ÐµÑ€Ð²Ð° ÑƒÐ±Ð¸Ð²Ð°ÐµÐ¼ Ð²ÑÐµ childs Ð² Ð´ÐµÑ€ÐµÐ²Ðµ
 	pRootItem->RemoveAllChilds();
 
 	pRootItem->operator &( *pSS );
@@ -469,11 +469,11 @@ void CETreeCtrl::SaveTree( IDataTree *pDT )
 
 void CETreeCtrl::LoadTree( IDataTree *pDT )
 {
-	//Ñïåðâà óáèâàåì âñå childs â äåðåâå
+	//Ð¡Ð¿ÐµÑ€Ð²Ð° ÑƒÐ±Ð¸Ð²Ð°ÐµÐ¼ Ð²ÑÐµ childs Ð² Ð´ÐµÑ€ÐµÐ²Ðµ
 	pRootItem->RemoveAllChilds();
 	
 	pRootItem->operator&( *pDT );
-	//òóò íàäî ïðîéòè ïî âñåì childs è óäàëèòü íóëåâûå ýëåìåíòû
+	//Ñ‚ÑƒÑ‚ Ð½Ð°Ð´Ð¾ Ð¿Ñ€Ð¾Ð¹Ñ‚Ð¸ Ð¿Ð¾ Ð²ÑÐµÐ¼ childs Ð¸ ÑƒÐ´Ð°Ð»Ð¸Ñ‚ÑŒ Ð½ÑƒÐ»ÐµÐ²Ñ‹Ðµ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ñ‹
 	pRootItem->DeleteNullChilds();
 	pRootItem->CreateDefaultChilds();
 	pRootItem->InsertChildItems();

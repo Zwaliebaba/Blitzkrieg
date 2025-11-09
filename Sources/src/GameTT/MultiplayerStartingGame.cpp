@@ -304,7 +304,7 @@ void CInterfaceMPStartingGame::ConfigureStagingRoom( SUIStagingRoomConfigure *pI
 		const std::string szFullPathName = "maps\\" + pInfo->szMapLocation;
 		CMinimapCreation::Create1Minimap( szFullPathName, szFullPathName );
 	
-		//установим правильный размер для map image control
+		//СѓСЃС‚Р°РЅРѕРІРёРј РїСЂР°РІРёР»СЊРЅС‹Р№ СЂР°Р·РјРµСЂ РґР»СЏ map image control
 		IUIObjMap *pMap = checked_cast<IUIObjMap *> ( pUIScreen->GetChildByID( 100 ) );
 		IGFXTexture *pTexture = GetSingleton<ITextureManager>()->GetTexture(  CUIConsts::CreateTexturePathFromMapPath( pInfo->szMapLocation.c_str() ).c_str() );
 		NI_ASSERT_T( pTexture != 0, "Mission map texture is invalid" );

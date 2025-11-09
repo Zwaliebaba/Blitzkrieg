@@ -22,27 +22,27 @@ public:
 private:
 	typedef std::vector<std::wstring> CVectorOfStrings;
 	typedef std::vector<SColorString> CVectorOfColorStrings;
-	CVectorOfColorStrings vectorOfStrings;		//все строчки в консоли
-	CVectorOfStrings vectorOfCommands;				//выполненные команды в консоли, для выбора предыдущих команд по стрелочкам вверх/вниз
+	CVectorOfColorStrings vectorOfStrings;		//РІСЃРµ СЃС‚СЂРѕС‡РєРё РІ РєРѕРЅСЃРѕР»Рё
+	CVectorOfStrings vectorOfCommands;				//РІС‹РїРѕР»РЅРµРЅРЅС‹Рµ РєРѕРјР°РЅРґС‹ РІ РєРѕРЅСЃРѕР»Рё, РґР»СЏ РІС‹Р±РѕСЂР° РїСЂРµРґС‹РґСѓС‰РёС… РєРѕРјР°РЅРґ РїРѕ СЃС‚СЂРµР»РѕС‡РєР°Рј РІРІРµСЂС…/РІРЅРёР·
 	
-	DWORD dwLastOpenTime;				//время когда началась анимация открытия консоли
-	DWORD dwLastCloseTime;			//время когда началась анимация закрытия консоли
-	bool bAnimation;						//флаг того, что происходит анимация, полезен для скорости
-	int nCursorPos;							//позиция курсора в текущей редактируемой строке
-	int nBeginString;						//начальная отображаемая строка из списка строк
-															//0 считается самой свежей строчкой
-	int nBeginCommand;					//текущая команда из лога команд
+	DWORD dwLastOpenTime;				//РІСЂРµРјСЏ РєРѕРіРґР° РЅР°С‡Р°Р»Р°СЃСЊ Р°РЅРёРјР°С†РёСЏ РѕС‚РєСЂС‹С‚РёСЏ РєРѕРЅСЃРѕР»Рё
+	DWORD dwLastCloseTime;			//РІСЂРµРјСЏ РєРѕРіРґР° РЅР°С‡Р°Р»Р°СЃСЊ Р°РЅРёРјР°С†РёСЏ Р·Р°РєСЂС‹С‚РёСЏ РєРѕРЅСЃРѕР»Рё
+	bool bAnimation;						//С„Р»Р°Рі С‚РѕРіРѕ, С‡С‚Рѕ РїСЂРѕРёСЃС…РѕРґРёС‚ Р°РЅРёРјР°С†РёСЏ, РїРѕР»РµР·РµРЅ РґР»СЏ СЃРєРѕСЂРѕСЃС‚Рё
+	int nCursorPos;							//РїРѕР·РёС†РёСЏ РєСѓСЂСЃРѕСЂР° РІ С‚РµРєСѓС‰РµР№ СЂРµРґР°РєС‚РёСЂСѓРµРјРѕР№ СЃС‚СЂРѕРєРµ
+	int nBeginString;						//РЅР°С‡Р°Р»СЊРЅР°СЏ РѕС‚РѕР±СЂР°Р¶Р°РµРјР°СЏ СЃС‚СЂРѕРєР° РёР· СЃРїРёСЃРєР° СЃС‚СЂРѕРє
+															//0 СЃС‡РёС‚Р°РµС‚СЃСЏ СЃР°РјРѕР№ СЃРІРµР¶РµР№ СЃС‚СЂРѕС‡РєРѕР№
+	int nBeginCommand;					//С‚РµРєСѓС‰Р°СЏ РєРѕРјР°РЅРґР° РёР· Р»РѕРіР° РєРѕРјР°РЅРґ
 	DWORD m_dwColor;
-	bool bShowCursor;						//видимый ли курсор в текущий момент
-	DWORD dwLastCursorAnimatedTime;	//для анимации курсора
+	bool bShowCursor;						//РІРёРґРёРјС‹Р№ Р»Рё РєСѓСЂСЃРѕСЂ РІ С‚РµРєСѓС‰РёР№ РјРѕРјРµРЅС‚
+	DWORD dwLastCursorAnimatedTime;	//РґР»СЏ Р°РЅРёРјР°С†РёРё РєСѓСЂСЃРѕСЂР°
 	
-	std::wstring szEditString;	//текущая редактируемая строка
-	//для обработки команд
+	std::wstring szEditString;	//С‚РµРєСѓС‰Р°СЏ СЂРµРґР°РєС‚РёСЂСѓРµРјР°СЏ СЃС‚СЂРѕРєР°
+	//РґР»СЏ РѕР±СЂР°Р±РѕС‚РєРё РєРѕРјР°РЅРґ
 	typedef std::list< CPtr<IConsoleCommandHandler> > CCommandsList;
 	CCommandsList commandsChain;
 	Script consoleScript;				// console script
 
-	//это дело вызывается после считывания новой комманды из буфера
+	//СЌС‚Рѕ РґРµР»Рѕ РІС‹Р·С‹РІР°РµС‚СЃСЏ РїРѕСЃР»Рµ СЃС‡РёС‚С‹РІР°РЅРёСЏ РЅРѕРІРѕР№ РєРѕРјРјР°РЅРґС‹ РёР· Р±СѓС„РµСЂР°
 	void ParseCommand( const std::wstring &szCommand );
 	void InitConsoleScript();
 	bool RunScriptFile( const std::string &szScriptFileName );
@@ -60,11 +60,11 @@ public:
 	virtual void STDCALL ShowWindow( int _nCmdShow );
 	virtual bool STDCALL IsAnimationStage() { return bAnimation; }
 	
-	//консоля всегда занимает всю ширину экрана
+	//РєРѕРЅСЃРѕР»СЏ РІСЃРµРіРґР° Р·Р°РЅРёРјР°РµС‚ РІСЃСЋ С€РёСЂРёРЅСѓ СЌРєСЂР°РЅР°
 	virtual void STDCALL Reposition( const CTRect<float> &rcParent );
-	//это нужно для анимации консоли, свертывания и развертывания
+	//СЌС‚Рѕ РЅСѓР¶РЅРѕ РґР»СЏ Р°РЅРёРјР°С†РёРё РєРѕРЅСЃРѕР»Рё, СЃРІРµСЂС‚С‹РІР°РЅРёСЏ Рё СЂР°Р·РІРµСЂС‚С‹РІР°РЅРёСЏ
 	virtual bool STDCALL Update( const NTimer::STime &currTime );
-	//кроме рисования окошка, здесь должны отображаться строчки
+	//РєСЂРѕРјРµ СЂРёСЃРѕРІР°РЅРёСЏ РѕРєРѕС€РєР°, Р·РґРµСЃСЊ РґРѕР»Р¶РЅС‹ РѕС‚РѕР±СЂР°Р¶Р°С‚СЊСЃСЏ СЃС‚СЂРѕС‡РєРё
 	virtual void STDCALL Draw( interface IGFX *pGFX );
 	virtual void STDCALL Visit( interface ISceneVisitor *pVisitor );
 

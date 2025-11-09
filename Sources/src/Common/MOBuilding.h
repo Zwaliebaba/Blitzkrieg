@@ -14,7 +14,7 @@ class CMOBuilding : public CTRefCount<IMOContainer>
 	DECLARE_SERIALIZE;
 	//
 	CPassangersList passangers;
-	mutable CPtr<IText> pLocalName;				// localized name of this building (ZB "Русский сортир")
+	mutable CPtr<IText> pLocalName;				// localized name of this building (ZB "вЂ“СѓСЃСЃРєРёР№ СЃРѕСЂС‚РёСЂ")
 	int nSeason;													// season
 	CPtr<IVisObj> pGarbage;								// garbage around damaged or destroyed building
 	float fTraceSpeedCoeff;

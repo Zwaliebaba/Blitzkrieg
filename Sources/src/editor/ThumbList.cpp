@@ -138,12 +138,12 @@ void CThumbList::OnKeydownListThumb(NMHDR* pNMHDR, LRESULT* pResult)
 		int nSelected = GetSelectedItemIndex();
 		if ( nSelected != -1 )
 		{
-			//Удаляем item из дерева
+			//РЈРґР°Р»СЏРµРј item РёР· РґРµСЂРµРІР°
 			DWORD dwData = GetUserDataForItem( nSelected );
-			if ( dwData == 0 )			//Значит это не Selected Thumb List
+			if ( dwData == 0 )			//Р—РЅР°С‡РёС‚ СЌС‚Рѕ РЅРµ Selected Thumb List
 				return;
 
-			ASSERT( bHorizontal == true );			//это дополнительное условие что выбран Selected Thumb List
+			ASSERT( bHorizontal == true );			//СЌС‚Рѕ РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅРѕРµ СѓСЃР»РѕРІРёРµ С‡С‚Рѕ РІС‹Р±СЂР°РЅ Selected Thumb List
 			int nID = GetDlgCtrlID();
 			GetParent()->PostMessage( WM_THUMB_LIST_DELETE, nID );
 			DeleteItem( nSelected );
@@ -165,7 +165,7 @@ void CThumbList::SetActiveThumbItems( SThumbItems *pNewActiveThumbs, CImageList 
 		return;
 	}
 
-	if ( pIML )			//Если валидный image list то его устанавливаю, иначе оставляю старый
+	if ( pIML )			//Р•СЃР»Рё РІР°Р»РёРґРЅС‹Р№ image list С‚Рѕ РµРіРѕ СѓСЃС‚Р°РЅР°РІР»РёРІР°СЋ, РёРЅР°С‡Рµ РѕСЃС‚Р°РІР»СЏСЋ СЃС‚Р°СЂС‹Р№
 	{
 		bValidIML = true;
 		m_ListThumbnail.SetImageList( pIML, LVSIL_NORMAL);
@@ -209,7 +209,7 @@ int CThumbList::LoadImageToImageList( CImageList *pIML, char *szFileName, const 
 	int nImageCount = pIML->GetImageCount();
 	pIML->SetImageCount( nImageCount + 1 );
 	
-	//Создаем новый image и ресайзируем старый в него
+	//РЎРѕР·РґР°РµРј РЅРѕРІС‹Р№ image Рё СЂРµСЃР°Р№Р·РёСЂСѓРµРј СЃС‚Р°СЂС‹Р№ РІ РЅРµРіРѕ
 	int nSizeX = pImage->GetSizeX();
 	int nSizeY = pImage->GetSizeY();
 	double fRateX = (double) THUMBNAIL_WIDTH/nSizeX;
@@ -224,7 +224,7 @@ int CThumbList::LoadImageToImageList( CImageList *pIML, char *szFileName, const 
 	
 	if ( bShowAlpha )
 	{
-		//отображаем только альфа информацию
+		//РѕС‚РѕР±СЂР°Р¶Р°РµРј С‚РѕР»СЊРєРѕ Р°Р»СЊС„Р° РёРЅС„РѕСЂРјР°С†РёСЋ
 		SColor *p = pScaleImage->GetLFB();
 		for ( int y=0; y<nSizeY; y++ )
 		{
@@ -235,7 +235,7 @@ int CThumbList::LoadImageToImageList( CImageList *pIML, char *szFileName, const 
 		}
 	}
 	
-	//Создаем центрированный image чтобы он был посередине картинки
+	//РЎРѕР·РґР°РµРј С†РµРЅС‚СЂРёСЂРѕРІР°РЅРЅС‹Р№ image С‡С‚РѕР±С‹ РѕРЅ Р±С‹Р» РїРѕСЃРµСЂРµРґРёРЅРµ РєР°СЂС‚РёРЅРєРё
 	if ( nSizeY < THUMBNAIL_HEIGHT )
 	{
 		int nUp = (THUMBNAIL_HEIGHT - nSizeY)/2;
@@ -260,7 +260,7 @@ int CThumbList::LoadImageToImageList( CImageList *pIML, char *szFileName, const 
 	NI_ASSERT( nSizeX == 100 );
 	NI_ASSERT( nSizeY == 100 );
 
-	//Создаем HBITMAP чтобы прогрузить её в image list
+	//РЎРѕР·РґР°РµРј HBITMAP С‡С‚РѕР±С‹ РїСЂРѕРіСЂСѓР·РёС‚СЊ РµС‘ РІ image list
 	CBitmap bitmap;
 	BITMAPINFO bmi;
 	bmi.bmiHeader.biSize  = sizeof( bmi.bmiHeader );
@@ -279,7 +279,7 @@ int CThumbList::LoadImageToImageList( CImageList *pIML, char *szFileName, const 
 	ReleaseDC( pDC );
 	bitmap.Attach( hbm );
 	
-	//Загружаем битмапу в image list
+	//Р—Р°РіСЂСѓР¶Р°РµРј Р±РёС‚РјР°РїСѓ РІ image list
 //	return pIML->Replace( nImageCount, &bitmap, NULL );
 	pIML->Replace( nImageCount, &bitmap, NULL );
 	return nImageCount;
@@ -296,11 +296,11 @@ void CThumbList::LoadAllImagesFromDir( SThumbItems *pThumbItems, CImageList *pIM
 	HANDLE hFind = NULL;
 	WIN32_FIND_DATA ffData;
 
-	//Почищаем все предыдущие items
+	//РџРѕС‡РёС‰Р°РµРј РІСЃРµ РїСЂРµРґС‹РґСѓС‰РёРµ items
 	pThumbItems->thumbDataList.clear();
-	pIML->SetImageCount( 1 );							//Я хочу оставить одну иконку которая подсказывает о несуществовании картинки
+	pIML->SetImageCount( 1 );							//РЇ С…РѕС‡Сѓ РѕСЃС‚Р°РІРёС‚СЊ РѕРґРЅСѓ РёРєРѕРЅРєСѓ РєРѕС‚РѕСЂР°СЏ РїРѕРґСЃРєР°Р·С‹РІР°РµС‚ Рѕ РЅРµСЃСѓС‰РµСЃС‚РІРѕРІР°РЅРёРё РєР°СЂС‚РёРЅРєРё
 
-	//Ищем в директории все .tga файлы и загружаем их
+	//РС‰РµРј РІ РґРёСЂРµРєС‚РѕСЂРёРё РІСЃРµ .tga С„Р°Р№Р»С‹ Рё Р·Р°РіСЂСѓР¶Р°РµРј РёС…
 	if ( strlen(szDir) > 0 )
 		strPattern = (CString)szDir + "\\*.tga";
 	else
@@ -344,7 +344,7 @@ void CThumbList::LoadImageIndexFromThumbs( SThumbItems *pAllItems, CImageList *p
 {
 	NI_ASSERT( pAllItems != 0 && pIML != 0 );
 
-	if ( pIML )			//Если валидный image list то его устанавливаю, иначе оставляю старый
+	if ( pIML )			//Р•СЃР»Рё РІР°Р»РёРґРЅС‹Р№ image list С‚Рѕ РµРіРѕ СѓСЃС‚Р°РЅР°РІР»РёРІР°СЋ, РёРЅР°С‡Рµ РѕСЃС‚Р°РІР»СЏСЋ СЃС‚Р°СЂС‹Р№
 	{
 		m_ListThumbnail.SetImageList( pIML, LVSIL_NORMAL);
 		bValidIML = true;
@@ -353,13 +353,13 @@ void CThumbList::LoadImageIndexFromThumbs( SThumbItems *pAllItems, CImageList *p
 	if ( !m_pActiveThumbItems )
 		return;
 
-	//Ищу в AllItems имена, соответствующие именам внутри m_pActiveThumbItems
-	//Если нахожу имя, то беру его image index, иначе подставляю 0 image - неправильная иконка
-	//Тут считается, что список в AllItems отсортирован
+	//РС‰Сѓ РІ AllItems РёРјРµРЅР°, СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РёРµ РёРјРµРЅР°Рј РІРЅСѓС‚СЂРё m_pActiveThumbItems
+	//Р•СЃР»Рё РЅР°С…РѕР¶Сѓ РёРјСЏ, С‚Рѕ Р±РµСЂСѓ РµРіРѕ image index, РёРЅР°С‡Рµ РїРѕРґСЃС‚Р°РІР»СЏСЋ 0 image - РЅРµРїСЂР°РІРёР»СЊРЅР°СЏ РёРєРѕРЅРєР°
+	//РўСѓС‚ СЃС‡РёС‚Р°РµС‚СЃСЏ, С‡С‚Рѕ СЃРїРёСЃРѕРє РІ AllItems РѕС‚СЃРѕСЂС‚РёСЂРѕРІР°РЅ
 	CListOfThumbData::iterator it=m_pActiveThumbItems->thumbDataList.begin();
 	for ( ; it!=m_pActiveThumbItems->thumbDataList.end(); ++it )
 	{
-		it->nImageId = 0;				//красная иконка
+		it->nImageId = 0;				//РєСЂР°СЃРЅР°СЏ РёРєРѕРЅРєР°
 		int nRes = -1;
 	
 		CListOfThumbData::iterator allIt=pAllItems->thumbDataList.begin();
@@ -384,11 +384,11 @@ void CThumbList::LoadImagesFromFileNameList( SThumbItems *pThumbItems, const cha
 {
 	NI_ASSERT( pThumbItems != 0 );
 	
-	//Почищаем все предыдущие items
+	//РџРѕС‡РёС‰Р°РµРј РІСЃРµ РїСЂРµРґС‹РґСѓС‰РёРµ items
 //	pThumbItems->thumbDataList.clear();
 	pThumbItems->imageListThumb.SetImageCount( 0 );
 	
-	//Ищем в директории .tga файлы из списка внутри pThumbItems и загружаем их
+	//РС‰РµРј РІ РґРёСЂРµРєС‚РѕСЂРёРё .tga С„Р°Р№Р»С‹ РёР· СЃРїРёСЃРєР° РІРЅСѓС‚СЂРё pThumbItems Рё Р·Р°РіСЂСѓР¶Р°РµРј РёС…
 	for ( CListOfThumbData::iterator it=pThumbItems->thumbDataList.begin(); it!=pThumbItems->thumbDataList.end(); ++it )
 	{
 		char szFileName[255];
@@ -412,7 +412,7 @@ int CThumbList::InsertItemToEnd( const char *szItemName, int nImageIndex )
 	int nItemCount = m_ListThumbnail.GetItemCount();
 	m_ListThumbnail.InsertItem( nItemCount, szItemName, nImageIndex );
 	m_ListThumbnail.Arrange( LVA_DEFAULT );
-	return nItemCount;			//должен совпадать с результатом возвращаемым insertItem()
+	return nItemCount;			//РґРѕР»Р¶РµРЅ СЃРѕРІРїР°РґР°С‚СЊ СЃ СЂРµР·СѓР»СЊС‚Р°С‚РѕРј РІРѕР·РІСЂР°С‰Р°РµРјС‹Рј insertItem()
 }
 
 #ifdef OLD
@@ -432,7 +432,7 @@ int CThumbList::InsertItemAfterSelection( char *szFileName, const char *szDir )
 	int nSelItemIndex = GetSelectedItemIndex();
 	if ( nSelItemIndex == -1 )
 	{
-		//Вставляем item в конец списка
+		//Р’СЃС‚Р°РІР»СЏРµРј item РІ РєРѕРЅРµС† СЃРїРёСЃРєР°
 		int nItemCount = m_ListThumbnail.GetItemCount();
 //		m_ListThumbnail.InsertItem( nItemCount, szFileName, newItem.nImageId );
 		m_ListThumbnail.InsertItem( 0, szFileName, newItem.nImageId );
@@ -440,7 +440,7 @@ int CThumbList::InsertItemAfterSelection( char *szFileName, const char *szDir )
 		return nItemCount;
 	}
 
-	//Вставляем item после последнего выделенного item
+	//Р’СЃС‚Р°РІР»СЏРµРј item РїРѕСЃР»Рµ РїРѕСЃР»РµРґРЅРµРіРѕ РІС‹РґРµР»РµРЅРЅРѕРіРѕ item
 //	m_ListThumbnail.InsertItem( nSelItemIndex + 1, szFileName, newItem.nImageId );
 //	int nnn = m_ListThumbnail.InsertItem( 0, szFileName, newItem.nImageId );
 /*
@@ -448,7 +448,7 @@ int CThumbList::InsertItemAfterSelection( char *szFileName, const char *szDir )
 		0, szFileName, 0, 0, newItem.nImageId, 0 );
 */
 
-	//Сдвигаем selection, новый item должен стать выделенным
+	//РЎРґРІРёРіР°РµРј selection, РЅРѕРІС‹Р№ item РґРѕР»Р¶РµРЅ СЃС‚Р°С‚СЊ РІС‹РґРµР»РµРЅРЅС‹Рј
 	m_ListThumbnail.InsertItem( nSelItemIndex, szFileName, newItem.nImageId );
 	m_ListThumbnail.SetItemState( nSelItemIndex + 1, LVIS_SELECTED, LVIS_SELECTED );
 	m_ListThumbnail.Arrange( LVA_ALIGNTOP );
@@ -523,7 +523,7 @@ void CThumbList::SelectItem( int nIndex )
 
 void CThumbList::DeleteItem( int nIndex )
 {
-	//Удаляем из нашего списка
+	//РЈРґР°Р»СЏРµРј РёР· РЅР°С€РµРіРѕ СЃРїРёСЃРєР°
 	int i = 0;
 	for ( CListOfThumbData::iterator it=m_pActiveThumbItems->thumbDataList.begin(); it!=m_pActiveThumbItems->thumbDataList.end(); ++it )
 	{
@@ -532,9 +532,9 @@ void CThumbList::DeleteItem( int nIndex )
 		if ( i == nIndex )
 		{
 /*
-			//Удаляем из image list
-			//Пока это закомментарено ибо при удалении сдвигаются индексы в image list 
-			//и придется пересоздавать все items в list control с новыми индексами
+			//РЈРґР°Р»СЏРµРј РёР· image list
+			//РџРѕРєР° СЌС‚Рѕ Р·Р°РєРѕРјРјРµРЅС‚Р°СЂРµРЅРѕ РёР±Рѕ РїСЂРё СѓРґР°Р»РµРЅРёРё СЃРґРІРёРіР°СЋС‚СЃСЏ РёРЅРґРµРєСЃС‹ РІ image list 
+			//Рё РїСЂРёРґРµС‚СЃСЏ РїРµСЂРµСЃРѕР·РґР°РІР°С‚СЊ РІСЃРµ items РІ list control СЃ РЅРѕРІС‹РјРё РёРЅРґРµРєСЃР°РјРё
 			m_pActiveThumbItems->imageListThumb.Remove( it->nImageId );
 */
 			m_pActiveThumbItems->thumbDataList.erase( it );
@@ -544,7 +544,7 @@ void CThumbList::DeleteItem( int nIndex )
 	}
 
 	
-	//Удаляем из ListCtrl
+	//РЈРґР°Р»СЏРµРј РёР· ListCtrl
 	m_ListThumbnail.DeleteItem( nIndex );
 	m_ListThumbnail.Arrange( LVA_ALIGNTOP );
 	m_ListThumbnail.UpdateWindow();

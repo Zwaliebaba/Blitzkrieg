@@ -31,11 +31,11 @@ public:
 
 // Operations
 public:
-	virtual void Init( IGFX *_pGFX );			//ининциализация
+	virtual void Init( IGFX *_pGFX );			//РёРЅРёРЅС†РёР°Р»РёР·Р°С†РёСЏ
 	virtual void ShowFrameWindows( int nCommand );
 	virtual void GFXDraw();
 
-	BOOL Run();										//Вызывается из EditorApp OnIdle()
+	BOOL Run();										//Р’С‹Р·С‹РІР°РµС‚СЃСЏ РёР· EditorApp OnIdle()
 	bool IsRunning() { return bRunning; }
 
 	void LoadSprites();
@@ -56,7 +56,7 @@ private:
 	// view for the client area of the frame.
 	CPropertyDockBar *pPropertyDockBar;
 	CTemplatePropsTreeItem *pTemplatePropsItem;
-	bool bRunning;								//есть два состояния, редактирование и предварительный просмотр
+	bool bRunning;								//РµСЃС‚СЊ РґРІР° СЃРѕСЃС‚РѕСЏРЅРёСЏ, СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёРµ Рё РїСЂРµРґРІР°СЂРёС‚РµР»СЊРЅС‹Р№ РїСЂРѕСЃРјРѕС‚СЂ
 	
 	CObj<IUIScreen> m_pScreen;
 	CPtr<IUIContainer> m_pContainer;
@@ -74,7 +74,7 @@ private:
 		MODE_DRAG,
 		MODE_DRAW
 	};
-	enum EMode m_mode;						//текущий мод, определяет активное действие мышки, например перетаскивание объекта или рисование нового
+	enum EMode m_mode;						//С‚РµРєСѓС‰РёР№ РјРѕРґ, РѕРїСЂРµРґРµР»СЏРµС‚ Р°РєС‚РёРІРЅРѕРµ РґРµР№СЃС‚РІРёРµ РјС‹С€РєРё, РЅР°РїСЂРёРјРµСЂ РїРµСЂРµС‚Р°СЃРєРёРІР°РЅРёРµ РѕР±СЉРµРєС‚Р° РёР»Рё СЂРёСЃРѕРІР°РЅРёРµ РЅРѕРІРѕРіРѕ
 
 	CVec2 m_beginDrag;
 
@@ -90,25 +90,25 @@ private:
 		R_RIGHT_BOTTOM,
 		R_LEFT_BOTTOM
 	};
-	EResizeMode m_resizeMode;			//для определения направления resize
+	EResizeMode m_resizeMode;			//РґР»СЏ РѕРїСЂРµРґРµР»РµРЅРёСЏ РЅР°РїСЂР°РІР»РµРЅРёСЏ resize
 
 	// undo/redo operations
 	typedef list< CPtr<IGUIUndo> > CUndoStack;
 	CUndoStack m_undoStack;
 	CPtr<IGUIUndo> pUnchanged;
 
-	//для Run Mode
+	//РґР»СЏ Run Mode
 //	CVec2 vCursorPos;
 	int mouseState;
 	NInput::CCommandRegistrator standardMsgs;
 	
 protected:
-	virtual BOOL SpecificTranslateMessage( MSG *pMsg );			//специфичная обработка сообщений для модуля
-	virtual void SpecificInit();														//для инициализации внутренних данных после загрузки проекта или создании нового
+	virtual BOOL SpecificTranslateMessage( MSG *pMsg );			//СЃРїРµС†РёС„РёС‡РЅР°СЏ РѕР±СЂР°Р±РѕС‚РєР° СЃРѕРѕР±С‰РµРЅРёР№ РґР»СЏ РјРѕРґСѓР»СЏ
+	virtual void SpecificInit();														//РґР»СЏ РёРЅРёС†РёР°Р»РёР·Р°С†РёРё РІРЅСѓС‚СЂРµРЅРЅРёС… РґР°РЅРЅС‹С… РїРѕСЃР»Рµ Р·Р°РіСЂСѓР·РєРё РїСЂРѕРµРєС‚Р° РёР»Рё СЃРѕР·РґР°РЅРёРё РЅРѕРІРѕРіРѕ
 	virtual void SpecificClearBeforeBatchMode();
-	virtual void SpecificSave( IDataTree *pDT );						//вызывается при записи проекта, нужно только в GUI composer
+	virtual void SpecificSave( IDataTree *pDT );						//РІС‹Р·С‹РІР°РµС‚СЃСЏ РїСЂРё Р·Р°РїРёСЃРё РїСЂРѕРµРєС‚Р°, РЅСѓР¶РЅРѕ С‚РѕР»СЊРєРѕ РІ GUI composer
 
-	//экспортирует один проект, если все ОК, возвращает 0, иначе код ошибки
+	//СЌРєСЃРїРѕСЂС‚РёСЂСѓРµС‚ РѕРґРёРЅ РїСЂРѕРµРєС‚, РµСЃР»Рё РІСЃРµ РћРљ, РІРѕР·РІСЂР°С‰Р°РµС‚ 0, РёРЅР°С‡Рµ РєРѕРґ РѕС€РёР±РєРё
 	virtual bool ExportFrameData( IDataTree *pDT, const char *pszProjectName, const char *pszResultFileName, CTreeItem *pRootItem );
 //	virtual FILETIME FindMaximalSourceTime( const char *pszProjectName, CTreeItem *pRootItem );
 //	virtual FILETIME FindMinimalExportFileTime( const char *pszResultFileName, CTreeItem *pRootItem );

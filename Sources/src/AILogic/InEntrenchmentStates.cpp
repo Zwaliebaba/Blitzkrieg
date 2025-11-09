@@ -106,10 +106,10 @@ CSoldierRestInEntrenchmentState::CSoldierRestInEntrenchmentState( CSoldier *_pSo
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CSoldierRestInEntrenchmentState::SetUnitTo( CEntrenchment *pEntrenchment )
 {
-	// òîëüêî çàø¸ë â îêîï
+	// Ñ‚Ð¾Ð»ÑŒÐºÐ¾ Ð·Ð°ÑˆÑ‘Ð» Ð² Ð¾ÐºÐ¾Ð¿
 	if ( pEntrenchment != 0 && !pSoldier->IsInEntrenchment())
 		pSoldier->SetInEntrenchment( pEntrenchment );		
-	// óæå òàì ñèäèò
+	// ÑƒÐ¶Ðµ Ñ‚Ð°Ð¼ ÑÐ¸Ð´Ð¸Ñ‚
 	else
 	{
 		//NI_ASSERT_T( pSoldier->IsInEntrenchment(), "Wrong unit state" );
@@ -161,12 +161,12 @@ CSoldierAttackInEtrenchState::CSoldierAttackInEtrenchState( CSoldier *_pSoldier,
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CSoldierAttackInEtrenchState::AnalyzeCurrentState()
 {
-	// ìîæíî âûñòðåëèòü è ïðîáèòü áðîíþ
+	// Ð¼Ð¾Ð¶Ð½Ð¾ Ð²Ñ‹ÑÑ‚Ñ€ÐµÐ»Ð¸Ñ‚ÑŒ Ð¸ Ð¿Ñ€Ð¾Ð±Ð¸Ñ‚ÑŒ Ð±Ñ€Ð¾Ð½ÑŽ
 	if ( pGun->InFireRange( pEnemy ) )
 	{
 		if ( pGun->CanShootToUnit( pEnemy ) )
 		{
-			// âûñòðåëèòü
+			// Ð²Ñ‹ÑÑ‚Ñ€ÐµÐ»Ð¸Ñ‚ÑŒ
 			pSoldier->RegisterAsBored( ACK_BORED_ATTACK );
 			pGun->StartEnemyBurst( pEnemy, bAim );
 			bAim = false;
@@ -214,13 +214,13 @@ void CSoldierAttackInEtrenchState::Segment()
 				FinishState();
 			}
 		}
-		// íå ìîìåíò ñòðåëüáû
+		// Ð½Ðµ Ð¼Ð¾Ð¼ÐµÐ½Ñ‚ ÑÑ‚Ñ€ÐµÐ»ÑŒÐ±Ñ‹
 		else if ( !pGun->IsFiring() )
 		{
 			damageToEnemyUpdater.SetDamageToEnemy( pSoldier, pEnemy, pGun );
 //			if ( bSwarmAttack )
 //				pSoldier->AnalyzeTargetScan( pEnemy, damageToEnemyUpdater.IsDamageUpdated(), false );
-			// åñëè âðàã ì¸ðòâ èëè åãî íå âèäíî èëè ñòðåëÿåì ñàìè ïî ñåáå èëè ïîðà çàêàí÷èâàòü ñòðåëüáó
+			// ÐµÑÐ»Ð¸ Ð²Ñ€Ð°Ð³ Ð¼Ñ‘Ñ€Ñ‚Ð² Ð¸Ð»Ð¸ ÐµÐ³Ð¾ Ð½Ðµ Ð²Ð¸Ð´Ð½Ð¾ Ð¸Ð»Ð¸ ÑÑ‚Ñ€ÐµÐ»ÑÐµÐ¼ ÑÐ°Ð¼Ð¸ Ð¿Ð¾ ÑÐµÐ±Ðµ Ð¸Ð»Ð¸ Ð¿Ð¾Ñ€Ð° Ð·Ð°ÐºÐ°Ð½Ñ‡Ð¸Ð²Ð°Ñ‚ÑŒ ÑÑ‚Ñ€ÐµÐ»ÑŒÐ±Ñƒ
 			if ( !IsValidObj( pEnemy ) ||
 					 !pEnemy->IsVisible( pSoldier->GetParty() ) || pEnemy.GetPtr() == pSoldier || bFinish ||
 					 pEnemy->GetParty() != nEnemyParty )

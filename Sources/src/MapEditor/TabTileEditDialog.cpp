@@ -126,7 +126,7 @@ void CTabTileEditDialog::CreateImageList()
 		tilesImageList.Create( TEFConsts::THUMBNAILTILE_WIDTH, TEFConsts::THUMBNAILTILE_HEIGHT, ILC_COLOR24, 0, 10 );
 		m_TilesList.SetImageList( &tilesImageList, LVSIL_NORMAL );
 		
-		//для отсутствующих тайлов
+		//РґР»СЏ РѕС‚СЃСѓС‚СЃС‚РІСѓСЋС‰РёС… С‚Р°Р№Р»РѕРІ
 		int nImageAdded = 0;
 		{
 			const int nImageAddedIndex = tilesImageList.Add( &defaultObjectBitmap, zeroColor );
@@ -139,26 +139,26 @@ void CTabTileEditDialog::CreateImageList()
 			CPtr<IDataStream> pDescStream = pDataStorage->OpenStream( NStr::Format( "%stileset.xml", CMapInfo::SEASON_FOLDERS[nSeason] ), STREAM_ACCESS_READ );
 			if ( pImageStream && pDescStream )
 			{
-				//картинка
+				//РєР°СЂС‚РёРЅРєР°
 				CPtr<IImage> pImage;
 				{
 					CPtr<IDDSImage> pDDSImage = pImageProcessor->LoadDDSImage( pImageStream );
 					pImage = pImageProcessor->Decompress( pDDSImage );
 				}
-				//описатель
+				//РѕРїРёСЃР°С‚РµР»СЊ
 				STilesetDesc tilesetDesc;
 				{
 					CTreeAccessor tree = CreateDataTreeSaver( pDescStream, IDataTree::READ );
 					tree.Add( "tileset", &tilesetDesc );		
 				}			
 				
-				//создаем картинки и помещаем их в ImageList
+				//СЃРѕР·РґР°РµРј РєР°СЂС‚РёРЅРєРё Рё РїРѕРјРµС‰Р°РµРј РёС… РІ ImageList
 				for ( int nTileIndex = 0; nTileIndex < tilesetDesc.terrtypes.size(); ++nTileIndex )
 				{
 					const int nMapIndex = tilesetDesc.terrtypes[nTileIndex].tiles[0].nIndex;
 					const STileMapsDesc &rTileMapsDesc = tilesetDesc.tilemaps[nMapIndex];
 
-					//первый тайл
+					//РїРµСЂРІС‹Р№ С‚Р°Р№Р»
 					CPtr<IImage> pTempImage;
 					if ( rTileMapsDesc.maps[3].y > rTileMapsDesc.maps[0].y )
 					{
@@ -191,7 +191,7 @@ void CTabTileEditDialog::CreateImageList()
 					const nSizeX = pScaleImage->GetSizeX();
 					const nSizeY = pScaleImage->GetSizeY();
 
-					//маска
+					//РјР°СЃРєР°
 					if ( pMaskImage )
 					{
 						CPtr<IImage> pScaleMaskImage = pImageProcessor->CreateScale( pMaskImage, fRate, ISM_LANCZOS3 );
@@ -205,7 +205,7 @@ void CTabTileEditDialog::CreateImageList()
 						pScaleImage->ModulateColorFrom(	pScaleMaskImage, &modulateRect, 0, 0 );
 					}
 					
-					//центровка
+					//С†РµРЅС‚СЂРѕРІРєР°
 					if ( nSizeY < TEFConsts::THUMBNAILTILE_HEIGHT )
 					{
 						int nUp = ( TEFConsts::THUMBNAILTILE_HEIGHT - nSizeY ) / 2;
@@ -231,7 +231,7 @@ void CTabTileEditDialog::CreateImageList()
 
 					objectBitmap.DeleteObject();
 					
-					//создаем картинку 
+					//СЃРѕР·РґР°РµРј РєР°СЂС‚РёРЅРєСѓ 
 					BITMAPINFO bmi;
 					bmi.bmiHeader.biSize  = sizeof( bmi.bmiHeader );
 					bmi.bmiHeader.biWidth  = TEFConsts::THUMBNAILTILE_WIDTH;
@@ -286,7 +286,7 @@ void CTabTileEditDialog::CreateTilesList( const std::string &rszSeasonFolder, in
 				STilesetDesc tilesetDesc;
 				if ( LoadDataResource( NStr::Format( "%stileset", CMapInfo::SEASON_FOLDERS[nSeason] ), "", false, 0, "tileset", tilesetDesc ) )
 				{
-					//по тайлам пробегаем
+					//РїРѕ С‚Р°Р№Р»Р°Рј РїСЂРѕР±РµРіР°РµРј
 					for ( int nTileIndex = 0; nTileIndex < tilesetDesc.terrtypes.size(); ++nTileIndex )
 					{
 						const int nImageIndex = seasonTilesIndices[MAKELPARAM( nSeason, nTileIndex )];

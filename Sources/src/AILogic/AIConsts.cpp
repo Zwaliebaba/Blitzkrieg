@@ -1,18 +1,18 @@
 #include "stdafx.h"
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// стандартный угол обзора
+// СЃС‚Р°РЅРґР°СЂС‚РЅС‹Р№ СѓРіРѕР» РѕР±Р·РѕСЂР°
 const WORD SConsts::STANDART_VIS_ANGLE = 32768;
 
-// расстояние, в котором пересчитать туман для юнитов при удалении стат. объекта
+// СЂР°СЃСЃС‚РѕСЏРЅРёРµ, РІ РєРѕС‚РѕСЂРѕРј РїРµСЂРµСЃС‡РёС‚Р°С‚СЊ С‚СѓРјР°РЅ РґР»СЏ СЋРЅРёС‚РѕРІ РїСЂРё СѓРґР°Р»РµРЅРёРё СЃС‚Р°С‚. РѕР±СЉРµРєС‚Р°
 const int SConsts::MAX_DIST_TO_RECALC_FOG = 55 * SConsts::TILE_SIZE;
 
 const int SConsts::TURN_TOLERANCE = 0;
-// при какой разнице в угле нужно гладко поворачиваться
+// РїСЂРё РєР°РєРѕР№ СЂР°Р·РЅРёС†Рµ РІ СѓРіР»Рµ РЅСѓР¶РЅРѕ РіР»Р°РґРєРѕ РїРѕРІРѕСЂР°С‡РёРІР°С‚СЊСЃСЏ
 const WORD SConsts::DIR_DIFF_TO_SMOOTH_TURNING = 2000;
-// насколько forward iteration смотреть вперёд при хождении вдоль сплайна
+// РЅР°СЃРєРѕР»СЊРєРѕ forward iteration СЃРјРѕС‚СЂРµС‚СЊ РІРїРµСЂС‘Рґ РїСЂРё С…РѕР¶РґРµРЅРёРё РІРґРѕР»СЊ СЃРїР»Р°Р№РЅР°
 const int SConsts::NUMBER_ITERS_TO_LOOK_AHEAD = 7;
 
-// максимальная длина пути в тайлах, при котором можно ехать задом
+// РјР°РєСЃРёРјР°Р»СЊРЅР°СЏ РґР»РёРЅР° РїСѓС‚Рё РІ С‚Р°Р№Р»Р°С…, РїСЂРё РєРѕС‚РѕСЂРѕРј РјРѕР¶РЅРѕ РµС…Р°С‚СЊ Р·Р°РґРѕРј
 const int SConsts::MAX_LEN_TO_GO_BACKWARD = 8;
 
 const int SConsts::SPEED_FACTOR = 800;
@@ -26,7 +26,7 @@ const int SConsts::CELL_SIZE = SConsts::CELL_COEFF * SConsts::TILE_SIZE;			// mu
 const int SConsts::BIG_CELL_COEFF = 8;
 const int SConsts::BIG_CELL_SIZE = SConsts::BIG_CELL_COEFF * SConsts::TILE_SIZE;
 
-// размер ячейки для записи разорвавшихся снарядов
+// СЂР°Р·РјРµСЂ СЏС‡РµР№РєРё РґР»СЏ Р·Р°РїРёСЃРё СЂР°Р·РѕСЂРІР°РІС€РёС…СЃСЏ СЃРЅР°СЂСЏРґРѕРІ
 const int SConsts::HIT_CELL_COEFF = 8;
 const int SConsts::HIT_CELL_SIZE = SConsts::HIT_CELL_COEFF * SConsts::TILE_SIZE;
 
@@ -40,107 +40,107 @@ const int SConsts::BIG_PATH_SHIFT = 10;
 const int SConsts::AI_START_VECTOR_SIZE = 10;
 
 //
-// максимальное асстояние для того, чтобы юниты были в одной "простой" группе
+// РјР°РєСЃРёРјР°Р»СЊРЅРѕРµ Р°СЃСЃС‚РѕСЏРЅРёРµ РґР»СЏ С‚РѕРіРѕ, С‡С‚РѕР±С‹ СЋРЅРёС‚С‹ Р±С‹Р»Рё РІ РѕРґРЅРѕР№ "РїСЂРѕСЃС‚РѕР№" РіСЂСѓРїРїРµ
 const int SConsts::GROUP_DISTANCE = 40 * SConsts::TILE_SIZE;
 
-// периоды сканирования при поиске ближайшего врага для antiartillery борьбы
+// РїРµСЂРёРѕРґС‹ СЃРєР°РЅРёСЂРѕРІР°РЅРёСЏ РїСЂРё РїРѕРёСЃРєРµ Р±Р»РёР¶Р°Р№С€РµРіРѕ РІСЂР°РіР° РґР»СЏ antiartillery Р±РѕСЂСЊР±С‹
 const float SConsts::ANTI_ARTILLERY_SCAN_TIME = 5000;
 
-// коэффициент для утолщения/удлинения boundRect
+// РєРѕСЌС„С„РёС†РёРµРЅС‚ РґР»СЏ СѓС‚РѕР»С‰РµРЅРёСЏ/СѓРґР»РёРЅРµРЅРёСЏ boundRect
 const float SConsts::BOUND_RECT_FACTOR = 1.0f;
-// коэффициент для утолщения/удлинения boundRect при локании тайлов
+// РєРѕСЌС„С„РёС†РёРµРЅС‚ РґР»СЏ СѓС‚РѕР»С‰РµРЅРёСЏ/СѓРґР»РёРЅРµРЅРёСЏ boundRect РїСЂРё Р»РѕРєР°РЅРёРё С‚Р°Р№Р»РѕРІ
 const float SConsts::COEFF_FOR_LOCK = 1.0f;
-	// расстояние от точки высадки транспорта до точки, куда оттуда нужно сразу же бежать
+	// СЂР°СЃСЃС‚РѕСЏРЅРёРµ РѕС‚ С‚РѕС‡РєРё РІС‹СЃР°РґРєРё С‚СЂР°РЅСЃРїРѕСЂС‚Р° РґРѕ С‚РѕС‡РєРё, РєСѓРґР° РѕС‚С‚СѓРґР° РЅСѓР¶РЅРѕ СЃСЂР°Р·Сѓ Р¶Рµ Р±РµР¶Р°С‚СЊ
 const float SConsts::DIST_FOR_LAND = 1.2f * SConsts::TILE_SIZE;
-// расстояние от точки высадки транспорта до точки, куда оттуда нужно сразу же бежать ( для проверки "пригодности" точки )
+// СЂР°СЃСЃС‚РѕСЏРЅРёРµ РѕС‚ С‚РѕС‡РєРё РІС‹СЃР°РґРєРё С‚СЂР°РЅСЃРїРѕСЂС‚Р° РґРѕ С‚РѕС‡РєРё, РєСѓРґР° РѕС‚С‚СѓРґР° РЅСѓР¶РЅРѕ СЃСЂР°Р·Сѓ Р¶Рµ Р±РµР¶Р°С‚СЊ ( РґР»СЏ РїСЂРѕРІРµСЂРєРё "РїСЂРёРіРѕРґРЅРѕСЃС‚Рё" С‚РѕС‡РєРё )
 float SConsts::GOOD_LAND_DIST = 1.4f * SConsts::TILE_SIZE;
 
-// деление карты на ячейки для статических объектов
+// РґРµР»РµРЅРёРµ РєР°СЂС‚С‹ РЅР° СЏС‡РµР№РєРё РґР»СЏ СЃС‚Р°С‚РёС‡РµСЃРєРёС… РѕР±СЉРµРєС‚РѕРІ
 const int SConsts::STATIC_OBJ_CELL = 8;
-// деление карты на ячейки для статических container объектов
+// РґРµР»РµРЅРёРµ РєР°СЂС‚С‹ РЅР° СЏС‡РµР№РєРё РґР»СЏ СЃС‚Р°С‚РёС‡РµСЃРєРёС… container РѕР±СЉРµРєС‚РѕРІ
 const int SConsts::STATIC_CONTAINER_OBJ_CELL = 32;
 
-// скорость лечения в зданиях HP / tick
+// СЃРєРѕСЂРѕСЃС‚СЊ Р»РµС‡РµРЅРёСЏ РІ Р·РґР°РЅРёСЏС… HP / tick
 float SConsts::CURE_SPEED_IN_BUILDING = 0.001f;
-// время между концом очереди и началом возвращения turret в default position
+// РІСЂРµРјСЏ РјРµР¶РґСѓ РєРѕРЅС†РѕРј РѕС‡РµСЂРµРґРё Рё РЅР°С‡Р°Р»РѕРј РІРѕР·РІСЂР°С‰РµРЅРёСЏ turret РІ default position
 int SConsts::TIME_TO_RETURN_GUN = 5000;
-// количество сканируемых за сегмент
+// РєРѕР»РёС‡РµСЃС‚РІРѕ СЃРєР°РЅРёСЂСѓРµРјС‹С… Р·Р° СЃРµРіРјРµРЅС‚
 int SConsts::NUM_TO_SCAN_IN_SEGM = 50;
-// время между updates поведения
+// РІСЂРµРјСЏ РјРµР¶РґСѓ updates РїРѕРІРµРґРµРЅРёСЏ
 NTimer::STime SConsts::BEH_UPDATE_DURATION = 2000;
-// время между updates поведения для солдат
+// РІСЂРµРјСЏ РјРµР¶РґСѓ updates РїРѕРІРµРґРµРЅРёСЏ РґР»СЏ СЃРѕР»РґР°С‚
 NTimer::STime SConsts::SOLDIER_BEH_UPDATE_DURATION = 3000;
 NTimer::STime SConsts::AA_BEH_UPDATE_DURATION = 200;
 NTimer::STime SConsts::LONG_RANGE_ARTILLERY_UPDATE_DURATION = 5000;
-// время, которое мертвецы видят
+// РІСЂРµРјСЏ, РєРѕС‚РѕСЂРѕРµ РјРµСЂС‚РІРµС†С‹ РІРёРґСЏС‚
 NTimer::STime SConsts::DEAD_SEE_TIME = 2000;
-// время, в течении которого тревога в здании
+// РІСЂРµРјСЏ, РІ С‚РµС‡РµРЅРёРё РєРѕС‚РѕСЂРѕРіРѕ С‚СЂРµРІРѕРіР° РІ Р·РґР°РЅРёРё
 int SConsts::TIME_OF_BUILDING_ALARM = 8000;
-// время, через которое нужно камуфлироваться в состоянии idle
+// РІСЂРµРјСЏ, С‡РµСЂРµР· РєРѕС‚РѕСЂРѕРµ РЅСѓР¶РЅРѕ РєР°РјСѓС„Р»РёСЂРѕРІР°С‚СЊСЃСЏ РІ СЃРѕСЃС‚РѕСЏРЅРёРё idle
 int SConsts::TIME_BEFORE_CAMOUFLAGE = 2000;
-// время, через которое снайперу нужно камуфлироваться в состоянии idle
+// РІСЂРµРјСЏ, С‡РµСЂРµР· РєРѕС‚РѕСЂРѕРµ СЃРЅР°Р№РїРµСЂСѓ РЅСѓР¶РЅРѕ РєР°РјСѓС„Р»РёСЂРѕРІР°С‚СЊСЃСЏ РІ СЃРѕСЃС‚РѕСЏРЅРёРё idle
 int SConsts::TIME_BEFORE_SNIPER_CAMOUFLAGE = 1000;
-// время лежания под обстрелом
+// РІСЂРµРјСЏ Р»РµР¶Р°РЅРёСЏ РїРѕРґ РѕР±СЃС‚СЂРµР»РѕРј
 int SConsts::TIME_OF_LYING_UNDER_FIRE = 2000;
-// cover для лежащих - вероятность, что попадут
+// cover РґР»СЏ Р»РµР¶Р°С‰РёС… - РІРµСЂРѕСЏС‚РЅРѕСЃС‚СЊ, С‡С‚Рѕ РїРѕРїР°РґСѓС‚
 float SConsts::LYING_SOLDIER_COVER = 0.7f;
-// радиус в точках , который опрашивается, чтобы узнать, под обстрелом или нет
+// СЂР°РґРёСѓСЃ РІ С‚РѕС‡РєР°С… , РєРѕС‚РѕСЂС‹Р№ РѕРїСЂР°С€РёРІР°РµС‚СЃСЏ, С‡С‚РѕР±С‹ СѓР·РЅР°С‚СЊ, РїРѕРґ РѕР±СЃС‚СЂРµР»РѕРј РёР»Рё РЅРµС‚
 int SConsts::RADIUS_OF_HIT_NOTIFY = 5 * SConsts::TILE_SIZE;
-// периодичность проверки, под обстрелом или нет
+// РїРµСЂРёРѕРґРёС‡РЅРѕСЃС‚СЊ РїСЂРѕРІРµСЂРєРё, РїРѕРґ РѕР±СЃС‚СЂРµР»РѕРј РёР»Рё РЅРµС‚
 int SConsts::TIME_OF_HIT_NOTIFY = 1000;
 
-// радиус ( в точках ), в котором инженер видит мины
+// СЂР°РґРёСѓСЃ ( РІ С‚РѕС‡РєР°С… ), РІ РєРѕС‚РѕСЂРѕРј РёРЅР¶РµРЅРµСЂ РІРёРґРёС‚ РјРёРЅС‹
 int SConsts::MINE_VIS_RADIUS = 3 * SConsts::TILE_SIZE;
-// радиус ( в точках ), в котором инженер снимает мины
+// СЂР°РґРёСѓСЃ ( РІ С‚РѕС‡РєР°С… ), РІ РєРѕС‚РѕСЂРѕРј РёРЅР¶РµРЅРµСЂ СЃРЅРёРјР°РµС‚ РјРёРЅС‹
 int SConsts::MINE_CLEAR_RADIUS = 7 * SConsts::TILE_SIZE;
-// максимальное расстояние убегания от центра формации
+// РјР°РєСЃРёРјР°Р»СЊРЅРѕРµ СЂР°СЃСЃС‚РѕСЏРЅРёРµ СѓР±РµРіР°РЅРёСЏ РѕС‚ С†РµРЅС‚СЂР° С„РѕСЂРјР°С†РёРё
 int SConsts::RADIUS_OF_FORMATION = 10 * SConsts::TILE_SIZE;
 
-// радиус, в котором можно бегать при guard state
+// СЂР°РґРёСѓСЃ, РІ РєРѕС‚РѕСЂРѕРј РјРѕР¶РЅРѕ Р±РµРіР°С‚СЊ РїСЂРё guard state
 float SConsts::GUARD_STATE_RADIUS = 10 * SConsts::TILE_SIZE;
 
-// множитель на скорость при ползании
+// РјРЅРѕР¶РёС‚РµР»СЊ РЅР° СЃРєРѕСЂРѕСЃС‚СЊ РїСЂРё РїРѕР»Р·Р°РЅРёРё
 float SConsts::LYING_SPEED_FACTOR = 0.5f;
 
-// радиус для call for help
+// СЂР°РґРёСѓСЃ РґР»СЏ call for help
 int SConsts::CALL_FOR_HELP_RADIUS = 20 * SConsts::TILE_SIZE;
 int SConsts::AI_CALL_FOR_HELP_RADIUS = 20 * SConsts::TILE_SIZE;
 
-// время, которое солдаты собираются в здании перед участием в штурме
+// РІСЂРµРјСЏ, РєРѕС‚РѕСЂРѕРµ СЃРѕР»РґР°С‚С‹ СЃРѕР±РёСЂР°СЋС‚СЃСЏ РІ Р·РґР°РЅРёРё РїРµСЂРµРґ СѓС‡Р°СЃС‚РёРµРј РІ С€С‚СѓСЂРјРµ
 NTimer::STime SConsts::CAMPING_TIME = 2000;
 
-// множитель на weapon range при стрельбе солдатиков внутри объекта
+// РјРЅРѕР¶РёС‚РµР»СЊ РЅР° weapon range РїСЂРё СЃС‚СЂРµР»СЊР±Рµ СЃРѕР»РґР°С‚РёРєРѕРІ РІРЅСѓС‚СЂРё РѕР±СЉРµРєС‚Р°
 float SConsts::INSIDE_OBJ_WEAPON_FACTOR = 0.5f;
-// период времени, с которым комбатятся два солдата внутри объекта
+// РїРµСЂРёРѕРґ РІСЂРµРјРµРЅРё, СЃ РєРѕС‚РѕСЂС‹Рј РєРѕРјР±Р°С‚СЏС‚СЃСЏ РґРІР° СЃРѕР»РґР°С‚Р° РІРЅСѓС‚СЂРё РѕР±СЉРµРєС‚Р°
 NTimer::STime SConsts::INSIDE_OBJ_COMBAT_PERIOD = 800;
-// время, через которое техника исчезает после смерти
+// РІСЂРµРјСЏ, С‡РµСЂРµР· РєРѕС‚РѕСЂРѕРµ С‚РµС…РЅРёРєР° РёСЃС‡РµР·Р°РµС‚ РїРѕСЃР»Рµ СЃРјРµСЂС‚Рё
 NTimer::STime SConsts::TIME_TO_DISAPPEAR = 5000;
 
-// пороговое время времени install/uninstall для того, чтобы пушки install/uninstall самостоятельно
+// РїРѕСЂРѕРіРѕРІРѕРµ РІСЂРµРјСЏ РІСЂРµРјРµРЅРё install/uninstall РґР»СЏ С‚РѕРіРѕ, С‡С‚РѕР±С‹ РїСѓС€РєРё install/uninstall СЃР°РјРѕСЃС‚РѕСЏС‚РµР»СЊРЅРѕ
 NTimer::STime SConsts::THRESHOLD_INSTALL_TIME = 2000;
 
-// количество выстрелов для пристрелки артиллерии по области
+// РєРѕР»РёС‡РµСЃС‚РІРѕ РІС‹СЃС‚СЂРµР»РѕРІ РґР»СЏ РїСЂРёСЃС‚СЂРµР»РєРё Р°СЂС‚РёР»Р»РµСЂРёРё РїРѕ РѕР±Р»Р°СЃС‚Рё
 int SConsts::SHOOTS_TO_RANGE = 4;
-// коэффициент на dispersion, если ведётся стрельба по пристрелянной области
+// РєРѕСЌС„С„РёС†РёРµРЅС‚ РЅР° dispersion, РµСЃР»Рё РІРµРґС‘С‚СЃСЏ СЃС‚СЂРµР»СЊР±Р° РїРѕ РїСЂРёСЃС‚СЂРµР»СЏРЅРЅРѕР№ РѕР±Р»Р°СЃС‚Рё
 float SConsts::RANDGED_DISPERSION_RADIUS_BONUS = 0.5f;
-// радиус области пристрелки
+// СЂР°РґРёСѓСЃ РѕР±Р»Р°СЃС‚Рё РїСЂРёСЃС‚СЂРµР»РєРё
 float SConsts::RANGED_AREA_RADIUS = 5 * SConsts::TILE_SIZE;
 
-// расстояние, на которое нужно сместиться артиллерии для того, чтобы сбросить info о её местонахождении
+// СЂР°СЃСЃС‚РѕСЏРЅРёРµ, РЅР° РєРѕС‚РѕСЂРѕРµ РЅСѓР¶РЅРѕ СЃРјРµСЃС‚РёС‚СЊСЃСЏ Р°СЂС‚РёР»Р»РµСЂРёРё РґР»СЏ С‚РѕРіРѕ, С‡С‚РѕР±С‹ СЃР±СЂРѕСЃРёС‚СЊ info Рѕ РµС‘ РјРµСЃС‚РѕРЅР°С…РѕР¶РґРµРЅРёРё
 float SConsts::RELOCATION_RADIUS = 5 * SConsts::TILE_SIZE;
-// макс. радиус кружочка вокруг стреляющей артиллерии
+// РјР°РєСЃ. СЂР°РґРёСѓСЃ РєСЂСѓР¶РѕС‡РєР° РІРѕРєСЂСѓРі СЃС‚СЂРµР»СЏСЋС‰РµР№ Р°СЂС‚РёР»Р»РµСЂРёРё
 float SConsts::MAX_ANTI_ARTILLERY_RADIUS = 10 * SConsts::TILE_SIZE;
-// мин. радиус кружочка вокруг стреляющей артиллерии
+// РјРёРЅ. СЂР°РґРёСѓСЃ РєСЂСѓР¶РѕС‡РєР° РІРѕРєСЂСѓРі СЃС‚СЂРµР»СЏСЋС‰РµР№ Р°СЂС‚РёР»Р»РµСЂРёРё
 float SConsts::MIN_ANTI_ARTILLERY_RADIUS = SConsts::TILE_SIZE;
-// количество выстрелов, чтобы свести MAX_ANTI_ARTILLERY_RADIUS к MIN_ANTI_ARTILLERY_RADIUS
+// РєРѕР»РёС‡РµСЃС‚РІРѕ РІС‹СЃС‚СЂРµР»РѕРІ, С‡С‚РѕР±С‹ СЃРІРµСЃС‚Рё MAX_ANTI_ARTILLERY_RADIUS Рє MIN_ANTI_ARTILLERY_RADIUS
 int SConsts::SHOTS_TO_MINIMIZE_LOCATION_RADIUS = 5;
 
-// время, которое рисуются круги после выстрела пушки
+// РІСЂРµРјСЏ, РєРѕС‚РѕСЂРѕРµ СЂРёСЃСѓСЋС‚СЃСЏ РєСЂСѓРіРё РїРѕСЃР»Рµ РІС‹СЃС‚СЂРµР»Р° РїСѓС€РєРё
 NTimer::STime SConsts::AUDIBILITY_TIME = 20000;
-// периодичность рисования кругов антиартиллерийской борьбы
+// РїРµСЂРёРѕРґРёС‡РЅРѕСЃС‚СЊ СЂРёСЃРѕРІР°РЅРёСЏ РєСЂСѓРіРѕРІ Р°РЅС‚РёР°СЂС‚РёР»Р»РµСЂРёР№СЃРєРѕР№ Р±РѕСЂСЊР±С‹
 NTimer::STime SConsts::REVEAL_CIRCLE_PERIOD = 2000;
 
-// вероятность пробивания брони, при которой не нужно маневрировать
+// РІРµСЂРѕСЏС‚РЅРѕСЃС‚СЊ РїСЂРѕР±РёРІР°РЅРёСЏ Р±СЂРѕРЅРё, РїСЂРё РєРѕС‚РѕСЂРѕР№ РЅРµ РЅСѓР¶РЅРѕ РјР°РЅРµРІСЂРёСЂРѕРІР°С‚СЊ
 float SConsts::GOOD_ATTACK_RPOBABILITY = 0.6f;
 
 NTimer::STime SConsts::FIGHTER_PATROL_TIME = 180000;
@@ -160,26 +160,26 @@ float SConsts::ENGINEER_RESUPPLY_PER_QUANT = 1.0f;
 float SConsts::ENGINEER_ANTITANK_HALTH_PER_QUANT = 1.0f;
 float SConsts::ENGINEER_RU_CARRY_WEIGHT = 100.0f;
 
-// радиус обзора бинокля
+// СЂР°РґРёСѓСЃ РѕР±Р·РѕСЂР° Р±РёРЅРѕРєР»СЏ
 float SConsts::SPY_GLASS_RADIUS = 1920.f;
-// угол обзора бинокля
+// СѓРіРѕР» РѕР±Р·РѕСЂР° Р±РёРЅРѕРєР»СЏ
 WORD SConsts::SPY_GLASS_ANGLE = 5000;
 
-// коеффициент на area damage
+// РєРѕРµС„С„РёС†РёРµРЅС‚ РЅР° area damage
 float SConsts::AREA_DAMAGE_COEFF = 0.2f;
-// минимальный угол, на который можно повернуть базу во время атаки turret-ом, чтобы улучшить свою позицию
+// РјРёРЅРёРјР°Р»СЊРЅС‹Р№ СѓРіРѕР», РЅР° РєРѕС‚РѕСЂС‹Р№ РјРѕР¶РЅРѕ РїРѕРІРµСЂРЅСѓС‚СЊ Р±Р°Р·Сѓ РІРѕ РІСЂРµРјСЏ Р°С‚Р°РєРё turret-РѕРј, С‡С‚РѕР±С‹ СѓР»СѓС‡С€РёС‚СЊ СЃРІРѕСЋ РїРѕР·РёС†РёСЋ
 WORD SConsts::MIN_ROTATE_ANGLE = 6000;
 
 float SConsts::RADIUS_TO_START_ANTIARTILLERY_FIRE = 320.0f;
 
 float SConsts::TRANSPORT_RU_CAPACITY = 500.0f;
 
-// время, которое держится alarm при обстреле юнита снарядами по баллистиике
+// РІСЂРµРјСЏ, РєРѕС‚РѕСЂРѕРµ РґРµСЂР¶РёС‚СЃСЏ alarm РїСЂРё РѕР±СЃС‚СЂРµР»Рµ СЋРЅРёС‚Р° СЃРЅР°СЂСЏРґР°РјРё РїРѕ Р±Р°Р»Р»РёСЃС‚РёРёРєРµ
 float SConsts::TIME_OF_ALARM_UNDER_FIRE = 15000.0f;
 
 float SConsts::STORAGE_RESUPPLY_RADIUS = 1000.0f;
 
-// сопротивление воздуха для бомб
+// СЃРѕРїСЂРѕС‚РёРІР»РµРЅРёРµ РІРѕР·РґСѓС…Р° РґР»СЏ Р±РѕРјР±
 float SConsts::TRAJ_BOMB_ALPHA = 0.0005f;
 float SConsts::TRAJECTORY_BOMB_G = 0.001f;
 
@@ -251,7 +251,7 @@ float SConsts::HEIGHT_FOR_VIS_RADIUS_INC = 1.0f;
 
 float SConsts::BURNING_SPEED = 0.002f;
 
-// follow константы
+// follow РєРѕРЅСЃС‚Р°РЅС‚С‹
 float SConsts::FOLLOW_STOP_RADIUS = SConsts::TILE_SIZE * 9;
 float SConsts::FOLLOW_EQUALIZE_SPEED_RADIUS = SConsts::TILE_SIZE * 12;
 float SConsts::FOLLOW_GO_RADIUS = SConsts::TILE_SIZE * 11;
@@ -259,7 +259,7 @@ float SConsts::FOLLOW_WAIT_RADIUS = SConsts::TILE_SIZE * 24;
 
 float SConsts::TRANSPORT_LOAD_RU_DISTANCE = 100.0f;
 int SConsts::RESUPPLY_MAX_PATH = 30;
-// fatality константы
+// fatality РєРѕРЅСЃС‚Р°РЅС‚С‹
 float SConsts::FATALITY_PROBABILITY = 0.1f;
 float SConsts::DAMAGE_FOR_MASSIVE_DAMAGE_FATALITY = 0.7f;
 float SConsts::MASSIVE_DAMAGE_FATALITY_PROBABILITY = 0.8f;
@@ -301,7 +301,7 @@ int SConsts::GENERAL_CELL_SIZE = 0;
 
 float SConsts::FLAG_RADIUS = 320.0f;
 float SConsts::FLAG_POINTS_SPEED = 10.0f;
-// "флаговые очки", которые всегда идут, независимо от присутствия флагов
+// "С„Р»Р°РіРѕРІС‹Рµ РѕС‡РєРё", РєРѕС‚РѕСЂС‹Рµ РІСЃРµРіРґР° РёРґСѓС‚, РЅРµР·Р°РІРёСЃРёРјРѕ РѕС‚ РїСЂРёСЃСѓС‚СЃС‚РІРёСЏ С„Р»Р°РіРѕРІ
 float SConsts::PLAYER_POINTS_SPEED = 10.0f;
 
 float SConsts::FLAG_POINTS_TO_REINFORCEMENT = 30.0f;
@@ -309,7 +309,7 @@ float SConsts::FLAG_TIME_TO_CAPTURE = 5000.0f;
 
 NTimer::STime SConsts::TIME_OF_PRE_DISAPPEAR_NOTIFY = 100;
 WORD SConsts::ANGLE_DIVEBOMBER_MIN_DIVE = 65535/8;
-// максимальная броня, пробиваемая area damage
+// РјР°РєСЃРёРјР°Р»СЊРЅР°СЏ Р±СЂРѕРЅСЏ, РїСЂРѕР±РёРІР°РµРјР°СЏ area damage
 int SConsts::ARMOR_FOR_AREA_DAMAGE = 10;
 float SConsts::BUILDING_FIREPLACE_DEFAULT_COVER = 0.5f;
 
@@ -382,10 +382,10 @@ void SConsts::Load()
 	SHTURMOVIK_PATH_UPDATE_TIME = constsTbl.GetULong( "AI", "Aviation.ShturmovikPathUpdateTime", 6000 );
 	PLANE_TILT_PER_SECOND = constsTbl.GetFloat( "AI", "Aviation.PlaneTiltPerSecond", 100.0f );
 	PLANE_GUARD_STATE_RADIUS = constsTbl.GetFloat( "AI", "Aviation.PlaneGuardStateRadius", 1000.0f );
-	// квадрат дистанции для начала атаки
+	// РєРІР°РґСЂР°С‚ РґРёСЃС‚Р°РЅС†РёРё РґР»СЏ РЅР°С‡Р°Р»Р° Р°С‚Р°РєРё
 	SHTURMOVIK_APPROACH_RADIUS = constsTbl.GetFloat( "AI", "Aviation.ShturmovikApproachRadius", 1000.0f );
 	SHTURMOVIK_APPROACH_RADIUS_SQR = SHTURMOVIK_APPROACH_RADIUS*SHTURMOVIK_APPROACH_RADIUS;
-	// минимальная высота полета сомолетов
+	// РјРёРЅРёРјР°Р»СЊРЅР°СЏ РІС‹СЃРѕС‚Р° РїРѕР»РµС‚Р° СЃРѕРјРѕР»РµС‚РѕРІ
 	PLANE_MIN_HEIGHT = constsTbl.GetFloat( "AI", "Aviation.PlaneMinHeight", 300.0f );
 
 	CURE_SPEED_IN_BUILDING = constsTbl.GetFloat( "AI", "Buildings.CureSpeedInBuilding", 0.001f );

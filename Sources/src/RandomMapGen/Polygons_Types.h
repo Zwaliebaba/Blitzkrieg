@@ -44,7 +44,7 @@ inline const CVec3 GetPointType<CVec3>( const CVec3 &vec, CVec3 *pVec3 )
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//определитель что разность элементов меньше заданного значения
+//РѕРїСЂРµРґРµР»РёС‚РµР»СЊ С‡С‚Рѕ СЂР°Р·РЅРѕСЃС‚СЊ СЌР»РµРјРµРЅС‚РѕРІ РјРµРЅСЊС€Рµ Р·Р°РґР°РЅРЅРѕРіРѕ Р·РЅР°С‡РµРЅРёВ¤
 template <class TYPE>
 struct SInRangeFunctional
 {
@@ -362,7 +362,7 @@ EClassifyIntersection ClassifyCross( const Type &rPolygon, const PointType &rvBe
 /**/
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//Точка в полигоне или нет
+//вЂњРѕС‡РєР° РІ РїРѕР»РёРіРѕРЅРµ РёР»Рё РЅРµС‚
 template<class Type, class PointType>
 EClassifyPolygon ClassifyConvexPolygon( const Type &rPolygon, const PointType &v )
 {
@@ -492,11 +492,11 @@ EClassifyPolygon ClassifyPolygon( const Type &rPolygon, const PointType &v )
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//Периметр полигона
+//С•РµСЂРёРјРµС‚СЂ РїРѕР»РёРіРѕРЅР°
 template<class Type>
 float GetPolygonPerimeter( const Type &rPolygon )
 {
-	//ноль точек
+	//РЅРѕР»СЊ С‚РѕС‡РµРє
 	if ( rPolygon.empty() )
 	{
 		return 0.0f;
@@ -505,7 +505,7 @@ float GetPolygonPerimeter( const Type &rPolygon )
 	Type::const_iterator currentPointIterator0 = rPolygon.begin();
 	Type::const_iterator currentPointIterator1 = rPolygon.begin();
 	++currentPointIterator1;
-	//одна точка
+	//РѕРґРЅР° С‚РѕС‡РєР°
 	if ( currentPointIterator1 == rPolygon.end() )
 	{
 		return 0.0f;
@@ -527,11 +527,11 @@ float GetPolygonPerimeter( const Type &rPolygon )
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//Площадь полигона
+//С•Р»РѕС‰Р°РґСЊ РїРѕР»РёРіРѕРЅР°
 template<class Type>
 float GetSignedPolygonSquare( const Type &rPolygon )
 {
-	//ноль точек
+	//РЅРѕР»СЊ С‚РѕС‡РµРє
 	if ( rPolygon.empty() )
 	{
 		return 0.0f;
@@ -542,13 +542,13 @@ float GetSignedPolygonSquare( const Type &rPolygon )
 	Type::const_iterator currentPointIterator2 = rPolygon.begin();
 	++currentPointIterator1;
 	++currentPointIterator2;
-	//одна точка
+	//РѕРґРЅР° С‚РѕС‡РєР°
 	if ( currentPointIterator1 == rPolygon.end() )
 	{
 		return 0.0f;
 	}
 	++currentPointIterator2;
-	//две точки
+	//РґРІРµ С‚РѕС‡РєРё
 	if ( currentPointIterator2 == rPolygon.end() )
 	{
 		return 0.0f;
@@ -1045,8 +1045,8 @@ bool GetVoronoyPolygon( const Type &rBoundingPolygon, const PointType &rPoint, T
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//Убирание пар точек из вектора расположенных на расстоянии fRange между друг другом
-//возвращает число удаленных элементов
+//вЂќР±РёСЂР°РЅРёРµ РїР°СЂ С‚РѕС‡РµРє РёР· РІРµРєС‚РѕСЂР° СЂР°СЃРїРѕР»РѕР¶РµРЅРЅС‹С… РЅР° СЂР°СЃСЃС‚РѕВ¤РЅРёРё fRange РјРµР¶РґСѓ РґСЂСѓРі РґСЂСѓРіРѕРј
+//РІРѕР·РІСЂР°С‰Р°РµС‚ С‡РёСЃР»Рѕ СѓРґР°Р»РµРЅРЅС‹С… СЌР»РµРјРµРЅС‚РѕРІ
 template<class Type, class PointType>
 void UniquePolygon( Type *pPolygon, float fRange )
 {
@@ -1060,7 +1060,7 @@ void UniquePolygon( Type *pPolygon, float fRange )
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//Минимальный прямоугольник в корорый входят все точки полигона
+//С›РёРЅРёРјР°Р»СЊРЅС‹Р№ РїСЂВ¤РјРѕСѓРіРѕР»СЊРЅРёРє РІ РєРѕСЂРѕСЂС‹Р№ РІС…РѕРґВ¤С‚ РІСЃРµ С‚РѕС‡РєРё РїРѕР»РёРіРѕРЅР°
 template<class Type>
 void GetPolygonBoundingBox( const Type &rPolygon, CTRect<float> *pBoundingBox )
 {
@@ -1068,7 +1068,7 @@ void GetPolygonBoundingBox( const Type &rPolygon, CTRect<float> *pBoundingBox )
 							 NStr::Format( "Wrong parameter: %x\n", pBoundingBox ) );
 
 	pBoundingBox->Set( 0.0f, 0.0f, 0.0f, 0.0f );
-	//вырожденный случай
+	//РІС‹СЂРѕР¶РґРµРЅРЅС‹Р№ СЃР»СѓС‡Р°Р№
 	if ( !rPolygon.empty() )
 	{
 		Type::const_iterator pointIterator = rPolygon.begin();
@@ -1368,13 +1368,13 @@ bool EnlargePolygonCore( const Type &rBoundingPolygon, const Type &rPolygon, flo
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// 0 - на границе
-// > 0 - внутри
-// < 0 - снарукжи
+// 0 - РЅР° РіСЂР°РЅРёС†Рµ
+// > 0 - РІРЅСѓС‚СЂРё
+// < 0 - СЃРЅР°СЂСѓРєР¶Рё
 template<class Type, class PointType>
 float PolygonDistance( const Type &rPolygon, const PointType &v )
 {
-	//нет точек
+	//РЅРµС‚ С‚РѕС‡РµРє
 	if ( rPolygon.empty() )
 	{
 		return 0.0;
@@ -1383,7 +1383,7 @@ float PolygonDistance( const Type &rPolygon, const PointType &v )
 	Type::const_iterator currentPointIterator0 = rPolygon.begin();
 	Type::const_iterator currentPointIterator1 = rPolygon.begin();
 
-	//одна точка
+	//РѕРґРЅР° С‚РѕС‡РєР°
 	++currentPointIterator1;
 	if ( currentPointIterator1 == rPolygon.end() )
 	{
@@ -1392,31 +1392,31 @@ float PolygonDistance( const Type &rPolygon, const PointType &v )
 	
 	EClassifyPolygon classifyPolygon = ClassifyPolygon( rPolygon, v );
 	
-	//точка на границе полигона
+	//С‚РѕС‡РєР° РЅР° РіСЂР°РЅРёС†Рµ РїРѕР»РёРіРѕРЅР°
 	if ( ( classifyPolygon == CP_BOUNDARY ) || ( classifyPolygon == CP_VERTEX ) )
 	{
 		return 0.0f;
 	}
 
 	float fDistance = fabs( v  - ( *currentPointIterator0 ) );
-	//определяем минимальное расстояние для стороны и для вертекса стороны
+	//РѕРїСЂРµРґРµР»В¤РµРј РјРёРЅРёРјР°Р»СЊРЅРѕРµ СЂР°СЃСЃС‚РѕВ¤РЅРёРµ РґР»В¤ СЃС‚РѕСЂРѕРЅС‹ Рё РґР»В¤ РІРµСЂС‚РµРєСЃР° СЃС‚РѕСЂРѕРЅС‹
 	while ( currentPointIterator0 != rPolygon.end() )
 	{
 		//( *currentPointIterator0 );
 		//( *currentPointIterator1 );
 
-		//расстояние до точки ( *currentPointIterator0 )
+		//СЂР°СЃСЃС‚РѕВ¤РЅРёРµ РґРѕ С‚РѕС‡РєРё ( *currentPointIterator0 )
 		const float fVertexDistance = fabs( v - ( *currentPointIterator0 ) );
 		if ( fVertexDistance < fDistance )
 		{
 			fDistance = fVertexDistance;
 		}
 		
-		//скялярные произведения
+		//СЃРєВ¤Р»В¤СЂРЅС‹Рµ РїСЂРѕРёР·РІРµРґРµРЅРёВ¤
 		const float dotPoduct_v0_10 = ( v - ( *currentPointIterator0 ) ) * ( ( *currentPointIterator1 ) - ( *currentPointIterator0 ) );
 		const float dotPoduct_v1_01 = ( v - ( *currentPointIterator1 ) ) * ( ( *currentPointIterator0 ) - ( *currentPointIterator1 ) );
 		
-		//проекция внутри отрезка
+		//РїСЂРѕРµРєС†РёВ¤ РІРЅСѓС‚СЂРё РѕС‚СЂРµР·РєР°
 		if ( ( dotPoduct_v0_10 > FP_EPSILON ) && ( dotPoduct_v1_01 > FP_EPSILON ) )
 		{
 			const float fEdgeDistance = fVertexDistance * sqrt( 1 - fabs2( dotPoduct_v0_10 / ( fVertexDistance * fabs( ( *currentPointIterator1 ) - ( *currentPointIterator0 ) ) ) ) );	
@@ -1437,7 +1437,7 @@ float PolygonDistance( const Type &rPolygon, const PointType &v )
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//Создание различных полигонов
+//вЂ”РѕР·РґР°РЅРёРµ СЂР°Р·Р»РёС‡РЅС‹С… РїРѕР»РёРіРѕРЅРѕРІ
 template<class Type>
 bool GetBoundingPolygon( const SVectorStripeObject &rVectorStripeObject, Type *pBoundingPolygon )
 {

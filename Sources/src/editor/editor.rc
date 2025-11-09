@@ -287,7 +287,7 @@ BEGIN
     ICON            IDR_MAINFRAME,IDC_STATIC,11,17,21,20
     LTEXT           "Blitzkrieg Resource Editor",IDC_STATIC,37,18,119,8
     DEFPUSHBUTTON   "OK",IDOK,93,82,50,14,BS_MULTILINE | WS_GROUP
-    LTEXT           "© 2003 Nival Interactive. All rights reserved.",
+    LTEXT           "?2003 Nival Interactive. All rights reserved.",
                     IDC_STATIC,37,49,140,8
     LTEXT           "Blitzkrieg is a trademark of Nival Interactive.",
                     IDC_STATIC,37,57,138,8

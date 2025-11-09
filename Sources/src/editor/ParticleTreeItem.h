@@ -20,7 +20,7 @@ public:
 	CParticleCommonPropsItem() { nItemType = E_PARTICLE_COMMON_PROPS_ITEM; InitDefaultValues(); nImageIndex = 0; }
 	~CParticleCommonPropsItem() {};
 	
-	//Получение внутренних параметров
+	//РџРѕР»СѓС‡РµРЅРёРµ РІРЅСѓС‚СЂРµРЅРЅРёС… РїР°СЂР°РјРµС‚СЂРѕРІ
 	const char* GetParticleName() { return values[0].value; }
 	int GetLifeTime() { return values[1].value; }
 	float GetScaleFactor() { return values[2].value; }
@@ -31,7 +31,7 @@ public:
 	float GetWindPower() { return values[13].value; }
 	int GetAreaType();
 	
-	//Установка внутренних параметров
+	//РЈСЃС‚Р°РЅРѕРІРєР° РІРЅСѓС‚СЂРµРЅРЅРёС… РїР°СЂР°РјРµС‚СЂРѕРІ
 	void SetParticle( const char *pszName ) { values[0].value = pszName; }
 	void SetLifeTime( int nVal ) { values[1].value = nVal; }
 	void SetScaleFactor( float fVal ) { values[2].value = fVal; }
@@ -46,7 +46,7 @@ public:
 	virtual void UpdateItemValue( int nItemId, const CVariant &value );
 };
 
-//Здесь содержатся все свойства источника частиц
+//Р—РґРµСЃСЊ СЃРѕРґРµСЂР¶Р°С‚СЃСЏ РІСЃРµ СЃРІРѕР№СЃС‚РІР° РёСЃС‚РѕС‡РЅРёРєР° С‡Р°СЃС‚РёС†
 class CParticleSourcePropItems : public CTreeItem
 {
 	OBJECT_NORMAL_METHODS( CParticleSourcePropItems );
@@ -54,12 +54,12 @@ public:
 	CParticleSourcePropItems() { bStaticElements = true; nItemType = E_PARTICLE_SOURCE_PROP_ITEMS; InitDefaultValues(); nImageIndex = 2; }
 	~CParticleSourcePropItems() {};
 	
-	//Получение внутренних параметров
+	//РџРѕР»СѓС‡РµРЅРёРµ РІРЅСѓС‚СЂРµРЅРЅРёС… РїР°СЂР°РјРµС‚СЂРѕРІ
 	const char *GetTextureFileName() { return values[0].value; }
 	int GetTextureXSize() { return values[1].value; }
 	int GetTextureYSize() { return values[2].value; }
 	
-	//Установка внутренних параметров
+	//РЈСЃС‚Р°РЅРѕРІРєР° РІРЅСѓС‚СЂРµРЅРЅРёС… РїР°СЂР°РјРµС‚СЂРѕРІ
 	void SetTextureFileName( const char *pszName ) { values[0].value = pszName; }
 	void SetTextureXSize( int nVal ) { values[1].value = nVal; }
 	void SetTextureYSize( int nVal ) { values[2].value = nVal; }
@@ -67,7 +67,7 @@ public:
 	virtual void InitDefaultValues();
 };
 
-//Это собственно свойства источника частиц
+//Р­С‚Рѕ СЃРѕР±СЃС‚РІРµРЅРЅРѕ СЃРІРѕР№СЃС‚РІР° РёСЃС‚РѕС‡РЅРёРєР° С‡Р°СЃС‚РёС†
 class CParticleGenerateLifeItem : public CKeyFrameTreeItem
 {
 	OBJECT_NORMAL_METHODS( CParticleGenerateLifeItem );
@@ -169,7 +169,7 @@ public:
 };
 
 
-//Здесь содержатся все свойства сложного источника частиц
+//Р—РґРµСЃСЊ СЃРѕРґРµСЂР¶Р°С‚СЃСЏ РІСЃРµ СЃРІРѕР№СЃС‚РІР° СЃР»РѕР¶РЅРѕРіРѕ РёСЃС‚РѕС‡РЅРёРєР° С‡Р°СЃС‚РёС†
 class CParticleComplexSourceItem : public CTreeItem
 {
 	OBJECT_NORMAL_METHODS( CParticleComplexSourceItem );
@@ -185,7 +185,7 @@ public:
 	virtual void UpdateItemValue( int nItemId, const CVariant &value );
 };
 
-//Здесь содержатся вся группа свойств отдельной частицы
+//Р—РґРµСЃСЊ СЃРѕРґРµСЂР¶Р°С‚СЃСЏ РІСЃСЏ РіСЂСѓРїРїР° СЃРІРѕР№СЃС‚РІ РѕС‚РґРµР»СЊРЅРѕР№ С‡Р°СЃС‚РёС†С‹
 class CParticlePropItems : public CTreeItem
 {
 	OBJECT_NORMAL_METHODS( CParticlePropItems );
@@ -196,7 +196,7 @@ public:
 	virtual void InitDefaultValues();
 };
 
-//Здесь содержатся вся группа свойств отдельной сложной частицы
+//Р—РґРµСЃСЊ СЃРѕРґРµСЂР¶Р°С‚СЃСЏ РІСЃСЏ РіСЂСѓРїРїР° СЃРІРѕР№СЃС‚РІ РѕС‚РґРµР»СЊРЅРѕР№ СЃР»РѕР¶РЅРѕР№ С‡Р°СЃС‚РёС†С‹
 class CParticleComplexItem : public CTreeItem
 {
 	OBJECT_NORMAL_METHODS( CParticleComplexItem );
@@ -207,7 +207,7 @@ public:
 	virtual void InitDefaultValues();
 };
 
-//Это собственно свойства частицы
+//Р­С‚Рѕ СЃРѕР±СЃС‚РІРµРЅРЅРѕ СЃРІРѕР№СЃС‚РІР° С‡Р°СЃС‚РёС†С‹
 class CParticleSpinItem : public CKeyFrameTreeItem
 {
 	OBJECT_NORMAL_METHODS( CParticleSpinItem );

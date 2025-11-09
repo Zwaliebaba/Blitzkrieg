@@ -21,8 +21,8 @@ class CSoundManager : public ISoundManager
 	//
 	CSoundShare share2;										// 2D sounds share
 	CSoundShare share3;										// 3D sounds share
-	// т.к. система FMOD не COM-объект, то необходимо задержать её разрушение до окончания полной работы с ним
-	CObj<ISFX> pSFX;											// lock для звуковой системы
+	// С‚.Рє. СЃРёСЃС‚РµРјР° FMOD РЅРµ COM-РѕР±СЉРµРєС‚, С‚Рѕ РЅРµРѕР±С…РѕРґРёРјРѕ Р·Р°РґРµСЂР¶Р°С‚СЊ РµС‘ СЂР°Р·СЂСѓС€РµРЅРёРµ РґРѕ РѕРєРѕРЅС‡Р°РЅРёСЏ РїРѕР»РЅРѕР№ СЂР°Р±РѕС‚С‹ СЃ РЅРёРј
+	CObj<ISFX> pSFX;											// lock РґР»СЏ Р·РІСѓРєРѕРІРѕР№ СЃРёСЃС‚РµРјС‹
 public:	
 	CSoundManager() : share2( 109, false ), share3( 110, true ) {  }
 	virtual ~CSoundManager();

@@ -15,7 +15,7 @@ class CStandartSmoothMechPath : public ISmoothPath
 	DECLARE_SERIALIZE;
 	
 	CPtr<IPath> pPath;
-	// владелец пути
+	// РІР»Р°РґРµР»РµС† РїСѓС‚Рё
 	interface IBasePathUnit *pUnit;
 
 	CBSpline spline;
@@ -37,7 +37,7 @@ class CStandartSmoothMechPath : public ISmoothPath
 	//
 	void AddSmoothTurn();
 	int InitSpline();
-	// проверить на наличие впереди залоканных тайлов. Если есть, то пересчитать путь
+	// РїСЂРѕРІРµСЂРёС‚СЊ РЅР° РЅР°Р»РёС‡РёРµ РІРїРµСЂРµРґРё Р·Р°Р»РѕРєР°РЅРЅС‹С… С‚Р°Р№Р»РѕРІ. в‰€СЃР»Рё РµСЃС‚СЊ, С‚Рѕ РїРµСЂРµСЃС‡РёС‚Р°С‚СЊ РїСѓС‚СЊ
 	// true - if Ok, false - if path had to be recalculated
 	bool ValidateCurPath( const CVec2 &center, const CVec2 &newPoint );
 

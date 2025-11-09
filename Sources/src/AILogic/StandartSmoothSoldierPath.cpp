@@ -130,7 +130,7 @@ bool CStandartSmoothSoldierPath::ValidateCurPath( const CVec2 &center, const CVe
 						bBad = true;
 					else
 					{
-						// до конца пути осталось немного, лучше остановиться
+						// РґРѕ РєРѕРЅС†Р° РїСѓС‚Рё РѕСЃС‚Р°Р»РѕСЃСЊ РЅРµРјРЅРѕРіРѕ, Р»СѓС‡С€Рµ РѕСЃС‚Р°РЅРѕРІРёС‚СЊСЃСЏ
 						const float fDist2 = fabs2( center - pPath->GetFinishPoint() );
 						if ( fDist2 <= sqr( 3 * pUnit->GetAABBHalfSize().y ) )
 						{
@@ -301,9 +301,9 @@ const CVec2 CStandartSmoothSoldierPath::GetPointWithoutFormation( NTimer::STime 
 	
 	const CVec2 result = 
 		fabs( spline.GetPoint() - vUnitCenter ) < fRemain  ?
-		// так и не прошли по сплайну, сколько надо
+		// С‚Р°Рє Рё РЅРµ РїСЂРѕС€Р»Рё РїРѕ СЃРїР»Р°Р№РЅСѓ, СЃРєРѕР»СЊРєРѕ РЅР°РґРѕ
 		spline.GetPoint() :
-		// прошли чуть дальше, нужно точно отсчитать fRemain
+		// РїСЂРѕС€Р»Рё С‡СѓС‚СЊ РґР°Р»СЊС€Рµ, РЅСѓР¶РЅРѕ С‚РѕС‡РЅРѕ РѕС‚СЃС‡РёС‚Р°С‚СЊ fRemain
 		vUnitCenter + Norm( spline.GetPoint() - vUnitCenter ) * fRemain;
 
 	speed = fabs( result - vUnitCenter ) / timeDiff;
@@ -319,7 +319,7 @@ void CStandartSmoothSoldierPath::ValidateCurPathWithFormation( const CVec2 &newC
 	if ( !theStaticMap.CanUnitGoToPoint( pUnit->GetBoundTileRadius(), newCenter, pUnit->GetAIClass() ) )
 	{
 		const bool bDrive = DriveToFormation( pUnit->GetCenter(), false );
-		// идти никуда не может, а формация остановилась
+		// РёРґС‚Рё РЅРёРєСѓРґР° РЅРµ РјРѕР¶РµС‚, Р° С„РѕСЂРјР°С†РёСЏ РѕСЃС‚Р°РЅРѕРІРёР»Р°СЃСЊ
 		if ( !bDrive && pFormation->IsStopped() )
 		{
 			bFinished = true;
@@ -339,7 +339,7 @@ void CStandartSmoothSoldierPath::ValidateCurPathWithFormation( const CVec2 &newC
 	if ( !theStaticMap.CanUnitGoToPoint( pUnit->GetBoundTileRadius(), vCenterAhead, pUnit->GetAIClass() ) )
 	{
 		const bool bDrive = DriveToFormation( newCenter, false );
-		// идти никуда не может, а формация остановилась
+		// РёРґС‚Рё РЅРёРєСѓРґР° РЅРµ РјРѕР¶РµС‚, Р° С„РѕСЂРјР°С†РёСЏ РѕСЃС‚Р°РЅРѕРІРёР»Р°СЃСЊ
 		if ( !bDrive && pFormation->IsStopped() )
 		{
 			bFinished = true;
@@ -360,7 +360,7 @@ void CStandartSmoothSoldierPath::CutDriveToFormationPath( CCommonStaticPath *pPa
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool CStandartSmoothSoldierPath::CanGoToFormationPos( const CVec2 &newCenter, const CVec2 &vDesPos, const CVec2 &vFormPos )
 {
-	// помещается в нужную точку
+	// РїРѕРјРµС‰Р°РµС‚СЃСЏ РІ РЅСѓР¶РЅСѓСЋ С‚РѕС‡РєСѓ
 	if ( theStaticMap.CanUnitGoToPoint( pUnit->GetBoundTileRadius(), vDesPos, pUnit->GetAIClass() ) )
 	{
 		IStaticPath* _pPath = CreateStaticPathToPoint( newCenter, vDesPos, VNULL2, pUnit );
@@ -371,12 +371,12 @@ bool CStandartSmoothSoldierPath::CanGoToFormationPos( const CVec2 &newCenter, co
 			pPath = static_cast<CCommonStaticPath*>(_pPath);
 		}
 
-		// можно дойти
+		// РјРѕР¶РЅРѕ РґРѕР№С‚Рё
 		if ( pPath != 0 )
 		{
 			CPtr<IStaticPath> pCheckPath = CreateStaticPathToPoint( pPath->GetFinishPoint(), vFormPos, VNULL2, pUnit );
 
-			// от нужной точки можно дойти до центра формации и путь не слишком длинный
+			// РѕС‚ РЅСѓР¶РЅРѕР№ С‚РѕС‡РєРё РјРѕР¶РЅРѕ РґРѕР№С‚Рё РґРѕ С†РµРЅС‚СЂР° С„РѕСЂРјР°С†РёРё Рё РїСѓС‚СЊ РЅРµ СЃР»РёС€РєРѕРј РґР»РёРЅРЅС‹Р№
 			if ( pCheckPath != 0 && 
 					( pCheckPath->GetLength() * SConsts::TILE_SIZE <= 2.0f * fabs( pFormation->GetUnitShift( pUnit->GetFormationSlot() ) )
 					   /*pCheckPath->GetLength() <= 2.0 * pPath->GetLength() / 3.0f */)
@@ -434,7 +434,7 @@ bool CStandartSmoothSoldierPath::DriveToFormation( const CVec2 &newCenter, const
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const CVec2 CStandartSmoothSoldierPath::GetPointWithFormation( NTimer::STime timeDiff, const bool bFirstCall )
 {
-	// не смогли найти пути до формации (юнит где-то заблокался)
+	// РЅРµ СЃРјРѕРіР»Рё РЅР°Р№С‚Рё РїСѓС‚Рё РґРѕ С„РѕСЂРјР°С†РёРё (СЋРЅРёС‚ РіРґРµ-С‚Рѕ Р·Р°Р±Р»РѕРєР°Р»СЃСЏ)
 	if ( pUnit->GetTimeToNextSearchPathToFormation() > curTime )
 	{
 		speed = 0;
@@ -461,14 +461,14 @@ const CVec2 CStandartSmoothSoldierPath::GetPointWithFormation( NTimer::STime tim
 
 	CVec2 result = pUnit->GetUnitPointInFormation();
   const float lineShift = pFormation->GetUnitLineShift( pUnit->GetFormationSlot() );
-	// стоим впереди
+	// СЃС‚РѕРёРј РІРїРµСЂРµРґРё
 	if ( lineShift > 0 )
 		result += pFormation->GetDirVector() * lineShift;
 
 	const float fDist = fabs( result - pUnit->GetCenter() );
 	const float fDiff = fDist - speed * timeDiff;
 
-	// точка по направлению к нужному положению
+	// С‚РѕС‡РєР° РїРѕ РЅР°РїСЂР°РІР»РµРЅРёСЋ Рє РЅСѓР¶РЅРѕРјСѓ РїРѕР»РѕР¶РµРЅРёСЋ
 	if ( fDiff > 0 )
 		result = pUnit->GetCenter() + ( result - pUnit->GetCenter() ) * ( speed * timeDiff / fDist );
 
@@ -481,13 +481,13 @@ const CVec2 CStandartSmoothSoldierPath::GetPointWithFormation( NTimer::STime tim
 	
 	speed = fabs( result - pUnit->GetCenter() ) / timeDiff;
 
-	// путь до формации не мог найтись достаточно давно
+	// РїСѓС‚СЊ РґРѕ С„РѕСЂРјР°С†РёРё РЅРµ РјРѕРі РЅР°Р№С‚РёСЃСЊ РґРѕСЃС‚Р°С‚РѕС‡РЅРѕ РґР°РІРЅРѕ
 	if ( curTime - pUnit->GetTimeToNextSearchPathToFormation() > 1000 )
 		pFormation->NotifyDiff( -lineShift );
 
 	if ( AICellsTiles::GetTile( result ) != AICellsTiles::GetTile( pUnit->GetCenter() ) || bFirstCall )
 	{
-		// далеко от нужного положения
+		// РґР°Р»РµРєРѕ РѕС‚ РЅСѓР¶РЅРѕРіРѕ РїРѕР»РѕР¶РµРЅРёСЏ
 		const bool bCanGoToPoint = theStaticMap.CanUnitGoToPoint( pUnit->GetBoundTileRadius(), result, pUnit->GetAIClass() );
 		if ( lineShift <= 0 && fDiff > 6 * SConsts::TILE_SIZE && bCanGoToPoint )
 		{
@@ -511,7 +511,7 @@ const CVec2 CStandartSmoothSoldierPath::GetPointWithFormation( NTimer::STime tim
 			}
 		}
 
-		// всё ещё путь с формацией
+		// РІСЃС‘ РµС‰С‘ РїСѓС‚СЊ СЃ С„РѕСЂРјР°С†РёРµР№
 		if ( pFormation != 0 )
 		{
 			CPtr<IStaticPath> pCheckPath = CreateStaticPathToPoint( pFormation->GetCenter(), VNULL2, pUnit, true );
@@ -522,7 +522,7 @@ const CVec2 CStandartSmoothSoldierPath::GetPointWithFormation( NTimer::STime tim
 		}
 	}
 
-	// прошли слишком мало
+	// РїСЂРѕС€Р»Рё СЃР»РёС€РєРѕРј РјР°Р»Рѕ
 	if ( pFormation != 0 && fabs2( pUnit->GetCenter() - result ) < sqr( pFormation->GetMaxSpeedHere( pFormation->GetCenter() ) * timeDiff / 1.5f ) )
 	{
 		speed = 0;
@@ -563,7 +563,7 @@ const CVec3 CStandartSmoothSoldierPath::GetPoint( NTimer::STime timeDiff )
 	}
 	bNotified = bMinSlowed = bMaxSlowed = false;		
 
-	// не с формацией
+	// РЅРµ СЃ С„РѕСЂРјР°С†РёРµР№
 	if ( pPath || !pUnit->IsInFormation() || !IsValidObj( pFormation ) )
 	{
 		bWithFormation = false;
@@ -576,7 +576,7 @@ const CVec3 CStandartSmoothSoldierPath::GetPoint( NTimer::STime timeDiff )
 			bStopped = bFinished = false;
 
 		bWithFormation = true;
-		// с формацией
+		// СЃ С„РѕСЂРјР°С†РёРµР№
 		const CVec2 vResult = GetPointWithFormation( timeDiff, bFirstCall );
 		return CVec3( vResult, pUnit->GetZ() );
 	}
@@ -597,7 +597,7 @@ void CStandartSmoothSoldierPath::NotifyAboutClosestThreat( IBasePathUnit *pUnit,
 			}
 			else
 			{
-				// повышать скорость, только если это можно делать
+				// РїРѕРІС‹С€Р°С‚СЊ СЃРєРѕСЂРѕСЃС‚СЊ, С‚РѕР»СЊРєРѕ РµСЃР»Рё СЌС‚Рѕ РјРѕР¶РЅРѕ РґРµР»Р°С‚СЊ
 				if ( !bMinSlowed && !bMaxSlowed )
 					speed = speed + maxPossibleSpeed / 40;
 			}

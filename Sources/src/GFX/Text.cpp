@@ -529,7 +529,7 @@ bool CGFXText::FillGeometryData( DWORD dwFlags, const RECT &rect, float sy,
   return true;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// заполнить геометрические данные для строки с выравниванием влево
+// Р·Р°РїРѕР»РЅРёС‚СЊ РіРµРѕРјРµС‚СЂРёС‡РµСЃРєРёРµ РґР°РЅРЅС‹Рµ РґР»СЏ СЃС‚СЂРѕРєРё СЃ РІС‹СЂР°РІРЅРёРІР°РЅРёРµРј РІР»РµРІРѕ
 bool CGFXText::FillGeometryDataLeft( const SPreFormattedText::SLine &line, float sx, const float sy, const RECT &rect, 
 																		 const DWORD dwColor, const DWORD dwSpecular, DWORD dwClipFlags, 
 																		 std::vector<SGFXLVertex> &vertices, std::vector<WORD> &indices ) const
@@ -562,7 +562,7 @@ bool CGFXText::FillGeometryDataLeft( const SPreFormattedText::SLine &line, float
   return true;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// заполнить геометрические данные для строки с выравниванием вправо
+// Р·Р°РїРѕР»РЅРёС‚СЊ РіРµРѕРјРµС‚СЂРёС‡РµСЃРєРёРµ РґР°РЅРЅС‹Рµ РґР»СЏ СЃС‚СЂРѕРєРё СЃ РІС‹СЂР°РІРЅРёРІР°РЅРёРµРј РІРїСЂР°РІРѕ
 bool CGFXText::FillGeometryDataRight( const SPreFormattedText::SLine &line, float sx, const float sy, const RECT &rect, 
 																			const DWORD dwColor, const DWORD dwSpecular, DWORD dwClipFlags, 
 																			std::vector<SGFXLVertex> &vertices, std::vector<WORD> &indices ) const
@@ -597,7 +597,7 @@ bool CGFXText::FillGeometryDataRight( const SPreFormattedText::SLine &line, floa
   return true;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// заполнить геометрические данные для строки с выравниванием по центру
+// Р·Р°РїРѕР»РЅРёС‚СЊ РіРµРѕРјРµС‚СЂРёС‡РµСЃРєРёРµ РґР°РЅРЅС‹Рµ РґР»СЏ СЃС‚СЂРѕРєРё СЃ РІС‹СЂР°РІРЅРёРІР°РЅРёРµРј РїРѕ С†РµРЅС‚СЂСѓ
 bool CGFXText::FillGeometryDataCenter( const SPreFormattedText::SLine &line, float sx, const float sy, const RECT &rect, 
 																			 const DWORD dwColor, const DWORD dwSpecular, DWORD dwClipFlags, 
 																			 std::vector<SGFXLVertex> &vertices, std::vector<WORD> &indices ) const
@@ -632,7 +632,7 @@ bool CGFXText::FillGeometryDataCenter( const SPreFormattedText::SLine &line, flo
   return true;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// заполнить геометрические данные для строки с выравниванием по ширине
+// Р·Р°РїРѕР»РЅРёС‚СЊ РіРµРѕРјРµС‚СЂРёС‡РµСЃРєРёРµ РґР°РЅРЅС‹Рµ РґР»СЏ СЃС‚СЂРѕРєРё СЃ РІС‹СЂР°РІРЅРёРІР°РЅРёРµРј РїРѕ С€РёСЂРёРЅРµ
 bool CGFXText::FillGeometryDataJustify( const SPreFormattedText::SLine &line, float sx, const float sy, const RECT &rect, 
 																				const DWORD dwColor, const DWORD dwSpecular, DWORD dwClipFlags, 
 																				std::vector<SGFXLVertex> &vertices, std::vector<WORD> &indices ) const

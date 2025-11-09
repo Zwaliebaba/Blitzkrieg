@@ -18,8 +18,8 @@
 static const int MIN_OPACITY = 120;
 static const int MAX_OPACITY = 255;
 
-static const int LINE_LENGTH = 100;			//длина линии, используемой для задания конуса стрельбы
-static const int EDGE_LENGTH = 200;			//длина ребра конуса
+static const int LINE_LENGTH = 100;			//РґР»РёРЅР° Р»РёРЅРёРё, РёСЃРїРѕР»СЊР·СѓРµРјРѕР№ РґР»СЏ Р·Р°РґР°РЅРёСЏ РєРѕРЅСѓСЃР° СЃС‚СЂРµР»СЊР±С‹
+static const int EDGE_LENGTH = 200;			//РґР»РёРЅР° СЂРµР±СЂР° РєРѕРЅСѓСЃР°
 static const int SHOOT_PICTURE_SIZE = 8;
 
 bool CBridgeFrame::IsTileLocked( const POINT &pt )
@@ -42,11 +42,11 @@ bool CBridgeFrame::ComputeMaxAndMinPositions( const CVec3 &vPos3 )
 	CVec2 vPos2;
 	pSG->GetPos2( &vPos2, vPos3 );
 	
-	//найдем минимальную и максимальную координаты движка, для задания горизонтального положения точки стрельбы
+	//РЅР°Р№РґРµРј РјРёРЅРёРјР°Р»СЊРЅСѓСЋ Рё РјР°РєСЃРёРјР°Р»СЊРЅСѓСЋ РєРѕРѕСЂРґРёРЅР°С‚С‹ РґРІРёР¶РєР°, РґР»СЏ Р·Р°РґР°РЅРёСЏ РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅРѕРіРѕ РїРѕР»РѕР¶РµРЅРёСЏ С‚РѕС‡РєРё СЃС‚СЂРµР»СЊР±С‹
 	if ( pActiveSpansItem->lockedTiles.empty() )
 		return false;
 	
-	//Сперва найдем минимальные и максимальные координаты тайлов в pActiveSpansItem->lockedTiles
+	//РЎРїРµСЂРІР° РЅР°Р№РґРµРј РјРёРЅРёРјР°Р»СЊРЅС‹Рµ Рё РјР°РєСЃРёРјР°Р»СЊРЅС‹Рµ РєРѕРѕСЂРґРёРЅР°С‚С‹ С‚Р°Р№Р»РѕРІ РІ pActiveSpansItem->lockedTiles
 	int nTileMinX = pActiveSpansItem->lockedTiles.front().nTileX, nTileMaxX = pActiveSpansItem->lockedTiles.front().nTileX;
 	int nTileMinY = pActiveSpansItem->lockedTiles.front().nTileY, nTileMaxY = pActiveSpansItem->lockedTiles.front().nTileY;
 	CListOfTiles::iterator it=pActiveSpansItem->lockedTiles.begin();
@@ -77,10 +77,10 @@ bool CBridgeFrame::ComputeMaxAndMinPositions( const CVec3 &vPos3 )
     3
 */
 
-	//линия 21 это OY
-	//линия 23 это OX
+	//Р»РёРЅРёСЏ 21 СЌС‚Рѕ OY
+	//Р»РёРЅРёСЏ 23 СЌС‚Рѕ OX
 
-	// найдем пересечение с линией 21
+	// РЅР°Р№РґРµРј РїРµСЂРµСЃРµС‡РµРЅРёРµ СЃ Р»РёРЅРёРµР№ 21
 	CGridFrame::GetGameTileCoordinates( nTileMinX, nTileMinY, fx1, fy1, fx2, fy2, fx3, fy3, fx4, fy4 );
 	x1 = fx2;
 	y1 = fy2;
@@ -97,7 +97,7 @@ bool CBridgeFrame::ComputeMaxAndMinPositions( const CVec3 &vPos3 )
 	}
 	else
 	{
-		// найдем пересечение с линией 14
+		// РЅР°Р№РґРµРј РїРµСЂРµСЃРµС‡РµРЅРёРµ СЃ Р»РёРЅРёРµР№ 14
 		x1 = x2;
 		y1 = y2;
 		
@@ -120,11 +120,11 @@ bool CBridgeFrame::ComputeMaxAndMinPositions( const CVec3 &vPos3 )
 
 	if ( !bFound )
 	{
-		//Значит точка нигде не пересекает залоченные тайлы
+		//Р—РЅР°С‡РёС‚ С‚РѕС‡РєР° РЅРёРіРґРµ РЅРµ РїРµСЂРµСЃРµРєР°РµС‚ Р·Р°Р»РѕС‡РµРЅРЅС‹Рµ С‚Р°Р№Р»С‹
 		return false;
 	}
 
-	// найдем пересечение с линией 23
+	// РЅР°Р№РґРµРј РїРµСЂРµСЃРµС‡РµРЅРёРµ СЃ Р»РёРЅРёРµР№ 23
 	CGridFrame::GetGameTileCoordinates( nTileMinX, nTileMinY, fx1, fy1, fx2, fy2, fx3, fy3, fx4, fy4 );
 	x1 = fx2;
 	y1 = fy2;
@@ -138,7 +138,7 @@ bool CBridgeFrame::ComputeMaxAndMinPositions( const CVec3 &vPos3 )
 		yMax = y;
 	else
 	{
-		// найдем пересечение с линией 34
+		// РЅР°Р№РґРµРј РїРµСЂРµСЃРµС‡РµРЅРёРµ СЃ Р»РёРЅРёРµР№ 34
 		x1 = x2;
 		y1 = y2;
 		

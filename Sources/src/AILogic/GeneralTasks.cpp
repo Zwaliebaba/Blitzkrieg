@@ -91,12 +91,12 @@ void CGeneralTaskToDefendPatch::AskForWorker( ICommander *pManager, const float 
 		if ( _fMaxSeverity > fSeverity && fSeverity <= 0 )
 			pManager->EnumWorkers( FT_MOBILE_TANKS, this );
 
-		if ( fEnemyForce > 0 ) // можно позвать штурмовиков, если они еще не вызваны.
+		if ( fEnemyForce > 0 ) // РјРѕР¶РЅРѕ РїРѕР·РІР°С‚СЊ С€С‚СѓСЂРјРѕРІРёРєРѕРІ, РµСЃР»Рё РѕРЅРё РµС‰Рµ РЅРµ РІС‹Р·РІР°РЅС‹.
 		{
 			if ( -1 == nRequestForGunPlaneID )
 				nRequestForGunPlaneID = pManager->RequestForSupport( patchInfo.vCenter, FT_AIR_GUNPLANE );
 		}
-		else if( -1 != nRequestForGunPlaneID ) // отменить вызов штурмовиков
+		else if( -1 != nRequestForGunPlaneID ) // РѕС‚РјРµРЅРёС‚СЊ РІС‹Р·РѕРІ С€С‚СѓСЂРјРѕРІРёРєРѕРІ
 		{
 			pManager->CancelRequest( nRequestForGunPlaneID, FT_AIR_GUNPLANE );
 			nRequestForGunPlaneID = -1;
@@ -108,8 +108,8 @@ void CGeneralTaskToDefendPatch::ReleaseWorker( ICommander *pManager, const float
 {
 	if ( fEnemyForce != 0 && !bFinished )
 	{
-		// отдать часть подкрепления
-		// возможно стоит выбрать самых ненужных юнитов
+		// РѕС‚РґР°С‚СЊ С‡Р°СЃС‚СЊ РїРѕРґРєСЂРµРїР»РµРЅРёСЏ
+		// РІРѕР·РјРѕР¶РЅРѕ СЃС‚РѕРёС‚ РІС‹Р±СЂР°С‚СЊ СЃР°РјС‹С… РЅРµРЅСѓР¶РЅС‹С… СЋРЅРёС‚РѕРІ
 		while ( !tanksMobile.empty() && fSeverity > _fMinSeverity && fEnemyForce == 0 )
 		{
 			CCommonUnit *pTank = *tanksMobile.begin();
@@ -120,7 +120,7 @@ void CGeneralTaskToDefendPatch::ReleaseWorker( ICommander *pManager, const float
 				const float fFormerMobileForce = fFriendlyMobileForce;
 
 				CalcSeverity( false, true );
-				if ( fSeverity >= _fMinSeverity ) // юнит можно отдать без ущерба для ситуации
+				if ( fSeverity >= _fMinSeverity ) // СЋРЅРёС‚ РјРѕР¶РЅРѕ РѕС‚РґР°С‚СЊ Р±РµР· СѓС‰РµСЂР±Р° РґР»СЏ СЃРёС‚СѓР°С†РёРё
 					pManager->Give( pTank );
 				else
 				{
@@ -132,7 +132,7 @@ void CGeneralTaskToDefendPatch::ReleaseWorker( ICommander *pManager, const float
 			}
 		}
 	}
-	else // отдать все резервы
+	else // РѕС‚РґР°С‚СЊ РІСЃРµ СЂРµР·РµСЂРІС‹
 	{
 		while ( !tanksMobile.empty() )
 		{
@@ -309,15 +309,15 @@ bool CGeneralTaskToDefendPatch::EvaluateWorker( CCommonUnit *pUnit, const enum E
 		return SGeneralHelper::IsUnitInParcel( pUnit, patchInfo );
 
 	case FT_MOBILE_TANKS:
-		// гаубичные орудия не посылаем
+		// РіР°СѓР±РёС‡РЅС‹Рµ РѕСЂСѓРґРёСЏ РЅРµ РїРѕСЃС‹Р»Р°РµРј
 		if ( pUnit->GetFirstArtilleryGun() != 0 )
 			return false;
-		// проверить, пробивает ли предложенный юнит кого-то из врагов
+		// РїСЂРѕРІРµСЂРёС‚СЊ, РїСЂРѕР±РёРІР°РµС‚ Р»Рё РїСЂРµРґР»РѕР¶РµРЅРЅС‹Р№ СЋРЅРёС‚ РєРѕРіРѕ-С‚Рѕ РёР· РІСЂР°РіРѕРІ
 		else for ( CommonUnits::const_iterator it = enemyForces.begin(); it != enemyForces.end(); ++it )
 		{
 			NI_ASSERT_T( dynamic_cast_ptr<CAIUnit*>(*it) != 0, "wrong tank" );
 			CAIUnit * pEnemy = static_cast_ptr<CAIUnit*>( *it );
-			if ( 0 != pUnit->GetKillSpeed( pEnemy ) ) // можем пробить
+			if ( 0 != pUnit->GetKillSpeed( pEnemy ) ) // РјРѕР¶РµРј РїСЂРѕР±РёС‚СЊ
 				return true;
 		}
 		return false; 
@@ -357,14 +357,14 @@ void CGeneralTaskToHoldReinforcement::AskForWorker( ICommander *pManager, const 
 	if ( !bInit && fMaxSeverity >= 0.0f )
 	{
 		// in non-combat situation
-		// забрать под свое комманлование все свободные танки.
+		// Р·Р°Р±СЂР°С‚СЊ РїРѕРґ СЃРІРѕРµ РєРѕРјРјР°РЅР»РѕРІР°РЅРёРµ РІСЃРµ СЃРІРѕР±РѕРґРЅС‹Рµ С‚Р°РЅРєРё.
 		pManager->EnumWorkers( FT_MOBILE_TANKS, this );
 	}
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CGeneralTaskToHoldReinforcement::ReleaseWorker( ICommander *pManager, const float fMinSeverity )
 {
-	// отдать все танки генералу, пусть выберет лучший для своей цели
+	// РѕС‚РґР°С‚СЊ РІСЃРµ С‚Р°РЅРєРё РіРµРЅРµСЂР°Р»Сѓ, РїСѓСЃС‚СЊ РІС‹Р±РµСЂРµС‚ Р»СѓС‡С€РёР№ РґР»СЏ СЃРІРѕРµР№ С†РµР»Рё
 	while ( fMinSeverity < 0 && !tanksFree.empty() )
 	{
 		CCommonUnit *pTank = *tanksFree.begin();
@@ -402,7 +402,7 @@ void CGeneralTaskToHoldReinforcement::Segment()
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool CGeneralTaskToHoldReinforcement::EnumWorker( class CCommonUnit *pUnit, const enum EForceType eType )
 {
-	// послать танк на место сбора подкрепления
+	// РїРѕСЃР»Р°С‚СЊ С‚Р°РЅРє РЅР° РјРµСЃС‚Рѕ СЃР±РѕСЂР° РїРѕРґРєСЂРµРїР»РµРЅРёСЏ
 	NI_ASSERT_T( FT_MOBILE_TANKS == eType, "not tank reinforcement" );
 	
 	tanksFree.push_back( static_cast<CAIUnit*>(pUnit) );

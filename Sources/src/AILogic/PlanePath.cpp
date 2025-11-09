@@ -237,7 +237,7 @@ bool CPlaneSmoothPath::Init( interface IBasePathUnit *_pPathUnit, interface IAvi
 	const CVec2 &startPoint = pPath->GetStartPoint();
 
 	bool bFoundCircle = false;
-	// первая окружность
+	// РїРµСЂРІР°СЏ РѕРєСЂСѓР¶РЅРѕСЃС‚СЊ
 	short int sign = Sign( STriangle( c1.center, startPoint, startPoint + pUnit->GetDirVector() ) );
 	if ( FindTangentPoints( pPath->GetFinishPoint(), c1, &p1, &p2 ) )
 	{
@@ -249,7 +249,7 @@ bool CPlaneSmoothPath::Init( interface IBasePathUnit *_pPathUnit, interface IAvi
 	}
 		
 
-	// вторая окружность
+	// РІС‚РѕСЂР°СЏ РѕРєСЂСѓР¶РЅРѕСЃС‚СЊ
 	sign = Sign( STriangle( c2.center, startPoint, startPoint + pUnit->GetDirVector() ) );
 	if ( FindTangentPoints( finishPoint, c2, &p1, &p2 ) )
 	{
@@ -261,7 +261,7 @@ bool CPlaneSmoothPath::Init( interface IBasePathUnit *_pPathUnit, interface IAvi
 		bFoundCircle = true;
 	}
 	
-	// погрешность
+	// РїРѕРіСЂРµС€РЅРѕСЃС‚СЊ
 	if ( !bFoundCircle || fabs2( bestPoint - startPoint ) <= 10.0f )
 	{
 		bestPoint = startPoint;
@@ -298,7 +298,7 @@ bool CPlaneSmoothPath::Init( interface IBasePathUnit *_pPathUnit, interface IAvi
 	bFinished = false;
 
 
-	//посчитать дистанцию, на которой начинать изменение высоты
+	//РїРѕСЃС‡РёС‚Р°С‚СЊ РґРёСЃС‚Р°РЅС†РёСЋ, РЅР° РєРѕС‚РѕСЂРѕР№ РЅР°С‡РёРЅР°С‚СЊ РёР·РјРµРЅРµРЅРёРµ РІС‹СЃРѕС‚С‹
 	if ( IsHeightOK( pUnit, pPlane, pPath->GetFinishZ(), fAngleSpeed * fVerTurnRatio ) )
 	{
 		eState = HS_HEIGHT_OK;
@@ -314,9 +314,9 @@ bool CPlaneSmoothPath::Init( interface IBasePathUnit *_pPathUnit, interface IAvi
 		const float dZ = pPath->GetFinishZ() - pUnit->GetZ();
 		
 		CVec2 vDesiredDir;
-		if ( pPath->GetFinishZ() > pUnit->GetZ() )// набор высоты
+		if ( pPath->GetFinishZ() > pUnit->GetZ() )// РЅР°Р±РѕСЂ РІС‹СЃРѕС‚С‹
 			vDesiredDir = GetVectorByDirection( pPlane->GetClimbingAngle() + 65535*3/4 );
-		else																			// пикирование
+		else																			// РїРёРєРёСЂРѕРІР°РЅРёРµ
 			vDesiredDir = GetVectorByDirection( -pPlane->GetDivingAngle() + 65535*3/4 );
 		
 		fDistanceToChangeHeight = CalcCriticalDistance( vDesiredDir, fVerTurnRatio, fTurnR ) + dZ / vDesiredDir.y * vDesiredDir.x;
@@ -384,9 +384,9 @@ float CPlaneSmoothPath::Calc2DDistanceToGo() const
 	{
 		const WORD curAngle = GetDirectionByVector( pUnit->GetCenter() - flyCircle.center );		
 		const WORD angleToFly = angleSign * ( finishAngle - curAngle );
-		// по окружности осталось пройти
+		// РїРѕ РѕРєСЂСѓР¶РЅРѕСЃС‚Рё РѕСЃС‚Р°Р»РѕСЃСЊ РїСЂРѕР№С‚Рё
 		const float fDistCircle = angleToFly * fTurnR / 65535 ;
-		// после окружности - по прямой
+		// РїРѕСЃР»Рµ РѕРєСЂСѓР¶РЅРѕСЃС‚Рё - РїРѕ РїСЂСЏРјРѕР№
 		const float fDistLine = fabs( pPath->GetFinishPoint() -  flyCircle.center + fTurnR * GetVectorByDirection(finishAngle) );
 		return fDistCircle + fDistLine;
 	}
@@ -412,7 +412,7 @@ const CVec3 CPlaneSmoothPath::GetPoint( NTimer::STime timeDiff )
 
 	CVec2 vSpeedHorVer = pPlane->GetSpeedHorVer();
 
-	// не пора ли начать изменение высоты?
+	// РЅРµ РїРѕСЂР° Р»Рё РЅР°С‡Р°С‚СЊ РёР·РјРµРЅРµРЅРёРµ РІС‹СЃРѕС‚С‹?
 	const float fDistToGo = Calc2DDistanceToGo();
 	if ( !bGainHeight && ( fDistToGo <= fDistanceToChangeHeight * 2 || 
 				DirsDifference( GetDirectionByVector( pPath->GetFinishPoint() - pUnit->GetCenter() ),
@@ -420,10 +420,10 @@ const CVec3 CPlaneSmoothPath::GetPoint( NTimer::STime timeDiff )
 		bGainHeight = true;
 
 	float fCurrentZ = pUnit->GetZ();
-	CVec2 vDesiredSpeed( fSpeed, 0.0f ); // по умолчанию - полет горизонтальный.
+	CVec2 vDesiredSpeed( fSpeed, 0.0f ); // РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ - РїРѕР»РµС‚ РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅС‹Р№.
 	CVec2 vTmpSpeed( fSpeed, 0.0f );
 	
-	// снижение-подъем.
+	// СЃРЅРёР¶РµРЅРёРµ-РїРѕРґСЉРµРј.
 	if ( bGainHeight )
 	{
 		const float fFinalZ = pPath->GetFinishZ();
@@ -437,17 +437,17 @@ const CVec3 CPlaneSmoothPath::GetPoint( NTimer::STime timeDiff )
 
 			if ( bToHorisontal )
 			{
-				if ( 0.0f == vSpeedHorVer.y ) // достигли горизонтального полета
+				if ( 0.0f == vSpeedHorVer.y ) // РґРѕСЃС‚РёРіР»Рё РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅРѕРіРѕ РїРѕР»РµС‚Р°
 					bToHorisontal = false;
 			}
 			else if	( fHCrit > fabs( dZ ) ||
 					( vSpeedHorVer.y < 0.0f && fCurrentZ < fHCrit + SConsts::PLANE_MIN_HEIGHT ) ||
 						IsHeightOK( pUnit, pPlane, pPath->GetFinishZ(), fAngleSpeed * fVerTurnRatio )
 					)
-			{// обработать выход из пикирования/кабрирования.
+			{// РѕР±СЂР°Р±РѕС‚Р°С‚СЊ РІС‹С…РѕРґ РёР· РїРёРєРёСЂРѕРІР°РЅРёСЏ/РєР°Р±СЂРёСЂРѕРІР°РЅРёСЏ.
 				bToHorisontal = true;
 			}
-			else if ( dZ < 0.0f ) // снижение
+			else if ( dZ < 0.0f ) // СЃРЅРёР¶РµРЅРёРµ
 			{
 				CVec2 vDesiredSpeed2 ( fDistToGo, dZ );
 				Normalize( &vDesiredSpeed2 );
@@ -455,25 +455,25 @@ const CVec3 CPlaneSmoothPath::GetPoint( NTimer::STime timeDiff )
 
 				if ( fabs(vDesiredSpeed2.y) < fabs(vDesiredSpeed.y) ) 
 				{
-					// хочется снижаться более полого, чем возможно по максимуму
-					vDesiredSpeed = vDesiredSpeed2;	// разрешить
+					// С…РѕС‡РµС‚СЃСЏ СЃРЅРёР¶Р°С‚СЊСЃСЏ Р±РѕР»РµРµ РїРѕР»РѕРіРѕ, С‡РµРј РІРѕР·РјРѕР¶РЅРѕ РїРѕ РјР°РєСЃРёРјСѓРјСѓ
+					vDesiredSpeed = vDesiredSpeed2;	// СЂР°Р·СЂРµС€РёС‚СЊ
 				}
 				vDesiredSpeed *= fSpeed;
 			}
-			else if ( dZ > 0.0f ) // подъем
+			else if ( dZ > 0.0f ) // РїРѕРґСЉРµРј
 			{
 				vDesiredSpeed = GetVectorByDirection( pPlane->GetClimbingAngle() + 65535*3/4 );
 				CVec2 vDesiredSpeed2 ( fDistToGo, dZ );
 				Normalize( &vDesiredSpeed2 );
 				if ( fabs(vDesiredSpeed2.y) < fabs(vDesiredSpeed.y) ) 
 				{
-					// хочется подниматься более полого, чем возможно по максимуму
-					vDesiredSpeed = vDesiredSpeed2 ;	// разрешить
+					// С…РѕС‡РµС‚СЃСЏ РїРѕРґРЅРёРјР°С‚СЊСЃСЏ Р±РѕР»РµРµ РїРѕР»РѕРіРѕ, С‡РµРј РІРѕР·РјРѕР¶РЅРѕ РїРѕ РјР°РєСЃРёРјСѓРјСѓ
+					vDesiredSpeed = vDesiredSpeed2 ;	// СЂР°Р·СЂРµС€РёС‚СЊ
 				}
 				vDesiredSpeed *= fSpeed;
 			}
 
-			// если возможный поворот больше нужного, то довернуть на нужный угол.
+			// РµСЃР»Рё РІРѕР·РјРѕР¶РЅС‹Р№ РїРѕРІРѕСЂРѕС‚ Р±РѕР»СЊС€Рµ РЅСѓР¶РЅРѕРіРѕ, С‚Рѕ РґРѕРІРµСЂРЅСѓС‚СЊ РЅР° РЅСѓР¶РЅС‹Р№ СѓРіРѕР».
 			if ( wAlpha >= DirsDifference(	GetDirectionByVector( vDesiredSpeed ), 
 																			GetDirectionByVector( vSpeedHorVer ) ) )
 			{
@@ -482,9 +482,9 @@ const CVec3 CPlaneSmoothPath::GetPoint( NTimer::STime timeDiff )
 			else
 			{
 				if ( vSpeedHorVer.x * vDesiredSpeed.y - vSpeedHorVer.y * vDesiredSpeed.x > 0 ) 
-					fAlpha = fAlpha;						// поднять нос
+					fAlpha = fAlpha;						// РїРѕРґРЅСЏС‚СЊ РЅРѕСЃ
 				else 
-					fAlpha= -fAlpha;						// опустить нос
+					fAlpha= -fAlpha;						// РѕРїСѓСЃС‚РёС‚СЊ РЅРѕСЃ
 
 				const float cosAlpha = NTrg::Cos(fAlpha);
 				const float sinAlpha = NTrg::Sin(fAlpha);
@@ -494,7 +494,7 @@ const CVec3 CPlaneSmoothPath::GetPoint( NTimer::STime timeDiff )
 			}
 		}
 
-  	if ( !bGainHeight || vSpeedHorVer.x == 0 )// либо начало, либо полет по горизонтали
+  	if ( !bGainHeight || vSpeedHorVer.x == 0 )// Р»РёР±Рѕ РЅР°С‡Р°Р»Рѕ, Р»РёР±Рѕ РїРѕР»РµС‚ РїРѕ РіРѕСЂРёР·РѕРЅС‚Р°Р»Рё
 		{
 			vSpeedHorVer = vDesiredSpeed;
 		}
@@ -503,7 +503,7 @@ const CVec3 CPlaneSmoothPath::GetPoint( NTimer::STime timeDiff )
 			vSpeedHorVer = vTmpSpeed;
 		}
 
-		//CRAP{ ToDo сделать зависимость скорости самолета от вертикальных маневров
+		//CRAP{ ToDo СЃРґРµР»Р°С‚СЊ Р·Р°РІРёСЃРёРјРѕСЃС‚СЊ СЃРєРѕСЂРѕСЃС‚Рё СЃР°РјРѕР»РµС‚Р° РѕС‚ РІРµСЂС‚РёРєР°Р»СЊРЅС‹С… РјР°РЅРµРІСЂРѕРІ
 		//CRAP}
 		pPlane->SetSpeedHorVer( vSpeedHorVer );
 		if ( !bByCircle )
@@ -515,7 +515,7 @@ const CVec3 CPlaneSmoothPath::GetPoint( NTimer::STime timeDiff )
 		fCurrentZ += vSpeedHorVer.y * timeDiff;
 	}
 
-	// разворот
+	// СЂР°Р·РІРѕСЂРѕС‚
 	if ( bByCircle )	
 	{
 		const CVec2 vRes( flyCircle.center + ((pUnit->GetCenter() - flyCircle.center) ^ vCurAngleSpeed) );
@@ -535,13 +535,13 @@ const CVec3 CPlaneSmoothPath::GetPoint( NTimer::STime timeDiff )
 		}
 		//CRAP{
 
-		// полёт по окружности закончен
+		// РїРѕР»С‘С‚ РїРѕ РѕРєСЂСѓР¶РЅРѕСЃС‚Рё Р·Р°РєРѕРЅС‡РµРЅ
 		const WORD curAngle = GetDirectionByVector( result - flyCircle.center );		
 		const WORD angleToFly = DirsDifference( finishAngle, curAngle );
 		
 		if ( angleToFly / (fAngleSpeed * vSpeedHorVer.x / fSpeed ) <= timeDiff )
 			finishAngle = curAngle;
-		// проверить, не пора ли лететь по прямой
+		// РїСЂРѕРІРµСЂРёС‚СЊ, РЅРµ РїРѕСЂР° Р»Рё Р»РµС‚РµС‚СЊ РїРѕ РїСЂСЏРјРѕР№
 		if ( curAngle == finishAngle )
 		{
 			bByCircle = false;
@@ -582,7 +582,7 @@ const CVec3 CPlaneSmoothPath::GetPoint( NTimer::STime timeDiff )
 		pFraction->SetCurPos( v );
 	}
 
-				// критерий завершения пути.	
+				// РєСЂРёС‚РµСЂРёР№ Р·Р°РІРµСЂС€РµРЅРёСЏ РїСѓС‚Рё.	
 	if ( !bFinished )
 	{
 		float timeToFinish = fabs2( pPath->GetFinishPoint() - result ) / sqr( fSpeed );
@@ -611,7 +611,7 @@ bool CPlaneSmoothPath::IsHeightOK( const IBasePathUnit *pUnit, const IAviationUn
 	CVec2 vSpeedHorVer = pPlane->GetSpeedHorVer();
 	float fCurrentZ = pUnit->GetZ();
 	WORD wAlpha = fAngleSpeed * SConsts::AI_SEGMENT_DURATION;
-	// разница высоты около 1 тайла и скорость равна горизонтальной в переделах погрешности поворота.
+	// СЂР°Р·РЅРёС†Р° РІС‹СЃРѕС‚С‹ РѕРєРѕР»Рѕ 1 С‚Р°Р№Р»Р° Рё СЃРєРѕСЂРѕСЃС‚СЊ СЂР°РІРЅР° РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅРѕР№ РІ РїРµСЂРµРґРµР»Р°С… РїРѕРіСЂРµС€РЅРѕСЃС‚Рё РїРѕРІРѕСЂРѕС‚Р°.
 	return	fabs( fCurrentZ - fZ ) < static_cast<int>( SConsts::TILE_SIZE ) &&
 		wAlpha >= DirsDifference(	GetDirectionByVector(1,0),GetDirectionByVector(vSpeedHorVer) );			
 }

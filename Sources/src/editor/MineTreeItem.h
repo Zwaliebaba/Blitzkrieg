@@ -21,12 +21,12 @@ public:
 	CMineCommonPropsItem() { nItemType = E_MINE_COMMON_PROPS_ITEM; InitDefaultValues(); nImageIndex = 0; }
 	~CMineCommonPropsItem() {};
 	
-	//Получение внутренних параметров
+	//РџРѕР»СѓС‡РµРЅРёРµ РІРЅСѓС‚СЂРµРЅРЅРёС… РїР°СЂР°РјРµС‚СЂРѕРІ
 	const char* GetMineName() { return values[0].value; }
 	int GetWeight() { return values[1].value; }
 //	const char* GetFlagPicture() { return values[3].value; }
 	
-	//Установка внутренних параметров
+	//РЈСЃС‚Р°РЅРѕРІРєР° РІРЅСѓС‚СЂРµРЅРЅРёС… РїР°СЂР°РјРµС‚СЂРѕРІ
 	void SetMineName( const char *pszName ) { values[0].value = pszName; }
 	void SetWeight( int nVal ) { values[1].value = nVal; }
 //	void SetFlagPicture( int nVal ) { values[1].value = nVal; }

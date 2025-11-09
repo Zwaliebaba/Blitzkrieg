@@ -22,7 +22,7 @@ bool ComposeSingleObject( const char *pszObjFileName, const char *pszShadowFileN
 	
 	CVectorOfStrings fileNameVector;
 	CVectorOfStrings invalidNameVector;
-	//Сохраняем спрайт
+	//РЎРѕС…СЂР°РЅСЏРµРј СЃРїСЂР°Р№С‚
 	vector<SAnimationDesc> animDescVector( 1 );
 	SAnimationDesc &animDesc = animDescVector[0];
 	animDesc.bCycled = false;
@@ -32,7 +32,7 @@ bool ComposeSingleObject( const char *pszObjFileName, const char *pszShadowFileN
 	animDesc.ptFrameShift = zeroPos;
 	animDesc.szName = "default";
 	
-	//Заполняем вектор directions
+	//Р—Р°РїРѕР»РЅСЏРµРј РІРµРєС‚РѕСЂ directions
 	fileNameVector.resize( nLastSprite );
 	animDesc.dirs.resize( 1 );
 	
@@ -80,9 +80,9 @@ bool ComposeSingleObject( const char *pszObjFileName, const char *pszShadowFileN
 	if ( _access( pszShadowFileName, 04 ) )
 		return false;
 
-	//Тень надо промодулировать альфой из инвертированной картинки здания.
+	//РўРµРЅСЊ РЅР°РґРѕ РїСЂРѕРјРѕРґСѓР»РёСЂРѕРІР°С‚СЊ Р°Р»СЊС„РѕР№ РёР· РёРЅРІРµСЂС‚РёСЂРѕРІР°РЅРЅРѕР№ РєР°СЂС‚РёРЅРєРё Р·РґР°РЅРёСЏ.
 	{
-		//Загружаем здание
+		//Р—Р°РіСЂСѓР¶Р°РµРј Р·РґР°РЅРёРµ
 		CPtr<IDataStream> pBuildStream = OpenFileStream( pszObjFileName, STREAM_ACCESS_READ );
 		if ( pBuildStream == 0 )
 			return false;
@@ -93,7 +93,7 @@ bool ComposeSingleObject( const char *pszObjFileName, const char *pszShadowFileN
 		pInverseSprite->SharpenAlpha( 128 );
 		pInverseSprite->InvertAlpha();
 
-		//Загружаем тень
+		//Р—Р°РіСЂСѓР¶Р°РµРј С‚РµРЅСЊ
 		CPtr<IDataStream> pShadowStream = OpenFileStream( pszShadowFileName, STREAM_ACCESS_READ );
 		if ( pShadowStream == 0 )
 			return false;
@@ -115,12 +115,12 @@ bool ComposeSingleObject( const char *pszObjFileName, const char *pszShadowFileN
 		rc.top = 0;
 		rc.right = pInverseSprite->GetSizeX();
 		rc.bottom = pInverseSprite->GetSizeY();
-		// промодулировать тень инверсной альфой из основной картинки
+		// РїСЂРѕРјРѕРґСѓР»РёСЂРѕРІР°С‚СЊ С‚РµРЅСЊ РёРЅРІРµСЂСЃРЅРѕР№ Р°Р»СЊС„РѕР№ РёР· РѕСЃРЅРѕРІРЅРѕР№ РєР°СЂС‚РёРЅРєРё
 		pShadowImage->ModulateAlphaFrom( pInverseSprite, &rc, 0, 0 );
-		// занулить цвет - оставить только альфу
+		// Р·Р°РЅСѓР»РёС‚СЊ С†РІРµС‚ - РѕСЃС‚Р°РІРёС‚СЊ С‚РѕР»СЊРєРѕ Р°Р»СЊС„Сѓ
 		pShadowImage->SetColor( DWORD(0) );
 		
-		//Сохраним файл с тенью под левым именем
+		//РЎРѕС…СЂР°РЅРёРј С„Р°Р№Р» СЃ С‚РµРЅСЊСЋ РїРѕРґ Р»РµРІС‹Рј РёРјРµРЅРµРј
 		szTempFileName = theApp.GetEditorTempDir();
 		szTempFileName += "shadow.tga";
 		CPtr<IDataStream> pSaveShadowStream = OpenFileStream( szTempFileName.c_str(), STREAM_ACCESS_WRITE );
@@ -137,7 +137,7 @@ bool ComposeSingleObject( const char *pszObjFileName, const char *pszShadowFileN
 		AfxMessageBox( "Composing images failed!" );
 	}
 	
-	//сохраняю 1s.tga, 1s.san файлы
+	//СЃРѕС…СЂР°РЅСЏСЋ 1s.tga, 1s.san С„Р°Р№Р»С‹
 	szTempFileName = szShortFileName;
 	szTempFileName += "s";
 	SaveCompressedShadow( pImage, szTempFileName.c_str() );
@@ -173,13 +173,13 @@ bool ComposeSingleObjectPack( const char *pszObjFileName, const char *pszShadowF
 	param.lockedTiles = pass;
 	param.lockedTilesCenter = CTPoint<int>( vlockedTilesCenter.x, vlockedTilesCenter.y );
 	
-	//скомпонуем
+	//СЃРєРѕРјРїРѕРЅСѓРµРј
 	if ( !BuildSpritesPack( param, pszResultFileName ) )
 		return false;
 	string szTGAFile = pszResultFileName;
 	szTGAFile += ".tga";
 
-	//сожмем результат
+	//СЃРѕР¶РјРµРј СЂРµР·СѓР»СЊС‚Р°С‚
 	{
 		CPtr<IDataStream> pImageStream = OpenFileStream( szTGAFile.c_str(), STREAM_ACCESS_READ );
 		NI_ASSERT( pImageStream != 0 );
@@ -190,13 +190,13 @@ bool ComposeSingleObjectPack( const char *pszObjFileName, const char *pszShadowF
 		remove( szTGAFile.c_str() );
 	}
 
-	//скомпонуем тень
-	//Тень надо промодулировать альфой из инвертированной картинки здания.
+	//СЃРєРѕРјРїРѕРЅСѓРµРј С‚РµРЅСЊ
+	//РўРµРЅСЊ РЅР°РґРѕ РїСЂРѕРјРѕРґСѓР»РёСЂРѕРІР°С‚СЊ Р°Р»СЊС„РѕР№ РёР· РёРЅРІРµСЂС‚РёСЂРѕРІР°РЅРЅРѕР№ РєР°СЂС‚РёРЅРєРё Р·РґР°РЅРёСЏ.
 	CPtr<IImage> pInverseSprite = pSpriteImage->Duplicate();
 	pInverseSprite->SharpenAlpha( 128 );
 	pInverseSprite->InvertAlpha();
 
-	//Загружаем тень
+	//Р—Р°РіСЂСѓР¶Р°РµРј С‚РµРЅСЊ
 	CPtr<IDataStream> pShadowStream = OpenFileStream( pszShadowFileName, STREAM_ACCESS_READ );
 	if ( pShadowStream == 0 )
 		return false;
@@ -218,9 +218,9 @@ bool ComposeSingleObjectPack( const char *pszObjFileName, const char *pszShadowF
 	rc.top = 0;
 	rc.right = pInverseSprite->GetSizeX();
 	rc.bottom = pInverseSprite->GetSizeY();
-	// промодулировать тень инверсной альфой из основной картинки
+	// РїСЂРѕРјРѕРґСѓР»РёСЂРѕРІР°С‚СЊ С‚РµРЅСЊ РёРЅРІРµСЂСЃРЅРѕР№ Р°Р»СЊС„РѕР№ РёР· РѕСЃРЅРѕРІРЅРѕР№ РєР°СЂС‚РёРЅРєРё
 	pShadowImage->ModulateAlphaFrom( pInverseSprite, &rc, 0, 0 );
-	// занулить цвет - оставить только альфу
+	// Р·Р°РЅСѓР»РёС‚СЊ С†РІРµС‚ - РѕСЃС‚Р°РІРёС‚СЊ С‚РѕР»СЊРєРѕ Р°Р»СЊС„Сѓ
 	pShadowImage->SetColor( DWORD(0) );
 	
 	param.pImage = pShadowImage;
@@ -230,7 +230,7 @@ bool ComposeSingleObjectPack( const char *pszObjFileName, const char *pszShadowF
 	param.lockedTilesCenter.x = 0;
 	param.lockedTilesCenter.y = 0;
 	
-	//скомпонуем под левым именем
+	//СЃРєРѕРјРїРѕРЅСѓРµРј РїРѕРґ Р»РµРІС‹Рј РёРјРµРЅРµРј
 	string szRes = pszResultFileName;
 	szRes += "s";
 	if( !BuildSpritesPack( param, szRes.c_str() ) )
@@ -238,7 +238,7 @@ bool ComposeSingleObjectPack( const char *pszObjFileName, const char *pszShadowF
 	szTGAFile = szRes;
 	szTGAFile += ".tga";
 	
-	//Скомпрессируем тень
+	//РЎРєРѕРјРїСЂРµСЃСЃРёСЂСѓРµРј С‚РµРЅСЊ
 	{
 		CPtr<IDataStream> pImageStream = OpenFileStream( szTGAFile.c_str(), STREAM_ACCESS_READ );
 		NI_ASSERT( pImageStream != 0 );
@@ -275,7 +275,7 @@ bool ComposeImageToTexture( const char *pszSource, const char *pszResult, bool b
 		return false;
 	pDestImage->CopyFrom( pSourceImage, &sourceRC, 0, 0 );
 
-	//заполним оставшиеся области белым цветом с нулевой альфой
+	//Р·Р°РїРѕР»РЅРёРј РѕСЃС‚Р°РІС€РёРµСЃСЏ РѕР±Р»Р°СЃС‚Рё Р±РµР»С‹Рј С†РІРµС‚РѕРј СЃ РЅСѓР»РµРІРѕР№ Р°Р»СЊС„РѕР№
 	SColor *pDest = pDestImage->GetLFB();
 	SColor col( 0, 0xff, 0xff, 0xff );
 	if ( nSizeX > nTempX )
@@ -309,7 +309,7 @@ bool ComposeImageToTexture( const char *pszSource, const char *pszResult, bool b
 
 	if ( bCorrect )
 	{
-		//записываю скомпрессированные данные
+		//Р·Р°РїРёСЃС‹РІР°СЋ СЃРєРѕРјРїСЂРµСЃСЃРёСЂРѕРІР°РЅРЅС‹Рµ РґР°РЅРЅС‹Рµ
 		SaveCompressedTexture( pDestImage, pszResult );
 	}
 	else
@@ -333,7 +333,7 @@ CTRect<float> GetImageSize( const char *pszImageFile )
 	if ( !pImage )
 		return res;
 	
-	//пересчитываем в текстурные координаты
+	//РїРµСЂРµСЃС‡РёС‚С‹РІР°РµРј РІ С‚РµРєСЃС‚СѓСЂРЅС‹Рµ РєРѕРѕСЂРґРёРЅР°С‚С‹
 	float fSizeX = GetNextPow2( pImage->GetSizeX() );
 	float fSizeY = GetNextPow2( pImage->GetSizeY() );
 

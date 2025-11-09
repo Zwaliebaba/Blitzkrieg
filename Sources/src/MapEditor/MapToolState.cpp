@@ -48,7 +48,7 @@ void CMapToolState::OnLButtonDown( UINT nFlags, const CTPoint<int> &rMousePoint,
 	pFrame->m_firstPoint.y = v.y;
 
 	//-----------------------------------------------------------------------
-	//			Ëîìàëêà-÷èíèëêà 
+	//			Ð‹Ð¾Ð¼Ð°Ð»ÐºÐ°-Ñ‡Ð¸Ð½Ð¸Ð»ÐºÐ° 
 	//-----------------------------------------------------------------------
 	if ( pFrame->m_mapEditorBarPtr->GetToolsTab()->m_mode == toolStateConsts::nRepair )
 	{
@@ -91,7 +91,7 @@ void CMapToolState::OnLButtonDown( UINT nFlags, const CTPoint<int> &rMousePoint,
 	}
 	
 	//-----------------------------------------------------------------------
-	//			Ðèñîâàëêà áëàñòåé
+	//			â€“Ð¸ÑÐ¾Ð²Ð°Ð»ÐºÐ° Ð±Ð»Ð°ÑÑ‚ÐµÐ¹
 	//-----------------------------------------------------------------------
 	if(  pFrame->m_mapEditorBarPtr->GetToolsTab()->m_mode == toolStateConsts::nArea )
 	{
@@ -117,7 +117,7 @@ void CMapToolState::OnRButtonDown( UINT nFlags, const CTPoint<int> &rMousePoint,
 	pFrame->m_firstPoint.y = v.y;
 
 	//-----------------------------------------------------------------------
-	//			Ëîìàëêà-÷èíèëêà 
+	//			Ð‹Ð¾Ð¼Ð°Ð»ÐºÐ°-Ñ‡Ð¸Ð½Ð¸Ð»ÐºÐ° 
 	//-----------------------------------------------------------------------
 	if ( pFrame->m_mapEditorBarPtr->GetToolsTab()->m_mode == toolStateConsts::nRepair )
 	{
@@ -179,7 +179,7 @@ void CMapToolState::OnMButtonDown( UINT nFlags, const CTPoint<int> &rMousePoint,
 	pFrame->m_firstPoint.y = v.y;
 
 	//-----------------------------------------------------------------------
-	//			Ëîìàëêà-÷èíèëêà 
+	//			Ð‹Ð¾Ð¼Ð°Ð»ÐºÐ°-Ñ‡Ð¸Ð½Ð¸Ð»ÐºÐ° 
 	//-----------------------------------------------------------------------
 	if ( pFrame->m_mapEditorBarPtr->GetToolsTab()->m_mode == toolStateConsts::nRepair )
 	{
@@ -214,7 +214,7 @@ void CMapToolState::OnLButtonUp( UINT nFlags, const CTPoint<int> &rMousePoint, C
 		return;
 	}
 	//-----------------------------------------------------------------------
-	//			Ðèñîâàëêà îáëàñòåé 
+	//			â€“Ð¸ÑÐ¾Ð²Ð°Ð»ÐºÐ° Ð¾Ð±Ð»Ð°ÑÑ‚ÐµÐ¹ 
 	//-----------------------------------------------------------------------
 	if ( pFrame->m_mapEditorBarPtr->GetToolsTab()->m_mode == toolStateConsts::nArea )
 	{
@@ -224,14 +224,14 @@ void CMapToolState::OnLButtonUp( UINT nFlags, const CTPoint<int> &rMousePoint, C
 			SScriptArea area;
 			if( pFrame->m_mapEditorBarPtr->GetToolsTab()->m_drawType == toolStateConsts::nRectType )
 			{
-				 // äëÿ ïðÿìîóãîëüíèêà 
+				 // Ð´Ð»Â¤ Ð¿Ñ€Â¤Ð¼Ð¾ÑƒÐ³Ð¾Ð»ÑŒÐ½Ð¸ÐºÐ° 
 				area.eType = SScriptArea::EAT_RECTANGLE;
 				area.center = CVec2( ( pFrame->m_firstPoint.x + pFrame->m_lastPoint.x ) / 2.0f, ( pFrame->m_firstPoint.y + pFrame->m_lastPoint.y ) / 2.0f ) ;
 				area.vAABBHalfSize = CVec2( abs( pFrame->m_firstPoint.x - pFrame->m_lastPoint.x ) / 2.0f, abs( pFrame->m_firstPoint.y - pFrame->m_lastPoint.y ) / 2.0f ) ;
 			}
 			else
 			{
-				// äëÿ êðóãà
+				// Ð´Ð»Â¤ ÐºÑ€ÑƒÐ³Ð°
 				 area.eType = SScriptArea::EAT_CIRCLE;
 		  	 area.center = CVec2( pFrame->m_firstPoint.x , pFrame->m_firstPoint.y ) ;
 		  	 area.fR = fabs( pFrame->m_firstPoint.x - pFrame->m_lastPoint.x, 
@@ -273,9 +273,9 @@ void CMapToolState::OnMouseMove( UINT nFlags, const CTPoint<int> &rMousePoint, C
 				pFrame->m_lastPoint.y = v.y;
 
 				//-----------------------------------------------------------------------
-				//			Ðèñîâàëêà îáëàñòåé
+				//			â€“Ð¸ÑÐ¾Ð²Ð°Ð»ÐºÐ° Ð¾Ð±Ð»Ð°ÑÑ‚ÐµÐ¹
 				//-----------------------------------------------------------------------
-				//		ïðèìîóãîëüíèê 
+				//		Ð¿Ñ€Ð¸Ð¼Ð¾ÑƒÐ³Ð¾Ð»ÑŒÐ½Ð¸Ðº 
 				pFrame->m_mapEditorBarPtr->GetToolsTab()->UpdateData();
 
 				CSceneDrawTool drawTool;
@@ -291,7 +291,7 @@ void CMapToolState::OnMouseMove( UINT nFlags, const CTPoint<int> &rMousePoint, C
 					drawTool.DrawLine3D( CVec2( pFrame->m_firstPoint.x,	pFrame->m_lastPoint.y ), CVec2( pFrame->m_firstPoint.x,	pFrame->m_firstPoint.y ), dwColor, rTerrainInfo.altitudes, 16 );
 				}	
 
-				// êðóã   
+				// ÐºÑ€ÑƒÐ³   
 				if( ( nFlags & MK_LBUTTON ) &&
 						( pFrame->m_mapEditorBarPtr->GetToolsTab()->m_mode == toolStateConsts::nArea ) &&
 						( pFrame->m_mapEditorBarPtr->GetToolsTab()->m_drawType == toolStateConsts::nCircleType ) )

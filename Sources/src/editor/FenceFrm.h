@@ -77,7 +77,7 @@ private:
 	CComboBox *m_pTransparenceCombo;
 	int m_transValue;
 
-	std::list<int> freeIndexes;			//для хранения незаполненных индексов
+	std::list<int> freeIndexes;			//РґР»СЏ С…СЂР°РЅРµРЅРёСЏ РЅРµР·Р°РїРѕР»РЅРµРЅРЅС‹С… РёРЅРґРµРєСЃРѕРІ
 	
 protected:
 	void ClickOnThumbList( int nID );
@@ -89,7 +89,7 @@ protected:
 	void CenterSpriteAboutTile();
 	
 	virtual void LoadRPGStats( IDataTree *pDT, CTreeItem *pRootItem );
-	virtual void SpecificInit();														//для инициализации внутренних данных после загрузки проекта или создании нового
+	virtual void SpecificInit();														//РґР»СЏ РёРЅРёС†РёР°Р»РёР·Р°С†РёРё РІРЅСѓС‚СЂРµРЅРЅРёС… РґР°РЅРЅС‹С… РїРѕСЃР»Рµ Р·Р°РіСЂСѓР·РєРё РїСЂРѕРµРєС‚Р° РёР»Рё СЃРѕР·РґР°РЅРёРё РЅРѕРІРѕРіРѕ
 	virtual void SpecificClearBeforeBatchMode();
 	virtual BOOL SpecificTranslateMessage( MSG *pMsg );
 	

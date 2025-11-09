@@ -292,13 +292,13 @@ END_MESSAGE_MAP()
 BOOL CRMGCreateTemplateDialog::OnInitDialog() 
 {
 	CResizeDialog::OnInitDialog();
-	//0 открытие TempatesHashMap
-	//1 добавление template
-	//2 добавление Graph
-	//3 добавление VSO
-	//4 добавление field
+	//0 РѕС‚РєСЂС‹С‚РёРµ TempatesHashMap
+	//1 РґРѕР±Р°РІР»РµРЅРёРµ template
+	//2 РґРѕР±Р°РІР»РµРЅРёРµ Graph
+	//3 РґРѕР±Р°РІР»РµРЅРёРµ VSO
+	//4 РґРѕР±Р°РІР»РµРЅРёРµ field
 	//5 Browse Script file name
-	//6 текущий TemplatesHashMap
+	//6 С‚РµРєСѓС‰РёР№ TemplatesHashMap
 	
 	if ( resizeDialogOptions.szParameters.size() < 7 )
 	{
@@ -330,10 +330,10 @@ bool CRMGCreateTemplateDialog::LoadTemplatesList()
 
 	SetWindowText( NStr::Format( "%s - [%s]", CT_TEMPLATES_DIALOG_TITLE, resizeDialogOptions.szParameters[6] ) );
 	BeginWaitCursor();
-	//считываем templates с диска
+	//СЃС‡РёС‚С‹РІР°РµРј templates СЃ РґРёСЃРєР°
 	LoadDataResource( resizeDialogOptions.szParameters[6], "", false, 0, CT_TEMPLATES_XML_NAME, templates );
 	
-	//заполняем информацию по templates
+	//Р·Р°РїРѕР»РЅСЏРµРј РёРЅС„РѕСЂРјР°С†РёСЋ РїРѕ templates
 	m_TemplatesList.DeleteAllItems();
 	for ( CRMTemplatesHashMap::const_iterator templateIterator = templates.begin();  templateIterator != templates.end(); ++templateIterator )
 	{
@@ -362,7 +362,7 @@ bool CRMGCreateTemplateDialog::SaveTemplatesList()
 
 	SetWindowText( NStr::Format( "%s - [%s]", CT_TEMPLATES_DIALOG_TITLE, resizeDialogOptions.szParameters[6] ) );
 	BeginWaitCursor();
-	//сохраняем templates на диск
+	//СЃРѕС…СЂР°РЅСЏРµРј templates РЅР° РґРёСЃРє
 	for ( CRMTemplatesHashMap::const_iterator templateIterator = templates.begin();  templateIterator != templates.end(); ++templateIterator )
 	{
 		CPtr<IDataStream> pStreamXML = CreateFileStream( ( pDataStorage->GetName() + templateIterator->first + ".xml" ).c_str(), STREAM_ACCESS_WRITE );
@@ -382,7 +382,7 @@ bool CRMGCreateTemplateDialog::SaveTemplatesList()
 		saver.Add( RMGC_QUICK_LOAD_MAP_INFO_NAME, &quickLoadMapInfo );
 	}
 
-	//сохраняем список templates на диск
+	//СЃРѕС…СЂР°РЅСЏРµРј СЃРїРёСЃРѕРє templates РЅР° РґРёСЃРє
 	if ( !SaveDataResource( resizeDialogOptions.szParameters[6], "", false, 0, CT_TEMPLATES_XML_NAME, templates ) )
 	{
 		EndWaitCursor();
@@ -410,7 +410,7 @@ void CRMGCreateTemplateDialog::GetAllMODs( std::vector<std::string> *pMODsList )
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool CRMGCreateTemplateDialog::LoadTemplateToControls()
 {
-	//обновляем контролы по текущему темплейту
+	//РѕР±РЅРѕРІР»СЏРµРј РєРѕРЅС‚СЂРѕР»С‹ РїРѕ С‚РµРєСѓС‰РµРјСѓ С‚РµРјРїР»РµР№С‚Сѓ
 	bCreateControls = true;
 	m_GraphsList.DeleteAllItems();
 	m_VSOList.DeleteAllItems();
@@ -511,7 +511,7 @@ bool CRMGCreateTemplateDialog::LoadTemplateToControls()
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool CRMGCreateTemplateDialog::SaveTemplateFromControls()
 {
-	//обновляем состояние темплейта в списке темплейтов
+	//РѕР±РЅРѕРІР»СЏРµРј СЃРѕСЃС‚РѕСЏРЅРёРµ С‚РµРјРїР»РµР№С‚Р° РІ СЃРїРёСЃРєРµ С‚РµРјРїР»РµР№С‚РѕРІ
 	int nFocusedItem = m_TemplatesList.GetNextItem( -1, LVNI_FOCUSED );
 	if ( nFocusedItem != ( -1 ) )
 	{
@@ -1069,7 +1069,7 @@ void CRMGCreateTemplateDialog::OnAddTemplateButton()
 	CFileDialog fileDialog( true, ".xml", "", OFN_ALLOWMULTISELECT, "XML files (*.xml)|*.xml||" );
 	fileDialog.m_ofn.lpstrFile = new char[0xFFFF];
 	fileDialog.m_ofn.lpstrFile[0] = 0;			
-	fileDialog.m_ofn.nMaxFile = 0xFFFF - 1; //на всякий пожарный
+	fileDialog.m_ofn.nMaxFile = 0xFFFF - 1; //РЅР° РІСЃСЏРєРёР№ РїРѕР¶Р°СЂРЅС‹Р№
 	fileDialog.m_ofn.lpstrInitialDir = resizeDialogOptions.szParameters[1].c_str();
 
 	if ( fileDialog.DoModal() == IDOK )
@@ -1577,7 +1577,7 @@ void CRMGCreateTemplateDialog::OnAddGraphButton()
 		CFileDialog fileDialog( true, ".xml", "", OFN_FILEMUSTEXIST | OFN_ALLOWMULTISELECT | OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST, "XML files (*.xml)|*.xml||" );
 		fileDialog.m_ofn.lpstrFile = new char[0xFFFF];
 		fileDialog.m_ofn.lpstrFile[0] = 0;			
-		fileDialog.m_ofn.nMaxFile = 0xFFFF - 1; //на всякий пожарный
+		fileDialog.m_ofn.nMaxFile = 0xFFFF - 1; //РЅР° РІСЃСЏРєРёР№ РїРѕР¶Р°СЂРЅС‹Р№
 		fileDialog.m_ofn.lpstrInitialDir = resizeDialogOptions.szParameters[2].c_str();
 		
 		if ( fileDialog.DoModal() == IDOK )
@@ -1971,7 +1971,7 @@ void CRMGCreateTemplateDialog::OnAddVsoButton()
 		CFileDialog fileDialog( true, ".xml", "", OFN_FILEMUSTEXIST | OFN_ALLOWMULTISELECT | OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST, "XML files (*.xml)|*.xml||" );
 		fileDialog.m_ofn.lpstrFile = new char[0xFFFF];
 		fileDialog.m_ofn.lpstrFile[0] = 0;			
-		fileDialog.m_ofn.nMaxFile = 0xFFFF - 1; //на всякий пожарный
+		fileDialog.m_ofn.nMaxFile = 0xFFFF - 1; //РЅР° РІСЃСЏРєРёР№ РїРѕР¶Р°СЂРЅС‹Р№
 		fileDialog.m_ofn.lpstrInitialDir = resizeDialogOptions.szParameters[3].c_str();
 		
 		if ( fileDialog.DoModal() == IDOK )
@@ -2274,7 +2274,7 @@ void CRMGCreateTemplateDialog::OnAddFieldButton()
 		CFileDialog fileDialog( true, ".xml", "", OFN_FILEMUSTEXIST | OFN_ALLOWMULTISELECT | OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST, "XML files (*.xml)|*.xml||" );
 		fileDialog.m_ofn.lpstrFile = new char[0xFFFF];
 		fileDialog.m_ofn.lpstrFile[0] = 0;			
-		fileDialog.m_ofn.nMaxFile = 0xFFFF - 1; //на всякий пожарный
+		fileDialog.m_ofn.nMaxFile = 0xFFFF - 1; //РЅР° РІСЃСЏРєРёР№ РїРѕР¶Р°СЂРЅС‹Р№
 		fileDialog.m_ofn.lpstrInitialDir = resizeDialogOptions.szParameters[4].c_str();
 		
 		if ( fileDialog.DoModal() == IDOK )

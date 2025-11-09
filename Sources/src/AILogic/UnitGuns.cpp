@@ -110,7 +110,7 @@ bool CUnitGuns::FindTimeToGo( CAIUnit *pUnit, CAIUnit *pEnemy, std::list< CUnitG
 void CUnitGuns::FindTimeToTurn( CAIUnit *pOwner, const WORD wWillPower, CTurret *pTurret, CAIUnit *pEnemy, const SVector &finishTile, const bool bIsEnemyInFireRange, NTimer::STime *pTimeToTurn ) const
 {
 	*pTimeToTurn = 0;
-	// нужно учесть время на развороты
+	// РЅСѓР¶РЅРѕ СѓС‡РµСЃС‚СЊ РІСЂРµРјСЏ РЅР° СЂР°Р·РІРѕСЂРѕС‚С‹
 	if ( pOwner->CanRotate() && ( !bIsEnemyInFireRange || pTurret == 0 ) )
 	{
 		const WORD finishToEnemyDir = GetDirectionByVector( (pEnemy->GetTile() - finishTile).ToCVec2() );
@@ -184,7 +184,7 @@ CBasicGun* CUnitGuns::ChooseGunForStatObj( CAIUnit *pOwner, CStaticObject *pObj,
 	{
 		CBasicGun *pGun = pOwner->GetGun(i);
 		const SWeaponRPGStats::SShell &shell = pGun->GetShell();
-		// разрывными снарядами и возможно дострелить
+		// СЂР°Р·СЂС‹РІРЅС‹РјРё СЃРЅР°СЂСЏРґР°РјРё Рё РІРѕР·РјРѕР¶РЅРѕ РґРѕСЃС‚СЂРµР»РёС‚СЊ
 		if ( shell.eDamageType != SWeaponRPGStats::SShell::DAMAGE_HEALTH || shell.fArea2 <= 0 )
 			pGun->SetRejectReason( ACK_NEGATIVE );
 		else if ( pGun->CanShootToObject( pObj ) )
@@ -192,7 +192,7 @@ CBasicGun* CUnitGuns::ChooseGunForStatObj( CAIUnit *pOwner, CStaticObject *pObj,
 			SWeaponPathInfo info;			
 			if ( !pOwner->CanMove() || FindTimeToStatObjGo( pOwner, pObj, &pathInfo, pWStats, &info ) )
 			{
-				// если мы в формации и нельзя выходить за её пределы, а чтобы стрелять в юнита, придётся				
+				// РµСЃР»Рё РјС‹ РІ С„РѕСЂРјР°С†РёРё Рё РЅРµР»СЊР·СЏ РІС‹С…РѕРґРёС‚СЊ Р·Р° РµС‘ РїСЂРµРґРµР»С‹, Р° С‡С‚РѕР±С‹ СЃС‚СЂРµР»СЏС‚СЊ РІ СЋРЅРёС‚Р°, РїСЂРёРґС‘С‚СЃСЏ				
 				if ( pOwner->CanMove() && !pOwner->CanGoToPoint( info.pStaticPath->GetFinishPoint() ) )
 					continue;
 
@@ -202,12 +202,12 @@ CBasicGun* CUnitGuns::ChooseGunForStatObj( CAIUnit *pOwner, CStaticObject *pObj,
 				else
 					time = 0;
 
-				// выстрелов, чтобы убить
+				// РІС‹СЃС‚СЂРµР»РѕРІ, С‡С‚РѕР±С‹ СѓР±РёС‚СЊ
 				const float fShotsToKill = pObj->GetHitPoints() / pGun->GetDamage();
-				// очередей
+				// РѕС‡РµСЂРµРґРµР№
 				const int nBursts = ceil( fShotsToKill / pWStats->nAmmoPerBurst );
 
-				// кол-во очередей * ( время прицеливания + ( кол-во выстрелов - 1 ) * время между выстрелами )
+				// РєРѕР»-РІРѕ РѕС‡РµСЂРµРґРµР№ * ( РІСЂРµРјСЏ РїСЂРёС†РµР»РёРІР°РЅРёСЏ + ( РєРѕР»-РІРѕ РІС‹СЃС‚СЂРµР»РѕРІ - 1 ) * РІСЂРµРјСЏ РјРµР¶РґСѓ РІС‹СЃС‚СЂРµР»Р°РјРё )
 				time += nBursts * ( pWStats->nAimingTime + ( pWStats->nAmmoPerBurst - 1 ) * pGun->GetFireRate() );
 
 				if ( time < *pTime || nGun == -1 )
@@ -247,7 +247,7 @@ int CUnitGuns::GetNAmmo( const int nCommonGun ) const
 	return commonGunsInfo[nCommonGun]->nAmmo;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// nAmmo со знаком
+// nAmmo СЃРѕ Р·РЅР°РєРѕРј
 void CUnitGuns::ChangeAmmo( const int nCommonGun, const nAmmo )
 {
 	NI_ASSERT_T( nCommonGun < nCommonGuns, NStr::Format( "Wrong number of gun (%d), total number of guns (%d)", nCommonGun, nCommonGuns ) );

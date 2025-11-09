@@ -43,18 +43,18 @@ public:
 	static const char* ACTION_NAMES[ACTION_COUNT];
 	static const char* ACTION_BEHAVIOUR_NAMES[AB_COUNT];
 
-	DWORD dwPresentState;						//в каком случае кнопка показывается на экране
-	DWORD dwEnableState;						//в какм случая кнопка может нажиматься на экране
-	bool bSelectable;								//просто текст
-	std::string szLabelFileName;		//Сообщение
-	std::string szTooltipFileName;	//Толтип
-	std::string szFocusedSoundFileName;	//Звук при наведении
-	std::string szActionSoundFileName;	//Звук при выполнении
-	std::vector<DWORD> dwColors;		//Цвета по состояниям ( если старший байт нулевой то кнопка не показывается в этом состоянии )
-	DWORD dwShadowColor;						//Цвет тени
-	DWORD dwAlign;									//Расположение сообщения в прямоугольнике
-	CRect position;									//Расположение на экране
-	int nFontSize;									//размер шрифта
+	DWORD dwPresentState;						//РІ РєР°РєРѕРј СЃР»СѓС‡Р°Рµ РєРЅРѕРїРєР° РїРѕРєР°Р·С‹РІР°РµС‚СЃСЏ РЅР° СЌРєСЂР°РЅРµ
+	DWORD dwEnableState;						//РІ РєР°РєРј СЃР»СѓС‡Р°СЏ РєРЅРѕРїРєР° РјРѕР¶РµС‚ РЅР°Р¶РёРјР°С‚СЊСЃСЏ РЅР° СЌРєСЂР°РЅРµ
+	bool bSelectable;								//РїСЂРѕСЃС‚Рѕ С‚РµРєСЃС‚
+	std::string szLabelFileName;		//РЎРѕРѕР±С‰РµРЅРёРµ
+	std::string szTooltipFileName;	//РўРѕР»С‚РёРї
+	std::string szFocusedSoundFileName;	//Р—РІСѓРє РїСЂРё РЅР°РІРµРґРµРЅРёРё
+	std::string szActionSoundFileName;	//Р—РІСѓРє РїСЂРё РІС‹РїРѕР»РЅРµРЅРёРё
+	std::vector<DWORD> dwColors;		//Р¦РІРµС‚Р° РїРѕ СЃРѕСЃС‚РѕСЏРЅРёСЏРј ( РµСЃР»Рё СЃС‚Р°СЂС€РёР№ Р±Р°Р№С‚ РЅСѓР»РµРІРѕР№ С‚Рѕ РєРЅРѕРїРєР° РЅРµ РїРѕРєР°Р·С‹РІР°РµС‚СЃСЏ РІ СЌС‚РѕРј СЃРѕСЃС‚РѕСЏРЅРёРё )
+	DWORD dwShadowColor;						//Р¦РІРµС‚ С‚РµРЅРё
+	DWORD dwAlign;									//Р Р°СЃРїРѕР»РѕР¶РµРЅРёРµ СЃРѕРѕР±С‰РµРЅРёСЏ РІ РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРєРµ
+	CRect position;									//Р Р°СЃРїРѕР»РѕР¶РµРЅРёРµ РЅР° СЌРєСЂР°РЅРµ
+	int nFontSize;									//СЂР°Р·РјРµСЂ С€СЂРёС„С‚Р°
 	EAction	action;
 	std::string szActionTarget;
 	std::string szActionParameter;
@@ -142,14 +142,14 @@ public:
 	std::string szBackgroundImageFileName;
 	std::vector<SLogo> logos;
 	CPoint shadowPoint;
-	std::vector<DWORD> dwColors;		//Цвета по состояниям ( если старший байт нулевой то кнопка не показывается в этом состоянии )
-	DWORD dwShadowColor;						//Цвет тени
-	DWORD dwAlign;									//Расположение сообщения в прямоугольнике
-	int nCodePage;									//кодировка используемая для всех сообщений
-	bool bShowToolTips;							//показывать ли тултипы
+	std::vector<DWORD> dwColors;		//Р¦РІРµС‚Р° РїРѕ СЃРѕСЃС‚РѕСЏРЅРёСЏРј ( РµСЃР»Рё СЃС‚Р°СЂС€РёР№ Р±Р°Р№С‚ РЅСѓР»РµРІРѕР№ С‚Рѕ РєРЅРѕРїРєР° РЅРµ РїРѕРєР°Р·С‹РІР°РµС‚СЃСЏ РІ СЌС‚РѕРј СЃРѕСЃС‚РѕСЏРЅРёРё )
+	DWORD dwShadowColor;						//Р¦РІРµС‚ С‚РµРЅРё
+	DWORD dwAlign;									//Р Р°СЃРїРѕР»РѕР¶РµРЅРёРµ СЃРѕРѕР±С‰РµРЅРёСЏ РІ РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРєРµ
+	int nCodePage;									//РєРѕРґРёСЂРѕРІРєР° РёСЃРїРѕР»СЊР·СѓРµРјР°СЏ РґР»СЏ РІСЃРµС… СЃРѕРѕР±С‰РµРЅРёР№
+	bool bShowToolTips;							//РїРѕРєР°Р·С‹РІР°С‚СЊ Р»Рё С‚СѓР»С‚РёРїС‹
 
-	std::string szFontName;					//имя шрифта
-	int nFontWeight;								//толщина шрифта
+	std::string szFontName;					//РёРјСЏ С€СЂРёС„С‚Р°
+	int nFontWeight;								//С‚РѕР»С‰РёРЅР° С€СЂРёС„С‚Р°
 
 	SRegistryKey rkInstallFolder;		//Install Folder
 	SRegistryKey rkUninstallFolder;	//Uninstall Folder

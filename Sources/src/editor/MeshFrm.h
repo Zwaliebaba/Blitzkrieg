@@ -65,7 +65,7 @@ protected:
 	virtual void SpecificInit();
 	virtual void SpecificClearBeforeBatchMode();
 	virtual BOOL SpecificTranslateMessage( MSG *pMsg );
-	//загружает данные перед экспортом проекта
+	//Р·Р°РіСЂСѓР¶Р°РµС‚ РґР°РЅРЅС‹Рµ РїРµСЂРµРґ СЌРєСЃРїРѕСЂС‚РѕРј РїСЂРѕРµРєС‚Р°
 	virtual bool LoadFramePreExportData( const char *pszProjectFile, CTreeItem *pRootItem );
 	
 	virtual void SaveRPGStats( IDataTree *pDT, CTreeItem *pRootItem, const char *pszProjectName );

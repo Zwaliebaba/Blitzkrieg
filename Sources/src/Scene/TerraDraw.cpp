@@ -274,8 +274,8 @@ bool CTerrain::ExtractVisiblePatches( ICamera *pCamera )
 	const float fTerrainPatchesY = terrainInfo.patches.GetSizeY();
 	const float fTerrainSizeX = fTerrainPatchesX * fPatchSize;
 	const float fTerrainSizeY = fTerrainPatchesY * fPatchSize;
-	// выделить патчи, которые попадают в обзор
-	// это базисные линии (X, Y) системы координат ландшафта
+	// РІС‹РґРµР»РёС‚СЊ РїР°С‚С‡Рё, РєРѕС‚РѕСЂС‹Рµ РїРѕРїР°РґР°СЋС‚ РІ РѕР±Р·РѕСЂ
+	// СЌС‚Рѕ Р±Р°Р·РёСЃРЅС‹Рµ Р»РёРЅРёРё (X, Y) СЃРёСЃС‚РµРјС‹ РєРѕРѕСЂРґРёРЅР°С‚ Р»Р°РЅРґС€Р°С„С‚Р°
 	CVec3 vAxisX, vAxisY;
 	GetLineEq( 0, 0, 1, 0, &vAxisX.x, &vAxisX.y, &vAxisX.z );
 	GetLineEq( 0, 1, 0, 0, &vAxisY.x, &vAxisY.y, &vAxisY.z );
@@ -284,13 +284,13 @@ bool CTerrain::ExtractVisiblePatches( ICamera *pCamera )
 	// half-width and half-height
 	const float fWidth = ( rcScreen.right - rcScreen.left ) / 2;
 	const float fHeight = rcScreen.bottom - rcScreen.top;					// height * 2 due to camera yaw = 30 degrees
-	// оси камеры в мировой системе координат:
+	// РѕСЃРё РєР°РјРµСЂС‹ РІ РјРёСЂРѕРІРѕР№ СЃРёСЃС‚РµРјРµ РєРѕРѕСЂРґРёРЅР°С‚:
 	CVec2 vCameraX( fWidth / FP_SQRT_2, fWidth / FP_SQRT_2 ), vCameraY( -fHeight / FP_SQRT_2, fHeight / FP_SQRT_2 );
 	//
 	//
-	// определим грубый прямоугольник (в системе координат террейна, в целых тайлах), в который вписывается экран
-	// определение производим на основании расстояния от углов экрана до координатных осей системы террейна
-	// NOTE: границы по принципу [min, max)
+	// РѕРїСЂРµРґРµР»РёРј РіСЂСѓР±С‹Р№ РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРє (РІ СЃРёСЃС‚РµРјРµ РєРѕРѕСЂРґРёРЅР°С‚ С‚РµСЂСЂРµР№РЅР°, РІ С†РµР»С‹С… С‚Р°Р№Р»Р°С…), РІ РєРѕС‚РѕСЂС‹Р№ РІРїРёСЃС‹РІР°РµС‚СЃСЏ СЌРєСЂР°РЅ
+	// РѕРїСЂРµРґРµР»РµРЅРёРµ РїСЂРѕРёР·РІРѕРґРёРј РЅР° РѕСЃРЅРѕРІР°РЅРёРё СЂР°СЃСЃС‚РѕСЏРЅРёСЏ РѕС‚ СѓРіР»РѕРІ СЌРєСЂР°РЅР° РґРѕ РєРѕРѕСЂРґРёРЅР°С‚РЅС‹С… РѕСЃРµР№ СЃРёСЃС‚РµРјС‹ С‚РµСЂСЂРµР№РЅР°
+	// NOTE: РіСЂР°РЅРёС†С‹ РїРѕ РїСЂРёРЅС†РёРїСѓ [min, max)
 	const CVec2 vCameraO( vCamera.x, vCamera.y );
 	CTRect<int> rcL0Rect;								// level 0 of roughness rect
 	{
@@ -323,7 +323,7 @@ bool CTerrain::ExtractVisiblePatches( ICamera *pCamera )
 	rcL0Rect.maxx = Clamp( rcL0Rect.maxx, 0, terrainInfo.patches.GetSizeX() );
 	rcL0Rect.maxy = Clamp( rcL0Rect.maxy, 0, terrainInfo.patches.GetSizeY() );
 
-	// теперь из полученного прямоугольника (rcL0Rect) проверим все патчи
+	// С‚РµРїРµСЂСЊ РёР· РїРѕР»СѓС‡РµРЅРЅРѕРіРѕ РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРєР° (rcL0Rect) РїСЂРѕРІРµСЂРёРј РІСЃРµ РїР°С‚С‡Рё
 	std::list< std::pair<int, int> > accepted;
 	for ( int j = rcL0Rect.miny; j < rcL0Rect.maxy; ++j )
 	{
@@ -333,7 +333,7 @@ bool CTerrain::ExtractVisiblePatches( ICamera *pCamera )
 			if ( IsPatchVisible(terrainInfo.patches[j][i], terrainInfo, viewVolumePlanes, flags) )
 			{
 				accepted.push_back( std::pair<int, int>( i, j ) );
-				// добавляем в старый список новых перцев
+				// РґРѕР±Р°РІР»СЏРµРј РІ СЃС‚Р°СЂС‹Р№ СЃРїРёСЃРѕРє РЅРѕРІС‹С… РїРµСЂС†РµРІ
 				bool bExist = false;
 				for ( CPatchesList::iterator it = patches.begin(); it != patches.end(); ++it )
 				{
@@ -362,7 +362,7 @@ bool CTerrain::ExtractVisiblePatches( ICamera *pCamera )
 			}
 		}
 	}
-	// выбрасываем из старого списка не попавших в новый
+	// РІС‹Р±СЂР°СЃС‹РІР°РµРј РёР· СЃС‚Р°СЂРѕРіРѕ СЃРїРёСЃРєР° РЅРµ РїРѕРїР°РІС€РёС… РІ РЅРѕРІС‹Р№
 	for ( CPatchesList::iterator it = patches.begin(); it != patches.end(); )
 	{
 		if ( std::find( accepted.begin(), accepted.end(), std::pair<int, int>(it->nX, it->nY) ) == accepted.end() )

@@ -347,7 +347,7 @@ void CPlaneDeffensiveFire::AnalyzeBSU()
 				{
 					pShootEstimator->Reset( 0, true, 0 );
 					pShootEstimator->SetGun( pGun );
-					//выбирать лучшего врага
+					//РІС‹Р±РёСЂР°С‚СЊ Р»СѓС‡С€РµРіРѕ РІСЂР°РіР°
 					for( CPlanesIter planes; !planes.IsFinished(); planes.Iterate() )
 					{
 						CAviation *pEnemy = *planes;
@@ -543,7 +543,7 @@ void CPlaneBombState::Segment()
 
 		break;
 	case ECBS_ESTIMATE:
-		// определить является ли наш самолет Dive bomber и какое расстояние для начала бомбометания.
+		// РѕРїСЂРµРґРµР»РёС‚СЊ СЏРІР»СЏРµС‚СЃСЏ Р»Рё РЅР°С€ СЃР°РјРѕР»РµС‚ Dive bomber Рё РєР°РєРѕРµ СЂР°СЃСЃС‚РѕСЏРЅРёРµ РґР»СЏ РЅР°С‡Р°Р»Р° Р±РѕРјР±РѕРјРµС‚Р°РЅРёСЏ.
 		{
 			const SMechUnitRPGStats * pStats = static_cast<const SMechUnitRPGStats *>( pPlane->GetStats() );
 			const float fTurnRadius = pStats->fTurnRadius;
@@ -562,16 +562,16 @@ void CPlaneBombState::Segment()
 				float f2 = fVertTurnRadius * tan( fDiveAngle / 2 );
 				fStartAttackDist =  f1 + f2;*/
 			}
-			else //для стратегических бомберов
+			else //РґР»СЏ СЃС‚СЂР°С‚РµРіРёС‡РµСЃРєРёС… Р±РѕРјР±РµСЂРѕРІ
 			{
-				//определять по скорости бомбера и скорости падения бомбы
+				//РѕРїСЂРµРґРµР»СЏС‚СЊ РїРѕ СЃРєРѕСЂРѕСЃС‚Рё Р±РѕРјР±РµСЂР° Рё СЃРєРѕСЂРѕСЃС‚Рё РїР°РґРµРЅРёСЏ Р±РѕРјР±С‹
 				CVec3 vSpeed3;
 				pPlane->GetSpeed3( &vSpeed3 );
 				const CVec2 vCenter( pPlane->GetCenter() );
 				const CVec3 vOffset =  CBombBallisticTraj::CalcTrajectoryFinish( CVec3(vCenter,pPlane->GetZ()), vSpeed3, VNULL2 );
 				fStartAttackDist = fabs( vOffset.x - vCenter.x, vOffset.y - vCenter.y );
-				// вычислить поправку на длину очереди (чтобы в цель попала середина очереди)
-				// считаем, что все очереди одинаковой длины и у всех gun одинаковое число патронов
+				// РІС‹С‡РёСЃР»РёС‚СЊ РїРѕРїСЂР°РІРєСѓ РЅР° РґР»РёРЅСѓ РѕС‡РµСЂРµРґРё (С‡С‚РѕР±С‹ РІ С†РµР»СЊ РїРѕРїР°Р»Р° СЃРµСЂРµРґРёРЅР° РѕС‡РµСЂРµРґРё)
+				// СЃС‡РёС‚Р°РµРј, С‡С‚Рѕ РІСЃРµ РѕС‡РµСЂРµРґРё РѕРґРёРЅР°РєРѕРІРѕР№ РґР»РёРЅС‹ Рё Сѓ РІСЃРµС… gun РѕРґРёРЅР°РєРѕРІРѕРµ С‡РёСЃР»Рѕ РїР°С‚СЂРѕРЅРѕРІ
 				const int nGuns = pPlane->GetNGuns();
 				for ( int i = 0; i < nGuns; ++i )
 				{
@@ -604,8 +604,8 @@ void CPlaneBombState::Segment()
 
 		break;
 	case ECBS_GAIN_DISTANCE:
-		// если расстояние до точки бомбометания больше 2 радиусов поворота самолета
-		// + расстояние начала бомбометания - то начать заход на цель, иначе удалиться от цели.
+		// РµСЃР»Рё СЂР°СЃСЃС‚РѕСЏРЅРёРµ РґРѕ С‚РѕС‡РєРё Р±РѕРјР±РѕРјРµС‚Р°РЅРёСЏ Р±РѕР»СЊС€Рµ 2 СЂР°РґРёСѓСЃРѕРІ РїРѕРІРѕСЂРѕС‚Р° СЃР°РјРѕР»РµС‚Р°
+		// + СЂР°СЃСЃС‚РѕСЏРЅРёРµ РЅР°С‡Р°Р»Р° Р±РѕРјР±РѕРјРµС‚Р°РЅРёСЏ - С‚Рѕ РЅР°С‡Р°С‚СЊ Р·Р°С…РѕРґ РЅР° С†РµР»СЊ, РёРЅР°С‡Рµ СѓРґР°Р»РёС‚СЊСЃСЏ РѕС‚ С†РµР»Рё.
 		{
 			const SMechUnitRPGStats * pStats = static_cast<const SMechUnitRPGStats *>( pPlane->GetStats() );
 			if ( fabs2( pPlane->GetCenter() - GetPoint() ) > sqr( fStartAttackDist + pStats->fTurnRadius * 2 ) )
@@ -709,7 +709,7 @@ void CPlaneBombState::Segment()
 																		true );
 			}
 
-			// проверить, что пора кидать бомбы и кинуть их
+			// РїСЂРѕРІРµСЂРёС‚СЊ, С‡С‚Рѕ РїРѕСЂР° РєРёРґР°С‚СЊ Р±РѕРјР±С‹ Рё РєРёРЅСѓС‚СЊ РёС…
 			bool bDropped = false;
 			const int nGun = pPlane->GetNGuns();
 			for ( int i = 0; i < nGun; ++i )
@@ -717,16 +717,16 @@ void CPlaneBombState::Segment()
 				CBasicGun *pGun = pPlane->GetGun( i );
 				if ( pGun->GetShell().trajectory == SWeaponRPGStats::SShell::TRAJECTORY_BOMB )
 				{
-					if ( fFormerVerticalSpeed < vHorVerSpeed.y ) // выход из пикирования
+					if ( fFormerVerticalSpeed < vHorVerSpeed.y ) // РІС‹С…РѕРґ РёР· РїРёРєРёСЂРѕРІР°РЅРёСЏ
 					{
-						// атака бомбами.
+						// Р°С‚Р°РєР° Р±РѕРјР±Р°РјРё.
 						if ( !pGun->IsFiring() && pGun->GetRestTimeOfRelax() == 0 && pGun->GetNAmmo() != 0 )
 						{
 							CVec3 vSpeed3;
 							pPlane->GetSpeed3( &vSpeed3 );
 							const CVec3 vCurPoint3( pPlane->GetCenter(), pPlane->GetZ() );
 							const CVec3 vTrajFinish( CBombBallisticTraj::CalcTrajectoryFinish( vCurPoint3, vSpeed3, VNULL2 ) );
-							// бросить бомбы когда неотклоненная траектория прошла точку цели
+							// Р±СЂРѕСЃРёС‚СЊ Р±РѕРјР±С‹ РєРѕРіРґР° РЅРµРѕС‚РєР»РѕРЅРµРЅРЅР°СЏ С‚СЂР°РµРєС‚РѕСЂРёСЏ РїСЂРѕС€Р»Р° С‚РѕС‡РєСѓ С†РµР»Рё
 							if ( DirsDifference( 
 																		GetDirectionByVector( GetPoint().x - vTrajFinish.x, GetPoint().y - vTrajFinish.y ),
 																		pPlane->GetDir()
@@ -738,7 +738,7 @@ void CPlaneBombState::Segment()
 						}
 					}
 				}
-				else if ( vHorVerSpeed.y < 0 )// при снижении - стрелять из пулеметов
+				else if ( vHorVerSpeed.y < 0 )// РїСЂРё СЃРЅРёР¶РµРЅРёРё - СЃС‚СЂРµР»СЏС‚СЊ РёР· РїСѓР»РµРјРµС‚РѕРІ
 				{
 					if ( 	!pGun->IsFiring() && 0 == pGun->GetRestTimeOfRelax() )
 					{
@@ -836,7 +836,7 @@ CPlaneParaDropState::CPlaneParaDropState ( CAviation *pPlane, const CVec2 &vPos 
 bool CPlaneParaDropState::CanDrop( const CVec2 & point )
 {
 	if ( !theStaticMap.IsTileInside( AICellsTiles::GetTile( point ) )) return true;
-	//проверка возможности высадки десанта 
+	//РїСЂРѕРІРµСЂРєР° РІРѕР·РјРѕР¶РЅРѕСЃС‚Рё РІС‹СЃР°РґРєРё РґРµСЃР°РЅС‚Р° 
 	// 
 	theStaticMap.MemMode();
 	theStaticMap.SetMode( ELM_ALL );
@@ -927,7 +927,7 @@ void CPlaneParaDropState::Segment()
 	case PPDS_DROPPING:
 		if ( fabs2 ( vLastDrop - pPlane->GetCenter() ) > sqr(SConsts::PLANE_PARADROP_INTERVAL) )
 		{
-			// найти солдата, который сидит в самолете
+			// РЅР°Р№С‚Рё СЃРѕР»РґР°С‚Р°, РєРѕС‚РѕСЂС‹Р№ СЃРёРґРёС‚ РІ СЃР°РјРѕР»РµС‚Рµ
 			CPtr<CSoldier> pDropper = 0;
 			for ( int i = 0; i< pSquad->Size(); ++i )
 			{
@@ -946,17 +946,17 @@ void CPlaneParaDropState::Segment()
 			{
 				updater.Update( ACTION_NOTIFY_NEW_FORMATION, pDropper );
 
-				//случайный разброс парашютистов.
+				//СЃР»СѓС‡Р°Р№РЅС‹Р№ СЂР°Р·Р±СЂРѕСЃ РїР°СЂР°С€СЋС‚РёСЃС‚РѕРІ.
 				vLastDrop = pPlane->GetCenter() ;
 				const CVec2 vDropPoint = vLastDrop + 2.0f * ( nDroppingSoldier % 2 - 0.5f ) * 
 					Random( SConsts::PLANE_PARADROP_INTERVAL_PERP_MIN, SConsts::PLANE_PARADROP_INTERVAL_PERP_MAX ) *
 					GetVectorByDirection( pPlane->GetDir() + 65535 / 4 );
-				//вычислить возможно ли приземление где-нить.
+				//РІС‹С‡РёСЃР»РёС‚СЊ РІРѕР·РјРѕР¶РЅРѕ Р»Рё РїСЂРёР·РµРјР»РµРЅРёРµ РіРґРµ-РЅРёС‚СЊ.
 				bool bSafeLanding = CanDrop( vDropPoint );
 				//
 				if ( bSafeLanding )
 				{
-					// выбросить этого солдата
+					// РІС‹Р±СЂРѕСЃРёС‚СЊ СЌС‚РѕРіРѕ СЃРѕР»РґР°С‚Р°
 					
 					pDropper->SetFree();
 					pDropper->SetNewCoordinates( CVec3( vDropPoint, pPlane->GetZ() ) );
@@ -1182,7 +1182,7 @@ void CPlaneFighterPatrolState::Segment()
 			for ( int i=0; i< nGun; ++i )
 			{
 				CBasicGun *pGun = pPlane->GetGun( i );
-				// атака только пушками
+				// Р°С‚Р°РєР° С‚РѕР»СЊРєРѕ РїСѓС€РєР°РјРё
 				if ( !pGun->IsFiring() &&
 						 pGun->GetRestTimeOfRelax() == 0 &&
 						 pGun->CanShootWOGunTurn( pEnemie, 1 ) )
@@ -1202,7 +1202,7 @@ void CPlaneFighterPatrolState::TryInitPathToEnemie( bool isEnemieNew )
 			pPlane->GetCurPath()->IsFinished()||
 			curTime - timeOfLastPathUpdate > SConsts::FIGHTER_PATH_UPDATE_TIME )
 	{
-		// время, за которое истребитель долетит до текущего центра бомбера (1 приближение)
+		// РІСЂРµРјСЏ, Р·Р° РєРѕС‚РѕСЂРѕРµ РёСЃС‚СЂРµР±РёС‚РµР»СЊ РґРѕР»РµС‚РёС‚ РґРѕ С‚РµРєСѓС‰РµРіРѕ С†РµРЅС‚СЂР° Р±РѕРјР±РµСЂР° (1 РїСЂРёР±Р»РёР¶РµРЅРёРµ)
 		const float time = fabs( pEnemie->GetCenter() - pPlane->GetCenter() )/pPlane->GetStats()->fSpeed ;
 		const CVec2 enemieProspectivePos( pEnemie->GetCenter() + pEnemie->GetDirVector()*pEnemie->GetStats()->fSpeed*time);
 		const CVec3 en( enemieProspectivePos.x, enemieProspectivePos.y, pEnemie->GetZ() );
@@ -1253,7 +1253,7 @@ bool CPlaneShturmovikPatrolState::CBombEstimator::Collect( CAIUnit * pTry )
 
 	const CVec2 &vSpeed = pTry->GetSpeed();
 
-	// юнит к моменту падения бомбы должен оказаться в круге разброса бомбы
+	// СЋРЅРёС‚ Рє РјРѕРјРµРЅС‚Сѓ РїР°РґРµРЅРёСЏ Р±РѕРјР±С‹ РґРѕР»Р¶РµРЅ РѕРєР°Р·Р°С‚СЊСЃСЏ РІ РєСЂСѓРіРµ СЂР°Р·Р±СЂРѕСЃР° Р±РѕРјР±С‹
 	if ( fabs2(pTry->GetCenter() + pTry->GetSpeed() * fFlyTime - vCenter) < sqr(fDisp) )
 	{
 		if ( pTry->GetStats()->IsInfantry() )
@@ -1528,19 +1528,19 @@ void CPlaneShturmovikPatrolState::Segment()
 				TryInitPathToPoint( CVec3( vEnemie, fPatrolHeight ), true );
 			}
 
-			// подошли к дистанции атаки
+			// РїРѕРґРѕС€Р»Рё Рє РґРёСЃС‚Р°РЅС†РёРё Р°С‚Р°РєРё
 			CVec2 vEnemy( enemie.GetCenter() );
 			const CVec2 vDiff( vEnemy - pPlane->GetCenter() );
 			const float fDiff = fabs2( vDiff );
-			if (  fDiff <= sqr( fStartAttackDist ) &&	// пора начинать атаку
-						fDiff	> sqr( fFinishAttckDist ) &&		// еще не пора выходить
+			if (  fDiff <= sqr( fStartAttackDist ) &&	// РїРѕСЂР° РЅР°С‡РёРЅР°С‚СЊ Р°С‚Р°РєСѓ
+						fDiff	> sqr( fFinishAttckDist ) &&		// РµС‰Рµ РЅРµ РїРѕСЂР° РІС‹С…РѕРґРёС‚СЊ
 					 CPlaneSmoothPath::IsHeightOK( pPlane, fPatrolHeight ) )
 			{
 				if ( 1500 >= DirsDifference( GetDirectionByVector( vDiff ), pPlane->GetDir() ) )
 				{
 					TryInitPathToEnemie();
 					eState = PSPS_ENGAGING_TARGET;
-					// читерство. врага заставить послать Acknowledgement на то, что его атакует штурмовик
+					// С‡РёС‚РµСЂСЃС‚РІРѕ. РІСЂР°РіР° Р·Р°СЃС‚Р°РІРёС‚СЊ РїРѕСЃР»Р°С‚СЊ Acknowledgement РЅР° С‚Рѕ, С‡С‚Рѕ РµРіРѕ Р°С‚Р°РєСѓРµС‚ С€С‚СѓСЂРјРѕРІРёРє
 					if ( enemie.IsValidUnit() )
 						enemie.GetEnemy()->SendAcknowledgement( ACK_BEING_ATTACKED_BY_AVIATION, true );
 				}
@@ -1566,7 +1566,7 @@ void CPlaneShturmovikPatrolState::Segment()
 			// to disallow switching to other traget, while current ins'n dead
 			if ( !enemie.IsValid() )
 			{
-				// найти более легкую цель и атаковать
+				// РЅР°Р№С‚Рё Р±РѕР»РµРµ Р»РµРіРєСѓСЋ С†РµР»СЊ Рё Р°С‚Р°РєРѕРІР°С‚СЊ
 				CAIUnit * pNewEnemy = FindEnemyInFiringSector();
 				if ( pNewEnemy )
 					enemie.SetEnemy( pNewEnemy );
@@ -1597,7 +1597,7 @@ void CPlaneShturmovikPatrolState::Segment()
 			}
 			else
 			{
-				// если враг живой - атаковать
+				// РµСЃР»Рё РІСЂР°Рі Р¶РёРІРѕР№ - Р°С‚Р°РєРѕРІР°С‚СЊ
 				TryBurstAllGuns();
 				TryInitPathToEnemie();
 			}
@@ -1658,7 +1658,7 @@ void CPlaneShturmovikPatrolState::TryDropBombs()
 		CBasicGun *pGun = pPlane->GetGun( i );
 		if ( pGun->GetShell().trajectory == SWeaponRPGStats::SShell::TRAJECTORY_BOMB )
 		{
-			// атака бомбами.
+			// Р°С‚Р°РєР° Р±РѕРјР±Р°РјРё.
 			if ( !pGun->IsFiring() &&
 					 pGun->GetRestTimeOfRelax() == 0 &&
 					 pGun->GetNAmmo() != 0 )
@@ -1671,9 +1671,9 @@ void CPlaneShturmovikPatrolState::TryDropBombs()
 
 				const CVec3 vTrajFinish( CBombBallisticTraj::CalcTrajectoryFinish( vCurPoint3, vSpeed3, VNULL2 ) );
 				const float fDisp = pGun->GetDispersion() * pPlane->GetZ() / pGun->GetFireRangeMax();
-				// посчитать суммарное количество HP в радиусе разброса
+				// РїРѕСЃС‡РёС‚Р°С‚СЊ СЃСѓРјРјР°СЂРЅРѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ HP РІ СЂР°РґРёСѓСЃРµ СЂР°Р·Р±СЂРѕСЃР°
 
-				// за время полета юнит с максимальной скоростью пройдет столко
+				// Р·Р° РІСЂРµРјСЏ РїРѕР»РµС‚Р° СЋРЅРёС‚ СЃ РјР°РєСЃРёРјР°Р»СЊРЅРѕР№ СЃРєРѕСЂРѕСЃС‚СЊСЋ РїСЂРѕР№РґРµС‚ СЃС‚РѕР»РєРѕ
 				const float fFlyTime = 1000 * CBombBallisticTraj::GetTimeOfFly( pPlane->GetZ(), vSpeed3.z );
 				const float fAddDist = pPlane->GetSpeedLen() * fFlyTime;
 				
@@ -1688,7 +1688,7 @@ void CPlaneShturmovikPatrolState::TryDropBombs()
 					if ( IsValidObj( pUnit ) && est.Collect( pUnit ) ) break;
 				}
 				
-				//если оно больше критического - то кидать
+				//РµСЃР»Рё РѕРЅРѕ Р±РѕР»СЊС€Рµ РєСЂРёС‚РёС‡РµСЃРєРѕРіРѕ - С‚Рѕ РєРёРґР°С‚СЊ
 				if ( est.NeedDrop() )
 				{
 					pGun->StartPointBurst( vTrajFinish, false );
@@ -1709,14 +1709,14 @@ void CPlaneShturmovikPatrolState::TryBurstAllGuns()
 		CBasicGun *pGun = pPlane->GetGun( i );
 		if ( pGun->GetShell().trajectory != SWeaponRPGStats::SShell::TRAJECTORY_BOMB )
 		{
-			// атака только пушками`
+			// Р°С‚Р°РєР° С‚РѕР»СЊРєРѕ РїСѓС€РєР°РјРё`
 			if ( !pGun->IsFiring() &&
 					 pGun->GetRestTimeOfRelax() == 0 &&
 					 enemie.CanShootToTarget( pGun ) 
 				 )
 			{
 				
-				//проверим может ли стрелять пушка по вертикальному углу.
+				//РїСЂРѕРІРµСЂРёРј РјРѕР¶РµС‚ Р»Рё СЃС‚СЂРµР»СЏС‚СЊ РїСѓС€РєР° РїРѕ РІРµСЂС‚РёРєР°Р»СЊРЅРѕРјСѓ СѓРіР»Сѓ.
 				const CVec2 vTargetDir( fabs(enemie.GetCenter() - pPlane->GetCenter()), 
 													enemie.GetZ() - pPlane->GetZ() );
 				const WORD diff1 = DirsDifference(  GetDirectionByVector( vTargetDir ),
@@ -1740,7 +1740,7 @@ CAIUnit *CPlaneShturmovikPatrolState::FindEnemyInFiringSector()
 	const CVec2 vCurpoint2( pPlane->GetCenter() );
 	const CVec3 vCurPoint( vCurpoint2.x, vCurpoint2.y, pPlane->GetZ() );
 
-	//гнутость ствола найти по честному
+	//РіРЅСѓС‚РѕСЃС‚СЊ СЃС‚РІРѕР»Р° РЅР°Р№С‚Рё РїРѕ С‡РµСЃС‚РЅРѕРјСѓ
 	const int nGuns = pPlane->GetNGuns();
 	float fGnutost = 0;
 	float fDisp = 0;
@@ -1775,7 +1775,7 @@ CAIUnit* CPlaneShturmovikPatrolState::FindEnemyInPossibleDiveSector()
 	const CVec2 vCenter( pPlane->GetCenter() );
 	const float fMinPossibleDivePoint( pPlane->GetZ() / fPatrolHeight * fStartAttackDist );
 
-	//гнутость и максимальную дальнобойность найти 
+	//РіРЅСѓС‚РѕСЃС‚СЊ Рё РјР°РєСЃРёРјР°Р»СЊРЅСѓСЋ РґР°Р»СЊРЅРѕР±РѕР№РЅРѕСЃС‚СЊ РЅР°Р№С‚Рё 
 	const int nGuns = pPlane->GetNGuns();
 	float fGnutost = 0;
 	float fMaxRange = 0;
@@ -1987,7 +1987,7 @@ void CPlaneFlyDeadState::Segment()
 	case EPDS_ESTIMATE:
 		eState = EPDS_WAIT_FINISH_PATH;
 	
-		//break; убран сознательно
+		//break; СѓР±СЂР°РЅ СЃРѕР·РЅР°С‚РµР»СЊРЅРѕ
 	case EPDS_WAIT_FINISH_PATH:
 		if ( deadZone.IsInZone( pPlane->GetCenter()) )
 		{

@@ -22,15 +22,15 @@ static char THIS_FILE[]=__FILE__;
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-//-===================== для постановки тайлов ===========================-
+//-===================== РґР»СЏ РїРѕСЃС‚Р°РЅРѕРІРєРё С‚Р°Р№Р»РѕРІ ===========================-
 void CTileRedoCmd::Undo()
 {
 	m_ptr->AddTileCmd( m_data, false );
 }
-//-===================== для удаления объектов ===========================-
+//-===================== РґР»СЏ СѓРґР°Р»РµРЅРёСЏ РѕР±СЉРµРєС‚РѕРІ ===========================-
 void CDellObjRedoCmd::Undo()
 {
-	// temp == true т.к при Undo
+	// temp == true С‚.Рє РїСЂРё Undo
 	CVec3 v( position.x, position.y, 0 );
 	SMapObjectInfo info;
 	info.szName = desc.szKey;
@@ -44,7 +44,7 @@ void CDellObjRedoCmd::Undo()
 	//info.szLogic = szBehavior;
 	m_ptr->AddObjectByAI( info, player, true );
 }
-//-===================== для постановки объектов ===========================-
+//-===================== РґР»СЏ РїРѕСЃС‚Р°РЅРѕРІРєРё РѕР±СЉРµРєС‚РѕРІ ===========================-
 void CAddObjRedoCmd::Undo()
 {
 	m_ptr->RemoveObject( m_obj );
@@ -57,7 +57,7 @@ void CAddMultiObjRedoCmd::Undo()
 		m_ptr->RemoveObject( *it );
 	}
 }
-//-===================== для движения объектов ===========================-
+//-===================== РґР»СЏ РґРІРёР¶РµРЅРёСЏ РѕР±СЉРµРєС‚РѕРІ ===========================-
 void CMoveObjRedoCmd::Undo()
 {
 	CVec3 vAI;
@@ -71,22 +71,22 @@ void CMoveObjRedoCmd::Undo()
 		m_ptr->Update( pTimer->GetGameTime() );
 	}
 }
-//-===================== для постановки дороги ===========================-
+//-===================== РґР»СЏ РїРѕСЃС‚Р°РЅРѕРІРєРё РґРѕСЂРѕРіРё ===========================-
 void CPutRoadRedoCmd::Undo()
 {
 	//m_ptr->DeleteRoad( m_item );
 	//m_ptr->CalculateRoads();
 }
-//-===================== для удаления дороги ===========================-
+//-===================== РґР»СЏ СѓРґР°Р»РµРЅРёСЏ РґРѕСЂРѕРіРё ===========================-
 void CDellRoadRedoCmd::Undo()
 {
 	//m_ptr->AddRoad( m_item );
 	//m_ptr->CalculateRoads();
 }
-//-===================== для удаления при мультселекте ======================-
+//-===================== РґР»СЏ СѓРґР°Р»РµРЅРёСЏ РїСЂРё РјСѓР»СЊС‚СЃРµР»РµРєС‚Рµ ======================-
 void CDellMultiObjRedoCmd::Undo()
 {
-	// temp == true т.к при Undo
+	// temp == true С‚.Рє РїСЂРё Undo
 	for ( std::vector<SObjectDellDisciption>::iterator it = m_objects.begin(); it != m_objects.end(); ++it )
 	{
 		CVec3 v( it->m_position );

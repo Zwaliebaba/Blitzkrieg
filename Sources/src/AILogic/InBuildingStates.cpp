@@ -162,10 +162,10 @@ CSoldierAttackInBuildingState::CSoldierAttackInBuildingState( class CSoldier *_p
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CSoldierAttackInBuildingState::AnalyzeCurrentState()
 {
-	// ìîæíî âûñòðåëèòü
+	// Ð¼Ð¾Ð¶Ð½Ð¾ Ð²Ñ‹ÑÑ‚Ñ€ÐµÐ»Ð¸Ñ‚ÑŒ
 	if ( pGun->CanShootToUnitWOMove( pEnemy ) )
 	{
-		// âûñòðåëèòü
+		// Ð²Ñ‹ÑÑ‚Ñ€ÐµÐ»Ð¸Ñ‚ÑŒ
 		pSoldier->RegisterAsBored( ACK_BORED_ATTACK );
 		pGun->StartEnemyBurst( pEnemy, bAim );
 		bAim = false;
@@ -204,12 +204,12 @@ void CSoldierAttackInBuildingState::Segment()
 				pSoldier->SetCommandFinished();
 			}
 		}
-		// íå ìîìåíò ñòðåëüáû
+		// Ð½Ðµ Ð¼Ð¾Ð¼ÐµÐ½Ñ‚ ÑÑ‚Ñ€ÐµÐ»ÑŒÐ±Ñ‹
 		else if ( !pGun->IsFiring() )
 		{
 			damageToEnemyUpdater.SetDamageToEnemy( pSoldier, pEnemy, pGun );
 			
-			// åñëè âðàã ì¸ðòâ èëè åãî íå âèäíî èëè ñòðåëÿåì ñàìè ïî ñåáå èëè ïîðà çàêàí÷èâàòü ñòðåëüáó
+			// ÐµÑÐ»Ð¸ Ð²Ñ€Ð°Ð³ Ð¼Ñ‘Ñ€Ñ‚Ð² Ð¸Ð»Ð¸ ÐµÐ³Ð¾ Ð½Ðµ Ð²Ð¸Ð´Ð½Ð¾ Ð¸Ð»Ð¸ ÑÑ‚Ñ€ÐµÐ»ÑÐµÐ¼ ÑÐ°Ð¼Ð¸ Ð¿Ð¾ ÑÐµÐ±Ðµ Ð¸Ð»Ð¸ Ð¿Ð¾Ñ€Ð° Ð·Ð°ÐºÐ°Ð½Ñ‡Ð¸Ð²Ð°Ñ‚ÑŒ ÑÑ‚Ñ€ÐµÐ»ÑŒÐ±Ñƒ
 			if ( !IsValidObj( pEnemy ) || pEnemy.GetPtr() == pSoldier ||
 					 !pEnemy->IsNoticableByUnit( pSoldier, pGun->GetFireRange( 0 ) ) || bFinish ||
 					 nEnemyParty != pEnemy->GetParty() )

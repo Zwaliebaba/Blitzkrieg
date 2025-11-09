@@ -1797,7 +1797,7 @@ void CWorldClient::OnMouseMove( const CVec2 &vPos, interface IUIElement *pUIPick
 	{
 		GetSingleton<ICursor>()->SetMode( 0 );
 		SetStatusBar( 0 );
-		CTRect<float> rcOut; // это просто затычка, можно не заполнять
+		CTRect<float> rcOut; // СЌС‚Рѕ РїСЂРѕСЃС‚Рѕ Р·Р°С‚С‹С‡РєР°, РјРѕР¶РЅРѕ РЅРµ Р·Р°РїРѕР»РЅСЏС‚СЊ
 		if ( bSetPlayerTooltip )
 			pScene->SetToolTip( 0, VNULL2, rcOut, 0x00000000 );
 		bSetPlayerTooltip = false;
@@ -2118,7 +2118,7 @@ void CWorldClient::ReportObjectiveStateChanged( int nObjective, int nState )
 
 				pHeaderText = pTexMan->GetDialog( pMission->objectives[nObjective].szHeader.c_str() );
 				pDescriptionText = pTexMan->GetDialog( pMission->objectives[nObjective].szDescriptionText.c_str() );
-				//ставим метку
+				//СЃС‚Р°РІРёРј РјРµС‚РєСѓ
 				if ( IUIScreen *pUIScreen = pScene->GetMissionScreen() )
 				{
 					if ( IUIMiniMap *pUIMiniMap = checked_cast<IUIMiniMap*>( pUIScreen->GetChildByID( 20000 ) ) )

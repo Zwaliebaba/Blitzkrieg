@@ -301,7 +301,7 @@ void CClientAckManager::AddAcknowledgement( interface IMOUnit *pUnit, const enum
 			return;
 	}
 
-	//выяснить какой тип у этого аска
+	//РІС‹СЏСЃРЅРёС‚СЊ РєР°РєРѕР№ С‚РёРї Сѓ СЌС‚РѕРіРѕ Р°СЃРєР°
 	NI_ASSERT_T( acksInfo.find( eAck ) != acksInfo.end(), NStr::Format( "unredistered Ack %d", eAck ) );
 	NI_ASSERT_T( pUnit->IsValid(), "added ack from invalid unit" );
 
@@ -322,17 +322,17 @@ void CClientAckManager::AddAcknowledgement( interface IMOUnit *pUnit, const enum
 		break;
 	case ACKT_NEGATIVE:
 		{
-			// найти все позитивы в очереди и убрать.
+			// РЅР°Р№С‚Рё РІСЃРµ РїРѕР·РёС‚РёРІС‹ РІ РѕС‡РµСЂРµРґРё Рё СѓР±СЂР°С‚СЊ.
 			CAckPredicate  pr( acksInfo, ACKT_POSITIVE );
 			CAcks::iterator positives = std::remove_if( unitAcks[pUnit].acks.begin(), unitAcks[pUnit].acks.end(), pr );
 			if ( positives == unitAcks[pUnit].acks.end() ) 
 			{
-				// ни одного Positive, Negative игнорировать
+				// РЅРё РѕРґРЅРѕРіРѕ Positive, Negative РёРіРЅРѕСЂРёСЂРѕРІР°С‚СЊ
 			}
 			else
 			{
 				unitAcks[pUnit].acks.erase( positives, unitAcks[pUnit].acks.end() );
-				// добавить этот аск в очередь
+				// РґРѕР±Р°РІРёС‚СЊ СЌС‚РѕС‚ Р°СЃРє РІ РѕС‡РµСЂРµРґСЊ
 				unitAcks[pUnit].acks.push_back( ack );
 			}
 		}
@@ -380,7 +380,7 @@ void CClientAckManager::AddAcknowledgement( interface IMOUnit *pUnit, const enum
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 DWORD CClientAckManager::GetMessageColor( enum CClientAckManager::EAcknowledgementColor eColor )
 {
-	//CRAP{ сезон спрашивать как положено
+	//CRAP{ СЃРµР·РѕРЅ СЃРїСЂР°С€РёРІР°С‚СЊ РєР°Рє РїРѕР»РѕР¶РµРЅРѕ
 	switch ( eColor) 
 	{
 	case ACOL_INFORMATION:
@@ -466,12 +466,12 @@ void CClientAckManager::Update( interface IScene * pScene )
 				SAck &addedAck = *ack.acks.begin();
 				const SUnitAckInfo & currentAskInfo = acksInfo[addedAck.eAck];
 				
-				// если время для позитивного не пришло
+				// РµСЃР»Рё РІСЂРµРјСЏ РґР»СЏ РїРѕР·РёС‚РёРІРЅРѕРіРѕ РЅРµ РїСЂРёС€Р»Рѕ
 				if ( currentAskInfo.eType == ACKT_POSITIVE && ack.timeRun > curTime )
 					continue;
 				
-				//проверить не запущен ли уже Ack данного типа.
-				// если играется, то звук не запускать.
+				//РїСЂРѕРІРµСЂРёС‚СЊ РЅРµ Р·Р°РїСѓС‰РµРЅ Р»Рё СѓР¶Рµ Ack РґР°РЅРЅРѕРіРѕ С‚РёРїР°.
+				// РµСЃР»Рё РёРіСЂР°РµС‚СЃСЏ, С‚Рѕ Р·РІСѓРє РЅРµ Р·Р°РїСѓСЃРєР°С‚СЊ.
 				if ( acksPresence.find(addedAck.eAck) == acksPresence.end() ||
 						 curTime - acksPresence[int(addedAck.eAck)] >= currentAskInfo.nTimeAfterPrevious )
 				{

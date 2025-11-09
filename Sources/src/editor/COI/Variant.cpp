@@ -300,7 +300,7 @@ void CVariant::SetType( EVarialeType tip )		//RR
 int CVariant::operator&( IDataTree &ss )
 {
 	CTreeAccessor saver = &ss;
-	//Сохраняем тип варианта
+	//РЎРѕС…СЂР°РЅСЏРµРј С‚РёРї РІР°СЂРёР°РЅС‚Р°
 	if ( saver.IsReading() )
 	{
 		int nType = 0;
@@ -313,7 +313,7 @@ int CVariant::operator&( IDataTree &ss )
 		saver.Add( "type", &nType );
 	}
 
-	//Сохраняем значения
+	//РЎРѕС…СЂР°РЅСЏРµРј Р·РЅР°С‡РµРЅРёСЏ
 	saver.Add( "flag", &m_flagsOptimized );
 	saver.Add( "float_value", &m_floatVal );
 	saver.Add( "int_value", &m_intVal );

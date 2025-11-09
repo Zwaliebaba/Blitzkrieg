@@ -53,7 +53,7 @@ int CAIUnit::operator&( IStructureSaver &ss )
 	saver.Add( 38, &nLevel );
 	saver.Add( 39, &pExpLevels );
 	
-	// для загрузки старых saves
+	// РґР»СЏ Р·Р°РіСЂСѓР·РєРё СЃС‚Р°СЂС‹С… saves
 	if ( saver.IsReading() )
 	{
 		if ( pExpLevels == 0 )

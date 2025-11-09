@@ -67,7 +67,7 @@ void CInterfaceSaveReplay::OnGetFocus( bool bFocus )
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CInterfaceSaveReplay::OnSave()
 {
-	//запишем replay
+	//Р·Р°РїРёС€РµРј replay
 	GetSingleton<ICommandsHistory>()->Save( szSaveReplayFile.c_str() );
 
 	SetGlobalVar( "ReplaySaved", 1 );
@@ -95,7 +95,7 @@ bool CInterfaceSaveReplay::ProcessMessage( const SGameMessage &msg )
 		case IMC_OK:
 			{
 				IMainLoop *pML = GetSingleton<IMainLoop>();
-				//получим имя для сохранения replay file
+				//РїРѕР»СѓС‡РёРј РёРјСЏ РґР»СЏ СЃРѕС…СЂР°РЅРµРЅРёСЏ replay file
 				szSaveReplayFile = pML->GetBaseDir();
 				const std::string szModname = GetSingleton<IUserProfile>()->GetMOD();
 				if ( !szModname.empty() )

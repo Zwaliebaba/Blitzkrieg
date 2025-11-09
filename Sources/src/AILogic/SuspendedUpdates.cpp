@@ -17,7 +17,7 @@ CSuspendedUpdates theSuspendedUpdates;
 extern CDiplomacy theDipl;
 extern CUpdater updater;
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// нумерация - по update, который может быть отложен, его порядковый номер
+// РЅСѓРјРµСЂР°С†РёВ¤ - РїРѕ update, РєРѕС‚РѕСЂС‹Р№ РјРѕР¶РµС‚ Р±С‹С‚СЊ РѕС‚Р»РѕР¶РµРЅ, РµРіРѕ РїРѕСЂВ¤РґРєРѕРІС‹Р№ РЅРѕРјРµСЂ
 std::hash_map< int, int > numeration;
 
 const int N_CELL_SIZE = 8;
@@ -65,14 +65,14 @@ void CSuspendedUpdates::Clear()
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CSuspendedUpdates::TileBecameVisible( const SVector &tile, const int nParty )
 {
-	// увидели тайл и там есть объекты со suspended updates
+	// СѓРІРёРґРµР»Рё С‚Р°Р№Р» Рё С‚Р°Рј РµСЃС‚СЊ РѕР±СЉРµРєС‚С‹ СЃРѕ suspended updates
 	if ( nParty == nMyParty && !objectsByCells[tile.y / N_CELL_SIZE][tile.x / N_CELL_SIZE].empty() )
 		visibleTiles.insert( tile );
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CSuspendedUpdates::DeleteUpdate( IUpdatableObj *pObj, const EActionNotify &eAction )
 {
-	// специальный случай - отложенный update дипломатии
+	// СЃРїРµС†РёР°Р»СЊРЅС‹Р№ СЃР»СѓС‡Р°Р№ - РѕС‚Р»РѕР¶РµРЅРЅС‹Р№ update РґРёРїР»РѕРјР°С‚РёРё
 	if ( eAction == ACTION_NOTIFY_UPDATE_DIPLOMACY )
 		diplomacyUpdates.erase( pObj );
 	else
@@ -83,7 +83,7 @@ void CSuspendedUpdates::DeleteUpdate( IUpdatableObj *pObj, const EActionNotify &
 			if ( updates[pObj].size() > nNumeration )
 				updates[pObj][nNumeration] = 0;
 
-			// убрать из recalled updates
+			// СѓР±СЂР°С‚СЊ РёР· recalled updates
 			CRecalledUpdatesType::iterator iter = recalledUpdates[nNumeration].begin();
 			while ( iter != recalledUpdates[nNumeration].end() )
 			{
@@ -93,7 +93,7 @@ void CSuspendedUpdates::DeleteUpdate( IUpdatableObj *pObj, const EActionNotify &
 					++iter;
 			}
 
-			// удалить oбъект, если это был последний его update
+			// СѓРґР°Р»РёС‚СЊ oР±СЉРµРєС‚, РµСЃР»Рё СЌС‚Рѕ Р±С‹Р» РїРѕСЃР»РµРґРЅРёР№ РµРіРѕ update
 			int i = 0;
 			while ( i < updates[pObj].size() && updates[pObj][i] == 0 )
 				++i;
@@ -107,7 +107,7 @@ void CSuspendedUpdates::DeleteUpdate( IUpdatableObj *pObj, const EActionNotify &
 void CSuspendedUpdates::SuspendUpdate( const EActionNotify &eAction, IUpdatableObj * pObj, const SSuspendedUpdate &update )
 {
 	bool bShouldSuspend = true;
-	// такого объекта ещё нет
+	// С‚Р°РєРѕРіРѕ РѕР±СЉРµРєС‚Р° РµС‰Р„ РЅРµС‚
 	if ( tilesOfObj.find( pObj->GetUniqueId() ) == tilesOfObj.end() || updates.find( pObj ) == updates.end() )
 	{
 		CTilesSet tiles;
@@ -146,7 +146,7 @@ bool CSuspendedUpdates::CheckToSuspend( const EActionNotify &eAction, IUpdatable
 {
 	if ( pObj->ShouldSuspendAction( eAction ) )
 	{
-		// специальный случай - отложенный update дипломатии
+		// СЃРїРµС†РёР°Р»СЊРЅС‹Р№ СЃР»СѓС‡Р°Р№ - РѕС‚Р»РѕР¶РµРЅРЅС‹Р№ update РґРёРїР»РѕРјР°С‚РёРё
 		if ( eAction == ACTION_NOTIFY_UPDATE_DIPLOMACY )
 		{
 			if ( !pObj->IsVisibleForDiplomacyUpdate() )
@@ -217,7 +217,7 @@ void CSuspendedUpdates::UpdateVisibleTiles( const std::hash_set<SVector, STilesH
 		{
 			IUpdatableObj *pObj = *objIter;
 			++objIter;
-			// объект стал видим
+			// РѕР±СЉРµРєС‚ СЃС‚Р°Р» РІРёРґРёРј
 			const int nUniqueId = pObj->GetUniqueId();
 			if ( tilesOfObj[nUniqueId].find( tile ) != tilesOfObj[nUniqueId].end() )
 			{
@@ -262,13 +262,13 @@ void CSuspendedUpdates::Segment()
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CSuspendedUpdates::DeleteObjectInfo( IUpdatableObj *pObj )
 {
-	// убрать объект из ячеек
+	// СѓР±СЂР°С‚СЊ РѕР±СЉРµРєС‚ РёР· В¤С‡РµРµРє
 	for ( std::hash_set<SVector, STilesHash>::iterator tilesOfObjIter = tilesOfObj[pObj->GetUniqueId()].begin(); tilesOfObjIter != tilesOfObj[pObj->GetUniqueId()].end(); ++tilesOfObjIter )
 		objectsByCells.RemoveFromPosition( pObj, *tilesOfObjIter );
 
-	// убрать все тайлы для видимости объекта
+	// СѓР±СЂР°С‚СЊ РІСЃРµ С‚Р°Р№Р»С‹ РґР»В¤ РІРёРґРёРјРѕСЃС‚Рё РѕР±СЉРµРєС‚Р°
 	tilesOfObj.erase( pObj->GetUniqueId() );
-	// убрать все updates объекта
+	// СѓР±СЂР°С‚СЊ РІСЃРµ updates РѕР±СЉРµРєС‚Р°
 	updates.erase( pObj );
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

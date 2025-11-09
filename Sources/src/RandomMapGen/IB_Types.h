@@ -4,7 +4,7 @@
 #include "..\Image\Image.h"
 #include "..\Formats\FmtSprite.h"
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//без массива для использования в мех DLL связях
+//Р±РµР· РјР°СЃСЃРёРІР° РґР»В¤ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёВ¤ РІ РјРµС… DLL СЃРІВ¤Р·В¤С…
 inline std::string GetDDSImageExtention( ECompressionType compressionType )
 {
 	if ( compressionType == COMPRESSION_DXT )
@@ -131,7 +131,7 @@ class CSpritesPackBuilder
 	static IImage* Pack( SSpritesPack *pSpritesPack, const CPackParameters &rPackParameters, int nMaxSquareSideSize, int nDepth );
 	static IImage* Pack( SSpritesPack *pSpritesPack, const SPackParameter &rPackParameter, int nMaxSquareSideSize, int nDepth );
 
-	//тестовые мектоды
+	//С‚РµСЃС‚РѕРІС‹Рµ РјРµРєС‚РѕРґС‹
 	static IImage* Unpack							( SSpritesPack *pSpritesPack, IImage *pPackedImage, int nSpriteIndex, CTRect<int> *pActualRect = 0 );
 	static IImage* UnpackAndMarkEdge	( SSpritesPack *pSpritesPack, IImage *pPackedImage, int nSpriteIndex, CTRect<int> *pActualRect = 0 );
 	static IImage* UnpackAndMarkBounds( SSpritesPack *pSpritesPack, IImage *pPackedImage, int nSpriteIndex, CTRect<int> *pActualRect = 0 );
@@ -152,7 +152,7 @@ public:
 	static const SColor GRAY_DARKER_COLOR;
 	static const SColor BASE_EMBOSS_COLOR;
 
-	//статические функции
+	//СЃС‚Р°С‚РёС‡РµСЃРєРёРµ С„СѓРЅРєС†РёРё
 	static bool ApplyFilter( IImage *pImage, const CArray2D<int> &rFilter, DWORD dwMinAlpha );
 	static bool Emboss( IImage *pImage, const CTPoint<int> &rShiftPoint, const CArray2D<int> &rFilter, DWORD dwMinAlpha );
 	static bool Noise( IImage *pImage, IImage *pNoise, DWORD dwMinAlpha );
@@ -162,13 +162,13 @@ public:
 	static IImage* GetEdge( IImage *pImage, SColor edgeColor, SColor nonEdgeColor, DWORD dwMinAlpha );
 	static IImage* GetShadow( IImage *pImage, const CTPoint<int> &rShiftPoint, SColor shadowColor, SColor nonShadowColor, DWORD dwMinAlpha );
 	static IImage* GetAlphaEmboss( IImage *pImage, const CTPoint<int> &rShiftPoint, int nFilterSize, DWORD dwMinAlpha );
-	//все одного размера!
+	//РІСЃРµ РѕРґРЅРѕРіРѕ СЂР°Р·РјРµСЂР°!
 	static IImage* FastComposeImagesByAlpha( const std::vector<CPtr<IImage> > &rImages, DWORD dwMinAlpha );
 	static IImage* FastComposeImagesByColor( const std::vector<CPtr<IImage> > &rImages, SColor color );
 };
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//функционал применяющий данный паттерн к указанной точке картинки
+//С„СѓРЅРєС†РёРѕРЅР°Р» РїСЂРёРјРµРЅВ¤СЋС‰РёР№ РґР°РЅРЅС‹Р№ РїР°С‚С‚РµСЂРЅ Рє СѓРєР°Р·Р°РЅРЅРѕР№ С‚РѕС‡РєРµ РєР°СЂС‚РёРЅРєРё
 struct SRMImageApplyFilterFunctional
 {
 	friend class CRMImageBuilder;
@@ -241,7 +241,7 @@ private:
 };
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//функционал применяющий данный паттерн к указанной точке картинки, с проверкой диапазонов
+//С„СѓРЅРєС†РёРѕРЅР°Р» РїСЂРёРјРµРЅВ¤СЋС‰РёР№ РґР°РЅРЅС‹Р№ РїР°С‚С‚РµСЂРЅ Рє СѓРєР°Р·Р°РЅРЅРѕР№ С‚РѕС‡РєРµ РєР°СЂС‚РёРЅРєРё, СЃ РїСЂРѕРІРµСЂРєРѕР№ РґРёР°РїР°Р·РѕРЅРѕРІ
 struct SRMImageApplyFilterInBoundsFunctional
 {
 	friend class CRMImageBuilder;
@@ -334,7 +334,7 @@ private:
 };
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//функционал помечающий край картинки
+//С„СѓРЅРєС†РёРѕРЅР°Р» РїРѕРјРµС‡Р°СЋС‰РёР№ РєСЂР°Р№ РєР°СЂС‚РёРЅРєРё
 struct SRMGetImageEdgeFunctional
 {
 	friend class CRMImageBuilder;
@@ -382,7 +382,7 @@ private:
 };
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//функционал помечающий край картинки
+//С„СѓРЅРєС†РёРѕРЅР°Р» РїРѕРјРµС‡Р°СЋС‰РёР№ РєСЂР°Р№ РєР°СЂС‚РёРЅРєРё
 struct SRMGetImageEdgeInBoundsFunctional
 {
 	friend class CRMImageBuilder;

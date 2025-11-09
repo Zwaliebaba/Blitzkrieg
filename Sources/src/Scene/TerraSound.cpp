@@ -22,7 +22,7 @@ void CTerrain::GetTerrainMassData( SSoundTerrainInfo **ppData, int *pnSize )
 	if ( *pnSize == 0 )
 		return;
 
-	// для очистки набранной инофо о террейне
+	// РґР»СЏ РѕС‡РёСЃС‚РєРё РЅР°Р±СЂР°РЅРЅРѕР№ РёРЅРѕС„Рѕ Рѕ С‚РµСЂСЂРµР№РЅРµ
 	collectedInfo.clear();
 	collectedInfo.resize( tilesetDesc.terrtypes.size() );
 	
@@ -36,20 +36,20 @@ void CTerrain::GetTerrainMassData( SSoundTerrainInfo **ppData, int *pnSize )
 			for ( int nTileX = 0; nTileX < STerrainPatchInfo::nSizeX; ++nTileX )
 				FillSoundInfo( &collectedInfo, nPatchX+nTileX, nPatchY+nTileY );
 	}
-	//первые по fWeight *pnSize элементов отсортировать по terrainType
-		//сначала отсортировать по массе
+	//РїРµСЂРІС‹Рµ РїРѕ fWeight *pnSize СЌР»РµРјРµРЅС‚РѕРІ РѕС‚СЃРѕСЂС‚РёСЂРѕРІР°С‚СЊ РїРѕ terrainType
+		//СЃРЅР°С‡Р°Р»Р° РѕС‚СЃРѕСЂС‚РёСЂРѕРІР°С‚СЊ РїРѕ РјР°СЃСЃРµ
 	SSoundTerrainInfo::PrSoundsMassSort prMassSort;
 	std::sort( collectedInfo.begin(), collectedInfo.end(), prMassSort );
-		//удалить все с нулевой массой
+		//СѓРґР°Р»РёС‚СЊ РІСЃРµ СЃ РЅСѓР»РµРІРѕР№ РјР°СЃСЃРѕР№
 	SSoundTerrainInfo::PrZeroMass prZeroMass;
 	std::vector<SSoundTerrainInfo>::iterator firstZeromass = std::find_if( collectedInfo.begin(), collectedInfo.end(), prZeroMass );
 	*pnSize = Min( *pnSize, firstZeromass-collectedInfo.begin() );
 	collectedInfo.resize( *pnSize );
-		// оставшееся отсортировать по TerrainType
+		// РѕСЃС‚Р°РІС€РµРµСЃСЏ РѕС‚СЃРѕСЂС‚РёСЂРѕРІР°С‚СЊ РїРѕ TerrainType
 	SSoundTerrainInfo::PrTerrainTypeSort prTerrainType;
 	std::sort( collectedInfo.begin(), collectedInfo.end(), prTerrainType );
 
-	// записать их в ppData
+	// Р·Р°РїРёСЃР°С‚СЊ РёС… РІ ppData
 	if ( *pnSize )
 	{
 		*ppData = GetTempBuffer<SSoundTerrainInfo>( *pnSize );

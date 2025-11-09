@@ -43,7 +43,7 @@ CBridgeSpan::CBridgeSpan( const SBridgeRPGStats *_pStats, const CVec2 &center, c
 	const CArray2D<BYTE>& passability = pStats->GetPassability( GetFrameIndex() );
 	unlockTypes.SetSizes( passability.GetSizeX(), passability.GetSizeY() );
 	unlockTypes.SetZero();
-	// под всем мостом запретить строить окопы.
+	// РїРѕРґ РІСЃРµРј РјРѕСЃС‚РѕРј Р·Р°РїСЂРµС‚РёС‚СЊ СЃС‚СЂРѕРёС‚СЊ РѕРєРѕРїС‹.
 	CTilesSet tiles;
 	GetCoveredTiles( &tiles );
 	theStaticMap.AddUndigableTiles( tiles );
@@ -118,7 +118,7 @@ void CBridgeSpan::Build()
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CBridgeSpan::LockTiles( bool bInitialization )
 {
-	if ( fHP < 0 ) return; // непостроенный мост не может лочить
+	if ( fHP < 0 ) return; // РЅРµРїРѕСЃС‚СЂРѕРµРЅРЅС‹Р№ РјРѕСЃС‚ РЅРµ РјРѕР¶РµС‚ Р»РѕС‡РёС‚СЊ
 
 	if ( bLocked ) return;
 	bLocked = true;
@@ -129,7 +129,7 @@ void CBridgeSpan::LockTiles( bool bInitialization )
 	const int nDownPointsX = GetDownX();
 	const int nDownPointsY = GetDownY();
 
-	// полное разлокивание тайлов, которые поменяет мост
+	// РїРѕР»РЅРѕРµ СЂР°Р·Р»РѕРєРёРІР°РЅРёРµ С‚Р°Р№Р»РѕРІ, РєРѕС‚РѕСЂС‹Рµ РїРѕРјРµРЅСЏРµС‚ РјРѕСЃС‚
 	int nDownX = 2 * theStaticMap.GetSizeX() * SConsts::TILE_SIZE;
 	int nDownY = 2 * theStaticMap.GetSizeY() * SConsts::TILE_SIZE;
 	int nUpX = -1;
@@ -189,8 +189,8 @@ void CBridgeSpan::LockTiles( bool bInitialization )
 		);
 	}
 
-	// локание для тех юнитов, которые не могут проехать по мосту
-	// локание тайлов моста
+	// Р»РѕРєР°РЅРёРµ РґР»СЏ С‚РµС… СЋРЅРёС‚РѕРІ, РєРѕС‚РѕСЂС‹Рµ РЅРµ РјРѕРіСѓС‚ РїСЂРѕРµС…Р°С‚СЊ РїРѕ РјРѕСЃС‚Сѓ
+	// Р»РѕРєР°РЅРёРµ С‚Р°Р№Р»РѕРІ РјРѕСЃС‚Р°
 	for ( int y = 0; y < passability.GetSizeY(); ++y )
 	{
 		for ( int x = 0; x < passability.GetSizeX(); ++x )
@@ -200,10 +200,10 @@ void CBridgeSpan::LockTiles( bool bInitialization )
 				const SVector tile( AICellsTiles::GetTile( nDownPointsX + SConsts::TILE_SIZE*x, nDownPointsY + SConsts::TILE_SIZE*y ) );
 				if ( theStaticMap.IsTileInside( tile ) )
 				{
-					// для юнитов
+					// РґР»СЏ СЋРЅРёС‚РѕРІ
 					if ( passability[y][x] & 0x10 )
 						theStaticMap.LockTile( tile, pStats->dwAIClasses );
-					// мост
+					// РјРѕСЃС‚
 					else
 						theStaticMap.LockTile( tile, AI_CLASS_ANY );	
 				}
@@ -237,14 +237,14 @@ void CBridgeSpan::LockTiles( bool bInitialization )
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CBridgeSpan::UnlockTiles( bool bInitialization ) 
 {
-	if ( fHP < 0 ) return; // непостроенный мост не может лочить
+	if ( fHP < 0 ) return; // РЅРµРїРѕСЃС‚СЂРѕРµРЅРЅС‹Р№ РјРѕСЃС‚ РЅРµ РјРѕР¶РµС‚ Р»РѕС‡РёС‚СЊ
 	if ( !bLocked ) return;
 	bLocked = false;
 	
 	const CVec2 vOrigin( pStats->GetOrigin( GetFrameIndex() ) );
 	const CArray2D<BYTE>& passability = pStats->GetPassability( GetFrameIndex() );
 
-	// разлокивание тайлов, где по мосту могут проехать какие-то классы юнитов
+	// СЂР°Р·Р»РѕРєРёРІР°РЅРёРµ С‚Р°Р№Р»РѕРІ, РіРґРµ РїРѕ РјРѕСЃС‚Сѓ РјРѕРіСѓС‚ РїСЂРѕРµС…Р°С‚СЊ РєР°РєРёРµ-С‚Рѕ РєР»Р°СЃСЃС‹ СЋРЅРёС‚РѕРІ
 	int nDownX = 2 * theStaticMap.GetSizeX() * SConsts::TILE_SIZE;
 	int nDownY = 2 * theStaticMap.GetSizeY() * SConsts::TILE_SIZE;
 	int nUpX = -1;
@@ -284,7 +284,7 @@ void CBridgeSpan::UnlockTiles( bool bInitialization )
 		);
 	}
 
-	// восстановление локания тайлов, которые мост поменял
+	// РІРѕСЃСЃС‚Р°РЅРѕРІР»РµРЅРёРµ Р»РѕРєР°РЅРёСЏ С‚Р°Р№Р»РѕРІ, РєРѕС‚РѕСЂС‹Рµ РјРѕСЃС‚ РїРѕРјРµРЅСЏР»
 	for ( int y = 0; y < passability.GetSizeY(); ++y )
 	{
 		for ( int x = 0; x < passability.GetSizeX(); ++x )
@@ -374,7 +374,7 @@ void CBridgeSpan::Die( const float fDamage )
 	updater.Update( ACTION_NOTIFY_RPG_CHANGED, this );
 	fHP = 0.0f;
 
-	// убить юнитов, стоявших на этом пролёте
+	// СѓР±РёС‚СЊ СЋРЅРёС‚РѕРІ, СЃС‚РѕСЏРІС€РёС… РЅР° СЌС‚РѕРј РїСЂРѕР»С‘С‚Рµ
 	const CVec2 rectCenter( ( GetDownX() + GetUpX() ) * 0.5f, ( GetDownY() + GetUpY() ) * 0.5f );
 	const CVec2 vAABBHalfSize( ( GetUpX() - GetDownX() ) * 0.5f + SConsts::MAX_UNIT_TILE_RADIUS, ( GetUpY() - GetDownY() ) * 0.5f + SConsts::MAX_UNIT_TILE_RADIUS );
 
@@ -456,7 +456,7 @@ void CBridgeSpan::TakeDamage( const float fDamage, const bool bFromExplosion, co
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CBridgeSpan::TakeEditorDamage( const float fDamage )
 {
-	// есть смысл наносить данный damage
+	// РµСЃС‚СЊ СЃРјС‹СЃР» РЅР°РЅРѕСЃРёС‚СЊ РґР°РЅРЅС‹Р№ damage
 	if ( fDamage > 0 && fHP > 0 || fDamage < 0 && fHP < GetStats()->fMaxHP )
 	{
 		const float fOldHP = fHP;
@@ -496,28 +496,28 @@ void CBridgeSpan::SetFullBrige( CFullBridge *_pFullBridge )
 CFullBridge::SSpanLock::SSpanLock( CBridgeSpan * pSpan, const WORD wDir )
 : pSpan( pSpan )
 {
-	// найти тайлы. запомнить состояние залоченности.
+	// РЅР°Р№С‚Рё С‚Р°Р№Р»С‹. Р·Р°РїРѕРјРЅРёС‚СЊ СЃРѕСЃС‚РѕСЏРЅРёРµ Р·Р°Р»РѕС‡РµРЅРЅРѕСЃС‚Рё.
 
 	SRect rect; 
 	pSpan->GetBoundRect( &rect );
 	GetTilesCoveredBySide( rect, &tiles, wDir + 65535/2 );
 	
-	// разлокать, 
+	// СЂР°Р·Р»РѕРєР°С‚СЊ, 
 	for ( CTilesSet::const_iterator it = tiles.begin(); it != tiles.end(); ++it )
 	{
 		const BYTE lockInfo = theStaticMap.GetTileLockInfo( *it );
 		formerTiles.push_back( lockInfo );
 		theStaticMap.UnlockTile( *it , lockInfo );
 	}
-	// залокать для всех
+	// Р·Р°Р»РѕРєР°С‚СЊ РґР»СЏ РІСЃРµС…
 	theStaticMap.UpdateMaxesByTiles( tiles, AI_CLASS_ANY, true );
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CFullBridge::SSpanLock::Unlock()
 {
-	// разлокать для всех
+	// СЂР°Р·Р»РѕРєР°С‚СЊ РґР»СЏ РІСЃРµС…
 	theStaticMap.UpdateMaxesByTiles( tiles, AI_CLASS_ANY, false );
-	// залокать как было
+	// Р·Р°Р»РѕРєР°С‚СЊ РєР°Рє Р±С‹Р»Рѕ
 	std::list<BYTE>::const_iterator lockedIter = formerTiles.begin();
 	BYTE aiClasses = 0;
 	for ( CTilesSet::const_iterator it = tiles.begin(); it != tiles.end(); ++it )
@@ -530,7 +530,7 @@ void CFullBridge::SSpanLock::Unlock()
 	SVector vMin, vMax;
 	theStaticMap.CalcMaxesBoundsByTiles( tiles, &vMin, &vMax );
 	theStaticMap.UpdateMaxesForAddedStObject( vMin.x, vMax.x, vMin.y, vMax.y, aiClasses );
-	// забыть тайлы
+	// Р·Р°Р±С‹С‚СЊ С‚Р°Р№Р»С‹
 	tiles.clear();
 	formerTiles.clear();
 
@@ -589,7 +589,7 @@ void CFullBridge::DamageTaken( CBridgeSpan *pDamagedSpan, const float fDamage, c
 			CBridgeSpan *pSpan = *iter;
 			if ( pSpan != pDamagedSpan )
 			{
-				// раздать всем damage, чтобы уравнять процентное соотношение всех HP
+				// СЂР°Р·РґР°С‚СЊ РІСЃРµРј damage, С‡С‚РѕР±С‹ СѓСЂР°РІРЅСЏС‚СЊ РїСЂРѕС†РµРЅС‚РЅРѕРµ СЃРѕРѕС‚РЅРѕС€РµРЅРёРµ РІСЃРµС… HP
 				const float fCurMaxHP = pSpan->GetStats()->fMaxHP;
 				const float fCurHPPercent = pSpan->GetHitPoints() / fCurMaxHP;
 				if ( fCurHPPercent > fNewHPPercent )

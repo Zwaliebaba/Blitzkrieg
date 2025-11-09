@@ -11,7 +11,7 @@
 #include "..\AILogic\UnitCreation.h"
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//коллекционер обьектов
+//РєРѕР»Р»РµРєС†РёРѕРЅРµСЂ РѕР±СЊРµРєС‚РѕРІ
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class CUCHelper
 {
@@ -34,35 +34,35 @@ public:
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//обьекты с возможностью манипуляции
+//РѕР±СЊРµРєС‚С‹ СЃ РІРѕР·РјРѕР¶РЅРѕСЃС‚СЊСЋ РјР°РЅРёРїСѓР»СЏС†РёРё
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class CMutableUCAircraft : public SUCAircraft
 {
-	//Перевод из предка в потомок и обратно
+	//РџРµСЂРµРІРѕРґ РёР· РїСЂРµРґРєР° РІ РїРѕС‚РѕРјРѕРє Рё РѕР±СЂР°С‚РЅРѕ
 	void MutateTo() {}
 	void MutateFrom() {}
 
 public:
 	friend class CUCAircraftManipulator;
 
-	//Конструкторы и операторы преобразования
+	//РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂС‹ Рё РѕРїРµСЂР°С‚РѕСЂС‹ РїСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёСЏ
 	CMutableUCAircraft() { MutateTo(); }
 	CMutableUCAircraft( const SUCAircraft &rUCAircraft )
 		:	SUCAircraft( rUCAircraft ) { MutateTo(); }
 	SUCAircraft& Mutate() { MutateFrom(); return *this; }
 	
-	//Манипулятор
+	//РњР°РЅРёРїСѓР»СЏС‚РѕСЂ
 	virtual IManipulator* GetManipulator();
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class CMutableUCAviation : public SUCAviation
 {
-	//Внутренние константы
+	//Р’РЅСѓС‚СЂРµРЅРЅРёРµ РєРѕРЅСЃС‚Р°РЅС‚С‹
 	static const char* AIRCRAFT_TYPE_NAMES[SUCAviation::AT_COUNT];
-	//Внутренние переменные
+	//Р’РЅСѓС‚СЂРµРЅРЅРёРµ РїРµСЂРµРјРµРЅРЅС‹Рµ
 	std::vector<CMutableUCAircraft> mutableAircrafts;
-	//Перевод из предка в потомок и обратно
+	//РџРµСЂРµРІРѕРґ РёР· РїСЂРµРґРєР° РІ РїРѕС‚РѕРјРѕРє Рё РѕР±СЂР°С‚РЅРѕ
 	void MutateTo()
 	{
 		mutableAircrafts.clear();
@@ -83,20 +83,20 @@ class CMutableUCAviation : public SUCAviation
 public:	
 	friend class CUCAviationManipulator;
 
-	//Конструкторы и операторы преобразования
+	//РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂС‹ Рё РѕРїРµСЂР°С‚РѕСЂС‹ РїСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёСЏ
 	CMutableUCAviation() { MutateTo(); }
 	CMutableUCAviation( const SUCAviation &rUCAviation )
 		:	SUCAviation( rUCAviation ) { MutateTo(); }
 	SUCAviation& Mutate() { MutateFrom(); return *this; }
 
-	//Манипулятор
+	//РњР°РЅРёРїСѓР»СЏС‚РѕСЂ
 	virtual IManipulator* GetManipulator();
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class CMutableUnitCreation : public SUnitCreation
 {
-	//Внутренние переменные
+	//Р’РЅСѓС‚СЂРµРЅРЅРёРµ РїРµСЂРµРјРµРЅРЅС‹Рµ
 	CMutableUCAviation mutableAviation;
 	void MutateTo()
 	{
@@ -111,25 +111,25 @@ public:
 	friend class CUnitCreationManipulator;
 	friend class CTemplateEditorFrame;
 
-	//Конструкторы и операторы преобразования
+	//РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂС‹ Рё РѕРїРµСЂР°С‚РѕСЂС‹ РїСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёСЏ
 	CMutableUnitCreation() { MutateTo(); }
 	CMutableUnitCreation( const SUnitCreation &rUnitCreation )
 		:	SUnitCreation( rUnitCreation ) { MutateTo(); }
 	SUnitCreation& Mutate() { MutateFrom(); return *this; }
 	
-	//Манипулятор
+	//РњР°РЅРёРїСѓР»СЏС‚РѕСЂ
 	virtual IManipulator* GetManipulator();
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class CMutableUnitCreationInfo : public SUnitCreationInfo
 {
-	//Внутренние константы
+	//Р’РЅСѓС‚СЂРµРЅРЅРёРµ РєРѕРЅСЃС‚Р°РЅС‚С‹
 	static const char* UNIT_TYPE_NAMES[3];
-	//Внутренние переменные
+	//Р’РЅСѓС‚СЂРµРЅРЅРёРµ РїРµСЂРµРјРµРЅРЅС‹Рµ
 	std::vector<CMutableUnitCreation> mutableUnits;
 
-	//Перевод из предка в потомок и обратно
+	//РџРµСЂРµРІРѕРґ РёР· РїСЂРµРґРєР° РІ РїРѕС‚РѕРјРѕРє Рё РѕР±СЂР°С‚РЅРѕ
 	void MutateTo()
 	{
 		mutableUnits.clear();
@@ -152,13 +152,13 @@ public:
 	friend class CUnitCreationInfoManipulator;
 	friend class CTemplateEditorFrame;
 
-	//Конструкторы и операторы преобразования
+	//РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂС‹ Рё РѕРїРµСЂР°С‚РѕСЂС‹ РїСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёСЏ
 	CMutableUnitCreationInfo() { MutateTo(); }
 	CMutableUnitCreationInfo( const SUnitCreationInfo &rUnitCreationInfo )
 		:	SUnitCreationInfo( rUnitCreationInfo ) { MutateTo(); }
 	SUnitCreationInfo& Mutate() { MutateFrom(); return *this; }
 
-	//Манипулятор
+	//РњР°РЅРёРїСѓР»СЏС‚РѕСЂ
 	virtual IManipulator* GetManipulator();
 	void Resize( int nNewSize )
 	{
@@ -176,7 +176,7 @@ public:
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//манипуляторы
+//РјР°РЅРёРїСѓР»СЏС‚РѕСЂС‹
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class CUCAircraftManipulator : public CManipulator
 {

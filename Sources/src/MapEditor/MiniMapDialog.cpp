@@ -428,7 +428,7 @@ void CMiniMapDialog::OnPaint()
 	//CDialog::OnPaint();
 	CPaintDC paintDC(this);
 
-	//берем рабочую область экрана
+	//Р±РµСЂРµРј СЂР°Р±РѕС‡СѓСЋ РѕР±Р»Р°СЃС‚СЊ СЌРєСЂР°РЅР°
 	CRect miniMapRect;
 	GetMiniMapRect( &miniMapRect );
 

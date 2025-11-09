@@ -9,12 +9,12 @@
 #include "..\Net\NetDriver.h"
 #include "..\Main\Transceiver.h"
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-static const int OPEN_TIME = 200;						//Время открытия и закрытия консольки в миллисекундах
-static const int CONSOLE_HEIGHT = 240;			//Высота консоли в пикселах
-static const int TEXT_LEFT_SPACE = 20;			//Отступ от левого края экрана до текста в консоли
-static const int TEXT_VERTICAL_SIZE = 20;		//Размер шрифта по вертикали
-static const int MINUS_PAGE_SIZE = 5;				//Специальная константа отступа для PgUp PgDown,
-static const int CURSOR_ANIMATION_TIME = 400;		//период переключения курсора
+static const int OPEN_TIME = 200;						//В¬СЂРµРјВ¤ РѕС‚РєСЂС‹С‚РёВ¤ Рё Р·Р°РєСЂС‹С‚РёВ¤ РєРѕРЅСЃРѕР»СЊРєРё РІ РјРёР»Р»РёСЃРµРєСѓРЅРґР°С…
+static const int CONSOLE_HEIGHT = 240;			//В¬С‹СЃРѕС‚Р° РєРѕРЅСЃРѕР»Рё РІ РїРёРєСЃРµР»Р°С…
+static const int TEXT_LEFT_SPACE = 20;			//СњС‚СЃС‚СѓРї РѕС‚ Р»РµРІРѕРіРѕ РєСЂР°В¤ СЌРєСЂР°РЅР° РґРѕ С‚РµРєСЃС‚Р° РІ РєРѕРЅСЃРѕР»Рё
+static const int TEXT_VERTICAL_SIZE = 20;		//вЂ“Р°Р·РјРµСЂ С€СЂРёС„С‚Р° РїРѕ РІРµСЂС‚РёРєР°Р»Рё
+static const int MINUS_PAGE_SIZE = 5;				//вЂ”РїРµС†РёР°Р»СЊРЅР°В¤ РєРѕРЅСЃС‚Р°РЅС‚Р° РѕС‚СЃС‚СѓРїР° РґР»В¤ PgUp PgDown,
+static const int CURSOR_ANIMATION_TIME = 400;		//РїРµСЂРёРѕРґ РїРµСЂРµРєР»СЋС‡РµРЅРёВ¤ РєСѓСЂСЃРѕСЂР°
 static const WCHAR szPrefix[] = L">>";
 
 /*
@@ -87,7 +87,7 @@ int CUIConsole::operator&( IDataTree &ss )
 bool CUIConsole::IsVisible()
 {
 	if ( bAnimation && dwLastCloseTime > 0 )
-		return false;					//консолька закрывается
+		return false;					//РєРѕРЅСЃРѕР»СЊРєР° Р·Р°РєСЂС‹РІР°РµС‚СЃВ¤
 
 	return CSimpleWindow::IsVisible();
 }
@@ -96,7 +96,7 @@ void CUIConsole::ShowWindow( int _nCmdShow )
 {
 	if ( _nCmdShow != UI_SW_HIDE && _nCmdShow != UI_SW_MINIMIZE )
 	{
-		//Показываем консольку
+		//С•РѕРєР°Р·С‹РІР°РµРј РєРѕРЅСЃРѕР»СЊРєСѓ
 		DWORD dwCurrentTime = GetSingleton<IGameTimer>()->GetAbsTime();
 		if ( dwCurrentTime - dwLastCloseTime < OPEN_TIME )
 			dwLastOpenTime = dwCurrentTime + ( dwCurrentTime - dwLastCloseTime - OPEN_TIME );
@@ -105,7 +105,7 @@ void CUIConsole::ShowWindow( int _nCmdShow )
 		dwLastCloseTime = 0;
 		bAnimation = true;
 
-		//посылаем наверх сообщение чтобы переключился TEXT_MODE
+		//РїРѕСЃС‹Р»Р°РµРј РЅР°РІРµСЂС… СЃРѕРѕР±С‰РµРЅРёРµ С‡С‚РѕР±С‹ РїРµСЂРµРєР»СЋС‡РёР»СЃВ¤ TEXT_MODE
 		SUIMessage msg;
 		msg.nMessageCode = MC_SET_TEXT_MODE;
 		msg.nFirst = GetWindowID();
@@ -123,7 +123,7 @@ void CUIConsole::ShowWindow( int _nCmdShow )
 			return;
 		}
 
-		//Скрываем консольку
+		//вЂ”РєСЂС‹РІР°РµРј РєРѕРЅСЃРѕР»СЊРєСѓ
 		DWORD dwCurrentTime = GetSingleton<IGameTimer>()->GetAbsTime();
 		if ( dwCurrentTime - dwLastOpenTime < OPEN_TIME )
 			dwLastCloseTime = dwCurrentTime + ( dwCurrentTime - dwLastOpenTime - OPEN_TIME );
@@ -132,7 +132,7 @@ void CUIConsole::ShowWindow( int _nCmdShow )
 		dwLastOpenTime = 0;
 		bAnimation = true;
 
-		//посылаем наверх сообщение чтобы вырубился TEXT_MODE
+		//РїРѕСЃС‹Р»Р°РµРј РЅР°РІРµСЂС… СЃРѕРѕР±С‰РµРЅРёРµ С‡С‚РѕР±С‹ РІС‹СЂСѓР±РёР»СЃВ¤ TEXT_MODE
 		SUIMessage msg;
 		msg.nMessageCode = MC_CANCEL_TEXT_MODE;
 		msg.nFirst = GetWindowID();
@@ -143,7 +143,7 @@ void CUIConsole::ShowWindow( int _nCmdShow )
 void CUIConsole::Reposition( const CTRect<float> &rcParent )
 {
 	CTRect<float> rc = GetScreenRect();
-	//считаю, что консоля является child для screen
+	//СЃС‡РёС‚Р°СЋ, С‡С‚Рѕ РєРѕРЅСЃРѕР»В¤ В¤РІР»В¤РµС‚СЃВ¤ child РґР»В¤ screen
 	rc.x1 = rcParent.x1;
 	rc.x2 = rcParent.x2;
 	SetScreenRect( rc );
@@ -185,8 +185,8 @@ bool CUIConsole::Update( const NTimer::STime &currTime )
 	CTRect<float> rc = GetScreenRect();
 	if ( currTime - dwLastOpenTime < OPEN_TIME )
 	{
-		//консоль в процессе открытия
-		//обновляем координаты консоли
+		//РєРѕРЅСЃРѕР»СЊ РІ РїСЂРѕС†РµСЃСЃРµ РѕС‚РєСЂС‹С‚РёВ¤
+		//РѕР±РЅРѕРІР»В¤РµРј РєРѕРѕСЂРґРёРЅР°С‚С‹ РєРѕРЅСЃРѕР»Рё
 		rc.bottom = CONSOLE_HEIGHT * ( currTime - dwLastOpenTime ) / OPEN_TIME;
 		rc.top = rc.bottom - CONSOLE_HEIGHT;
 		SetScreenRect( rc );
@@ -195,7 +195,7 @@ bool CUIConsole::Update( const NTimer::STime &currTime )
 	}
 	else if ( dwLastCloseTime == 0 )
 	{
-		//Если консоль закончила свое открытие
+		//в‰€СЃР»Рё РєРѕРЅСЃРѕР»СЊ Р·Р°РєРѕРЅС‡РёР»Р° СЃРІРѕРµ РѕС‚РєСЂС‹С‚РёРµ
 		rc.top = 0;
 		rc.bottom = CONSOLE_HEIGHT;
 		bAnimation = false;
@@ -206,8 +206,8 @@ bool CUIConsole::Update( const NTimer::STime &currTime )
 	
 	if ( currTime - dwLastCloseTime < OPEN_TIME )
 	{
-		//консоль в процессе закрытия
-		//обновляем координаты консоли
+		//РєРѕРЅСЃРѕР»СЊ РІ РїСЂРѕС†РµСЃСЃРµ Р·Р°РєСЂС‹С‚РёВ¤
+		//РѕР±РЅРѕРІР»В¤РµРј РєРѕРѕСЂРґРёРЅР°С‚С‹ РєРѕРЅСЃРѕР»Рё
 		rc.bottom = CONSOLE_HEIGHT - CONSOLE_HEIGHT * ( currTime - dwLastCloseTime ) / OPEN_TIME;
 		rc.top = rc.bottom - CONSOLE_HEIGHT;
 		SetScreenRect( rc );
@@ -216,7 +216,7 @@ bool CUIConsole::Update( const NTimer::STime &currTime )
 	}
 	else if ( dwLastOpenTime == 0 )
 	{
-		//Если консоль закончила свое закрытие
+		//в‰€СЃР»Рё РєРѕРЅСЃРѕР»СЊ Р·Р°РєРѕРЅС‡РёР»Р° СЃРІРѕРµ Р·Р°РєСЂС‹С‚РёРµ
 		rc.top = -CONSOLE_HEIGHT;
 		rc.bottom = 0;
 		bAnimation = false;
@@ -251,7 +251,7 @@ void CUIConsole::Draw( interface IGFX *pGFX )
 	if ( IsVisible() || bAnimation )
 	{
 		pGFX->SetShadingEffect( 3 );
-		// отобразим редактируемую строчку
+		// РѕС‚РѕР±СЂР°Р·РёРј СЂРµРґР°РєС‚РёСЂСѓРµРјСѓСЋ СЃС‚СЂРѕС‡РєСѓ
 		int nCurrentY = wndRect.y2 - 2 * TEXT_VERTICAL_SIZE;
 		pGFX->DrawString( szPrefix, TEXT_LEFT_SPACE, nCurrentY );
 		pGFX->DrawString( szEditString.c_str(), TEXT_LEFT_SPACE + TEXT_VERTICAL_SIZE, nCurrentY );
@@ -262,7 +262,7 @@ void CUIConsole::Draw( interface IGFX *pGFX )
 		}
 		nCurrentY -= TEXT_VERTICAL_SIZE;
 
-		// отобразим строчки в консоли
+		// РѕС‚РѕР±СЂР°Р·РёРј СЃС‚СЂРѕС‡РєРё РІ РєРѕРЅСЃРѕР»Рё
 		int nSize = vectorOfStrings.size();
 		for ( int i = nBeginString; i < nSize; ++i )
 		{
@@ -272,7 +272,7 @@ void CUIConsole::Draw( interface IGFX *pGFX )
 				break;
 		}
 
-		// рисуем курсор
+		// СЂРёСЃСѓРµРј РєСѓСЂСЃРѕСЂ
 		if ( bShowCursor )
 		{
 			IText *pText = states[nCurrentState].pGfxText->GetText();
@@ -285,7 +285,7 @@ void CUIConsole::Draw( interface IGFX *pGFX )
 			rc.rect.right = rc.rect.left + 2;
 			if ( rc.rect.left < wndRect.right - 1 )
 			{
-				//курсор не выходит за край экрана
+				//РєСѓСЂСЃРѕСЂ РЅРµ РІС‹С…РѕРґРёС‚ Р·Р° РєСЂР°Р№ СЌРєСЂР°РЅР°
 				int nH = states[nCurrentState].pGfxText->GetLineSpace();
 				rc.rect.top = wndRect.bottom - 2 * TEXT_VERTICAL_SIZE;
 				rc.rect.bottom = rc.rect.top + nH;
@@ -293,7 +293,7 @@ void CUIConsole::Draw( interface IGFX *pGFX )
 				
 				if ( bBounded )
 				{
-					// проверим, вдруг видно только часть курсора
+					// РїСЂРѕРІРµСЂРёРј, РІРґСЂСѓРі РІРёРґРЅРѕ С‚РѕР»СЊРєРѕ С‡Р°СЃС‚СЊ РєСѓСЂСЃРѕСЂР°
 					float fTemp;
 					fTemp = rcBound.y1 - rc.rect.y1;
 					if ( fTemp > 0 )
@@ -325,7 +325,7 @@ bool CUIConsole::OnChar( int nAsciiCode, int nVirtualKey, bool bPressed, DWORD k
 	if ( !bPressed )
 		return false;
 	
-	//Если печатный символ, то просто выводим его
+	//в‰€СЃР»Рё РїРµС‡Р°С‚РЅС‹Р№ СЃРёРјРІРѕР», С‚Рѕ РїСЂРѕСЃС‚Рѕ РІС‹РІРѕРґРёРј РµРіРѕ
 //	if ( isprint( nAsciiCode ) )
 	if ( nAsciiCode >= 32 && ( keyState == E_KEYBOARD_FREE || keyState == E_SHIFT_KEY_DOWN ) )
 	{
@@ -342,7 +342,7 @@ bool CUIConsole::OnChar( int nAsciiCode, int nVirtualKey, bool bPressed, DWORD k
 		return true;
 	}
 
-	//Если не печатный символ, то обрабатываем дополнительное управление
+	//в‰€СЃР»Рё РЅРµ РїРµС‡Р°С‚РЅС‹Р№ СЃРёРјРІРѕР», С‚Рѕ РѕР±СЂР°Р±Р°С‚С‹РІР°РµРј РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅРѕРµ СѓРїСЂР°РІР»РµРЅРёРµ
 	switch( nVirtualKey )
 	{
 	case VK_RETURN:
@@ -372,12 +372,12 @@ bool CUIConsole::OnChar( int nAsciiCode, int nVirtualKey, bool bPressed, DWORD k
 			break;
 		if ( keyState == E_KEYBOARD_FREE )
 		{
-			//на одну позицию влево
+			//РЅР° РѕРґРЅСѓ РїРѕР·РёС†РёСЋ РІР»РµРІРѕ
 			nCursorPos--;
 		}
 		if ( keyState & E_CTRL_KEY_DOWN )
 		{
-			//Если нажата crtl и стрелка влево, то сдвигаемся влево на одно слово
+			//в‰€СЃР»Рё РЅР°Р¶Р°С‚Р° crtl Рё СЃС‚СЂРµР»РєР° РІР»РµРІРѕ, С‚Рѕ СЃРґРІРёРіР°РµРјСЃВ¤ РІР»РµРІРѕ РЅР° РѕРґРЅРѕ СЃР»РѕРІРѕ
 			while( nCursorPos > 0 && isspace(szEditString[nCursorPos-1]) )
 				nCursorPos--;
 			if ( nCursorPos > 0 )
@@ -397,12 +397,12 @@ bool CUIConsole::OnChar( int nAsciiCode, int nVirtualKey, bool bPressed, DWORD k
 			break;
 		if ( keyState == E_KEYBOARD_FREE )
 		{
-			//на одну позицию вправо
+			//РЅР° РѕРґРЅСѓ РїРѕР·РёС†РёСЋ РІРїСЂР°РІРѕ
 			nCursorPos++;
 		}
 		else if ( keyState & E_CTRL_KEY_DOWN )
 		{
-			//Если нажата crtl и стрелка вправо, то сдвигаемся вправо на одно слово
+			//в‰€СЃР»Рё РЅР°Р¶Р°С‚Р° crtl Рё СЃС‚СЂРµР»РєР° РІРїСЂР°РІРѕ, С‚Рѕ СЃРґРІРёРіР°РµРјСЃВ¤ РІРїСЂР°РІРѕ РЅР° РѕРґРЅРѕ СЃР»РѕРІРѕ
 			if ( nCursorPos < szEditString.size() )
 			{
 				if ( isalpha(szEditString[nCursorPos]) )
@@ -431,7 +431,7 @@ bool CUIConsole::OnChar( int nAsciiCode, int nVirtualKey, bool bPressed, DWORD k
 
 			if ( nBeginCommand > 0 )
 			{
-				//сдвинем позицию на единицу вниз
+				//СЃРґРІРёРЅРµРј РїРѕР·РёС†РёСЋ РЅР° РµРґРёРЅРёС†Сѓ РІРЅРёР·
 				nBeginCommand--;
 				szEditString = vectorOfCommands[ nBeginCommand ];
 				nCursorPos = szEditString.size();
@@ -445,7 +445,7 @@ bool CUIConsole::OnChar( int nAsciiCode, int nVirtualKey, bool bPressed, DWORD k
 		
 		if ( keyState == E_KEYBOARD_FREE )
 		{
-			//отобразим предыдущую команду
+			//РѕС‚РѕР±СЂР°Р·РёРј РїСЂРµРґС‹РґСѓС‰СѓСЋ РєРѕРјР°РЅРґСѓ
 			nBeginCommand++;
 			if ( nBeginCommand == vectorOfCommands.size() )
 			{
@@ -464,12 +464,12 @@ bool CUIConsole::OnChar( int nAsciiCode, int nVirtualKey, bool bPressed, DWORD k
 	case VK_HOME:
 		if ( keyState == E_KEYBOARD_FREE )
 		{
-			//на начало строки
+			//РЅР° РЅР°С‡Р°Р»Рѕ СЃС‚СЂРѕРєРё
 			nCursorPos = 0;
 		}
 		else if ( keyState == E_CTRL_KEY_DOWN )
 		{
-			//показываем начало консольного текста ( самое старое )
+			//РїРѕРєР°Р·С‹РІР°РµРј РЅР°С‡Р°Р»Рѕ РєРѕРЅСЃРѕР»СЊРЅРѕРіРѕ С‚РµРєСЃС‚Р° ( СЃР°РјРѕРµ СЃС‚Р°СЂРѕРµ )
 			if ( vectorOfStrings.size() > CONSOLE_HEIGHT / TEXT_VERTICAL_SIZE )
 				nBeginString = vectorOfStrings.size() - CONSOLE_HEIGHT / TEXT_VERTICAL_SIZE + MINUS_PAGE_SIZE;
 		}
@@ -478,12 +478,12 @@ bool CUIConsole::OnChar( int nAsciiCode, int nVirtualKey, bool bPressed, DWORD k
 	case VK_END:
 		if ( keyState == E_KEYBOARD_FREE )
 		{
-			//на конец строки
+			//РЅР° РєРѕРЅРµС† СЃС‚СЂРѕРєРё
 			nCursorPos = szEditString.size();
 		}
 		else if ( keyState == E_CTRL_KEY_DOWN )
 		{
-			//показываем конец консольного текста ( самое новое )
+			//РїРѕРєР°Р·С‹РІР°РµРј РєРѕРЅРµС† РєРѕРЅСЃРѕР»СЊРЅРѕРіРѕ С‚РµРєСЃС‚Р° ( СЃР°РјРѕРµ РЅРѕРІРѕРµ )
 			nBeginString = 0;
 		}
 		break;
@@ -583,7 +583,7 @@ void CUIConsole::ParseCommand( const std::wstring &szExtCommand )
 		}
 	}
 
-	//проверим, вдруг эта команда зарегистрирована для выполнения в скрипте консоли, тогда выполним ее
+	//РїСЂРѕРІРµСЂРёРј, РІРґСЂСѓРі СЌС‚Р° РєРѕРјР°РЅРґР° Р·Р°СЂРµРіРёСЃС‚СЂРёСЂРѕРІР°РЅР° РґР»В¤ РІС‹РїРѕР»РЅРµРЅРёВ¤ РІ СЃРєСЂРёРїС‚Рµ РєРѕРЅСЃРѕР»Рё, С‚РѕРіРґР° РІС‹РїРѕР»РЅРёРј РµРµ
 	int nPos = szCommandString.find( '(' );
 	std::string szFunctionName;
 	if ( nPos > 0 )
@@ -626,7 +626,7 @@ void CUIConsole::ParseCommand( const std::wstring &szExtCommand )
 	}
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//разбор консольных функций
+//СЂР°Р·Р±РѕСЂ РєРѕРЅСЃРѕР»СЊРЅС‹С… С„СѓРЅРєС†РёР№
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 int SetIGlobalVar( struct lua_State *state )
 {
@@ -765,7 +765,7 @@ bool CUIConsole::RunScriptFile( const std::string &szScriptFileName )
 		if ( pStream )
 		{
 			const int nSize = pStream->GetSize();
-			// +10 на всякий случай
+			// +10 РЅР° РІСЃВ¤РєРёР№ СЃР»СѓС‡Р°Р№
 			std::vector<char> buffer( nSize + 10 );
 			pStream->Read( &(buffer[0]), nSize );
 			return !( consoleScript.DoBuffer( &(buffer[0]), nSize, "Script" ) );

@@ -20,7 +20,7 @@ struct CAIGActivePoint
 	bool bArrow;
 	bool isValid;
 
-	//конструкторы и операторы присваивания
+	//РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂС‹ Рё РѕРїРµСЂР°С‚РѕСЂС‹ РїСЂРёСЃРІР°РёРІР°РЅРёСЏ
 	CAIGActivePoint() : nIndex( 0 ), vDifference( VNULL3 ), bParcel( true ), bArrow( false ), isValid( false ) {} 
 };
 

@@ -232,7 +232,7 @@ void CAIGSelectState::OnKeyDown( UINT nChar, UINT nRepCnt, UINT nFlags, CTemplat
 	if ( pParentState->stateParameter.Update( CInputStateParameter::ISE_KEYDOWN, CTPoint<int>( 0, 0 ), pFrame ) )
 	{
 		//pParentState->Draw( pFrame );
-		//не надо
+		//РЅРµ РЅР°РґРѕ
 		//pFrame->RedrawWindow();
 	}
 }
@@ -416,7 +416,7 @@ void CAIGEditState::OnKeyDown( UINT nChar, UINT nRepCnt, UINT nFlags, CTemplateE
 		}
 
 		//pParentState->Draw( pFrame );
-		//не надо
+		//РЅРµ РЅР°РґРѕ
 		//pFrame->RedrawWindow();
 	}
 }

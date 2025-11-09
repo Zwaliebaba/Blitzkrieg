@@ -1,5 +1,3 @@
-[English](README.md)        [Русский](README_Russian.md)        [中文](README_Chinese.md)        [हिन्दी](README_Hindi.md)        [Español](README_Spanish.md)        [Français](README_French.md)        [Deutsch](README_German.md)        [Português](README_Portuguese.md)        [日本語](README_Japanese.md)        [Bahasa Indonesia](README_Indonesian.md)
-
 [![Blitzkrieg Trailer](Blitzkrieg.png)](https://www.youtube.com/watch?v=zNxMvTcsJbk)
 
 The computer game [Blitzkrieg](https://wikipedia.org/wiki/Blitzkrieg_(video_game)) is the first installment of the legendary series of real-time strategy war games, developed by [Nival Interactive](http://nival.com/) and released on March 28, 2003.
@@ -21,7 +19,6 @@ All libraries from the SDK directory are needed for compilation. The paths to th
 
 ## Include
 ```
-C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\VC98\STLPORT
 C:\SDK\BINK (not included in the repository)
 C:\SDK\FMOD\API\INC (not included in the repository)
 C:\SDK\S3TC

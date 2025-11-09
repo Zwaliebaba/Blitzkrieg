@@ -5,8 +5,8 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #include "Path.h"
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// специфический путь для артиллеристов - напролом сквозь все.
-// этот путь включается только когда артиллеристы уже у пушки.
+// СЃРїРµС†РёС„РёС‡РµСЃРєРёР№ РїСѓС‚СЊ РґР»СЏ Р°СЂС‚РёР»Р»РµСЂРёСЃС‚РѕРІ - РЅР°РїСЂРѕР»РѕРј СЃРєРІРѕР·СЊ РІСЃРµ.
+// СЌС‚РѕС‚ РїСѓС‚СЊ РІРєР»СЋС‡Р°РµС‚СЃСЏ С‚РѕР»СЊРєРѕ РєРѕРіРґР° Р°СЂС‚РёР»Р»РµСЂРёСЃС‚С‹ СѓР¶Рµ Сѓ РїСѓС€РєРё.
 class CArtilleryCrewPath : public ISmoothPath
 {
 	OBJECT_COMPLETE_METHODS( CArtilleryCrewPath );
@@ -32,7 +32,7 @@ public:
 	virtual const CVec3 GetPoint( NTimer::STime timeDiff );
 
 	virtual const CVec2& GetFinishPoint() const { return vEndPoint; }
-//ненужные функции
+//РЅРµРЅСѓР¶РЅС‹Рµ С„СѓРЅРєС†РёРё
 	virtual bool Init( interface IBasePathUnit *pUnit, IPath *pPath, bool bSmoothTurn = true, bool bCheckTurn = true );
 	virtual bool InitByFormationPath( class CFormation *pFormation, interface IBasePathUnit *pUnit  ) { return true; }
 	virtual bool Init( interface IMemento *pMemento, interface IBasePathUnit *pUnit );
@@ -53,7 +53,7 @@ public:
 	virtual IBasePathUnit* GetOwner() const { return pUnit; }
 };
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// путь для артиллерии, которую буксируют
+// РїСѓС‚СЊ РґР»СЏ Р°СЂС‚РёР»Р»РµСЂРёРё, РєРѕС‚РѕСЂСѓСЋ Р±СѓРєСЃРёСЂСѓСЋС‚
 class CArtilleryBeingTowedPath : public ISmoothPath
 {
 	OBJECT_COMPLETE_METHODS( CArtilleryBeingTowedPath );
@@ -72,7 +72,7 @@ public:
 	virtual bool IsFinished() const { return false; }
 	virtual const CVec3 GetPoint( NTimer::STime timeDiff ) { return vCurPoint; }
 
-//ненужные функции
+//РЅРµРЅСѓР¶РЅС‹Рµ С„СѓРЅРєС†РёРё
 	virtual bool Init( interface IBasePathUnit *pUnit, IPath *pPath, bool bSmoothTurn = true, bool bCheckTurn = true )
 	{
 		CPtr<IPath> p = pPath;

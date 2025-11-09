@@ -72,7 +72,7 @@ CEditorApp::CEditorApp()
 	GetCurrentDirectory( 255, temp );
 	szEditorDir = temp;
 	szEditorDir += '\\';
-	NStr::ToLower( szEditorDir );			//все пути будут храниться в нижнем регистре
+	NStr::ToLower( szEditorDir );			//РІСЃРµ РїСѓС‚Рё Р±СѓРґСѓС‚ С…СЂР°РЅРёС‚СЊСЃСЏ РІ РЅРёР¶РЅРµРј СЂРµРіРёСЃС‚СЂРµ
 
 	m_bInitFinished = false;
 	m_bVersionIncreased = false;
@@ -170,7 +170,7 @@ BOOL CEditorApp::InitInstance()
 	
 	m_bInitFinished = false;
 	CWnd *pActiveFrame = 0;
-	//Фокус сперва устанавливаю в AnimationFrame чтобы не прыгали окошки
+	//Р¤РѕРєСѓСЃ СЃРїРµСЂРІР° СѓСЃС‚Р°РЅР°РІР»РёРІР°СЋ РІ AnimationFrame С‡С‚РѕР±С‹ РЅРµ РїСЂС‹РіР°Р»Рё РѕРєРѕС€РєРё
 	pActiveFrame = g_frameManager.GetFrame( CFrameManager::E_ANIMATION_FRAME );
 	pActiveFrame->SendMessage( WM_SETFOCUS, 0, 0 );
 	
@@ -178,7 +178,7 @@ BOOL CEditorApp::InitInstance()
 	m_pMainFrame->ShowWindow(m_nCmdShow);
 	m_pMainFrame->UpdateWindow();
 	
-	//Здесь устанавливается фокус в последний открытый модуль, индекс которого сохранялся в реестре, не править
+	//Р—РґРµСЃСЊ СѓСЃС‚Р°РЅР°РІР»РёРІР°РµС‚СЃСЏ С„РѕРєСѓСЃ РІ РїРѕСЃР»РµРґРЅРёР№ РѕС‚РєСЂС‹С‚С‹Р№ РјРѕРґСѓР»СЊ, РёРЅРґРµРєСЃ РєРѕС‚РѕСЂРѕРіРѕ СЃРѕС…СЂР°РЅСЏР»СЃСЏ РІ СЂРµРµСЃС‚СЂРµ, РЅРµ РїСЂР°РІРёС‚СЊ
 	int nActiveFrame = LoadLastActiveModuleID();
 	pActiveFrame = g_frameManager.GetFrame( nActiveFrame );
 	NI_ASSERT( pActiveFrame != 0 );
@@ -206,7 +206,7 @@ bool CEditorApp::RunBatchMode()
 	if ( nArgsCount == 1 )
 		return false;
 	
-	//проверим, запущен ли batch mode
+	//РїСЂРѕРІРµСЂРёРј, Р·Р°РїСѓС‰РµРЅ Р»Рё batch mode
 	if ( nArgsCount < 4 )
 	{
 		std::string szMessage = "ResEditor command line batch mode:\nreseditor.exe <*.project extensions> <folder with projects> <destination folder> [-f] [-os]\n"
@@ -246,7 +246,7 @@ void CEditorApp::LoadRegisterData()
 	LoadDirs();
 	LoadFileDialogRegisterData();
 
-	// Считываем source & destination directory для всех модулей
+	// РЎС‡РёС‚С‹РІР°РµРј source & destination directory РґР»СЏ РІСЃРµС… РјРѕРґСѓР»РµР№
 	for ( int i=0; i<g_frameManager.frames.size(); i++ )
 		g_frameManager.frames[i]->LoadRegisterData();
 }
@@ -466,7 +466,7 @@ void CEditorApp::OnAppAbout()
 BOOL CEditorApp::ProcessMessageFilter(int code, LPMSG lpMsg) 
 {
 /*
-	//Если в диалог приходит ESC я не хочу чтобы он закрывался
+	//Р•СЃР»Рё РІ РґРёР°Р»РѕРі РїСЂРёС…РѕРґРёС‚ ESC СЏ РЅРµ С…РѕС‡Сѓ С‡С‚РѕР±С‹ РѕРЅ Р·Р°РєСЂС‹РІР°Р»СЃСЏ
 	if ( (lpMsg->hwnd == pPropertyWindow->GetSafeHwnd() ) ||
 		::IsChild( pPropertyWindow->GetSafeHwnd(), lpMsg->hwnd ) )
     // Use ::IsChild to get messages that may be going

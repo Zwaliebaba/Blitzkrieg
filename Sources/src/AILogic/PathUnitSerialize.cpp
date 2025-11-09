@@ -12,7 +12,7 @@ struct SAILegacyPlacement : public SSuspendedUpdate
 	CVec2 center;													// (x, y)
 	float z;															// height (mostly for planes)
 	WORD dir;															// direction [0..65535) => [0..2pi), only for units
-	DWORD dwNormal;												// нормаль
+	DWORD dwNormal;												// РЅРѕСЂРјР°Р»СЊ
 	float fSpeed;
 
 	SAILegacyPlacement() : center( VNULL2 ), z( -1.0f ), dir( 0 ), dwNormal( 0 ), fSpeed( -100.0f ) { }

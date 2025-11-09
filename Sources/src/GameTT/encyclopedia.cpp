@@ -19,7 +19,7 @@ void CICEncyclopedia::Configure( const char *pszConfig )
 	if ( pszConfig == 0 )
 		return;
 
-	//получаем параметры из командной строки
+	//РїРѕР»СѓС‡Р°РµРј РїР°СЂР°РјРµС‚СЂС‹ РёР· РєРѕРјР°РЅРґРЅРѕР№ СЃС‚СЂРѕРєРё
 	std::vector<std::string> szStrings;
 	NStr::SplitString( pszConfig, szStrings, ';' );
 	NI_ASSERT_T( szStrings.size() == 2, "Invalid number of parameters for encyclopedia interface" );
@@ -124,7 +124,7 @@ void CInterfaceEncyclopedia::Create( int nType, const char *pszName )
 			pos.y = 380 - size.y / 2;
 			pPicture->SetWindowPlacement( &pos, &size );
 			
-			//установим map для картинки
+			//СѓСЃС‚Р°РЅРѕРІРёРј map РґР»СЏ РєР°СЂС‚РёРЅРєРё
 			CTRect<float> rc( 0.0f, 0.0f, pMedalStats->mapImageRect.x2, pMedalStats->mapImageRect.y2 );
 			pPicture->SetWindowMap( rc );
 			break;
@@ -135,7 +135,7 @@ void CInterfaceEncyclopedia::Create( int nType, const char *pszName )
 			NI_ASSERT_TF( pUnitStats != 0, "Invalid unit RPG stats in encyclopedia", return );
 			LoadUnitInfo( pUnitStats, &szTextureFileName, &szTitle, &szDesc, &szStatistics );
 
-			//установим правильный размер для картинки
+			//СѓСЃС‚Р°РЅРѕРІРёРј РїСЂР°РІРёР»СЊРЅС‹Р№ СЂР°Р·РјРµСЂ РґР»СЏ РєР°СЂС‚РёРЅРєРё
 			CVec2 size( 512, 512 );
 			pPicture->SetWindowPlacement( 0, &size );
 			break;
@@ -148,18 +148,18 @@ void CInterfaceEncyclopedia::Create( int nType, const char *pszName )
 	IGFXTexture *pTexture = pTM->GetTexture( szTextureFileName.c_str() );
 	pPicture->SetWindowTexture( pTexture );
 	
-	//установим текст заголовка
+	//СѓСЃС‚Р°РЅРѕРІРёРј С‚РµРєСЃС‚ Р·Р°РіРѕР»РѕРІРєР°
 	IUIElement *pHeader = pUIScreen->GetChildByID( 20000 );
 	NI_ASSERT_T( pHeader != 0, "Invalid encyclopedia header control" );
 	pHeader->SetWindowText( 0, szTitle.c_str() );
 
-	//установим текст описания
+	//СѓСЃС‚Р°РЅРѕРІРёРј С‚РµРєСЃС‚ РѕРїРёСЃР°РЅРёСЏ
 	IUIElement *pDesc = checked_cast<IUIElement *> ( pUIScreen->GetChildByID( 2000 ) );
 	NI_ASSERT_T( pDesc != 0, "Invalid encyclopedia text description control" );
 	pDesc->SetWindowText( 0, szDesc.c_str() );
 
 /*
-	//установим текст статистики
+	//СѓСЃС‚Р°РЅРѕРІРёРј С‚РµРєСЃС‚ СЃС‚Р°С‚РёСЃС‚РёРєРё
 	IUIElement *pStatistics = checked_cast<IUIElement *> ( pUIScreen->GetChildByID( 3000 ) );
 	NI_ASSERT_T( pStatistics != 0, "Invalid encyclopedia text statistics control" );
 	pStatistics->SetWindowText( 0, szStatistics.c_str() );

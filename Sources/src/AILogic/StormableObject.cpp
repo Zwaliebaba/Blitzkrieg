@@ -20,26 +20,26 @@ void CStormableObject::AddInsider( CSoldier *pUnit )
 	const int nPlayer = pUnit->GetPlayer();
 	const int nParty = pUnit->GetParty();
 	
-	// дипломатия совпадает с дипломатией защитников объекта
+	// РґРёРїР»РѕРјР°С‚РёСЏ СЃРѕРІРїР°РґР°РµС‚ СЃ РґРёРїР»РѕРјР°С‚РёРµР№ Р·Р°С‰РёС‚РЅРёРєРѕРІ РѕР±СЉРµРєС‚Р°
 	if ( GetNDefenders() > 0 && theDipl.GetDiplStatus( GetPlayer(), nPlayer ) != EDI_ENEMY ||
 			 GetNDefenders() == 0 && !bAttackers )
 		AddSoldier( pUnit );
 	else
 	{
-		// таких ещё нет
+		// С‚Р°РєРёС… РµС‰С‘ РЅРµС‚
 		if ( attackers.begin( nParty ) == attackers.end() )
 			startTimes[nParty] = curTime;
 		
 		attackers.Add( nParty, pUnit );
 		++nAttackers[nParty];
 
-		// эта party уже атакует
+		// СЌС‚Р° party СѓР¶Рµ Р°С‚Р°РєСѓРµС‚
 		if ( startTimes[nParty] == 0 )
 			++nActiveAttackers;
 
 		pUnit->SetToSolidPlace();
 		
-		// изменить warfog для всех защитников
+		// РёР·РјРµРЅРёС‚СЊ warfog РґР»СЏ РІСЃРµС… Р·Р°С‰РёС‚РЅРёРєРѕРІ
 		if ( !bAttackers )
 		{
 			bAttackers = true;			
@@ -63,11 +63,11 @@ void CStormableObject::DelFromAttackers( CSoldier *pUnit )
 	attackers.Erase( nParty, i );
 
 	--nAttackers[nParty];
-	// эта party уже атакует
+	// СЌС‚Р° party СѓР¶Рµ Р°С‚Р°РєСѓРµС‚
 	if ( startTimes[nParty] == 0 )
 		--nActiveAttackers;
 
-	// всех активных удалили - проверить, не удалили ли всех атакующих
+	// РІСЃРµС… Р°РєС‚РёРІРЅС‹С… СѓРґР°Р»РёР»Рё - РїСЂРѕРІРµСЂРёС‚СЊ, РЅРµ СѓРґР°Р»РёР»Рё Р»Рё РІСЃРµС… Р°С‚Р°РєСѓСЋС‰РёС…
 	if ( nActiveAttackers == 0 )
 	{
 		int i = 0;
@@ -78,7 +78,7 @@ void CStormableObject::DelFromAttackers( CSoldier *pUnit )
 		{
 			bAttackers = false;
 
-			// изменить warfog для всех защитников
+			// РёР·РјРµРЅРёС‚СЊ warfog РґР»СЏ РІСЃРµС… Р·Р°С‰РёС‚РЅРёРєРѕРІ
 			for ( int i = 0; i < GetNDefenders(); ++i )
 				GetUnit( i )->ChangeWarFogState();
 		}
@@ -108,7 +108,7 @@ void CStormableObject::DelInsider( CSoldier *pUnit )
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CStormableObject::InsiderDamaged( CSoldier *pUnit )
 {
-	// защитник объекта
+	// Р·Р°С‰РёС‚РЅРёРє РѕР±СЉРµРєС‚Р°
 	if ( !FindInAttackers( pUnit ) )
 		SoldierDamaged( pUnit );
 }
@@ -162,7 +162,7 @@ void CStormableObject::MakeDefenders( const int nParty )
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool CStormableObject::Segment()
 {
-	// нет атакующих
+	// РЅРµС‚ Р°С‚Р°РєСѓСЋС‰РёС…
 	if ( !bAttackers )
 		return false;
 	else
@@ -173,7 +173,7 @@ bool CStormableObject::Segment()
 
 			for ( int i = 0; i < 3; ++i )
 			{
-				// добавить тех атакующих, кто закончил концентрацию сил
+				// РґРѕР±Р°РІРёС‚СЊ С‚РµС… Р°С‚Р°РєСѓСЋС‰РёС…, РєС‚Рѕ Р·Р°РєРѕРЅС‡РёР» РєРѕРЅС†РµРЅС‚СЂР°С†РёСЋ СЃРёР»
 				if ( nAttackers[i] != 0 && startTimes[i] != 0 && curTime - startTimes[i] >= SConsts::CAMPING_TIME )
 				{
 					startTimes[i] = 0;
@@ -189,7 +189,7 @@ bool CStormableObject::Segment()
 				int nParty = 0;
 				while ( nParty < 3 && i <= nAttacker )
 				{
-					// им можно штурмовать
+					// РёРј РјРѕР¶РЅРѕ С€С‚СѓСЂРјРѕРІР°С‚СЊ
 					if ( nAttackers[nParty] != 0 && startTimes[nParty] == 0 )
 					{
 						predI = i;
@@ -200,7 +200,7 @@ bool CStormableObject::Segment()
 				}
 
 				--nParty;
-				// атакующие есть, а защищающихся нет
+				// Р°С‚Р°РєСѓСЋС‰РёРµ РµСЃС‚СЊ, Р° Р·Р°С‰РёС‰Р°СЋС‰РёС…СЃСЏ РЅРµС‚
 				if ( GetNDefenders() == 0 )
 					MakeDefenders( nParty );
 				else

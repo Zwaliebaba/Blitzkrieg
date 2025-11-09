@@ -264,7 +264,7 @@ public:
 	// get property descriptor by name
 	virtual const SPropertyDesc* STDCALL GetPropertyDesc( const char *pszName )
 	{
-		// CRAP{ надо как-то по другому...
+		// CRAP{ РЅР°РґРѕ РєР°Рє-С‚Рѕ РїРѕ РґСЂСѓРіРѕРјСѓ...
 		CPropsMap::const_iterator pos = propsMap.find( pszName );
 		if ( (pos == propsMap.end()) || (pos->second.nCounter != manipulators.size()) || manipulators.empty() )
 			return 0;

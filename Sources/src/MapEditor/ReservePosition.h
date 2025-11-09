@@ -17,7 +17,7 @@ typedef std::list<CMutableReservePosition> TMutableReservePositionList;
 class CMutableReservePosition : public SBattlePosition
 {
 public:
-	//добавочные поля
+	//РґРѕР±Р°РІРѕС‡РЅС‹Рµ РїРѕР»СЏ
 	SMapObject* pArtilleryObject;
 	SMapObject* pTruckObject;
 	bool flag;
@@ -25,9 +25,9 @@ public:
 	//void Update( CTemplateEditorFrame *pFrame );
 	//static void Update( TMutableAIStartCommandList *pCommands, CTemplateEditorFrame *pFrame );
 
-	//конструктор
+	//РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
 	CMutableReservePosition() : pArtilleryObject( 0 ), pTruckObject( 0 ), flag( false ) {}
-	//преобразование
+	//РїСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµ
 	CMutableReservePosition( const SBattlePosition &rReservePosition )
 		: pArtilleryObject( 0 ), pTruckObject( 0 ), flag( false ),
 			SBattlePosition( rReservePosition ) {}

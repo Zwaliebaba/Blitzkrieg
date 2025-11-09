@@ -152,7 +152,7 @@ void CGeneral::Give( CCommonUnit *pWorker )
 		NI_ASSERT_T( dynamic_cast<CAIUnit*>(pWorker) != 0, "Wrong unit passed" );
 		CAIUnit *pUnit = static_cast<CAIUnit*>(pWorker);
 
-		// дальнобойные орудия
+		// РґР°Р»СЊРЅРѕР±РѕР№РЅС‹Рµ РѕСЂСѓРґРёВ¤
 		if ( pUnit->GetFirstArtilleryGun() != 0 )
 		{
 			if ( pUnit->GetStats()->IsArtillery() || pUnit->GetStats()->IsSPG() || pUnit->GetStats()->type == RPG_TYPE_TRAIN_SUPER )
@@ -167,7 +167,7 @@ void CGeneral::Give( CCommonUnit *pWorker )
 				{
 					if ( pStats->type == RPG_TYPE_TRN_CIVILIAN_AUTO ) 
 					{
-						//такая байда нафиг не нужна генералу
+						//С‚Р°РєР°В¤ Р±Р°Р№РґР° РЅР°С„РёРі РЅРµ РЅСѓР¶РЅР° РіРµРЅРµСЂР°Р»Сѓ
 					}
 					else if ( pStats->type == RPG_TYPE_TRN_MILITARY_AUTO )
 					{
@@ -205,7 +205,7 @@ void CGeneral::EraseLastSeen()
 	if ( curProcessed == enemys.end() ) 
 		curProcessed = enemys.begin();
 
-	// убрать всех врагов, которых видели давно.
+	// СѓР±СЂР°С‚СЊ РІСЃРµС… РІСЂР°РіРѕРІ, РєРѕС‚РѕСЂС‹С… РІРёРґРµР»Рё РґР°РІРЅРѕ.
 	for ( ; curProcessed != enemys.end() && nStep > 0; ++curProcessed )
 	{
 		--nStep;
@@ -238,7 +238,7 @@ void CGeneral::Segment()
 		SGeneralHelper::RemoveDead( &transportsFree );
 		timeCounter.Count( 64, false );
 
-		//CRAP{ ПОТЕСТИРОВАТЬ, ЕСЛИ будет тормозить, то разнести по сегментам
+		//CRAP{ С•СњвЂњв‰€вЂ”вЂњВ»вЂ“СњВ¬СвЂњв„–, в‰€вЂ”Р‹В» Р±СѓРґРµС‚ С‚РѕСЂРјРѕР·РёС‚СЊ, С‚Рѕ СЂР°Р·РЅРµСЃС‚Рё РїРѕ СЃРµРіРјРµРЅС‚Р°Рј
 		timeCounter.Count( 65, true );
 		EraseLastSeen();
 		timeCounter.Count( 65, false );
@@ -250,7 +250,7 @@ void CGeneral::Segment()
 		pAirForce->Segment();
 
 		timeCounter.Count( 67, true );
-		// бомбардировака областей
+		// Р±РѕРјР±Р°СЂРґРёСЂРѕРІР°РєР° РѕР±Р»Р°СЃС‚РµР№
 		BombardmentSegment();
 		pGeneralArtillery->Segment();
 		timeCounter.Count( 67, false );
@@ -274,7 +274,7 @@ void CGeneral::GiveCommandToBombardment()
 	
 	const float fComparativeWeight = 
 		cBombardmentType == 1 ? SGeneralConsts::MIN_WEIGHT_TO_SEND_BOMBERS : SGeneralConsts::MIN_WEIGHT_TO_ARTILLERY_FIRE;
-	// количество областей, среди которых кидать рандом
+	// РєРѕР»РёС‡РµСЃС‚РІРѕ РѕР±Р»Р°СЃС‚РµР№, СЃСЂРµРґРё РєРѕС‚РѕСЂС‹С… РєРёРґР°С‚СЊ СЂР°РЅРґРѕРј
 	int cnt = 0;
 	CResistancesContainer::iterator iter = resContainer.begin();
 	while ( cnt < 10 && !iter.IsFinished() && (*iter).GetWeight() >= fComparativeWeight )
@@ -286,7 +286,7 @@ void CGeneral::GiveCommandToBombardment()
 		iter.Iterate();
 	}
 
-	// можно бомбить
+	// РјРѕР¶РЅРѕ Р±РѕРјР±РёС‚СЊ
 	if ( cnt > 0 )
 	{
 		const int nRegion = Random( 1, cnt );
@@ -313,7 +313,7 @@ void CGeneral::GiveCommandToBombardment()
 			CAIUnit *pUnit = *unitsIter;
 			CAIUnitInfoForGeneral* pInfo = pUnit->GetUnitInfoForGeneral();
 
-			// если послать бомберов или если это враг и его видели не так давно
+			// РµСЃР»Рё РїРѕСЃР»Р°С‚СЊ Р±РѕРјР±РµСЂРѕРІ РёР»Рё РµСЃР»Рё СЌС‚Рѕ РІСЂР°Рі Рё РµРіРѕ РІРёРґРµР»Рё РЅРµ С‚Р°Рє РґР°РІРЅРѕ
 			if ( cBombardmentType == 1 || curTime - pInfo->GetLastTimeOfVisibility() < pUnit->GetTimeToForget() )
 			{
 				if ( pInfo->IsLastVisibleAntiArt() )
@@ -338,14 +338,14 @@ void CGeneral::GiveCommandToBombardment()
 					CAIUnit *pUnit = *unitsIter;
 					CAIUnitInfoForGeneral* pInfo = pUnit->GetUnitInfoForGeneral();
 
-					// если это враг и его видели не так давно		
+					// РµСЃР»Рё СЌС‚Рѕ РІСЂР°Рі Рё РµРіРѕ РІРёРґРµР»Рё РЅРµ С‚Р°Рє РґР°РІРЅРѕ		
 					if ( curTime - pInfo->GetLastTimeOfVisibility() < pUnit->GetTimeToForget() )
 					{
 						const float fDist = fabs( pUnit->GetCenter() - vCenter );
 						if ( fDist > fMaxDistance )
 							fMaxDistance = fDist;
 
-						// "забыть" о невидимых юнитах в этом радиусе
+						// "Р·Р°Р±С‹С‚СЊ" Рѕ РЅРµРІРёРґРёРјС‹С… СЋРЅРёС‚Р°С… РІ СЌС‚РѕРј СЂР°РґРёСѓСЃРµ
 						if ( !pUnit->IsVisible( nParty ) )
 							pUnit->SetLastVisibleTime( 0 );
 					}
@@ -374,9 +374,9 @@ const float Func( const float fX, const float fBound )
 	// x <= f  -->  exp( k * ( x - f ) )
 	// x > f   -->  2 - exp( -k * ( x - f ) )
 
-	// точка смены - пятерная минимальная
+	// С‚РѕС‡РєР° СЃРјРµРЅС‹ - РїВ¤С‚РµСЂРЅР°В¤ РјРёРЅРёРјР°Р»СЊРЅР°В¤
 	const float f = 5.0f;
-	// угол касательной в точке f
+	// СѓРіРѕР» РєР°СЃР°С‚РµР»СЊРЅРѕР№ РІ С‚РѕС‡РєРµ f
 	const float k = 2.0f;
 
 	float func;
@@ -385,7 +385,7 @@ const float Func( const float fX, const float fBound )
 	else
 		func = 2 - exp( -k * ( fX - f ) );
 
-	// сдвиг функции в ноль в нуле и в fBound в бесконечности
+	// СЃРґРІРёРі С„СѓРЅРєС†РёРё РІ РЅРѕР»СЊ РІ РЅСѓР»Рµ Рё РІ fBound РІ Р±РµСЃРєРѕРЅРµС‡РЅРѕСЃС‚Рё
 	func = ( func - exp( -k*f ) ) / ( 2 - exp( -k*f ) ) * fBound;
 
 	return func;
@@ -404,24 +404,24 @@ void CGeneral::BombardmentSegment()
 
 			const float fRatio = maxCell.GetWeight() / fComparativeWeight;
 			bSendReserves = maxCell.GetWeight() >= SGeneralConsts::MIN_WEIGHT_TO_SEND_SWARM;
-			// стоит выстрелить по наилучшей из областей
+			// СЃС‚РѕРёС‚ РІС‹СЃС‚СЂРµР»РёС‚СЊ РїРѕ РЅР°РёР»СѓС‡С€РµР№ РёР· РѕР±Р»Р°СЃС‚РµР№
 			if ( fRatio >= 1.0f )
 			{
-				// вероятность выстрелить по прошествии среднего времени ( TIME_TO_ARTILLERY_FIRE )
+				// РІРµСЂРѕВ¤С‚РЅРѕСЃС‚СЊ РІС‹СЃС‚СЂРµР»РёС‚СЊ РїРѕ РїСЂРѕС€РµСЃС‚РІРёРё СЃСЂРµРґРЅРµРіРѕ РІСЂРµРјРµРЅРё ( TIME_TO_ARTILLERY_FIRE )
 				const float fProbability = 
 					Func( fRatio, 1 - SGeneralConsts::PROBABILITY_TO_SHOOT_AFTER_ARTILLERY_FIRE )
 					+ 
 					SGeneralConsts::PROBABILITY_TO_SHOOT_AFTER_ARTILLERY_FIRE;
 
-				// делится на 1000, т.к. проверка раз в секунду
+				// РґРµР»РёС‚СЃВ¤ РЅР° 1000, С‚.Рє. РїСЂРѕРІРµСЂРєР° СЂР°Р· РІ СЃРµРєСѓРЅРґСѓ
 				const float fProbNow = 1 - exp( 1.0f/((float)SGeneralConsts::TIME_TO_ARTILLERY_FIRE / 1000.0f) * log( 1 - fProbability ) );
 				
-				// нужно стрелять
+				// РЅСѓР¶РЅРѕ СЃС‚СЂРµР»В¤С‚СЊ
 				if ( Random( 0.0f, 1.0f ) < fProbNow )
 				{
 					lastBombardmentCheck = curTime;
 					
-					// послать бомбардировщиков
+					// РїРѕСЃР»Р°С‚СЊ Р±РѕРјР±Р°СЂРґРёСЂРѕРІС‰РёРєРѕРІ
 					const bool bSendBombers = 
 						theUnitCreation.IsAviaEnabled( nParty, SUCAviation::AT_BOMBER ) &&
 						maxCell.GetWeight() >= SGeneralConsts::MIN_WEIGHT_TO_SEND_BOMBERS;
@@ -453,9 +453,9 @@ bool CGeneral::IsMobileReinforcement( int nGroupID ) const
 void CGeneral::GiveNewUnits( const std::list<CCommonUnit*> &pUnits )
 {
 	typedef std::hash_map<int, bool> Formations;
-	Formations formations; // добавляемые формации
+	Formations formations; // РґРѕР±Р°РІР»В¤РµРјС‹Рµ С„РѕСЂРјР°С†РёРё
 	
-	// забрать все юниты, кроме солдат. солдат забирать формациями	
+	// Р·Р°Р±СЂР°С‚СЊ РІСЃРµ СЋРЅРёС‚С‹, РєСЂРѕРјРµ СЃРѕР»РґР°С‚. СЃРѕР»РґР°С‚ Р·Р°Р±РёСЂР°С‚СЊ С„РѕСЂРјР°С†РёВ¤РјРё	
 	for ( std::list<CCommonUnit*>::const_iterator iter = pUnits.begin(); iter != pUnits.end(); ++iter )
 	{
 		CCommonUnit *pUnit = *iter;
@@ -469,7 +469,7 @@ void CGeneral::GiveNewUnits( const std::list<CCommonUnit*> &pUnits )
 		}
 	}
 
-	// забрать формации
+	// Р·Р°Р±СЂР°С‚СЊ С„РѕСЂРјР°С†РёРё
 	for( Formations::iterator it = formations.begin(); it != formations.end(); ++it )
 	{
 		if ( CCommonUnit *pUnit = GetObjectByUniqueIdSafe<CCommonUnit>( it->first ) )
@@ -497,7 +497,7 @@ void CGeneral::Init()
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CGeneral::Init( const SAIGeneralSideInfo &mapInfo )
 {
-	// создать список мобильных отрядов
+	// СЃРѕР·РґР°С‚СЊ СЃРїРёСЃРѕРє РјРѕР±РёР»СЊРЅС‹С… РѕС‚СЂВ¤РґРѕРІ
 	for ( int i = 0; i < mapInfo.mobileScriptIDs.size(); ++i )
 		mobileReinforcementGroupIDs.insert( mapInfo.mobileScriptIDs[i] );
 
@@ -509,7 +509,7 @@ void CGeneral::Init( const SAIGeneralSideInfo &mapInfo )
 	{
 		switch( mapInfo.parcels[i].eType )
 		{
-		case SAIGeneralParcelInfo::EPATCH_DEFENCE:								// защита патчей 
+		case SAIGeneralParcelInfo::EPATCH_DEFENCE:								// Р·Р°С‰РёС‚Р° РїР°С‚С‡РµР№ 
 			{
 				CGeneralTaskToDefendPatch * pTask  = new CGeneralTaskToDefendPatch;
 				pTask->Init( mapInfo.parcels[i], this );
@@ -521,7 +521,7 @@ void CGeneral::Init( const SAIGeneralSideInfo &mapInfo )
 		case SAIGeneralParcelInfo::EPATCH_REINFORCE:
 			{
 				bReinforceCreated = true;
-				// манипулирование резервами
+				// РјР°РЅРёРїСѓР»РёСЂРѕРІР°РЅРёРµ СЂРµР·РµСЂРІР°РјРё
 				CGeneralTaskToHoldReinforcement * pTask = new CGeneralTaskToHoldReinforcement;
 				pTask->Init( mapInfo.parcels[i] );
 				// notify Intendant about points to hold reinforcement.
@@ -536,7 +536,7 @@ void CGeneral::Init( const SAIGeneralSideInfo &mapInfo )
 	// there is no reinforcement positions. create one, MUST HAVE at leas one
 	if ( !bReinforceCreated )
 	{
-		// манипулирование резервами
+		// РјР°РЅРёРїСѓР»РёСЂРѕРІР°РЅРёРµ СЂРµР·РµСЂРІР°РјРё
 		CGeneralTaskToHoldReinforcement * pTask = new CGeneralTaskToHoldReinforcement;
 		pTask->Init();
 		pTask->AskForWorker( this, 0, true );

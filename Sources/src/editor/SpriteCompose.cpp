@@ -148,7 +148,7 @@ IImage* BuildAnimations( std::vector<SAnimationDesc> *pSrc, SSpriteAnimationForm
 		pAnimation->bCycled = animdesc.bCycled;
 		pAnimation->dirs.resize( animdesc.dirs.size() );
 		pAnimation->nFrameTime = animdesc.nFrameTime;
-		// копируем кадры с пересчём в новые индексы и составляем список индексов, используемых в этой анимации
+		// РєРѕРїРёСЂСѓРµРј РєР°РґСЂС‹ СЃ РїРµСЂРµСЃС‡С‘Рј РІ РЅРѕРІС‹Рµ РёРЅРґРµРєСЃС‹ Рё СЃРѕСЃС‚Р°РІР»СЏРµРј СЃРїРёСЃРѕРє РёРЅРґРµРєСЃРѕРІ, РёСЃРїРѕР»СЊР·СѓРµРјС‹С… РІ СЌС‚РѕР№ Р°РЅРёРјР°С†РёРё
 		for ( int j=0; j<pAnimation->dirs.size(); ++j )
 		{
 			pAnimation->dirs[j].frames.resize( animdesc.dirs[j].frames.size() );
@@ -158,9 +158,9 @@ IImage* BuildAnimations( std::vector<SAnimationDesc> *pSrc, SSpriteAnimationForm
 				animdesc.AddUsedFrame( pAnimation->dirs[j].frames[k] );
 			}
 		}
-		// сортируем список индексов, используемых в этой анимации
+		// СЃРѕСЂС‚РёСЂСѓРµРј СЃРїРёСЃРѕРє РёРЅРґРµРєСЃРѕРІ, РёСЃРїРѕР»СЊР·СѓРµРјС‹С… РІ СЌС‚РѕР№ Р°РЅРёРјР°С†РёРё
 		std::sort( animdesc.usedFrames.begin(), animdesc.usedFrames.end() );
-		// переводим новые индексы в локальные индексы этой анимации
+		// РїРµСЂРµРІРѕРґРёРј РЅРѕРІС‹Рµ РёРЅРґРµРєСЃС‹ РІ Р»РѕРєР°Р»СЊРЅС‹Рµ РёРЅРґРµРєСЃС‹ СЌС‚РѕР№ Р°РЅРёРјР°С†РёРё
 		for ( int j=0; j<pAnimation->dirs.size(); ++j )
 		{
 			for ( int k=0; k<pAnimation->dirs[j].frames.size(); ++k )
@@ -213,8 +213,8 @@ IImage* BuildAnimations( std::vector<SAnimationDesc> *pSrc, SSpriteAnimationForm
 	{
 		SAnimationDesc &animdesc = animdescs[i];
 		SSpriteAnimationFormat::SSpriteAnimation *pAnimation = &( animations.animations[GetActionFromName(animdesc.szName)] );
-		// мы имеем список новых индексов в animdesc.usedFrames.
-		// необходимо составить из них новые кадры
+		// РјС‹ РёРјРµРµРј СЃРїРёСЃРѕРє РЅРѕРІС‹С… РёРЅРґРµРєСЃРѕРІ РІ animdesc.usedFrames.
+		// РЅРµРѕР±С…РѕРґРёРјРѕ СЃРѕСЃС‚Р°РІРёС‚СЊ РёР· РЅРёС… РЅРѕРІС‹Рµ РєР°РґСЂС‹
 		//
 		for ( int j=0; j<pAnimation->rects.size(); ++j )
 		{
@@ -224,7 +224,7 @@ IImage* BuildAnimations( std::vector<SAnimationDesc> *pSrc, SSpriteAnimationForm
 			pAnimation->rects[j].maps.y1 = ( float( rcSubRect.top    ) + 0.5f ) / float( pImage->GetSizeY() );
 			pAnimation->rects[j].maps.y2 = ( float( rcSubRect.bottom ) + 0.5f ) / float( pImage->GetSizeY() );
 			const RECT &rcBase = rectsMain[ animdesc.usedFrames[j]  ];
-			// CRAP{ т.к. пришли к тому, что у всей анимации нулевая точка одна и та же
+			// CRAP{ С‚.Рє. РїСЂРёС€Р»Рё Рє С‚РѕРјСѓ, С‡С‚Рѕ Сѓ РІСЃРµР№ Р°РЅРёРјР°С†РёРё РЅСѓР»РµРІР°СЏ С‚РѕС‡РєР° РѕРґРЅР° Рё С‚Р° Р¶Рµ
 			CVec2 ptFrame = animdesc.frames.begin()->second;//animdesc.frames[nOldIndex];
 			// CRAP}
 			pAnimation->rects[j].rect.Set(	rcSubRect.left - rcBase.left - ptFrame.x,
@@ -272,9 +272,9 @@ const CVec2 ComputeSpriteNewZeroPos( const IVisObj *pSprite, const CVec3 &vZero3
 	// new 2D sprite zero with respect to sprite's texture top-left corner
 	CVec2 vZeroNew;
 	{
-		// вычислим положение нуля текстуры в экранных координатах
+		// РІС‹С‡РёСЃР»РёРј РїРѕР»РѕР¶РµРЅРёРµ РЅСѓР»СЏ С‚РµРєСЃС‚СѓСЂС‹ РІ СЌРєСЂР°РЅРЅС‹С… РєРѕРѕСЂРґРёРЅР°С‚Р°С…
 		const SSpriteInfo *pInfo = static_cast<const ISpriteVisObj*>(pSprite)->GetSpriteInfo();
-		// расст. от начала текстуры до текущего нуля объекта (w, h)
+		// СЂР°СЃСЃС‚. РѕС‚ РЅР°С‡Р°Р»Р° С‚РµРєСЃС‚СѓСЂС‹ РґРѕ С‚РµРєСѓС‰РµРіРѕ РЅСѓР»СЏ РѕР±СЉРµРєС‚Р° (w, h)
 		int w0 = pInfo->pTexture->GetSizeX( 0 );
 		int h0 = pInfo->pTexture->GetSizeY( 0 );
 		int w1 = ceil( pInfo->maps.left * w0 - 0.5f );
@@ -283,7 +283,7 @@ const CVec2 ComputeSpriteNewZeroPos( const IVisObj *pSprite, const CVec3 &vZero3
 		int h2 = abs( pInfo->rect.top );
 		int w = w1 + w2;
 		int h = h1 + h2;
-		// положение нового нуля относительно начала текстуры
+		// РїРѕР»РѕР¶РµРЅРёРµ РЅРѕРІРѕРіРѕ РЅСѓР»СЏ РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕ РЅР°С‡Р°Р»Р° С‚РµРєСЃС‚СѓСЂС‹
 		vZeroNew = vZero2 - ( vSprite2 - CVec2(w, h) );
 	}
 
@@ -317,7 +317,7 @@ const CVec3 Get3DPosition( const CVec3 &vSpritePos, const CVec2 &vPointPos, cons
 	float fZero2Border = 0.0f;
 	float fBorder2Point = -vPointPos.y;
 
-	//картинка
+	//РєР°СЂС‚РёРЅРєР°
 	SSpritesPack::CSpritesList::const_iterator spritesListIterator = rSpritesPack.sprites.begin();
 	for ( int nSpritePackIndex = 0; nSpritePackIndex < nSpriteIndex; ++nSpritePackIndex )
 	{
@@ -508,7 +508,7 @@ bool ComposeSingleSprite( const char *pszFileName, const char *pszResultingDir, 
 	if ( bFence )
 	{
 		IImageProcessor *pIP = GetImageProcessor();
-		//вычислим zeroPos, она для заборов точно посередине тайла
+		//РІС‹С‡РёСЃР»РёРј zeroPos, РѕРЅР° РґР»СЏ Р·Р°Р±РѕСЂРѕРІ С‚РѕС‡РЅРѕ РїРѕСЃРµСЂРµРґРёРЅРµ С‚Р°Р№Р»Р°
 		{
 			CPtr<IDataStream> pStream = OpenFileStream( pszFileName, STREAM_ACCESS_READ );
 			NI_ASSERT_T( pStream != 0, NStr::Format("Can't open file \"%s\" to compose sprite", pszFileName) );
@@ -522,7 +522,7 @@ bool ComposeSingleSprite( const char *pszFileName, const char *pszResultingDir, 
 	animDesc.ptFrameShift = zeroPos;
 	animDesc.szName = "default";
 	
-	//Заполняем вектор directions
+	//Р—Р°РїРѕР»РЅСЏРµРј РІРµРєС‚РѕСЂ directions
 	fileNameVector.resize( nLastSprite );
 	animDesc.dirs.resize( 1 );
 	
@@ -545,7 +545,7 @@ bool ComposeSingleSprite( const char *pszFileName, const char *pszResultingDir, 
 	
 	if ( GetFileAttributes( pszFileName ) & FILE_ATTRIBUTE_DIRECTORY )
 	{
-		return false;		//директория
+		return false;		//РґРёСЂРµРєС‚РѕСЂРёСЏ
 	}
 
 	SSpriteAnimationFormat spriteAnimFmt;
@@ -557,7 +557,7 @@ bool ComposeSingleSprite( const char *pszFileName, const char *pszResultingDir, 
 		return false;
 	}
 
-	//сохраняю .dds, .san файлы
+	//СЃРѕС…СЂР°РЅСЏСЋ .dds, .san С„Р°Р№Р»С‹
 	std::string szTemp = pszResultingDir;
 	szTemp += pszResName;
 	SaveTexture8888( pImage, szTemp.c_str() );

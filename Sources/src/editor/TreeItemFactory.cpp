@@ -133,7 +133,7 @@ CTreeItemObjectFactory::CTreeItemObjectFactory()
 	REGISTER_CLASS( this, E_BUILDING_GRAPHIC3_PROPS_ITEM,CBuildingGraphic3PropsItem );
 	REGISTER_CLASS( this, E_BUILDING_DEFENCES_ITEM,			CBuildingDefencesItem );
 	REGISTER_CLASS( this, E_BUILDING_DEFENCE_PROPS_ITEM,CBuildingDefencePropsItem );
-	//дополнительные TreeItems для building composer
+	//РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹Рµ TreeItems РґР»СЏ building composer
 	REGISTER_CLASS( this, E_BUILDING_SUMMER_PROPS_ITEM,	CBuildingSummerPropsItem );
 	REGISTER_CLASS( this, E_BUILDING_WINTER_PROPS_ITEM,	CBuildingWinterPropsItem );
 	REGISTER_CLASS( this, E_BUILDING_GRAPHICW1_PROPS_ITEM,CBuildingGraphicW1PropsItem );

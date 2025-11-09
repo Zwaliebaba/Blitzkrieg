@@ -6,9 +6,9 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 struct SUCAircraft
 {
-	std::string szName;										//имя самолета в Objecst.
-	int nFormationSize;										//сколько самолетов за 1 вызов
-	int nPlanes;													// сколько самолетов у игрока
+	std::string szName;										//РёРјСЏ СЃР°РјРѕР»РµС‚Р° РІ Objecst.
+	int nFormationSize;										//СЃРєРѕР»СЊРєРѕ СЃР°РјРѕР»РµС‚РѕРІ Р·Р° 1 РІС‹Р·РѕРІ
+	int nPlanes;													// СЃРєРѕР»СЊРєРѕ СЃР°РјРѕР»РµС‚РѕРІ Сѓ РёРіСЂРѕРєР°
 
 	SUCAircraft() : nFormationSize( 1 ), nPlanes( 1 ) {}
 	SUCAircraft( const SUCAircraft &rUCAircraft )
@@ -62,12 +62,12 @@ struct SUCAviation
 		AT_COUNT				= 5,
 	};
 	
-	std::vector<SUCAircraft> aircrafts;		//Самолеты по типам
-	//std::string szParadropSoldierName;		//Парашютисты
-	std::string szParadropSquadName;			//Парашютисты
-	int nParadropSquadCount;							//Количество парашютистов
-	int	nRelaxTime;												//промежуток времени между вызовами ( сек )
-	std::list<CVec3> vAppearPoints;				//точки возможного появления (координата аэродрома)
+	std::vector<SUCAircraft> aircrafts;		//РЎР°РјРѕР»РµС‚С‹ РїРѕ С‚РёРїР°Рј
+	//std::string szParadropSoldierName;		//РџР°СЂР°С€СЋС‚РёСЃС‚С‹
+	std::string szParadropSquadName;			//РџР°СЂР°С€СЋС‚РёСЃС‚С‹
+	int nParadropSquadCount;							//РљРѕР»РёС‡РµСЃС‚РІРѕ РїР°СЂР°С€СЋС‚РёСЃС‚РѕРІ
+	int	nRelaxTime;												//РїСЂРѕРјРµР¶СѓС‚РѕРє РІСЂРµРјРµРЅРё РјРµР¶РґСѓ РІС‹Р·РѕРІР°РјРё ( СЃРµРє )
+	std::list<CVec3> vAppearPoints;				//С‚РѕС‡РєРё РІРѕР·РјРѕР¶РЅРѕРіРѕ РїРѕСЏРІР»РµРЅРёСЏ (РєРѕРѕСЂРґРёРЅР°С‚Р° Р°СЌСЂРѕРґСЂРѕРјР°)
 
 	SUCAviation()
 		:	nParadropSquadCount( 1 ), nRelaxTime( 30 ) { Validate(); }
@@ -139,8 +139,8 @@ struct SUCAviation
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 struct SUnitCreation
 {
-	SUCAviation aviation;											//самолеты
-	std::string szPartyName;									// имя страны
+	SUCAviation aviation;											//СЃР°РјРѕР»РµС‚С‹
+	std::string szPartyName;									// РёРјСЏ СЃС‚СЂР°РЅС‹
 	
 	SUnitCreation() {}
 	SUnitCreation( const SUnitCreation &rUnitCreation )
@@ -249,8 +249,8 @@ struct SUnitCreationInfo
 /**
 struct SUCMine
 {
-	std::string szAntiPersonnelName;			//Противотехотная мина
-	std::string szAntiTankName;						//Противотанковая мина
+	std::string szAntiPersonnelName;			//РџСЂРѕС‚РёРІРѕС‚РµС…РѕС‚РЅР°СЏ РјРёРЅР°
+	std::string szAntiTankName;						//РџСЂРѕС‚РёРІРѕС‚Р°РЅРєРѕРІР°СЏ РјРёРЅР°
 
 	SUCMine() {}
 	SUCMine( const std::string &rszAntiPersonnelName, const std::string &rszAntiTankName )

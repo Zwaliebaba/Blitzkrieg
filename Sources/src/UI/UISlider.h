@@ -11,20 +11,20 @@ class CUISlider : public CSimpleWindow
 	int m_nMin, m_nMax, m_nStep;
 	int m_nPrevPos, m_nPos;
 	int m_nKeyStep;													//keyboard step
-	int m_nElevatorWidth;										//размер элеватора вдоль линейки
-	int m_nLineWidth;												//ширина линейки
-	bool bVertical;													//если true то вертикальный слайдер
-	bool bSelElevator;											// выделен ли элеватор
+	int m_nElevatorWidth;										//СЂР°Р·РјРµСЂ СЌР»РµРІР°С‚РѕСЂР° РІРґРѕР»СЊ Р»РёРЅРµР№РєРё
+	int m_nLineWidth;												//С€РёСЂРёРЅР° Р»РёРЅРµР№РєРё
+	bool bVertical;													//РµСЃР»Рё true С‚Рѕ РІРµСЂС‚РёРєР°Р»СЊРЅС‹Р№ СЃР»Р°Р№РґРµСЂ
+	bool bSelElevator;											// РІС‹РґРµР»РµРЅ Р»Рё СЌР»РµРІР°С‚РѕСЂ
 	
-	CPtr<IGFXTexture> pSliderTexture;				// внешний вид - текстура
+	CPtr<IGFXTexture> pSliderTexture;				// РІРЅРµС€РЅРёР№ РІРёРґ - С‚РµРєСЃС‚СѓСЂР°
 	CTRect<float> sliderMapa;
 	
-	//перед отрисовкой с помощью этой функции вычисляю, где нужно рисовать элеватор
+	//РїРµСЂРµРґ РѕС‚СЂРёСЃРѕРІРєРѕР№ СЃ РїРѕРјРѕС‰СЊСЋ СЌС‚РѕР№ С„СѓРЅРєС†РёРё РІС‹С‡РёСЃР»В¤СЋ, РіРґРµ РЅСѓР¶РЅРѕ СЂРёСЃРѕРІР°С‚СЊ СЌР»РµРІР°С‚РѕСЂ
 	int ComputeElevatorCoord();
-	//для перемещения элеватора в ответ на передвижение мышки
+	//РґР»В¤ РїРµСЂРµРјРµС‰РµРЅРёВ¤ СЌР»РµРІР°С‚РѕСЂР° РІ РѕС‚РІРµС‚ РЅР° РїРµСЂРµРґРІРёР¶РµРЅРёРµ РјС‹С€РєРё
 	void UpdatePosition( int nCoord );
 
-	//посылка сообщения наверх об изменении текущей позиции
+	//РїРѕСЃС‹Р»РєР° СЃРѕРѕР±С‰РµРЅРёВ¤ РЅР°РІРµСЂС… РѕР± РёР·РјРµРЅРµРЅРёРё С‚РµРєСѓС‰РµР№ РїРѕР·РёС†РёРё
 	void NotifyPositionChanged();
 public:
 	CUISlider() : m_nMin( 0 ), m_nMax( 0 ), m_nPos( 0 ), m_nStep( 0 ), m_nKeyStep( 20 ), m_nElevatorWidth( 0 ),
@@ -45,9 +45,9 @@ public:
 	virtual bool STDCALL OnLButtonDown( const CVec2 &vPos, EMouseState mouseState );
 	virtual bool STDCALL OnLButtonUp( const CVec2 &vPos, EMouseState mouseState ) { return true; }
 	
-	//для ScrollBar
-	//здесь изменение позиции не посылает сообщения наверх.
-	//эти функции не должны использоваться извне, применяются только в ScrollBar
+	//РґР»В¤ ScrollBar
+	//Р·РґРµСЃСЊ РёР·РјРµРЅРµРЅРёРµ РїРѕР·РёС†РёРё РЅРµ РїРѕСЃС‹Р»Р°РµС‚ СЃРѕРѕР±С‰РµРЅРёВ¤ РЅР°РІРµСЂС….
+	//СЌС‚Рё С„СѓРЅРєС†РёРё РЅРµ РґРѕР»Р¶РЅС‹ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊСЃВ¤ РёР·РІРЅРµ, РїСЂРёРјРµРЅВ¤СЋС‚СЃВ¤ С‚РѕР»СЊРєРѕ РІ ScrollBar
 	void SetPosition( int nPos );
 	int GetPosition() { return m_nPos; }
 	int GetMinValue() { return m_nMin; }
@@ -75,19 +75,19 @@ public:
 	virtual int STDCALL GetPosition() { return CSuper::GetPosition(); }
 };
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//Окошко ведет себя как MultipleWindow в плане обработки сообщений (просто передает их childs)
-//Но по другому Serialize, не сохраняет список childs, левая, правая кнопки и элеватор хранятся отдельно
+//СњРєРѕС€РєРѕ РІРµРґРµС‚ СЃРµР±В¤ РєР°Рє MultipleWindow РІ РїР»Р°РЅРµ РѕР±СЂР°Р±РѕС‚РєРё СЃРѕРѕР±С‰РµРЅРёР№ (РїСЂРѕСЃС‚Рѕ РїРµСЂРµРґР°РµС‚ РёС… childs)
+//РЊРѕ РїРѕ РґСЂСѓРіРѕРјСѓ Serialize, РЅРµ СЃРѕС…СЂР°РЅВ¤РµС‚ СЃРїРёСЃРѕРє childs, Р»РµРІР°В¤, РїСЂР°РІР°В¤ РєРЅРѕРїРєРё Рё СЌР»РµРІР°С‚РѕСЂ С…СЂР°РЅВ¤С‚СЃВ¤ РѕС‚РґРµР»СЊРЅРѕ
 class CUIScrollBar : public CMultipleWindow
 {
 	DECLARE_SERIALIZE;
 	//
-	CUIButton *pMinButton;			//инициализируется во время загрузки и используется для ускорения доступа к компонентам
+	CUIButton *pMinButton;			//РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµС‚СЃВ¤ РІРѕ РІСЂРµРјВ¤ Р·Р°РіСЂСѓР·РєРё Рё РёСЃРїРѕР»СЊР·СѓРµС‚СЃВ¤ РґР»В¤ СѓСЃРєРѕСЂРµРЅРёВ¤ РґРѕСЃС‚СѓРїР° Рє РєРѕРјРїРѕРЅРµРЅС‚Р°Рј
 	CUIButton *pMaxButton;
 	CUISlider *pSlider;
-	int m_nButtonStep;					//сдвиг при нажатии на кнопку
+	int m_nButtonStep;					//СЃРґРІРёРі РїСЂРё РЅР°Р¶Р°С‚РёРё РЅР° РєРЅРѕРїРєСѓ
 	DWORD dwLastUpdateTime;
 	
-	//посылка сообщения наверх об изменении текущей позиции
+	//РїРѕСЃС‹Р»РєР° СЃРѕРѕР±С‰РµРЅРёВ¤ РЅР°РІРµСЂС… РѕР± РёР·РјРµРЅРµРЅРёРё С‚РµРєСѓС‰РµР№ РїРѕР·РёС†РёРё
 	void NotifyPositionChanged();
 	bool IsVertical() { return pSlider->IsVertical(); }
 public:
@@ -107,7 +107,7 @@ public:
 	// serializing...
 	virtual int STDCALL operator&( IDataTree &ss );
 	
-	//для внутреннего применения
+	//РґР»В¤ РІРЅСѓС‚СЂРµРЅРЅРµРіРѕ РїСЂРёРјРµРЅРµРЅРёВ¤
 	void SetPosition( int nPos ) { pSlider->SetPosition( nPos ); }
 	int GetPosition() { return pSlider->GetPosition(); }
 	int GetMinValue() { return pSlider->GetMinValue(); }

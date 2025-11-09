@@ -72,15 +72,15 @@ class CUISquadElement : public CTRefCount<IUIElement>
 	OBJECT_SERVICE_METHODS( CUISquadElement );
 	DECLARE_SERIALIZE;
 	//
-	CTRect<float> rcWindow;							// координаты окошка относительно экрана
-	int nPositionFlag;									// задает точку привязки
-	CVec2 vPos;													// координаты левой верхней точки окошка относительно выбранной точки привязки
-	CVec2 vSize;												// размеры окошка
+	CTRect<float> rcWindow;							// РєРѕРѕСЂРґРёРЅР°С‚С‹ РѕРєРѕС€РєР° РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕ СЌРєСЂР°РЅР°
+	int nPositionFlag;									// Р·Р°РґР°РµС‚ С‚РѕС‡РєСѓ РїСЂРёРІСЏР·РєРё
+	CVec2 vPos;													// РєРѕРѕСЂРґРёРЅР°С‚С‹ Р»РµРІРѕР№ РІРµСЂС…РЅРµР№ С‚РѕС‡РєРё РѕРєРѕС€РєР° РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕ РІС‹Р±СЂР°РЅРЅРѕР№ С‚РѕС‡РєРё РїСЂРёРІСЏР·РєРё
+	CVec2 vSize;												// СЂР°Р·РјРµСЂС‹ РѕРєРѕС€РєР°
 
-	int nID;														// уникальный идентификатор окошка
-	CPtr<IUIContainer> pParent;					// родитель
-	bool bWindowActive;									// активно ли окно				//??
-	int nCmdShow;												// статус обображения окна
+	int nID;														// СѓРЅРёРєР°Р»СЊРЅС‹Р№ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РѕРєРѕС€РєР°
+	CPtr<IUIContainer> pParent;					// СЂРѕРґРёС‚РµР»СЊ
+	bool bWindowActive;									// Р°РєС‚РёРІРЅРѕ Р»Рё РѕРєРЅРѕ				//??
+	int nCmdShow;												// СЃС‚Р°С‚СѓСЃ РѕР±РѕР±СЂР°Р¶РµРЅРёСЏ РѕРєРЅР°
 	bool bSelected;											// is this squad selected inside the container?
 	//
 	typedef std::list< CObj<CUIUnitObserver> > CPassangersList;

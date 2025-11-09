@@ -26,9 +26,9 @@ public:
 	int		GetVariable( std::string &name );
 	void	AddRootVariable( std::string &str, int variable );
 
-	void	AddManipulatorVariable( std::string &str, IManipulator *ptr ); // добавляет пустые промежуточные nod'ы + конечный( редактируемый ) node
+	void	AddManipulatorVariable( std::string &str, IManipulator *ptr ); // РґРѕР±Р°РІР»СЏРµС‚ РїСѓСЃС‚С‹Рµ РїСЂРѕРјРµР¶СѓС‚РѕС‡РЅС‹Рµ nod'С‹ + РєРѕРЅРµС‡РЅС‹Р№( СЂРµРґР°РєС‚РёСЂСѓРµРјС‹Р№ ) node
 
-	HTREEITEM	AddEmptyNode( std::string &str, HTREEITEM hPARoot = TVI_ROOT ); // node который не содержит данных
+	HTREEITEM	AddEmptyNode( std::string &str, HTREEITEM hPARoot = TVI_ROOT ); // node РєРѕС‚РѕСЂС‹Р№ РЅРµ СЃРѕРґРµСЂР¶РёС‚ РґР°РЅРЅС‹С…
 	HTREEITEM	AddPropertieNode( std::string &str, std::string &propName,IManipulator *ptr, HTREEITEM hPARoot = TVI_ROOT ); 
 
 	CPropertieDialog(CWnd* pParent = NULL);

@@ -212,7 +212,7 @@ public:
 	virtual const CVec2 GetPurposePoint() const;
 };
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// пушка болтается за грузовиком
+// РїСѓС€РєР° Р±РѕР»С‚Р°РµС‚СЃСЏ Р·Р° РіСЂСѓР·РѕРІРёРєРѕРј
 class CArtilleryBeingTowedPath;
 class CArtilleryBeingTowedState: public IUnitState
 {
@@ -222,7 +222,7 @@ class CArtilleryBeingTowedState: public IUnitState
 	class CArtillery *pArtillery;
 
 	CPtr<CAITransportUnit> pTransport;
-	// буксировка
+	// Р±СѓРєСЃРёСЂРѕРІРєР°
 	WORD wLastTagDir;
 	CVec2 vLastTagCenter;
 

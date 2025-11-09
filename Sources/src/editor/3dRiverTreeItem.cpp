@@ -204,13 +204,13 @@ void C3DRiverLayerPropsItem::UpdateItemValue( int nItemId, const CVariant &value
 
 	if ( nItemId == 6 )
 	{
-		//Изменилось имя файла с текстурой, конвертим имя в относительный путь
+		//В»Р·РјРµРЅРёР»РѕСЃСЊ РёРјВ¤ С„Р°Р№Р»Р° СЃ С‚РµРєСЃС‚СѓСЂРѕР№, РєРѕРЅРІРµСЂС‚РёРј РёРјВ¤ РІ РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅС‹Р№ РїСѓС‚СЊ
 		bool bAnimated = GetAnimatedFlag();
 		if ( bAnimated )
 		{
 			if ( !IsRelatedPath( value ) )
 			{
-				//Тут вычисляется относительный путь, относительно data директории игры
+				//вЂњСѓС‚ РІС‹С‡РёСЃР»В¤РµС‚СЃВ¤ РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅС‹Р№ РїСѓС‚СЊ, РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕ data РґРёСЂРµРєС‚РѕСЂРёРё РёРіСЂС‹
 				string szDataDir = theApp.GetDestDir();
 				string szValue = value;
 				string szRelatedPath;

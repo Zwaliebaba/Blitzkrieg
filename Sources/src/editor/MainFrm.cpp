@@ -682,7 +682,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	EnableDocking( CBRS_ALIGN_ANY );
 	pToolBarMgr->SetDefaultDockState();
 	
-	//Создаем игровое окошко
+	//вЂ”РѕР·РґР°РµРј РёРіСЂРѕРІРѕРµ РѕРєРѕС€РєРѕ
 	if (!m_gameWnd.Create(NULL, NULL, WS_CHILD | WS_VISIBLE, 
 		CRect(0, 0, GAME_SIZE_X, GAME_SIZE_Y), this, AFX_IDW_PANE_FIRST, NULL))
 		//		const char* pszClassName = AfxRegisterWndClass( NULL);
@@ -764,7 +764,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	
 	if ( !theApp.IsVersionIncreased() )
 	{
-		//загрузим инфу о состоянии всплывающих окошек из реестра
+		//Р·Р°РіСЂСѓР·РёРј РёРЅС„Сѓ Рѕ СЃРѕСЃС‚РѕВ¤РЅРёРё РІСЃРїР»С‹РІР°СЋС‰РёС… РѕРєРѕС€РµРє РёР· СЂРµРµСЃС‚СЂР°
 		LoadBarState( REG_BARSLAYOUT );
 	}
 	else
@@ -784,7 +784,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		DockControlToLeft( pEffectToolBar );
 		DockControlToLeft( pInfantryToolBar );
 	}
-	pCommonToolBar->DestroyWindow();		//как мне надоел этот тулбар
+	pCommonToolBar->DestroyWindow();		//РєР°Рє РјРЅРµ РЅР°РґРѕРµР» СЌС‚РѕС‚ С‚СѓР»Р±Р°СЂ
 
 	GetSingleton<ICursor>()->Show( false );
 	GetSingleton<ICursor>()->SetMode( 2 );
@@ -804,7 +804,7 @@ void CMainFrame::DockControlToLeft(SECCustomToolBar *pBar)
 	rect.right = rect.Width();
 	rect.left = 0;
 /*
-	rect.bottom = rect.Height();			//не надо поднимать, иначе будет выше чем меню
+	rect.bottom = rect.Height();			//РЅРµ РЅР°РґРѕ РїРѕРґРЅРёРјР°С‚СЊ, РёРЅР°С‡Рµ Р±СѓРґРµС‚ РІС‹С€Рµ С‡РµРј РјРµРЅСЋ
 	rect.top = 0;
 */
 	//	rect.OffsetRect(1,0);
@@ -835,7 +835,7 @@ int CMainFrame::CreateGUIFrame()
 	CGUIFrame *pFrame = static_cast<CGUIFrame *> ( g_frameManager.GetFrame( CFrameManager::E_GUI_FRAME ) );
 	pFrame->Init( GetSingleton<IGFX>() );
 	
-	// Окно редактирования св-св
+	// СњРєРЅРѕ СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёВ¤ СЃРІ-СЃРІ
 	int nID = SECControlBar::GetUniqueBarID(this, 98);
 	DWORD dwStyle = WS_CHILD|CBRS_RIGHT|CBRS_TOOLTIPS|CBRS_SIZE_DYNAMIC;
 	DWORD dwStyleEx = CBRS_EX_COOL | CBRS_EX_BORDERSPACE;
@@ -895,7 +895,7 @@ int CMainFrame::CreateAnimationFrame()
 	CParentFrame *pFrame = g_frameManager.GetFrame( CFrameManager::E_ANIMATION_FRAME );
 	pFrame->Init( GetSingleton<IGFX>() );
 
-	// Окно редактирования св-св
+	// СњРєРЅРѕ СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёВ¤ СЃРІ-СЃРІ
 	int nID = SECControlBar::GetUniqueBarID(this, 101);
 	DWORD dwStyle = WS_CHILD|CBRS_RIGHT|CBRS_LEFT|CBRS_TOOLTIPS|CBRS_SIZE_DYNAMIC;
 	DWORD dwStyleEx = CBRS_EX_COOL | CBRS_EX_BORDERSPACE;
@@ -945,7 +945,7 @@ int CMainFrame::CreateSpriteFrame()
 	CParentFrame *pFrame = g_frameManager.GetFrame( CFrameManager::E_SPRITE_FRAME );
 	pFrame->Init( GetSingleton<IGFX>() );
 
-	// Окно редактирования св-св
+	// СњРєРЅРѕ СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёВ¤ СЃРІ-СЃРІ
 	int nID = SECControlBar::GetUniqueBarID(this, 106);
 	DWORD dwStyle = WS_CHILD|CBRS_RIGHT|CBRS_LEFT|CBRS_TOOLTIPS|CBRS_SIZE_DYNAMIC;
 	DWORD dwStyleEx = CBRS_EX_COOL | CBRS_EX_BORDERSPACE;
@@ -995,7 +995,7 @@ int CMainFrame::CreateEffectFrame()
 	CEffectFrame *pFrame = static_cast<CEffectFrame *>( g_frameManager.GetFrame( CFrameManager::E_EFFECT_FRAME ) );
 	pFrame->Init( GetSingleton<IGFX>() );
 
-	// Окно редактирования св-св
+	// СњРєРЅРѕ СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёВ¤ СЃРІ-СЃРІ
 	DWORD dwStyle = WS_CHILD|CBRS_RIGHT|CBRS_LEFT|CBRS_TOOLTIPS|CBRS_SIZE_DYNAMIC;
 	DWORD dwStyleEx = CBRS_EX_COOL | CBRS_EX_BORDERSPACE;
 
@@ -1049,7 +1049,7 @@ int CMainFrame::CreateObjectFrame()
 	CObjectFrame *pFrame = static_cast<CObjectFrame *> ( g_frameManager.GetFrame( CFrameManager::E_OBJECT_FRAME ) );
 	pFrame->Init( GetSingleton<IGFX>() );
 	
-	// Окно редактирования св-св
+	// СњРєРЅРѕ СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёВ¤ СЃРІ-СЃРІ
 	int nID = SECControlBar::GetUniqueBarID(this, 110);
 	DWORD dwStyle = WS_CHILD|CBRS_RIGHT|CBRS_LEFT|CBRS_TOOLTIPS|CBRS_SIZE_DYNAMIC;
 	DWORD dwStyleEx = CBRS_EX_COOL | CBRS_EX_BORDERSPACE;
@@ -1100,7 +1100,7 @@ int CMainFrame::CreateMeshFrame()
 	CMeshFrame *pFrame = static_cast<CMeshFrame *> ( g_frameManager.GetFrame( CFrameManager::E_MESH_FRAME ) );
 	pFrame->Init( GetSingleton<IGFX>() );
 	
-	// Окно редактирования св-св
+	// СњРєРЅРѕ СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёВ¤ СЃРІ-СЃРІ
 	DWORD dwStyle = WS_CHILD|CBRS_RIGHT|CBRS_LEFT|CBRS_TOOLTIPS|CBRS_SIZE_DYNAMIC;
 	DWORD dwStyleEx = CBRS_EX_COOL | CBRS_EX_BORDERSPACE;
 
@@ -1154,7 +1154,7 @@ int CMainFrame::CreateWeaponFrame()
 	CParentFrame *pFrame = g_frameManager.GetFrame( CFrameManager::E_WEAPON_FRAME );
 	pFrame->Init( GetSingleton<IGFX>() );
 	
-	// Окно редактирования св-св
+	// СњРєРЅРѕ СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёВ¤ СЃРІ-СЃРІ
 	int nID = SECControlBar::GetUniqueBarID(this, 114);
 	DWORD dwStyle = WS_CHILD|CBRS_RIGHT|CBRS_LEFT|CBRS_TOOLTIPS|CBRS_SIZE_DYNAMIC;
 	DWORD dwStyleEx = CBRS_EX_COOL | CBRS_EX_BORDERSPACE;
@@ -1196,7 +1196,7 @@ int CMainFrame::CreateBuildingFrame()
 	CBuildingFrame *pFrame = static_cast<CBuildingFrame *> ( g_frameManager.GetFrame( CFrameManager::E_BUILDING_FRAME ) );
 	pFrame->Init( GetSingleton<IGFX>() );
 	
-	// Окно редактирования св-св
+	// СњРєРЅРѕ СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёВ¤ СЃРІ-СЃРІ
 	int nID = SECControlBar::GetUniqueBarID(this, 116);
 	DWORD dwStyle = WS_CHILD|CBRS_RIGHT|CBRS_LEFT|CBRS_TOOLTIPS|CBRS_SIZE_DYNAMIC;
 	DWORD dwStyleEx = CBRS_EX_COOL | CBRS_EX_BORDERSPACE;
@@ -1240,7 +1240,7 @@ int CMainFrame::CreateTileSetFrame()
 	CParentFrame *pFrame = g_frameManager.GetFrame( CFrameManager::E_TILESET_FRAME );
 	pFrame->Init( GetSingleton<IGFX>() );
 	
-	// Окно редактирования св-св
+	// СњРєРЅРѕ СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёВ¤ СЃРІ-СЃРІ
 	int nID = SECControlBar::GetUniqueBarID(this, 118);
 	DWORD dwStyle = WS_CHILD|CBRS_RIGHT|CBRS_LEFT|CBRS_TOOLTIPS|CBRS_SIZE_DYNAMIC;
 	DWORD dwStyleEx = CBRS_EX_COOL | CBRS_EX_BORDERSPACE;
@@ -1283,7 +1283,7 @@ int CMainFrame::CreateFenceFrame()
 	CFenceFrame *pFrame = static_cast<CFenceFrame *> ( g_frameManager.GetFrame( CFrameManager::E_FENCE_FRAME ) );
 	pFrame->Init( GetSingleton<IGFX>() );
 	
-	// Окно редактирования св-св
+	// СњРєРЅРѕ СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёВ¤ СЃРІ-СЃРІ
 	int nID = SECControlBar::GetUniqueBarID(this, 122);
 	DWORD dwStyle = WS_CHILD|CBRS_RIGHT|CBRS_LEFT|CBRS_TOOLTIPS|CBRS_SIZE_DYNAMIC;
 	DWORD dwStyleEx = CBRS_EX_COOL | CBRS_EX_BORDERSPACE;
@@ -1327,7 +1327,7 @@ int CMainFrame::CreateParticleFrame()
 	CParticleFrame *pFrame = static_cast<CParticleFrame *> ( g_frameManager.GetFrame( CFrameManager::E_PARTICLE_FRAME ) );
 	pFrame->Init( GetSingleton<IGFX>() );
 	
-	// Окно редактирования св-св
+	// СњРєРЅРѕ СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёВ¤ СЃРІ-СЃРІ
 	int nID = SECControlBar::GetUniqueBarID(this, 124);
 	DWORD dwStyle = WS_CHILD|CBRS_RIGHT|CBRS_LEFT|CBRS_TOOLTIPS|CBRS_SIZE_DYNAMIC;
 	DWORD dwStyleEx = CBRS_EX_COOL | CBRS_EX_BORDERSPACE;
@@ -1381,7 +1381,7 @@ int CMainFrame::CreateTrenchFrame()
 	CParentFrame *pFrame = g_frameManager.GetFrame( CFrameManager::E_TRENCH_FRAME );
 	pFrame->Init( GetSingleton<IGFX>() );
 	
-	// Окно редактирования св-св
+	// СњРєРЅРѕ СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёВ¤ СЃРІ-СЃРІ
 	int nID = SECControlBar::GetUniqueBarID(this, 127);
 	DWORD dwStyle = WS_CHILD|CBRS_RIGHT|CBRS_LEFT|CBRS_TOOLTIPS|CBRS_SIZE_DYNAMIC;
 	DWORD dwStyleEx = CBRS_EX_COOL | CBRS_EX_BORDERSPACE;
@@ -1426,7 +1426,7 @@ int CMainFrame::CreateSquadFrame()
 	DWORD dwStyle = WS_CHILD|CBRS_RIGHT|CBRS_LEFT|CBRS_TOOLTIPS|CBRS_SIZE_DYNAMIC;
 	DWORD dwStyleEx = CBRS_EX_COOL | CBRS_EX_BORDERSPACE;
 
-	// Окно редактирования св-св
+	// СњРєРЅРѕ СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёВ¤ СЃРІ-СЃРІ
 	int nID = SECControlBar::GetUniqueBarID(this, 129);
 	if (!pSquadDirectionButtonDockBar->Create(this, _T("Direction Button Dock Bar"), dwStyle, dwStyleEx, nID))
 	{
@@ -1477,7 +1477,7 @@ int CMainFrame::CreateMineFrame()
 	CParentFrame *pFrame = g_frameManager.GetFrame( CFrameManager::E_MINE_FRAME );
 	pFrame->Init( GetSingleton<IGFX>() );
 	
-	// Окно редактирования св-св
+	// СњРєРЅРѕ СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёВ¤ СЃРІ-СЃРІ
 	int nID = SECControlBar::GetUniqueBarID(this, 132);
 	DWORD dwStyle = WS_CHILD|CBRS_RIGHT|CBRS_LEFT|CBRS_TOOLTIPS|CBRS_SIZE_DYNAMIC;
 	DWORD dwStyleEx = CBRS_EX_COOL | CBRS_EX_BORDERSPACE;
@@ -1519,7 +1519,7 @@ int CMainFrame::CreateBridgeFrame()
 	CBridgeFrame *pFrame = static_cast<CBridgeFrame *> ( g_frameManager.GetFrame( CFrameManager::E_BRIDGE_FRAME ) );
 	pFrame->Init( GetSingleton<IGFX>() );
 	
-	// Окно редактирования св-св
+	// СњРєРЅРѕ СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёВ¤ СЃРІ-СЃРІ
 	int nID = SECControlBar::GetUniqueBarID(this, 134);
 	DWORD dwStyle = WS_CHILD|CBRS_RIGHT|CBRS_LEFT|CBRS_TOOLTIPS|CBRS_SIZE_DYNAMIC;
 	DWORD dwStyleEx = CBRS_EX_COOL | CBRS_EX_BORDERSPACE;
@@ -1563,7 +1563,7 @@ int CMainFrame::CreateMissionFrame()
 	CParentFrame *pFrame = g_frameManager.GetFrame( CFrameManager::E_MISSION_FRAME );
 	pFrame->Init( GetSingleton<IGFX>() );
 	
-	// Окно редактирования св-св
+	// СњРєРЅРѕ СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёВ¤ СЃРІ-СЃРІ
 	int nID = SECControlBar::GetUniqueBarID(this, 136);
 	DWORD dwStyle = WS_CHILD|CBRS_RIGHT|CBRS_LEFT|CBRS_TOOLTIPS|CBRS_SIZE_DYNAMIC;
 	DWORD dwStyleEx = CBRS_EX_COOL | CBRS_EX_BORDERSPACE;
@@ -1606,7 +1606,7 @@ int CMainFrame::CreateChapterFrame()
 	CParentFrame *pFrame = g_frameManager.GetFrame( CFrameManager::E_CHAPTER_FRAME );
 	pFrame->Init( GetSingleton<IGFX>() );
 	
-	// Окно редактирования св-св
+	// СњРєРЅРѕ СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёВ¤ СЃРІ-СЃРІ
 	int nID = SECControlBar::GetUniqueBarID(this, 138);
 	DWORD dwStyle = WS_CHILD|CBRS_RIGHT|CBRS_LEFT|CBRS_TOOLTIPS|CBRS_SIZE_DYNAMIC;
 	DWORD dwStyleEx = CBRS_EX_COOL | CBRS_EX_BORDERSPACE;
@@ -1649,7 +1649,7 @@ int CMainFrame::CreateCampaignFrame()
 	CParentFrame *pFrame = g_frameManager.GetFrame( CFrameManager::E_CAMPAIGN_FRAME );
 	pFrame->Init( GetSingleton<IGFX>() );
 	
-	// Окно редактирования св-св
+	// СњРєРЅРѕ СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёВ¤ СЃРІ-СЃРІ
 	int nID = SECControlBar::GetUniqueBarID(this, 140);
 	DWORD dwStyle = WS_CHILD|CBRS_RIGHT|CBRS_LEFT|CBRS_TOOLTIPS|CBRS_SIZE_DYNAMIC;
 	DWORD dwStyleEx = CBRS_EX_COOL | CBRS_EX_BORDERSPACE;
@@ -1691,7 +1691,7 @@ int CMainFrame::Create3DRoadFrame()
 	CParentFrame *pFrame = g_frameManager.GetFrame( CFrameManager::E_3DROAD_FRAME );
 	pFrame->Init( GetSingleton<IGFX>() );
 	
-	// Окно редактирования св-св
+	// СњРєРЅРѕ СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёВ¤ СЃРІ-СЃРІ
 	int nID = SECControlBar::GetUniqueBarID(this, 142);
 	DWORD dwStyle = WS_CHILD|CBRS_RIGHT|CBRS_LEFT|CBRS_TOOLTIPS|CBRS_SIZE_DYNAMIC;
 	DWORD dwStyleEx = CBRS_EX_COOL | CBRS_EX_BORDERSPACE;
@@ -1734,7 +1734,7 @@ int CMainFrame::Create3DRiverFrame()
 	CParentFrame *pFrame = g_frameManager.GetFrame( CFrameManager::E_3DRIVER_FRAME );
 	pFrame->Init( GetSingleton<IGFX>() );
 	
-	// Окно редактирования св-св
+	// СњРєРЅРѕ СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёВ¤ СЃРІ-СЃРІ
 	int nID = SECControlBar::GetUniqueBarID(this, 144);
 	DWORD dwStyle = WS_CHILD|CBRS_RIGHT|CBRS_LEFT|CBRS_TOOLTIPS|CBRS_SIZE_DYNAMIC;
 	DWORD dwStyleEx = CBRS_EX_COOL | CBRS_EX_BORDERSPACE;
@@ -1777,7 +1777,7 @@ int CMainFrame::CreateMedalFrame()
 	CParentFrame *pFrame = g_frameManager.GetFrame( CFrameManager::E_MEDAL_FRAME );
 	pFrame->Init( GetSingleton<IGFX>() );
 	
-	// Окно редактирования св-св
+	// СњРєРЅРѕ СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёВ¤ СЃРІ-СЃРІ
 	int nID = SECControlBar::GetUniqueBarID(this, 140);
 	DWORD dwStyle = WS_CHILD|CBRS_RIGHT|CBRS_LEFT|CBRS_TOOLTIPS|CBRS_SIZE_DYNAMIC;
 	DWORD dwStyleEx = CBRS_EX_COOL | CBRS_EX_BORDERSPACE;
@@ -2000,7 +2000,7 @@ void CMainFrame::OnCreateCombo(UINT wParam, LONG lParam)
 
 void CMainFrame::OnClose() 
 {
-	//надо сохранить информацию в реестре до убийства frames
+	//РЅР°РґРѕ СЃРѕС…СЂР°РЅРёС‚СЊ РёРЅС„РѕСЂРјР°С†РёСЋ РІ СЂРµРµСЃС‚СЂРµ РґРѕ СѓР±РёР№СЃС‚РІР° frames
 	theApp.SaveNewFrameTypeToRegister();
 	theApp.SaveRegisterData();
 

@@ -410,7 +410,7 @@ void CRMGFieldObjectsDialog::FillShellObjectsList( int nSelectedShell )
 		{
 			const SRMObjectSetShell &rObjectSetShell = pRMFieldSet->objectsShells[nSelectedShell];
 
-			//по объектам пробегаем
+			//РїРѕ РѕР±СЉРµРєС‚Р°Рј РїСЂРѕР±РµРіР°РµРј
 			for ( int nObjectIndex = 0; nObjectIndex < rObjectSetShell.objects.size(); ++nObjectIndex )
 			{
 				const std::string szSelectedObjectName = rObjectSetShell.objects[nObjectIndex];

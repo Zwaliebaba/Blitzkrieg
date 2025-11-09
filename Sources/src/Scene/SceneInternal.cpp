@@ -119,9 +119,9 @@ int CScene::operator&( IStructureSaver &ss )
 	saver.Add( 32, pFrameSelection.GetPtr() );
 	saver.Add( 33, pStatSystem.GetPtr() );
 	// vis objects desc map
-	// подобный геморрой делается по двум причинам:
-	//   1. хочется автоматического восстановления зависимостей при загрузке ч/з CPtr
-	//   2. не хочется делать ключёт в таблице CPtr, т.к. на каждое обращение будут ненужные AddRef/Release
+	// РїРѕРґРѕР±РЅС‹Р№ РіРµРјРѕСЂСЂРѕР№ РґРµР»Р°РµС‚СЃВ¤ РїРѕ РґРІСѓРј РїСЂРёС‡РёРЅР°Рј:
+	//   1. С…РѕС‡РµС‚СЃВ¤ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРѕРіРѕ РІРѕСЃСЃС‚Р°РЅРѕРІР»РµРЅРёВ¤ Р·Р°РІРёСЃРёРјРѕСЃС‚РµР№ РїСЂРё Р·Р°РіСЂСѓР·РєРµ С‡/Р· CPtr
+	//   2. РЅРµ С…РѕС‡РµС‚СЃВ¤ РґРµР»Р°С‚СЊ РєР»СЋС‡Р„С‚ РІ С‚Р°Р±Р»РёС†Рµ CPtr, С‚.Рє. РЅР° РєР°Р¶РґРѕРµ РѕР±СЂР°С‰РµРЅРёРµ Р±СѓРґСѓС‚ РЅРµРЅСѓР¶РЅС‹Рµ AddRef/Release
 	if ( saver.IsReading() )
 	{
 		// read data
@@ -548,7 +548,7 @@ bool CScene::MoveObject( IVisObj *pObject, const CVec3 &vPos )
 				areaUnits.MoveTo( static_cast<IObjVisObj*>(pObject), vPos );
 				break;
 			case SGVOGT_EFFECT:
-				// AI не проверяет выход эффектов за границу
+				// AI РЅРµ РїСЂРѕРІРµСЂВ¤РµС‚ РІС‹С…РѕРґ СЌС„С„РµРєС‚РѕРІ Р·Р° РіСЂР°РЅРёС†Сѓ
 				if ( effectsArea.IsInArea(vPos) ) 
 					effectsArea.MoveTo( pObject, vPos );
 				else
@@ -557,7 +557,7 @@ bool CScene::MoveObject( IVisObj *pObject, const CVec3 &vPos )
 			case SGVOGT_TERRAOBJ:
 			case SGVOGT_BRIDGE:
 			case SGVOGT_FORTIFICATION:
-				// AI не проверяет выход терраобъектов за границу
+				// AI РЅРµ РїСЂРѕРІРµСЂВ¤РµС‚ РІС‹С…РѕРґ С‚РµСЂСЂР°РѕР±СЉРµРєС‚РѕРІ Р·Р° РіСЂР°РЅРёС†Сѓ
 				if ( terraObjectsArea.IsInArea(vPos) ) 
 					terraObjectsArea.MoveTo( static_cast<IObjVisObj*>(pObject), vPos );
 				else
@@ -578,7 +578,7 @@ bool CScene::MoveObject( IVisObj *pObject, const CVec3 &vPos )
 				areaUnits.MoveTo( static_cast<IObjVisObj*>(pObject), vPos );
 				break;
 			case SGVOGT_TERRAOBJ:
-				// AI не проверяет выход терраобъектов за границу
+				// AI РЅРµ РїСЂРѕРІРµСЂВ¤РµС‚ РІС‹С…РѕРґ С‚РµСЂСЂР°РѕР±СЉРµРєС‚РѕРІ Р·Р° РіСЂР°РЅРёС†Сѓ
 				if ( terraObjectsArea.IsInArea(vPos) ) 
 					terraObjectsArea.MoveTo( static_cast<IObjVisObj*>(pObject), vPos );
 				else
@@ -817,7 +817,7 @@ bool CScene::AddMeshObject( IMeshVisObj *pObj, EObjGameType eGameType )
 			AddObjectToArea( pObj, areaUnits );
 			break;
 		case SGVOGT_TERRAOBJ:
-			// CRAP{ почему-то самолёты иногда добавляются как терраобъекты
+			// CRAP{ РїРѕС‡РµРјСѓ-С‚Рѕ СЃР°РјРѕР»Р„С‚С‹ РёРЅРѕРіРґР° РґРѕР±Р°РІР»В¤СЋС‚СЃВ¤ РєР°Рє С‚РµСЂСЂР°РѕР±СЉРµРєС‚С‹
 			{
 				const SVisObjDesc *pDesc = GetDesc( pObj );
 				if ( pDesc && pDesc->pDesc ) 

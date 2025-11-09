@@ -76,7 +76,7 @@ bool CUISlider::OnChar( int nAsciiCode, int nVirtualKey, bool bPressed, DWORD ke
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool CUISlider::ProcessMessage( const SUIMessage &msg )
 {
-	//ScrollBar обрабатывает NOTIFY сообщения от детей
+	//ScrollBar РѕР±СЂР°Р±Р°С‚С‹РІР°РµС‚ NOTIFY СЃРѕРѕР±С‰РµРЅРёВ¤ РѕС‚ РґРµС‚РµР№
 	switch( msg.nMessageCode )
 	{
 	case MESSAGE_KEY_UP:
@@ -187,8 +187,8 @@ void CUISlider::Visit( interface ISceneVisitor *pVisitor )
 
 	if ( m_nMin < m_nMax )
 	{
-		// теперь рисуем элеватор
-		// здесь предполагается что     nMin <= nPosition <= nMax
+		// С‚РµРїРµСЂСЊ СЂРёСЃСѓРµРј СЌР»РµРІР°С‚РѕСЂ
+		// Р·РґРµСЃСЊ РїСЂРµРґРїРѕР»Р°РіР°РµС‚СЃВ¤ С‡С‚Рѕ     nMin <= nPosition <= nMax
 		SGFXRect2 rect;
 		rect.rect = GetScreenRect();
 		if ( !bVertical )
@@ -217,8 +217,8 @@ void CUISlider::Draw( IGFX *pGFX )
 
 	if ( m_nMin < m_nMax )
 	{
-		//теперь рисуем элеватор
-		//здесь предполагается что     nMin <= nPosition <= nMax
+		//С‚РµРїРµСЂСЊ СЂРёСЃСѓРµРј СЌР»РµРІР°С‚РѕСЂ
+		//Р·РґРµСЃСЊ РїСЂРµРґРїРѕР»Р°РіР°РµС‚СЃВ¤ С‡С‚Рѕ     nMin <= nPosition <= nMax
 		pGFX->SetShadingEffect( 3 );
 		SGFXRect2 rect;
 		rect.rect = GetScreenRect();
@@ -247,8 +247,8 @@ bool CUISlider::OnMouseMove( const CVec2 &vPos, EMouseState mouseState )
 	if ( mouseState == E_MOUSE_FREE )
 		return bRes;
 
-	//тут считаю, что bRes true когда движение мышки было обработано, а значит мышка или внутри окошка, или окошко захватывает мышь
-	//Если левая кнопка мышки нажата
+	//С‚СѓС‚ СЃС‡РёС‚Р°СЋ, С‡С‚Рѕ bRes true РєРѕРіРґР° РґРІРёР¶РµРЅРёРµ РјС‹С€РєРё Р±С‹Р»Рѕ РѕР±СЂР°Р±РѕС‚Р°РЅРѕ, Р° Р·РЅР°С‡РёС‚ РјС‹С€РєР° РёР»Рё РІРЅСѓС‚СЂРё РѕРєРѕС€РєР°, РёР»Рё РѕРєРѕС€РєРѕ Р·Р°С…РІР°С‚С‹РІР°РµС‚ РјС‹С€СЊ
+	//в‰€СЃР»Рё Р»РµРІР°В¤ РєРЅРѕРїРєР° РјС‹С€РєРё РЅР°Р¶Р°С‚Р°
 	if ( mouseState & E_LBUTTONDOWN )
 	{
 		if ( !bVertical )
@@ -270,8 +270,8 @@ bool CUISlider::OnLButtonDown( const CVec2 &vPos, EMouseState mouseState )
 	if ( mouseState == E_MOUSE_FREE || !bRes )
 		return bRes;
 
-	//тут считаю, что bRes true когда движение мышки было обработано, а значит мышка или внутри окошка, или окошко захватывает мышь
-	//Если левая кнопка мышки нажата
+	//С‚СѓС‚ СЃС‡РёС‚Р°СЋ, С‡С‚Рѕ bRes true РєРѕРіРґР° РґРІРёР¶РµРЅРёРµ РјС‹С€РєРё Р±С‹Р»Рѕ РѕР±СЂР°Р±РѕС‚Р°РЅРѕ, Р° Р·РЅР°С‡РёС‚ РјС‹С€РєР° РёР»Рё РІРЅСѓС‚СЂРё РѕРєРѕС€РєР°, РёР»Рё РѕРєРѕС€РєРѕ Р·Р°С…РІР°С‚С‹РІР°РµС‚ РјС‹С€СЊ
+	//в‰€СЃР»Рё Р»РµРІР°В¤ РєРЅРѕРїРєР° РјС‹С€РєРё РЅР°Р¶Р°С‚Р°
 	if ( mouseState & E_LBUTTONDOWN )
 	{
 		if ( !bVertical )
@@ -327,11 +327,11 @@ void CUIScrollBar::NotifyPositionChanged()
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool CUIScrollBar::ProcessMessage( const SUIMessage &msg )
 {
-	//ScrollBar обрабатывает NOTIFY сообщения от детей
+	//ScrollBar РѕР±СЂР°Р±Р°С‚С‹РІР°РµС‚ NOTIFY СЃРѕРѕР±С‰РµРЅРёВ¤ РѕС‚ РґРµС‚РµР№
 	switch( msg.nMessageCode )
 	{
 	case UI_NOTIFY_WINDOW_CLICKED:
-		if ( msg.nFirst == 1 )			//min кнопка
+		if ( msg.nFirst == 1 )			//min РєРЅРѕРїРєР°
 		{
 			dwLastUpdateTime = GetSingleton<IGameTimer>()->GetAbsTime();
 			pSlider->DecPosition( m_nButtonStep );
@@ -365,7 +365,7 @@ void CUIScrollBar::Reposition( const CTRect<float> &rcParent )
 	CTRect<float> rc, newRc, myRc;
 	myRc = GetScreenRect();
 	
-	//теперь ручками изменю позиции для составляющих ScrollBar
+	//С‚РµРїРµСЂСЊ СЂСѓС‡РєР°РјРё РёР·РјРµРЅСЋ РїРѕР·РёС†РёРё РґР»В¤ СЃРѕСЃС‚Р°РІР»В¤СЋС‰РёС… ScrollBar
 	if ( !IsVertical() )
 	{
 		rc = pMinButton->GetScreenRect();
@@ -462,7 +462,7 @@ int CUIScrollBar::operator&( IDataTree &ss )
 	
 	if ( saver.IsReading() )
 	{
-		//инициализируем внутренние переменные
+		//РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј РІРЅСѓС‚СЂРµРЅРЅРёРµ РїРµСЂРµРјРµРЅРЅС‹Рµ
 		pMinButton = dynamic_cast<CUIButton *>( GetChildByID(1) );
 		pMaxButton = dynamic_cast<CUIButton *>( GetChildByID(2) );
 		pSlider = dynamic_cast<CUISlider *>( GetChildByID(3) );
@@ -473,7 +473,7 @@ int CUIScrollBar::operator&( IDataTree &ss )
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool CUIScrollBar::Update( const NTimer::STime &currTime )
 {
-	//проверяю, вдруг min или max кнопки в нажатом подсостоянии
+	//РїСЂРѕРІРµСЂВ¤СЋ, РІРґСЂСѓРі min РёР»Рё max РєРЅРѕРїРєРё РІ РЅР°Р¶Р°С‚РѕРј РїРѕРґСЃРѕСЃС‚РѕВ¤РЅРёРё
 	if ( pMinButton->GetCurrentSubState() == E_PUSHED_STATE )
 	{
 		if ( currTime - dwLastUpdateTime > TIME_TO_SCROLL )

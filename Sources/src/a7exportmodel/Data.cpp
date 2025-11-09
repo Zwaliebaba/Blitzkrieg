@@ -62,7 +62,7 @@ int GetAABB_DIndex( int nAABB ) { return GetAABBIndex( mapAABB_DIndices, nAABB )
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void SetActiveMesh( const char *pszName )
 {
-	// посмотрим, а нет ли у нас уже такого меша
+	// РїРѕСЃРјРѕС‚СЂРёРј, Р° РЅРµС‚ Р»Рё Сѓ РЅР°СЃ СѓР¶Рµ С‚Р°РєРѕРіРѕ РјРµС€Р°
 	for ( int i=0; i != meshes.size(); ++i )
 	{
 		if ( meshes[i].szName == pszName )
@@ -143,7 +143,7 @@ bool SaveModel( std::string &szFileName )
 	//
 	// sort meshes by index
 	std::sort( meshes.begin(), meshes.end(), SMeshesLessFunctional() );
-	// вычислить для каждого меша miniball и AABB
+	// РІС‹С‡РёСЃР»РёС‚СЊ РґР»СЏ РєР°Р¶РґРѕРіРѕ РјРµС€Р° miniball Рё AABB
 	using namespace MiniBall;
 	for ( std::vector<SMeshFormat>::iterator it = meshes.begin(); it != meshes.end(); ++it )
 	{

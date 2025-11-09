@@ -8,7 +8,7 @@
 
 #include "common.h"
 #include "editor.h"
-#include "MainFrm.h"			//для работы с тулбаром
+#include "MainFrm.h"			//РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ С‚СѓР»Р±Р°СЂРѕРј
 #include "SpriteCompose.h"
 #include "PropView.h"
 #include "TreeItem.h"
@@ -245,13 +245,13 @@ void CFenceFrame::ClickOnThumbList( int nID )
 {
 	if ( nID == ID_ALL_DIR_THUMB_ITEMS )
 	{
-		//Выделяем в дереве текущую директорию с анимациями
+		//Р’С‹РґРµР»СЏРµРј РІ РґРµСЂРµРІРµ С‚РµРєСѓС‰СѓСЋ РґРёСЂРµРєС‚РѕСЂРёСЋ СЃ Р°РЅРёРјР°С†РёСЏРјРё
 		if ( m_pActiveInsertItem )
 			m_pActiveInsertItem->SelectMeInTheTree();
 	}
 	else if ( nID == ID_SELECTED_THUMB_ITEMS )
 	{
-		//Выделяем в дереве item с user data в selected thumb list
+		//Р’С‹РґРµР»СЏРµРј РІ РґРµСЂРµРІРµ item СЃ user data РІ selected thumb list
 		int nSel = m_wndSelectedThumbItems.GetSelectedItemIndex();
 		if ( nSel == -1 )
 			return;
@@ -265,7 +265,7 @@ void CFenceFrame::DoubleClickOnThumbList( int nID )
 {
 	if ( nID == ID_ALL_DIR_THUMB_ITEMS )
 	{
-		//Добавляем новый элемент в текущую диру дерева заборов и в список накиданных тайлов
+		//Р”РѕР±Р°РІР»СЏРµРј РЅРѕРІС‹Р№ СЌР»РµРјРµРЅС‚ РІ С‚РµРєСѓС‰СѓСЋ РґРёСЂСѓ РґРµСЂРµРІР° Р·Р°Р±РѕСЂРѕРІ Рё РІ СЃРїРёСЃРѕРє РЅР°РєРёРґР°РЅРЅС‹С… С‚Р°Р№Р»РѕРІ
 		if ( !m_pActiveInsertItem )
 			return;
 		SetChangedFlag( true );
@@ -275,7 +275,7 @@ void CFenceFrame::DoubleClickOnThumbList( int nID )
 			return;
 		string szItemName = m_wndAllDirThumbItems.GetItemName( nAllIndex );
 
-		//так как не может быть двух одинаковых тайлов, отслеживаем это дело
+		//С‚Р°Рє РєР°Рє РЅРµ РјРѕР¶РµС‚ Р±С‹С‚СЊ РґРІСѓС… РѕРґРёРЅР°РєРѕРІС‹С… С‚Р°Р№Р»РѕРІ, РѕС‚СЃР»РµР¶РёРІР°РµРј СЌС‚Рѕ РґРµР»Рѕ
 		for ( int i=0; i<m_wndSelectedThumbItems.GetThumbsCount(); i++ )
 		{
 			string szExistName = m_wndSelectedThumbItems.GetItemName( i );
@@ -288,7 +288,7 @@ void CFenceFrame::DoubleClickOnThumbList( int nID )
 //		int nNewItemIndex = m_wndSelectedThumbItems.InsertItemAfterSelection( szFileName, m_pActiveInsertItem->GetDirName() );
 		NI_ASSERT( nNewItemIndex != -1 );
 		
-		//Добавляем sprite в дерево в m_pActiveInsertItem
+		//Р”РѕР±Р°РІР»СЏРµРј sprite РІ РґРµСЂРµРІРѕ РІ m_pActiveInsertItem
 		CFencePropsItem *pFenceProps = new CFencePropsItem();
 		pFenceProps->SetItemName( szItemName.c_str() );
 		pFenceProps->nSegmentIndex = GetFreeFenceIndex();
@@ -318,23 +318,23 @@ void CFenceFrame::DeleteFrameInTree( int nID )
 
 	SetChangedFlag( true );
 
-	//Находим выделенный элемент
+	//РќР°С…РѕРґРёРј РІС‹РґРµР»РµРЅРЅС‹Р№ СЌР»РµРјРµРЅС‚
 	int nSel = m_wndSelectedThumbItems.GetSelectedItemIndex();
 	if ( nSel == -1 )
 		return;
 	DWORD dwData = m_wndSelectedThumbItems.GetUserDataForItem( nSel );
 	ASSERT( dwData != 0 );
 
-	//Удаляем frame из дерева
+	//РЈРґР°Р»СЏРµРј frame РёР· РґРµСЂРµРІР°
 	CFencePropsItem *pFrame = (CFencePropsItem *) dwData;
 	NI_ASSERT( pFrame->GetItemType() == E_FENCE_PROPS_ITEM );
 	RemoveFenceIndex( pFrame->nSegmentIndex );
 	pFrame->DeleteMeInParentTreeItem();
 
-	//Выделяем следующий элемент в списке
+	//Р’С‹РґРµР»СЏРµРј СЃР»РµРґСѓСЋС‰РёР№ СЌР»РµРјРµРЅС‚ РІ СЃРїРёСЃРєРµ
 	m_wndSelectedThumbItems.SelectItem( nSel + 1 );
 	
-	//Удаляем элемент в списке
+	//РЈРґР°Р»СЏРµРј СЌР»РµРјРµРЅС‚ РІ СЃРїРёСЃРєРµ
 	m_wndSelectedThumbItems.DeleteItem( nSel );
 }
 
@@ -392,15 +392,15 @@ void CFenceFrame::LoadRPGStats( IDataTree *pDT, CTreeItem *pRootItem )
 	int nPrev = -1;
 	for ( std::set<int>::iterator it=indexSet.begin(); it!=indexSet.end(); ++it )
 	{
-		if ( *it != nPrev + 1 )				//если есть пустые индексы
+		if ( *it != nPrev + 1 )				//РµСЃР»Рё РµСЃС‚СЊ РїСѓСЃС‚С‹Рµ РёРЅРґРµРєСЃС‹
 		{
 			for ( int i=nPrev+1; i!=*it; i++ )
 				freeIndexes.push_back( i );
 		}
 		nPrev = *it;
 	}
-	freeIndexes.push_back( nPrev + 1 );			//это самый последний индекс
-	//теперь freeIndexes должны быть отсортированы по возрастанию
+	freeIndexes.push_back( nPrev + 1 );			//СЌС‚Рѕ СЃР°РјС‹Р№ РїРѕСЃР»РµРґРЅРёР№ РёРЅРґРµРєСЃ
+	//С‚РµРїРµСЂСЊ freeIndexes РґРѕР»Р¶РЅС‹ Р±С‹С‚СЊ РѕС‚СЃРѕСЂС‚РёСЂРѕРІР°РЅС‹ РїРѕ РІРѕР·СЂР°СЃС‚Р°РЅРёСЋ
 }
 
 void CFenceFrame::RemoveFenceIndex( int nIndex )
@@ -421,7 +421,7 @@ int CFenceFrame::GetFreeFenceIndex()
 	int nRes = -1;
 	if ( freeIndexes.size() == 1 )
 	{
-		//возвращаем самый последний индекс
+		//РІРѕР·РІСЂР°С‰Р°РµРј СЃР°РјС‹Р№ РїРѕСЃР»РµРґРЅРёР№ РёРЅРґРµРєСЃ
 		nRes = freeIndexes.back()++;
 	}
 	else
@@ -469,7 +469,7 @@ bool CFenceFrame::ExportFrameData( IDataTree *pDT, const char *pszProjectName, c
 	if ( pCommonProps->GetPassForTracks() )
 		rpgStats.dwAIClasses |= AI_CLASS_TRACK;
 
-	//запишем эффекты
+	//Р·Р°РїРёС€РµРј СЌС„С„РµРєС‚С‹
 	CObjectEffectsItem *pEffects = static_cast<CObjectEffectsItem *> ( pRootItem->GetChildItem( E_OBJECT_EFFECTS_ITEM ) );
 	rpgStats.szEffectExplosion = pEffects->GetEffectExplosion();
 	rpgStats.szEffectDeath = pEffects->GetEffectDeath();
@@ -479,7 +479,7 @@ bool CFenceFrame::ExportFrameData( IDataTree *pDT, const char *pszProjectName, c
 	CTreeAccessor tree = pDT;
 	tree.Add( "RPG", &rpgStats );
 	
-	//создадим файл icon.tga с изображением забора
+	//СЃРѕР·РґР°РґРёРј С„Р°Р№Р» icon.tga СЃ РёР·РѕР±СЂР°Р¶РµРЅРёРµРј Р·Р°Р±РѕСЂР°
 	CTreeItem *pFenceDirectionItem = pRootItem->GetChildItem( E_FENCE_DIRECTION_ITEM, 0 );
 	CTreeItem *pFenceInsertItem = pFenceDirectionItem->GetChildItem( E_FENCE_INSERT_ITEM, 0 );
 	CFencePropsItem *pFenceProps = static_cast<CFencePropsItem *>( pFenceInsertItem->GetChildItem( E_FENCE_PROPS_ITEM ) );
@@ -505,7 +505,7 @@ void CFenceFrame::ActiveDirNameChanged()
 
 	if ( m_pActiveCommonPropsItem )
 	{
-		//так как директория задается относительно, здесь я должен собрать полный путь
+		//С‚Р°Рє РєР°Рє РґРёСЂРµРєС‚РѕСЂРёСЏ Р·Р°РґР°РµС‚СЃСЏ РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕ, Р·РґРµСЃСЊ СЏ РґРѕР»Р¶РµРЅ СЃРѕР±СЂР°С‚СЊ РїРѕР»РЅС‹Р№ РїСѓС‚СЊ
 		string szDir = GetDirectory( szProjectFileName.c_str() );
 		string szFull;
 		bool bRes = MakeFullPath( szDir.c_str(), m_pActiveCommonPropsItem->GetDirName(), szFull );
@@ -530,7 +530,7 @@ void CFenceFrame::InitActiveCommonPropsItem()
 	m_pActiveCommonPropsItem = (CFenceCommonPropsItem *) ( pRootItem->GetChildItem( E_FENCE_COMMON_PROPS_ITEM ) );
 	ASSERT( m_pActiveCommonPropsItem != 0 );
 
-	//Сперва загружаем невалидную иконку, она всегда будет под индексом 0
+	//РЎРїРµСЂРІР° Р·Р°РіСЂСѓР¶Р°РµРј РЅРµРІР°Р»РёРґРЅСѓСЋ РёРєРѕРЅРєСѓ, РѕРЅР° РІСЃРµРіРґР° Р±СѓРґРµС‚ РїРѕРґ РёРЅРґРµРєСЃРѕРј 0
 	string szEditorDataDir = theApp.GetEditorDataDir();
 	szEditorDataDir += "editor\\";
 	
@@ -560,7 +560,7 @@ void CFenceFrame::SetActiveFenceInsertItem( CFenceInsertItem *pFenceItem )
 
 	if ( !m_pActiveInsertItem->GetLoadedFlag() )
 	{
-		//Привязываем items в списке к items в дереве
+		//РџСЂРёРІСЏР·С‹РІР°РµРј items РІ СЃРїРёСЃРєРµ Рє items РІ РґРµСЂРµРІРµ
 		NI_ASSERT( m_wndSelectedThumbItems.GetThumbsCount() == m_pActiveInsertItem->GetChildsCount() );
 		CTreeItem::CTreeItemList::const_iterator it;
 		int i = 0;
@@ -572,8 +572,8 @@ void CFenceFrame::SetActiveFenceInsertItem( CFenceInsertItem *pFenceItem )
 		m_pActiveInsertItem->SetLoadedFlag( true );
 	}
 	
-	//Определяем, что это за InsertItem. Для разных типов Insert Item существуют разные вспомогательные иконки.
-	//Их три вида - Blocks, Gates, Ends
+	//РћРїСЂРµРґРµР»СЏРµРј, С‡С‚Рѕ СЌС‚Рѕ Р·Р° InsertItem. Р”Р»СЏ СЂР°Р·РЅС‹С… С‚РёРїРѕРІ Insert Item СЃСѓС‰РµСЃС‚РІСѓСЋС‚ СЂР°Р·РЅС‹Рµ РІСЃРїРѕРјРѕРіР°С‚РµР»СЊРЅС‹Рµ РёРєРѕРЅРєРё.
+	//РС… С‚СЂРё РІРёРґР° - Blocks, Gates, Ends
 	/*
 	CTreeItem *pPapa = m_pActiveInsertItem->GetParentTreeItem();
 	NI_ASSERT( pPapa != 0 );
@@ -652,7 +652,7 @@ void CFenceFrame::SwitchToEditMode( bool bFlag )
 	bEditPassabilityMode = bFlag;
 	if ( bEditPassabilityMode )
 	{
-		//скрываем thumb окошки, отображаем game window
+		//СЃРєСЂС‹РІР°РµРј thumb РѕРєРѕС€РєРё, РѕС‚РѕР±СЂР°Р¶Р°РµРј game window
 		m_wndAllDirThumbItems.ShowWindow( SW_HIDE );
 		m_wndSelectedThumbItems.ShowWindow( SW_HIDE );
 		m_fenceTypeIcon.ShowWindow( SW_HIDE );
@@ -660,7 +660,7 @@ void CFenceFrame::SwitchToEditMode( bool bFlag )
 	}
 	else
 	{
-		//скрываем game window, показываем thumb окошки
+		//СЃРєСЂС‹РІР°РµРј game window, РїРѕРєР°Р·С‹РІР°РµРј thumb РѕРєРѕС€РєРё
 		m_wndAllDirThumbItems.ShowWindow( SW_SHOW );
 		m_wndSelectedThumbItems.ShowWindow( SW_SHOW );
 		m_fenceTypeIcon.ShowWindow( SW_SHOW );
@@ -672,12 +672,12 @@ void CFenceFrame::EditFence( CFencePropsItem *pFencePropsItem )
 {
 	SwitchToEditMode( true );
 
-	//получим имя .tga файла
+	//РїРѕР»СѓС‡РёРј РёРјСЏ .tga С„Р°Р№Р»Р°
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
 	CTreeItem *pRoot = pTree->GetRootItem();
 	CFenceCommonPropsItem *pCommonProps = static_cast<CFenceCommonPropsItem *>( pRoot->GetChildItem( E_FENCE_COMMON_PROPS_ITEM ) );
 	string szName = pCommonProps->GetDirName();
-	//сконвертируем к полному пути
+	//СЃРєРѕРЅРІРµСЂС‚РёСЂСѓРµРј Рє РїРѕР»РЅРѕРјСѓ РїСѓС‚Рё
 	if ( IsRelatedPath( szName.c_str() ) )
 	{
 		string szFullName;
@@ -687,7 +687,7 @@ void CFenceFrame::EditFence( CFencePropsItem *pFencePropsItem )
 	szName += pFencePropsItem->GetItemName();
 	szName += ".tga";
 
-	//Скомпонуем спрайт в editor temp dir
+	//РЎРєРѕРјРїРѕРЅСѓРµРј СЃРїСЂР°Р№С‚ РІ editor temp dir
 	string szTempDir = theApp.GetEditorTempDir();
 	if ( !ComposeSingleSprite( szName.c_str(), szTempDir.c_str(), "1", true ) )
 		return;
@@ -711,7 +711,7 @@ void CFenceFrame::EditFence( CFencePropsItem *pFencePropsItem )
 
 	if ( !pFencePropsItem->bLoaded )
 	{
-		CenterSpriteAboutTile();			//если был создан новый проект, то автоматом центрирую тайлы
+		CenterSpriteAboutTile();			//РµСЃР»Рё Р±С‹Р» СЃРѕР·РґР°РЅ РЅРѕРІС‹Р№ РїСЂРѕРµРєС‚, С‚Рѕ Р°РІС‚РѕРјР°С‚РѕРј С†РµРЅС‚СЂРёСЂСѓСЋ С‚Р°Р№Р»С‹
 		pFencePropsItem->bLoaded = true;
 	}
 	
@@ -724,14 +724,14 @@ void CFenceFrame::CenterSpriteAboutTile()
 	NI_ASSERT( m_pFencePropsItem != 0 );
 	IScene *pSG = GetSingleton<IScene>();
 	CVec3 currentPos3 = pSprite->GetPosition();
-	//получим тайловые координаты
+	//РїРѕР»СѓС‡РёРј С‚Р°Р№Р»РѕРІС‹Рµ РєРѕРѕСЂРґРёРЅР°С‚С‹
 	CVec2 currentPos2;
 	pSG->GetPos2( &currentPos2, currentPos3 );
 	POINT pt;
 	pt.x = currentPos2.x;
 	pt.y = currentPos2.y;
 
-	float ftX, ftY;			//тайловые координаты в моей координатной системе
+	float ftX, ftY;			//С‚Р°Р№Р»РѕРІС‹Рµ РєРѕРѕСЂРґРёРЅР°С‚С‹ РІ РјРѕРµР№ РєРѕРѕСЂРґРёРЅР°С‚РЅРѕР№ СЃРёСЃС‚РµРјРµ
 	ComputeGameTileCoordinates( pt, ftX, ftY );
 	float fX1, fY1, fX2, fY2, fX3, fY3, fX4, fY4;
 	GetGameTileCoordinates( ftX, ftY, fX1, fY1, fX2, fY2, fX3, fY3, fX4, fY4 );
@@ -806,7 +806,7 @@ void CFenceFrame::OnUpdateMoveObject(CCmdUI* pCmdUI)
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
 	if ( pTree != 0 && bEditPassabilityMode )
 	{
-		//Если уже был создан проект и редактируем проходимость
+		//Р•СЃР»Рё СѓР¶Рµ Р±С‹Р» СЃРѕР·РґР°РЅ РїСЂРѕРµРєС‚ Рё СЂРµРґР°РєС‚РёСЂСѓРµРј РїСЂРѕС…РѕРґРёРјРѕСЃС‚СЊ
 		pCmdUI->Enable( true );
 	}
 	else
@@ -818,7 +818,7 @@ void CFenceFrame::OnUpdateDrawGrid(CCmdUI* pCmdUI)
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
 	if ( pTree != 0 && bEditPassabilityMode )
 	{
-		//Если уже был создан проект и редактируем проходимость
+		//Р•СЃР»Рё СѓР¶Рµ Р±С‹Р» СЃРѕР·РґР°РЅ РїСЂРѕРµРєС‚ Рё СЂРµРґР°РєС‚РёСЂСѓРµРј РїСЂРѕС…РѕРґРёРјРѕСЃС‚СЊ
 		pCmdUI->Enable( true );
 	}
 	else
@@ -830,7 +830,7 @@ void CFenceFrame::OnUpdateCenterFenceAboutTile(CCmdUI* pCmdUI)
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
 	if ( pTree != 0 && bEditPassabilityMode )
 	{
-		//Если уже был создан проект и редактируем проходимость
+		//Р•СЃР»Рё СѓР¶Рµ Р±С‹Р» СЃРѕР·РґР°РЅ РїСЂРѕРµРєС‚ Рё СЂРµРґР°РєС‚РёСЂСѓРµРј РїСЂРѕС…РѕРґРёРјРѕСЃС‚СЊ
 		pCmdUI->Enable( true );
 	}
 	else
@@ -840,7 +840,7 @@ void CFenceFrame::OnUpdateCenterFenceAboutTile(CCmdUI* pCmdUI)
 void CFenceFrame::OnLButtonDown(UINT nFlags, CPoint point) 
 {
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
-	if ( pTree == 0 )			//Если проект не был создан
+	if ( pTree == 0 )			//Р•СЃР»Рё РїСЂРѕРµРєС‚ РЅРµ Р±С‹Р» СЃРѕР·РґР°РЅ
 		return;
 	if ( !bEditPassabilityMode )
 		return;
@@ -891,7 +891,7 @@ void CFenceFrame::OnLButtonUp(UINT nFlags, CPoint point)
 void CFenceFrame::OnRButtonDown(UINT nFlags, CPoint point) 
 {
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
-	if ( pTree == 0 )			//Если проект не был создан
+	if ( pTree == 0 )			//Р•СЃР»Рё РїСЂРѕРµРєС‚ РЅРµ Р±С‹Р» СЃРѕР·РґР°РЅ
 		return;
 	SetChangedFlag( true );
 	
@@ -919,7 +919,7 @@ void CFenceFrame::OnRButtonDown(UINT nFlags, CPoint point)
 void CFenceFrame::OnMouseMove(UINT nFlags, CPoint point) 
 {
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
-	if ( pTree == 0 )			//Если проект не был создан
+	if ( pTree == 0 )			//Р•СЃР»Рё РїСЂРѕРµРєС‚ РЅРµ Р±С‹Р» СЃРѕР·РґР°РЅ
 		return;
 	
 	if ( tbStyle == E_DRAW_GRID && nFlags & MK_RBUTTON )
@@ -999,9 +999,9 @@ void CFenceFrame::FillSegmentProps( CFencePropsItem *pFrameProps, SFenceRPGStats
 	segment.nIndex = pFrameProps->nSegmentIndex;
 	IScene *pSG = GetSingleton<IScene>();
 
-	//так как спрайт загружен уже с нулем в центре картинки, то не надо делать пересчет координат
+	//С‚Р°Рє РєР°Рє СЃРїСЂР°Р№С‚ Р·Р°РіСЂСѓР¶РµРЅ СѓР¶Рµ СЃ РЅСѓР»РµРј РІ С†РµРЅС‚СЂРµ РєР°СЂС‚РёРЅРєРё, С‚Рѕ РЅРµ РЅР°РґРѕ РґРµР»Р°С‚СЊ РїРµСЂРµСЃС‡РµС‚ РєРѕРѕСЂРґРёРЅР°С‚
 	
-	// Сохраняем данные о тайловой проходимости
+	// РЎРѕС…СЂР°РЅСЏРµРј РґР°РЅРЅС‹Рµ Рѕ С‚Р°Р№Р»РѕРІРѕР№ РїСЂРѕС…РѕРґРёРјРѕСЃС‚Рё
 	if ( pFrameProps->lockedTiles.empty() )
 	{
 		segment.passability.SetSizes( 0, 0 );
@@ -1010,7 +1010,7 @@ void CFenceFrame::FillSegmentProps( CFencePropsItem *pFrameProps, SFenceRPGStats
 	}
 	else
 	{
-		//Сперва найдем минимальные и максимальные координаты тайлов в pFrameProps->lockedTiles
+		//РЎРїРµСЂРІР° РЅР°Р№РґРµРј РјРёРЅРёРјР°Р»СЊРЅС‹Рµ Рё РјР°РєСЃРёРјР°Р»СЊРЅС‹Рµ РєРѕРѕСЂРґРёРЅР°С‚С‹ С‚Р°Р№Р»РѕРІ РІ pFrameProps->lockedTiles
 		int nTileMinX = pFrameProps->lockedTiles.front().nTileX, nTileMaxX = pFrameProps->lockedTiles.front().nTileX;
 		int nTileMinY = pFrameProps->lockedTiles.front().nTileY, nTileMaxY = pFrameProps->lockedTiles.front().nTileY;
 		CListOfTiles::iterator it=pFrameProps->lockedTiles.begin();
@@ -1058,7 +1058,7 @@ void CFenceFrame::FillSegmentProps( CFencePropsItem *pFrameProps, SFenceRPGStats
 		GFXDraw();
 	}
 
-	// Сохраняем данные о прозрачности объекта
+	// РЎРѕС…СЂР°РЅСЏРµРј РґР°РЅРЅС‹Рµ Рѕ РїСЂРѕР·СЂР°С‡РЅРѕСЃС‚Рё РѕР±СЉРµРєС‚Р°
 	{
 		if ( pFrameProps->transeparences.empty() )
 		{
@@ -1068,7 +1068,7 @@ void CFenceFrame::FillSegmentProps( CFencePropsItem *pFrameProps, SFenceRPGStats
 		}
 		else
 		{
-			//Сперва найдем минимальные и максимальные координаты тайлов в pFrameProps->transeparences
+			//РЎРїРµСЂРІР° РЅР°Р№РґРµРј РјРёРЅРёРјР°Р»СЊРЅС‹Рµ Рё РјР°РєСЃРёРјР°Р»СЊРЅС‹Рµ РєРѕРѕСЂРґРёРЅР°С‚С‹ С‚Р°Р№Р»РѕРІ РІ pFrameProps->transeparences
 			int nTileMinX = pFrameProps->transeparences.front().nTileX, nTileMaxX = pFrameProps->transeparences.front().nTileX;
 			int nTileMinY = pFrameProps->transeparences.front().nTileY, nTileMaxY = pFrameProps->transeparences.front().nTileY;
 			

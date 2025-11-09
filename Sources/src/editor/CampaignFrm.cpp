@@ -8,7 +8,7 @@
 #include "..\Main\rpgstats.h"
 
 #include "editor.h"
-#include "BuildCompose.h"			//для компоновки картинки в текстуру
+#include "BuildCompose.h"			//РґР»СЏ РєРѕРјРїРѕРЅРѕРІРєРё РєР°СЂС‚РёРЅРєРё РІ С‚РµРєСЃС‚СѓСЂСѓ
 #include "TreeDockWnd.h"
 #include "PropView.h"
 #include "TreeItem.h"
@@ -177,7 +177,7 @@ void CCampaignFrame::LoadRPGStats( IDataTree *pDT, CTreeItem *pRootItem )
 
 	if ( szProjectFileName.size() > 0 )
 	{
-		//загрузим и отобразим картинку на экране
+		//Р·Р°РіСЂСѓР·РёРј Рё РѕС‚РѕР±СЂР°Р·РёРј РєР°СЂС‚РёРЅРєСѓ РЅР° СЌРєСЂР°РЅРµ
 		CCampaignCommonPropsItem *pCommonProps = static_cast<CCampaignCommonPropsItem *> ( pRootItem->GetChildItem( E_CAMPAIGN_COMMON_PROPS_ITEM ) );
 		std::string szMapFileName, szTemp;
 		szTemp = pCommonProps->GetMapImage();
@@ -247,7 +247,7 @@ bool CCampaignFrame::ExportFrameData( IDataTree *pDT, const char *pszProjectName
 	szPrefix = szAddDir + szPrevExportFileName.substr( 0, szPrevExportFileName.rfind('\\') + 1 );
 	SaveRPGStats( pDT, pRootItem, pszProjectName );
 	
-	//Скопирую все данные в экспорт директорию
+	//РЎРєРѕРїРёСЂСѓСЋ РІСЃРµ РґР°РЅРЅС‹Рµ РІ СЌРєСЃРїРѕСЂС‚ РґРёСЂРµРєС‚РѕСЂРёСЋ
 	szPrefix = theApp.GetDestDir() + szPrefix;
 	CCampaignCommonPropsItem *pCommonProps = static_cast<CCampaignCommonPropsItem *> ( pRootItem->GetChildItem( E_CAMPAIGN_COMMON_PROPS_ITEM ) );
 	std::string szTemp, szSource, szResult, szDir;
@@ -274,7 +274,7 @@ bool CCampaignFrame::ExportFrameData( IDataTree *pDT, const char *pszProjectName
 	if ( szTemp.length() > 0 )
 	{
 		szTemp += ".tga";
-		//Надо скомпоновать картинку, чтобы она загружалась из текстуры
+		//РќР°РґРѕ СЃРєРѕРјРїРѕРЅРѕРІР°С‚СЊ РєР°СЂС‚РёРЅРєСѓ, С‡С‚РѕР±С‹ РѕРЅР° Р·Р°РіСЂСѓР¶Р°Р»Р°СЃСЊ РёР· С‚РµРєСЃС‚СѓСЂС‹
 		MakeFullPath( szDir.c_str(), szTemp.c_str(), szSource );
 		szResult = szPrefix + pCommonProps->GetMapImage();
 		if ( !ComposeImageToTexture( szSource.c_str(), szResult.c_str() ) )

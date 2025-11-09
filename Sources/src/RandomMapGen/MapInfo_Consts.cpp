@@ -97,7 +97,7 @@ const char* CMapInfo::TYPE_NAMES[CMapInfo::TYPE_COUNT] =
 const DWORD CMapInfo::ROAD_BITS_NULL_VALUE = 0x0L;
 const DWORD CMapInfo::ROAD_BITS[32] = 
 {
-	//перекрестки дорог
+	//РїРµСЂРµРєСЂРµСЃС‚РєРё РґРѕСЂРѕРі
 	0x1UL,				//0
 	0x2UL,				//1
 	0x4UL,				//2
@@ -117,7 +117,7 @@ const DWORD CMapInfo::ROAD_BITS[32] =
 	0x10000UL,		//16
 	0x20000UL,		//17
 
-	//приоритеты дорог
+	//РїСЂРёРѕСЂРёС‚РµС‚С‹ РґРѕСЂРѕРі
 	0x40000UL,		//18
 	0x80000UL,		//19
 	0x100000UL,		//20

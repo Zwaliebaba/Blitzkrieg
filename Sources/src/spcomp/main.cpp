@@ -6,7 +6,7 @@ inline long Width( const RECT &rc ) { return rc.right - rc.left; }
 inline long Height( const RECT &rc ) { return rc.bottom - rc.top; }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//Âñïîìîãàòåëüíûå ñòðóêòóðêè
+//Â¬ÑÐ¿Ð¾Ð¼Ð¾Ð³Ð°Ñ‚ÐµÐ»ÑŒÐ½Ñ‹Ðµ ÑÑ‚Ñ€ÑƒÐºÑ‚ÑƒÑ€ÐºÐ¸
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 struct SDirDesc
 {
@@ -160,7 +160,7 @@ int main( int argc, char *argv[] )
 		pAnimation->nFrameTime = animdesc.nFrameTime;
 		for ( int j=0; j<pAnimation->dirs.size(); ++j )
 			pAnimation->dirs[j].frames = animdesc.dirs[j].frames;
-		// CRAP{ ñåé÷àñ ïðåäïîëàãàåì ÷òî â àíèìàöèè çàäåéñòâîâàíû âñå êàäðû 
+		// CRAP{ ÑÐµÐ¹Ñ‡Ð°Ñ Ð¿Ñ€ÐµÐ´Ð¿Ð¾Ð»Ð°Ð³Ð°ÐµÐ¼ Ñ‡Ñ‚Ð¾ Ð² Ð°Ð½Ð¸Ð¼Ð°Ñ†Ð¸Ð¸ Ð·Ð°Ð´ÐµÐ¹ÑÑ‚Ð²Ð¾Ð²Ð°Ð½Ñ‹ Ð²ÑÐµ ÐºÐ°Ð´Ñ€Ñ‹ 
 		pAnimation->rects.resize( animdesc.frames.size() );
 		// CRAP}
 		for ( int j=0; j<pAnimation->rects.size(); ++j )

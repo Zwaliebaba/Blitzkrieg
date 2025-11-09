@@ -12,7 +12,7 @@ class CTemplateEditorFrame;
 class CMiniMapDialog;
 class CGameWnd;
 
-//Ïîëó÷èòü âðåìÿ èçìåíåíèÿ äëÿ ôàéëà
+//ÐŸÐ¾Ð»ÑƒÑ‡Ð¸Ñ‚ÑŒ Ð²Ñ€ÐµÐ¼Ñ Ð¸Ð·Ð¼ÐµÐ½ÐµÐ½Ð¸Ñ Ð´Ð»Ñ Ñ„Ð°Ð¹Ð»Ð°
 ///FILETIME GetFileChangeTime( const char *pszFileName );
 //bool operator > ( FILETIME a, FILETIME b );
 //bool operator < ( FILETIME a, FILETIME b );

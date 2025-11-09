@@ -1,6 +1,6 @@
-//тут лишний код
+//С‚СѓС‚ Р»РёС€РЅРёР№ РєРѕРґ
 //REMOVE_OBJECTS_FROM_RECT
-//тут происходит апдейт linkID
+//С‚СѓС‚ РїСЂРѕРёСЃС…РѕРґРёС‚ Р°РїРґРµР№С‚ linkID
 //UPDATE_LINK_ID
 
 #include "stdafx.h"
@@ -23,20 +23,20 @@ bool CMapInfo::AddSounds( const SLoadMapInfo &rLoadMapInfo, TMapSoundInfoList *p
 		return false;
 	}
 
-	int nRiverPointsPeriod = 8;					//период между звуками на реке
-	int nDelimiter = 16;								//размер в VIS тайлах масива лесов( в одном VIS тайле может стоять до 4х деревьев )
+	int nRiverPointsPeriod = 8;					//РїРµСЂРёРѕРґ РјРµР¶РґСѓ Р·РІСѓРєР°РјРё РЅР° СЂРµРєРµ
+	int nDelimiter = 16;								//СЂР°Р·РјРµСЂ РІ VIS С‚Р°Р№Р»Р°С… РјР°СЃРёРІР° Р»РµСЃРѕРІ( РІ РѕРґРЅРѕРј VIS С‚Р°Р№Р»Рµ РјРѕР¶РµС‚ СЃС‚РѕСЏС‚СЊ РґРѕ 4С… РґРµСЂРµРІСЊРµРІ )
 	int nMinWoodsCount = 4;							//nDelimiter * nDelimiter * 4;
-	int nCirclePeriod = 1;							//период ( в размерности nDelimiter ) постановки циклических звуков для лесов
-	int nAmbientPeriod = 2;							//период ( в размерности nDelimiter ) постановки циклических ембиентных звуков для лесов
-	CVec3 vCircleShiftPoint = VNULL3;		//сдвиг относительно центра постановки 		
-	CVec3 vAmbientShiftPoint = VNULL3;	//сдвиг относительно центра постановки
-	bool bExactCirclePoint = true;			//в центр масс звуков
-	bool bExactAmbientPoint = true;			//в центр масс звуков
-	float bCircleRatio = 1.0f;					//вероятность постановки
-	float bAmbientRatio = 0.5f;					//вероятность постановки
+	int nCirclePeriod = 1;							//РїРµСЂРёРѕРґ ( РІ СЂР°Р·РјРµСЂРЅРѕСЃС‚Рё nDelimiter ) РїРѕСЃС‚Р°РЅРѕРІРєРё С†РёРєР»РёС‡РµСЃРєРёС… Р·РІСѓРєРѕРІ РґР»СЏ Р»РµСЃРѕРІ
+	int nAmbientPeriod = 2;							//РїРµСЂРёРѕРґ ( РІ СЂР°Р·РјРµСЂРЅРѕСЃС‚Рё nDelimiter ) РїРѕСЃС‚Р°РЅРѕРІРєРё С†РёРєР»РёС‡РµСЃРєРёС… РµРјР±РёРµРЅС‚РЅС‹С… Р·РІСѓРєРѕРІ РґР»СЏ Р»РµСЃРѕРІ
+	CVec3 vCircleShiftPoint = VNULL3;		//СЃРґРІРёРі РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕ С†РµРЅС‚СЂР° РїРѕСЃС‚Р°РЅРѕРІРєРё 		
+	CVec3 vAmbientShiftPoint = VNULL3;	//СЃРґРІРёРі РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕ С†РµРЅС‚СЂР° РїРѕСЃС‚Р°РЅРѕРІРєРё
+	bool bExactCirclePoint = true;			//РІ С†РµРЅС‚СЂ РјР°СЃСЃ Р·РІСѓРєРѕРІ
+	bool bExactAmbientPoint = true;			//РІ С†РµРЅС‚СЂ РјР°СЃСЃ Р·РІСѓРєРѕРІ
+	float bCircleRatio = 1.0f;					//РІРµСЂРѕСЏС‚РЅРѕСЃС‚СЊ РїРѕСЃС‚Р°РЅРѕРІРєРё
+	float bAmbientRatio = 0.5f;					//РІРµСЂРѕСЏС‚РЅРѕСЃС‚СЊ РїРѕСЃС‚Р°РЅРѕРІРєРё
 	
 	//Rivers
-	//Vis точки
+	//Vis С‚РѕС‡РєРё
 	if ( ( dwSoundTypeBits & SOUND_TYPE_BITS_RIVERS ) == SOUND_TYPE_BITS_RIVERS )
 	{
 		int nRiverIndex = 0;
@@ -69,8 +69,8 @@ bool CMapInfo::AddSounds( const SLoadMapInfo &rLoadMapInfo, TMapSoundInfoList *p
 		}
 	}
 
-	//дома и леса
-	//AI точки
+	//РґРѕРјР° Рё Р»РµСЃР°
+	//AI С‚РѕС‡РєРё
 	if ( ( ( dwSoundTypeBits & SOUND_TYPE_BITS_BUILDINGS ) == SOUND_TYPE_BITS_BUILDINGS ) ||
 			 ( ( dwSoundTypeBits & SOUND_TYPE_BITS_FORESTS ) == SOUND_TYPE_BITS_FORESTS ) )
 	{

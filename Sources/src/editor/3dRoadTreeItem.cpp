@@ -170,11 +170,11 @@ void C3DRoadCommonPropsItem::UpdateItemValue( int nItemId, const CVariant &value
 	
 	if ( nItemId == 2 )
 	{
-		//Èçìåíèëñÿ ôëàã áîðäþðà
+		//Ð˜Ð·Ð¼ÐµÐ½Ð¸Ð»ÑÑ Ñ„Ð»Ð°Ð³ Ð±Ð¾Ñ€Ð´ÑŽÑ€Ð°
 		bool bVal = HasBorders();
 		if ( bVal == true && bOldBordersFlag == false )
 		{
-			//äîáàâèì áîðäþðû
+			//Ð´Ð¾Ð±Ð°Ð²Ð¸Ð¼ Ð±Ð¾Ñ€Ð´ÑŽÑ€Ñ‹
 			C3DRoadLayerPropsItem *pLayerProps = new C3DRoadLayerPropsItem;
 			pLayerProps->SetItemName( "Border layer" );
 			GetParentTreeItem()->AddChild( pLayerProps );
@@ -182,7 +182,7 @@ void C3DRoadCommonPropsItem::UpdateItemValue( int nItemId, const CVariant &value
 		
 		if ( bVal == false && bOldBordersFlag == true )
 		{
-			//óäàëèì áîðäþðû
+			//ÑƒÐ´Ð°Ð»Ð¸Ð¼ Ð±Ð¾Ñ€Ð´ÑŽÑ€Ñ‹
 			CTreeItem *pLayer = GetParentTreeItem()->GetChildItem( E_3DROAD_LAYER_PROPS_ITEM, 1 );
 			NI_ASSERT( pLayer != 0 );
 			pLayer->DeleteMeInParentTreeItem();

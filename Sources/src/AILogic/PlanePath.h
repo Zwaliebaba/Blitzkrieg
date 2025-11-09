@@ -190,9 +190,9 @@ private:
 	float fAngleSpeed;
 	CVec2 vAngleSpeed;
 	CVec2 vCurAngleSpeed;
-	bool bGainHeight;											// период изменения высоты
-	bool bToHorisontal;										// выходи из пикирования/кабрирования
-	float fDistanceToChangeHeight;					// дистанция для начала изменения высоты
+	bool bGainHeight;											// РїРµСЂРёРѕРґ РёР·РјРµРЅРµРЅРёСЏ РІС‹СЃРѕС‚С‹
+	bool bToHorisontal;										// РІС‹С…РѕРґРё РёР· РїРёРєРёСЂРѕРІР°РЅРёСЏ/РєР°Р±СЂРёСЂРѕРІР°РЅРёСЏ
+	float fDistanceToChangeHeight;					// РґРёСЃС‚Р°РЅС†РёСЏ РґР»СЏ РЅР°С‡Р°Р»Р° РёР·РјРµРЅРµРЅРёСЏ РІС‹СЃРѕС‚С‹
 
 	CCircle flyCircle;
 	CVec2 circePoint;
@@ -203,14 +203,14 @@ private:
 	bool bFinished;
 	bool bByCircle;
 	
-	bool bSmoothTurn; // if true значит самолет не в боевом режиме
+	bool bSmoothTurn; // if true Р·РЅР°С‡РёС‚ СЃР°РјРѕР»РµС‚ РЅРµ РІ Р±РѕРµРІРѕРј СЂРµР¶РёРјРµ
 	float fVerTurnRatio;
 	
 	//
 	void CompareWithBest( const CVec2 &p, CVec2 *bestPoint, WORD *wBestAngle, const CCircle &circle, const short int sign );
-	// новый радиус поворота
+	// РЅРѕРІС‹Р№ СЂР°РґРёСѓСЃ РїРѕРІРѕСЂРѕС‚Р°
 	void SetTurnRadius( float fTurnRadius );
-	float Calc2DDistanceToGo() const;			// дистанция, которая осталась до конечной точки (по проекции на горизонтальную плоскость)
+	float Calc2DDistanceToGo() const;			// РґРёСЃС‚Р°РЅС†РёСЏ, РєРѕС‚РѕСЂР°СЏ РѕСЃС‚Р°Р»Р°СЃСЊ РґРѕ РєРѕРЅРµС‡РЅРѕР№ С‚РѕС‡РєРё (РїРѕ РїСЂРѕРµРєС†РёРё РЅР° РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅСѓСЋ РїР»РѕСЃРєРѕСЃС‚СЊ)
 	static bool IsHeightOK( const IBasePathUnit *pUnit, const IAviationUnit *pPlane, const float fZ, const float fAngleSpeed );
 	void FinishPath();
 public:

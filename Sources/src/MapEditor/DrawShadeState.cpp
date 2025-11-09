@@ -151,7 +151,7 @@ void CDrawShadeState::Update( CTemplateEditorFrame* pFrame, bool bUpdateTileHeig
 		CTPoint<int> terrainTile;
 		if( CMapInfo::GetTerrainTileIndices( rTerrainInfo, stateParameter.vLastPos, &terrainTile ) )
 		{
-			//вычисление высоты
+			//РІС‹С‡РёСЃР»РµРЅРёРµ РІС‹СЃРѕС‚С‹
 			fTileHeight = ( rTerrainInfo.altitudes[terrainTile.y + 0][terrainTile.x + 0].fHeight +
 											rTerrainInfo.altitudes[terrainTile.y + 1][terrainTile.x + 0].fHeight +
 											rTerrainInfo.altitudes[terrainTile.y + 1][terrainTile.x + 1].fHeight +

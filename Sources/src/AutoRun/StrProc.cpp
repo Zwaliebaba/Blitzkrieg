@@ -17,7 +17,7 @@ namespace NStr
 	void InitStringProcessor();
 };
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// проинициализировать внутренние структуры string processor'а
+// РїСЂРѕРёРЅРёС†РёР°Р»РёР·РёСЂРѕРІР°С‚СЊ РІРЅСѓС‚СЂРµРЅРЅРёРµ СЃС‚СЂСѓРєС‚СѓСЂС‹ string processor'Р°
 void NStr::InitStringProcessor()
 {
 	brackets['('] = ')';
@@ -25,7 +25,7 @@ void NStr::InitStringProcessor()
 	brackets['{'] = '}';
 	brackets['\"'] = '\"';
 }
-// это вспомогательная структура для автоматической инициализации string processor'а
+// СЌС‚Рѕ РІСЃРїРѕРјРѕРіР°С‚РµР»СЊРЅР°СЏ СЃС‚СЂСѓРєС‚СѓСЂР° РґР»СЏ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРѕР№ РёРЅРёС†РёР°Р»РёР·Р°С†РёРё string processor'Р°
 struct SStrProcInit
 {
 	SStrProcInit() { NStr::InitStringProcessor(); }
@@ -37,24 +37,24 @@ bool NStr::IsOpenBracket( const char cSymbol )
 	return brackets.find( cSymbol ) != brackets.end();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// добавить новую пару скобок
+// РґРѕР±Р°РІРёС‚СЊ РЅРѕРІСѓСЋ РїР°СЂСѓ СЃРєРѕР±РѕРє
 void NStr::AddBrackets( const char cOpenBracket, const char cCloseBracket )
 {
 	brackets[cOpenBracket] = cCloseBracket;
 }
-// удалить пару скобок
+// СѓРґР°Р»РёС‚СЊ РїР°СЂСѓ СЃРєРѕР±РѕРє
 void NStr::RemoveBrackets( const char cOpenBracket, const char cCloseBracket )
 {
 	brackets.erase( cOpenBracket );
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// получить закрывающую скобку по открывающей
+// РїРѕР»СѓС‡РёС‚СЊ Р·Р°РєСЂС‹РІР°СЋС‰СѓСЋ СЃРєРѕР±РєСѓ РїРѕ РѕС‚РєСЂС‹РІР°СЋС‰РµР№
 const char NStr::GetCloseBracket( const char cOpenBracket )
 {
 	return brackets[cOpenBracket];
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// разделить строку на массив строк по заданному разделителю
+// СЂР°Р·РґРµР»РёС‚СЊ СЃС‚СЂРѕРєСѓ РЅР° РјР°СЃСЃРёРІ СЃС‚СЂРѕРє РїРѕ Р·Р°РґР°РЅРЅРѕРјСѓ СЂР°Р·РґРµР»РёС‚РµР»СЋ
 void NStr::SplitString( const std::string &szString, std::vector<std::string> &szVector, const char cSeparator )
 {
 	int nPos = 0, nLastPos = 0;
@@ -69,7 +69,7 @@ void NStr::SplitString( const std::string &szString, std::vector<std::string> &s
 	} while( nPos != std::string::npos );
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// разделить строку на массив строк по заданному разделителю с учётом скобок одной вложенности
+// СЂР°Р·РґРµР»РёС‚СЊ СЃС‚СЂРѕРєСѓ РЅР° РјР°СЃСЃРёРІ СЃС‚СЂРѕРє РїРѕ Р·Р°РґР°РЅРЅРѕРјСѓ СЂР°Р·РґРµР»РёС‚РµР»СЋ СЃ СѓС‡С‘С‚РѕРј СЃРєРѕР±РѕРє РѕРґРЅРѕР№ РІР»РѕР¶РµРЅРЅРѕСЃС‚Рё
 void NStr::SplitStringWithBrackets( const std::string &szString, std::vector<std::string> &szVector, const char cSeparator )
 {
 	int nPos = 0, nLastPos = 0;
@@ -94,7 +94,7 @@ void NStr::SplitStringWithBrackets( const std::string &szString, std::vector<std
 	} while( nPos != std::string::npos );
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// разделить строку на массив строк по заданному разделителю с учётом скобок любой вложенности
+// СЂР°Р·РґРµР»РёС‚СЊ СЃС‚СЂРѕРєСѓ РЅР° РјР°СЃСЃРёРІ СЃС‚СЂРѕРє РїРѕ Р·Р°РґР°РЅРЅРѕРјСѓ СЂР°Р·РґРµР»РёС‚РµР»СЋ СЃ СѓС‡С‘С‚РѕРј СЃРєРѕР±РѕРє Р»СЋР±РѕР№ РІР»РѕР¶РµРЅРЅРѕСЃС‚Рё
 void NStr::SplitStringWithMultipleBrackets( const std::string &szString, std::vector<std::string> &szVector, const char cSeparator )
 {
 	std::stack<char> stackBrackets;
@@ -125,13 +125,13 @@ void NStr::SplitStringWithMultipleBrackets( const std::string &szString, std::ve
 		szVector.push_back( szString.substr( nLastPos ) );
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// найти закрывающую скобку без учёта внутренних скобок
+// РЅР°Р№С‚Рё Р·Р°РєСЂС‹РІР°СЋС‰СѓСЋ СЃРєРѕР±РєСѓ Р±РµР· СѓС‡С‘С‚Р° РІРЅСѓС‚СЂРµРЅРЅРёС… СЃРєРѕР±РѕРє
 int NStr::FindCloseBracket( const std::string &szString, int nPos, const char cOpenBracket )
 {
 	return szString.find( brackets[cOpenBracket], nPos );
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// найти закрывающую скобку с учётом внутренних скобок
+// РЅР°Р№С‚Рё Р·Р°РєСЂС‹РІР°СЋС‰СѓСЋ СЃРєРѕР±РєСѓ СЃ СѓС‡С‘С‚РѕРј РІРЅСѓС‚СЂРµРЅРЅРёС… СЃРєРѕР±РѕРє
 int NStr::FindMultipleCloseBracket( const std::string &szString, int nPos, const char cOpenBracket )
 {
 	std::stack<char> stackBrackets;
@@ -153,7 +153,7 @@ int NStr::FindMultipleCloseBracket( const std::string &szString, int nPos, const
 	return std::string::npos;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// отрезать все символы 'cTrim' справа
+// РѕС‚СЂРµР·Р°С‚СЊ РІСЃРµ СЃРёРјРІРѕР»С‹ 'cTrim' СЃРїСЂР°РІР°
 void NStr::TrimRight( std::string &szString, const char cTrim )
 {
 	int nPos = szString.find_last_not_of( cTrim );
@@ -177,7 +177,7 @@ void NStr::TrimRight( std::string &szString, const char *pszTrim )
 		szString.erase( nPos + 1, std::string::npos );
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// вырезать все символы 'cTrim' из строки
+// РІС‹СЂРµР·Р°С‚СЊ РІСЃРµ СЃРёРјРІРѕР»С‹ 'cTrim' РёР· СЃС‚СЂРѕРєРё
 class CSymbolCheckFunctional
 {
 private:
@@ -199,7 +199,7 @@ void NStr::TrimInside( std::string &szString, const char *pszTrim )
   szString.erase( std::remove_if(szString.begin(), szString.end(), CSymbolCheckFunctional(pszTrim)), szString.end() );
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// преобразовать целое в строку, разделяя каждые три знака (три порядка) специальным разделителем (.)
+// РїСЂРµРѕР±СЂР°Р·РѕРІР°С‚СЊ С†РµР»РѕРµ РІ СЃС‚СЂРѕРєСѓ, СЂР°Р·РґРµР»СЏСЏ РєР°Р¶РґС‹Рµ С‚СЂРё Р·РЅР°РєР° (С‚СЂРё РїРѕСЂСЏРґРєР°) СЃРїРµС†РёР°Р»СЊРЅС‹Рј СЂР°Р·РґРµР»РёС‚РµР»РµРј (.)
 void NStr::ToDotString( std::string *pDst, int nVal, const char cSeparator )
 {
 	char buff[32], buff2[32];
@@ -218,7 +218,7 @@ void NStr::ToDotString( std::string *pDst, int nVal, const char cSeparator )
   *pDst = buff;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// форматирование строки
+// С„РѕСЂРјР°С‚РёСЂРѕРІР°РЅРёРµ СЃС‚СЂРѕРєРё
 const char* __cdecl NStr::Format( const char *pszFormat, ... )
 {
   static char buff[2048];
@@ -383,7 +383,7 @@ void NStr::ToUnicode( std::wstring *pRes, const std::string &szSrc )
 		delete[] pszBuf;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// привести к верхнему или нижнему регистру
+// РїСЂРёРІРµСЃС‚Рё Рє РІРµСЂС…РЅРµРјСѓ РёР»Рё РЅРёР¶РЅРµРјСѓ СЂРµРіРёСЃС‚СЂСѓ
 // MSVCMustDie_* are required to keep compiler happy when default calling conversion is __fastcall
 inline int MSVCMustDie_tolower( int a ) { return tolower(a); } 
 inline int MSVCMustDie_toupper( int a ) { return toupper(a); }

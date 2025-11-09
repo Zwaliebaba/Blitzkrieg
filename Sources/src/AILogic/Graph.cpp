@@ -80,7 +80,7 @@ void CGraph::ComputePath( const int _v1, const int _v2 )
 			}
 		}
 
-		// больше вершин, связных с v1, нет, либо нашли путь до v2
+		// Р±РѕР»СЊС€Рµ РІРµСЂС€РёРЅ, СЃРІСЏР·РЅС‹С… СЃ v1, РЅРµС‚, Р»РёР±Рѕ РЅР°С€Р»Рё РїСѓС‚СЊ РґРѕ v2
 		if ( nBestNode == -1 || nBestNode == v2 )
 			bFinished = true;
 		else

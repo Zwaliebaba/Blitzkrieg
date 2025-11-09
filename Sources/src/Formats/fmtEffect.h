@@ -18,7 +18,7 @@ struct SParticleEffectDesc
 	int nStart;														// effect start time
 	int nDuration;												// effect duration
 	CVec3 vPos;														// relative position
-	float fScale;                         // масштаб
+	float fScale;                         // ЧњЧђЧЎЧЁЧўЧђЧ‘
 
 	int operator&( IDataTree &ss );
 };
@@ -28,7 +28,7 @@ struct SSmokinParticleEffectDesc
 	int nStart;														// effect start time
 	int nDuration;												// effect duration
 	CVec3 vPos;														// relative position
-	float fScale;                         // масштаб
+	float fScale;                         // ЧњЧђЧЎЧЁЧўЧђЧ‘
 
 	int operator&( IDataTree &ss );
 };

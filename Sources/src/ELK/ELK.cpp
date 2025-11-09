@@ -51,7 +51,7 @@ BOOL CELKApp::InitInstance()
 			return false;
 		}
 
-		//регистрируем IImageProcessor
+		//СЂРµРіРёСЃС‚СЂРёСЂСѓРµРј IImageProcessor
 		HMODULE hImage = LoadLibrary( ( std::string( pBuffer ) + _T( "\\image.dll" ) ).c_str() );
 		if ( hImage )
 		{
@@ -93,13 +93,13 @@ BOOL CELKApp::InitInstance()
 	{
 		return false;
 	}
-	//если введен ключ, включаем расширенную функциональность	
+	//РµСЃР»Рё РІРІРµРґРµРЅ РєР»СЋС‡, РІРєР»СЋС‡Р°РµРј СЂР°СЃС€РёСЂРµРЅРЅСѓСЋ С„СѓРЅРєС†РёРѕРЅР°Р»СЊРЅРѕСЃС‚СЊ	
 	{
 		std::string szCommandLine( m_lpCmdLine );
 		NStr::ToLower( szCommandLine );
 		pFrame->bShortApperence = ( szCommandLine != std::string( _T( "-developer") ) );
 	}
-	//если проинсталлирована игра, включаем поддержку игры
+	//РµСЃР»Рё РїСЂРѕРёРЅСЃС‚Р°Р»Р»РёСЂРѕРІР°РЅР° РёРіСЂР°, РІРєР»СЋС‡Р°РµРј РїРѕРґРґРµСЂР¶РєСѓ РёРіСЂС‹
 	{
 		std::string szGameFolder;
 		CRegistrySection registrySection( HKEY_LOCAL_MACHINE, KEY_READ, CELK::GAME_REGISTRY_FOLDER );

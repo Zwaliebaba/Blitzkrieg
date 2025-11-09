@@ -132,7 +132,7 @@ void CSmokinParticleSource::Update( const NTimer::STime &time )
 			CParticleGenerator::ResetGenerator( nNumForGenerating );
 			while ( nNumForGenerating > 0 && pData->nLifeTime + nStartTime > time && !bStopped )
 			{
-				// непосредственно добавление частицы
+				// РЅРµРїРѕСЃСЂРµРґСЃС‚РІРµРЅРЅРѕ РґРѕР±Р°РІР»РµРЅРёРµ С‡Р°СЃС‚РёС†С‹
 				SExtendedParticleSource part;
 				part.pSource = pPM->GetKeyBasedSource( (pData->szParticleEffectName + ".xml").c_str() );
 				part.pSource->SetStartTime( nLastUpdateTime + i ); 

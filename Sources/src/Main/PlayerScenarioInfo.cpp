@@ -62,7 +62,7 @@ void CScenarioUnit::ChangeRPGStats( const std::string &szStatsName )
 {
 	CheckRPGStats( szStatsName );
 	//
-	// надо пересчитать exp в новый в соответствии с новыми уровнями после upgrade
+	// РЅР°РґРѕ РїРµСЂРµСЃС‡РёС‚Р°С‚СЊ exp РІ РЅРѕРІС‹Р№ РІ СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРё СЃ РЅРѕРІС‹РјРё СѓСЂРѕРІРЅСЏРјРё РїРѕСЃР»Рµ upgrade
 	IObjectsDB *pGDB = GetSingleton<IObjectsDB>();
 	const SUnitBaseRPGStats *pOldRPG = NGDB::GetRPGStats<SUnitBaseRPGStats>( pGDB, szRPGStats.c_str() );
 	const SAIExpLevel *pOldExpLevels = static_cast<const SAIExpLevel*>( pGDB->GetExpLevels(pOldRPG->type) );

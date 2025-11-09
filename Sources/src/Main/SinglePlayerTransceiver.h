@@ -15,9 +15,9 @@ class CSinglePlayerTransceiver : public CTRefCount<ITransceiver>
 	//
 	CPtr<IAILogic> pAILogic;							// shortcut to AI logic
 	
-	// история команд
+	// РёСЃС‚РѕСЂРёСЏ РєРѕРјР°РЅРґ
 	CPtr<ICommandsHistory> pCmdsHistory;
-	// общий номер сегмента - для истории команд
+	// РѕР±С‰РёР№ РЅРѕРјРµСЂ СЃРµРіРјРµРЅС‚Р° - РґР»СЏ РёСЃС‚РѕСЂРёРё РєРѕРјР°РЅРґ
 	long nCommonSegment;
 	bool bHistoryPlaying;
 public:
@@ -38,10 +38,10 @@ public:
 	virtual int STDCALL CommandUnitCommand( const struct SAIUnitCmd *pCommand );
 	// show different areas... this command actiually has been doing only on client, but it needs group to be registered
 	virtual void STDCALL CommandShowAreas( int nGroupID, int nAreaType, bool bShow );
-	// обработать pCommand, пришедшую на текущем сегменте
+	// РѕР±СЂР°Р±РѕС‚Р°С‚СЊ pCommand, РїСЂРёС€РµРґС€СѓСЋ РЅР° С‚РµРєСѓС‰РµРј СЃРµРіРјРµРЅС‚Рµ
 	virtual void STDCALL AddCommandToSend( IAILogicCommand *pCommand );	
 
-	// количество играющих сейчас игроков
+	// РєРѕР»РёС‡РµСЃС‚РІРѕ РёРіСЂР°СЋС‰РёС… СЃРµР№С‡Р°СЃ РёРіСЂРѕРєРѕРІ
 	virtual int STDCALL GetNumberOfPlayers() const { return 1; }
 	
 	virtual bool STDCALL JoinToServer( const char *pszIPAddress, const int nPort, bool bPasswordRequired, const char* pszPassword ) { return false; }

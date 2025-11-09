@@ -186,7 +186,7 @@ const float CSplineEdge::CalculateLengthOfEdgePart( const int nPart, const float
 	const float fTAdd = ( fEnd - fBegin ) / N_PARTS_FOR_LENGTH_CALCULATING;
 
 	float fEdgePartLength = 0.0f;
-	// не совпадают
+	// РЅРµ СЃРѕРІРїР°РґР°СЋС‚
 	if ( fabs( fBegin - fEnd ) >= 1.0f / ( 4.0f * N_PARTS_FOR_LENGTH_CALCULATING ) )
 	{
 		for ( int i = 0; i <= N_PARTS_FOR_LENGTH_CALCULATING; ++i )
@@ -232,14 +232,14 @@ void CSplineEdge::GetClosestPoints( const CVec2 &vPoint, std::list< CPtr<CEdgePo
 
 		const float fLocalDist = fabs( vPoint - vLocalClosestPoint );
 
-		// новая точка лучше, чем все старые
+		// РЅРѕРІР°СЏ С‚РѕС‡РєР° Р»СѓС‡С€Рµ, С‡РµРј РІСЃРµ СЃС‚Р°СЂС‹Рµ
 		if ( *pfMinDist == -1.0f || *pfMinDist - fLocalDist >= fTolerance )
 		{
 			pPoints->clear();
 			pPoints->push_back( new CEdgePoint( this, i, fLocalT ) );
 			*pfMinDist = fLocalDist;
 		}
-		// новая точка может подойти
+		// РЅРѕРІР°СЏ С‚РѕС‡РєР° РјРѕР¶РµС‚ РїРѕРґРѕР№С‚Рё
 		else if ( fabs( *pfMinDist - fLocalDist ) < fTolerance )
 		{
 			if ( fLocalDist >= *pfMinDist )
@@ -248,7 +248,7 @@ void CSplineEdge::GetClosestPoints( const CVec2 &vPoint, std::list< CPtr<CEdgePo
 			{
 				*pfMinDist = fLocalDist;
 
-				// удалить все далеко стоящие точки
+				// СѓРґР°Р»РёС‚СЊ РІСЃРµ РґР°Р»РµРєРѕ СЃС‚РѕСЏС‰РёРµ С‚РѕС‡РєРё
 				std::list< CPtr<CEdgePoint> >::iterator iter = pPoints->begin();
 				while ( iter != pPoints->end() )
 				{
@@ -277,14 +277,14 @@ const float CSplineEdge::GetLength( CEdgePoint *p1, CEdgePoint *p2 )
 	else
 	{
 		const int nAdd = Sign( p2->nPart - p1->nPart );
-		// куски рёбер до вершин
+		// РєСѓСЃРєРё СЂС‘Р±РµСЂ РґРѕ РІРµСЂС€РёРЅ
 		float fDist = 
 			CalculateLengthOfEdgePart( p1->nPart, p1->fT, 
 																 nAdd > 0 ? edgeParts[p1->nPart].fTEnd : edgeParts[p1->nPart].fTBegin ) +
 			CalculateLengthOfEdgePart( p2->nPart, p2->fT, 
 																 nAdd > 0 ? edgeParts[p2->nPart].fTBegin : edgeParts[p2->nPart].fTEnd );
 
-		// целые рёбра
+		// С†РµР»С‹Рµ СЂС‘Р±СЂР°
 		const int nStart = p1->nPart + nAdd;
 		const int nFinish = p2->nPart;
 		for ( int i = nStart; i != nFinish; i += nAdd )
@@ -328,7 +328,7 @@ CEdgePoint* CSplineEdge::MakeIndent( const CVec2 &vPointToMeasureDist, CEdgePoin
 	CPtr<CEdgePoint> pGarbage1 = p1;
 	CPtr<CEdgePoint> pGarbage2 = p2;
 
-	// точки в обратном порядке, перевернуть
+	// С‚РѕС‡РєРё РІ РѕР±СЂР°С‚РЅРѕРј РїРѕСЂСЏРґРєРµ, РїРµСЂРµРІРµСЂРЅСѓС‚СЊ
 	if ( p1->nPart > p2->nPart )
 	{
 		IEdge *pEdge = p1->GetEdge();
@@ -401,7 +401,7 @@ const CVec2 CSplineEdge::GetTangent( const int nPart, const float fT ) const
 	NI_ASSERT_T( nPart < GetNParts(), NStr::Format( "Wrong number of nPart (%d)", nPart ) );
 	
 	CVec2 vResult;
-	// отступить от краёв сплайна, чтобы избежать нулевой производной
+	// РѕС‚СЃС‚СѓРїРёС‚СЊ РѕС‚ РєСЂР°С‘РІ СЃРїР»Р°Р№РЅР°, С‡С‚РѕР±С‹ РёР·Р±РµР¶Р°С‚СЊ РЅСѓР»РµРІРѕР№ РїСЂРѕРёР·РІРѕРґРЅРѕР№
 	if ( fT >= 0.99f )
 		vResult = edgeParts[nPart].spline.GetDiff1( 0.99f );
 	else if ( fT <= 0.01f )
@@ -796,7 +796,7 @@ void CRailroadGraph::GetClosestPoints( const CVec2 &vPoint, std::list< CPtr<CEdg
 		const DWORD dwNodesKey = iter->first;
 		const int nV1 = dwNodesKey >> 16;
 		const int nV2 = dwNodesKey & 0xffff;
-		// первая вершина меньше второй, чтобы не проходить дважды по одному ребру, в той же компоненте связности и ребро ненулевой длины
+		// РїРµСЂРІР°СЏ РІРµСЂС€РёРЅР° РјРµРЅСЊС€Рµ РІС‚РѕСЂРѕР№, С‡С‚РѕР±С‹ РЅРµ РїСЂРѕС…РѕРґРёС‚СЊ РґРІР°Р¶РґС‹ РїРѕ РѕРґРЅРѕРјСѓ СЂРµР±СЂСѓ, РІ С‚РѕР№ Р¶Рµ РєРѕРјРїРѕРЅРµРЅС‚Рµ СЃРІСЏР·РЅРѕСЃС‚Рё Рё СЂРµР±СЂРѕ РЅРµРЅСѓР»РµРІРѕР№ РґР»РёРЅС‹
 		if ( nV1 < nV2 && ( vConnectionNode == -1 || IsInOneGraphComponent( vConnectionNode, nV1 ) ) && 
 				 edges[dwNodesKey]->GetLength() > 0 )
 		{
@@ -807,19 +807,19 @@ void CRailroadGraph::GetClosestPoints( const CVec2 &vPoint, std::list< CPtr<CEdg
 			IEdge *pEdge = iter->second;
 			pEdge->GetClosestPoints( vPoint, &pointsForEdge, &fLocalMinDist );
 
-			// это ребро лучше, чем любое из предыдущих
+			// СЌС‚Рѕ СЂРµР±СЂРѕ Р»СѓС‡С€Рµ, С‡РµРј Р»СЋР±РѕРµ РёР· РїСЂРµРґС‹РґСѓС‰РёС…
 			if ( *pfMinDist == -1.0f || *pfMinDist - fLocalMinDist >= fTolerance )
 			{
 				*pfMinDist = fLocalMinDist;
 				pPoints->clear();
 				pPoints->splice( pPoints->end(), pointsForEdge );
 			}
-			// расстояния до рёбер примерно одинаковы
+			// СЂР°СЃСЃС‚РѕСЏРЅРёСЏ РґРѕ СЂС‘Р±РµСЂ РїСЂРёРјРµСЂРЅРѕ РѕРґРёРЅР°РєРѕРІС‹
 			else if ( fabs( fLocalMinDist - *pfMinDist ) <= fTolerance )
 			{
 				*pfMinDist = Min( fLocalMinDist, *pfMinDist );
 
-				// выбросить все слишком далёкие точки из старых
+				// РІС‹Р±СЂРѕСЃРёС‚СЊ РІСЃРµ СЃР»РёС€РєРѕРј РґР°Р»С‘РєРёРµ С‚РѕС‡РєРё РёР· СЃС‚Р°СЂС‹С…
 				std::list< CPtr<CEdgePoint> >::iterator iter = pPoints->begin();
 				while ( iter != pPoints->end() )
 				{
@@ -830,7 +830,7 @@ void CRailroadGraph::GetClosestPoints( const CVec2 &vPoint, std::list< CPtr<CEdg
 						++iter;
 				}
 
-				// из новых точек добавить только достаточно близкие
+				// РёР· РЅРѕРІС‹С… С‚РѕС‡РµРє РґРѕР±Р°РІРёС‚СЊ С‚РѕР»СЊРєРѕ РґРѕСЃС‚Р°С‚РѕС‡РЅРѕ Р±Р»РёР·РєРёРµ
 				for ( iter = pointsForEdge.begin(); iter != pointsForEdge.end(); ++iter )
 				{
 					const CVec2 vCurPoint = (*iter)->Get2DPoint();
@@ -921,13 +921,13 @@ CEdgePoint* CRailroadGraph::MakeIndent( const CVec2 &vDir, CEdgePoint *pPoint, c
 
 	IEdge *pEdge = 0;
 	CPtr<CEdgePoint> pPointOnRightEdge;
-	// отложить вдоль ребра
+	// РѕС‚Р»РѕР¶РёС‚СЊ РІРґРѕР»СЊ СЂРµР±СЂР°
 	if ( pPoint->GetTangent() * vDir >= 0 )
 	{
 		pEdge = GetEdge( pPoint->GetEdge()->GetFirstNode(), pPoint->GetEdge()->GetLastNode() );
 		pPointOnRightEdge = pPoint;
 	}
-	// против ребра
+	// РїСЂРѕС‚РёРІ СЂРµР±СЂР°
 	else
 	{
 		pEdge = GetEdge( pPoint->GetEdge()->GetLastNode(), pPoint->GetEdge()->GetFirstNode() );
@@ -940,13 +940,13 @@ CEdgePoint* CRailroadGraph::MakeIndent( const CVec2 &vDir, CEdgePoint *pPoint, c
 	const CVec2 vLastNodePoint2D = pLastNodePoint->Get2DPoint();
 
 	const float fDistToFirstNodePoint2 = fabs2( vPointToMeasureDist - vLastNodePoint2D );
-	// искомая точка на ребре pEdge
+	// РёСЃРєРѕРјР°СЏ С‚РѕС‡РєР° РЅР° СЂРµР±СЂРµ pEdge
 	if ( fDistToFirstNodePoint2 >= sqr(fDist) )
 	{
 		CEdgePoint *pPoint = pEdge->MakeIndent( vPointToMeasureDist, pPointOnRightEdge, pLastNodePoint, fabs( fDist ) );
 		return pPoint;
 	}
-	// нужно пройти несколько рёбер
+	// РЅСѓР¶РЅРѕ РїСЂРѕР№С‚Рё РЅРµСЃРєРѕР»СЊРєРѕ СЂС‘Р±РµСЂ
 	else
 	{
 		std::list<int> movablePoints;
@@ -970,7 +970,7 @@ CEdgePoint* CRailroadGraph::MakeIndent( const CVec2 &vDir, CEdgePoint *pPoint, c
 			--iter;
 			GetMovablePoint( v1, vNewDir, &visitedPoints, &points );
 
-			// точка не найдена
+			// С‚РѕС‡РєР° РЅРµ РЅР°Р№РґРµРЅР°
 			if ( points.empty() )
 				return 0;
 			else
@@ -1010,7 +1010,7 @@ CEdgePoint* CRailroadGraph::MakeIndent( const CVec2 &vDir, CEdgePoint *pPoint, c
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const float fabs( CEdgePoint *p1, CEdgePoint *p2 )
 {
-	// чтобы удалились
+	// С‡С‚РѕР±С‹ СѓРґР°Р»РёР»РёСЃСЊ
 	CPtr<CEdgePoint> pGarbageP1 = p1;
 	CPtr<CEdgePoint> pGarbageP2 = p2;
 

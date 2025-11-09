@@ -4,8 +4,8 @@
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//CRAP осталось со старой версии, возможно надо удалить GLAD
-static const int GLAD = 20;		//Эта константа для гладкости перемещения, чтобы можно было тыкнуть посередине ScrollBar и елеватор перешел вниз
+//CRAP РѕСЃС‚Р°Р»РѕСЃСЊ СЃРѕ СЃС‚Р°СЂРѕР№ РІРµСЂСЃРёРё, РІРѕР·РјРѕР¶РЅРѕ РЅР°РґРѕ СѓРґР°Р»РёС‚СЊ GLAD
+static const int GLAD = 20;		//Р­С‚Р° РєРѕРЅСЃС‚Р°РЅС‚Р° РґР»СЏ РіР»Р°РґРєРѕСЃС‚Рё РїРµСЂРµРјРµС‰РµРЅРёСЏ, С‡С‚РѕР±С‹ РјРѕР¶РЅРѕ Р±С‹Р»Рѕ С‚С‹РєРЅСѓС‚СЊ РїРѕСЃРµСЂРµРґРёРЅРµ ScrollBar Рё РµР»РµРІР°С‚РѕСЂ РїРµСЂРµС€РµР» РІРЅРёР·
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 int CUIShortcutBar::SBar::operator&( IStructureSaver &ss )
@@ -33,7 +33,7 @@ int CUIShortcutBar::operator&( IStructureSaver &ss )
 	saver.Add( 10, &nScrollBarWidth );
 	saver.Add( 11, &pSelectionTexture );
 	saver.Add( 12, &selSubRects );
-	//13 занято
+	//13 Р·Р°РЅСЏС‚Рѕ
 	saver.Add( 14, &nSelBar );
 	saver.Add( 15, &nSelItem );
 	saver.Add( 16, &bars );
@@ -77,7 +77,7 @@ int CUIShortcutBar::operator&( IDataTree &ss )
 
 	if ( saver.IsReading() )
 	{
-		//инициализируем pScrollBar
+		//РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј pScrollBar
 		pScrollBar = checked_cast<IUIScrollBar *> ( GetChildByID( 1 ) );
 		InitSBWidth();
 		
@@ -225,7 +225,7 @@ IUIElement* CUIShortcutBar::AddTextItem( const WORD *pszText )
 	pWindow->vSize.x = wndRect.Width() - nLeftSpace - nRightSpace - 2*nItemLeftSpace - nScrollBarWidth;
 	pWindow->SetWindowText( 0, pszText );
 	
-	//надо рассчитать высоту добавляемого текста
+	//РЅР°РґРѕ СЂР°СЃСЃС‡РёС‚Р°С‚СЊ РІС‹СЃРѕС‚Сѓ РґРѕР±Р°РІР»СЏРµРјРѕРіРѕ С‚РµРєСЃС‚Р°
 	for ( int i=0; i<pWindow->states.size(); i++ )
 	{
 		if ( pWindow->states[i].pGfxText )
@@ -234,8 +234,8 @@ IUIElement* CUIShortcutBar::AddTextItem( const WORD *pszText )
 			pWindow->states[i].pGfxText->EnableRedLine( bRedLine );
 		}
 	}
-	int nHeight = pWindow->states[0].pGfxText->GetNumLines();				//число строк
-	nHeight *= pWindow->states[0].pGfxText->GetLineSpace();					//высота одной строчки
+	int nHeight = pWindow->states[0].pGfxText->GetNumLines();				//С‡РёСЃР»Рѕ СЃС‚СЂРѕРє
+	nHeight *= pWindow->states[0].pGfxText->GetLineSpace();					//РІС‹СЃРѕС‚Р° РѕРґРЅРѕР№ СЃС‚СЂРѕС‡РєРё
 	pWindow->vSize.y = nHeight;
 
 	bar.items.push_back( pText );
@@ -255,7 +255,7 @@ void CUIShortcutBar::UpdateScrollBarStatus()
 	int nBeginSelectedBar = -1, nEndSelectedBar = -1, nSelectedSize = -1;
 
 	int nV = 0;
-	//рассчитаем длину всех итемов в контроле
+	//СЂР°СЃСЃС‡РёС‚Р°РµРј РґР»РёРЅСѓ РІСЃРµС… РёС‚РµРјРѕРІ РІ РєРѕРЅС‚СЂРѕР»Рµ
 	for ( int i = 0; i < bars.size(); ++i )
 	{
 		const SBar &bar = bars[i];
@@ -286,7 +286,7 @@ void CUIShortcutBar::UpdateScrollBarStatus()
 
 	if ( nV > 0 )
 	{
-		//SB видимый
+		//SB РІРёРґРёРјС‹Р№
 		pScrollBar->SetMaxValue( nV );
 		if ( pScrollBar->GetPosition() > nV )
 			pScrollBar->SetPosition( nV );
@@ -301,7 +301,7 @@ void CUIShortcutBar::UpdateScrollBarStatus()
 	}
 	else
 	{
-		//SB невидимый
+		//SB РЅРµРІРёРґРёРјС‹Р№
 		pScrollBar->SetMaxValue( 0 );
 		if ( pScrollBar->GetPosition() > 0 )
 			pScrollBar->SetPosition( 0 );
@@ -312,7 +312,7 @@ void CUIShortcutBar::UpdateScrollBarStatus()
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CUIShortcutBar::UpdateItemsCoordinates()
 {
-	//Пересчитываем координаты для всех внутренних контролов
+	//РџРµСЂРµСЃС‡РёС‚С‹РІР°РµРј РєРѕРѕСЂРґРёРЅР°С‚С‹ РґР»СЏ РІСЃРµС… РІРЅСѓС‚СЂРµРЅРЅРёС… РєРѕРЅС‚СЂРѕР»РѕРІ
 	int nY = -pScrollBar->GetPosition();
 	CTRect<float> boundRc = wndRect;
 	boundRc.y1 += nTopSpace;
@@ -323,7 +323,7 @@ void CUIShortcutBar::UpdateItemsCoordinates()
 		const SBar &bar = bars[i];
 		if ( nY + nBarHeight - nVSubSpace < 0 || nY + nVSubSpace > wndRect.Height() - nTopSpace - nBottomSpace )
 		{
-			//bar не видимый
+			//bar РЅРµ РІРёРґРёРјС‹Р№
 			bar.pElement->ShowWindow( UI_SW_HIDE );
 		}
 		else
@@ -344,7 +344,7 @@ void CUIShortcutBar::UpdateItemsCoordinates()
 				(*it)->GetWindowPlacement( 0, &vSize, 0 );
 				if ( nY + nVSubSpace + vSize.y < 0 || nY + nVSubSpace > wndRect.Height() - nTopSpace - nBottomSpace )
 				{
-					//item не видимый
+					//item РЅРµ РІРёРґРёРјС‹Р№
 					pE->ShowWindow( UI_SW_HIDE );
 				}
 				else
@@ -370,7 +370,7 @@ void CUIShortcutBar::UpdateItemsCoordinates()
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CUIShortcutBar::Reposition( const CTRect<float> &rcParent )
 {
-	//обновим позицию скроллбара
+	//РѕР±РЅРѕРІРёРј РїРѕР·РёС†РёСЋ СЃРєСЂРѕР»Р»Р±Р°СЂР°
 	CVec2 size;
 	pScrollBar->GetWindowPlacement( 0, &size, 0 );
 	pScrollBar->SetWindowPlacement( 0, &CVec2(size.x, wndRect.Height() ) );
@@ -379,7 +379,7 @@ void CUIShortcutBar::Reposition( const CTRect<float> &rcParent )
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool CUIShortcutBar::ProcessMessage( const SUIMessage &msg )
 {
-	//ListControl обрабатывает NOTIFY сообщения от ScrollBar
+	//ListControl РѕР±СЂР°Р±Р°С‚С‹РІР°РµС‚ NOTIFY СЃРѕРѕР±С‰РµРЅРёСЏ РѕС‚ ScrollBar
 	switch( msg.nMessageCode )
 	{
 	case UI_NOTIFY_POSITION_CHANGED:
@@ -394,10 +394,10 @@ void CUIShortcutBar::Visit( interface ISceneVisitor *pVisitor )
 {
 	if ( !IsVisible() )
 		return;	
-	// Рисуем подложку
+	// Р РёСЃСѓРµРј РїРѕРґР»РѕР¶РєСѓ
 	CSimpleWindow::Visit( pVisitor );
 	
-	// Рисуем выделение
+	// Р РёСЃСѓРµРј РІС‹РґРµР»РµРЅРёРµ
 	if ( nSelBar != -1 && nSelItem != -1 && pSelectionTexture )
 	{
 		int nLeft = wndRect.x1 + nLeftSpace;
@@ -436,7 +436,7 @@ void CUIShortcutBar::Visit( interface ISceneVisitor *pVisitor )
 		
 		if ( nTop + nVSubSpace + 2*vSize.y > 0 && nTop < wndRect.Height() - nTopSpace - nBottomSpace )
 		{
-			// selection виден
+			// selection РІРёРґРµРЅ
 			if ( !selSubRects.empty() )
 			{
 				const int nSize = selSubRects.size();
@@ -455,7 +455,7 @@ void CUIShortcutBar::Visit( interface ISceneVisitor *pVisitor )
 					rc.color = 0xffffffff;
 					rc.specular = 0xff000000;
 
-					// проверим, вдруг видно только часть selection
+					// РїСЂРѕРІРµСЂРёРј, РІРґСЂСѓРі РІРёРґРЅРѕ С‚РѕР»СЊРєРѕ С‡Р°СЃС‚СЊ selection
 					float fY = wndRect.y1 + nTopSpace - rc.rect.y1;
 					if ( fY > 0 )
 					{
@@ -475,7 +475,7 @@ void CUIShortcutBar::Visit( interface ISceneVisitor *pVisitor )
 		}
 	}
 
-	// рисуем детей
+	// СЂРёСЃСѓРµРј РґРµС‚РµР№
 	for ( CWindowList::reverse_iterator ri = childList.rbegin(); ri != childList.rend(); ++ri )
 		(*ri)->Visit( pVisitor );
 }
@@ -488,10 +488,10 @@ void CUIShortcutBar::Draw( IGFX *pGFX )
 	if ( !IsVisible() )
 		return;
 	
-	//Рисуем подложку
+	//Р РёСЃСѓРµРј РїРѕРґР»РѕР¶РєСѓ
 	CSimpleWindow::Draw( pGFX );
 	
-	//Рисуем выделение
+	//Р РёСЃСѓРµРј РІС‹РґРµР»РµРЅРёРµ
 	pGFX->SetShadingEffect( 3 );
 	if ( nSelBar != -1 && nSelItem != -1 && pSelectionTexture )
 	{
@@ -531,7 +531,7 @@ void CUIShortcutBar::Draw( IGFX *pGFX )
 		
 		if ( nTop + nVSubSpace + 2*vSize.y > 0 && nTop < wndRect.Height() - nTopSpace - nBottomSpace )
 		{
-			//selection виден
+			//selection РІРёРґРµРЅ
 			int nSize = selSubRects.size();
 			if ( nSize > 0 )
 			{
@@ -551,7 +551,7 @@ void CUIShortcutBar::Draw( IGFX *pGFX )
 					rc.color = 0xffffffff;
 					rc.specular = 0xff000000;
 
-					//проверим, вдруг видно только часть selection
+					//РїСЂРѕРІРµСЂРёРј, РІРґСЂСѓРі РІРёРґРЅРѕ С‚РѕР»СЊРєРѕ С‡Р°СЃС‚СЊ selection
 					float fY = wndRect.y1 + nTopSpace - rc.rect.y1;
 					if ( fY > 0 )
 					{
@@ -571,7 +571,7 @@ void CUIShortcutBar::Draw( IGFX *pGFX )
 		}
 	}
 
-	//рисуем детей
+	//СЂРёСЃСѓРµРј РґРµС‚РµР№
 	for ( CWindowList::reverse_iterator ri=childList.rbegin(); ri!=childList.rend(); ri++ )
 		(*ri)->Draw( pGFX );
 }
@@ -591,20 +591,20 @@ bool CUIShortcutBar::OnLButtonDown( const CVec2 &vPos, EMouseState mouseState )
 
 	float fX = vPos.x - wndRect.x1 - nLeftSpace;
 	if ( fX < 0 || fX > wndRect.Width() - nRightSpace - nScrollBarWidth )
-		return true;		//вне области selection
+		return true;		//РІРЅРµ РѕР±Р»Р°СЃС‚Рё selection
 	
 	float fY = vPos.y - wndRect.y1 - nTopSpace;
 	if ( fY < 0 || fY > wndRect.Height() - nTopSpace - nBottomSpace )
-		return true;		//вне области selection
+		return true;		//РІРЅРµ РѕР±Р»Р°СЃС‚Рё selection
 	
 	bool bRet = CMultipleWindow::OnLButtonDown( vPos, mouseState );
 	if ( !bRet )
-		return bRet;			//мышка вне окошка
+		return bRet;			//РјС‹С€РєР° РІРЅРµ РѕРєРѕС€РєР°
 	if ( bars.size() == 0 )
 		return bRet;
 	
 	int nV = -pScrollBar->GetPosition();
-	//найдем выделенный item
+	//РЅР°Р№РґРµРј РІС‹РґРµР»РµРЅРЅС‹Р№ item
 /*
 	int nPrevSelBar = nSelBar;
 	int nPrevSelItem = nSelItem;
@@ -615,10 +615,10 @@ bool CUIShortcutBar::OnLButtonDown( const CVec2 &vPos, EMouseState mouseState )
 		SBar &bar = bars[i];
 		if ( nV <= fY && nV + nBarHeight > fY )
 		{
-			//дополнительно проверим, что мышка внутри контрола
+			//РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅРѕ РїСЂРѕРІРµСЂРёРј, С‡С‚Рѕ РјС‹С€РєР° РІРЅСѓС‚СЂРё РєРѕРЅС‚СЂРѕР»Р°
 			if ( !bars[i].pElement->IsInside( vPos ) )
 			{
-				//вне контрола
+				//РІРЅРµ РєРѕРЅС‚СЂРѕР»Р°
 				return bRet;
 			}
 			
@@ -644,19 +644,19 @@ bool CUIShortcutBar::OnLButtonDown( const CVec2 &vPos, EMouseState mouseState )
 
 			if ( it != bar.items.end() )
 			{
-				//нашли окошко в которое кликнули
+				//РЅР°С€Р»Рё РѕРєРѕС€РєРѕ РІ РєРѕС‚РѕСЂРѕРµ РєР»РёРєРЅСѓР»Рё
 				(*it)->OnLButtonDown( vPos, mouseState );
 
 				
 				if ( !(*it)->IsWindowEnabled() )
 				{
-					return bRet;		//неактивное окошко, не работает
+					return bRet;		//РЅРµР°РєС‚РёРІРЅРѕРµ РѕРєРѕС€РєРѕ, РЅРµ СЂР°Р±РѕС‚Р°РµС‚
 				}
 
 				nSelBar = i;
 				nSelItem = nTempItem;
 
-				//посылаем наверх сообщение об изменении selection state
+				//РїРѕСЃС‹Р»Р°РµРј РЅР°РІРµСЂС… СЃРѕРѕР±С‰РµРЅРёРµ РѕР± РёР·РјРµРЅРµРЅРёРё selection state
 				SUIMessage msg;
 				msg.nMessageCode = UI_NOTIFY_SELECTION_CHANGED;
 				msg.nFirst = GetWindowID();
@@ -678,13 +678,13 @@ bool CUIShortcutBar::OnLButtonUp( const CVec2 &vPos, EMouseState mouseState )
 
 	float fX = vPos.x - wndRect.x1 - nLeftSpace;
 	if ( fX < 0 || fX > wndRect.Width() - nRightSpace - nScrollBarWidth )
-		return true;		//вне области selection
+		return true;		//РІРЅРµ РѕР±Р»Р°СЃС‚Рё selection
 	
 	float fY = vPos.y - wndRect.y1 - nTopSpace;
 	if ( fY < 0 || fY > wndRect.Height() - nTopSpace - nBottomSpace )
-		return true;		//вне области selection
+		return true;		//РІРЅРµ РѕР±Р»Р°СЃС‚Рё selection
 	
-	//Проверим, вдруг мышка осталась внутри только что расширенного bar, тогда этому bar надо сбросить состояние PUSHED
+	//РџСЂРѕРІРµСЂРёРј, РІРґСЂСѓРі РјС‹С€РєР° РѕСЃС‚Р°Р»Р°СЃСЊ РІРЅСѓС‚СЂРё С‚РѕР»СЊРєРѕ С‡С‚Рѕ СЂР°СЃС€РёСЂРµРЅРЅРѕРіРѕ bar, С‚РѕРіРґР° СЌС‚РѕРјСѓ bar РЅР°РґРѕ СЃР±СЂРѕСЃРёС‚СЊ СЃРѕСЃС‚РѕСЏРЅРёРµ PUSHED
 	if ( nSelBar != -1 )
 	{
 		IUIElement *pBar = GetBar( nSelBar );
@@ -761,7 +761,7 @@ void CUIShortcutBar::SetBarExpandState( int nBar, bool bExpand, const bool bNoti
 		bar.bExpandState = bExpand;
 		InitialUpdate();
 		
-		//обновим статус нажатого окошка
+		//РѕР±РЅРѕРІРёРј СЃС‚Р°С‚СѓСЃ РЅР°Р¶Р°С‚РѕРіРѕ РѕРєРѕС€РєР°
 		/*NI_ASSERT_T( pPushed != 0, "Error in CUIShortcutBar, plz tell me, Slavik :)" );
 		// tlling slavik: blya, gde ti nahuy
 		if ( pPushed )
@@ -770,7 +770,7 @@ void CUIShortcutBar::SetBarExpandState( int nBar, bool bExpand, const bool bNoti
 			pPushed = 0;
 		}*/
 
-		//посылаем наверх сообщение об expand state
+		//РїРѕСЃС‹Р»Р°РµРј РЅР°РІРµСЂС… СЃРѕРѕР±С‰РµРЅРёРµ РѕР± expand state
 		SUIMessage msg;
 		msg.nMessageCode = UI_NOTIFY_BAR_EXPAND;
 		msg.nFirst = GetWindowID();

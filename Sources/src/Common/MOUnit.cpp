@@ -354,7 +354,7 @@ void CMOUnit::AIUpdateAcknowledgement( const EUnitAckType eAck, IClientAckManage
 	const SUnitBaseRPGStats *pStats = static_cast_gdb<const SUnitBaseRPGStats*>( pRPG );
 	const float r = 1.0f * rand() / RAND_MAX;
 	std::string szSound;
-	// åñëè çâóêà íåãàòèâíîãî àñêà íåò, òî ïîïûòàòüñÿ ñûãðàòü Generic
+	// ÐµÑÐ»Ð¸ Ð·Ð²ÑƒÐºÐ° Ð½ÐµÐ³Ð°Ñ‚Ð¸Ð²Ð½Ð¾Ð³Ð¾ Ð°ÑÐºÐ° Ð½ÐµÑ‚, Ñ‚Ð¾ Ð¿Ð¾Ð¿Ñ‹Ñ‚Ð°Ñ‚ÑŒÑÑ ÑÑ‹Ð³Ñ€Ð°Ñ‚ÑŒ Generic
 	if ( !pStats->ChooseAcknowledgement( r, eAck, &szSound, nSet ) &&	
 			 pAckManager->IsNegative( eAck ) && 
 			 !pStats->ChooseAcknowledgement( 0.0f, eAck, 0, nSet ) )

@@ -10,7 +10,7 @@ class CUIScreen : public CMultipleWindow
 {
 	
 public:
-	//для chat/acks system
+	//РґР»СЏ chat/acks system
 	struct SAcknowledgment
 	{
 		DECLARE_SERIALIZE;
@@ -25,12 +25,12 @@ private:
 	std::string szResourceName;
 	DWORD m_mouseState;
 	DWORD m_keyboardState;
-	CVec2 m_prevLButtonPos;				//сохраненная координата, где нажалась левая кнопка мышки
-	CVec2 m_prevPrevLButtonPos;		//предыдущая сохраненная координата левого клика мышки
+	CVec2 m_prevLButtonPos;				//СЃРѕС…СЂР°РЅРµРЅРЅР°СЏ РєРѕРѕСЂРґРёРЅР°С‚Р°, РіРґРµ РЅР°Р¶Р°Р»Р°СЃСЊ Р»РµРІР°СЏ РєРЅРѕРїРєР° РјС‹С€РєРё
+	CVec2 m_prevPrevLButtonPos;		//РїСЂРµРґС‹РґСѓС‰Р°СЏ СЃРѕС…СЂР°РЅРµРЅРЅР°СЏ РєРѕРѕСЂРґРёРЅР°С‚Р° Р»РµРІРѕРіРѕ РєР»РёРєР° РјС‹С€РєРё
 	
 	CMessageList uiMessageList;
 
-	//для mouse wheel
+	//РґР»СЏ mouse wheel
 	CPtr<IInputSlider> pMouseWheelSlider;
 
 	typedef std::list<SAcknowledgment> CListOfAcks;
@@ -63,7 +63,7 @@ public:
 	virtual bool STDCALL IsEmpty() { return CMultipleWindow::IsEmpty(); }
 	virtual void STDCALL Reposition( const CTRect<float> &rcParent );
 	
-	//перегружаю обработку событий
+	//РїРµСЂРµРіСЂСѓР¶Р°СЋ РѕР±СЂР°Р±РѕС‚РєСѓ СЃРѕР±С‹С‚РёР№
 	virtual bool STDCALL OnLButtonDblClk( const CVec2 &vPos );
 	virtual bool STDCALL OnMouseMove( const CVec2 &vPos, EMouseState mouseState );
 	virtual bool STDCALL OnLButtonDown( const CVec2 &vPos, EMouseState mouseState );

@@ -10,7 +10,7 @@
 #include "..\RandomMapGen\MapInfo_types.h"
 
 #include "editor.h"
-#include "BuildCompose.h"			//для компоновки картинки в текстуру
+#include "BuildCompose.h"			//РґР»СЏ РєРѕРјРїРѕРЅРѕРІРєРё РєР°СЂС‚РёРЅРєРё РІ С‚РµРєСЃС‚СѓСЂСѓ
 #include "TreeDockWnd.h"
 #include "PropView.h"
 #include "TreeItem.h"
@@ -215,8 +215,8 @@ void CMissionFrame::LoadRPGStats( IDataTree *pDT, CTreeItem *pRootItem )
 		CString text;
 		text.Format( "Generating map image..." );
 		theApp.GetMainFrame()->m_wndStatusBar.SetWindowText( text );
-		//загрузим и отобразим картинку на экране
-		//Скомпонуем спрайт в editor temp dir
+		//Р·Р°РіСЂСѓР·РёРј Рё РѕС‚РѕР±СЂР°Р·РёРј РєР°СЂС‚РёРЅРєСѓ РЅР° СЌРєСЂР°РЅРµ
+		//РЎРєРѕРјРїРѕРЅСѓРµРј СЃРїСЂР°Р№С‚ РІ editor temp dir
 		CMissionCommonPropsItem *pCommonProps = static_cast<CMissionCommonPropsItem *> ( pRootItem->GetChildItem( E_MISSION_COMMON_PROPS_ITEM ) );
 		std::string szMapFileName, szTemp, szTemp1;
 		szMapFileName = pCommonProps->GetFinalMap();
@@ -320,7 +320,7 @@ bool CMissionFrame::ExportFrameData( IDataTree *pDT, const char *pszProjectName,
 	szPrefix = szAddDir + szPrevExportFileName.substr( 0, szPrevExportFileName.rfind('\\') + 1 );
 	SaveRPGStats( pDT, pRootItem, pszProjectName );
 	
-	//Скопирую все данные в экспорт директорию
+	//РЎРєРѕРїРёСЂСѓСЋ РІСЃРµ РґР°РЅРЅС‹Рµ РІ СЌРєСЃРїРѕСЂС‚ РґРёСЂРµРєС‚РѕСЂРёСЋ
 	szPrefix = theApp.GetDestDir() + szPrefix;
 	CMissionCommonPropsItem *pCommonProps = static_cast<CMissionCommonPropsItem *> ( pRootItem->GetChildItem( E_MISSION_COMMON_PROPS_ITEM ) );
 	std::string szTemp, szSource, szResult, szDir;
@@ -670,8 +670,8 @@ void CMissionFrame::OnGenerateImage()
 		if ( pRoot == 0 )
 			return;
 		CMissionCommonPropsItem *pCommonProps = static_cast<CMissionCommonPropsItem *> ( pRoot->GetChildItem( E_MISSION_COMMON_PROPS_ITEM ) );
-		//загрузим и отобразим картинку на экране
-		//Скомпонуем спрайт в editor temp dir
+		//Р·Р°РіСЂСѓР·РёРј Рё РѕС‚РѕР±СЂР°Р·РёРј РєР°СЂС‚РёРЅРєСѓ РЅР° СЌРєСЂР°РЅРµ
+		//РЎРєРѕРјРїРѕРЅСѓРµРј СЃРїСЂР°Р№С‚ РІ editor temp dir
 		std::string szMapFileName, szTemp, szTemp1;
 		szMapFileName = pCommonProps->GetFinalMap();
 		szMapFileName = "Maps\\" + szMapFileName;

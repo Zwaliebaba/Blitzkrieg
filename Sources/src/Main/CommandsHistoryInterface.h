@@ -10,18 +10,18 @@ interface ICommandsHistory : public IRefCount
 	// type ID
 	enum { tidTypeID = MAIN_COMMANDS_HISTORY };
 
-	// очистка всего, куда пишется history, перед стартом мисии, 
-	// запоминание текущих RandomSeed и ScenarioTracker
+	// РѕС‡РёСЃС‚РєР° РІСЃРµРіРѕ, РєСѓРґР° РїРёС€РµС‚СЃСЏ history, РїРµСЂРµРґ СЃС‚Р°СЂС‚РѕРј РјРёСЃРёРё, 
+	// Р·Р°РїРѕРјРёРЅР°РЅРёРµ С‚РµРєСѓС‰РёС… RandomSeed Рё ScenarioTracker
 	virtual void STDCALL PrepareToStartMission() = 0;
 
-	// загрузка и инициализация для multiplayer, если задан параметр -lh
+	// Р·Р°РіСЂСѓР·РєР° Рё РёРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РґР»СЏ multiplayer, РµСЃР»Рё Р·Р°РґР°РЅ РїР°СЂР°РјРµС‚СЂ -lh
 	virtual bool STDCALL LoadCommandLineHistory() = 0;
 
-	// вместе с самими командами загружается RandomSeed
+	// РІРјРµСЃС‚Рµ СЃ СЃР°РјРёРјРё РєРѕРјР°РЅРґР°РјРё Р·Р°РіСЂСѓР¶Р°РµС‚СЃСЏ RandomSeed
 	// return true if no error occurs
 	virtual bool STDCALL Load( const char *pszFileName ) = 0;
-	// параметр по умолчанию только для тестирования
-	// если имя пустое, то смотрится то, что было установлено параметром -sh
+	// РїР°СЂР°РјРµС‚СЂ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ С‚РѕР»СЊРєРѕ РґР»СЏ С‚РµСЃС‚РёСЂРѕРІР°РЅРёСЏ
+	// РµСЃР»Рё РёРјСЏ РїСѓСЃС‚РѕРµ, С‚Рѕ СЃРјРѕС‚СЂРёС‚СЃСЏ С‚Рѕ, С‡С‚Рѕ Р±С‹Р»Рѕ СѓСЃС‚Р°РЅРѕРІР»РµРЅРѕ РїР°СЂР°РјРµС‚СЂРѕРј -sh
 	virtual void STDCALL Save( const char *pszFileName = "" ) = 0;
 
 	virtual void STDCALL Clear() = 0;

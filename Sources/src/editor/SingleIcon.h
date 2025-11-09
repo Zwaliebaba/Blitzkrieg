@@ -29,7 +29,7 @@ public:
 
 // Implementation
 public:
-	//Загружает bitmap в окно контрола, если файл не найден то отображается pszInvalidFileName
+	//Р—Р°РіСЂСѓР¶Р°РµС‚ bitmap РІ РѕРєРЅРѕ РєРѕРЅС‚СЂРѕР»Р°, РµСЃР»Рё С„Р°Р№Р» РЅРµ РЅР°Р№РґРµРЅ С‚Рѕ РѕС‚РѕР±СЂР°Р¶Р°РµС‚СЃСЏ pszInvalidFileName
 	void LoadBitmap( const char *pszFullFileName, const char *pszInvalidFileName );
 	void ApplyGammaCorrection( float fBrightness, float fContrast, float fGamma );
 	void SetImageSize( int nSizeX, int nSizeY ) { m_nSizeX = nSizeX; m_nSizeY = nSizeY; }

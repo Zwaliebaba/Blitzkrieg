@@ -339,7 +339,7 @@ int CMainFrame::OnCreate( LPCREATESTRUCT lpCreateStruct )
 		return -1;
 	}
 
-	//создаем толбары
+	//ЧЎЧћЧ—Ч”ЧђЧ•Чњ ЧўЧћЧ›Ч‘ЧђЧ пў”
 	SECToolBarManager* pToolBarManager = dynamic_cast<SECToolBarManager*>( m_pControlBarManager );	
 	if ( bShortApperence )
 	{

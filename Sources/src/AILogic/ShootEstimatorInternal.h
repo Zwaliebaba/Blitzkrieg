@@ -27,9 +27,9 @@ class CTankShootEstimator : public IShootEstimator
 	
 	CGDBPtr<SUnitBaseRPGStats> pMosinStats;
 
-	// время, требуемое, чтобы повернуть pGun на pEnemy
+	// РІСЂРµРјСЏ, С‚СЂРµР±СѓРµРјРѕРµ, С‡С‚РѕР±С‹ РїРѕРІРµСЂРЅСѓС‚СЊ pGun РЅР° pEnemy
 	//const float FindTimeToTurn( CAIUnit *pEnemy, CBasicGun *pGun ) const;
-	// выбрать gun для pEnemy
+	// РІС‹Р±СЂР°С‚СЊ gun РґР»СЏ pEnemy
 	void ChooseGun( CBasicGun **pBestGun, int *nBestGun, CAIUnit *pEnemy );
 
 	const float GetRating( CAIUnit *pEnemy, CBasicGun *pGun ) const;
@@ -62,14 +62,14 @@ class CSoldierShootEstimator : public IShootEstimator
 	float fBestRating;
 
 	bool bHasGrenades;
-	// бросаем гранату, не учитываю общую функцию выбора цели по рейтингу
+	// Р±СЂРѕСЃР°РµРј РіСЂР°РЅР°С‚Сѓ, РЅРµ СѓС‡РёС‚С‹РІР°СЋ РѕР±С‰СѓСЋ С„СѓРЅРєС†РёСЋ РІС‹Р±РѕСЂР° С†РµР»Рё РїРѕ СЂРµР№С‚РёРЅРіСѓ
 	bool bThrowGrenade;
 
 	DWORD dwForbidden;
 
 	CGDBPtr<SUnitBaseRPGStats> pMosinStats;
 
-	// выбрать gun для pEnemy
+	// РІС‹Р±СЂР°С‚СЊ gun РґР»СЏ pEnemy
 	void ChooseGun( CBasicGun **pBestGun, int *nBestGun, CAIUnit *pEnemy );
 
 	const float GetRating( CAIUnit *pEnemy, CBasicGun *pGun ) const;
@@ -85,7 +85,7 @@ public:
 	virtual const int GetNumberOfBestGun() const;
 };
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// стрельба из бортовых стрелковых точек для самолетов
+// СЃС‚СЂРµР»СЊР±Р° РёР· Р±РѕСЂС‚РѕРІС‹С… СЃС‚СЂРµР»РєРѕРІС‹С… С‚РѕС‡РµРє РґР»СЏ СЃР°РјРѕР»РµС‚РѕРІ
 class CPlaneDeffensiveFireShootEstimator : public IShootEstimator
 {
 	OBJECT_COMPLETE_METHODS( CPlaneDeffensiveFireShootEstimator );
@@ -99,7 +99,7 @@ class CPlaneDeffensiveFireShootEstimator : public IShootEstimator
 	bool bDamageToCurTargetUpdated;
 	float fBestRating;
 	
-	const float CalcTimeToOpenFire( class CAIUnit *pEnemy, CBasicGun *pGun ) const; // время для открытия огня (учитывая поворот оружия и скорость сближения с врагом)
+	const float CalcTimeToOpenFire( class CAIUnit *pEnemy, CBasicGun *pGun ) const; // РІСЂРµРјСЏ РґР»СЏ РѕС‚РєСЂС‹С‚РёСЏ РѕРіРЅСЏ (СѓС‡РёС‚С‹РІР°СЏ РїРѕРІРѕСЂРѕС‚ РѕСЂСѓР¶РёСЏ Рё СЃРєРѕСЂРѕСЃС‚СЊ СЃР±Р»РёР¶РµРЅРёСЏ СЃ РІСЂР°РіРѕРј)
 
 	const float CalcRating( CAIUnit *pEnemy, CBasicGun *pGun ) const;
 public:
@@ -174,7 +174,7 @@ public:
 	virtual const int GetNumberOfBestGun() const{ NI_ASSERT_T(false,"Wrong call"); return 0;} 
 };
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// для стрельбы по препятствиям. 
+// РґР»СЏ СЃС‚СЂРµР»СЊР±С‹ РїРѕ РїСЂРµРїСЏС‚СЃС‚РІРёСЏРј. 
 class CShootEstimatorForObstacles : public IObstacleEnumerator
 {
 	class CCommonUnit *pOwner;

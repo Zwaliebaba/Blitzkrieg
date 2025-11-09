@@ -85,7 +85,7 @@ bool CStandartSmoothMechPath::CheckTurn( const WORD wNewDir )
 	const WORD wUnitDir = pUnit->GetDir();
 	const WORD wRightDirsDiff = DirsDifference( wUnitDir, wNewDir );
 	const WORD wBackDirsDiff = DirsDifference( wUnitDir + 32768, wNewDir );
-	// поворот небольшой
+	// РїРѕРІРѕСЂРѕС‚ РЅРµР±РѕР»СЊС€РѕР№
 	if ( wRightDirsDiff < SConsts::DIR_DIFF_TO_SMOOTH_TURNING || bCanBackward && wBackDirsDiff < SConsts::DIR_DIFF_TO_SMOOTH_TURNING )
 		return true;
 	else
@@ -164,7 +164,7 @@ bool CStandartSmoothMechPath::Init( IBasePathUnit *_pUnit, IPath *_pPath, bool _
 
 		const int nInitSplineResult = InitSpline();
 
-		// проверить, можно ли повернуться
+		// РїСЂРѕРІРµСЂРёС‚СЊ, РјРѕР¶РЅРѕ Р»Рё РїРѕРІРµСЂРЅСѓС‚СЊСЃСЏ
 		if ( bCheckTurn && pPath->ShouldCheckTurn() )
 		{
 //			if ( !CheckTurn( GetDirectionByVector( spline.GetDX() ) ) )
@@ -349,7 +349,7 @@ const CVec2 CStandartSmoothMechPath::GetPointWithoutFormation( NTimer::STime tim
 		return pUnit->GetCenter();
 	}
 
-	// если едем задом, проверить - нельзя ли развернуться, чтобы поехать передом
+	// РµСЃР»Рё РµРґРµРј Р·Р°РґРѕРј, РїСЂРѕРІРµСЂРёС‚СЊ - РЅРµР»СЊР·СЏ Р»Рё СЂР°Р·РІРµСЂРЅСѓС‚СЊСЃСЏ, С‡С‚РѕР±С‹ РїРѕРµС…Р°С‚СЊ РїРµСЂРµРґРѕРј
 	if ( !bCanGoForward && curTime - lastCheckToRightTurn >= 3000 + Random( 0, 1000 ) )
 	{
 		lastCheckToRightTurn = curTime;
@@ -377,7 +377,7 @@ const CVec2 CStandartSmoothMechPath::GetPointWithoutFormation( NTimer::STime tim
 	
 	if ( spline.GetDX() != VNULL2 )
 	{
-		// слишком велика разница между старым и новым направлениями, нужно повернуться
+		// СЃР»РёС€РєРѕРј РІРµР»РёРєР° СЂР°Р·РЅРёС†Р° РјРµР¶РґСѓ СЃС‚Р°СЂС‹Рј Рё РЅРѕРІС‹Рј РЅР°РїСЂР°РІР»РµРЅРёСЏРјРё, РЅСѓР¶РЅРѕ РїРѕРІРµСЂРЅСѓС‚СЊСЃСЏ
 		const WORD wDirsDiff = DirsDifference( pUnit->GetDir(), GetDirectionByVector( spline.GetDX() ) );
 		if ( wDirsDiff != 0 && pUnit->IsTurning() || wDirsDiff > SConsts::DIR_DIFF_TO_SMOOTH_TURNING )
 		{
@@ -440,7 +440,7 @@ const CVec2 CStandartSmoothMechPath::GetPointWithoutFormation( NTimer::STime tim
 
 	if ( spline.GetDX() != VNULL2 )
 	{
-		// слишком велика разница между старым и новым направлениями, нужно повернуться
+		// СЃР»РёС€РєРѕРј РІРµР»РёРєР° СЂР°Р·РЅРёС†Р° РјРµР¶РґСѓ СЃС‚Р°СЂС‹Рј Рё РЅРѕРІС‹Рј РЅР°РїСЂР°РІР»РµРЅРёСЏРјРё, РЅСѓР¶РЅРѕ РїРѕРІРµСЂРЅСѓС‚СЊСЃСЏ
 		const WORD wDirsDiff = DirsDifference( pUnit->GetDir(), GetDirectionByVector( spline.GetDX() ) );
 		if ( wDirsDiff != 0 && pUnit->IsTurning() || wDirsDiff	> SConsts::DIR_DIFF_TO_SMOOTH_TURNING )
 		{
@@ -458,16 +458,16 @@ const CVec2 CStandartSmoothMechPath::GetPointWithoutFormation( NTimer::STime tim
 	
 	CVec2 result;
 	if ( fabs( spline.GetPoint() - pUnit->GetCenter() ) < fRemain )
-		// так и не прошли по сплайну, сколько надо
+		// С‚Р°Рє Рё РЅРµ РїСЂРѕС€Р»Рё РїРѕ СЃРїР»Р°Р№РЅСѓ, СЃРєРѕР»СЊРєРѕ РЅР°РґРѕ
 		result = spline.GetPoint();
 	else
-		// прошли чуть дальше, нужно точно отсчитать fRemain
+		// РїСЂРѕС€Р»Рё С‡СѓС‚СЊ РґР°Р»СЊС€Рµ, РЅСѓР¶РЅРѕ С‚РѕС‡РЅРѕ РѕС‚СЃС‡РёС‚Р°С‚СЊ fRemain
 		result = pUnit->GetCenter() + Norm( spline.GetPoint() - pUnit->GetCenter() ) * fRemain;
 
-	// для юнитов с ненулевой скоростью поворота
-	// до конца пути осталось совсем немного
+	// РґР»СЏ СЋРЅРёС‚РѕРІ СЃ РЅРµРЅСѓР»РµРІРѕР№ СЃРєРѕСЂРѕСЃС‚СЊСЋ РїРѕРІРѕСЂРѕС‚Р°
+	// РґРѕ РєРѕРЅС†Р° РїСѓС‚Рё РѕСЃС‚Р°Р»РѕСЃСЊ СЃРѕРІСЃРµРј РЅРµРјРЅРѕРіРѕ
 	float fDist = fabs2( result - pPath->GetFinishPoint() );
-	// нет гомосекам!!!
+	// РЅРµС‚ РіРѕРјРѕСЃРµРєР°Рј!!!
 	if ( fDist <= sqr( 4.0f * pUnit->GetAABBHalfSize().y ) )
 	{
 		SRect rect = pUnit->GetUnitRectForLock();
@@ -541,7 +541,7 @@ void CStandartSmoothMechPath::NotifyAboutClosestThreat( IBasePathUnit *pUnit, co
 			}
 			else
 			{
-				// повышать скорость, только если это можно делать
+				// РїРѕРІС‹С€Р°С‚СЊ СЃРєРѕСЂРѕСЃС‚СЊ, С‚РѕР»СЊРєРѕ РµСЃР»Рё СЌС‚Рѕ РјРѕР¶РЅРѕ РґРµР»Р°С‚СЊ
 				if ( !bMinSlowed && !bMaxSlowed )
 					speed = speed + maxPossibleSpeed / 40;
 			}

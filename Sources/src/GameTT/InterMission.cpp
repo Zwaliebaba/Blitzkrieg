@@ -53,7 +53,7 @@ bool CInterfaceInterMission::StepLocal( bool bAppActive )
 	const CVec2 vPos = pCursor->GetPos();
 	CInterfaceScreenBase::OnCursorMove( vPos );
 	//
-	if ( pUIScreen )		//â íåêîòîðûõ ýêðàíàõ pUIScreen íåòó
+	if ( pUIScreen )		//Ð² Ð½ÐµÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ñ… ÑÐºÑ€Ð°Ð½Ð°Ñ… pUIScreen Ð½ÐµÑ‚Ñƒ
 		pUIScreen->Update( pTimer->GetAbsTime() );
 	return true;
 }

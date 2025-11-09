@@ -101,14 +101,14 @@ public:
 // Implementation
 
 protected:
-	string szEditorDir;					//содержит директорию исполняемого файла компоновщика (reseditor.exe)
-	string szExecDir;           //dir с game.exe
-	string szMODName;           //название текущего мода
-	string szMODVersion;        //версия текущего мода
+	string szEditorDir;					//СЃРѕРґРµСЂР¶РёС‚ РґРёСЂРµРєС‚РѕСЂРёСЋ РёСЃРїРѕР»РЅСЏРµРјРѕРіРѕ С„Р°Р№Р»Р° РєРѕРјРїРѕРЅРѕРІС‰РёРєР° (reseditor.exe)
+	string szExecDir;           //dir СЃ game.exe
+	string szMODName;           //РЅР°Р·РІР°РЅРёРµ С‚РµРєСѓС‰РµРіРѕ РјРѕРґР°
+	string szMODVersion;        //РІРµСЂСЃРёСЏ С‚РµРєСѓС‰РµРіРѕ РјРѕРґР°
 	string szMODDesc;           //MOD description string
 	string szExecArgs;          //game.exe args
-	string szSourceDir;					//общая директория к исходникам для всех модулей
-	string szDestDir;						//общая экспортируемая директория для всех модулей
+	string szSourceDir;					//РѕР±С‰Р°СЏ РґРёСЂРµРєС‚РѕСЂРёСЏ Рє РёСЃС…РѕРґРЅРёРєР°Рј РґР»СЏ РІСЃРµС… РјРѕРґСѓР»РµР№
+	string szDestDir;						//РѕР±С‰Р°СЏ СЌРєСЃРїРѕСЂС‚РёСЂСѓРµРјР°СЏ РґРёСЂРµРєС‚РѕСЂРёСЏ РґР»СЏ РІСЃРµС… РјРѕРґСѓР»РµР№
 	HMENU m_hMDIMenu;
 	HACCEL m_hMDIAccel;
 	CMainFrame *m_pMainFrame;

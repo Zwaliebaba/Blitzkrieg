@@ -134,19 +134,19 @@ IImage* SImagePack::CreateImagePack( IImage **pImages, CTPoint<int> *pImageLeftT
   vPackedImages.clear();
   IImageProcessor *pImageProcessor = GetImageProcessor();
   
-  //главный цикл
+  //РіР»Р°РІРЅС‹Р№ С†РёРєР»
   int imageIndex = 0;
   for( imageIndex = 0; imageIndex < nImageCount; ++imageIndex )
   {
-    //добавляем 
+    //РґРѕР±Р°РІР»СЏРµРј 
     vPackedImages.push_back( SPackedImage() );
     vPackedImages[imageIndex].originalLeftTop = pImageLeftTops[imageIndex];
 
-    //подвигаем картинку в угол
+    //РїРѕРґРІРёРіР°РµРј РєР°СЂС‚РёРЅРєСѓ РІ СѓРіРѕР»
     CTRect<int> edges( 0, 0, 0, 0 );	
     if( !FindEdges( pImages[imageIndex], edges , dwMinAlpha ) )
     {
-      //нет картинки, ничего не добавляем
+      //РЅРµС‚ РєР°СЂС‚РёРЅРєРё, РЅРёС‡РµРіРѕ РЅРµ РґРѕР±Р°РІР»СЏРµРј
       break;
     }
     CPtr<IImage> pEdgedImage = pImageProcessor->CreateImage( pImages[imageIndex]->GetSizeX(),
@@ -154,8 +154,8 @@ IImage* SImagePack::CreateImagePack( IImage **pImages, CTPoint<int> *pImageLeftT
     pEdgedImage->Set( 0 );
     pEdgedImage->CopyFrom( pImages[imageIndex], &( ( RECT )( edges ) ), 0, 0 );
 
-    //определяем размеры картинки исходя из минимального прамоугольника в котором
-    //выполняется alpha > 0, края картинки должы быть кратны LARGE_SIDE
+    //РѕРїСЂРµРґРµР»СЏРµРј СЂР°Р·РјРµСЂС‹ РєР°СЂС‚РёРЅРєРё РёСЃС…РѕРґСЏ РёР· РјРёРЅРёРјР°Р»СЊРЅРѕРіРѕ РїСЂР°РјРѕСѓРіРѕР»СЊРЅРёРєР° РІ РєРѕС‚РѕСЂРѕРј
+    //РІС‹РїРѕР»РЅСЏРµС‚СЃСЏ alpha > 0, РєСЂР°СЏ РєР°СЂС‚РёРЅРєРё РґРѕР»Р¶С‹ Р±С‹С‚СЊ РєСЂР°С‚РЅС‹ LARGE_SIDE
     int nXSize = 0; 
     int nYSize = 0;
     if ( ( edges.GetSizeX() % LARGE_SIDE ) > 0 )
@@ -175,16 +175,16 @@ IImage* SImagePack::CreateImagePack( IImage **pImages, CTPoint<int> *pImageLeftT
       nYSize = edges.GetSizeY();
     }
 
-    //получаем координаты больших и маленьких квадратиков в исходной картинке
-    //запаковывать будем только после того, как получим общее количество
-    //больших и маленьких квадратиков
+    //РїРѕР»СѓС‡Р°РµРј РєРѕРѕСЂРґРёРЅР°С‚С‹ Р±РѕР»СЊС€РёС… Рё РјР°Р»РµРЅСЊРєРёС… РєРІР°РґСЂР°С‚РёРєРѕРІ РІ РёСЃС…РѕРґРЅРѕР№ РєР°СЂС‚РёРЅРєРµ
+    //Р·Р°РїР°РєРѕРІС‹РІР°С‚СЊ Р±СѓРґРµРј С‚РѕР»СЊРєРѕ РїРѕСЃР»Рµ С‚РѕРіРѕ, РєР°Рє РїРѕР»СѓС‡РёРј РѕР±С‰РµРµ РєРѕР»РёС‡РµСЃС‚РІРѕ
+    //Р±РѕР»СЊС€РёС… Рё РјР°Р»РµРЅСЊРєРёС… РєРІР°РґСЂР°С‚РёРєРѕРІ
     CImageAccessor edgedImageAccessor = pEdgedImage;
     for ( int nLargeYIndex = 0; nLargeYIndex < ( nYSize / LARGE_SIDE ); ++nLargeYIndex )
     {
       for ( int nLargeXIndex = 0; nLargeXIndex < ( nXSize / LARGE_SIDE ); ++nLargeXIndex )
       {
-        //количество маленьких квадратиков, если оно равно square( GRANULARITY ),
-        //то они все отбрасываются, а на их место записывается один большой квадрат
+        //РєРѕР»РёС‡РµСЃС‚РІРѕ РјР°Р»РµРЅСЊРєРёС… РєРІР°РґСЂР°С‚РёРєРѕРІ, РµСЃР»Рё РѕРЅРѕ СЂР°РІРЅРѕ square( GRANULARITY ),
+        //С‚Рѕ РѕРЅРё РІСЃРµ РѕС‚Р±СЂР°СЃС‹РІР°СЋС‚СЃСЏ, Р° РЅР° РёС… РјРµСЃС‚Рѕ Р·Р°РїРёСЃС‹РІР°РµС‚СЃСЏ РѕРґРёРЅ Р±РѕР»СЊС€РѕР№ РєРІР°РґСЂР°С‚
         int nSmallSquaresCount = 0;
         for ( int nSmallYIndex = 0; nSmallYIndex < GRANULARITY;	++nSmallYIndex )
         {
@@ -201,7 +201,7 @@ IImage* SImagePack::CreateImagePack( IImage **pImages, CTPoint<int> *pImageLeftT
               {
                 if ( edgedImageAccessor[nYIndex][nXIndex].a >= dwMinAlpha )
                 {
-                  //запись маленького квадратика
+                  //Р·Р°РїРёСЃСЊ РјР°Р»РµРЅСЊРєРѕРіРѕ РєРІР°РґСЂР°С‚РёРєР°
                   ++nSmallSquaresCount;
                   SPackedImage::SPackedImageNode packedImageNode;
                   packedImageNode.original.x = edges.left +
@@ -220,16 +220,16 @@ IImage* SImagePack::CreateImagePack( IImage **pImages, CTPoint<int> *pImageLeftT
             }
           }
         }
-        //если маленькие квадратики целиком составляют большой,
-        //необходимо их удалить и записать на их место один большой квадратик
+        //РµСЃР»Рё РјР°Р»РµРЅСЊРєРёРµ РєРІР°РґСЂР°С‚РёРєРё С†РµР»РёРєРѕРј СЃРѕСЃС‚Р°РІР»СЏСЋС‚ Р±РѕР»СЊС€РѕР№,
+        //РЅРµРѕР±С…РѕРґРёРјРѕ РёС… СѓРґР°Р»РёС‚СЊ Рё Р·Р°РїРёСЃР°С‚СЊ РЅР° РёС… РјРµСЃС‚Рѕ РѕРґРёРЅ Р±РѕР»СЊС€РѕР№ РєРІР°РґСЂР°С‚РёРє
         if ( nSmallSquaresCount == square( GRANULARITY ) )
         {
-          //удаление маленьких квадратиков
+          //СѓРґР°Р»РµРЅРёРµ РјР°Р»РµРЅСЊРєРёС… РєРІР°РґСЂР°С‚РёРєРѕРІ
           for ( int index = 0; index < nSmallSquaresCount; ++index )
           {
             vPackedImages[imageIndex].vPackedImageNodes.pop_back();
           }
-          //запись большого квадратика
+          //Р·Р°РїРёСЃСЊ Р±РѕР»СЊС€РѕРіРѕ РєРІР°РґСЂР°С‚РёРєР°
           SPackedImage::SPackedImageNode packedImageNode;
           packedImageNode.original.x = edges.left + 
                                        vPackedImages[imageIndex].originalLeftTop.x + 
@@ -243,11 +243,11 @@ IImage* SImagePack::CreateImagePack( IImage **pImages, CTPoint<int> *pImageLeftT
       }
     }
   }
-  //если все картинки оказались пустыми возвращаем 0
+  //РµСЃР»Рё РІСЃРµ РєР°СЂС‚РёРЅРєРё РѕРєР°Р·Р°Р»РёСЃСЊ РїСѓСЃС‚С‹РјРё РІРѕР·РІСЂР°С‰Р°РµРј 0
   if( vPackedImages.size() == 0 ) return 0;
 
-  //определяем размер картинки для запаковки,
-  //исходя из количества больших и маленьких квадратиков
+  //РѕРїСЂРµРґРµР»СЏРµРј СЂР°Р·РјРµСЂ РєР°СЂС‚РёРЅРєРё РґР»СЏ Р·Р°РїР°РєРѕРІРєРё,
+  //РёСЃС…РѕРґСЏ РёР· РєРѕР»РёС‡РµСЃС‚РІР° Р±РѕР»СЊС€РёС… Рё РјР°Р»РµРЅСЊРєРёС… РєРІР°РґСЂР°С‚РёРєРѕРІ
   CTPoint<int> packDim( 0, 0 );
   GetMinimalDimensions( packDim );
 
@@ -294,7 +294,7 @@ IImage* SImagePack::CreateImagePack( IImage **pImages, CTPoint<int> *pImageLeftT
       }
     }
 	}
-  //создаем картинку и помещаем в нее изображения
+  //СЃРѕР·РґР°РµРј РєР°СЂС‚РёРЅРєСѓ Рё РїРѕРјРµС‰Р°РµРј РІ РЅРµРµ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ
 	IImage *pPackedImage = pImageProcessor->CreateImage( packDim.x * LARGE_SIDE, packDim.y * LARGE_SIDE );
 #if !defined(_DEBUG)
   pPackedImage->Set( 0 );
@@ -343,7 +343,7 @@ IImage* SImagePack::UnpackImage( IImage *pPackedImage, int imageIndex ) const
        ( imageIndex >= vPackedImages.size() ) ||
        ( vPackedImages[imageIndex].vPackedImageNodes.size() == 0 ) ) return 0;
 
-  //ищем размеры картинки
+  //РёС‰РµРј СЂР°Р·РјРµСЂС‹ РєР°СЂС‚РёРЅРєРё
   int nMaxXSize = 0;
   int nMaxYSize = 0;
   int nodeIndex = 0;
@@ -380,7 +380,7 @@ IImage* SImagePack::UnpackImage( IImage *pPackedImage, int imageIndex ) const
 #ifdef _DEBUG
   printf("nMaxSize (%dx%d)\n", nMaxXSize, nMaxYSize );
 #endif //#ifdef _DEBUG
-  //приводим размеры картинки к степени двойки
+  //РїСЂРёРІРѕРґРёРј СЂР°Р·РјРµСЂС‹ РєР°СЂС‚РёРЅРєРё Рє СЃС‚РµРїРµРЅРё РґРІРѕР№РєРё
   int power = 1;
   while( power < nMaxXSize ) power *= 2;
   nMaxXSize = power;
@@ -389,7 +389,7 @@ IImage* SImagePack::UnpackImage( IImage *pPackedImage, int imageIndex ) const
   nMaxYSize = power;
 
   IImageProcessor *pImageProcessor = GetImageProcessor();
-  //создаем картинку и помещаем в нее изображения
+  //СЃРѕР·РґР°РµРј РєР°СЂС‚РёРЅРєСѓ Рё РїРѕРјРµС‰Р°РµРј РІ РЅРµРµ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ
 	IImage *pOriginalImage = pImageProcessor->CreateImage( nMaxXSize, nMaxYSize );
 #if !defined(_DEBUG)
   pOriginalImage->Set( 0 );

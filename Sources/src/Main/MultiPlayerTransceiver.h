@@ -60,17 +60,17 @@ class CMultiPlayerTransceiver : public CTRefCount<ITransceiver>
 	CStreamAccessor pktOutgoing;
 
 	int nLatency;
-	// должен быть кратен nLatency!
+	// РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ РєСЂР°С‚РµРЅ nLatency!
 	int nSegmentsPackSize;
 
-	int nNumPlayers;											// количество игроков
-	int nNumPlayersInMap;									// максимальнок количество игроков на этой карте
-	int nSegment;													// номер текущего сегмента
-	int nMyNumber;												// номер "нашего" игрока
+	int nNumPlayers;											// РєРѕР»РёС‡РµСЃС‚РІРѕ РёРіСЂРѕРєРѕРІ
+	int nNumPlayersInMap;									// РјР°РєСЃРёРјР°Р»СЊРЅРѕРє РєРѕР»РёС‡РµСЃС‚РІРѕ РёРіСЂРѕРєРѕРІ РЅР° СЌС‚РѕР№ РєР°СЂС‚Рµ
+	int nSegment;													// РЅРѕРјРµСЂ С‚РµРєСѓС‰РµРіРѕ СЃРµРіРјРµРЅС‚Р°
+	int nMyNumber;												// РЅРѕРјРµСЂ "РЅР°С€РµРіРѕ" РёРіСЂРѕРєР°
 	
-	// посланы ли игроком все команды для для каждого из сегментов ( битовый массив по относительным номерам сегментов )
+	// РїРѕСЃР»Р°РЅС‹ Р»Рё РёРіСЂРѕРєРѕРј РІСЃРµ РєРѕРјР°РЅРґС‹ РґР»СЏ РґР»СЏ РєР°Р¶РґРѕРіРѕ РёР· СЃРµРіРјРµРЅС‚РѕРІ ( Р±РёС‚РѕРІС‹Р№ РјР°СЃСЃРёРІ РїРѕ РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅС‹Рј РЅРѕРјРµСЂР°Рј СЃРµРіРјРµРЅС‚РѕРІ )
 	std::vector<WORD> segmFinished;
-	// номер общего последнего полученного от игрока сегмента
+	// РЅРѕРјРµСЂ РѕР±С‰РµРіРѕ РїРѕСЃР»РµРґРЅРµРіРѕ РїРѕР»СѓС‡РµРЅРЅРѕРіРѕ РѕС‚ РёРіСЂРѕРєР° СЃРµРіРјРµРЅС‚Р°
 	std::vector<int> lastFinishedSegment;
 	std::vector<int> timeOfLastSegmFinished;
 	NTimer::STime lastTimeToCheckNoSegmDataLag;
@@ -80,18 +80,18 @@ class CMultiPlayerTransceiver : public CTRefCount<ITransceiver>
 
 	WORD wMask;
 
-	// команды для каждого игрока ( [i][j] i - номер сегмента, j - номер игрока )
+	// РєРѕРјР°РЅРґС‹ РґР»СЏ РєР°Р¶РґРѕРіРѕ РёРіСЂРѕРєР° ( [i][j] i - РЅРѕРјРµСЂ СЃРµРіРјРµРЅС‚Р°, j - РЅРѕРјРµСЂ РёРіСЂРѕРєР° )
 	typedef std::list< CPtr<IAILogicCommand> > CAILogicCommandsList;
 	CArray2D<CAILogicCommandsList> cmds;
-	// все команды, полученные от клиента, но ещё не отосланные
+	// РІСЃРµ РєРѕРјР°РЅРґС‹, РїРѕР»СѓС‡РµРЅРЅС‹Рµ РѕС‚ РєР»РёРµРЅС‚Р°, РЅРѕ РµС‰С‘ РЅРµ РѕС‚РѕСЃР»Р°РЅРЅС‹Рµ
 	CAILogicCommandsList receivedCmds;
 	//
 	typedef std::list<SPlayerInfo> CPlayersList;
 	CPlayersList players;
 
-	// история команд
+	// РёСЃС‚РѕСЂРёСЏ РєРѕРјР°РЅРґ
 	CPtr<ICommandsHistory> pCmdsHistory;
-	// общий номер сегмента - для истории команд
+	// РѕР±С‰РёР№ РЅРѕРјРµСЂ СЃРµРіРјРµРЅС‚Р° - РґР»СЏ РёСЃС‚РѕСЂРёРё РєРѕРјР°РЅРґ
 	long nCommonSegment;
 
 	bool bGameStarted;
@@ -107,11 +107,11 @@ class CMultiPlayerTransceiver : public CTRefCount<ITransceiver>
 	CTimeOut timeOut;
 
 	//
-	// послать сообщение о конце сегмента
+	// РїРѕСЃР»Р°С‚СЊ СЃРѕРѕР±С‰РµРЅРёРµ Рѕ РєРѕРЅС†Рµ СЃРµРіРјРµРЅС‚Р°
 	void SegmentFinished();
-	// получить относительный номер сегмента в прошлом ( со сдвигом nLatency назад )
+	// РїРѕР»СѓС‡РёС‚СЊ РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅС‹Р№ РЅРѕРјРµСЂ СЃРµРіРјРµРЅС‚Р° РІ РїСЂРѕС€Р»РѕРј ( СЃРѕ СЃРґРІРёРіРѕРј nLatency РЅР°Р·Р°Рґ )
 	const int GetPastSegmentNum( const int nLatency ) const;
-	// получить общий номер сегмента в прошлом ( со сдвиго nLatency назад )
+	// РїРѕР»СѓС‡РёС‚СЊ РѕР±С‰РёР№ РЅРѕРјРµСЂ СЃРµРіРјРµРЅС‚Р° РІ РїСЂРѕС€Р»РѕРј ( СЃРѕ СЃРґРІРёРіРѕ nLatency РЅР°Р·Р°Рґ )
 	const int GetCommonPastSegmentNum() const;
 	//
 	void ProcessMultiplayerCommands();
@@ -148,10 +148,10 @@ public:
 	virtual int STDCALL CommandUnitCommand( const struct SAIUnitCmd *pCommand );
 	// show different areas... this command actiually has been doing only on client, but it needs group to be registered
 	virtual void STDCALL CommandShowAreas( int nGroupID, int nAreaType, bool bShow );
-	// обработать pCommand, пришедшую на текущем сегменте
+	// РѕР±СЂР°Р±РѕС‚Р°С‚СЊ pCommand, РїСЂРёС€РµРґС€СѓСЋ РЅР° С‚РµРєСѓС‰РµРј СЃРµРіРјРµРЅС‚Рµ
 	virtual void STDCALL AddCommandToSend( IAILogicCommand *pCommand );
 
-	// количество играющих сейчас игроков
+	// РєРѕР»РёС‡РµСЃС‚РІРѕ РёРіСЂР°СЋС‰РёС… СЃРµР№С‡Р°СЃ РёРіСЂРѕРєРѕРІ
 	virtual int STDCALL GetNumberOfPlayers() const;
 	
 	virtual bool STDCALL JoinToServer( const char *pszIPAddress, const int nPort, bool bPasswordRequired, const char* pszPassword );

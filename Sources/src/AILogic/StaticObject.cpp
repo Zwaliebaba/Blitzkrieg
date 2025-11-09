@@ -124,7 +124,7 @@ void CExistingObject::SetNewPlacement( const CVec2& center, const WORD dir )
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CExistingObject::TakeEditorDamage( const float fDamage )
 {
-	// есть смысл наносить данный damage
+	// РµСЃС‚СЊ СЃРјС‹СЃР» РЅР°РЅРѕСЃРёС‚СЊ РґР°РЅРЅС‹Р№ damage
 	if ( fDamage > 0 && fHP > 0 || fDamage < 0 && fHP < GetStats()->fMaxHP )
 	{
 		fHP -= fDamage;
@@ -477,7 +477,7 @@ void CGivenPassabilityStObject::SetTransparencies()
 							if ( visibility[y][x] & 8 )
 								theStaticMap.SetOneWayTransp( tile.x, tile.y, visibility[y][x] >> 4 );
 							
-							// если мы не поставили сюда прозрачность, то запретить её ставить/снимать
+							// РµСЃР»Рё РјС‹ РЅРµ РїРѕСЃС‚Р°РІРёР»Рё СЃСЋРґР° РїСЂРѕР·СЂР°С‡РЅРѕСЃС‚СЊ, С‚Рѕ Р·Р°РїСЂРµС‚РёС‚СЊ РµС‘ СЃС‚Р°РІРёС‚СЊ/СЃРЅРёРјР°С‚СЊ
 							canSetTransparency[y][x] =
 								( theStaticMap.GetDissipation( tile ) != 0 || theStaticMap.IsOneWayTransp( tile ) ) ?
 								1 : 0;

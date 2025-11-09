@@ -83,8 +83,8 @@ class CWindow : public IWindow
 	int nPriority;
 	CVec2 vChildPos;													// coordinates relative to parent & alingnment
 	CVec2 vSize;												// size
-	EPositionAllign nVerAllign;				//задает точку привязки (vertical)
-	EPositionAllign nHorAllign;									//задает точку привязки (horisontal)
+	EPositionAllign nVerAllign;				//Р·Р°РґР°РµС‚ С‚РѕС‡РєСѓ РїСЂРёРІСЏР·РєРё (vertical)
+	EPositionAllign nHorAllign;									//Р·Р°РґР°РµС‚ С‚РѕС‡РєСѓ РїСЂРёРІСЏР·РєРё (horisontal)
 	// END loads from data
 protected:
 

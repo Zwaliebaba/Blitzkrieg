@@ -51,7 +51,7 @@ enum EUIToMultiplayerNotifications
 	EUTMN_GAMES_LIST_MODE									= 1,
 	EUTMN_STAGING_ROOM_MODE								= 2,
 	EUTMN_CHAT_MODE												= 3,
-	// когда вышли из chat обратно в serverslist
+	// РєРѕРіРґР° РІС‹С€Р»Рё РёР· chat РѕР±СЂР°С‚РЅРѕ РІ serverslist
 	EUTMN_LEAVE_CHAT_MOVE									= 4,
 
 	EUTMN_PLAYER_READY										= 5,			// when player chaned ready state

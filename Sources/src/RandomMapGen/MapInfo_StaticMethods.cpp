@@ -1,6 +1,6 @@
-//тут лишний код
+//С‚СѓС‚ Р»РёС€РЅРёР№ РєРѕРґ
 //REMOVE_OBJECTS_FROM_RECT
-//тут происходит апдейт linkID
+//С‚СѓС‚ РїСЂРѕРёСЃС…РѕРґРёС‚ Р°РїРґРµР№С‚ linkID
 //UPDATE_LINK_ID
 
 #include "stdafx.h"
@@ -32,7 +32,7 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// просто какое-то простое число
+// РїСЂРѕСЃС‚Рѕ РєР°РєРѕРµ-С‚Рѕ РїСЂРѕСЃС‚РѕРµ С‡РёСЃР»Рѕ
 const int CMapInfo::RANDOM_SEED = 17;
 int CMapInfo::nCurRandomSeed = 0;
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -223,39 +223,39 @@ void CMapInfo::Clear( SLoadMapInfo *pLoadMapInfo )
 	pLoadMapInfo->terrain.roads3.clear();
 	pLoadMapInfo->terrain.rivers.clear();
 
-	//Инициализируем objects ( std::vector<SMapObjectInfo>  )
+	//РРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј objects ( std::vector<SMapObjectInfo>  )
 	pLoadMapInfo->objects.clear();
 
-	//Инициализируем entrenchments ( std::vector<SEntrenchmentInfo>  )
+	//РРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј entrenchments ( std::vector<SEntrenchmentInfo>  )
 	pLoadMapInfo->entrenchments.clear();
 
-	//Инициализируем bridges ( std::vector< std::vector<int> > )
+	//РРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј bridges ( std::vector< std::vector<int> > )
 	pLoadMapInfo->bridges.clear();
 
-	//Инициализируем reinforcements ( SReinforcementGroupInfo )
+	//РРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј reinforcements ( SReinforcementGroupInfo )
 	pLoadMapInfo->reinforcements.groups.clear();
 
-	//Инициализируем szScriptFile ( std::string )
+	//РРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј szScriptFile ( std::string )
 	pLoadMapInfo->szScriptFile.clear();
-	//Инициализируем scriptAreas ( std::vector<SScriptArea> )
+	//РРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј scriptAreas ( std::vector<SScriptArea> )
 	pLoadMapInfo->scriptAreas.clear();
 
-	//Инициализируем vCameraAnchor ( CVec3 )
+	//РРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј vCameraAnchor ( CVec3 )
 	pLoadMapInfo->vCameraAnchor = VNULL3;
 
 	pLoadMapInfo->nSeason = REAL_SEASONS[SEASON_SUMMER];
 
-	//Инициализируем startCommandsList ( TStartCommandsList )
+	//РРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј startCommandsList ( TStartCommandsList )
 	pLoadMapInfo->startCommandsList.clear();
 
-	//Инициализируем reservePositionsList ( TReservePositionsList )
+	//РРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј reservePositionsList ( TReservePositionsList )
 	pLoadMapInfo->reservePositionsList.clear();
 
 	pLoadMapInfo->soundsList.clear();
 	pLoadMapInfo->szForestCircleSounds.clear();
 	pLoadMapInfo->szForestAmbientSounds.clear();
 
-	//Инициализируем unitCreation ( SUnitCreationInfo )
+	//РРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј unitCreation ( SUnitCreationInfo )
 	pLoadMapInfo->unitCreation.units.clear();
 
 	pLoadMapInfo->diplomacies.clear();
@@ -282,13 +282,13 @@ bool CMapInfo::Create( SLoadMapInfo *pLoadMapInfo, const CTPoint<int> &rSize, in
 
 	Clear( pLoadMapInfo );
 
-	//Инициализируем nSeason ( int )
+	//РРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј nSeason ( int )
 	pLoadMapInfo->nSeason = _nSeason;
 	pLoadMapInfo->szSeasonFolder = rszSeasonFolder;
 
 	pLoadMapInfo->nType = _nType;
 
-	//Инициализируем terrain ( STerrainInfo )
+	//РРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј terrain ( STerrainInfo )
 	pLoadMapInfo->terrain.szTilesetDesc = pLoadMapInfo->szSeasonFolder + RMGC_TILESET_FILE_NAME;
 	pLoadMapInfo->terrain.szCrossetDesc = pLoadMapInfo->szSeasonFolder + RMGC_CROSSSET_FILE_NAME;
 	//pLoadMapInfo->terrain.szRoadsetDesc = pLoadMapInfo->szSeasonFolder + RMGC_ROADSET_FILE_NAME;
@@ -318,7 +318,7 @@ bool CMapInfo::Create( SLoadMapInfo *pLoadMapInfo, const CTPoint<int> &rSize, in
 		}
 	}
 
-	//на 1 больше чем тайлов!
+	//РЅР° 1 Р±РѕР»СЊС€Рµ С‡РµРј С‚Р°Р№Р»РѕРІ!
 	pLoadMapInfo->terrain.altitudes.SetSizes( rSize.x * STerrainPatchInfo::nSizeX + 1, rSize.y * STerrainPatchInfo::nSizeY + 1 );
 	pLoadMapInfo->terrain.altitudes.SetZero();
 
@@ -393,7 +393,7 @@ bool CMapInfo::RemoveObject( SLoadMapInfo *pLoadMapInfo, int nObjectIndex )
 							NStr::Format( "Wrong object index: %d\n", nObjectIndex ),
 							return false );
 	
-	//удаляем обьект
+	//СѓРґР°Р»СЏРµРј РѕР±СЊРµРєС‚
 	pLoadMapInfo->objects.erase( pLoadMapInfo->objects.begin() + nObjectIndex );
 	return true;	
 }
@@ -405,17 +405,17 @@ bool CMapInfo::RemoveObjects( SLoadMapInfo *pLoadMapInfo, const std::list<CVec2>
 							NStr::Format( "Wrong parameter: %x\n", pLoadMapInfo ),
 							return false );
 	
-	//масив для разметки тайлов входящих в полигон
+	//РјР°СЃРёРІ РґР»СЏ СЂР°Р·РјРµС‚РєРё С‚Р°Р№Р»РѕРІ РІС…РѕРґСЏС‰РёС… РІ РїРѕР»РёРіРѕРЅ
 	CArray2D<BYTE> tileMap( pLoadMapInfo->terrain.tiles.GetSizeX() * 2, pLoadMapInfo->terrain.tiles.GetSizeY() * 2 );
 	tileMap.Set( RMGC_UNLOCKED );
 	ModifyTilesFunctional<CArray2D<BYTE>, BYTE> tileMapModifyTiles( RMGC_LOCKED, &tileMap );
 	CheckTilesFunctional<CArray2D<BYTE>, BYTE> tileMapCheckTiles( RMGC_LOCKED, &tileMap );
 	CTRect<int>						tileMapRect( 0, 0, tileMap.GetSizeX(), tileMap.GetSizeY() );
 	
-	//метим тайлы, которые попадают в поигон
+	//РјРµС‚РёРј С‚Р°Р№Р»С‹, РєРѕС‚РѕСЂС‹Рµ РїРѕРїР°РґР°СЋС‚ РІ РїРѕРёРіРѕРЅ
 	ApplyTilesInPolygon<ModifyTilesFunctional<CArray2D<BYTE>, BYTE>, std::list<CVec2>, CVec2>( tileMapRect, rClearPolygon, fWorldCellSize / 2.0f, tileMapModifyTiles );
 
-	//Удаляем обьекты, которые своим passability попадают на залоканные тайлы
+	//РЈРґР°Р»СЏРµРј РѕР±СЊРµРєС‚С‹, РєРѕС‚РѕСЂС‹Рµ СЃРІРѕРёРј passability РїРѕРїР°РґР°СЋС‚ РЅР° Р·Р°Р»РѕРєР°РЅРЅС‹Рµ С‚Р°Р№Р»С‹
 	for ( int nObjectIndex = 0; nObjectIndex < pLoadMapInfo->objects.size(); )
 	{
 		tileMapCheckTiles.isPresent = false;
@@ -423,11 +423,11 @@ bool CMapInfo::RemoveObjects( SLoadMapInfo *pLoadMapInfo, const std::list<CVec2>
 		{
 			if ( RemoveObject( pLoadMapInfo, nObjectIndex ) )
 			{
-				//индекс указывает уже на другой обьект, увеличивать не надо
+				//РёРЅРґРµРєСЃ СѓРєР°Р·С‹РІР°РµС‚ СѓР¶Рµ РЅР° РґСЂСѓРіРѕР№ РѕР±СЊРµРєС‚, СѓРІРµР»РёС‡РёРІР°С‚СЊ РЅРµ РЅР°РґРѕ
 				continue;
 			}
 		}
-		//индекс указывает на тот же эелемент увеличиваем его
+		//РёРЅРґРµРєСЃ СѓРєР°Р·С‹РІР°РµС‚ РЅР° С‚РѕС‚ Р¶Рµ СЌРµР»РµРјРµРЅС‚ СѓРІРµР»РёС‡РёРІР°РµРј РµРіРѕ
 		++nObjectIndex;
 	}
 	return true;
@@ -519,7 +519,7 @@ bool CMapInfo::UpdateTerrainRivers( STerrainInfo *pTerrainInfo, const CTRect<int
 	NI_ASSERT_TF( pTerrainInfo != 0,
 							  NStr::Format( "Wrong parameter: %x\n", pTerrainInfo ),
 							  return false );
-	//переписываем ID'шники рек
+	//РїРµСЂРµРїРёСЃС‹РІР°РµРј ID'С€РЅРёРєРё СЂРµРє
 	for ( int nRiverIndex = 0; nRiverIndex < pTerrainInfo->rivers.size(); ++nRiverIndex )
 	{
 		pTerrainInfo->rivers[nRiverIndex].nID = nRiverIndex;
@@ -534,7 +534,7 @@ bool CMapInfo::UpdateTerrainRoads3D( STerrainInfo *pTerrainInfo, const CTRect<in
 	NI_ASSERT_TF( pTerrainInfo != 0,
 							  NStr::Format( "Wrong parameter: %x\n", pTerrainInfo ),
 							  return false );
-	//переписываем ID'шники дорог
+	//РїРµСЂРµРїРёСЃС‹РІР°РµРј ID'С€РЅРёРєРё РґРѕСЂРѕРі
 	for ( int nRoad3DIndex = 0; nRoad3DIndex < pTerrainInfo->roads3.size(); ++nRoad3DIndex )
 	{
 		pTerrainInfo->roads3[nRoad3DIndex].nID = nRoad3DIndex;
@@ -566,7 +566,7 @@ int CMapInfo::UpdateObjects( SLoadMapInfo *pLoadMapInfo, const CTRect<int> &rUpd
 
 	int nCurrentLinkID = RMGC_INVALID_LINK_ID_VALUE + 1;
 	
-	//раздаем новые nLinkID
+	//СЂР°Р·РґР°РµРј РЅРѕРІС‹Рµ nLinkID
 	for ( int nObjectIndex = 0; nObjectIndex < pLoadMapInfo->objects.size(); ++nObjectIndex )
 	{	
 		if ( pLoadMapInfo->objects[nObjectIndex].link.nLinkID != RMGC_INVALID_LINK_ID_VALUE )
@@ -587,7 +587,7 @@ int CMapInfo::UpdateObjects( SLoadMapInfo *pLoadMapInfo, const CTRect<int> &rUpd
 	}
 
 	
-	//Записываем новые nLinkID у SMapObjectInfo.link.nLinkWith
+	//Р—Р°РїРёСЃС‹РІР°РµРј РЅРѕРІС‹Рµ nLinkID Сѓ SMapObjectInfo.link.nLinkWith
 	for ( int nObjectIndex = 0; nObjectIndex < pLoadMapInfo->objects.size(); ++nObjectIndex )
 	{
 		if ( ( pLoadMapInfo->objects[nObjectIndex].link.nLinkWith != RMGC_INVALID_LINK_ID_VALUE ) &&
@@ -615,7 +615,7 @@ int CMapInfo::UpdateObjects( SLoadMapInfo *pLoadMapInfo, const CTRect<int> &rUpd
 		}
 	}
 	
-	//Записываем новые nLinkID у entrenchments
+	//Р—Р°РїРёСЃС‹РІР°РµРј РЅРѕРІС‹Рµ nLinkID Сѓ entrenchments
 	for ( int nEntrenchmentIndex = 0; nEntrenchmentIndex < pLoadMapInfo->entrenchments.size(); ++nEntrenchmentIndex )
 	{
 		for ( int nSectionIndex = 0; nSectionIndex < pLoadMapInfo->entrenchments[nEntrenchmentIndex].sections.size(); ++nSectionIndex )
@@ -627,7 +627,7 @@ int CMapInfo::UpdateObjects( SLoadMapInfo *pLoadMapInfo, const CTRect<int> &rUpd
 		}
 	}
 
-	//Записываем новые nLinkID у bridges
+	//Р—Р°РїРёСЃС‹РІР°РµРј РЅРѕРІС‹Рµ nLinkID Сѓ bridges
 	for ( int nBrigeIndex = 0; nBrigeIndex < pLoadMapInfo->bridges.size(); ++nBrigeIndex )
 	{
 		for ( int nBrigeElementIndex = 0; nBrigeElementIndex < pLoadMapInfo->bridges[nBrigeIndex].size(); ++nBrigeElementIndex )
@@ -636,7 +636,7 @@ int CMapInfo::UpdateObjects( SLoadMapInfo *pLoadMapInfo, const CTRect<int> &rUpd
 		}
 	}
 
-	//Записываем новые linkID у startCommandsList
+	//Р—Р°РїРёСЃС‹РІР°РµРј РЅРѕРІС‹Рµ linkID Сѓ startCommandsList
 	for ( SLoadMapInfo::TStartCommandsList::iterator it = pLoadMapInfo->startCommandsList.begin();
 			it != pLoadMapInfo->startCommandsList.end();
 			++it )
@@ -651,7 +651,7 @@ int CMapInfo::UpdateObjects( SLoadMapInfo *pLoadMapInfo, const CTRect<int> &rUpd
 		}
 	}
 
-	//Записываем новые linkID у reservePositionsList
+	//Р—Р°РїРёСЃС‹РІР°РµРј РЅРѕРІС‹Рµ linkID Сѓ reservePositionsList
 	for ( SLoadMapInfo::TReservePositionsList::iterator it = pLoadMapInfo->reservePositionsList.begin();
 	      it != pLoadMapInfo->reservePositionsList.end();
 				++it )
@@ -1116,7 +1116,7 @@ bool CMapInfo::RemoveNonExistingObjects( struct SLoadMapInfo *pLoadMapInfo, IDat
 		if ( !objectsFunctor.removedLinkIDs.empty() )
 		{
 			bSomeRemoved = true;
-			//убираем nLinkID у SMapObjectInfo.link.nLinkWith
+			//СѓР±РёСЂР°РµРј nLinkID Сѓ SMapObjectInfo.link.nLinkWith
 			for ( int nObjectIndex = 0; nObjectIndex < pLoadMapInfo->objects.size(); ++nObjectIndex )
 			{
 				if ( ( pLoadMapInfo->objects[nObjectIndex].link.nLinkWith != RMGC_INVALID_LINK_ID_VALUE ) &&
@@ -1134,7 +1134,7 @@ bool CMapInfo::RemoveNonExistingObjects( struct SLoadMapInfo *pLoadMapInfo, IDat
 				}
 			}
 	
-			//убираем entrenchments
+			//СѓР±РёСЂР°РµРј entrenchments
 			{
 				CRemoveNonExistingEntrenchmentsFunctor entrenchmentsFunctor( &( objectsFunctor.removedLinkIDs ) );
 				std::vector<SEntrenchmentInfo>::iterator entrenchmentIterator = std::remove_if( pLoadMapInfo->entrenchments.begin(), pLoadMapInfo->entrenchments.end(), entrenchmentsFunctor );
@@ -1144,7 +1144,7 @@ bool CMapInfo::RemoveNonExistingObjects( struct SLoadMapInfo *pLoadMapInfo, IDat
 				}
 			}
 
-			//убираем bridges
+			//СѓР±РёСЂР°РµРј bridges
 			{
 				CRemoveNonExistingBridgesFunctor bridgeFunctor( &( objectsFunctor.removedLinkIDs ) );
 				std::vector<std::vector<int> >::iterator bridgeIterator = std::remove_if( pLoadMapInfo->bridges.begin(), pLoadMapInfo->bridges.end(), bridgeFunctor );
@@ -1154,7 +1154,7 @@ bool CMapInfo::RemoveNonExistingObjects( struct SLoadMapInfo *pLoadMapInfo, IDat
 				}
 			}
 
-			//убираем startCommandsList
+			//СѓР±РёСЂР°РµРј startCommandsList
 			{
 				CRemoveNonExistingStartCommandFunctor startCommandFunctor( &( objectsFunctor.removedLinkIDs ) );
 				SLoadMapInfo::TStartCommandsList::iterator startCommandIterator = std::remove_if( pLoadMapInfo->startCommandsList.begin(), pLoadMapInfo->startCommandsList.end(), startCommandFunctor );
@@ -1164,7 +1164,7 @@ bool CMapInfo::RemoveNonExistingObjects( struct SLoadMapInfo *pLoadMapInfo, IDat
 				}
 			}
 
-			//убираем reservePositionsList
+			//СѓР±РёСЂР°РµРј reservePositionsList
 			{
 				CRemoveNonExistingReservePositionFunctor reservePositionFunctor( &( objectsFunctor.removedLinkIDs ) );
 				SLoadMapInfo::TReservePositionsList::iterator reservePositionIterator = std::remove_if( pLoadMapInfo->reservePositionsList.begin(), pLoadMapInfo->reservePositionsList.end(), reservePositionFunctor );
@@ -1416,7 +1416,7 @@ bool CMapInfo::UpdateTerrainRoads( STerrainInfo *pTerrainInfo, const CTRect<int>
 	NI_ASSERT_TF( pTerrainInfo != 0,
 							  NStr::Format( "Wrong parameter: %x\n", pTerrainInfo ),
 							  return false );
-	// сотрем все дороги по всем патчам
+	// СЃРѕС‚СЂРµРј РІСЃРµ РґРѕСЂРѕРіРё РїРѕ РІСЃРµРј РїР°С‚С‡Р°Рј
 	for ( int nPatchXIndex = 0; nPatchXIndex < pTerrainInfo->patches.GetSizeX(); ++nPatchXIndex )
 	{
 		for ( int nPatchYIndex = 0; nPatchYIndex < pTerrainInfo->patches.GetSizeY() ; ++nPatchYIndex )
@@ -1429,13 +1429,13 @@ bool CMapInfo::UpdateTerrainRoads( STerrainInfo *pTerrainInfo, const CTRect<int>
 	}
 
 	if ( pTerrainInfo->roads.size() < 1 ) return true;
-	//установим правильную ориетацию дорог
+	//СѓСЃС‚Р°РЅРѕРІРёРј РїСЂР°РІРёР»СЊРЅСѓСЋ РѕСЂРёРµС‚Р°С†РёСЋ РґРѕСЂРѕРі
 	for ( int index = 0; index < pTerrainInfo->roads.size(); ++index )
 	{	
 		pTerrainInfo->roads[index].rect.Normalize();
 	}
 	
-	//склеивание дорог
+	//СЃРєР»РµРёРІР°РЅРёРµ РґРѕСЂРѕРі
 	bool isChanged = true;
 	while( isChanged )
 	{
@@ -1444,13 +1444,13 @@ bool CMapInfo::UpdateTerrainRoads( STerrainInfo *pTerrainInfo, const CTRect<int>
 		{	
 			for ( int innerIndex = ( index + 1 ); innerIndex < pTerrainInfo->roads.size(); )
 			{	
-				if ( //направления совпадают
+				if ( //РЅР°РїСЂР°РІР»РµРЅРёСЏ СЃРѕРІРїР°РґР°СЋС‚
 						 ( pTerrainInfo->roads[index].nDir == pTerrainInfo->roads[innerIndex].nDir ) &&
-						 //типы совпадают
+						 //С‚РёРїС‹ СЃРѕРІРїР°РґР°СЋС‚
 						 ( pTerrainInfo->roads[index].nType == pTerrainInfo->roads[innerIndex].nType ) &&
-						 //пересекаются
+						 //РїРµСЂРµСЃРµРєР°СЋС‚СЃСЏ
 						 pTerrainInfo->roads[index].rect.IsIntersectEdges( pTerrainInfo->roads[innerIndex].rect ) &&
-					   //одна дорога налазит краем на другую и при этом не имеет сдвига относительно этого края
+					   //РѕРґРЅР° РґРѕСЂРѕРіР° РЅР°Р»Р°Р·РёС‚ РєСЂР°РµРј РЅР° РґСЂСѓРіСѓСЋ Рё РїСЂРё СЌС‚РѕРј РЅРµ РёРјРµРµС‚ СЃРґРІРёРіР° РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕ СЌС‚РѕРіРѕ РєСЂР°СЏ
 						 ( ( ( pTerrainInfo->roads[index].rect.Width() == pTerrainInfo->roads[innerIndex].rect.Width() ) &&
 						 		 ( pTerrainInfo->roads[index].rect.minx == pTerrainInfo->roads[innerIndex].rect.minx ) ) ||
 							 ( ( pTerrainInfo->roads[index].rect.Height() == pTerrainInfo->roads[innerIndex].rect.Height() ) &&
@@ -1472,7 +1472,7 @@ bool CMapInfo::UpdateTerrainRoads( STerrainInfo *pTerrainInfo, const CTRect<int>
 		}
 	}
 
-	//создание битовой маски дорог
+	//СЃРѕР·РґР°РЅРёРµ Р±РёС‚РѕРІРѕР№ РјР°СЃРєРё РґРѕСЂРѕРі
 	CArray2D<DWORD> roadBitsArray[nNumRoadTypes];
 	for ( int index = 0; index < nNumRoadTypes; ++index )
 	{
@@ -1554,8 +1554,8 @@ bool CMapInfo::UpdateTerrainRoads( STerrainInfo *pTerrainInfo, const CTRect<int>
 			}
 		}
 	}
-	//обновление информации по каждому патчу исходя из его положения
-	//пока только одним типом дорог, рисуем - третьим
+	//РѕР±РЅРѕРІР»РµРЅРёРµ РёРЅС„РѕСЂРјР°С†РёРё РїРѕ РєР°Р¶РґРѕРјСѓ РїР°С‚С‡Сѓ РёСЃС…РѕРґСЏ РёР· РµРіРѕ РїРѕР»РѕР¶РµРЅРёСЏ
+	//РїРѕРєР° С‚РѕР»СЊРєРѕ РѕРґРЅРёРј С‚РёРїРѕРј РґРѕСЂРѕРі, СЂРёСЃСѓРµРј - С‚СЂРµС‚СЊРёРј
 	for ( int nRoadIndex = 0; nRoadIndex < nNumRoadTypes; ++nRoadIndex )
 	{
 		for ( int nPatchXIndex = 0; nPatchXIndex < pTerrainInfo->patches.GetSizeX(); ++nPatchXIndex )
@@ -1587,7 +1587,7 @@ bool CMapInfo::UpdateTerrainRoads( STerrainInfo *pTerrainInfo, const CTRect<int>
 							}
 							if ( nValidBitMask >= 0 )
 							{
-								//Если это тайл завершения дороги на крае карты, то вставляем серединный тайл:
+								//Р•СЃР»Рё СЌС‚Рѕ С‚Р°Р№Р» Р·Р°РІРµСЂС€РµРЅРёСЏ РґРѕСЂРѕРіРё РЅР° РєСЂР°Рµ РєР°СЂС‚С‹, С‚Рѕ РІСЃС‚Р°РІР»СЏРµРј СЃРµСЂРµРґРёРЅРЅС‹Р№ С‚Р°Р№Р»:
 								int index = -1;
 								if ( ( nXIndex == 0 ) || 
 										 ( nXIndex == ( pTerrainInfo->tiles.GetSizeX() - 1 ) ) ||
@@ -1620,13 +1620,13 @@ bool CMapInfo::AddRoad( SLoadMapInfo *pLoadMapInfo, const CTRect<int> &rRoadRect
 							  return false );
 
 	SRoadItem roadItem;
-	//преобразуем к координатам в которых задаются тайлы террайна
+	//РїСЂРµРѕР±СЂР°Р·СѓРµРј Рє РєРѕРѕСЂРґРёРЅР°С‚Р°Рј РІ РєРѕС‚РѕСЂС‹С… Р·Р°РґР°СЋС‚СЃСЏ С‚Р°Р№Р»С‹ С‚РµСЂСЂР°Р№РЅР°
 	roadItem.rect = CTRect<int>( rRoadRect.minx,
 															 pLoadMapInfo->terrain.tiles.GetSizeY() - rRoadRect.miny - 1,
 															 rRoadRect.maxx,
 															 pLoadMapInfo->terrain.tiles.GetSizeY() - rRoadRect.maxy - 1 );
 	roadItem.rect.Normalize();
-	//выкидываем дорогу если она целиком лежит за картой
+	//РІС‹РєРёРґС‹РІР°РµРј РґРѕСЂРѕРіСѓ РµСЃР»Рё РѕРЅР° С†РµР»РёРєРѕРј Р»РµР¶РёС‚ Р·Р° РєР°СЂС‚РѕР№
 	if ( ( roadItem.rect.minx >= pLoadMapInfo->terrain.tiles.GetSizeX() ) ||
 			 ( roadItem.rect.maxx < 0 ) ||
 			 ( roadItem.rect.miny >= pLoadMapInfo->terrain.tiles.GetSizeY() ) ||
@@ -1634,7 +1634,7 @@ bool CMapInfo::AddRoad( SLoadMapInfo *pLoadMapInfo, const CTRect<int> &rRoadRect
 	{
 		return false;
 	}
-	//сокращаем дорогу до края карты
+	//СЃРѕРєСЂР°С‰Р°РµРј РґРѕСЂРѕРіСѓ РґРѕ РєСЂР°СЏ РєР°СЂС‚С‹
 	if ( roadItem.rect.minx < 0 )
 	{
 		roadItem.rect.minx = 0;
@@ -1652,7 +1652,7 @@ bool CMapInfo::AddRoad( SLoadMapInfo *pLoadMapInfo, const CTRect<int> &rRoadRect
 		roadItem.rect.maxy = pLoadMapInfo->terrain.tiles.GetSizeY() - 1;
 	}
 
-	//удаляем статические обьекты с карты под дорогой
+	//СѓРґР°Р»СЏРµРј СЃС‚Р°С‚РёС‡РµСЃРєРёРµ РѕР±СЊРµРєС‚С‹ СЃ РєР°СЂС‚С‹ РїРѕРґ РґРѕСЂРѕРіРѕР№
 
 	//REMOVE_OBJECTS_FROM_RECT
 /**/
@@ -1700,7 +1700,7 @@ bool CMapInfo::MakeRoad( SLoadMapInfo *pLoadMapInfo, const SRoadPoint &rFrom, co
 							 ( rFrom.nWidth == rTo.nWidth ),
 							 NStr::Format( "Invalid Road width!" ) );
 
-	//прямоугольники для залочивания тайлов
+	//РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРєРё РґР»СЏ Р·Р°Р»РѕС‡РёРІР°РЅРёСЏ С‚Р°Р№Р»РѕРІ
 	std::vector<CTRect<int> > rectsToLock;
 	for ( int nRectIndex = 0; nRectIndex < rRoadMakeParamerer.lockedRects.size(); ++nRectIndex )
 	{
@@ -1709,13 +1709,13 @@ bool CMapInfo::MakeRoad( SLoadMapInfo *pLoadMapInfo, const SRoadPoint &rFrom, co
 	rectsToLock.push_back( CTRect<int>( rFrom, rFrom ) );
 	rectsToLock.push_back( CTRect<int>( rTo, rTo ) );
 	
-	//массив тайлов для поиска пути
+	//РјР°СЃСЃРёРІ С‚Р°Р№Р»РѕРІ РґР»СЏ РїРѕРёСЃРєР° РїСѓС‚Рё
 	CArray2D<BYTE> tileMap( pLoadMapInfo->terrain.tiles.GetSizeX(), pLoadMapInfo->terrain.tiles.GetSizeY() );
 	tileMap.Set( RMGC_UNLOCKED );
 	ModifyTilesFunctional<CArray2D<BYTE>, BYTE> tileMapModifyTiles( RMGC_LOCKED, &tileMap );
 	CTRect<int>						tileMapRect( 0, 0, tileMap.GetSizeX(), tileMap.GetSizeY() );
 
-	//Локаем тайлы
+	//Р›РѕРєР°РµРј С‚Р°Р№Р»С‹
 	for ( int nRectIndex = 0; nRectIndex < rectsToLock.size(); ++nRectIndex )
 	{
 		rectsToLock[nRectIndex].Normalize();
@@ -1873,7 +1873,7 @@ bool CMapInfo::MakeRoad( SLoadMapInfo *pLoadMapInfo, const SRoadPoint &rFrom, co
 	//int nErasedLinkID = pLoadMapInfo->objects[nObjectIndex].link.nLinkID;
 	if ( nErasedLinkID != RMGC_INVALID_LINK_ID_VALUE )
 	{
-		//обновлем обьекты (link.nLinkWith)
+		//РѕР±РЅРѕРІР»РµРј РѕР±СЊРµРєС‚С‹ (link.nLinkWith)
 		for ( int nInnerObjectIndex = 0; nInnerObjectIndex < pLoadMapInfo->objects.size(); ++nInnerObjectIndex )
 		{
 			if ( pLoadMapInfo->objects[nInnerObjectIndex].link.nLinkWith == nErasedLinkID )
@@ -1883,7 +1883,7 @@ bool CMapInfo::MakeRoad( SLoadMapInfo *pLoadMapInfo, const SRoadPoint &rFrom, co
 			}
 		}
 
-		//Записываем новые nLinkID у entrenchments
+		//Р—Р°РїРёСЃС‹РІР°РµРј РЅРѕРІС‹Рµ nLinkID Сѓ entrenchments
 		for ( int nEntrenchmentIndex = 0; nEntrenchmentIndex < pLoadMapInfo->entrenchments.size(); )
 		{
 			for ( int nSectionIndex = 0; nSectionIndex < pLoadMapInfo->entrenchments[nEntrenchmentIndex].sections.size(); )
@@ -1918,7 +1918,7 @@ bool CMapInfo::MakeRoad( SLoadMapInfo *pLoadMapInfo, const SRoadPoint &rFrom, co
 			}
 		}
 
-		//Записываем новые nLinkID у bridges
+		//Р—Р°РїРёСЃС‹РІР°РµРј РЅРѕРІС‹Рµ nLinkID Сѓ bridges
 		for ( int nBrigeIndex = 0; nBrigeIndex < pLoadMapInfo->bridges.size(); )
 		{
 			for ( int nBrigeElementIndex = 0; nBrigeElementIndex < pLoadMapInfo->bridges[nBrigeIndex].size(); )
@@ -1942,7 +1942,7 @@ bool CMapInfo::MakeRoad( SLoadMapInfo *pLoadMapInfo, const SRoadPoint &rFrom, co
 			}
 		}
 
-		//Записываем новые nLinkID у logics
+		//Р—Р°РїРёСЃС‹РІР°РµРј РЅРѕРІС‹Рµ nLinkID Сѓ logics
 		bool isElementErased = true;
 		while ( isElementErased )
 		{
@@ -1993,7 +1993,7 @@ bool CMapInfo::MakeRoad( SLoadMapInfo *pLoadMapInfo, const SRoadPoint &rFrom, co
 /**/
 
 	/**
-	// CRAP{ Когда нет массива diplomacies
+	// CRAP{ РљРѕРіРґР° РЅРµС‚ РјР°СЃСЃРёРІР° diplomacies
 	if ( saver.IsReading() )
 	{
 		if ( (  diplomacies.GetSizeX() == 0 ) || 
@@ -2024,7 +2024,7 @@ bool CMapInfo::MakeRoad( SLoadMapInfo *pLoadMapInfo, const SRoadPoint &rFrom, co
 	/**/
 
 	/**
-	// CRAP{ Когда нет массива diplomacies
+	// CRAP{ РљРѕРіРґР° РЅРµС‚ РјР°СЃСЃРёРІР° diplomacies
 	if ( saver.IsReading() )
 	{
 		if ( (  diplomacies.GetSizeX() == 0 ) || 
@@ -2056,7 +2056,7 @@ bool CMapInfo::MakeRoad( SLoadMapInfo *pLoadMapInfo, const SRoadPoint &rFrom, co
 /**
 
 	/**
-	//составляем список залоканных прямоугольников
+	//СЃРѕСЃС‚Р°РІР»СЏРµРј СЃРїРёСЃРѕРє Р·Р°Р»РѕРєР°РЅРЅС‹С… РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРєРѕРІ
 	std::vector<CTRect<int> > rectsToLock;
 	for ( int nPatchIndex = 0; nPatchIndex < placedPatches.size(); ++nPatchIndex )
 	{
@@ -2094,7 +2094,7 @@ bool CMapInfo::MakeRoad( SLoadMapInfo *pLoadMapInfo, const SRoadPoint &rFrom, co
 																				start.y + size.y ) );
 	}
 
-	//локаем все заполненные прямоугольники
+	//Р»РѕРєР°РµРј РІСЃРµ Р·Р°РїРѕР»РЅРµРЅРЅС‹Рµ РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРєРё
 	CArray2D<BYTE> tileMap( mapInfo.terrain.tiles.GetSizeX() * 2, mapInfo.terrain.tiles.GetSizeY() * 2 );
 	tileMap.Set( RMGC_UNLOCKED );
 	ModifyTilesFunctional tileMapModifyTiles( RMGC_LOCKED, &tileMap );
@@ -2106,14 +2106,14 @@ bool CMapInfo::MakeRoad( SLoadMapInfo *pLoadMapInfo, const SRoadPoint &rFrom, co
 
 		
 		/**
-		//получаем полигон карты
+		//РїРѕР»СѓС‡Р°РµРј РїРѕР»РёРіРѕРЅ РєР°СЂС‚С‹
 		std::vector<CVec3>	mapPolygon;
 		mapPolygon.push_back( CVec3( ( rectsToLock[nRectIndex].minx + 0 ) * fWorldCellSize, ( rectsToLock[nRectIndex].miny + 0 ) * fWorldCellSize, 0.0f ) );
 		mapPolygon.push_back( CVec3( ( rectsToLock[nRectIndex].minx + 0 ) * fWorldCellSize, ( rectsToLock[nRectIndex].maxy + 1 ) * fWorldCellSize, 0.0f ) );
 		mapPolygon.push_back( CVec3( ( rectsToLock[nRectIndex].maxx + 1 ) * fWorldCellSize, ( rectsToLock[nRectIndex].maxy + 1 ) * fWorldCellSize, 0.0f ) );
 		mapPolygon.push_back( CVec3( ( rectsToLock[nRectIndex].maxx + 1 ) * fWorldCellSize, ( rectsToLock[nRectIndex].miny + 0 ) * fWorldCellSize, 0.0f ) );
 
-		//заливаем террайн травой
+		//Р·Р°Р»РёРІР°РµРј С‚РµСЂСЂР°Р№РЅ С‚СЂР°РІРѕР№
 		mapInfo.FillTerrainTiles( mapPolygon, rParameter.nPlainTerrainIndex, false );
 		/**
 		CTRect<int> rectToLock( rectsToLock[nRectIndex].minx * 2,
@@ -2127,7 +2127,7 @@ bool CMapInfo::MakeRoad( SLoadMapInfo *pLoadMapInfo, const SRoadPoint &rFrom, co
 	//NStr::DebugTrace("CMapInfo::CreateRandomMap: lock rects: %d\n", dwTimer );
 	//dwTimer = GetTickCount();
 
-	//грузим леса
+	//РіСЂСѓР·РёРј Р»РµСЃР°
 	TForestHashMap forests;
 	forests.clear();
 	{
@@ -2141,7 +2141,7 @@ bool CMapInfo::MakeRoad( SLoadMapInfo *pLoadMapInfo, const SRoadPoint &rFrom, co
 		tree.Add( "forests", &forests );
 	}
 
-	//выбираем номер леса, которым засаживает карту
+	//РІС‹Р±РёСЂР°РµРј РЅРѕРјРµСЂ Р»РµСЃР°, РєРѕС‚РѕСЂС‹Рј Р·Р°СЃР°Р¶РёРІР°РµС‚ РєР°СЂС‚Сѓ
 	int nForestRandomIndex = ( rand() * forests.size() ) / ( RAND_MAX + 1 );
 	TForestHashMap::iterator forestRandomIteratorPosition = forests.begin();
 	for ( int nIndex = 0; nIndex < nForestRandomIndex; ++nIndex )
@@ -2153,7 +2153,7 @@ bool CMapInfo::MakeRoad( SLoadMapInfo *pLoadMapInfo, const SRoadPoint &rFrom, co
 	//NStr::DebugTrace("CMapInfo::CreateRandomMap: load forests: %d\n", dwTimer );
 	//dwTimer = GetTickCount();
 	
-	//засаживаем все первичным лесом
+	//Р·Р°СЃР°Р¶РёРІР°РµРј РІСЃРµ РїРµСЂРІРёС‡РЅС‹Рј Р»РµСЃРѕРј
 	int nEdgesAdded = 0;
 	int nHeartsAdded = 0;
 	//mapInfo.FillObjectSet( mapPolygon, forestRandomIteratorPosition->second, rParameter.nRatio, rParameter.nEdge, rParameter.nRadius, &tileMap, &nEdgesAdded, &nHeartsAdded );
@@ -2162,7 +2162,7 @@ bool CMapInfo::MakeRoad( SLoadMapInfo *pLoadMapInfo, const SRoadPoint &rFrom, co
 	//NStr::DebugTrace("CMapInfo::CreateRandomMap: place forest: %d ( heart: %d, edge: %d )\n", dwTimer, nHeartsAdded, nEdgesAdded );
 	//dwTimer = GetTickCount();
 
-	//апдейтим карту
+	//Р°РїРґРµР№С‚РёРј РєР°СЂС‚Сѓ
 	mapInfo.UpdateTerrain();
 
 	//dwTimer = GetTickCount() - dwTimer;
@@ -2171,7 +2171,7 @@ bool CMapInfo::MakeRoad( SLoadMapInfo *pLoadMapInfo, const SRoadPoint &rFrom, co
 
 	mapInfo.szScriptFile = rszRandomMapName.substr( 0, rszRandomMapName.rfind( '.' ) );
 
-	//сохраняем карту
+	//СЃРѕС…СЂР°РЅСЏРµРј РєР°СЂС‚Сѓ
 	{
 		std::string szFileName = pDataStorage->GetName() + rszRandomMapName;
 		CPtr<IDataStream> pStream = CreateFileStream( szFileName .c_str(), STREAM_ACCESS_WRITE );
@@ -2183,18 +2183,18 @@ bool CMapInfo::MakeRoad( SLoadMapInfo *pLoadMapInfo, const SRoadPoint &rFrom, co
 	//NStr::DebugTrace("CMapInfo::CreateRandomMap: save map: %d\n", dwTimer );
 
 /**/
-			//собираем все выходы дорог из патча
+			//СЃРѕР±РёСЂР°РµРј РІСЃРµ РІС‹С…РѕРґС‹ РґРѕСЂРѕРі РёР· РїР°С‚С‡Р°
 			/**
 			std::vector<SRoadPoint> roadPoints;
 			for ( int nPatchRoadIndex = 0; nPatchRoadIndex < patchInfo.terrain.roads.size(); ++nPatchRoadIndex )
 			{
-				//перево дим координаты дороги в координаты SRoadPoint'ов
+				//РїРµСЂРµРІРѕ РґРёРј РєРѕРѕСЂРґРёРЅР°С‚С‹ РґРѕСЂРѕРіРё РІ РєРѕРѕСЂРґРёРЅР°С‚С‹ SRoadPoint'РѕРІ
 				CTRect<int> roadRect( patchInfo.terrain.roads[nPatchRoadIndex].rect.minx,
 					                    patchInfo.terrain.tiles.GetSizeY() - patchInfo.terrain.roads[nPatchRoadIndex].rect.miny - 1,
 															patchInfo.terrain.roads[nPatchRoadIndex].rect.maxx,
 					                    patchInfo.terrain.tiles.GetSizeY() - patchInfo.terrain.roads[nPatchRoadIndex].rect.maxy - 1 );
 				roadRect.Normalize();
-				//коллекционируем SRoadPoint'ы находящиеся на краях патчей
+				//РєРѕР»Р»РµРєС†РёРѕРЅРёСЂСѓРµРј SRoadPoint'С‹ РЅР°С…РѕРґСЏС‰РёРµСЃСЏ РЅР° РєСЂР°СЏС… РїР°С‚С‡РµР№
 				if ( patchInfo.terrain.roads[nPatchRoadIndex].nDir == SRoadItem::HORIZONTAL )
 				{
 					if ( roadRect.minx == 0 )
@@ -2236,14 +2236,14 @@ bool CMapInfo::MakeRoad( SLoadMapInfo *pLoadMapInfo, const SRoadPoint &rFrom, co
 				}
 			}
 			patchRoadPoints.push_back( roadPoints );
-			//добавляем прямоугольник патча к локанным прямоугольникам
+			//РґРѕР±Р°РІР»СЏРµРј РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРє РїР°С‚С‡Р° Рє Р»РѕРєР°РЅРЅС‹Рј РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРєР°Рј
 			roadMakeParameter.lockedRects.push_back( CTRect<int>( placedPatches[nPlacedPatchIndex].minXYCorner.x,
 																														placedPatches[nPlacedPatchIndex].minXYCorner.y,
 																														placedPatches[nPlacedPatchIndex].minXYCorner.x + patchInfo.terrain.tiles.GetSizeX() - 1,
 																														placedPatches[nPlacedPatchIndex].minXYCorner.y + patchInfo.terrain.tiles.GetSizeY() - 1 ) );
 /**/
 		/**
-		// CRAP{ Для выделения placeholder'ов
+		// CRAP{ Р”Р»СЏ РІС‹РґРµР»РµРЅРёСЏ placeholder'РѕРІ
 		for (int nPlaceHolderIndex = 0; nPlaceHolderIndex < placeHolders.size(); ++nPlaceHolderIndex )
 		{
 			std::vector<CVec3> polygon;
@@ -2263,15 +2263,15 @@ bool CMapInfo::MakeRoad( SLoadMapInfo *pLoadMapInfo, const SRoadPoint &rFrom, co
 		}
 		// CRAP}
 		/**/
-		//параметр для построения дорог, сюда записываются прямоугольники патчей
+		//РїР°СЂР°РјРµС‚СЂ РґР»СЏ РїРѕСЃС‚СЂРѕРµРЅРёСЏ РґРѕСЂРѕРі, СЃСЋРґР° Р·Р°РїРёСЃС‹РІР°СЋС‚СЃСЏ РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРєРё РїР°С‚С‡РµР№
 		//SRoadMakeParameter roadMakeParameter;
 		//roadMakeParameter.nMinMiddleDistance = 1;
 
-		//точки выхода дорог из патчей (массив по патчам)
+		//С‚РѕС‡РєРё РІС‹С…РѕРґР° РґРѕСЂРѕРі РёР· РїР°С‚С‡РµР№ (РјР°СЃСЃРёРІ РїРѕ РїР°С‚С‡Р°Рј)
 		//std::vector<std::vector<SRoadPoint> > patchRoadPoints;
 
 /**
-		//проводим дороги
+		//РїСЂРѕРІРѕРґРёРј РґРѕСЂРѕРіРё
 		for ( int nLinkIndex = 0; nLinkIndex < rRMTemplate.graphs[nGraphIndex].links.size(); ++nLinkIndex )
 		{
 			std::vector<SRoadItem> addedRoad;
@@ -2284,7 +2284,7 @@ bool CMapInfo::MakeRoad( SLoadMapInfo *pLoadMapInfo, const SRoadPoint &rFrom, co
 					 ( !patchRoadPoints[nPatchToIndex].empty() ) &&
 					 ( nPatchFromIndex != nPatchToIndex) ) 
 			{
-				//находим подходящие дороги
+				//РЅР°С…РѕРґРёРј РїРѕРґС…РѕРґСЏС‰РёРµ РґРѕСЂРѕРіРё
 				int nRoadPointFromIndex = -1;
 				float fMinDistance = sqr( pLoadMapInfo->terrain.tiles.GetSizeX() ) + 
 					                   sqr( pLoadMapInfo->terrain.tiles.GetSizeY() );
@@ -2326,14 +2326,14 @@ bool CMapInfo::MakeRoad( SLoadMapInfo *pLoadMapInfo, const SRoadPoint &rFrom, co
 					}
 				}
 
-				//извлекаем точку дороги from и to если они существуют
+				//РёР·РІР»РµРєР°РµРј С‚РѕС‡РєСѓ РґРѕСЂРѕРіРё from Рё to РµСЃР»Рё РѕРЅРё СЃСѓС‰РµСЃС‚РІСѓСЋС‚
 				if ( ( nRoadPointFromIndex >= 0 ) &&
 					   ( nRoadPointToIndex >= 0 ) )
 				{
 					SRoadPoint from = patchRoadPoints[nPatchFromIndex][nRoadPointFromIndex];
 					SRoadPoint to = patchRoadPoints[nPatchToIndex][nRoadPointToIndex];
 
-					//ширина дороги
+					//С€РёСЂРёРЅР° РґРѕСЂРѕРіРё
 					int nWidth = (from.nWidth >= to.nWidth ) ? from.nWidth : to.nWidth;
 					
 					**

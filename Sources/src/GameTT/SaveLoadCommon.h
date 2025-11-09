@@ -30,10 +30,10 @@ public:
 		{
 			std::string szFileName = it.GetFilePath();
 			NI_ASSERT_T( szFileName.size() > szPath.size(), "Wrong name size" );
-			// отрежем начальный путь
+			// РѕС‚СЂРµР¶РµРј РЅР°С‡Р°Р»СЊРЅС‹Р№ РїСѓС‚СЊ
 			szFileName = szFileName.substr( szPath.size() );
 /*
-			// отрежем extension
+			// РѕС‚СЂРµР¶РµРј extension
 			szFileName = szFileName.substr( 0, szFileName.rfind('.') );
 */
 			//

@@ -44,7 +44,7 @@ extern CDiplomacy theDipl;
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CUnitCreation::CLightPlaneCreation::CalcPositions( const int nMax, const CVec2 & box, const CVec2 & direction, std::vector<CVec2> * positions, CVec2 * offset, const bool bRandom )
 {
-	/* таким образом
+	/* С‚Р°РєРёРј РѕР±СЂР°Р·РѕРј
 		1
 		 2
 
@@ -58,7 +58,7 @@ void CUnitCreation::CLightPlaneCreation::CalcPositions( const int nMax, const CV
 			..
 	*/
 
-	NI_ASSERT_T( nMax , "рассчеты делаются для положительного числа только" );
+	NI_ASSERT_T( nMax , "СЂР°СЃСЃС‡РµС‚С‹ РґРµР»Р°СЋС‚СЃСЏ РґР»СЏ РїРѕР»РѕР¶РёС‚РµР»СЊРЅРѕРіРѕ С‡РёСЃР»Р° С‚РѕР»СЊРєРѕ" );
 	positions->clear();
 
 	CVec2 vStartOffset( 0, 0 );
@@ -82,7 +82,7 @@ void CUnitCreation::CLightPlaneCreation::CalcPositions( const int nMax, const CV
 void CUnitCreation::CHeavyPlaneCreation::CalcPositions( const int nMax, const CVec2 &box, const CVec2 &direction, std::vector<CVec2> *positions, CVec2 *offset, bool bRandom )
 {
 	/*
-	таким образом
+	С‚Р°РєРёРј РѕР±СЂР°Р·РѕРј
 
 					1
 				5		6
@@ -92,12 +92,12 @@ void CUnitCreation::CHeavyPlaneCreation::CalcPositions( const int nMax, const CV
 				9		10
 					4
 	*/
-	NI_ASSERT_T( nMax , "рассчеты делаются для положительного числа только" );
+	NI_ASSERT_T( nMax , "СЂР°СЃСЃС‡РµС‚С‹ РґРµР»Р°СЋС‚СЃСЏ РґР»СЏ РїРѕР»РѕР¶РёС‚РµР»СЊРЅРѕРіРѕ С‡РёСЃР»Р° С‚РѕР»СЊРєРѕ" );
 	int nSize = sqrt( nMax-1 ) + 1;
 	positions->clear();
 
 	int iLimit = nSize;
-	CVec2 vStartOffset( 0, 0 );// смещение первой точки ( 1, 5, 11 )
+	CVec2 vStartOffset( 0, 0 );// СЃРјРµС‰РµРЅРёРµ РїРµСЂРІРѕР№ С‚РѕС‡РєРё ( 1, 5, 11 )
 	
 	const float resize = SConsts::PLANES_HEAVY_FORMATION_SIZE;
 
@@ -105,7 +105,7 @@ void CUnitCreation::CHeavyPlaneCreation::CalcPositions( const int nMax, const CV
 
 	while ( iLimit > 0 )
 	{
-		// последовательно заполняем диагонали
+		// РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕ Р·Р°РїРѕР»РЅСЏРµРј РґРёР°РіРѕРЅР°Р»Рё
 		for ( int i = 0; i < iLimit; ++i )
 		{
 			CVec2 res ( CVec2( vStartOffset.x, vStartOffset.y)+ CVec2( -resize * i * box.y, 0 ) );
@@ -115,7 +115,7 @@ void CUnitCreation::CHeavyPlaneCreation::CalcPositions( const int nMax, const CV
 			positions->push_back( res/*^direction*/ );
 			if ( positions->size() == nMax )
 				return ;
-			// не центровые - по 2 раза
+			// РЅРµ С†РµРЅС‚СЂРѕРІС‹Рµ - РїРѕ 2 СЂР°Р·Р°
 			if ( iLimit != nSize )
 			{
 				CVec2 res ( CVec2( vStartOffset.x, -vStartOffset.y )+ CVec2( -resize * i * box.y, 0 ) );
@@ -228,7 +228,7 @@ void CUnitCreation::BadWeatherStarted()
 		DisableMainAviationButton( 0 );
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// для скрипта
+// РґР»СЏ СЃРєСЂРёРїС‚Р°
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CUnitCreation::EnableAviationScript( const int nPlayer, const int nAvia )
 {
@@ -259,7 +259,7 @@ void CUnitCreation::EnableAviationScript( const int nPlayer, const int nAvia )
 		updater.AddFeedBack( static_cast<EFeedBack>(feedbacks[nAvia].eEnable) );
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// для скрипта
+// РґР»СЏ СЃРєСЂРёРїС‚Р°
 void CUnitCreation::DisableAviationScript( const int nPlayer, const int nAvia )
 {
 	CheckRange( inGameUnits, nPlayer );
@@ -278,7 +278,7 @@ void CUnitCreation::DisableAviationScript( const int nPlayer, const int nAvia )
 
 	CheckRange( inGameUnits[nPlayer].planes,  nAvia );
 
-	// если этот самолет был разрешенн - то запретить 
+	// РµСЃР»Рё СЌС‚РѕС‚ СЃР°РјРѕР»РµС‚ Р±С‹Р» СЂР°Р·СЂРµС€РµРЅРЅ - С‚Рѕ Р·Р°РїСЂРµС‚РёС‚СЊ 
 	SLocalInGameUnitCreationInfo &unitsInfo = inGameUnits[nPlayer];
 	SLocalInGameUnitCreationInfo::SPlaneInfo &planeInfo = unitsInfo.planes[nAvia];
 	if ( IsAviaEnabledMapParameters( nPlayer, nAvia ) && IsAviaEnabledScript( nPlayer, nAvia ) )
@@ -311,11 +311,11 @@ void CUnitCreation::Segment()
 
 	if ( bInit )
 	{
-		if ( ( nDipl >= inGameUnits.size() ) ||	// нас нет в спискe
-				 ( 0 == inGameUnits[nDipl].vAppearPoints.size() ) ) //нет аэродромов
+		if ( ( nDipl >= inGameUnits.size() ) ||	// РЅР°СЃ РЅРµС‚ РІ СЃРїРёСЃРєe
+				 ( 0 == inGameUnits[nDipl].vAppearPoints.size() ) ) //РЅРµС‚ Р°СЌСЂРѕРґСЂРѕРјРѕРІ
 		{
 			bForceDisabled[nDipl] = true;
-			DisableMainAviationButton( 0 ); // запретить вызов авиации совсем
+			DisableMainAviationButton( 0 ); // Р·Р°РїСЂРµС‚РёС‚СЊ РІС‹Р·РѕРІ Р°РІРёР°С†РёРё СЃРѕРІСЃРµРј
 		}
 		else
 		{
@@ -325,13 +325,13 @@ void CUnitCreation::Segment()
 		bInit = false;
 	}
 
-	if ( !bForceDisabled[nDipl] &&				// если самолеты в принципе возможны
-				bMainButtonDisabled  &&					// но в данный момент запрешены
+	if ( !bForceDisabled[nDipl] &&				// РµСЃР»Рё СЃР°РјРѕР»РµС‚С‹ РІ РїСЂРёРЅС†РёРїРµ РІРѕР·РјРѕР¶РЅС‹
+				bMainButtonDisabled  &&					// РЅРѕ РІ РґР°РЅРЅС‹Р№ РјРѕРјРµРЅС‚ Р·Р°РїСЂРµС€РµРЅС‹
 				!theWeather.IsActive() )				// weater is suitable for planes
 	{
 		if (	curTime >= inGameUnits[nDipl].timeLastCall + inGameUnits[nDipl].timeRelax || 
 					inGameUnits[nDipl].timeLastCall == 0 )
-		{ //время подошло, разрешить самолеты
+		{ //РІСЂРµРјСЏ РїРѕРґРѕС€Р»Рѕ, СЂР°Р·СЂРµС€РёС‚СЊ СЃР°РјРѕР»РµС‚С‹
 			EnableAviationButtons();
 		}
 	}
@@ -472,7 +472,7 @@ void CUnitCreation::RegisterAviationCall( const int nPlayer, const int nAviaType
 	{
 		if ( bMainButtonDisabled || bForceDisabled[theDipl.GetMyNumber()] ) return;
 		DisableMainAviationButton( inGameUnits[nPlayer].timeRelax );
-		if ( 0 == inGameUnits[nPlayer].planes[nAviaType].nPlanes ) // кончились самолеты
+		if ( 0 == inGameUnits[nPlayer].planes[nAviaType].nPlanes ) // РєРѕРЅС‡РёР»РёСЃСЊ СЃР°РјРѕР»РµС‚С‹
 		{
 			EFeedBack eFeed = static_cast<EFeedBack>(feedbacks[nAviaType].eDisable);
 			updater.AddFeedBack( eFeed );
@@ -632,7 +632,7 @@ void CUnitCreation::CallBombers( const SAIUnitCmd &unitCmd, const WORD wGroupID,
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const CUnitCreation::SPartyDependentInfo & CUnitCreation::GetPartyDependentInfo( const int nDipl ) const 
 {
-	//CRAP{ пока на всех картах не пропишут
+	//CRAP{ РїРѕРєР° РЅР° РІСЃРµС… РєР°СЂС‚Р°С… РЅРµ РїСЂРѕРїРёС€СѓС‚
 	//const std::string & szPartyName = inGameUnits[nDipl].szPartyName;
 	std::string szPartyName = inGameUnits[nDipl].szPartyName;
 	if ( szPartyName == "" )
@@ -652,7 +652,7 @@ void CUnitCreation::CreateMine( const enum SMineRPGStats::EType nType, const cla
 	
 	const SPartyDependentInfo & info = GetPartyDependentInfo( nDipl );
 
-	//статы мин брать из структуры, задаваемой в карте
+	//СЃС‚Р°С‚С‹ РјРёРЅ Р±СЂР°С‚СЊ РёР· СЃС‚СЂСѓРєС‚СѓСЂС‹, Р·Р°РґР°РІР°РµРјРѕР№ РІ РєР°СЂС‚Рµ
 	const std::string *pszName=0;
 	switch ( nType )
 	{
@@ -759,10 +759,10 @@ CFormation * CUnitCreation::CreateCrew( CArtillery *pUnit, IObjectsDB *_pIDB, co
 	if ( -1 == vPos.x )
 		vCreatePos = CVec3( pUnit->GetCenter(), pUnit->GetZ() );
 
-	// если не задан игрок ручками, то используем того-же, что и у юнита
+	// РµСЃР»Рё РЅРµ Р·Р°РґР°РЅ РёРіСЂРѕРє СЂСѓС‡РєР°РјРё, С‚Рѕ РёСЃРїРѕР»СЊР·СѓРµРј С‚РѕРіРѕ-Р¶Рµ, С‡С‚Рѕ Рё Сѓ СЋРЅРёС‚Р°
 	const int nPlayer = ( _nPlayer == -1 ) ? pUnit->GetPlayer() : _nPlayer;
 
-	// для пулеметов - свой взвод - пулеметчики
+	// РґР»СЏ РїСѓР»РµРјРµС‚РѕРІ - СЃРІРѕР№ РІР·РІРѕРґ - РїСѓР»РµРјРµС‚С‡РёРєРё
 	const char * pszName = RPG_TYPE_ART_HEAVY_MG == pUnit->GetStats()->type ? 
 													GetPartyDependentInfo(nPlayer).szHeavyMGSquad.c_str():
 													GetPartyDependentInfo(nPlayer).szGunCrewSquad.c_str();
@@ -832,7 +832,7 @@ int CUnitCreation::AddNewUnit( const SUnitBaseRPGStats *pStats, const float fHPF
 	pUnit->GetFogInfo( &fogInfo );
 	theWarFog.AddUnit( newId, pUnit->GetParty(), fogInfo );
 	
-	// по умолчанию все наши юниты - селектятся
+	// РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ РІСЃРµ РЅР°С€Рё СЋРЅРёС‚С‹ - СЃРµР»РµРєС‚СЏС‚СЃСЏ
 	pUnit->SetSelectable( player == theDipl.GetMyNumber() );
 	
 	if ( pStats->IsArtillery() && theDipl.GetNeutralPlayer() != player )
@@ -984,7 +984,7 @@ const CVec2 CUnitCreation::GetFirstIntercectWithMap( const int nPlayer )
 		
 		
 		float fIntercect = 0;
-		// найти точку пересечнения курса к центру карты и края карты.
+		// РЅР°Р№С‚Рё С‚РѕС‡РєСѓ РїРµСЂРµСЃРµС‡РЅРµРЅРёСЏ РєСѓСЂСЃР° Рє С†РµРЅС‚СЂСѓ РєР°СЂС‚С‹ Рё РєСЂР°СЏ РєР°СЂС‚С‹.
 		for ( int i = 0; i < 4; ++i )
 		{
 			const CVec2 vBegin = rect.v[i];
@@ -1011,7 +1011,7 @@ CCommonUnit* CUnitCreation::AddNewFormation( const SSquadRPGStats *pStats, const
 	std::list<CVec2> centers;
 	GetCentersOfAllFormationUnits( pStats, vFormCenter, wDir, nFormation, nUnits, &centers );
 
-	// по слотам конфигурации
+	// РїРѕ СЃР»РѕС‚Р°Рј РєРѕРЅС„РёРіСѓСЂР°С†РёРё
 	const int nSizeOfFormation = Min( formation.order.size(), (nUnits == -1) ? formation.order.size() : nUnits );
 	std::list<CVec2>::iterator iter = centers.begin();
 	for ( int j = 0; j < nSizeOfFormation; ++j, ++iter )
@@ -1037,7 +1037,7 @@ CCommonUnit* CUnitCreation::AddNewFormation( const SSquadRPGStats *pStats, const
 
 	pFormation->AddAvailCmd( ACTION_COMMAND_FOLLOW );
 
-	// т.к. центр масс сдвинулся, координаты солдат поменялись
+	// С‚.Рє. С†РµРЅС‚СЂ РјР°СЃСЃ СЃРґРІРёРЅСѓР»СЃСЏ, РєРѕРѕСЂРґРёРЅР°С‚С‹ СЃРѕР»РґР°С‚ РїРѕРјРµРЅСЏР»РёСЃСЊ
 	for ( int i = 0; i < pFormation->Size(); ++i )
 	{
 		CVec3 vNewCoord = CVec3( (*pFormation)[i]->GetUnitPointInFormation(), 0.0f );
@@ -1047,7 +1047,7 @@ CCommonUnit* CUnitCreation::AddNewFormation( const SSquadRPGStats *pStats, const
 		(*pFormation)[i]->SetNewCoordinates( vNewCoord );
 	}
 	
-	// по умолчанию все наши юниты - селектятся
+	// РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ РІСЃРµ РЅР°С€Рё СЋРЅРёС‚С‹ - СЃРµР»РµРєС‚СЏС‚СЃСЏ
 	pFormation->SetSelectable( nDiplomacy == theDipl.GetMyNumber() );
 
 	return pFormation;
