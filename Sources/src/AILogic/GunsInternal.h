@@ -1,335 +1,342 @@
 #ifndef __GUNS_INTERNAL_H__
 #define __GUNS_INTERNAL_H__
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma ONCE
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#pragma once
+
 #include "Guns.h"
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CAIUnit;
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//*******************************************************************
-//*								  Орудийные стволы																*
-//*******************************************************************
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// **********************************************************************
+// *Gun barrels*
+// **********************************************************************
+
 class CGun : public CBasicGun
 {
-	DECLARE_SERIALIZE;
+  DECLARE_SERIALIZE;
 
-	enum EShootState { EST_TURNING, EST_AIMING, WAIT_FOR_ACTION_POINT, EST_SHOOTING, EST_REST };
-	EShootState shootState;
+  enum EShootState { EST_TURNING, EST_AIMING, WAIT_FOR_ACTION_POINT, EST_SHOOTING, EST_REST };
 
-	bool bWaitForReload; //specific for artillery
+  EShootState shootState;
 
-	// можно ли производить выстрел
-	bool bCanShoot;
-	// сколько ещё осталось в очереди
-	int nShotsLast;
+  bool bWaitForReload;// specific for artillery
 
-	CPtr<SCommonGunInfo> pCommonGunInfo;
+  // is it possible to fire a shot?
+  bool bCanShoot;
+  // how much is left in the queue
+  int nShotsLast;
 
-	IGunsFactory::EGunTypes eType;
-	EUnitAckType eRejectReason;
-	
-	CVec3 vLastShotPoint;
-	
-	float fRandom4Aim, fRandom4Relax;
+  CPtr<SCommonGunInfo> pCommonGunInfo;
 
-	//
+  IGunsFactory::EGunTypes eType;
+  EUnitAckType eRejectReason;
 
-	void Aiming();
-	void WaitForActionPoint();
-	void Shooting();
-	const CVec2 GetShootingPoint() const;
-	WORD GetVisAngleOfAim() const;
-	
-	// для ускорения стрельбы в хороших случаях
-	void OnWaitForActionPointState();
-	void OnTurningState();
-	void OnAimState();
-protected:	
-	BYTE nShellType;
-	CAIUnit *pOwner;
-	int nOwnerParty;
+  CVec3 vLastShotPoint;
 
-	// юнит, по которому стреляем ( в случае стрельбы по юниту )
-	CPtr<CAIUnit> pEnemy;
-	// куда стрелять
-	CVec2 target;
-	// время начала прицеливания или начала отдыха, в зависимости от состояния
-	NTimer::STime lastCheck;
-	CVec2 lastEnemyPos;
-	bool bAngleLocked;
+  float fRandom4Aim, fRandom4Relax;
 
-	// нужно ли прицеливаться
-	bool bAim;
-	bool bGrenade;
-	// высота точки, в которую направлена стрельба
-	float z;
+  //
 
-	typedef std::list< CPtr<CBasicGun> > CParallelGuns;
-	CParallelGuns parallelGuns;
-	bool bParallelGun;
-	NTimer::STime lastCheckTurnTime;
+  void Aiming();
+  void WaitForActionPoint();
+  void Shooting();
+  const CVec2 GetShootingPoint() const;
+  WORD GetVisAngleOfAim() const;
 
-	const NTimer::STime GetActionPoint() const;
-	//
-	virtual bool TurnGunToEnemy( const CVec2 &vEnemyCenter, const float zDiff ) = 0;
-	// можно ли прямо сейчас стрельнуть по point ( не вращая ни turret ни base ), погрешность - угол addAngle, cDeltaAngle - учитывать ли deltaAngle
-	virtual bool IsGoodAngle( const CVec2 &point, const WORD addAngle, const float z, const BYTE cDeltaAngle ) const = 0;
-	virtual void ToRestState();
-	virtual void Rest() = 0;
-	virtual bool AnalyzeTurning() = 0;
-	// можно ли стрельнуть по цели не вращая ни turret ни base и не двигаясь
-	// cDeltaAngle - учитывать ли deltaAngle
-	bool CanShootWOGunTurn( const BYTE cDeltaAngle, const float fZ );
-	// можно ли стрелять по точке, если pUnit находится внутри статич. объекта
-	bool AnalyzeLimitedAngle( class CCommonUnit *pUnit, const CVec2 &point ) const;
-	void Turning();
-	bool CanShootToTargetWOMove();
+  // to speed up shooting in good cases
+  void OnWaitForActionPointState();
+  void OnTurningState();
+  void OnAimState();
 
-	void InitRandoms();
+protected:
+  BYTE nShellType;
+  CAIUnit *pOwner;
+  int nOwnerParty;
+
+  // the unit we are shooting at (in the case of shooting at a unit)
+  CPtr<CAIUnit> pEnemy;
+  // where to shoot
+  CVec2 target;
+  // time to start aiming or start rest, depending on the state
+  NTimer::STime lastCheck;
+  CVec2 lastEnemyPos;
+  bool bAngleLocked;
+
+  // do you need to aim?
+  bool bAim;
+  bool bGrenade;
+  // height of the point at which the shooting is directed
+  float z;
+
+  using CParallelGuns = std::list<CPtr<CBasicGun>>;
+  CParallelGuns parallelGuns;
+  bool bParallelGun;
+  NTimer::STime lastCheckTurnTime;
+
+  const NTimer::STime GetActionPoint() const;
+  //
+  virtual bool TurnGunToEnemy(const CVec2 &vEnemyCenter, float zDiff) = 0;
+  // Is it possible to shoot at the point right now (without rotating either the turret or the base), error - angle addAngle, cDeltaAngle - should deltaAngle be taken into account
+  virtual bool IsGoodAngle(const CVec2 &point, WORD addAngle, float z, BYTE cDeltaAngle) const = 0;
+  virtual void ToRestState();
+  virtual void Rest() = 0;
+  virtual bool AnalyzeTurning() = 0;
+  // Is it possible to shoot at a target without rotating either the turret or the base and without moving?
+  // cDeltaAngle - whether to take deltaAngle into account
+  bool CanShootWOGunTurn(BYTE cDeltaAngle, float fZ);
+  // Is it possible to shoot at a point if pUnit is inside a static. 
+  bool AnalyzeLimitedAngle(class CCommonUnit *pUnit, const CVec2 &point) const;
+  void Turning();
+  bool CanShootToTargetWOMove();
+
+  void InitRandoms();
+
 public:
-	CGun() : pOwner( 0 ), bParallelGun( false ), vLastShotPoint( VNULL3	), lastCheckTurnTime( 0 ) { }
-	CGun( class CAIUnit *pOwner, const BYTE nShellType, SCommonGunInfo *pCommonGunInfo, const IGunsFactory::EGunTypes eType );
+  CGun() : vLastShotPoint(VNULL3), pOwner(nullptr), bParallelGun(false), lastCheckTurnTime(0) {}
+  CGun(class CAIUnit *pOwner, BYTE nShellType, SCommonGunInfo *pCommonGunInfo, IGunsFactory::EGunTypes eType);
 
-	virtual const float GetAimTime( bool bRandomize = true ) const;
-	virtual const float GetRelaxTime( bool bRandomize = true ) const;
-	virtual class CAIUnit* GetOwner() const { return pOwner; }	
-	virtual void SetOwner( CAIUnit *pOwner );
-	virtual bool IsAlive() const;
-	virtual bool IsGrenade() const { return bGrenade; }
-	
-	virtual void GetMechShotInfo( SAINotifyMechShot *pMechShotInfo, const NTimer::STime &time ) const;
-	virtual void GetInfantryShotInfo( SAINotifyInfantryShot *pInfantryShotInfo, const NTimer::STime &time ) const;
+  const float GetAimTime(bool bRandomize = true) const override;
+  const float GetRelaxTime(bool bRandomize = true) const override;
+  class CAIUnit *GetOwner() const override { return pOwner; }
+  void SetOwner(CAIUnit *pOwner) override;
+  bool IsAlive() const override;
+  bool IsGrenade() const override { return bGrenade; }
 
-	virtual bool InFireRange( class CAIUnit *pTarget ) const;
-	virtual bool InFireRange( const CVec3 &vPoint ) const;
-	virtual float GetFireRange( float z ) const;
-	// возвращает fRandgeMax from rpgstats с учётом всех модификаторов - коэффициентов
-	virtual float GetFireRangeMax() const;
-	virtual bool InGoToSideRange( const class CAIUnit *pTarget ) const;
-	virtual bool TooCloseToFire( const class CAIUnit *pTarget ) const;
-	virtual bool TooCloseToFire( const CVec3 &vPoint ) const;
-	
-	virtual void StartPointBurst( const CVec3 &target, bool bReAim );
-	virtual void StartPointBurst( const CVec2 &target, bool bReAim );
-	virtual void StartEnemyBurst( class CAIUnit *pEnemy, bool bReAim );
-	virtual void Segment();
+  void GetMechShotInfo(SAINotifyMechShot *pMechShotInfo, const NTimer::STime &time) const override;
+  void GetInfantryShotInfo(SAINotifyInfantryShot *pInfantryShotInfo, const NTimer::STime &time) const override;
 
-	virtual bool IsWaitForReload() const { return bWaitForReload; }
-	virtual void ClearWaitForReload() { bWaitForReload = false; }
+  bool InFireRange(class CAIUnit *pTarget) const override;
+  bool InFireRange(const CVec3 &vPoint) const override;
+  float GetFireRange(float z) const override;
+  // returns fRandgeMax from rpgstats taking into account all modifiers - coefficients
+  float GetFireRangeMax() const override;
+  bool InGoToSideRange(const class CAIUnit *pTarget) const override;
+  bool TooCloseToFire(const class CAIUnit *pTarget) const override;
+  bool TooCloseToFire(const CVec3 &vPoint) const override;
 
-	// в данный момент в состоянии наводки и стрельбы
-	virtual bool IsFiring() const ;
-	virtual bool IsBursting() const { return shootState == WAIT_FOR_ACTION_POINT || shootState == EST_SHOOTING; }
+  void StartPointBurst(const CVec3 &target, bool bReAim) override;
+  void StartPointBurst(const CVec2 &target, bool bReAim) override;
+  void StartEnemyBurst(class CAIUnit *pEnemy, bool bReAim) override;
+  void Segment() override;
 
-	const SBaseGunRPGStats& CGun::GetGun() const;
-	virtual const SWeaponRPGStats* GetWeapon() const;
-	virtual const SWeaponRPGStats::SShell& GetShell() const;
-	
-	virtual bool IsRelaxing() const;
-	// можно ли стрельнуть по pEnemy, не вращая ни base ни turret, cDeltaAngle - учитывать ли deltaAngle
-	virtual bool CanShootWOGunTurn( class CAIUnit *pEnemy, const BYTE cDeltaAngle );
-	virtual const NTimer::STime GetRestTimeOfRelax() const;
+  bool IsWaitForReload() const override { return bWaitForReload; }
+  void ClearWaitForReload() override { bWaitForReload = false; }
 
-	// стрельба, когда двигаться запрещено
-	virtual bool CanShootToUnitWOMove( class CAIUnit *pEnemy );
-	virtual bool CanShootToObjectWOMove( class CStaticObject *pObj );
-	virtual bool CanShootToPointWOMove( const CVec2 &point, const float fZ, const WORD wHorAddAngle = 0, const WORD wVertAddAngle = 0, CAIUnit *pEnemy = 0 );
-	
-	// можно ли дострельнуть по высоте	
-	virtual bool CanShootByHeight( class CAIUnit *pTarget ) const;	
-	virtual bool CanShootByHeight( const float fZ ) const;
+  // currently in point and shoot mode
+  bool IsFiring() const override;
+  bool IsBursting() const override { return shootState == WAIT_FOR_ACTION_POINT || shootState == EST_SHOOTING; }
 
-	// можно ли стрельнуть в объект по прямому приказу
-	virtual bool CanShootToUnit( class CAIUnit *pEnemy );
-	virtual bool CanShootToObject( class CStaticObject *pObj );
-	virtual bool CanShootToPoint( const CVec2 &point, const float fZ, const WORD wHorAddAngle = 0, const WORD wVertAddAngle = 0 );
+  const SBaseGunRPGStats &CGun::GetGun() const override;
+  const SWeaponRPGStats *GetWeapon() const override;
+  const SWeaponRPGStats::SShell &GetShell() const override;
 
-	// можно пристрелить, не поворачивая base ( turret вращать можно )
-	virtual bool IsInShootCone( const CVec2 &point, const WORD wAddAngle = 0 ) const;
+  bool IsRelaxing() const override;
+  // is it possible to shoot at pEnemy without rotating either the base or the turret, cDeltaAngle - should deltaAngle be taken into account
+  bool CanShootWOGunTurn(class CAIUnit *pEnemy, BYTE cDeltaAngle) override;
+  const NTimer::STime GetRestTimeOfRelax() const override;
 
-	virtual const float GetDispersion() const;
-	virtual const float GetDispRatio( byte nShellType, const float fDist ) const; 
-	virtual const int GetFireRate() const;
-	virtual void LockInCurAngle() { bAngleLocked = true; }
-	virtual void UnlockCurAngle() { bAngleLocked = false; }
-	
-	// для самолётов
-	virtual void StartPlaneBurst( class CAIUnit *pEnemy, bool bReAim );
+  // shooting when moving is prohibited
+  bool CanShootToUnitWOMove(class CAIUnit *pEnemy) override;
+  bool CanShootToObjectWOMove(class CStaticObject *pObj) override;
+  bool CanShootToPointWOMove(const CVec2 &point, float fZ, WORD wHorAddAngle = 0, WORD wVertAddAngle = 0, CAIUnit *pEnemy = nullptr) override;
 
-	// можно пробить броню с учётом стороны, которой повёрнут pTarget
-	virtual bool CanBreakArmor( class CAIUnit *pTarget ) const;
-	// можно пробить броню с какой-нибудь стороны
-	virtual bool CanBreach( const class CCommonUnit *pTarget ) const;
-	// можно пробить броню со стороны nSide
-	virtual bool CanBreach( const class CCommonUnit *pTarget, const int nSide ) const;
-	virtual bool CanBreach( const SHPObjectRPGStats *pStats, const int nSide ) const;
-	
-	// будет делать все действия, нужные для стрельбы по цели (повороты, прицеливание), но не будет стрелять
-	virtual void DontShoot() { bCanShoot = false; }
-	// отменяет DontShoot()
-	virtual void CanShoot() { bCanShoot = true; }
-	virtual bool IsShootAllowed(){ return bCanShoot; }
+  // Is it possible to shoot in height?
+  bool CanShootByHeight(class CAIUnit *pTarget) const override;
+  bool CanShootByHeight(float fZ) const override;
 
-	// стреляет ли общий gun ( с учётом патронов - т.е. учитываются все guns, находящиеся с ним в одном стволе )
-	virtual bool IsCommonGunFiring() const { return pCommonGunInfo->bFiring; }
-	// равен ли pGun ( с учётом патронов )
-	virtual bool IsCommonEqual( const CBasicGun *pGun ) const;
+  // Is it possible to shoot at an object under a direct order?
+  bool CanShootToUnit(class CAIUnit *pEnemy) override;
+  bool CanShootToObject(class CStaticObject *pObj) override;
+  bool CanShootToPoint(const CVec2 &point, float fZ, WORD wHorAddAngle = 0, WORD wVertAddAngle = 0) override;
 
-	// "номер ствола" ( gun-ы, отличающиеся только патронами, но находящиеся в одном стволе )
-	virtual int GetCommonGunNumber() const { return pCommonGunInfo->nGun; }
+  // you can shoot without rotating the base (the turret can be rotated)
+  bool IsInShootCone(const CVec2 &point, WORD wAddAngle = 0) const override;
 
-	virtual int GetNAmmo() const { return pCommonGunInfo->nAmmo; }
+  const float GetDispersion() const override;
+  const float GetDispRatio(byte nShellType, float fDist) const override;
+  const int GetFireRate() const override;
+  void LockInCurAngle() override { bAngleLocked = true; }
+  void UnlockCurAngle() override { bAngleLocked = false; }
 
-	virtual interface IBallisticTraj* CreateTraj( const CVec2 &vTarget ) const;
-	virtual void Fire( const CVec2 &target, const float z = 0 );
-	virtual WORD GetTrajectoryZAngle( const CVec2 &vToAim, const float z) const;
+  // for aircraft
+  void StartPlaneBurst(class CAIUnit *pEnemy, bool bReAim) override;
 
-	// сказать, почему отказался стрелять
-	virtual const EUnitAckType& GetRejectReason() const { return eRejectReason; }
-	virtual void SetRejectReason( const EUnitAckType &eReason );
+  // you can penetrate armor taking into account the side that pTarget is facing
+  bool CanBreakArmor(class CAIUnit *pTarget) const override;
+  // you can penetrate the armor from any side
+  bool CanBreach(const class CCommonUnit *pTarget) const override;
+  // you can penetrate the armor from the nSide side
+  bool CanBreach(const class CCommonUnit *pTarget, int nSide) const override;
+  bool CanBreach(const SHPObjectRPGStats *pStats, int nSide) const override;
 
-	virtual const bool IsVisible( const BYTE party ) const { return true; }
-	virtual void GetTilesForVisibility( CTilesSet *pTiles ) const { pTiles->clear(); }
-	virtual bool ShouldSuspendAction( const EActionNotify &eAction ) const { return false; }
+  // will do all the actions necessary to shoot at a target (turning, aiming), but will not shoot
+  void DontShoot() override { bCanShoot = false; }
+  // cancels DontShoot()
+  void CanShoot() override { bCanShoot = true; }
+  bool IsShootAllowed() override { return bCanShoot; }
 
-	virtual void AddParallelGun( CBasicGun *pGun ) { parallelGuns.push_back( pGun ); }
-	virtual void SetToParallelGun() { bParallelGun = true; }
-	
-	// среднее значение
-	virtual const int GetPiercing() const;
-	// разброс
-	virtual const int GetPiercingRandom() const;
-	// рандомное значение piercing
-	virtual const int GetRandomPiercing() const;
-	virtual const int GetMaxPossiblePiercing() const;
-	virtual const int GetMinPossiblePiercing() const;
+  // does the general gun fire (taking into account the cartridges - i.e. all guns that are in the same barrel with it are taken into account)
+  bool IsCommonGunFiring() const override { return pCommonGunInfo->bFiring; }
+  // Is pGun equal (taking into account cartridges)
+  bool IsCommonEqual(const CBasicGun *pGun) const override;
 
-	// среднее значение damage
-	virtual const float GetDamage() const;
-	// разброс
-	virtual const float GetDamageRandom() const;
-	// рандомное значение damage
-	virtual const float GetRandomDamage() const;
+  // "barrel number" (guns that differ only in cartridges, but are located in the same barrel)
+  int GetCommonGunNumber() const override { return pCommonGunInfo->nGun; }
 
-	virtual bool IsBallisticTrajectory() const;
+  int GetNAmmo() const override { return pCommonGunInfo->nAmmo; }
+
+  interface IBallisticTraj *CreateTraj(const CVec2 &vTarget) const override;
+  void Fire(const CVec2 &target, float z = 0) override;
+  WORD GetTrajectoryZAngle(const CVec2 &vToAim, float z) const override;
+
+  // tell me why he refused to shoot
+  const EUnitAckType &GetRejectReason() const override { return eRejectReason; }
+  void SetRejectReason(const EUnitAckType &eReason) override;
+
+  const bool IsVisible(const BYTE party) const override { return true; }
+  void GetTilesForVisibility(CTilesSet *pTiles) const override { pTiles->clear(); }
+  bool ShouldSuspendAction(const EActionNotify &eAction) const override { return false; }
+
+  void AddParallelGun(CBasicGun *pGun) override { parallelGuns.push_back(pGun); }
+  void SetToParallelGun() override { bParallelGun = true; }
+
+  // average value
+  const int GetPiercing() const override;
+  // spread
+  const int GetPiercingRandom() const override;
+  // random piercing value
+  const int GetRandomPiercing() const override;
+  const int GetMaxPossiblePiercing() const override;
+  const int GetMinPossiblePiercing() const override;
+
+  // average damage
+  const float GetDamage() const override;
+  // spread
+  const float GetDamageRandom() const override;
+  // random damage value
+  const float GetRandomDamage() const override;
+
+  bool IsBallisticTrajectory() const override;
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// пушка на турельке
+
+// gun on turret
 class CTurretGun : public CGun
 {
-	OBJECT_COMPLETE_METHODS( CTurretGun );
-	DECLARE_SERIALIZE;
+  OBJECT_COMPLETE_METHODS(CTurretGun);
+  DECLARE_SERIALIZE;
 
-	WORD wBestWayDir;
-	bool bTurnByBestWay;
-	CPtr<CTurret> pTurret;
-	bool bCircularAttack;
+  WORD wBestWayDir;
+  bool bTurnByBestWay;
+  CPtr<CTurret> pTurret;
+  bool bCircularAttack;
 
-	//
-	bool TurnByVer( const CVec2 &vEnemyCenter, const float zDiff );
-	bool TurnArtilleryToEnemy( const CVec2 &vEnemyCenter );
-	bool TurnByBestWay( const WORD wDirToEnemy );
-	
-	// эта функция считает угол, под которым нужно повернуть турель, чтобы обстреливать
-	// заданную точку. с учетом вертикальных ограничений.
-	WORD CalcVerticalAngle( const class CVec2 &pt, const float z ) const;
+  //
+  bool TurnByVer(const CVec2 &vEnemyCenter, float zDiff);
+  bool TurnArtilleryToEnemy(const CVec2 &vEnemyCenter);
+  bool TurnByBestWay(WORD wDirToEnemy);
+
+  // this function calculates the angle at which the turret must be rotated in order to fire
+  // given point. 
+  WORD CalcVerticalAngle(const class CVec2 &pt, float z) const;
+
 protected:
-	virtual bool TurnGunToEnemy( const CVec2 &vEnemyCenter, const float zDiff );
-	// можно ли прямо сейчас стрельнуть по point ( не вращая ни turret ни base ), погрешность - угол addAngle
-	virtual bool IsGoodAngle( const CVec2 &point, const WORD addAngle, const float z, const BYTE cDeltaAngle ) const;
-	virtual void Rest();
-	virtual bool AnalyzeTurning();
+  bool TurnGunToEnemy(const CVec2 &vEnemyCenter, float zDiff) override;
+  // Is it possible to shoot at the point right now (without rotating either the turret or the base), the error is the angle addAngle
+  bool IsGoodAngle(const CVec2 &point, WORD addAngle, float z, BYTE cDeltaAngle) const override;
+  void Rest() override;
+  bool AnalyzeTurning() override;
+
 public:
-	CTurretGun() : bCircularAttack( false ) { }
-	CTurretGun( class CAIUnit *pOwner, const BYTE nShellType, SCommonGunInfo *pCommonGunInfo, const IGunsFactory::EGunTypes eType, const int nTurret );
+  CTurretGun() : bCircularAttack(false) {}
+  CTurretGun(class CAIUnit *pOwner, BYTE nShellType, SCommonGunInfo *pCommonGunInfo, IGunsFactory::EGunTypes eType, int nTurret);
 
-	virtual bool IsOnTurret() const { return true; }
-	virtual class CTurret* GetTurret() const { return pTurret; }
-	virtual void TraceAim( class CAIUnit *pUnit );
-	virtual void StopTracing();
+  bool IsOnTurret() const override { return true; }
+  class CTurret *GetTurret() const override { return pTurret; }
+  void TraceAim(class CAIUnit *pUnit) override;
+  void StopTracing() override;
 
-	virtual void StopFire();
+  void StopFire() override;
 
-	// можно ли дострельнуть по высоте
-	virtual bool CanShootByHeight( class CAIUnit *pTarget ) const;
+  // Is it possible to shoot in height?
+  bool CanShootByHeight(class CAIUnit *pTarget) const override;
 
-	// куда в данный момент смотрит gun
-	virtual const WORD GetGlobalDir() const;
-	virtual void TurnToRelativeDir( const WORD wAngle );
+  // where is gun currently pointing?
+  const WORD GetGlobalDir() const override;
+  void TurnToRelativeDir(WORD wAngle) override;
 
-	virtual const float GetRotateSpeed() const;
+  const float GetRotateSpeed() const override;
 
-	virtual WORD GetHorTurnConstraint() const;
-	virtual WORD GetVerTurnConstraint() const;
-	
-	void SetCircularAttack( const bool bCanAttack );
+  WORD GetHorTurnConstraint() const override;
+  WORD GetVerTurnConstraint() const override;
 
-	virtual void StartPointBurst( const CVec3 &target, bool bReAim );
-	virtual void StartPointBurst( const CVec2 &target, bool bReAim );
-	virtual void StartEnemyBurst( class CAIUnit *pEnemy, bool bReAim );
-	
-	virtual const NTimer::STime GetTimeToShootToPoint( const CVec3 &vPoint ) const;
-	virtual const NTimer::STime GetTimeToShoot( const CVec3 &vPoint ) const;
+  void SetCircularAttack(bool bCanAttack) override;
+
+  void StartPointBurst(const CVec3 &target, bool bReAim) override;
+  void StartPointBurst(const CVec2 &target, bool bReAim) override;
+  void StartEnemyBurst(class CAIUnit *pEnemy, bool bReAim) override;
+
+  const NTimer::STime GetTimeToShootToPoint(const CVec3 &vPoint) const override;
+  const NTimer::STime GetTimeToShoot(const CVec3 &vPoint) const override;
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// пушка на базовой платформе
+
+// cannon on base platform
 class CBaseGun : public CGun
 {
-	OBJECT_COMPLETE_METHODS( CBaseGun );
-	DECLARE_SERIALIZE;
+  OBJECT_COMPLETE_METHODS(CBaseGun);
+  DECLARE_SERIALIZE;
 
 protected:
-	virtual bool TurnGunToEnemy( const CVec2 &vEnemyCenter, const float zDiff );
-	// можно ли прямо сейчас стрельнуть по point ( не вращая ни turret ни base ), погрешность - угол addAngle
-	virtual bool IsGoodAngle( const CVec2 &point, const WORD addAngle, const float z, const BYTE cDeltaAngle ) const;
-	virtual void Rest() { }
-	virtual bool AnalyzeTurning();
+  bool TurnGunToEnemy(const CVec2 &vEnemyCenter, float zDiff) override;
+  // Is it possible to shoot at the point right now (without rotating either the turret or the base), the error is the angle addAngle
+  bool IsGoodAngle(const CVec2 &point, WORD addAngle, float z, BYTE cDeltaAngle) const override;
+  void Rest() override {}
+  bool AnalyzeTurning() override;
+
 public:
-	CBaseGun() { }
-	CBaseGun( class CAIUnit *pOwner, const BYTE nShellType, SCommonGunInfo *pCommonGunInfo, const IGunsFactory::EGunTypes eType )
-	: CGun( pOwner, nShellType, pCommonGunInfo, eType ) { }
+  CBaseGun() {}
 
-	virtual bool IsOnTurret() const { return false; }
-	virtual class CTurret* GetTurret() const { return 0; }
-	virtual void TraceAim( class CAIUnit *pUnit ) { }
-	virtual void StopTracing() { }
+  CBaseGun(class CAIUnit *pOwner, const BYTE nShellType, SCommonGunInfo *pCommonGunInfo, const IGunsFactory::EGunTypes eType)
+    : CGun(pOwner, nShellType, pCommonGunInfo, eType) {}
 
-	virtual void StopFire();
+  bool IsOnTurret() const override { return false; }
+  class CTurret *GetTurret() const override { return nullptr; }
+  void TraceAim(class CAIUnit *pUnit) override {}
+  void StopTracing() override {}
 
-	// куда в данный момент смотрит gun
-	virtual const WORD GetGlobalDir() const;
-	virtual void TurnToRelativeDir( const WORD wAngle ) { }
+  void StopFire() override;
 
-	virtual const float GetRotateSpeed() const;
+  // where is gun currently pointing?
+  const WORD GetGlobalDir() const override;
+  void TurnToRelativeDir(const WORD wAngle) override {}
 
-	virtual WORD GetHorTurnConstraint() const { return 32768; }
-	virtual WORD GetVerTurnConstraint() const { return 32768; }
+  const float GetRotateSpeed() const override;
 
-	void SetCircularAttack( const bool bCanAttack ) { }
+  WORD GetHorTurnConstraint() const override { return 32768; }
+  WORD GetVerTurnConstraint() const override { return 32768; }
+
+  void SetCircularAttack(const bool bCanAttack) override {}
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CUnitsGunsFactory : public IGunsFactory
 {
-	class CAIUnit *pUnit;
-	const int nCommonGun;
-	int nTurret;
+  class CAIUnit *pUnit;
+  const int nCommonGun;
+  int nTurret;
+
 public:
-	CUnitsGunsFactory( class CAIUnit *_pUnit, const int _nCommonGun, const int _nTurret )
-		: pUnit( _pUnit ), nCommonGun( _nCommonGun ), nTurret( _nTurret ) { }
+  CUnitsGunsFactory(class CAIUnit *_pUnit, const int _nCommonGun, const int _nTurret)
+    : pUnit(_pUnit), nCommonGun(_nCommonGun), nTurret(_nTurret) {}
 
-	virtual int GetNCommonGun() const { return nCommonGun; }
-	virtual CBasicGun* CreateGun( const EGunTypes eType, const int nShell, SCommonGunInfo *pCommonGunInfo ) const 
-	{ 
-		CBasicGun *pGun = 0;
-		if ( nTurret != -1 )
-			pGun = new CTurretGun( pUnit, nShell, pCommonGunInfo, eType, nTurret );
-		else
-			pGun = new CBaseGun( pUnit, nShell, pCommonGunInfo, eType );
+  int GetNCommonGun() const override { return nCommonGun; }
 
-		return pGun;
-	}
+  CBasicGun *CreateGun(const EGunTypes eType, const int nShell, SCommonGunInfo *pCommonGunInfo) const override
+  {
+    CBasicGun *pGun = nullptr;
+    if (nTurret != -1) pGun = new CTurretGun(pUnit, nShell, pCommonGunInfo, eType, nTurret);
+    else pGun = new CBaseGun(pUnit, nShell, pCommonGunInfo, eType);
+
+    return pGun;
+  }
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // __GUNS_INTERNAL_H__

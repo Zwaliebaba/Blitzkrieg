@@ -8,10 +8,10 @@
 #include "InputState.h"
 class CGroupsState : public IInputState
 {
-	//Common tools
+	// Common tools
 	CInputStateParameter stateParameter;
 
-	//IInputState interface
+	// IInputState interface
 	virtual void STDCALL Enter();
 	virtual void STDCALL	OnMouseMove( UINT nFlags, const CTPoint<int> &rMousePoint, CTemplateEditorFrame* pFrame );
 };

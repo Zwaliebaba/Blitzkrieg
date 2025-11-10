@@ -1,41 +1,41 @@
 #ifndef __COMMANDS_HISTORY_INTERFACE_H__
 #define __COMMANDS_HISTORY_INTERFACE_H__
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma ONCE
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#pragma once
+
 #include "iMain.h"
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-interface ICommandsHistory : public IRefCount
+
+interface ICommandsHistory : IRefCount
 {
-	// type ID
-	enum { tidTypeID = MAIN_COMMANDS_HISTORY };
+  // type ID
+  enum { tidTypeID = MAIN_COMMANDS_HISTORY };
 
-	// очистка всего, куда пишется history, перед стартом мисии, 
-	// запоминание текущих RandomSeed и ScenarioTracker
-	virtual void STDCALL PrepareToStartMission() = 0;
+  // clearing everything where history is written before starting the mission,
+  // remembering current RandomSeed and ScenarioTracker
+  virtual void STDCALL PrepareToStartMission() = 0;
 
-	// загрузка и инициализация для multiplayer, если задан параметр -lh
-	virtual bool STDCALL LoadCommandLineHistory() = 0;
+  // loading and initialization for multiplayer if -lh option is given
+  virtual bool STDCALL LoadCommandLineHistory() = 0;
 
-	// вместе с самими командами загружается RandomSeed
-	// return true if no error occurs
-	virtual bool STDCALL Load( const char *pszFileName ) = 0;
-	// параметр по умолчанию только для тестирования
-	// если имя пустое, то смотрится то, что было установлено параметром -sh
-	virtual void STDCALL Save( const char *pszFileName = "" ) = 0;
+  // RandomSeed is loaded along with the commands themselves
+  // return true if no error occurs
+  virtual bool STDCALL Load(const char *pszFileName) = 0;
+  // default option for testing only
+  // if the name is empty, then what was set with the -sh parameter is used
+  virtual void STDCALL Save(const char *pszFileName = "") = 0;
 
-	virtual void STDCALL Clear() = 0;
+  virtual void STDCALL Clear() = 0;
 
-	virtual void STDCALL AddCommand( const int nSegment, interface IAILogicCommand *pCmd ) = 0;
-	virtual void STDCALL ExecuteSegmentCommands( const int nSegment, interface ITransceiver *pTranceiver ) = 0;
-	virtual void STDCALL CheckStartMapCheckSum( const int nCheckSum ) = 0;
+  virtual void STDCALL AddCommand(int nSegment, interface IAILogicCommand *pCmd) = 0;
+  virtual void STDCALL ExecuteSegmentCommands(int nSegment, interface ITransceiver *pTranceiver) = 0;
+  virtual void STDCALL CheckStartMapCheckSum(int nCheckSum) = 0;
 
-	virtual const int GetNumPlayersInMPGame() const = 0;
-	virtual const int GetMPPlayerLogicID( const int nPlayer ) const = 0;
-	virtual const int GetMPPlayerSide( const int nPlayer ) const = 0;
-	
-	virtual const char* STDCALL GetModName() const = 0;
-	virtual const char* STDCALL GetModVersion() const = 0;
+  virtual const int GetNumPlayersInMPGame() const = 0;
+  virtual const int GetMPPlayerLogicID(int nPlayer) const = 0;
+  virtual const int GetMPPlayerSide(int nPlayer) const = 0;
+
+  virtual const char * STDCALL GetModName() const = 0;
+  virtual const char * STDCALL GetModVersion() const = 0;
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // COMMANDS_HISTORY_INTERFACE_H__

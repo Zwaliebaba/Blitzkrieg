@@ -1,10 +1,5 @@
-/****************************************************************************
-*                                                                           *
-* HtmlHelp.h                                                                *
-*                                                                           *
-* Copyright (c) 1996-1997, Microsoft Corp. All rights reserved.             *
-*                                                                           *
-****************************************************************************/
+/* *********************************************************************************
+ */
 
 #if _MSC_VER > 1000
 #pragma once
@@ -89,7 +84,7 @@ extern "C" {
 #define HHWIN_PARAM_INFOTYPES       (1 << 7)    // valid apInfoTypes
 #define HHWIN_PARAM_TB_FLAGS        (1 << 8)    // valid fsToolBarFlags
 #define HHWIN_PARAM_EXPANSION       (1 << 9)    // valid fNotExpanded
-#define HHWIN_PARAM_TABPOS          (1 << 10)   // valid tabpos
+#define HHWIN_PARAM_TABPOS          (1 << 10)   // valid tabs
 #define HHWIN_PARAM_TABORDER        (1 << 11)   // valid taborder
 #define HHWIN_PARAM_HISTORY_COUNT   (1 << 12)   // valid cHistory
 #define HHWIN_PARAM_CUR_TAB         (1 << 13)   // valid curNavType
@@ -168,7 +163,7 @@ typedef struct tagHHN_NOTIFY
 typedef struct tagHH_POPUP
 {
     int       cbStruct;      // sizeof this structure
-    HINSTANCE hinst;         // instance handle for string resource
+    HINSTANCE hinst;         // handle instance for string resource
     UINT      idString;      // string resource id, or text id if pszFile is specified in HtmlHelp call
     LPCTSTR   pszText;       // used if idString is zero
     POINT     pt;            // top center of popup window
@@ -209,10 +204,10 @@ enum {
 typedef struct tagHH_ENUM_IT
 {
     int       cbStruct;          // size of this structure
-    int       iType;             // the type of the information type ie. Inclusive, Exclusive, or Hidden
-    LPCSTR    pszCatName;        // Set to the name of the Category to enumerate the info types in a category; else NULL
-    LPCSTR    pszITName;         // volitile pointer to the name of the infotype. Allocated by call. Caller responsible for freeing
-    LPCSTR    pszITDescription;  // volitile pointer to the description of the infotype. 
+    int       iType;             // the type of the information type ie. 
+    LPCSTR    pszCatName;        // Set to the name of the Category to enumerate the info types in a category; 
+    LPCSTR    pszITName;         // volitile pointer to the name of the infotype. 
+    LPCSTR    pszITDescription;  // volitile pointer to the description of the infotype.
 } HH_ENUM_IT, *PHH_ENUM_IT;
 
 typedef struct tagHH_ENUM_CAT
@@ -302,7 +297,7 @@ typedef struct tagHH_WINTYPE {
     LPCTSTR pszIndex;       // IN: Location of the index file
     LPCTSTR pszFile;        // IN: Default location of the html file
     LPCTSTR pszHome;        // IN/OUT: html file to display when Home button is clicked
-    DWORD   fsToolBarFlags; // IN: flags controling the appearance of the toolbar
+    DWORD   fsToolBarFlags; // IN: flags controlling the appearance of the toolbar
     BOOL    fNotExpanded;   // IN: TRUE/FALSE to contract or expand, OUT: current state
     int     curNavType;     // IN/OUT: UI to display in the navigational pane
     int     tabpos;         // IN/OUT: HHWIN_NAVTAB_TOP, HHWIN_NAVTAB_LEFT, or HHWIN_NAVTAB_BOTTOM
@@ -351,7 +346,7 @@ typedef struct tagHHNTRACK
 {
     NMHDR   hdr;
     PCSTR   pszCurUrl;      // Multi-byte, null-terminated string
-    int     idAction;       // HHACT_ value
+    int     idAction;       // HHACT_value
     HH_WINTYPE* phhWinType; // Current window type structure
 } HHNTRACK;
 

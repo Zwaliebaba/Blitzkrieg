@@ -1,8 +1,8 @@
 #ifndef __INIFILE_H__
 #define __INIFILE_H__
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////// 
 #pragma ONCE
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////// 
 enum ETableAccessMode
 {
 	TABLE_ACCESS_READ  = 0x00000001,
@@ -77,15 +77,15 @@ struct STable
 	CValMap::iterator find( const TVal::TKey &key ) { return emap.find( key ); }
 	CValMap::const_iterator find( const TVal::TKey &key ) const { return emap.find( key ); }
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////// 
 struct SIniFileEntry
 {
 	int nOrder;
 	std::string szData;
 };
-class CIniFile //: public IDataTable
+class CIniFile // : public IDataTable
 {
-	//OBJECT_MINIMAL_METHODS( CIniFile );
+	// OBJECT_MINIMAL_METHODS( CIniFile );
 	DWORD dwAccessMode;
 	//
 	STable table;
@@ -127,7 +127,7 @@ public:
 	int STDCALL GetRowNames( char *pszBuffer, int nBufferSize );
 	int STDCALL GetEntryNames( const char *pszRow, char *pszBuffer, int nBufferSize );
 	
-	// очистка секции
+	// section cleaning
 	void STDCALL ClearRow( const char *pszRowName )
 	{
 		if ( SRow *pRow = GetRow( pszRowName ) )
@@ -145,5 +145,5 @@ public:
 	void STDCALL SetDouble( const char *pszRow, const char *pszEntry, double val );
 	void STDCALL SetString( const char *pszRow, const char *pszEntry, const char *val );
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////// 
 #endif // __INIFILE_H__

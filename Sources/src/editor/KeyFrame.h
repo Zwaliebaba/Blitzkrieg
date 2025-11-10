@@ -9,13 +9,13 @@
 // KeyFrame.h : header file
 //
 
-const UINT WM_KEY_FRAME_RCLICK	= WM_USER + 35;		// клик правой кнопкой в области контрола
-const UINT WM_KEY_FRAME_UPDATE	= WM_USER + 36;		// нужно обновить список framesList
+const UINT WM_KEY_FRAME_RCLICK	= WM_USER + 35;		// right click in the control area
+const UINT WM_KEY_FRAME_UPDATE	= WM_USER + 36;		// need to update framesList
 
 using std::list;
 using std::pair;
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // CKeyFrame window
 
 class CKeyFrame : public CWnd
@@ -46,21 +46,21 @@ public:
 	
 // Overrides
 	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CKeyFrame)
+	// {{AFX_VIRTUAL(CKeyFrame)
 	public:
 	virtual BOOL Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID, CCreateContext* pContext = NULL);
-	//}}AFX_VIRTUAL
+	// }}AFX_VIRTUAL
 
 // Implementation
 protected:
-//	void GetScreenCoord( float x, float y, float *screenX, float *screenY );
+// void GetScreenCoord( float x, float y, float *screenX, float *screenY );
 	void SetHDimention( float fMin, float fMax );
 	void SetVDimention( float fMin, float fMax );
-	void GetVisibleX( int *nMin, int *nMax );			//получает число элементов видимых на экране, в единицах ScrollBar
+	void GetVisibleX( int *nMin, int *nMax );			// gets the number of elements visible on the screen, in ScrollBar units
 	void GetVisibleY( int *nMin, int *nMax );
 	void GetScreenByValue( float fValX, float fValY, float *pScreenX, float *pScreenY );
 	void GetValueByScreen( int x, int y, float *pValX, float *pValY );
-//	CFramesList::iterator GetNearNodeIndex( int x, int y, int *pIndex );
+// CFramesList::iterator GetNearNodeIndex( int x, int y, int *pIndex );
 		
 private:
 	CScrollBar m_BottomScroll, m_LeftScroll;
@@ -70,7 +70,7 @@ private:
 	int m_nDragIndex;
 	int m_mode;
 	int m_nHighNodeIndex;
-	POINT m_beginDrag;						//для сохранения точки перетаскивания
+	POINT m_beginDrag;						// to save the drag point
 	CFramesList framesList;
 	bool m_bResizeMode;
 	float m_XS;
@@ -78,7 +78,7 @@ private:
 
 	// Generated message map functions
 protected:
-	//{{AFX_MSG(CKeyFrame)
+	// {{AFX_MSG(CKeyFrame)
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg void OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
 	afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
@@ -97,13 +97,13 @@ protected:
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 	afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
 	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
-	//}}AFX_MSG
+	// }}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 
-//{{AFX_INSERT_LOCATION}}
+// {{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
 
 #endif // !defined(AFX_KEYFRAME_H__B132E21D_2C65_44F9_A0C5_8F120B411033__INCLUDED_)

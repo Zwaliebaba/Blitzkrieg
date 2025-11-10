@@ -5,8 +5,8 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//CRAP{переделаь на более надежный и быстрый способ индексирования
+
+// CRAP{change to a more reliable and faster indexing method
 class CIndicesHolder
 {
 	CTPoint<int> bounds;
@@ -96,20 +96,20 @@ public:
 		return nCurrentIndex;
 	}
 };
-//CRAP}
+// CRAP}
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//pvParam - указатель на обьект класса CAsyncImageList, преобразованный к PVOID
+
+// pvParam - pointer to an object of the CAsyncImageList class, converted to PVOID
 DWORD WINAPI AsyncImageListThreadFunc( PVOID pvParam );
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 interface IAsyncImageListCallback
 {
-	//выполняется в критической секции
+	// executed in the critical section
 	virtual DWORD Callback( int nImageIndex, DWORD dwResult ) = 0;
 };
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CAsyncImageList
 {
 	static const int DEFAULT_ICON_NUMBER;
@@ -127,10 +127,10 @@ class CAsyncImageList
 	CIndicesHolder indicesHolder;
 
 	void Clear();
-	//потоковая функция вызываемая из AsyncFill
+	// thread function called from AsyncFill
 	DWORD Fill();
-	//ее переопределяем, заполняем картинку по указанному номеру
-	//к HIMAGELIST обращаться через критическую секцию, функция вызывается в другом потоке
+	// we redefine it, fill the image according to the specified number
+	// HIMAGELIST is accessed through the critical section, the function is called in another thread
 	virtual DWORD Fill( int nImageIndex ) = 0;
 	
 	friend DWORD WINAPI AsyncImageListThreadFunc( PVOID pvParam );
@@ -138,28 +138,28 @@ public:
 	CAsyncImageList();
 	~CAsyncImageList();
 
-	//обращаться через критическую секцию
+	// access through the critical section
 	HIMAGELIST GetImageList() { return hImageList; }
 	HIMAGELIST GetSmallImageList() { return hSmallImageList; }
-	//критическая секция
+	// critical section
 	CRITICAL_SECTION* GetCriticalSection() { return &criticalSection; }
 
-	//создать imageList заданной длинны, заданного размера
+	// create an imageList of a given length, given size
 	bool Create( int nImageCount, const CTPoint<int> &rImageSize );
-	//старт асинхронного заполнения imageList
+	// start asynchronous filling of imageList
 	bool AsyncFill();
-	//проверка на завершенность процесса заполнения
+	// checking for completeness of the filling process
 	bool IsFilling();
-	//принудительное завершение процесса заполнения
+	// force completion of the filling process
 	bool StopFilling();
 
-	//добавление callback функции
+	// adding a callback function
 	int AddCallback( IAsyncImageListCallback *pCallback );
-	//удаление callback функции по ключу
+	// removing callback function by key
 	void RemoveCallback( int nKey );
 
-	//продолжить заполнение с указанного значения
+	// continue filling from the specified value
 	bool ForceFillFrom( int nImageIndex );
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // !defined(__AsyncImageList__)

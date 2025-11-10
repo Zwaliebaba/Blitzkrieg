@@ -1,39 +1,37 @@
 #ifndef __INTERFACEIMMODSLIST_H__
 #define __INTERFACEIMMODSLIST_H__
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma ONCE
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#pragma once
+
 #include "BaseList.h"
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CInterfaceIMModsList : public CInterfaceBaseList
 {
-	OBJECT_NORMAL_METHODS( CInterfaceIMModsList );
-	//
-	virtual bool STDCALL ProcessMessage( const SGameMessage &msg );
-	// disable explicit destruction
-	virtual ~CInterfaceIMModsList();
+  OBJECT_NORMAL_METHODS(CInterfaceIMModsList);
+  //
+  bool STDCALL ProcessMessage(const SGameMessage &msg) override;
+  // disable explicit destruction
+  ~CInterfaceIMModsList() override;
+
 protected:
-	CInterfaceIMModsList() {}
-	
-	//перегружаемые мной функции
-	virtual bool FillListItem( IUIListRow *pRow, const std::string &szFullFileName, bool *pSelectedItem = 0 );		//заполняем текущую строчку в списке
-	virtual bool OnOk( const std::string &szFullFileName );															//пользователь выбрал файл, обработаем выбор
-	virtual void PrepareList( std::vector<std::string> *pFiles );
+  CInterfaceIMModsList() {}
+
+  // functions I overload
+  bool FillListItem(IUIListRow *pRow, const std::string &szFullFileName, bool *pSelectedItem = nullptr) override;// fill the current line in the list
+  bool OnOk(const std::string &szFullFileName) override;// the user has selected a file, let's process the selection
+  void PrepareList(std::vector<std::string> *pFiles) override;
+
 public:
-	virtual bool STDCALL Init();
+  bool STDCALL Init() override;
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CICIMModsList : public CInterfaceCommandBase<CInterfaceIMModsList, MISSION_INTERFACE_MODS_LIST>
 {
-	OBJECT_NORMAL_METHODS( CICIMModsList );
-	
-	virtual void PostCreate( IMainLoop *pML, CInterfaceIMModsList *pI )
-	{
-		pML->PushInterface( pI );
-	}
-	//
-	CICIMModsList() {}
-public:
+  OBJECT_NORMAL_METHODS(CICIMModsList);
+
+  void PostCreate(IMainLoop *pML, CInterfaceIMModsList *pI) override { pML->PushInterface(pI); }
+  //
+  CICIMModsList() {}
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // __INTERFACEIMMODSLIST_H__

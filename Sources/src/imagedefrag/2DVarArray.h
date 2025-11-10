@@ -5,22 +5,22 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-//ОПИСАНИЕ: данный массив представляет собой специальную спруктуру данных, используемую
-//в классе SImageEdge для хранения границ картинок. Массив представляет собой набор
-//последовательностей T переменной длинны (длинна имеет тип TCounter). Доступ к
-//элементам массива осуществляется след. образом:
-//CVarArray2D[ lineIndex ][ inLineIndex ]
-//создание массива производится след. образом:
-//вызывается метод: SetSizes( int nSize, int nLineCount ) или
-//конструктор: CVarArray2D( int nSize, int nLineCount )
-//после, для каждой строки ( попорядку: 0..nLineCount ), вызывается метод:
-//SetLineLength( int lineIndex, TCounter nLineLength )
-//после этого массив готов к работе.
-//ЗАМЕЧАНИЕ: сумма полей nLineLength в вызовах SetLineLength должна в точности
-//соответствовать длинне массива nSize указанной в конструкторе или в методе SetSizes
-//СОВЕТ: не используйте этот массив если не знаете специфики его работиы и создания
-//T - тип элемента массива
-//TCounter - тип каунтера по линии элементов
+// DESCRIPTION: this array is a special data structure used
+// in the SImageEdge class for storing image borders. 
+// sequences T of variable length (length is of type TCounter). 
+// elements of the array are followed. 
+// CVarArray2D[ lineIndex ][ inLineIndex ]
+// The array is created as follows. 
+// the method is called: SetSizes( int nSize, int nLineCount ) or
+// constructor: CVarArray2D( int nSize, int nLineCount )
+// after, for each line (in order: 0..nLineCount), the method is called:
+// SetLineLength( int lineIndex, TCounter nLineLength )
+// after this the array is ready for use.
+// NOTE: the sum of nLineLength fields in SetLineLength calls must be exactly
+// match the length of the nSize array specified in the constructor or in the SetSizes method
+// TIP: do not use this array if you do not know the specifics of its operation and creation
+// T - array element type
+// TCounter - type of counter by line of elements
 template <class T, class TCounter = BYTE>
 class CVarArray2D
 {
@@ -179,7 +179,7 @@ public:
   
   bool IsEmpty() const { return pData == 0; }
 
-  //very special function!
+  // very special function!
   void SetLineLength( int lineIndex, TCounter nLineLength )
   {
 #ifdef _DEBUG
@@ -195,7 +195,7 @@ public:
     }
     NI_ASSERT_SLOW_T( ( int )( nLineLength ) <= ( nSize - debugCount ),
                       NStr::Format( "line length at (%d) too big: (%d), may be under or equal (%d)", nLineLength, nSize - debugCount ) );
-#endif //#ifdef _DEBUG
+#endif // #ifdef_DEBUG
 
     int index = 0;
     int count = 0;
@@ -207,7 +207,7 @@ public:
     pLineDataSize[lineIndex] = nLineLength;
   }
 
-	//very special function!
+	// very special function!
   void SetZero() { memset( pData, 0, sizeof( T ) * nSize ); }
 
   int operator&( IStructureSaver &ss )
@@ -225,17 +225,8 @@ public:
     }
     saver.AddRawData( 3, ( void* )( pData ), sizeof( T ) * nSize );
     saver.AddRawData( 4, ( void* )( pLineDataSize ), sizeof( TCounter ) * nLineCount );
-/** long data file but safe!   
-    int index = 0;
-    for( index = 0; index < nSize;  ++index )
-    {
-      saver.Add( index + 3,  &( pData[index] ) );
-    }
-    for( index = 0; index < nLineCount; ++index )
-    {
-      saver.Add( index + nSize + 3 , &( pLineDataSize[index] ) );
-    }
-/**/
+/* * long data file but safe!   
+     */
     if( saver.IsReading() )
     {
       IndexLineData();
@@ -275,6 +266,6 @@ public:
              elements * 1.0 / GetLineCount(),
              elements * 1.0 / signedLines );
   }
-#endif //#ifdef _DEBUG
+#endif // #ifdef_DEBUG
 };
-#endif //#if !defined(__VarArray2D__)
+#endif // #if !defined(__VarArray2D__)

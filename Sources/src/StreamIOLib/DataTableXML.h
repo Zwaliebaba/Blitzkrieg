@@ -1,22 +1,22 @@
 #ifndef __DATATABLEXML_H__
 #define __DATATABLEXML_H__
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #pragma ONCE
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #import "msxml.dll"
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 using namespace MSXML;
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CDataTableXML : public IDataTable
 {
 	OBJECT_MINIMAL_METHODS( CDataTableXML );
 	//
 	CPtr<IDataStream> pStream;						// stream, this table was open with
-	IXMLDOMDocumentPtr xmlDocument;				// открытый документ
+	IXMLDOMDocumentPtr xmlDocument;				// open document
 	IXMLDOMNodePtr xmlRootNode;						// root node
 	//
 	bool bModified;
-	// получить текстовый node по имени. Это либо атрибут текущего node, либо single node из текущего.
+	// get text node by name. 
 	IXMLDOMNodePtr GetTextNode( const char *pszRow, const char *pszEntry )
 	{
 		IXMLDOMNodePtr xmlCurrNode = xmlRootNode->selectSingleNode( pszRow );
@@ -55,11 +55,11 @@ public:
 	virtual ~CDataTableXML();
 	//
 	bool Open( IDataStream *pStream, const char *pszBaseNode );
-	// получить имена строк таблицы. каждое имя заканчивается на '\0', с строка в целом на '\0\0'
+	// get table row names. 
 	virtual int STDCALL GetRowNames( char *pszBuffer, int nBufferSize );
-	// получить имена колонок таблицы в данной строке. каждое имя заканчивается на '\0', с строка в целом на '\0\0'
+	// get the names of table columns in a given row. 
 	virtual int STDCALL GetEntryNames( const char *pszRow, char *pszBuffer, int nBufferSize );
-	// очистка секции
+	// section cleaning
 	virtual void STDCALL ClearRow( const char *pszRowName ) {  }
 	// complete element access
 	// get
@@ -73,5 +73,5 @@ public:
 	virtual void STDCALL SetString( const char *pszRow, const char *pszEntry, const char *val );
 	virtual void STDCALL SetRawData( const char *pszRow, const char *pszEntry, const void *pBuffer, int nBufferSize );
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // __DATATABLEXML_H__

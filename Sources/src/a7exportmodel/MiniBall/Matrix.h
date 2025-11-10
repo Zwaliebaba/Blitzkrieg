@@ -88,7 +88,7 @@ namespace MiniBall
 
 		static float tr(const Matrix &M);
 
-		Matrix &orthogonalise();   // Gram-Schmidt orthogonalisation of 3x3 submatrix
+		Matrix &orthogonalise();   // Gram-Schmidt orthogonalization of 3x3 submatrix
 
 		static Matrix eulerRotate(float x, float y, float z);
 		static Matrix eulerRotate(const Vector& v);

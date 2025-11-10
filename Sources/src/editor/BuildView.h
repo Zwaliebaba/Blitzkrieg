@@ -4,7 +4,7 @@
 // BuildView.h : header file
 //
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // CBuildingView window
 
 class CBuildingView : public CWnd
@@ -21,10 +21,10 @@ public:
 	
 	// Overrides
 	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CBuildingView)
+	// {{AFX_VIRTUAL(CBuildingView)
 protected:
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
-	//}}AFX_VIRTUAL
+	// }}AFX_VIRTUAL
 	
 	// Implementation
 public:
@@ -34,12 +34,12 @@ private:
 	
 	// Generated message map functions
 protected:
-	//{{AFX_MSG(CBuildingView)
+	// {{AFX_MSG(CBuildingView)
 	afx_msg void OnPaint();
-	//}}AFX_MSG
+	// }}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 
-#endif		//__BUILDVIEW_H__
+#endif		// __BUILDVIEW_H__

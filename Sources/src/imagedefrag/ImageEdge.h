@@ -2,11 +2,11 @@
 #define __ImageEdge__
 struct SImageEdge
 {
-  //original (defragmented) image LeftTop corner position
+  // original (defragmented) image LeftTop corner position
   CTPoint<int> originalLeftTop;
-  //if true - filled per string else filled per colums
+  // if true - filled per string else filled per columns
   bool isHorizontal;
-  //filled per string or per colums
+  // filled per string or per columns
   CVarArray2D<short, char> edges;
 
   SImageEdge() : isHorizontal ( true ) { }
@@ -19,22 +19,22 @@ struct SImageEdge
     return 0;
   }
 
-  //is point in edges?
-  //method check bounds!
+  // is point in edges?
+  // method check bounds!
   bool In( const CTPoint<int> &rPoint );
   
-  //fill edges
+  // fill edges
   bool CreateImageEdge( IImage *pImage,
                         const CTPoint<int> &rOriginalLeftTop,
                         DWORD alpha );
 
 #ifdef _DEBUG
-  //for test only, set edge pixels to white
-  //mark all edge points as white
+  // for test only, set edge pixels to white
+  // mark all edge points as white
   bool MarkEdge( IImage *pImage );
   bool MarkInEdge( IImage *pImage );
-  //mark all points with alpha in rAlpha bounds as white
+  // mark all points with alpha in rAlpha bounds as white
   bool MarkAlpha( IImage *pImage , DWORD dwMinAlpha, DWORD dwMaxAlpha );
-#endif //#ifdef _DEBUG
+#endif // #ifdef_DEBUG
 };
 #endif // !defined(__ImageEdge__)

@@ -2,7 +2,7 @@
 
 #include <sys/stat.h>
 #include "FileSystem.h"
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 inline std::string GetFullPath( const std::string &szPath )
 {
 	const DWORD BUFFER_SIZE = 1024;
@@ -25,19 +25,19 @@ inline SWin32Time MakeWin32Time( const FILETIME &filetime )
 // **
 // **
 // ************************************************************************************************************************ //
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 CFileSystemEnumerator::~CFileSystemEnumerator()
 {
 	Close();
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CFileSystemEnumerator::Close()
 {
 	if ( IsFindValid() ) 
 		::FindClose( hFind );
 	hFind = INVALID_HANDLE_VALUE;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CFileSystemEnumerator::FillStats()
 {
 	if ( !IsFindValid() )
@@ -53,7 +53,7 @@ void CFileSystemEnumerator::FillStats()
 		stats.atime = MakeWin32Time( findinfo.ftLastAccessTime );
 	}
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool CFileSystemEnumerator::FindFirstFile()
 {
 	int pos = szMask.rfind( '\\' );
@@ -73,7 +73,7 @@ bool CFileSystemEnumerator::FindFirstFile()
 	hFind = ::FindFirstFile( szMask.c_str(), &findinfo );
 	return IsFindValid();
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool CFileSystemEnumerator::FindNextFile()
 {
 	if ( !IsFindValid() )
@@ -87,13 +87,13 @@ bool CFileSystemEnumerator::FindNextFile()
 		return FindNextFile();
 	return true;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CFileSystemEnumerator::Reset( const char *pszMask )
 {
 	Close();
 	szMask = pszMask;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool CFileSystemEnumerator::Next()
 {
 	if ( !IsFindValid() )
@@ -114,7 +114,7 @@ bool CFileSystemEnumerator::Next()
 	FillStats();
 	return IsFindValid();
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // ************************************************************************************************************************ //
 // **
 // ** file stream
@@ -122,7 +122,7 @@ bool CFileSystemEnumerator::Next()
 // **
 // **
 // ************************************************************************************************************************ //
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 CFileStream::CFileStream( const char *pszFileName, DWORD _dwAccessMode ) 
 : nStreamBegin( 0 )
 {
@@ -135,7 +135,7 @@ CFileStream::CFileStream( const char *pszFileName, DWORD _dwAccessMode )
 	DWORD dwRW = STREAM_ACCESS_READ | STREAM_ACCESS_WRITE;
 	DWORD dwRWA = dwRW | STREAM_ACCESS_APPEND;
 	DWORD dwWA = STREAM_ACCESS_WRITE | STREAM_ACCESS_APPEND;
-	if ( (dwAccessMode & dwRWA) == dwRWA ) // RWA
+	if ( (dwAccessMode & dwRWA) == dwRWA ) // R.W.A.
 	{
 		dwDesiredAccess = GENERIC_READ | GENERIC_WRITE;
 		dwCreationDesposition = OPEN_ALWAYS;
@@ -187,30 +187,30 @@ CFileStream::~CFileStream()
 	if ( hFile != INVALID_HANDLE_VALUE )
 		CloseHandle( hFile );
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 inline int GetCurrPos( HANDLE hFile ) { return SetFilePointer( hFile, 0, 0, FILE_CURRENT ); }
-// объ¤вить текущую позицию в потоке за начало потока
+// declare the current position in the stream as the beginning of the stream
 int CFileStream::LockBegin()
 {
 	nStreamBegin = GetCurrPos( hFile );
 	return nStreamBegin;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// вернуть начало потока в нулевую позицию
+
+// return the start of the stream to the zero position
 int CFileStream::UnlockBegin()
 {
 	int nOldBegin = nStreamBegin;
 	nStreamBegin = 0;
 	return nOldBegin;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// текуща¤ позици¤ в потоке
+
+// current position in the stream
 int CFileStream::GetPos() const
 {
 	return GetCurrPos( hFile ) - nStreamBegin;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// выставить текущую позицию в потоке
+
+// set the current position in the stream
 inline int StreamSeekToFileSeek( STREAM_SEEK from )
 {
 	switch ( from )
@@ -230,8 +230,8 @@ int CFileStream::Seek( int offset, STREAM_SEEK from )
 		SetFilePointer( hFile, offset, 0, nSeek );
 	return GetPos();
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// чтение данных
+
+// reading data
 int CFileStream::Read( void *pBuffer, int nLength )
 {
 	if ( !CanRead() )
@@ -239,8 +239,8 @@ int CFileStream::Read( void *pBuffer, int nLength )
 	DWORD dwRead = 0;
 	return ReadFile( hFile, pBuffer, nLength, &dwRead, 0 ) != FALSE ? dwRead : 0;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// запись данных
+
+// data recording
 int CFileStream::Write( const void *pBuffer, int nLength )
 {
 	if ( !CanWrite() )
@@ -248,18 +248,18 @@ int CFileStream::Write( const void *pBuffer, int nLength )
 	DWORD dwWritten = 0;
 	return WriteFile( hFile, pBuffer, nLength, &dwWritten, 0 ) != FALSE ? dwWritten : 0;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 int CFileStream::GetSize() const
 {
 	const int nLength = IsOpen() ? GetFileSize( hFile, 0 ) : 0;
 	return nLength - nStreamBegin;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool CFileStream::SetSize( int nSize )
 {
 	return false;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 int CFileStream::CopyTo( IDataStream *pDstStream, int nLength )
 {
 	const int nBufferSize = Min( nLength, 1024*1024 );
@@ -282,14 +282,14 @@ int CFileStream::CopyTo( IDataStream *pDstStream, int nLength )
 	}
 	return nTotalWrote;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// сбросить все закешированные данные
+
+// reset all cached data
 void CFileStream::Flush()
 {
 	FlushFileBuffers( hFile );
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// получить информацию о потоке
+
+// get information about the stream
 void CFileStream::GetStats( SStorageElementStats *pStats )
 {
 	if ( pStats == 0 )
@@ -301,7 +301,7 @@ void CFileStream::GetStats( SStorageElementStats *pStats )
 	pStats->atime = stats.atime;
 	pStats->mtime = stats.mtime;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // ************************************************************************************************************************ //
 // **
 // ** file system storage
@@ -309,7 +309,7 @@ void CFileStream::GetStats( SStorageElementStats *pStats )
 // **
 // **
 // ************************************************************************************************************************ //
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 CFileSystem::CFileSystem( const char *pszName, DWORD dwAccessMode, bool bCreate ) 
 : szBase( pszName ), dwStorageAccessMode( dwAccessMode )
 {
@@ -324,7 +324,7 @@ CFileSystem::CFileSystem( const char *pszName, DWORD dwAccessMode, bool bCreate 
 	szBase = GetFullPath( szBase );
 	NStr::ToLower( szBase );
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool CFileSystem::CreatePathRecursive( const std::string &szName )
 {
 	std::vector<std::string> szNames;
@@ -345,33 +345,33 @@ bool CFileSystem::CreatePathRecursive( const std::string &szName )
 	SetCurrentDirectory( pszBuffer );
 	return true;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// создать и открыть поток с указанным именем и правами доступа
+
+// create and open a stream with the specified name and access rights
 IDataStream* CFileSystem::CreateStream( const char *pszName, DWORD dwAccessMode )
 {
 	std::string szName = szBase + pszName;
 	NI_ASSERT_TF( (dwAccessMode & dwStorageAccessMode) == dwAccessMode, "Can't create stream - invalid access mode", return 0 );
 	CFileStream *pStream = new CFileStream( szName.c_str(), dwAccessMode );
-	//NI_ASSERT_T( pStream->IsOpen(), NStr::Format("Can't create stream \"%s\" with access %d", szName.c_str(), dwAccessMode) );
+	// NI_ASSERT_T( pStream->IsOpen(), NStr::Format("Can't create stream \"%s\" with access %d", szName.c_str(), dwAccessMode) );
 	if ( pStream->IsOpen() )
 		return pStream;
 	delete pStream;
 	return 0;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// открыть существующий поток с указанным именем и правами доступа
+
+// open an existing stream with the specified name and permissions
 IDataStream* CFileSystem::OpenStream( const char *pszName, DWORD dwAccessMode )
 {
 	std::string szName = szBase + pszName;
 	NI_ASSERT_TF( (dwAccessMode & dwStorageAccessMode) == dwAccessMode, "Can't open stream - invalid access mode", return 0 );
 	CFileStream *pStream = new CFileStream( szName.c_str(), dwAccessMode );
-	//NI_ASSERT_T( pStream->IsOpen(), NStr::Format("Can't open stream \"%s\" with access %d", szName.c_str(), dwAccessMode) );
+	// NI_ASSERT_T( pStream->IsOpen(), NStr::Format("Can't open stream \"%s\" with access %d", szName.c_str(), dwAccessMode) );
 	if ( pStream->IsOpen() )
 		return pStream;
 	delete pStream;
 	return 0;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool CFileSystem::GetStreamStats( const char *pszName, SStorageElementStats *pStats )
 {
 	if ( !IsStreamExist(pszName) ) 
@@ -384,43 +384,43 @@ bool CFileSystem::GetStreamStats( const char *pszName, SStorageElementStats *pSt
 	}
 	return false;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// убить элемент хранилища
+
+// kill storage element
 bool CFileSystem::DestroyElement( const char *pszName )
 {
 	return DeleteFile( pszName ) != 0;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// переименовать элемент
+
+// rename element
 bool CFileSystem::RenameElement( const char *pszOldName, const char *pszNewName )
 {
 	return MoveFile( pszOldName, pszNewName ) != 0;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// перечисление элементов
+
+// enumeration of elements
 IStorageEnumerator* CFileSystem::CreateEnumerator()
 {
 	return new CFileSystemEnumerator( szBase );
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// добавить новый MOD
+
+// add new MOD
 bool CFileSystem::AddStorage( IDataStorage *pStorage, const char *pszName )
 {
 	NI_ASSERT_T( 0, "Can't add new storage to the file file system" );
 	return false;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// убрать MOD
+
+// remove MOD
 bool CFileSystem::RemoveStorage( const char *pszName )
 {
 	NI_ASSERT_T( 0, "Can't remove storage from file file system" );
 	return false;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 const bool CFileSystem::IsStreamExist( const char *pszName )
 {
 	std::string szName = szBase + pszName;
 	NStr::ToLower( szName );
 	return _access( szName.c_str(), 0 ) == 0;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+

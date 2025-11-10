@@ -10,9 +10,9 @@
 #include "tabwnd3.h"
 
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #define IDC_INPUT_NOTIFY_SHOTRCUT_BAR_00 ( 61849 )
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CInputNotifyShortcutBar : public SECShortcutBar
 {
 	friend class CInputControlBar;
@@ -20,9 +20,9 @@ class CInputNotifyShortcutBar : public SECShortcutBar
 	std::vector<CWnd*> inputTabWindows;
 
 protected:
-	//{{AFX_MSG(CInputNotifyShortcutBar)
+	// {{AFX_MSG(CInputNotifyShortcutBar)
 	afx_msg LRESULT OnNotify3DTabChangePage( WPARAM wParam, LPARAM lParam );
-	//}}AFX_MSG
+	// }}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 
 public:
@@ -63,9 +63,9 @@ public:
 		return pNewInputTabWindow;
 	}
 
-	//{{AFX_VIRTUAL(CInputNotifyShortcutBar)
-	//}}AFX_VIRTUAL
+	// {{AFX_VIRTUAL(CInputNotifyShortcutBar)
+	// }}AFX_VIRTUAL
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//{{AFX_INSERT_LOCATION}}
+
+// {{AFX_INSERT_LOCATION}}
 #endif // !defined(__SEC_NOTIFY_SHORTCUT_BAR__)

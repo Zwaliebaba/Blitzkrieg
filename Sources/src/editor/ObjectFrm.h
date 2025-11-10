@@ -1,6 +1,6 @@
 // ObjectFrm.h : interface of the CObjectFrame class
 //
-/////////////////////////////////////////////////////////////////////////////
+// 
 
 #ifndef __OBJECTFRM_H__
 #define __OBJECTFRM_H__
@@ -36,9 +36,9 @@ public:
 	
 // Overrides
 	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CObjectFrame)
+	// {{AFX_VIRTUAL(CObjectFrame)
 	protected:
-	//}}AFX_VIRTUAL
+	// }}AFX_VIRTUAL
 
 // Implementation
 private:
@@ -57,7 +57,7 @@ private:
 	CComboBox *m_pTransparenceCombo;
 	int m_transValue;
 	
-	//one way transeparence
+	// one way transparence
 	bool bDragging;
 	struct STransLine
 	{
@@ -68,14 +68,14 @@ private:
 		int operator&( IDataTree &ss );
 	};
 	typedef list<STransLine> CTransLineList;
-	STransLine currentLine;			//для отображения текущей перетаскиваемой линии
+	STransLine currentLine;			// to display the currently dragged line
 	CTransLineList transLines;
 	bool bDrawRect;
 	CPtr<IGFXVertices> pRectVertices;
 	int m_nSelected;
 	CListOfNormalTiles dirTiles;
 
-	// для отображения нужного спрайта
+	// to display the desired sprite
 	CTreeItem *pActiveGraphicProps;
 	
 protected:
@@ -83,12 +83,12 @@ protected:
 
 	void CreateKrest();
 	int UpdateNormalForSelectedLine();
-	virtual void SpecificInit();														//для инициализации внутренних данных после загрузки проекта или создании нового
+	virtual void SpecificInit();														// to initialize internal data after loading a project or creating a new one
 	virtual void SpecificClearBeforeBatchMode();
 	virtual BOOL SpecificTranslateMessage( MSG *pMsg );
 		
-	virtual void SaveFrameOwnData( IDataTree *pDT );				//для сохранения собственных данных проекта
-	virtual void LoadFrameOwnData( IDataTree *pDT );				//для загрузки
+	virtual void SaveFrameOwnData( IDataTree *pDT );				// to save your own project data
+	virtual void LoadFrameOwnData( IDataTree *pDT );				// to download
 	virtual void SaveRPGStats( IDataTree *pDT, CTreeItem *pRootItem, const char *pszProjectName );
 	virtual void LoadRPGStats( IDataTree *pDT, CTreeItem *pRootItem );
 	
@@ -99,7 +99,7 @@ protected:
 	
 // Generated message map functions
 protected:
-	//{{AFX_MSG(CObjectFrame)
+	// {{AFX_MSG(CObjectFrame)
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
@@ -116,13 +116,13 @@ protected:
 	afx_msg void OnChangeTranseparence();
 	afx_msg void OnDrawOneWayTranseparence();
 	afx_msg void OnUpdateDrawOneWayTranseparence(CCmdUI* pCmdUI);
-	//}}AFX_MSG
+	// }}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 
-//{{AFX_INSERT_LOCATION}}
+// {{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
 
-#endif		//__OBJECTFRM_H__
+#endif		// __OBJECTFRM_H__

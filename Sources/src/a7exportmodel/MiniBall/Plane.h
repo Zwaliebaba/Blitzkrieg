@@ -32,7 +32,7 @@ namespace MiniBall
 		Plane(const Vector &n, float D);   // Normal and distance to origin
 		Plane(const Vector &n, const Point &P);   // Normal and point on plane
 		Plane(const Point &P0, const Point &P1, const Point &P2);   // Through three points
-		Plane(float A, float B, float C, float D);   // Plane equation 
+		Plane(float A, float B, float C, float D);   // Plane equation
 
 		Plane &operator=(const Plane &p);
 
@@ -51,7 +51,7 @@ namespace MiniBall
 		static float d(const Point &P, const Plane &p);   // Oriented distance between point and plane
 		static float d(const Plane &p, const Point &P);   // Oriented distance between plane and point
 
-		Plane &normalise();   // Normalise the Plane equation
+		Plane &normalise();   // Normalize the Plane equation
 	};
 }
 

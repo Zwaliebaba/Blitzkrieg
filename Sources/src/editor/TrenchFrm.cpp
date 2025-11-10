@@ -6,7 +6,7 @@
 #include "..\GFX\GFXHelper.h"
 #include "..\Scene\Scene.h"
 #include "..\Anim\Animation.h"
-//#include "..\Main\fmtObject.h"
+// #include "..\Main\fmtObject.h"
 #include "..\Main\rpgstats.h"
 #include "..\Formats\fmtMesh.h"
 
@@ -24,18 +24,18 @@ static const int THUMB_LIST_WIDTH = 145;
 static char BASED_CODE szTrenchComposeFilter[] = "Trench Compose Project Files (*.trc)|*.trc||";
 
 
-/////////////////////////////////////////////////////////////////////////////
+// //
 // CTrenchFrame
 
 IMPLEMENT_DYNCREATE(CTrenchFrame, CParentFrame)
 
 BEGIN_MESSAGE_MAP(CTrenchFrame, CParentFrame)
-	//{{AFX_MSG_MAP(CTrenchFrame)
+	// {{AFX_MSG_MAP(CTrenchFrame)
 	ON_WM_CREATE()
-	//}}AFX_MSG_MAP
+	// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-/////////////////////////////////////////////////////////////////////////////
+// //
 // CTrenchFrame construction/destruction
 
 CTrenchFrame::CTrenchFrame()
@@ -62,7 +62,7 @@ int CTrenchFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;
 	g_frameManager.AddFrame( this );
 
-	// create a view to occupy the client area of the frame
+	// create a view to occupy the client area of ​​the frame
 	if (!pWndView->Create(NULL, NULL,  WS_CHILD | WS_VISIBLE, 
 		CRect(0, 0, 0, 0), this, AFX_IDW_PANE_FIRST, NULL))
 	{
@@ -70,12 +70,12 @@ int CTrenchFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;
 	}
 
-	//инициализируем уникальное имя для проекта
+	// initialize a unique name for the project
 	GenerateProjectName();
 	return 0;
 }
 
-/////////////////////////////////////////////////////////////////////////////
+// //
 // CTrenchFrame message handlers
 
 void CTrenchFrame::ShowFrameWindows( int nCommand )
@@ -140,9 +140,9 @@ void CTrenchFrame::SaveRPGStats( IDataTree *pDT, CTreeItem *pRootItem, const cha
 	CTrenchCommonPropsItem *pCommonProps = static_cast<CTrenchCommonPropsItem *>( pRootItem->GetChildItem( E_TRENCH_COMMON_PROPS_ITEM ) );
 	rpgStats.szKeyName = pCommonProps->GetTrenchName();
 	rpgStats.fMaxHP = pCommonProps->GetTrenchHealth();
-	//TODO
-	//number of medical slots
-	//number of rest slots
+	// TODO
+	// number of medical slots
+	// number of rest slots
 	
 	CTreeItem *pDefencesItem = pRootItem->GetChildItem( E_TRENCH_DEFENCES_ITEM );
 	for ( int i=0; i<6; i++ )
@@ -167,10 +167,10 @@ void CTrenchFrame::SaveRPGStats( IDataTree *pDT, CTreeItem *pRootItem, const cha
 		rpgStats.defences[ nIndex ].fSilhouette = pCommonProps->GetTrenchCover();
 	}
 
-	std::list<SMySegment> segmentsToSort;		//вспомогательный список, сюда помещаю все сегменты
-	//потом сортирую по индексу чтобы заполнить дырявые индексы пустыми структурами
+	std::list<SMySegment> segmentsToSort;		// auxiliary list, I put all the segments here
+	// then I sort by index to fill the leaky indexes with empty structures
 
-	//у окопа есть 4 разных части, прямые, прямые с бойницами, повороты и концы
+	// the trench has 4 different parts, straight, straight with loopholes, turns and ends
 	for ( int nTrenchIndex=0; nTrenchIndex<4; nTrenchIndex++ )
 	{
 		CTreeItem *pTrenchParts = pRootItem->GetChildItem( E_TRENCH_SOURCES_ITEM, nTrenchIndex );
@@ -182,15 +182,15 @@ void CTrenchFrame::SaveRPGStats( IDataTree *pDT, CTreeItem *pRootItem, const cha
 
 			string szFullName;
 			{
-				//Здесь я вычисляю полное имя .mod файла и копирую его в temp директорию редактора, чтобы потом можно было создать объект
-				//Получим полное имя файла
+				// Here I figure out the full name of the .mod file and copy it into the editor's temp directory so that I can create the object later
+				// Get the full file name
 				string szRel = pTrenchProps->GetFileName();
 				if ( IsRelatedPath( szRel.c_str() ) )
 					MakeFullPath( GetDirectory( pszProjectName ).c_str(), szRel.c_str(), szFullName );
 				else
 					szFullName = szRel;
 
-				//Копирую файл .mod в temp директорию редактора
+				// I copy the .mod file to the temp directory of the editor
 				string szTempModFile = theApp.GetEditorTempDir();
 				szTempModFile += "1.mod";
 				if ( !CopyFile( szFullName.c_str(), szTempModFile.c_str(), FALSE ) )
@@ -200,26 +200,14 @@ void CTrenchFrame::SaveRPGStats( IDataTree *pDT, CTreeItem *pRootItem, const cha
 					AfxMessageBox( szErr );
 					continue;
 				}
-/*
-				//Копирую файл .tga в temp директорию редактора
-				string szTgaFile = GetDirectory( szFullName.c_str() );
-				szTgaFile += "1.tga";
-				string szTempTgaFile = theApp.GetEditorTempDir();
-				szTempTgaFile += "1.tga";
-				if ( !CopyFile( szTgaFile.c_str(), szTempTgaFile.c_str(), FALSE ) )
-				{
-					CString szErr = "Error while saving project: Cannot copy file: ";
-					szErr += szFullName;
-					AfxMessageBox( szErr );
-					continue;
-				}
-*/
+/* //Copy the .tga file to the temp directory of the editor
+				 */
 			}
 
 
-			//запишем имя объекта
+			// write down the name of the object
 			{
-				//нам нужно записать только имя файла без расширения
+				// we only need to write down the file name without extension
 				string szTemp = pTrenchProps->GetFileName();
 				int nPos = szTemp.rfind( '\\' );
 				if ( nPos != string::npos )
@@ -228,7 +216,7 @@ void CTrenchFrame::SaveRPGStats( IDataTree *pDT, CTreeItem *pRootItem, const cha
 				my.segment.szModel = szTemp;
 			}
 
-			//запишем информацию об AABB
+			// write down information about AABB
 			{
 				SAABBFormat aabb;											// axis-aligned bounding box
 				
@@ -253,9 +241,9 @@ void CTrenchFrame::SaveRPGStats( IDataTree *pDT, CTreeItem *pRootItem, const cha
 				my.segment.vAABBHalfSize.z = aabb.vHalfSize.z;
 			}
 
-			//запишем информацию об fire place, если таковой имеется
+			// write down information about the fire place, if there is one
 			{
-				//создаем объект, не добавляя его в сцену
+				// create an object without adding it to the scene
 				string szTempModFile = theApp.GetEditorTempResourceDir();
 				szTempModFile += "\\1";
 				CPtr<IObjVisObj> pReadyObject;
@@ -269,7 +257,7 @@ void CTrenchFrame::SaveRPGStats( IDataTree *pDT, CTreeItem *pRootItem, const cha
 					continue;
 				}
 
-				//Тут прогружаю набор локаторов модели
+				// Here I am loading a set of model locators
 				IMeshAnimation *pMeshAnim = static_cast<IMeshAnimation *> ( pReadyObject->GetAnimation() );
 				IMeshAnimationEdit *pMeshAnimEdit = dynamic_cast<IMeshAnimationEdit *> ( pMeshAnim );
 
@@ -289,23 +277,8 @@ void CTrenchFrame::SaveRPGStats( IDataTree *pDT, CTreeItem *pRootItem, const cha
 					pMeshAnimEdit->GetAllNodeNames( &(allNamesVector[0]), nNumNodes );
 				}
 				
-/*
-				//тут дополнительные проверки на вшивость
-				if ( nNumLocators != 0 && nTrenchIndex != 0 )
-				{
-					CString szErr;
-					szErr.Format( "Error: trench file %s\nhas fire place, and it should be in the trench with ambrasure folder", szFullName.c_str() );
-					AfxMessageBox( szErr );
-					continue;
-				}
-				if ( nNumLocators == 0 && nTrenchIndex == 0 )
-				{
-					CString szErr;
-					szErr.Format( "Error: trench file %s\nhasn't fire place, and it should not be in the trench with ambrasure folder", szFullName.c_str() );
-					AfxMessageBox( szErr );
-					continue;
-				}
-*/
+/* //here are additional checks for lice
+				 */
 
 				for ( int i=0; i<nNumLocators; i++ )
 				{
@@ -316,7 +289,7 @@ void CTrenchFrame::SaveRPGStats( IDataTree *pDT, CTreeItem *pRootItem, const cha
 							break;
 					}
 					
-					//значит это окоп с амбразурой, прогрузим fire place
+					// this means this is a trench with an embrasure, let’s load the fire place
 					pReadyObject->SetPosition( CVec3(0, 0, 0) );
 					pReadyObject->SetDirection( 0 );
 					
@@ -353,7 +326,7 @@ void CTrenchFrame::SaveRPGStats( IDataTree *pDT, CTreeItem *pRootItem, const cha
 			else
 			{
 				bErr = true;
-				NI_ASSERT( 0 );			//unknown trench folder
+				NI_ASSERT( 0 );			// unknown trench folder
 			}
 
 			my.segment.fCoverage = pTrenchProps->GetCoverage();
@@ -363,14 +336,14 @@ void CTrenchFrame::SaveRPGStats( IDataTree *pDT, CTreeItem *pRootItem, const cha
 		}
 	}
 
-	//сортируем
+	// sort
 	segmentsToSort.sort();
 	int nPrev = -1;
 	for ( std::list<SMySegment>::iterator it=segmentsToSort.begin(); it!=segmentsToSort.end(); ++it )
 	{
 		if ( it->nIndex != nPrev + 1 )
 		{
-			//вставляем пустые структуры
+			// insert empty structures
 			for ( int i=nPrev+1; i<it->nIndex; i++ )
 			{
 				SEntrenchmentRPGStats::SSegmentRPGStats segment;
@@ -378,7 +351,7 @@ void CTrenchFrame::SaveRPGStats( IDataTree *pDT, CTreeItem *pRootItem, const cha
 				segment.vFirePlace = VNULL2;
 				segment.vAABBCenter = VNULL2;
 				segment.vAABBHalfSize = VNULL3;
-				segment.eType = SEntrenchmentRPGStats::EST_LINE;			//0
+				segment.eType = SEntrenchmentRPGStats::EST_LINE;			// 0
 				rpgStats.segments.push_back( segment );
 			}
 		}
@@ -403,8 +376,8 @@ void CTrenchFrame::LoadRPGStats( IDataTree *pDT, CTreeItem *pRootItem )
 	CTrenchCommonPropsItem *pCommonProps = static_cast<CTrenchCommonPropsItem *> ( pRootItem->GetChildItem( E_TRENCH_COMMON_PROPS_ITEM ) );
 	pCommonProps->SetTrenchName( rpgStats.szKeyName.c_str() );
 	pCommonProps->SetTrenchHealth( rpgStats.fMaxHP );
-//	pCommonProps->SetTrenchRestSlots( rpgStats.nRestSlots );
-//	pCommonProps->SetTrenchMedicalSlots( rpgStats.nMedicalSlots );
+// pCommonProps->SetTrenchRestSlots( rpgStats.nRestSlots );
+// pCommonProps->SetTrenchMedicalSlots( rpgStats.nMedicalSlots );
 	
 	CTreeItem *pDefencesItem = pRootItem->GetChildItem( E_TRENCH_DEFENCES_ITEM );
 	for ( int i=0; i<6; i++ )
@@ -428,7 +401,7 @@ void CTrenchFrame::LoadRPGStats( IDataTree *pDT, CTreeItem *pRootItem )
 		pDefProps->SetMaxArmor( rpgStats.defences[nIndex].nArmorMax );
 	}
 
-	//обновляем индексы окопов, если они еще не были проиндексированы
+	// update trench indexes if they have not yet been indexed
 	int nIndex = 0;
 	std::set<int> indexSet;
 	for ( int nTrenchIndex=0; nTrenchIndex<4; nTrenchIndex++ )
@@ -448,15 +421,15 @@ void CTrenchFrame::LoadRPGStats( IDataTree *pDT, CTreeItem *pRootItem )
 	int nPrev = -1;
 	for ( std::set<int>::iterator it=indexSet.begin(); it!=indexSet.end(); ++it )
 	{
-		if ( *it != nPrev + 1 )				//если есть пустые индексы
+		if ( *it != nPrev + 1 )				// if there are empty indexes
 		{
 			for ( int i=nPrev+1; i!=*it; i++ )
 				freeIndexes.push_back( i );
 		}
 		nPrev = *it;
 	}
-	freeIndexes.push_back( nPrev + 1 );			//это самый последний индекс
-	//теперь freeIndexes должны быть отсортированы по возрастанию
+	freeIndexes.push_back( nPrev + 1 );			// this is the latest index
+	// freeIndexes should now be sorted in ascending order
 }
 
 void CTrenchFrame::RemoveTrenchIndex( int nIndex )
@@ -477,7 +450,7 @@ int CTrenchFrame::GetFreeTrenchIndex()
 	int nRes = -1;
 	if ( freeIndexes.size() == 1 )
 	{
-		//возвращаем самый последний индекс
+		// return the most recent index
 		nRes = freeIndexes.back()++;
 	}
 	else
@@ -493,7 +466,7 @@ bool CTrenchFrame::ExportFrameData( IDataTree *pDT, const char *pszProjectName, 
 {
 	SaveRPGStats( pDT, pRootItem, pszProjectName );
 
-	//Скопируем все .mod файлы в результирующую директорию
+	// Copy all .mod files to the resulting directory
 	int nCount = 0;
 	for ( int nTrenchIndex=0; nTrenchIndex<4; nTrenchIndex++ )
 	{
@@ -518,21 +491,21 @@ bool CTrenchFrame::ExportFrameData( IDataTree *pDT, const char *pszProjectName, 
 
 			if ( nCount == 0 )
 			{
-				//скопируем летнюю текстуру
+				// copy the summer texture
 				string szTGA = GetDirectory( szFullName.c_str() );
 				szTGA += "1.tga";
 				string szResult = GetDirectory( pszResultFileName );
 				szResult += "1";
 				ConvertAndSaveImage( szTGA.c_str(), szResult.c_str() );
 
-				//скопируем зимнюю текстуру
+				// copy the winter texture
 				szTGA = GetDirectory( szFullName.c_str() );
 				szTGA += "1w.tga";
 				szResult = GetDirectory( pszResultFileName );
 				szResult += "1w";
 				ConvertAndSaveImage( szTGA.c_str(), szResult.c_str() );
 
-				//скопируем африканскую текстуру
+				// copy the African texture
 				szTGA = GetDirectory( szFullName.c_str() );
 				szTGA += "1a.tga";
 				szResult = GetDirectory( pszResultFileName );
@@ -562,9 +535,9 @@ FILETIME CTrenchFrame::FindMaximalSourceTime( const char *pszProjectName, CTreeI
 		{
 			CTrenchSourcePropsItem *pTrenchProps = static_cast<CTrenchSourcePropsItem *> ( it->GetPtr() );
 			
-			//Здесь я вычисляю полное имя .mod файла
+			// Here I am calculating the full name of the .mod file
 			string szFullName;
-			//Получим полное имя файла
+			// Get the full file name
 			string szRel = pTrenchProps->GetFileName();
 			if ( IsRelatedPath( szRel.c_str() ) )
 				MakeFullPath( GetDirectory( pszProjectName ).c_str(), szRel.c_str(), szFullName );
@@ -573,7 +546,7 @@ FILETIME CTrenchFrame::FindMaximalSourceTime( const char *pszProjectName, CTreeI
 			
 			if ( nCount == 0 )
 			{
-				//возьму время изменения .tga файла, считаю что он под именем 1.tga в директории с первым .mod файлом
+				// I’ll take the time of modification of the .tga file, I believe that it is under the name 1.tga in the directory with the first .mod file
 				string szTGA = GetDirectory( szFullName.c_str() );
 				szTGA += "1.tga";
 				currentTime = GetFileChangeTime( szTGA.c_str() );
@@ -615,7 +588,7 @@ FILETIME CTrenchFrame::FindMinimalExportFileTime( const char *pszResultFileName,
 			if ( nPos != string::npos )
 				szShortName = szShortName.substr( nPos+1 );
 
-			//вычислим имя файла в destination directory
+			// calculate the file name in the destination directory
 			string szFullName = szDestDir;
 			szFullName += szShortName;
 			currentTime = GetFileChangeTime( szFullName.c_str() );

@@ -10,7 +10,7 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-/////////////////////////////////////////////////////////////////////////////
+// //
 // CTreeItemComboBox
 
 CTreeItemComboBox::CTreeItemComboBox()
@@ -23,18 +23,18 @@ CTreeItemComboBox::~CTreeItemComboBox()
 
 
 BEGIN_MESSAGE_MAP(CTreeItemComboBox, CComboBox)
-	//{{AFX_MSG_MAP(CTreeItemComboBox)
+	// {{AFX_MSG_MAP(CTreeItemComboBox)
 	ON_WM_KILLFOCUS() 
 	ON_WM_CREATE()
-	//}}AFX_MSG_MAP
+	// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-/////////////////////////////////////////////////////////////////////////////
+// //
 // CTreeItemComboBox message handlers
 
 void CTreeItemComboBox::OnKillFocus(CWnd* pNewWnd) 
 {
-	//CComboBox::OnKillFocus(pNewWnd);
+	// CComboBox::OnKillFocus(pNewWnd);
 		GetParent()->SendMessage( WM_USER + 1);
 	// TODO: Add your message handler code here
 	

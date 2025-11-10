@@ -4,17 +4,17 @@
 
 #define ID_OI 515
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // CPropView
 
 BEGIN_MESSAGE_MAP(CPropView, SECControlBar)
-//{{AFX_MSG_MAP(CPropView)
+// {{AFX_MSG_MAP(CPropView)
 	ON_WM_CREATE()
 	ON_WM_SIZE()
-	//}}AFX_MSG_MAP
+	// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // CPropView construction/destruction
 
 CPropView::CPropView()
@@ -25,7 +25,7 @@ CPropView::CPropView()
 CPropView::~CPropView()
 {
 }
-/////////////////////////////////////////////////////////////////////////////////////
+// ///////
 int CPropView::OnCreate(LPCREATESTRUCT lpCreateStruct) 
 {
   if (SECControlBar::OnCreate(lpCreateStruct) == -1)
@@ -35,15 +35,15 @@ int CPropView::OnCreate(LPCREATESTRUCT lpCreateStruct)
   RECT rect;
 	
   GetClientRect( &rect );
-	//  GetWindowRect( &rect );
-	//m_wndOI.CreateEx( WS_EX_STATICEDGE, 0, 0, WS_CHILD | WS_VISIBLE, rect, this, ID_OI );
+	// GetWindowRect( &rect );
+	// m_wndOI.CreateEx( WS_EX_STATICEDGE, 0, 0, WS_CHILD | WS_VISIBLE, rect, this, ID_OI );
   m_wndOI.Create( 0, "ObjectInspector", WS_CHILD | WS_VISIBLE, rect, this, ID_OI );
   m_wndOI.SetWindowPos( 0, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOSIZE );
 
 	return 0;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////
+// ///////
 BOOL CPropView::PreTranslateMessage( MSG* pMsg )
 {
   if ( pMsg->message == WM_USER + 1 )
@@ -56,7 +56,7 @@ BOOL CPropView::PreTranslateMessage( MSG* pMsg )
   return SECControlBar::PreTranslateMessage( pMsg );
 }
 
-/////////////////////////////////////////////////////////////////////////////////////
+// ///////
 void CPropView::OnSize(UINT nType, int cx, int cy) 
 {
   SECControlBar::OnSize(nType, cx, cy);
@@ -68,93 +68,8 @@ void CPropView::OnSize(UINT nType, int cx, int cy)
     SWP_NOZORDER|SWP_NOACTIVATE);
 }
 
-/*
-/////////////////////////////////////////////////////////////////////////////////////
-void CPropView::UpdatePropList()
-{
-  if ( !pPropMap )
-    return;
-  m_OIDlg.m_wndOI.ClearAll();
-  if ( pPropMap->empty() )
-    return;
-  int nItemID = pPropMap->begin()->second->GetOwnerID();
-  string szGroup = string( "General (ID = " ) + IToA( nItemID ) + " )";
-  m_OIDlg.m_wndOI.SetGroup( 0, szGroup.c_str() );
-
-  for ( CPropMap::const_iterator it = pPropMap->begin(); it != pPropMap->end(); ++it )
-  {
-    const SResTree *pRelation = theApp.GetResTree( it->second->GetRelation() );
-    CVariant var;
-    GroupID  gid = 0;
-    DomenID  nViewType = it->second->GetViewType();
-    bool     bReadOnly = false;
-    if ( pRelation )
-    {
-      var = pRelation->pItemsTree->GetItemName( it->second->GetValue() );
-      gid = it->second->GetGroup();
-      //nViewType = DT_STR;
-			nViewType = DT_RELATION;
-//      bReadOnly = true;
-      if ( gid )
-        m_OIDlg.m_wndOI.SetGroup( gid, pRelation->szTabName, true );
-    }
-    else
-    {
-      var = it->second->GetValue();
-    }
-    string szPref = theApp.GetResSrcDir() + it->second->GetPrefix();
-    m_OIDlg.m_wndOI.AddPropertiesValue( it->second->GetID(), nViewType, it->first, var, gid, bReadOnly, szPref.c_str() );
-    if ( DT_COMBO == nViewType )
-    {
-      const vector<string> &v = it->second->GetStrings();
-      for ( int i = 0; i < v.size(); ++i )
-        m_OIDlg.m_wndOI.AddPropertyString( it->second->GetID(), v[i] );
-    }
-  }
-  m_OIDlg.m_wndOI.Invalidate();
-}
-/////////////////////////////////////////////////////////////////////////////////////
-void CPropView::SetPropMap( const CPropMap *_pPropMap )
-{ 
-	// если изменим pPropMap до ClearAll, то можем потерять последнее измененное значение
-	m_OIDlg.m_wndOI.ClearAll();
-	//
-  pPropMap = _pPropMap;
-  UpdatePropList();
-}
-/////////////////////////////////////////////////////////////////////////////////////
-int CPropView::GetActiveProp( int nGroupID )
-{
-  return m_OIDlg.m_wndOI.GetActiveProp( nGroupID );
-}
-/////////////////////////////////////////////////////////////////////////////////////
-void CPropView::UpdateProperty( int nPropID )
-{
-  if ( !pPropMap )
-    return;
-
-  for ( CPropMap::const_iterator it = pPropMap->begin(); it != pPropMap->end(); ++it )
-  {
-    if ( it->second->GetID() == nPropID )
-    {
-      const SResTree *pRelation = theApp.GetResTree( it->second->GetRelation() );
-      CVariant var;
-      if ( pRelation )
-      {
-        var = pRelation->pItemsTree->GetItemName( it->second->GetValue() );
-      }
-      else
-        var = it->second->GetValue();
-      m_OIDlg.m_wndOI.SetPropertiesValue( nPropID, var );
-    }
-  }
-}
-/////////////////////////////////////////////////////////////////////////////////////
-void CPropView::SetActiveProp( int nPropID )
-{
-	m_OIDlg.m_wndOI.SetActiveProp( nPropID );
-}
-*/
+/* // ///////
+ */
 
 void CPropView::SetItemProperty( const char *szItemName, CTreeItem *pProp )
 {
@@ -186,7 +101,7 @@ void CPropView::UpdateValue( PropID nID )
 	{
 		string szName = m_wndOI.GetPropertyName( nID );
 		if ( szName.size() == 0 )
-			return;			//ERROR
+			return;			// ERROR
 
 		CPropVector::iterator it = pActiveTreeItem->values.begin();
 		for ( ; it!=pActiveTreeItem->values.end(); ++it )

@@ -9,25 +9,25 @@
 	#error include 'stdafx.h' before including this file for PCH
 #endif
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CELKApp : public CWinApp
 {
 public:
 	CELKApp();
 
-	//{{AFX_VIRTUAL(CELKApp)
+	// {{AFX_VIRTUAL(CELKApp)
 	public:
 	virtual BOOL InitInstance();
 	virtual int ExitInstance();
-	//}}AFX_VIRTUAL
+	// }}AFX_VIRTUAL
 
 public:
-	//{{AFX_MSG(CELKApp)
+	// {{AFX_MSG(CELKApp)
 	afx_msg void OnAppAbout();
 	afx_msg void OnHelpContents();
-	//}}AFX_MSG
+	// }}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//{{AFX_INSERT_LOCATION}}
+
+// {{AFX_INSERT_LOCATION}}
 #endif // !defined(__ELK_APPLICATION__)

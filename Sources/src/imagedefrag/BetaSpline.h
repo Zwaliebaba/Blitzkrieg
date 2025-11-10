@@ -1,7 +1,7 @@
 #ifndef __BETASPLINE_H__
 #define __BETASPLINE_H__
 
-//#include "Geometry.h"
+// #include "Geometry.h"
 
 class CBetaSpline
 {
@@ -45,4 +45,4 @@ public:
   float Ave( float u0, float u1, float v0, float v1, const float ptControls[16] ) const;
 };
 
-#endif //  __BETASPLINE_H__
+#endif // __BETASPLINE_H__

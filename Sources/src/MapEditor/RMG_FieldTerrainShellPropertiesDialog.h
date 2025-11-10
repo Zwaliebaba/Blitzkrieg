@@ -8,30 +8,30 @@
 #include "Resource.h"
 #include "ResizeDialog.h"
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 class CRMGFieldTerrainShellPropertiesDialog : public CResizeDialog
 {
 public:
 	CRMGFieldTerrainShellPropertiesDialog( CWnd* pParent = NULL );
 
-	//{{AFX_DATA(CRMGFieldTerrainShellPropertiesDialog)
+	// {{AFX_DATA(CRMGFieldTerrainShellPropertiesDialog)
 	enum { IDD = IDD_RMG_CF_TS_PROPERTIES };
 	CString	m_szWidth;
-	//}}AFX_DATA
+	// }}AFX_DATA
 
-	//{{AFX_VIRTUAL(CRMGFieldTerrainShellPropertiesDialog)
+	// {{AFX_VIRTUAL(CRMGFieldTerrainShellPropertiesDialog)
 	protected:
 	virtual void DoDataExchange( CDataExchange* pDX );
-	//}}AFX_VIRTUAL
+	// }}AFX_VIRTUAL
 
 protected:
-	//{{AFX_MSG(CRMGFieldTerrainShellPropertiesDialog)
-	//}}AFX_MSG
+	// {{AFX_MSG(CRMGFieldTerrainShellPropertiesDialog)
+	// }}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 
 protected:
 	virtual bool GetDrawGripper() { return false; }
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//{{AFX_INSERT_LOCATION}}
+// ////////////////////////////////////////////////
+// {{AFX_INSERT_LOCATION}}
 #endif // !defined(__RMG_Field_Terrain_Shell_Properties_Dialog__)

@@ -1,24 +1,24 @@
 #ifndef __FILE_UTILS_H__
 #define __FILE_UTILS_H__
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #include <io.h>
 #include <string>
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 namespace NFile
 {
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // ************************************************************************************************************************ //
 // **
-// ** Win32 file wrapper
+// **Win32 file wrapper
 // **
 // **
 // **
 // ************************************************************************************************************************ //
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CFile
 {
 	HANDLE hFile;
@@ -93,16 +93,16 @@ public:
 	operator HANDLE() const { return hFile; }
 	//
 	const std::string& GetFilePath() const;	// complete path name (ZB. c:\program files\name.txt)
-	const std::string GetFileName() const;	// title + ext (ZB. name.txt)
+	const std::string GetFileName() const;	// title + ext (ZB.name.txt)
 	const std::string GetFileTitle() const;	// title onle (ZB. name)
-	const std::string GetFileExt() const;		// extension onle (ZB. txt)
+	const std::string GetFileExt() const;		// extension onle (ZB.txt)
 	// statics
 	static bool Rename( const char *pszOldName, const char *pszNewName );
 	static bool Remove( const char *pszFileName );
 	static DWORD GetAttributes( const char *pszFileName );
 	static bool SetAttributes( const char *pszFileName, DWORD dwAttributes );
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // ************************************************************************************************************************ //
 // **
 // ** file iterator
@@ -110,7 +110,7 @@ public:
 // **
 // **
 // ************************************************************************************************************************ //
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CFileIterator
 {
 	HANDLE hFind;													// find file handle of the last search result
@@ -138,7 +138,7 @@ public:
 	bool IsArchive() const { return ( GetAttribs() & NFile::CFile::archive ) != 0; }
 	bool IsCompressed() const { return ( GetAttribs() & NFile::CFile::compressed ) != 0; }
 	bool IsDirectory() const { return ( GetAttribs() & NFile::CFile::directory ) != 0; }
-	// special kind of directory: '.' - this dir and '..' - parent dir
+	// special kind of directory: '.' 
 	bool IsDots() const
 	{
 		return ( ( findinfo.cFileName[0] == '.' ) && 
@@ -161,9 +161,9 @@ public:
 	const std::string& GetBasePath() const { return szPath; }
 	const std::string& GetBaseMask() const { return szMask; }
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // enumerate all files by mask.
-// при рекурсивной енумерации сначала входим в директорию, а потом только получаем еЄ им¤ (при выходе из рекурсии)
+// with recursive enumeration, we first enter the directory, and then only get its name (when exiting recursion)
 template <class TEnumFunc>
 void EnumerateFiles( const char *pszStartDir, const char *pszMask, TEnumFunc callback, bool bRecurse )
 {
@@ -190,8 +190,8 @@ void EnumerateFiles( const char *pszStartDir, const char *pszMask, TEnumFunc cal
 		}
 	}
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// ‘унктор дл¤ EnumerateFiles, перечисл¤ет все файлы в директории
+
+// 'unctor for EnumerateFiles, enumerates all files in a directory
 class CGetAllFiles
 {
 	std::vector<std::string> *pFileVector;
@@ -206,22 +206,22 @@ public:
 		}
 	}
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void DeleteFiles( const char *pszStartDir, const char *pszMask, bool bRecursive );
 void DeleteDirectory( const char *pszDir );
 void CreatePath( const char *pszFullPath );
 void GetDirNames( const char *pszDirName, std::list<std::string> *pNames, bool bRecursive = true );
 void GetFileNames( const char *pszDirName, const char *pszMask, std::list<std::string> *pNames, bool bRecurse = true );
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool IsFileExist( const char *pszFileName );
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 std::string GetFullName( const std::string &szPath );
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // return number of bytes, free for the caller on the selected drive
 double GetFreeDiskSpace( const char *pszDrive );
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 }; // namespace NFile ends
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // ************************************************************************************************************************ //
 // **
 // ** CFile helper operators (<< and >> streaming)
@@ -229,7 +229,7 @@ double GetFreeDiskSpace( const char *pszDrive );
 // **
 // **
 // ************************************************************************************************************************ //
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // general template
 template <class TYPE>
 	inline NFile::CFile& operator<<( NFile::CFile &file, const TYPE &data )
@@ -278,5 +278,5 @@ template <>
 		file.Read( &(data[0]), nLength * sizeof(data[0]) );
 		return file;
 	}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // __FILE_UTILS_H__

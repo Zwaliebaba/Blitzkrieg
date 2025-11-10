@@ -35,10 +35,10 @@ public:
 	OBJECT_NORMAL_METHODS( CSpritesItem );
 
 private:
-	SThumbItems m_allThumbItems;		//эти items отображаются в AllDirThumbList
-	SThumbItems m_selThumbItems;		//эти items отображаются в SelectedDirThumbList
-	CImageList imageList;						//один image list для обоих ThumbList
-	bool bLoaded;										//этот флаг для подкачки items только в момент когда пользователь выбирает папку с анимациями или тыкает во frame
+	SThumbItems m_allThumbItems;		// these items are displayed in AllDirThumbList
+	SThumbItems m_selThumbItems;		// these items are displayed in SelectedDirThumbList
+	CImageList imageList;						// one image list for both ThumbList
+	bool bLoaded;										// this flag is for paging items only when the user selects a folder with animations or clicks on frame
 
 public:
 	CSpritesItem() {
@@ -57,14 +57,14 @@ public:
 
 	virtual bool CopyItemTo( CTreeItem *pTo );
 
-	//Получение внутренних параметров
+	// Getting internal parameters
 	const char *GetDirName();
 	int GetFrameTime();
 	CVec2 GetPosition();
 
 	void SetLoadedFlag( bool bState ) { bLoaded = bState; }
 	bool GetLoadedFlag() { return bLoaded; }
-	virtual void InsertChildItems();					//Вызывается после создания всех компонентов для занесения их в дерево
+	virtual void InsertChildItems();					// Called after all components have been created to add them to the tree
 
 	virtual void InitDefaultValues();
 	virtual void UpdateItemValue( int nItemId, const CVariant &value );
@@ -72,4 +72,4 @@ public:
 };
 
 
-#endif		//__SPRITE_TREE_ITEM_H__
+#endif		// __SPRITE_TREE_ITEM_H__

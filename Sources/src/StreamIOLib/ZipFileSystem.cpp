@@ -4,7 +4,7 @@
 
 #include "MemFileSystem.h"
 #include "..\Misc\FileUtils.h"
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // ************************************************************************************************************************ //
 // **
 // ** zip file system enumerator
@@ -12,19 +12,19 @@
 // **
 // **
 // ************************************************************************************************************************ //
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 CZipFileSystemEnumerator::CZipFileSystemEnumerator( const CZipFilesList &_zipfiles, IDataStorage *_pStorage )
 : pStorage( _pStorage ), zipfiles( _zipfiles ), posZipFile( _zipfiles.begin() ), nFileInZip( 0 )
 {
 	Zero( stats );
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CZipFileSystemEnumerator::Reset( const char *pszMask )
 {
 	posZipFile = zipfiles.begin();
 	nFileInZip = -1;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool CZipFileSystemEnumerator::NextEntry()
 {
 	if ( posZipFile == zipfiles.end() )
@@ -45,7 +45,7 @@ bool CZipFileSystemEnumerator::NextEntry()
 		}
 	}
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool CZipFileSystemEnumerator::Next()
 {
 	if( NextEntry() == false )
@@ -65,7 +65,7 @@ bool CZipFileSystemEnumerator::Next()
 	//
 	return true;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // ************************************************************************************************************************ //
 // **
 // ** zip file system
@@ -73,7 +73,7 @@ bool CZipFileSystemEnumerator::Next()
 // **
 // **
 // ************************************************************************************************************************ //
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CAddZipFileFunctional
 {
 	CZipFileSystem *pZipFS;								// zip file system
@@ -89,7 +89,7 @@ public:
 		return false;
 	}
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 CZipFileSystem::CZipFileSystem( const char *pszName, DWORD dwAccessMode )
 : dwStorageAccessMode( dwAccessMode )
 {
@@ -114,7 +114,7 @@ CZipFileSystem::CZipFileSystem( const char *pszName, DWORD dwAccessMode )
 	//
 	NFile::EnumerateFiles( szName.c_str(), szMask.c_str(), CAddZipFileFunctional(this), bRecursiveSearch );
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool CZipFileSystem::AddZipFile( IDataStream *pStream, const std::string &szZipFileName )
 {
 	zipfiles.push_back( SZipFileDesc() );
@@ -146,15 +146,15 @@ bool CZipFileSystem::AddZipFile( IDataStream *pStream, const std::string &szZipF
 		zipfiles.pop_back();
 	return false;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// создать и открыть поток с указанным именем и правами доступа
+
+// create and open a stream with the specified name and access rights
 IDataStream* CZipFileSystem::CreateStream( const char *pszName, DWORD dwAccessMode )
 {
 	NI_ASSERT_SLOW_T( 0, "Can't create zip stream - still not realized" );
 	return 0;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// открыть существующий поток с указанным именем и правами доступа
+
+// open an existing stream with the specified name and permissions
 IDataStream* CZipFileSystem::OpenStream( const char *pszName, DWORD dwAccessMode )
 {
 	NI_ASSERT_SLOW_TF( (dwAccessMode & dwStorageAccessMode) == dwAccessMode, "Can't create stream - invalid access mode", return 0 );
@@ -170,7 +170,7 @@ IDataStream* CZipFileSystem::OpenStream( const char *pszName, DWORD dwAccessMode
 	}
 	return 0;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool CZipFileSystem::GetStreamStats( const char *pszName, SStorageElementStats *pStats )
 {
 	std::string szName = pszName;
@@ -186,46 +186,46 @@ bool CZipFileSystem::GetStreamStats( const char *pszName, SStorageElementStats *
 	pStats->pszName = 0;
 	return true;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// убить элемент хранилища
+
+// kill storage element
 bool CZipFileSystem::DestroyElement( const char *pszName )
 {
 	files.erase( pszName );
 	return true;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// переименовать элемент
+
+// rename element
 bool CZipFileSystem::RenameElement( const char *pszOldName, const char *pszNewName )
 {
 	files[pszNewName] = files[pszOldName];
 	files.erase( pszOldName );
 	return true;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// перечисление элементов
+
+// enumeration of elements
 IStorageEnumerator* CZipFileSystem::CreateEnumerator()
 {
 	return new CZipFileSystemEnumerator( zipfiles, this );
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// добавить новый MOD
+
+// add new MOD
 bool CZipFileSystem::AddStorage( IDataStorage *pStorage, const char *pszName )
 {
 	NI_ASSERT_T( 0, "Can't add new storage to the zip file system" );
 	return false;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// убрать MOD
+
+// remove MOD
 bool CZipFileSystem::RemoveStorage( const char *pszName )
 {
 	NI_ASSERT_T( 0, "Can't remove storage from zip file system" );
 	return false;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 const bool CZipFileSystem::IsStreamExist( const char *pszName )
 {
 	std::string szName = pszName;
 	NStr::ToLower( szName );
 	return files.find(szName) != files.end();
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+

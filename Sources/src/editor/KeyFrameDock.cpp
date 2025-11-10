@@ -5,7 +5,7 @@
 #include "ParticleFrm.h"
 #include "frames.h"
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // CKeyFrameDockWnd
 
 CKeyFrameDockWnd::CKeyFrameDockWnd()
@@ -24,16 +24,16 @@ CKeyFrameDockWnd::~CKeyFrameDockWnd()
 
 
 BEGIN_MESSAGE_MAP(CKeyFrameDockWnd, SECControlBar)
-	//{{AFX_MSG_MAP(CKeyFrameDockWnd)
+	// {{AFX_MSG_MAP(CKeyFrameDockWnd)
 	ON_WM_CREATE()
 	ON_WM_SIZE()
 	ON_COMMAND(ID_KEYFRAME_DELETE_NODE, OnKeyframeDeleteNode)
 	ON_COMMAND(ID_KEYFRAME_RESET_ALL, OnKeyframeResetAll)
-	//}}AFX_MSG_MAP
+	// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // CKeyFrameDockWnd message handlers
 
 int CKeyFrameDockWnd::OnCreate(LPCREATESTRUCT lpCreateStruct) 
@@ -87,7 +87,7 @@ BOOL CKeyFrameDockWnd::PreTranslateMessage(MSG* pMsg)
 	{
 	case WM_KEY_FRAME_RCLICK:
 		{
-			//ќтображаем меню
+			// Displaying the menu
 			CMenu menu;
 			menu.LoadMenu( IDR_KEYFRAME_ZOOM_MENU );
 			CMenu *popupMenu = menu.GetSubMenu( 0 );
@@ -98,36 +98,19 @@ BOOL CKeyFrameDockWnd::PreTranslateMessage(MSG* pMsg)
 	case WM_KEY_FRAME_UPDATE:
 		if ( pActiveKeyItem )
 		{
-			//ќбновл¤ем список значений
+			// Updating the list of values
 			pActiveKeyItem->SetFramesList( m_pKeyFramer->GetFramesList() );
-			//сейчас работает только с ParticleFrame
+			// currently only works with ParticleFrame
 			g_frameManager.GetFrame( CFrameManager::E_PARTICLE_FRAME )->SetChangedFlag( true );
 		}
 		return true;
 
-/*
-	case WM_USERKEYDOWN:
-		pItem = (CTreeItem *) pMsg->lParam;
-		NI_ASSERT ( pItem != 0 );
-		pItem->MyKeyDown( pMsg->wParam );
-		return true;
-
-	case WM_USERRBUTTONCLICK:
-		pItem = (CTreeItem *) pMsg->lParam;
-		NI_ASSERT ( pItem != 0 );
-		pItem->MyRButtonClick();
-		return true;
-*/
+/* case WM_USERKEYDOWN:
+		 */
 	}
 
-/*
-	switch ( pMsg->message )
-	{
-		case WM_KEYDOWN:
-			::PostMessage( m_pKeyFramer->GetSafeHwnd(), WM_KEYDOWN, pMsg->wParam, pMsg->lParam );
-			return true;
-	}
-*/
+/* switch ( pMsg->message )
+	 */
 
 	return SECControlBar::PreTranslateMessage( pMsg );
 }

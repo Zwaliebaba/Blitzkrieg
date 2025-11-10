@@ -7,31 +7,31 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 CAboutDialog::CAboutDialog( CWnd* pParent)
 	: CDialog( CAboutDialog::IDD, pParent )
 {
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CAboutDialog::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(CAboutDialog)
-	//}}AFX_DATA_MAP
+	// {{AFX_DATA_MAP(CAboutDialog)
+	// }}AFX_DATA_MAP
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 BEGIN_MESSAGE_MAP(CAboutDialog, CDialog)
-	//{{AFX_MSG_MAP(CAboutDialog)
-	//}}AFX_MSG_MAP
+	// {{AFX_MSG_MAP(CAboutDialog)
+	// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 BOOL CAboutDialog::OnInitDialog()
 {
    CDialog::OnInitDialog();
 
-  //Set dialog title
+  // Set dialog title
   CString strProgramTitle;
   strProgramTitle.LoadString( AFX_IDS_APP_TITLE );
 
@@ -39,13 +39,13 @@ BOOL CAboutDialog::OnInitDialog()
   strDialogTitle.Format( _T( "About %s" ), LPCTSTR( strProgramTitle ) );
   SetWindowText( strDialogTitle );
 
-  //Set program version
+  // Set program version
   CString strProgramVersion;
   strProgramVersion.LoadString( IDS_PROGRAM_VERSION );
   SetDlgItemText( IDC_ABOUT_VERSION, strProgramVersion );
 
-  //Set program title
+  // Set program title
   SetDlgItemText( IDC_ABOUT_PROGRAM_TITLE, strProgramTitle );
   return true;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+

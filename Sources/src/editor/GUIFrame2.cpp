@@ -10,8 +10,8 @@
 #include "GUIFrame.h"
 #include "GUITreeItem.h"
 
-static const int WIDTH = 3;			//ширина и высота прямоугольника растягивания
-static const int MINIMAL = 5;		//минимальная ширина и высота контрола
+static const int WIDTH = 3;			// width and height of the stretch rectangle
+static const int MINIMAL = 5;		// minimum width and height of control
 
 CTRect<float> CGUIFrame::GetElementRect( IUIElement *pElement )
 {
@@ -126,7 +126,7 @@ void CGUIFrame::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
 	if ( nChar == VK_DELETE )
 	{
-		//удаляю все выделенные компоненты
+		// I delete all selected components
 		for ( CWindowList::iterator it=m_selectedList.begin(); it!=m_selectedList.end(); ++it )
 		{
 			m_pContainer->RemoveChild( *it );
@@ -237,23 +237,19 @@ void CGUIFrame::GFXDraw()
 	pGFX->SetShadingEffect( 2 );
 	pGFX->SetTexture( 0, 0 );
 
-//	pGFX->SetShadingEffect( 3 );
-/*
-	SGFXRect2 rc;
-	rc.rect = CTRect<float> ( 100, 100, 200, 200 );
-	rc.maps = CTRect<float> ( 0.0f, 0.0f, 1.0f, 1.0f );
-	pGFX->DrawRects( &rc, 1 );
-*/
+// pGFX->SetShadingEffect( 3 );
+/* SGFXRect2 rc;
+	 */
 
 	m_pScreen->Draw( pGFX );
 	if ( m_pHigh )
 	{
-		//рисуем подсвеченный компонент
+		// draw the highlighted component
 		CTRect<float> rc = GetElementRect( m_pHigh );
 		GFXDrawFrame( rc, RED_COLOR, 1 );
 	}
 
-	//рисуем выделенные компоненты
+	// draw the selected components
 	for ( CWindowList::iterator it=m_selectedList.begin(); it!=m_selectedList.end(); ++it )
 	{
 		CTRect<float> rc = GetElementRect( *it );
@@ -304,14 +300,8 @@ void CGUIFrame::GFXDraw()
 		GFXDrawFilledRect( mirc, BLUE_COLOR );
 	}
 
-/*
-	//рисуем изменяемые компоненты
-	for ( CRectList::iterator it=m_dragRectList.begin(); it!=m_dragRectList.end(); ++it )
-	{
-//		CTRect<float> rc = GetElementRect( *it );
-		GFXDrawFrame( *it, GREY_COLOR, 1 );
-	}
-*/
+/* //draw changeable components
+	 */
 
 	pGFX->EndScene();
 	pGFX->Flip();
@@ -327,7 +317,7 @@ void CGUIFrame::OnMouseMove(UINT nFlags, CPoint point)
 
 	if ( nFlags & MK_LBUTTON && !m_selectedList.empty() && m_mode == MODE_FREE )
 	{
-		//если выделен всего один элемент и мышка над одним из углов, то начинаю изменять его размер
+		// If only one element is selected and the mouse is over one of the corners, then I begin to resize it
 		if ( m_selectedList.size() == 1 )
 		{
 			m_resizeMode = GetResizeMode( m_selectedList.front(), point.x, point.y );
@@ -372,15 +362,15 @@ void CGUIFrame::OnMouseMove(UINT nFlags, CPoint point)
 		CWindowList::iterator it=m_selectedList.begin();
 		for ( ; it!=m_selectedList.end(); ++it )
 		{
-			//проверяем, что мышка над одним из выделенных окошек
-			//если так, то устанавливаю мод перетаскивания выделенных компонентов
+			// check that the mouse is over one of the selected windows
+			// if so, then install the drag-and-drop mod for selected components
 			CTRect<float> rc = GetElementRect( *it );
 			if ( rc.IsInside( point.x, point.y ) )
 				break;
 		}
 		if ( it != m_selectedList.end() )
 		{
-			//Начинаем перетаскивать выделенные компоненты
+			// Let's start dragging the selected components
 			SetChangedFlag( true );
 			m_undoStack.push_back( new CSaveAllUndo( m_pContainer ) );
 			m_mode = MODE_SELECT;
@@ -392,11 +382,11 @@ void CGUIFrame::OnMouseMove(UINT nFlags, CPoint point)
 	}
 	else if ( nFlags & MK_LBUTTON && !m_selectedList.empty() && m_mode == MODE_SELECT )
 	{
-		CTRect<float> clientRc = GetElementRect( m_pContainer );		//перетаскивание осуществляется только внутри этого прямоугольника
+		CTRect<float> clientRc = GetElementRect( m_pContainer );		// dragging is carried out only within this rectangle
 		if ( m_selectedList.front().GetPtr() == m_pContainer.GetPtr() )
 			clientRc = GetElementRect( m_pScreen );
 
-		//прохожу по всем компонентам и ищу их минимальные и максимальные координаты
+		// I go through all the components and look for their minimum and maximum coordinates
 		CTRect<float> maxRC = GetElementRect( m_selectedList.front() );
 		for ( CWindowList::iterator it=m_selectedList.begin(); it!=m_selectedList.end(); ++it )
 		{
@@ -437,7 +427,7 @@ void CGUIFrame::OnMouseMove(UINT nFlags, CPoint point)
 		
 		for ( CWindowList::iterator it=m_selectedList.begin(); it!=m_selectedList.end(); ++it )
 		{
-			//Перетаскиваем выделенные компоненты
+			// Drag selected components
 			CTRect<float> rc = GetElementRect( *it );
 			rc.left += fDeltaX;
 			rc.right += fDeltaX;
@@ -454,11 +444,11 @@ void CGUIFrame::OnMouseMove(UINT nFlags, CPoint point)
 	}
 	else if ( nFlags & MK_LBUTTON && !m_selectedList.empty() && m_mode == MODE_RESIZE )
 	{
-		CTRect<float> clientRc = GetElementRect( m_pContainer );		//ресайзирование осуществляется только внутри этого прямоугольника
+		CTRect<float> clientRc = GetElementRect( m_pContainer );		// resizing is carried out only inside this rectangle
 		if ( m_selectedList.front().GetPtr() == m_pContainer.GetPtr() )
 			clientRc = GetElementRect( m_pScreen );
 
-		//Изменяем размер выделенного контрола
+		// Changing the size of the selected control
 		CTRect<float> rc = GetElementRect( m_selectedList.front() );
 		switch ( m_resizeMode )
 		{
@@ -637,13 +627,13 @@ void CGUIFrame::OnMouseMove(UINT nFlags, CPoint point)
 
 		SetElementRect( m_selectedList.front(), rc );
 		
-//		m_beginDrag.x = point.x;
-//		m_beginDrag.y = point.y;
+// m_beginDrag.x = point.x;
+// m_beginDrag.y = point.y;
 		GFXDraw();
 	}
 	else if ( m_mode == MODE_FREE )
 	{
-		//Подсвечиваем компонент под мышкой
+		// Highlighting the component under the mouse
 		IUIElement *pNewHigh = 0;
 		pNewHigh = m_pContainer->PickElement( CVec2(point.x, point.y), 1 );
 		if ( !pNewHigh )
@@ -656,11 +646,11 @@ void CGUIFrame::OnMouseMove(UINT nFlags, CPoint point)
 		
 		if ( pNewHigh == m_pContainer )
 		{
-			//контейнер не может быть highlighted, сбрасываю режим highlighted
+			// The container cannot be highlighted, I reset the highlighted mode
 			m_pHigh = 0;
 			GFXDraw();
 
-			//если контейнер выделен и выбран mouse select, то включаю режим ресайзирования или передвижения контейнера
+			// if the container is selected and the mouse select is selected, then I turn on the mode of resizing or moving the container
 			if ( m_selectedList.size() == 1 && m_selectedList.front().GetPtr() == m_pContainer.GetPtr() )
 			{
 				if ( pTemplatePropsItem == 0 )
@@ -697,12 +687,12 @@ void CGUIFrame::OnMouseMove(UINT nFlags, CPoint point)
 			}
 		}
 
-		//здесь обрабатываются все случаи, когда мышка внутри контейнера, но сам контейнер не выделен
+		// all cases where the mouse is inside the container, but the container itself is not selected, are processed here
 		if ( !m_selectedList.empty() )
 		{
 			if ( m_selectedList.size() == 1 )
 			{
-				//проверяем, вдруг надо выставить курсор в режим изменения размера
+				// Check to see if you need to set the cursor to resizing mode
 				int nResizeMode = GetResizeMode( m_selectedList.front(), point.x, point.y );
 				const char *pCursorName = IDC_SIZEALL;
 				if ( nResizeMode == R_NORESIZE && !m_selectedList.front()->IsInside( CVec2(point.x, point.y) ) )
@@ -733,7 +723,7 @@ void CGUIFrame::OnMouseMove(UINT nFlags, CPoint point)
 		}
 
 		if ( pNewHigh == m_pHigh || pNewHigh == m_pContainer )
-			return;				//этот элемент уже был подсвечен, не надо его выделять
+			return;				// this element has already been highlighted, no need to select it
 
 		m_pHigh = pNewHigh;
 		GFXDraw();
@@ -746,11 +736,8 @@ void CGUIFrame::OnMouseMove(UINT nFlags, CPoint point)
 
 void CGUIFrame::OnLButtonDown(UINT nFlags, CPoint point) 
 {
-/*
-	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
-	if ( pTree == 0 )			//Если проект не был создан
-		return;
-*/
+/* CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
+	 */
 	SetFocus();
 	if ( bRunning )
 	{
@@ -759,7 +746,7 @@ void CGUIFrame::OnLButtonDown(UINT nFlags, CPoint point)
 	}
 	
 	{
-		//если мышка над каким-то элементом, выделим его
+		// if the mouse is over some element, select it
 		IUIElement *pNewSelected;
 		if ( IsCtrlKeyDown() )
 			pNewSelected = m_pContainer->PickElement( CVec2(point.x, point.y), 10 );
@@ -768,7 +755,7 @@ void CGUIFrame::OnLButtonDown(UINT nFlags, CPoint point)
 		
 		if ( pNewSelected == m_pContainer && m_selectedList.size() == 1 )
 		{
-			//проверим, вдруг выделен один из 8ми растягивающих прямоугольников
+			// Let's check if one of the 8 stretching rectangles is selected
 			m_resizeMode = GetResizeMode( m_selectedList.front(), point.x, point.y );
 			if ( m_resizeMode != R_NORESIZE )
 				return;
@@ -781,7 +768,7 @@ void CGUIFrame::OnLButtonDown(UINT nFlags, CPoint point)
 			return;
 		}
 
-		//проверим, если этот элемент уже присутствует в списке выделенных
+		// check if this element is already present in the selected list
 		CWindowList::iterator it=m_selectedList.begin();
 		for ( ; it!=m_selectedList.end(); ++it )
 		{
@@ -789,12 +776,12 @@ void CGUIFrame::OnLButtonDown(UINT nFlags, CPoint point)
 			{
 				if ( IsShiftKeyDown() )
 				{
-					//развыделим компонент
+					// let's unselect the component
 					m_selectedList.erase( it );
 					GFXDraw();
 					SetCursor( LoadCursor(0, IDC_ARROW ) );
 				}
-				//иначе ничего не делаем, обработка будет в OnLButtonUp()
+				// otherwise we do nothing, processing will be in OnLButtonUp()
 
 				CParentFrame::OnLButtonDown(nFlags, point);
 				return;
@@ -803,11 +790,11 @@ void CGUIFrame::OnLButtonDown(UINT nFlags, CPoint point)
 
 		if ( m_selectedList.size() == 1 && pNewSelected == 0 )
 		{
-			//тут спецом проверка, может нажато вне элемента, но внутри одного из 8ми растягивающих прямоугольников
+			// here a specialist checks, it may be pressed outside the element, but inside one of the 8 stretching rectangles
 			m_resizeMode = GetResizeMode( m_selectedList.front(), point.x, point.y );
 			if ( m_resizeMode == R_NORESIZE )
 			{
-				//если не нажат Shift то развыделяем компонент
+				// if Shift is not pressed, then deselect the component
 				if ( !IsShiftKeyDown() )
 				{
 					m_selectedList.clear();
@@ -843,7 +830,7 @@ void CGUIFrame::OnLButtonDown(UINT nFlags, CPoint point)
 			return;
 		}
 
-		if ( it == m_selectedList.end() )			//если не нажат уже выделенный элемент
+		if ( it == m_selectedList.end() )			// if the already selected element is not clicked
 		{
 			if ( !IsShiftKeyDown() )
 			{
@@ -854,13 +841,13 @@ void CGUIFrame::OnLButtonDown(UINT nFlags, CPoint point)
 					m_selectedList.push_back( pNewSelected );
 					SetCursor( LoadCursor(0, IDC_SIZEALL ) );
 
-					//TODO покажем манипулятор
+					// TODO let's show the manipulator
 					pPropertyDockBar->AddObjectWithProp( pNewSelected->GetManipulator() );
 				}
 			}
 			else
 			{
-				//нажата клавиша shift, мышка над новым еще не выделенным элементом, добавим его в выделенные
+				// the shift key is pressed, the mouse is over a new element that has not yet been selected, add it to the selected ones
 				if ( pNewSelected )
 				{
 					m_selectedList.push_back( pNewSelected );
@@ -889,34 +876,13 @@ void CGUIFrame::OnLButtonUp(UINT nFlags, CPoint point)
 	}
 	ReleaseCapture();
 	
-/*
-	if ( m_mode == MODE_SELECT )
-	{
-		NI_ASSERT( m_selectedList.size() > 0 );
-
-		CRectList::iterator currentRect = m_dragRectList.begin();
-		for ( CWindowList::iterator it=m_selectedList.begin(); it!=m_selectedList.end(); ++it )
-		{
-			SetElementRect( *it, *currentRect );
-			++currentRect;
-		}
-		m_dragRectList.clear();
-		GFXDraw();
-	}
-	else if ( m_mode == MODE_RESIZE )
-	{
-		SetElementRect( m_selectedList.front(), m_dragRectList.front() );
-		m_dragRectList.clear();
-		GFXDraw();
-	}
-
-	else 
-*/
+/* if ( m_mode == MODE_SELECT )
+	 */
 	if ( m_mode == MODE_FREE && !m_selectedList.empty() )
 	{
 		IUIElement *pNewSelected = 0;
 		pNewSelected = m_pContainer->PickElement( CVec2(point.x, point.y), 1 );
-		//проверим, если этот элемент уже присутствует в списке выделенных
+		// check if this element is already present in the selected list
 		CWindowList::iterator it=m_selectedList.begin();
 		for ( ; it!=m_selectedList.end(); ++it )
 		{
@@ -924,10 +890,10 @@ void CGUIFrame::OnLButtonUp(UINT nFlags, CPoint point)
 			{
 				if ( !IsShiftKeyDown() )
 				{
-					//Сбрасываем выделение со всех выделенных компонентов, выделяем только этот компонент
+					// Deselect all selected components, select only this component
 					m_selectedList.clear();
 					m_selectedList.push_back( pNewSelected );
-//					pPropertyDockBar->AddObjectWithProp( pNewSelected->GetManipulator() );
+// pPropertyDockBar->AddObjectWithProp( pNewSelected->GetManipulator() );
 				}
 				SetCursor( LoadCursor(0, IDC_SIZEALL ) );
 				GFXDraw();
@@ -941,14 +907,14 @@ void CGUIFrame::OnLButtonUp(UINT nFlags, CPoint point)
 		if ( m_pScreen != m_pContainer && !m_pContainer->IsInside( CVec2(point.x, point.y) ) )
 			return;
 
-		//Создаю и добавляю новый компонент
+		// I create and add a new component
 		IUIElement *pWindow = GUICreateElement();
-		//определим, что за тип у компонента
+		// let's determine what type the component is
 		if ( pTemplatePropsItem->GetWindowType() == UI_DIALOG )
 		{
 			if ( m_pContainer.GetPtr() == m_pScreen.GetPtr() )
 			{
-				//это действие убьет все уже созданные элементы
+				// this action will kill all already created elements
 				int nRes = IDYES;
 				if ( !m_pScreen->IsEmpty() )
 					nRes = AfxMessageBox( "Adding dialog will remove all created childs, confirm?", MB_YESNO );
@@ -960,16 +926,12 @@ void CGUIFrame::OnLButtonUp(UINT nFlags, CPoint point)
 					m_pScreen->AddChild( m_pContainer );
 				}
 				else
-					return;			//нажата NO
+					return;			// pressed NO
 			}
 			else
-				return;		//создался второй диалог
-/*
-				else if ( m_pContainer)
-				{
-				m_pContainer = static_cast<IUIContainer *> ( pWindow );
-				}
-*/
+				return;		// a second dialogue has been created
+/* else if (m_pContainer)
+				 */
 		}
 		else
 		{
@@ -981,7 +943,7 @@ void CGUIFrame::OnLButtonUp(UINT nFlags, CPoint point)
 		IManipulator *pManipulator = pWindow->GetManipulator();
 		variant_t var;
 		
-		CTRect<float> clientRc = GetElementRect( m_pContainer );		//перетаскивание осуществляется только внутри этого прямоугольника
+		CTRect<float> clientRc = GetElementRect( m_pContainer );		// dragging is carried out only within this rectangle
 		if ( pTemplatePropsItem->GetWindowType() == UI_DIALOG )
 			clientRc = GetElementRect( m_pScreen );
 		CVec2 vPos, vSize;
@@ -1030,7 +992,7 @@ void CGUIFrame::OnRButtonUp(UINT nFlags, CPoint point)
 		CTRect<float> rc = GetElementRect( m_selectedList.front() );
 		if ( rc.IsInside( point.x, point.y ) )
 		{
-			//Отобразим меню об добавлении нового template
+			// Display a menu about adding a new template
 			ClientToScreen( &point );
 			CMenu menu;
 			menu.LoadMenu( IDR_ADD_TEMPLATE_MENU );
@@ -1078,7 +1040,7 @@ void CGUIFrame::OnCreatenewtemplate()
 	string szShortFileName = GetDirectoryFromWindowType( nClassTypeID );
 	szShortFileName = szShortFileName.substr( 0, szShortFileName.size() - 2 );
 	
-	//сгенерируем имя файла
+	// generate a file name
 	string szTempFileName;
 	bool bFound = false;
 	for ( int i=0; i<100; i++ )
@@ -1108,14 +1070,12 @@ void CGUIFrame::OnCreatenewtemplate()
 	pTemplatePropsItem->SetXMLFile( szFileName.c_str() );
 	pTemplatePropsItem->SetItemName( szShortFileName.c_str() );
 
-	//находим папку для этого item
+	// find the folder for this item
 	CTreeItem *pParentTreeItem = GetParentTreeItemForWindowType( nClassTypeID );
 	NI_ASSERT( pParentTreeItem != 0 );
 	pParentTreeItem->AddChild( pTemplatePropsItem );
 
-	//Создаем новый template с именем szShortFileName и добавляем его в дерево
-/*
-	CPtr<IDataStream> *pStream = CreateFileStream( )
-		CTreeAccessor
-*/
+	// Create a new template with the name szShortFileName and add it to the tree
+/* CPtr<IDataStream> *pStream = CreateFileStream( )
+		 */
 }

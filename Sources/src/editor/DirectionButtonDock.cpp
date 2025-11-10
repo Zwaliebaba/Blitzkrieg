@@ -11,14 +11,14 @@ CDirectionButtonDockBar::~CDirectionButtonDockBar()
 
 
 BEGIN_MESSAGE_MAP(CDirectionButtonDockBar, SECControlBar)
-//{{AFX_MSG_MAP(CDirectionButtonDockBar)
+// {{AFX_MSG_MAP(CDirectionButtonDockBar)
 ON_WM_CREATE()
 ON_WM_SIZE()
-//}}AFX_MSG_MAP
+// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // CDirectionButtonDockBar message handlers
 
 int CDirectionButtonDockBar::OnCreate(LPCREATESTRUCT lpCreateStruct) 

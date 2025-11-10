@@ -5,7 +5,7 @@
 #include "..\StreamIO\StreamAdaptor.h"
 
 #include <ocidl.h>
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CDataTreeXMLAutomatic
 {
 public:
@@ -50,7 +50,7 @@ bool CXMLReader::IsCrappedValue( const std::string &szValName, const vector<stri
 	{
 		string szCur = szValName;
 		{
-			//удалим из строчки все вхождени¤ скобочек item(**)
+			// remove all occurrences of brackets item(**) from the line
 			int nPos = -1;
 			const char *pTemp = szCur.c_str();
 			do
@@ -73,7 +73,7 @@ bool CXMLReader::IsCrappedValue( const std::string &szValName, const vector<stri
 					continue;
 				}
 
-				//мы нашли шаблон, удалим шаблон
+				// we found a template, let's delete the template
 				szCur.erase( pTemp - szCur.c_str() + 4, 4 );
 				pTemp += 4;
 			} while( pTemp );
@@ -93,7 +93,7 @@ bool CXMLReader::IsCrappedValue( const std::string &szValName, const vector<stri
 
 		if ( bCompareOnlyFirstSymbols )
 		{
-			//проверим, может быть расхождение 
+			// Let's check, there may be a discrepancy
 		}
 	}
 	
@@ -110,8 +110,8 @@ bool CXMLReader::ReadRPGInformationFromFile( const char *pszFileName, CXMLReadVe
 	if ( !xmlDocument->load( static_cast<IStream*>(&comstream) ) )
 		return false;
 
-	//опускаемс¤ по нодам, пока не найдем ноду с именем RPG
-	IXMLDOMNodePtr xmlCurrNode = xmlDocument;						// текущий node
+	// Let's go down the nodes until we find a node with the name RPG
+	IXMLDOMNodePtr xmlCurrNode = xmlDocument;						// current node
 	IXMLDOMNodeListPtr childs = xmlCurrNode->childNodes;
 	xmlCurrNode = FindRPGNode( childs->item[childs->length-1], pszNodeName );
 	if ( xmlCurrNode == 0 )
@@ -125,7 +125,7 @@ void CXMLReader::ReadInformation( IXMLDOMNodePtr node, const string &szPrefix, C
 {
 	IXMLDOMNodeListPtr childs = node->childNodes;
 	IXMLDOMNamedNodeMapPtr attributes = node->attributes;
-	//сначала пишем инфу дл¤ всех атрибутов этого нода
+	// first we write information for all the attributes of this node
 	if ( attributes )
 	{
 		for ( int i=0; i<attributes->length; i++ )
@@ -144,25 +144,13 @@ void CXMLReader::ReadInformation( IXMLDOMNodePtr node, const string &szPrefix, C
 		}
 	}
 
-/*
-	for ( int i=0; i<childs->length; i++ )
-	{
-		IXMLDOMNodePtr current = childs->item[i];
-		string szNodeName = current->nodeName;
-		_bstr_t bstr = current->nodeTypedValue;
-		string szNodeValue = bstr;
-
-		CXMLValue val;
-		val.first = szPrefix + szNodeName;
-		val.second = szNodeValue;
-		result.push_back( val );
-	}
-*/
+/* for ( int i=0; i<childs->length; i++ )
+	 */
 
 
 	int nItemIndex = 0;
 
-	//теперь рекурсивно вызовем функцию дл¤ всех childs
+	// Now let's recursively call the function for all childrens
 	for ( int i=0; i<childs->length; i++ )
 	{
 		string szNewPrefix = szPrefix;
@@ -170,7 +158,7 @@ void CXMLReader::ReadInformation( IXMLDOMNodePtr node, const string &szPrefix, C
 
 		bool bString = false;
 		{
-			//провер¤ем, вдруг current это строчка, тогда ее нужно записать
+			// Let's check if current is a line, then you need to write it down
 			IXMLDOMNodeListPtr childs = current->childNodes;
 			IXMLDOMNamedNodeMapPtr attributes = current->attributes;
 			string szNodeName = current->nodeName;
@@ -214,7 +202,7 @@ void CXMLWriter::FindNodeAndSetAttribute( IXMLDOMNodePtr startNode, const string
 	if ( nPos != -1 )
 	{
 		string szCurrentFindNodeName = szName.substr( 0, nPos );
-		//Ќайдем child с таким именем
+		// Let's find a child with this name
 		IXMLDOMNodeListPtr childs = startNode->childNodes;
 		int i = 0;
 		int nItemIndex = 0;
@@ -240,7 +228,7 @@ void CXMLWriter::FindNodeAndSetAttribute( IXMLDOMNodePtr startNode, const string
 		string szNextNodeName = szName.substr( nPos + 1 );
 		if ( i == childs->length )
 		{
-			//создадим ноду с таким именем
+			// create a node with this name
 			IXMLDOMNodePtr newNode = xmlDocument->createElement( szCurrentFindNodeName.c_str() );
 			startNode->appendChild( newNode );
 			FindNodeAndSetAttribute( newNode, szNextNodeName, szAttributeValue );
@@ -251,7 +239,7 @@ void CXMLWriter::FindNodeAndSetAttribute( IXMLDOMNodePtr startNode, const string
 	}
 	else
 	{
-		//без ';' значит это им¤ атрибута, создадим атрибут с таким именем
+		// without ';' 
 		IXMLDOMElementPtr element = startNode;
 		if ( szName == "#text" )
 		{
@@ -265,29 +253,9 @@ void CXMLWriter::FindNodeAndSetAttribute( IXMLDOMNodePtr startNode, const string
 		else
 			element->setAttribute( szName.c_str(), szAttributeValue.c_str() );
 		
-			/*
-			string szCurrentFindNodeName = szName;
+			/* string szCurrentFindNodeName = szName;
 			
-				IXMLDOMNodeListPtr attributes = startNode->attributes;
-				int i = 0;
-				for ( ; i<attributes->length; i++ )
-				{
-				IXMLDOMNodePtr current = attributes->item[i];
-				string szNodeName = current->nodeName;
-				if ( szNodeName == szCurrentFindNodeName )
-				break;
-				}
-				
-					if ( i == attributes->length )
-					{
-					//создадим атрибут с таким именем
-					startNode->setAttribute( szCurrentFindNodeName.c_str(), NStr::Format("%d", *pData) );
-					startNode->set>  appendChild( newNode );
-					return FindNode( newNode, szNextNodeName );
-					}
-					else
-					return FindNode( childs->item[i], szNextNodeName );
-		*/
+				 */
 	}
 }
 
@@ -295,7 +263,7 @@ bool CXMLWriter::SaveRPGInformationToXML( const char *pszFileName, const CXMLVal
 {
 	if ( _access( pszFileName, 02 ) )
 	{
-//		std::cout << " !Can not open file for writing! ";
+// std::cout << " !Can not open file for writing! ";
 		return false;
 	}
 
@@ -306,8 +274,8 @@ bool CXMLWriter::SaveRPGInformationToXML( const char *pszFileName, const CXMLVal
 			return false;
 	}
 	
-	//опускаемс¤ по нодам, пока не найдем ноду с именем RPG
-	IXMLDOMNodePtr xmlStartNode = xmlDocument;						// начальный node
+	// Let's go down the nodes until we find a node with the name RPG
+	IXMLDOMNodePtr xmlStartNode = xmlDocument;						// initial node
 	IXMLDOMNodeListPtr childs = xmlStartNode->childNodes;
 	xmlStartNode = FindRPGNode( childs->item[childs->length-1], pszNodeName );
 	if ( xmlStartNode == 0 )
@@ -319,7 +287,7 @@ bool CXMLWriter::SaveRPGInformationToXML( const char *pszFileName, const CXMLVal
 			FindNodeAndSetAttribute( xmlStartNode, it->first, it->second );
 	}
 
-	//—охран¤ем файл
+	// — we protect the file
 	{
 		CPtr<IDataStream> pStream = OpenFileStream( pszFileName, STREAM_ACCESS_WRITE );
 		CStreamCOMAdaptor comstream( pStream );

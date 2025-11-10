@@ -32,7 +32,7 @@ public:
 	virtual void ShowFrameWindows( int nCommand );
 	virtual void GFXDraw();
 	
-	BOOL Run();																			//Вызывается из EditorApp OnIdle()
+	BOOL Run();																			// Called from EditorApp OnIdle()
 	bool IsRunning() { return bRunning; }
 
 	void ClearComposedFlag() { bComposed = false; }
@@ -51,15 +51,15 @@ public:
 	
 // Overrides
 	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CAnimationFrame)
+	// {{AFX_VIRTUAL(CAnimationFrame)
 	protected:
-//	virtual BOOL OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo);
+// virtual BOOL OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo);
 	virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
-	//}}AFX_VIRTUAL
+	// }}AFX_VIRTUAL
 
 // Implementation
 private:
-	// view for the client area of the frame.
+	// view for the client area of ​​the frame.
 	CDirectoryPropsItem *m_pActiveDirTreeItem;
 	CUnitAnimationPropsItem *m_pActiveAnimation;
 
@@ -67,11 +67,11 @@ private:
 	CThumbList m_wndSelectedThumbItems;
 	CScrollBar m_wndScrollBar;
 
-	bool bRunning;								//есть два состояния, редактирование и предварительный просмотр
+	bool bRunning;								// there are two states, editing and preview
 	bool bComposed;
-	bool bExportOnlyRPGStats;			//для экспорта только rpg stats, не выполняя композер картинок
+	bool bExportOnlyRPGStats;			// to export only rpg stats without running image composer
 	
-	//для сохранения объектов и последующего обновления
+	// to save objects and later update
 	struct SUnitObject
 	{
 		CVec3 vPos;
@@ -101,7 +101,7 @@ protected:
 	
 // Generated message map functions
 protected:
-	//{{AFX_MSG(CAnimationFrame)
+	// {{AFX_MSG(CAnimationFrame)
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnRunButton();
 	afx_msg void OnStopButton();
@@ -111,13 +111,13 @@ protected:
 	afx_msg void OnUpdateFileExportOnlyRpgStats(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateImportAckFile(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateExportAckFile(CCmdUI* pCmdUI);
-	//}}AFX_MSG
+	// }}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 
-//{{AFX_INSERT_LOCATION}}
+// {{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
 
 #endif // __ANIMATIONFRM_H__

@@ -27,25 +27,25 @@ CPoint _P( const CVec3 &_v )
 
 	CVec3 v(_v);
 
-	// z 
+	// z
 	v = CVec3( cos(fZ) * v.x + sin(fZ) * v.y, - sin(fZ) * v.x + cos(fZ) * v.y, v.z );
 
-	//y 
+	// y
 	v = CVec3( cos(fY) * v.x + sin(fY) * v.z, v.y, -sin(fY) * v.x + cos(fY) * v.z );
 
-	//x
+	// x
 	v = CVec3( v.x, cos(fX) * v.y + sin(fX) * v.z, - sin(fX) * v.y + cos(fX) * v.z );
 
 	return CPoint( nCenter + fZoom * (v.x - v.z / sqrt(2.0f)) , nCenter + fZoom*( v.y - v.z / sqrt(2.0f)) );
 }
 
-/////////////////////////////////////////////////////////////////////////////
+// //
 // CPlanePathTestDlg dialog
 
-CPlanePathTestDlg::CPlanePathTestDlg(CWnd* pParent /*=NULL*/)
+CPlanePathTestDlg::CPlanePathTestDlg(CWnd* pParent /* =NULL */)
 	: CDialog(CPlanePathTestDlg::IDD, pParent)
 {
-	//{{AFX_DATA_INIT(CPlanePathTestDlg)
+	// {{AFX_DATA_INIT(CPlanePathTestDlg)
 	m_StartSpeed = 50;
 	m_FinalSpeed = 50;
 	m_PathProgress = 0;
@@ -53,7 +53,7 @@ CPlanePathTestDlg::CPlanePathTestDlg(CWnd* pParent /*=NULL*/)
 	m_YAngle = 50;
 	m_ZAngle = 50;
 	m_Zoom = 50;
-	//}}AFX_DATA_INIT
+	// }}AFX_DATA_INIT
 	// Note that LoadIcon does not require a subsequent DestroyIcon in Win32
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
@@ -61,7 +61,7 @@ CPlanePathTestDlg::CPlanePathTestDlg(CWnd* pParent /*=NULL*/)
 void CPlanePathTestDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(CPlanePathTestDlg)
+	// {{AFX_DATA_MAP(CPlanePathTestDlg)
 	DDX_Slider(pDX, IDC_SLIDER1, m_StartSpeed);
 	DDX_Slider(pDX, IDC_SLIDER2, m_FinalSpeed);
 	DDX_Slider(pDX, IDC_SLIDER3, m_PathProgress);
@@ -69,11 +69,11 @@ void CPlanePathTestDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Slider(pDX, IDC_SLIDER5, m_YAngle);
 	DDX_Slider(pDX, IDC_SLIDER6, m_ZAngle);
 	DDX_Slider(pDX, IDC_SLIDER7, m_Zoom);
-	//}}AFX_DATA_MAP
+	// }}AFX_DATA_MAP
 }
 
 BEGIN_MESSAGE_MAP(CPlanePathTestDlg, CDialog)
-	//{{AFX_MSG_MAP(CPlanePathTestDlg)
+	// {{AFX_MSG_MAP(CPlanePathTestDlg)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
 	ON_WM_HSCROLL()
@@ -82,27 +82,25 @@ BEGIN_MESSAGE_MAP(CPlanePathTestDlg, CDialog)
 	ON_WM_MOUSEMOVE()
 	ON_BN_CLICKED(IDC_BUTTON1, OnRecalc)
 	ON_WM_VSCROLL()
-	//}}AFX_MSG_MAP
+	// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-/////////////////////////////////////////////////////////////////////////////
+// //
 // CPlanePathTestDlg message handlers
 
 BOOL CPlanePathTestDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 
-	// Set the icon for this dialog.  The framework does this automatically
-	//  when the application's main window is not a dialog
+	// Set the icon for this dialog.  
+	// when the application's main window is not a dialog
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 	
 	// TODO: Add extra initialization here
 
-	/*
-	+	x0	{152.149, 2089.12, 500.000}
-+	x1	{150.919, 2072.24, 500.000}
-*/
+	/* + x0 {152.149, 2089.12, 500.000}
+ */
 
 	x0 = CVec3( 0, 0, 0 );
 	v0 = CVec3( -100, -100, 0 );
@@ -113,13 +111,13 @@ BOOL CPlanePathTestDlg::OnInitDialog()
 
 	x2 = CVec3( 0, 0, 0 );
 	v2 = CVec3( 0, -100, 0 );
-	//pBest = new CPathFractionCircleLineCircle3D;
-	//pBest = new CPathFractionCircleLineCircle;
+	// pBest = new CPathFractionCircleLineCircle3D;
+	// pBest = new CPathFractionCircleLineCircle;
 	pBest = new CPathFractionArcLine3D;
 	pBest1 = new CPathFractionArcLine3D;
 
 	Recalc();
-	return TRUE;  // return TRUE  unless you set the focus to a control
+	return TRUE;  // return TRUE unless you set the focus to a control
 }
 
 void CPlanePathTestDlg::Recalc()
@@ -132,7 +130,7 @@ void CPlanePathTestDlg::Recalc()
 	const float fStartRadius = R * m_StartSpeed / fMaxSpeed;
 	const float fFinalRadius = R * m_FinalSpeed / fMaxSpeed;
 
-	//pBest->Init( x0, x1, v0, v1, fStartRadius, fFinalRadius );
+	// pBest->Init( x0, x1, v0, v1, fStartRadius, fFinalRadius );
 	pBest->Init( x0, v0, x1, fStartRadius );
 	pBest->DoSubstitute( 0 );
 
@@ -264,8 +262,8 @@ void CPlanePathTestDlg::Draw()
 }
 
 // If you add a minimize button to your dialog, you will need the code below
-//  to draw the icon.  For MFC applications using the document/view model,
-//  this is automatically done for you by the framework.
+// to draw the icon.  
+// this is automatically done for you by the framework.
 
 void CPlanePathTestDlg::OnPaint() 
 {
@@ -294,7 +292,7 @@ void CPlanePathTestDlg::OnPaint()
 }
 
 // The system calls this to obtain the cursor to display while the user drags
-//  the minimized window.
+// the minimized window.
 HCURSOR CPlanePathTestDlg::OnQueryDragIcon()
 {
 	return (HCURSOR) m_hIcon;
@@ -325,8 +323,8 @@ void CPlanePathTestDlg::OnLButtonDown(UINT nFlags, CPoint point)
 void CPlanePathTestDlg::OnRButtonDown(UINT nFlags, CPoint point) 
 {
 	// TODO: Add your message handler code here and/or call default
-	//v1.x = point.x - x1.x - nCenter;
-	//v1.y = point.y - x1.y - nCenter;
+	// v1.x = point.x - x1.x - nCenter;
+	// v1.y = point.y - x1.y - nCenter;
 	
 	x2.x  = point.x - nCenter;
 	x2.y  = point.y - nCenter;

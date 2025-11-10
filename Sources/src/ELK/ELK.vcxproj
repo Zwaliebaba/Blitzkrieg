@@ -144,7 +144,8 @@
     <ClCompile>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <InlineFunctionExpansion>Default</InlineFunctionExpansion>
-      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <FunctionLevelLinking>
+      </FunctionLevelLinking>
       <Optimization>Disabled</Optimization>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <WarningLevel>Level3</WarningLevel>
@@ -372,7 +373,6 @@
     <ClInclude Include="SpellChecker.h" />
     <ClInclude Include="StatisticDialog.h" />
     <ClInclude Include="StdAfx.h" />
-    <ClInclude Include="stl_user_config.h" />
     <ClInclude Include="TranslateEdit.h" />
     <ClInclude Include="TreeDockWindow.h" />
   </ItemGroup>
@@ -429,10 +429,6 @@
     </ProjectReference>
     <ProjectReference Include="..\StreamIO\StreamIO.vcxproj">
       <Project>{6ba635ec-36bc-4d5d-8995-78ac0a0e9684}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="..\zlib\zlib.vcxproj">
-      <Project>{9bfb8b73-7063-44e5-a55b-40b34767e84d}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>

@@ -1,100 +1,108 @@
 #ifndef __SERVERS_LIST_H__
 #define __SERVERS_LIST_H__
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma ONCE
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#pragma once
+
 #include "GameCreationInterfaces.h"
 #include "ServerInfo.h"
 #include "MessagesStore.h"
 
-#include "..\Net\NetDriver.h"
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#include "../Net/NetDriver.h"
+
 interface INetNodeAddress;
 interface IMultiplayerMessage;
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CServersList : public IServersList
 {
-	CPtr<INetDriver> pNetDriver;
+  CPtr<INetDriver> pNetDriver;
 
-	typedef std::list<SServerInfo> CServers;
-	CServers servers;
+  using CServers = std::list<SServerInfo>;
+  CServers servers;
 
-	WORD wCurUniqueId;
+  WORD wCurUniqueId;
 
-	CMessagesStore messages;
-	NTimer::STime lastServersCheck;
+  CMessagesStore messages;
+  NTimer::STime lastServersCheck;
 
-	//
-	void AddServer( INetNodeAddress *pAddress, const float fPing, const struct INetDriver::SGameInfo &gameInfo, const bool bSameVersion );
-	void RefreshServerInfo( const SServerInfo &info, const bool bSameVersion );
-	void RemoveServer( const SServerInfo &info );
+  //
+  void AddServer(INetNodeAddress *pAddress, float fPing, const struct INetDriver::SGameInfo &gameInfo, bool bSameVersion);
+  void RefreshServerInfo(const SServerInfo &info, bool bSameVersion);
+  void RemoveServer(const SServerInfo &info);
 
-	void RefreshServersList();
+  void RefreshServersList();
 
-	const SServerInfo* FindServerByID( const WORD wServerID ) const;
+  const SServerInfo *FindServerByID(WORD wServerID) const;
+
 protected:
-	//
-	void Init( INetDriver *pNetDriver );
-	void DestroyNetDriver();
+  //
+  void Init(INetDriver *pNetDriver);
+  void DestroyNetDriver();
 
-	INetDriver* GetNetDriver() const { return pNetDriver; }
+  INetDriver *GetNetDriver() const { return pNetDriver; }
 
-	virtual interface INetDriver* CreateInGameNetDriver( const int nPort ) = 0;
-	virtual void CreateInGameChat( CPtr<IChat> *pChat, interface INetDriver *pNetDriver ) = 0;
+  virtual interface INetDriver *CreateInGameNetDriver(int nPort) = 0;
+  virtual void CreateInGameChat(CPtr<IChat> *pChat, interface INetDriver *pNetDriver) = 0;
+
 public:
-	CServersList() { }
+  CServersList() {}
 
-	virtual IMultiplayerMessage* STDCALL GetMessage();
-	virtual void STDCALL Segment();
+  IMultiplayerMessage * STDCALL GetMessage() override;
+  void STDCALL Segment() override;
 
-	virtual bool STDCALL CanJoinToServerByID( const WORD wServerID );
-	virtual bool STDCALL IsNeedPassword( const WORD wServerID ) const;
-	virtual interface IGameCreation* STDCALL JoinToServerByID( const WORD wServerID, CPtr<IChat> *pChat, bool bPasswordRequired, const std::string &szPassword );
+  bool STDCALL CanJoinToServerByID(WORD wServerID) override;
+  bool STDCALL IsNeedPassword(WORD wServerID) const override;
+  interface IGameCreation * STDCALL JoinToServerByID(WORD wServerID, CPtr<IChat> *pChat, bool bPasswordRequired, const std::string &szPassword) override;
 
-	virtual interface IGameCreation* STDCALL JoinToServerByAddress( INetNodeAddress *pAddress, CPtr<IChat> *pChat, const int nPort, bool bPasswordRequired, const std::string &szPassword );
-	
-	virtual void STDCALL Refresh();
-	
-	virtual interface INetDriver* STDCALL GetInGameNetDriver() const { return 0; }
+  interface IGameCreation * STDCALL JoinToServerByAddress(INetNodeAddress *pAddress, CPtr<IChat> *pChat, int nPort, bool bPasswordRequired, const std::string &szPassword) override;
+
+  void STDCALL Refresh() override;
+
+  interface INetDriver * STDCALL GetInGameNetDriver() const override { return nullptr; }
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CLanServersList : public CServersList
 {
-	OBJECT_COMPLETE_METHODS( CLanServersList );
-protected:
-	virtual void CreateInGameChat( CPtr<IChat> *pChat, interface INetDriver *pNetDriver );
-	virtual interface INetDriver* CreateInGameNetDriver( const int nPort );
-public:
-	CLanServersList() { }
-	void Init();
+  OBJECT_COMPLETE_METHODS(CLanServersList);
 
-	virtual interface IGameCreation* STDCALL CreateServer( const SGameInfo &gameInfo, const SQuickLoadMapInfo &mapInfo, CPtr<IChat> *pChat );
+protected:
+  void CreateInGameChat(CPtr<IChat> *pChat, interface INetDriver *pNetDriver) override;
+  interface INetDriver *CreateInGameNetDriver(int nPort) override;
+
+public:
+  CLanServersList() {}
+  void Init();
+
+  interface IGameCreation * STDCALL CreateServer(const SGameInfo &gameInfo, const SQuickLoadMapInfo &mapInfo, CPtr<IChat> *pChat) override;
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CGameSpyServersList : public CServersList
 {
-	OBJECT_COMPLETE_METHODS( CGameSpyServersList );
-protected:
-	virtual void CreateInGameChat( CPtr<IChat> *pChat, interface INetDriver *pNetDriver );
-	virtual interface INetDriver* CreateInGameNetDriver( const int nPort );
-public:
-	CGameSpyServersList() { }
-	void Init();
+  OBJECT_COMPLETE_METHODS(CGameSpyServersList);
 
-	virtual interface IGameCreation* STDCALL CreateServer( const struct SGameInfo &gameInfo, const struct SQuickLoadMapInfo &mapInfo, CPtr<IChat> *pChat );
+protected:
+  void CreateInGameChat(CPtr<IChat> *pChat, interface INetDriver *pNetDriver) override;
+  interface INetDriver *CreateInGameNetDriver(int nPort) override;
+
+public:
+  CGameSpyServersList() {}
+  void Init();
+
+  interface IGameCreation * STDCALL CreateServer(const struct SGameInfo &gameInfo, const struct SQuickLoadMapInfo &mapInfo, CPtr<IChat> *pChat) override;
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CInternetServersList : public CServersList
 {
-	OBJECT_COMPLETE_METHODS( CInternetServersList );
-protected:
-	virtual void CreateInGameChat( CPtr<IChat> *pChat, interface INetDriver *pNetDriver );
-	virtual interface INetDriver* CreateInGameNetDriver( const int nPort );
-public:
-	CInternetServersList() { }
-	void Init();
+  OBJECT_COMPLETE_METHODS(CInternetServersList);
 
-	virtual interface IGameCreation* STDCALL CreateServer( const struct SGameInfo &gameInfo, const struct SQuickLoadMapInfo &mapInfo, CPtr<IChat> *pChat );
+protected:
+  void CreateInGameChat(CPtr<IChat> *pChat, interface INetDriver *pNetDriver) override;
+  interface INetDriver *CreateInGameNetDriver(int nPort) override;
+
+public:
+  CInternetServersList() {}
+  void Init();
+
+  interface IGameCreation * STDCALL CreateServer(const struct SGameInfo &gameInfo, const struct SQuickLoadMapInfo &mapInfo, CPtr<IChat> *pChat) override;
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // __SERVERS_LIST_H__

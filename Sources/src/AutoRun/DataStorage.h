@@ -10,18 +10,11 @@
 #include "ARText.h"
 #include "ARConfiguration.h"
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/**
-interface IARDataStorage
-{
-	virtual Load( const std::string &rszFileName ) = 0;
-	virtual Close();
-	virtual template<class Type>
-	const Type& Get( const std::string rszFileName ) = 0;
-};
-/**/
+// //////////////////////////////////////////////////////////// 
+/* *
+ */
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////// 
 class CDataStorage
 {
 	static const std::string BITMAP_EXTENTION;
@@ -29,10 +22,10 @@ class CDataStorage
 	static const std::string SOUND_EXTENTION;
 	static const std::string CONFIGURATION_EXTENTION;
 
-	std::hash_map<std::string, CARBitmap> bitmaps;									//картинки
-	std::hash_map<std::string, CARSound> sounds;										//звуки
-	std::hash_map<std::string, CARText> texts;											//тексты
-	std::hash_map<std::string, CARConfiguration> configurations;		//INI файл
+	std::hash_map<std::string, CARBitmap> bitmaps;									// pictures
+	std::hash_map<std::string, CARSound> sounds;										// sounds
+	std::hash_map<std::string, CARText> texts;											// texts
+	std::hash_map<std::string, CARConfiguration> configurations;		// INI file
 
 public:
 	void Clear()
@@ -50,5 +43,5 @@ public:
 	const CARText* GetText( const std::string& rszTextName );
 	const CARConfiguration* GetConfiguration( const std::string& rszConfigurationName );
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////// 
 #endif // !defined(__AUTO_RUN_DATA_STORAGE__)

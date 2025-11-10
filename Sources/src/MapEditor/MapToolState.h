@@ -17,10 +17,10 @@ namespace toolStateConsts
 
 class CMapToolState : public IInputState
 {
-	//Common tools
+	// Common tools
 	CInputStateParameter stateParameter;
 
-	//IInputState interface
+	// IInputState interface
 	virtual void STDCALL Enter();
 	virtual void STDCALL Leave();
 	virtual void STDCALL Update();

@@ -22,7 +22,7 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CScreenFrame::Update( CDC *pDC )
 {
 	NI_ASSERT_SLOW_T( pDC != 0,
@@ -49,10 +49,10 @@ void CScreenFrame::Update( CDC *pDC )
 				screenRect.bottom = clientRect.bottom;
 			}
 			
-			CVec3 v0;	//left top
-			CVec3 v1;	//left bottom
-			CVec3 v2;	//right bottom
-			CVec3 v3;	//right top
+			CVec3 v0;	// left top
+			CVec3 v1;	// left bottom
+			CVec3 v2;	// right bottom
+			CVec3 v3;	// right top
 
 			pScene->GetPos3( &v0, CVec2( screenRect.left, screenRect.top ), true );
 			pScene->GetPos3( &v1, CVec2( screenRect.left, screenRect.bottom ), true );
@@ -80,7 +80,7 @@ void CScreenFrame::Update( CDC *pDC )
 	point3.y = 0;
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CFireRangeAreas::Update( CDC *pDC )
 {
 	NI_ASSERT_SLOW_T( pDC != 0,
@@ -97,12 +97,12 @@ void CFireRangeAreas::Update( CDC *pDC )
 			areas.assign( pShootAreas, pShootAreas + nNumAreas );
 	}
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 COLORREF GetRGBColorFromARGB( DWORD dwColor )
 {
 	return RGB( 0xFF & ( ( dwColor & 0xFF0000 ) >> 16 ), 0xFF & ( ( dwColor & 0xFF00 ) >> 8 ), dwColor & 0xFF );
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CFireRangeAreas::DrawShootArea( IMiniMapDrawTool* pTool, const SShootArea &area )
 {
 	if ( area.eType != SShootArea::ESAT_LINE )
@@ -140,7 +140,7 @@ void CFireRangeAreas::DrawShootArea( IMiniMapDrawTool* pTool, const SShootArea &
 		}
 	}
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CFireRangeAreas::Draw( IMiniMapDrawTool* pTool )
 {
 	NI_ASSERT_SLOW_T( pTool != 0, NStr::Format( "Wrong parameter <pTool>: %x", pTool ) );
@@ -151,28 +151,28 @@ void CFireRangeAreas::Draw( IMiniMapDrawTool* pTool )
 			DrawShootArea( pTool, *iter );
 	}
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 const BYTE MxHC = 0x80;
 const int MINIMAP_PLAYER_COLORS_COUNT = 17;
-const COLORREF MINIMAP_PLAYER_COLORS[MINIMAP_PLAYER_COLORS_COUNT] = { RGB( 0x00, 0xFF, 0x00 ),	//0
-																																			RGB( 0xFF, 0x00, 0x00 ),	//1
-																																			RGB( 0x00, 0x00, 0xFF ),	//2
-																																			RGB( 0xFF, 0xFF, 0x00 ),	//3
-																																			RGB( 0x00, 0xFF, 0xFF ),	//4
-																																			RGB( 0xFF, 0x00, 0xFF ),	//5
-																																			RGB( 0xFF, 0xFF, 0xFF ),	//6
-																																			RGB( 0xFF, MxHC, 0x00 ),	//7
-																																			RGB( 0xFF, 0x00, MxHC ),	//8
-																																			RGB( MxHC, 0xFF, 0x00 ),	//9
-																																			RGB( 0x00, 0xFF, MxHC ),	//10
-																																			RGB( MxHC, 0x00, 0xFF ),	//11
-																																			RGB( 0x00, MxHC, 0xFF ),	//12
-																																			RGB( 0x00, MxHC, MxHC ),	//13
-																																			RGB( MxHC, 0x00, MxHC ),	//14
-																																			RGB( MxHC, MxHC, 0x00 ),	//15
-																																			RGB( MxHC, MxHC, MxHC ) }; //16
+const COLORREF MINIMAP_PLAYER_COLORS[MINIMAP_PLAYER_COLORS_COUNT] = { RGB( 0x00, 0xFF, 0x00 ),	// 0
+																																			RGB( 0xFF, 0x00, 0x00 ),	// 1
+																																			RGB( 0x00, 0x00, 0xFF ),	// 2
+																																			RGB( 0xFF, 0xFF, 0x00 ),	// 3
+																																			RGB( 0x00, 0xFF, 0xFF ),	// 4
+																																			RGB( 0xFF, 0x00, 0xFF ),	// 5
+																																			RGB( 0xFF, 0xFF, 0xFF ),	// 6
+																																			RGB( 0xFF, MxHC, 0x00 ),	// 7
+																																			RGB( 0xFF, 0x00, MxHC ),	// 8
+																																			RGB( MxHC, 0xFF, 0x00 ),	// 9
+																																			RGB( 0x00, 0xFF, MxHC ),	// 10
+																																			RGB( MxHC, 0x00, 0xFF ),	// 11
+																																			RGB( 0x00, MxHC, 0xFF ),	// 12
+																																			RGB( 0x00, MxHC, MxHC ),	// 13
+																																			RGB( MxHC, 0x00, MxHC ),	// 14
+																																			RGB( MxHC, MxHC, 0x00 ),	// 15
+																																			RGB( MxHC, MxHC, MxHC ) }; // 16
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CUnitsSelection::Update( CDC *pDC )
 {
 	NI_ASSERT_SLOW_T( pDC != 0,
@@ -225,7 +225,7 @@ void CUnitsSelection::Update( CDC *pDC )
 										CVec3 vPos = objectsIterator->first->pVisObj->GetPosition();
 										Vis2AI( &vPos );
 
-										//unitInfo.position;
+										// unitInfo.position;
 										CTPoint<int> center( 0, 0 );
 										
 										if ( IsObjectHasPassability( objectsIterator->first->pDesc->eGameType ) )
@@ -322,7 +322,7 @@ void CUnitsSelection::Update( CDC *pDC )
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CMiniMapTerrain::UpdateColor()
 {
 	if( IScene *pScene = GetSingleton<IScene>() )
@@ -341,8 +341,8 @@ void CMiniMapTerrain::UpdateColor()
 				const STerrainInfo &rTerrainInfo = dynamic_cast<ITerrainEditor*>( pTerrain )->GetTerrainInfo();
 				const STilesetDesc &rTilesetDesc = dynamic_cast<ITerrainEditor*>( pTerrain )->GetTilesetDesc();
 				
-				//загружаем картинку в память:
-				//rTerrainInfo.szTilesetDesc;
+				// load the image into memory:
+				// rTerrainInfo.szTilesetDesc;
 				IImageProcessor *pImageProcessor = GetImageProcessor();
 				IDataStorage *pStorage = GetSingleton<IDataStorage>();
 				
@@ -386,7 +386,7 @@ void CMiniMapTerrain::UpdateColor()
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CMiniMapTerrain::Update( CDC *pDC )
 {
 	NI_ASSERT_SLOW_T( pDC != 0,
@@ -564,7 +564,7 @@ void CMiniMapTerrain::Update( CDC *pDC )
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CMiniMapTerrainGrid::Update( CDC *pDC )
 {
 	if( IScene *pScene = GetSingleton<IScene>() )
@@ -579,4 +579,4 @@ void CMiniMapTerrainGrid::Update( CDC *pDC )
 		}
 	}
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+

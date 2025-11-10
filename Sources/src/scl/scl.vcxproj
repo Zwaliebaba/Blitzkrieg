@@ -65,7 +65,8 @@
     <ClCompile>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <InlineFunctionExpansion>Default</InlineFunctionExpansion>
-      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <FunctionLevelLinking>
+      </FunctionLevelLinking>
       <Optimization>Disabled</Optimization>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <WarningLevel>Level3</WarningLevel>
@@ -142,7 +143,6 @@
     <ClInclude Include="ShaderParser.h" />
     <ClInclude Include="Specific.h" />
     <ClInclude Include="StdAfx.h" />
-    <ClInclude Include="stl_user_config.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Parser.cpp" />
@@ -168,10 +168,6 @@
     </ProjectReference>
     <ProjectReference Include="..\StreamIOLib\StreamIOLib.vcxproj">
       <Project>{81ec2031-4f4e-4247-b9e7-4a8ce645d500}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="..\zlib\zlib.vcxproj">
-      <Project>{9bfb8b73-7063-44e5-a55b-40b34767e84d}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>

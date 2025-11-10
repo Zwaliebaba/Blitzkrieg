@@ -24,8 +24,8 @@ public:
 	
 	// Overrides
 	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(C3DRoadFrame)
-	//}}AFX_VIRTUAL
+	// {{AFX_VIRTUAL(C3DRoadFrame)
+	// }}AFX_VIRTUAL
 	
 	// Implementation
 private:
@@ -46,13 +46,13 @@ protected:
 	
 	// Generated message map functions
 protected:
-	//{{AFX_MSG(C3DRoadFrame)
+	// {{AFX_MSG(C3DRoadFrame)
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnSwitchWireframeMode();
 	afx_msg void OnUpdateSwitchWireframeMode(CCmdUI* pCmdUI);
 	afx_msg void OnSetFocus(CWnd* pOldWnd);
-	//}}AFX_MSG
+	// }}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
 
-#endif		//__3DROAD_FRAME_H__
+#endif		// __3DROAD_FRAME_H__

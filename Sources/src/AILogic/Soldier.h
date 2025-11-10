@@ -1,304 +1,323 @@
 #ifndef __SOLDIER_H__
 #define __SOLDIER_H__
 
-#pragma ONCE
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma once
+// ///////////////////////////////////////////////////////////// 
 #include "AIUnit.h"
 #include "AIWarFog.h"
 #include "StaticObjectSlotInfo.h"
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ///////////////////////////////////////////////////////////// 
 class CUnitGuns;
 class CFormation;
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// ///////////////////////////////////////////////////////////// 
 class CSoldier : public CAIUnit
 {
-	DECLARE_SERIALIZE;
+  DECLARE_SERIALIZE;
 
-	enum EObjectInsideOf { EOIO_NONE, EOIO_BUILDING, EOIO_TRANSPORT, EOIO_ENTRENCHMENT, EOIO_UNKNOWN };
-	EObjectInsideOf eInsideType;
+  enum EObjectInsideOf { EOIO_NONE, EOIO_BUILDING, EOIO_TRANSPORT, EOIO_ENTRENCHMENT, EOIO_UNKNOWN };
 
-	CGDBPtr<SInfantryRPGStats> pStats;
-		// орудийные стволы
-	CPtr<CUnitGuns> pGuns;
-	
-	IRefCount *pObjInside;
+  EObjectInsideOf eInsideType;
 
-	SStaticObjectSlotInfo slotInfo;
+  CGDBPtr<SInfantryRPGStats> pStats;
+  // gun barrels
+  CPtr<CUnitGuns> pGuns;
 
-	WORD wMinAngle, wMaxAngle;
-	float fOwnSightRadius;
+  IRefCount *pObjInside;
 
-	bool bInFirePlace, bInSolidPlace;
+  SStaticObjectSlotInfo slotInfo;
 
-	NTimer::STime lastHit, lastCheck;
-	NTimer::STime lastMineCheck; // последн¤¤ проверка мин (дл¤ инженеров)
-	NTimer::STime lastDirUpdate;
-	bool bLying;
+  WORD wMinAngle, wMaxAngle;
+  float fOwnSightRadius;
 
-	CPtr<CFormation> pFormation;
-	CPtr<CFormation> pMemorizedFormation;
-	CPtr<CFormation> pVirtualFormation;
-	BYTE cFormSlot;
-	bool bWait2Form;
+  bool bInFirePlace, bInSolidPlace;
 
-	bool bAllowLieDown; // может ли солдат ложитьс¤ под обстрелом (или стоит как олов¤нный one.)
-	NTimer::STime nextSegmTime;
-	NTimer::STime timeBWSegments;
-	NTimer::STime nextPathSegmTime;
-	NTimer::STime nextLogicSegmTime;
+  NTimer::STime lastHit, lastCheck;
+  NTimer::STime lastMineCheck;// final check min (for engineers)
+  NTimer::STime lastDirUpdate;
+  bool bLying;
 
-	//
-	void UpdateLyingPosition();
+  CPtr<CFormation> pFormation;
+  CPtr<CFormation> pMemorizedFormation;
+  CPtr<CFormation> pVirtualFormation;
+  BYTE cFormSlot;
+  bool bWait2Form;
+
+  bool bAllowLieDown;// can a soldier lie down under fire (or stand like a tin one.)
+  NTimer::STime nextSegmTime;
+  NTimer::STime timeBWSegments;
+  NTimer::STime nextPathSegmTime;
+  NTimer::STime nextLogicSegmTime;
+
+  //
+  void UpdateLyingPosition();
+
 protected:
-	virtual void PrepareToDelete();
-	
-	virtual void InitGuns();
-	// показывает все мины, которые попали в радиус обнаружени¤ этого инженера
-	// 
-	virtual void RevealNearestMines( const bool bIncludingAP );
+  void PrepareToDelete() override;
 
-	virtual bool CalculateUnitVisibility4Party( const BYTE cParty ) const;
+  void InitGuns() override;
+  // shows all mines that are within the detection radius of this engineer
+  // 
+  virtual void RevealNearestMines(bool bIncludingAP);
+
+  bool CalculateUnitVisibility4Party(BYTE cParty) const override;
+
 public:
-	CSoldier() : pFormation( 0 ), pObjInside( 0 ), cFormSlot( 0 ), eInsideType( EOIO_NONE ), wMinAngle( 0 ), wMaxAngle( 0 ), bInFirePlace( false ), bInSolidPlace( false ), fOwnSightRadius( -1 ) { }
+  CSoldier() : eInsideType(EOIO_NONE), pObjInside(nullptr), wMinAngle(0), wMaxAngle(0), fOwnSightRadius(-1), bInFirePlace(false), bInSolidPlace(false), pFormation(nullptr), cFormSlot(0) {}
 
-	virtual void Init( const CVec2 &center, const int z, const SUnitBaseRPGStats *pStats, const float fHP, const WORD dir, const BYTE player, const WORD id, EObjVisType eVisType, const int dbID );
-	
-	virtual const SUnitBaseRPGStats* GetStats() const { return pStats; }
-	virtual IStatesFactory* GetStatesFactory() const;
-	
-	virtual void UpdateDirection( const CVec2 &newDir );
-	virtual void UpdateDirection( const WORD newDir );
+  void Init(const CVec2 &center, int z, const SUnitBaseRPGStats *pStats, float fHP, WORD dir, BYTE player, WORD id, EObjVisType eVisType, int dbID) override;
 
-	virtual void AllowLieDown( bool _bAllowLieDown );
-	bool IsAllowedToLieDown() const { return bAllowLieDown; }
-	void MoveToEntrenchFireplace( const CVec3 &coord, const int _nSlot  );
-	
-	class CBuilding* GetBuilding() const;
-	class CEntrenchment* GetEntrenchment() const;
-	class CMilitaryCar* GetTransportUnit() const;
+  const SUnitBaseRPGStats *GetStats() const override { return pStats; }
+  IStatesFactory *GetStatesFactory() const override;
 
-	void SetInBuilding( class CBuilding *pBuilding );
-	void SetInEntrenchment( class CEntrenchment *pEntrenchment );
-	void SetInTransport( class CMilitaryCar *pUnit );
-	void SetFree();
-	
-	virtual bool IsInSolidPlace() const;
-	virtual bool IsInFirePlace() const;
-	void SetToFirePlace();
-	void SetToSolidPlace();
-	virtual bool IsFree() const ;
+  void UpdateDirection(const CVec2 &newDir) override;
+  void UpdateDirection(WORD newDir) override;
 
-	void SetNSlot( const int nSlot ) { slotInfo.nSlot = nSlot; }
-	const int GetSlot() const { return slotInfo.nSlot; }
-	const SStaticObjectSlotInfo& GetSlotInfo() const { return slotInfo; }
-	SStaticObjectSlotInfo& GetSlotInfo() { return slotInfo; }
-	void SetSlotInfo( const int nSlot, const int nType, const int nIndex ) { slotInfo.nSlot = nSlot; slotInfo.nType = nType; slotInfo.nIndex = nIndex; }
-	void SetSlotIndex( const int nIndex ) { slotInfo.nIndex = nIndex; }
-	const int GetSlotIndex() const { return slotInfo.nIndex; }
+  virtual void AllowLieDown(bool _bAllowLieDown);
+  bool IsAllowedToLieDown() const { return bAllowLieDown; }
+  void MoveToEntrenchFireplace(const CVec3 &coord, int _nSlot);
 
-	void SetAngles( const WORD _wMinAngle, const WORD _wMaxAngle ) { wMinAngle = _wMinAngle; wMaxAngle = _wMaxAngle; }
-	WORD GetMinAngle() const { return wMinAngle; }
-	WORD GetMaxAngle() const { return wMaxAngle; }
-	bool IsAngleLimited() const;
-	
-	bool IsInBuilding() const { return eInsideType == EOIO_BUILDING; }
-	bool IsInEntrenchment() const { return eInsideType == EOIO_ENTRENCHMENT; }
-	bool IsInTransport() const { return eInsideType == EOIO_TRANSPORT; }
+  class CBuilding *GetBuilding() const;
+  class CEntrenchment *GetEntrenchment() const;
+  class CMilitaryCar *GetTransportUnit() const;
 
-	// дл¤ стрельбы  - заполн¤ютс¤ пол¤ typeID, pUnit и номер слота, если нужно
-	virtual void  GetShotInfo( struct SAINotifyInfantryShot *pShotInfo ) const;
-	// дл¤ бросани¤ гранат - заполн¤ютс¤ пол¤ typeID, pUnit и номер слота, если нужно
-	void GetThrowInfo( struct SAINotifyInfantryShot *pThrowInfo ) const;
-	void GetEntranceStateInfo( struct SAINotifyEntranceState *pInfo ) const;
+  void SetInBuilding(class CBuilding *pBuilding);
+  void SetInEntrenchment(class CEntrenchment *pEntrenchment);
+  void SetInTransport(class CMilitaryCar *pUnit);
+  void SetFree();
 
-	virtual const EActionNotify GetAimAction() const;
-	virtual const EActionNotify GetShootAction() const;
-	virtual const EActionNotify GetThrowAction() const;
-	virtual const EActionNotify GetDieAction() const;
-	virtual const EActionNotify GetIdleAction() const;
-	virtual const EActionNotify GetMovingAction() const;
+  bool IsInSolidPlace() const override;
+  bool IsInFirePlace() const override;
+  void SetToFirePlace();
+  void SetToSolidPlace();
+  bool IsFree() const override;
 
-	//
-	virtual bool CanMove() const { return IsFree() && GetBehaviour().moving != SBehaviour::EMHoldPos; }
-	virtual bool CanMovePathfinding() const { return IsFree(); }
+  void SetNSlot(const int nSlot) { slotInfo.nSlot = nSlot; }
+  const int GetSlot() const { return slotInfo.nSlot; }
+  const SStaticObjectSlotInfo &GetSlotInfo() const { return slotInfo; }
+  SStaticObjectSlotInfo &GetSlotInfo() { return slotInfo; }
 
-	virtual bool InVisCone( const CVec2 &point ) const;
-	virtual const float GetSightRadius() const;
-	void SetOwnSightRadius( const float _fOwnSightRadius ) { fOwnSightRadius = _fOwnSightRadius; }
-	void RemoveOwnSightRadius() { fOwnSightRadius = -1; }
-	// веро¤тность, с которой нанесЄтс¤ damage при попадании
-	virtual const float GetCover() const;
-	bool IsLying() const { return bLying; }
-	void LieDown();
-	void StandUp();
-	virtual float GetSightMultiplier() const;
+  void SetSlotInfo(const int nSlot, const int nType, const int nIndex)
+  {
+    slotInfo.nSlot = nSlot;
+    slotInfo.nType = nType;
+    slotInfo.nIndex = nIndex;
+  }
 
-	virtual void Segment();
-	virtual void FreezeSegment();
-	
-	// формаци¤
-	void SetFormation( class CFormation* pFormation, const BYTE cFormSlot );
-	virtual bool IsInFormation() const { return pFormation != 0; }
-	virtual class CFormation* GetFormation() const { return pFormation; }
-	virtual const CVec2 GetUnitPointInFormation() const;
-	virtual const int GetFormationSlot() const { return cFormSlot; }
-	virtual const bool CanShootToPlanes() const;
+  void SetSlotIndex(const int nIndex) { slotInfo.nIndex = nIndex; }
+  const int GetSlotIndex() const { return slotInfo.nIndex; }
 
-	//
-	virtual int GetNGuns() const;
-	virtual class CBasicGun* GetGun( const int n ) const;
-	virtual class CTurret* GetTurret( const int nTurret ) const;
-	virtual const int GetNTurrets() const;
-	virtual int GetNAmmo( const int nCommonGun ) const;
-	virtual void Fired( const float fGunRadius, const int nGun );
-	// nAmmo со знаком
-	virtual void ChangeAmmo( const int nCommonGun, const int nAmmo );
-	virtual bool IsCommonGunFiring( const int nCommonGun ) const;
+  void SetAngles(const WORD _wMinAngle, const WORD _wMaxAngle)
+  {
+    wMinAngle = _wMinAngle;
+    wMaxAngle = _wMaxAngle;
+  }
 
-	virtual class CBasicGun* ChooseGunForStatObj( class CStaticObject *pObj, NTimer::STime *pTime );
-	
-	virtual const float GetMaxPossibleSpeed() const;
-	
-	virtual void GetFogInfo( SFogInfo *pInfo ) const;
-	void ChangeWarFogState();
-	
-	virtual void GetShootAreas( struct SShootAreas *pShootAreas, int *pnAreas ) const;
-	virtual float GetMaxFireRange() const;
-	
-	virtual bool IsMech() const { return false; }
+  WORD GetMinAngle() const { return wMinAngle; }
+  WORD GetMaxAngle() const { return wMaxAngle; }
+  bool IsAngleLimited() const;
 
-	virtual bool IsNoticableByUnit( class CCommonUnit *pUnit, const float fNoticeRadius );
-	
-	virtual bool ProcessAreaDamage( const class CExplosion *pExpl, const int nArmorDir, const float fRadius, const float fSmallRadius );
-	
-	virtual const float GetDispersionBonus() const;
-	virtual const float GetRelaxTimeBonus() const;
-	virtual const float GetFireRateBonus() const;
-	
-	virtual void MemCurFormation();
-	class CFormation* GetMemFormation() { return pMemorizedFormation; }
-	void SetVirtualFormation( class CFormation *pFormation );
+  bool IsInBuilding() const { return eInsideType == EOIO_BUILDING; }
+  bool IsInEntrenchment() const { return eInsideType == EOIO_ENTRENCHMENT; }
+  bool IsInTransport() const { return eInsideType == EOIO_TRANSPORT; }
 
-	void SetWait2FormFlag( bool bNewValue ) { bWait2Form = bNewValue; }
-	bool IsInWait2Form() const { return bWait2Form; }
-	
-	virtual bool IsColliding() const;
+  // for shooting - fill in the field typeID, pUnit and slot number, if necessary
+  void GetShotInfo(struct SAINotifyInfantryShot *pShotInfo) const override;
+  // to throw grenades - fill in the field typeID, pUnit and slot number, if necessary
+  void GetThrowInfo(struct SAINotifyInfantryShot *pThrowInfo) const;
+  void GetEntranceStateInfo(struct SAINotifyEntranceState *pInfo) const override;
 
-	void MemorizeFormation();
-	
-	virtual const int GetMinArmor() const;
-	virtual const int GetMaxArmor() const;
-	virtual const int GetMinPossibleArmor( const int nSide ) const;
-	virtual const int GetMaxPossibleArmor( const int nSide ) const;
-	virtual const int GetArmor( const int nSide ) const;
-	virtual const int GetRandomArmor( const int nSide ) const;
-	
-	virtual const int CanGoBackward() const { return false; }
-	
-	virtual bool ShouldSuspendAction( const EActionNotify &eAction ) const;
-	virtual bool CanJoinToFormation() const;
+  const EActionNotify GetAimAction() const override;
+  const EActionNotify GetShootAction() const override;
+  virtual const EActionNotify GetThrowAction() const;
+  const EActionNotify GetDieAction() const override;
+  const EActionNotify GetIdleAction() const override;
+  const EActionNotify GetMovingAction() const override;
 
-	// поискать цель, текуща¤ цель дл¤ атаки - pCurTarget
-	virtual void LookForTarget( CAIUnit *pCurTarget, const bool bDamageUpdated, CAIUnit **pBestTarget, class CBasicGun **pGun );
-	virtual void TakeDamage( const float fDamage, const SWeaponRPGStats::SShell *pShell, const int nPlayerOfShoot, CAIUnit *pShotUnit );
-	
-	virtual const NTimer::STime GetNextSegmTime() const { return nextSegmTime; }
-	virtual void NullSegmTime() { timeBWSegments = 0; }
+  //
+  bool CanMove() const override { return IsFree() && GetBehaviour().moving != SBehaviour::EMHoldPos; }
+  bool CanMovePathfinding() const override { return IsFree(); }
 
-	virtual void FirstSegment();
-	virtual const NTimer::STime GetNextPathSegmTime() const { return nextPathSegmTime; }
+  bool InVisCone(const CVec2 &point) const override;
+  const float GetSightRadius() const override;
+  void SetOwnSightRadius(const float _fOwnSightRadius) { fOwnSightRadius = _fOwnSightRadius; }
+  void RemoveOwnSightRadius() { fOwnSightRadius = -1; }
+  // the probability with which damage will be caused when hit
+  const float GetCover() const override;
+  bool IsLying() const { return bLying; }
+  void LieDown();
+  void StandUp();
+  float GetSightMultiplier() const override;
 
-	// количество сегментнов, прошедшее с прошлого вызова SecondSegment
-	virtual const float GetPathSegmentsPeriod() const;
-	
-	virtual const NTimer::STime& GetBehUpdateDuration() const { return SConsts::SOLDIER_BEH_UPDATE_DURATION; }
+  void Segment() override;
+  void FreezeSegment() override;
 
-	virtual class CArtillery* GetArtilleryIfCrew() const;
+  // formation
+  void SetFormation(class CFormation *pFormation, BYTE cFormSlot);
+  bool IsInFormation() const override { return pFormation != nullptr; }
+  class CFormation *GetFormation() const override { return pFormation; }
+  const CVec2 GetUnitPointInFormation() const override;
+  const int GetFormationSlot() const override { return cFormSlot; }
+  const bool CanShootToPlanes() const override;
 
-	virtual const CUnitGuns* GetGuns() const { return pGuns; }
-	virtual CUnitGuns* GetGuns() { return pGuns; }
+  //
+  int GetNGuns() const override;
+  class CBasicGun *GetGun(int n) const override;
+  class CTurret *GetTurret(int nTurret) const override;
+  const int GetNTurrets() const override;
+  int GetNAmmo(int nCommonGun) const override;
+  void Fired(float fGunRadius, int nGun) override;
+  // nAmmo with sign
+  void ChangeAmmo(int nCommonGun, int nAmmo) override;
+  bool IsCommonGunFiring(int nCommonGun) const override;
 
-	virtual void FreezeByState( const bool bFreeze );
+  class CBasicGun *ChooseGunForStatObj(class CStaticObject *pObj, NTimer::STime *pTime) override;
+
+  const float GetMaxPossibleSpeed() const override;
+
+  void GetFogInfo(SFogInfo *pInfo) const override;
+  void ChangeWarFogState();
+
+  void GetShootAreas(struct SShootAreas *pShootAreas, int *pnAreas) const override;
+  float GetMaxFireRange() const override;
+
+  bool IsMech() const override { return false; }
+
+  bool IsNoticableByUnit(class CCommonUnit *pUnit, float fNoticeRadius) override;
+
+  bool ProcessAreaDamage(const class CExplosion *pExpl, int nArmorDir, float fRadius, float fSmallRadius) override;
+
+  const float GetDispersionBonus() const override;
+  const float GetRelaxTimeBonus() const override;
+  const float GetFireRateBonus() const override;
+
+  virtual void MemCurFormation();
+  class CFormation *GetMemFormation() { return pMemorizedFormation; }
+  void SetVirtualFormation(class CFormation *pFormation);
+
+  void SetWait2FormFlag(bool bNewValue) { bWait2Form = bNewValue; }
+  bool IsInWait2Form() const { return bWait2Form; }
+
+  bool IsColliding() const override;
+
+  void MemorizeFormation();
+
+  const int GetMinArmor() const override;
+  const int GetMaxArmor() const override;
+  const int GetMinPossibleArmor(int nSide) const override;
+  const int GetMaxPossibleArmor(int nSide) const override;
+  const int GetArmor(int nSide) const override;
+  const int GetRandomArmor(int nSide) const override;
+
+  const int CanGoBackward() const override { return false; }
+
+  bool ShouldSuspendAction(const EActionNotify &eAction) const override;
+  virtual bool CanJoinToFormation() const;
+
+  // search for target, current target for attack - pCurTarget
+  void LookForTarget(CAIUnit *pCurTarget, bool bDamageUpdated, CAIUnit **pBestTarget, class CBasicGun **pGun) override;
+  void TakeDamage(float fDamage, const SWeaponRPGStats::SShell *pShell, int nPlayerOfShoot, CAIUnit *pShotUnit) override;
+
+  const NTimer::STime GetNextSegmTime() const override { return nextSegmTime; }
+  void NullSegmTime() override { timeBWSegments = 0; }
+
+  void FirstSegment() override;
+  const NTimer::STime GetNextPathSegmTime() const override { return nextPathSegmTime; }
+
+  // number of segments that have passed since the last SecondSegment call
+  const float GetPathSegmentsPeriod() const override;
+
+  const NTimer::STime &GetBehUpdateDuration() const override { return SConsts::SOLDIER_BEH_UPDATE_DURATION; }
+
+  class CArtillery *GetArtilleryIfCrew() const override;
+
+  const CUnitGuns *GetGuns() const override { return pGuns; }
+  CUnitGuns *GetGuns() override { return pGuns; }
+
+  void FreezeByState(bool bFreeze) override;
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// ///////////////////////////////////////////////////////////// 
 class CInfantry : public CSoldier
 {
-	OBJECT_COMPLETE_METHODS( CInfantry );
-	DECLARE_SERIALIZE;
+  OBJECT_COMPLETE_METHODS(CInfantry);
+  DECLARE_SERIALIZE;
+
 public:
-	CInfantry() { }
+  CInfantry() {}
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// ///////////////////////////////////////////////////////////// 
 class CSniper : public CSoldier
 {
-	OBJECT_COMPLETE_METHODS( CSniper );
-	DECLARE_SERIALIZE;
+  OBJECT_COMPLETE_METHODS(CSniper);
+  DECLARE_SERIALIZE;
 
-	NTimer::STime lastVisibilityCheck;
-	// виден ли дл¤ противоположной party
-	bool bVisible;
-	// находитс¤ ли в sneak mode
-	bool bSneak;
-	// веро¤тность сн¤ть камуфл¤ж при выстреле, если находимс¤ в sneak mode
-	float fCamouflageRemoveWhenShootProbability;
+  NTimer::STime lastVisibilityCheck;
+  // Is it visible to the opposite party?
+  bool bVisible;
+  // is it in sneak mode?
+  bool bSneak;
+  // probability of removing camouflage when shooting if we are in sneak mode
+  float fCamouflageRemoveWhenShootProbability;
 
 protected:
-	virtual bool CalculateUnitVisibility4Party( const BYTE cParty ) const;
+  bool CalculateUnitVisibility4Party(BYTE cParty) const override;
+
 public:
-	CSniper() : lastVisibilityCheck( 0 ), bVisible( false ), bSneak( false ) { }
+  CSniper() : lastVisibilityCheck(0), bVisible(false), bSneak(false) {}
 
-	virtual void Init( const CVec2 &center, const int z, const SUnitBaseRPGStats *pStats, const float fHP, const WORD dir, const BYTE player, const WORD id, EObjVisType eVisType, const int dbID );
+  void Init(const CVec2 &center, int z, const SUnitBaseRPGStats *pStats, float fHP, WORD dir, BYTE player, WORD id, EObjVisType eVisType, int dbID) override;
 
-	virtual void Segment();
+  void Segment() override;
 
-	void SetVisible() { bVisible = true; }
+  void SetVisible() { bVisible = true; }
 
-	virtual void RemoveCamouflage( ECamouflageRemoveReason eReason );
-	void SetSneak( const bool bSneakMode );
+  void RemoveCamouflage(ECamouflageRemoveReason eReason) override;
+  void SetSneak(bool bSneakMode);
 
-	virtual void Fired( const float fGunRadius, const int nGun  );
+  void Fired(float fGunRadius, int nGun) override;
 };
 
 extern CGlobalWarFog theWarFog;
+
 struct SSniperTrace
 {
-	const SVector centerTile;
-	const bool bCamouflated;
-	const float fCamouflage;
-	const int nParty;
-	CSniper *pSniper;
+  const SVector centerTile;
+  const bool bCamouflated;
+  const float fCamouflage;
+  const int nParty;
+  CSniper *pSniper;
 
-	//
-	SSniperTrace( CSniper *_pSniper ) 
-		: centerTile( _pSniper->GetTile().x, _pSniper->GetTile().y ), 
-			bCamouflated( _pSniper->IsCamoulflated() ), fCamouflage( _pSniper->GetCamouflage() ),
-			nParty( _pSniper->GetParty() ),
-			pSniper( _pSniper )
-	{ }
+  //
+  SSniperTrace(CSniper *_pSniper)
+    : centerTile(_pSniper->GetTile().x, _pSniper->GetTile().y),
+      bCamouflated(_pSniper->IsCamoulflated()), fCamouflage(_pSniper->GetCamouflage()),
+      nParty(_pSniper->GetParty()),
+      pSniper(_pSniper) {}
 
-	bool CanTraceRay( const SVector &point ) const { return true; }
-	bool VisitPoint( const SVector &point, const int vis, const float fLen2, const float fR2, const float fSightPower2 )
-	{
-		if ( point.x == centerTile.x && point.y == centerTile.y )
-		{
-			if ( !bCamouflated )
-			{
-				pSniper->SetVisible();
-				return false;
-			}
-			else
-			{
-				const float fRatio = fSightPower2 * fLen2 / fR2;
-				if ( fRatio <= sqr( fCamouflage * (float)theWarFog.GetTileVis( point, nParty ) / float( SConsts::VIS_POWER ) ) )
-				{
-					pSniper->SetVisible();
-					return false;
-				}
-			}
-		}
+  bool CanTraceRay(const SVector &point) const { return true; }
 
-		return true;
-	}
+  bool VisitPoint(const SVector &point, const int vis, const float fLen2, const float fR2, const float fSightPower2)
+  {
+    if (point.x == centerTile.x && point.y == centerTile.y)
+    {
+      if (!bCamouflated)
+      {
+        pSniper->SetVisible();
+        return false;
+      }
+      const float fRatio = fSightPower2 * fLen2 / fR2;
+      if (fRatio <= sqr(fCamouflage * static_cast<float>(theWarFog.GetTileVis(point, nParty)) / static_cast<float>(SConsts::VIS_POWER)))
+      {
+        pSniper->SetVisible();
+        return false;
+      }
+    }
+
+    return true;
+  }
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// ///////////////////////////////////////////////////////////// 
 #endif // __SOLDIER_H__

@@ -3,7 +3,7 @@
 
 #include "IUIInternal.h"
 #include "Interface.h"
-/////////////////////////////////////////////////////////////////////////////
+// //
 // run message reaction
 class CEffectorRunReaction : public IUIEffector
 {
@@ -36,10 +36,10 @@ public:
 		bForward = !bForward;
 	}
 };
-/////////////////////////////////////////////////////////////////////////////
+// //
 class CEffectorRunReactionEC : public CEffectorCommandBase<CEffectorRunReaction, EUISM_RUN_REACTION>
 {
 	OBJECT_COMPLETE_METHODS(CEffectorRunReactionEC)
 };
-/////////////////////////////////////////////////////////////////////////////
-#endif //_EffectorRunReaction_h_Included_
+// //
+#endif // _EffectorRunReaction_h_Included_

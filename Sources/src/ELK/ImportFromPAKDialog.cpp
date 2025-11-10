@@ -10,25 +10,25 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 const int CImportFromPAKDialog::vID[] = 
 {
-	IDC_IFP_PAK_BROWSE_LABEL,	//0
-	IDC_IFP_PAK_BROWSE_EDIT,		//1
-	IDC_IFP_PAK_BROWSE_BUTTON,	//2
-	IDC_IFP_FILE_BROWSE_LABEL,		//3
-	IDC_IFP_FILE_BROWSE_EDIT,			//4
-	IDC_IFP_FILE_BROWSE_BUTTON,		//5
-	IDOK,													//6
-	IDCANCEL,											//7
+	IDC_IFP_PAK_BROWSE_LABEL,	// 0
+	IDC_IFP_PAK_BROWSE_EDIT,		// 1
+	IDC_IFP_PAK_BROWSE_BUTTON,	// 2
+	IDC_IFP_FILE_BROWSE_LABEL,		// 3
+	IDC_IFP_FILE_BROWSE_EDIT,			// 4
+	IDC_IFP_FILE_BROWSE_BUTTON,		// 5
+	IDOK,													// 6
+	IDCANCEL,											// 7
 };
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 CImportFromPAKDialog::CImportFromPAKDialog( CWnd* pParent )
 	: CResizeDialog( CImportFromPAKDialog::IDD, pParent )
 {
-	//{{AFX_DATA_INIT(CImportFromPAKDialog)
-	//}}AFX_DATA_INIT
+	// {{AFX_DATA_INIT(CImportFromPAKDialog)
+	// }}AFX_DATA_INIT
 
 	SetControlStyle( IDC_IFP_PAK_BROWSE_LABEL, ANCHORE_LEFT_TOP );
 	SetControlStyle( IDC_IFP_PAK_BROWSE_EDIT, ANCHORE_LEFT_TOP | RESIZE_HOR );
@@ -42,7 +42,7 @@ CImportFromPAKDialog::CImportFromPAKDialog( CWnd* pParent )
 	SetControlStyle( IDCANCEL, ANCHORE_BOTTOM | ANCHORE_HOR_CENTER );
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 std::string CImportFromPAKDialog::GetRegistryKey()
 {
 	CString strPath;
@@ -55,33 +55,33 @@ std::string CImportFromPAKDialog::GetRegistryKey()
 	return szRegistryKey;
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CImportFromPAKDialog::DoDataExchange(CDataExchange* pDX)
 {
 	CResizeDialog::DoDataExchange( pDX );
-	//{{AFX_DATA_MAP( CImportFromPAKDialog )
+	// {{AFX_DATA_MAP( CImportFromPAKDialog )
 	DDX_Control(pDX, IDC_IFP_PAK_BROWSE_EDIT, m_PAKEdit);
 	DDX_Control(pDX, IDC_IFP_FILE_BROWSE_EDIT, m_FileEdit);
-	//}}AFX_DATA_MAP
+	// }}AFX_DATA_MAP
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 BEGIN_MESSAGE_MAP(CImportFromPAKDialog, CResizeDialog)
-	//{{AFX_MSG_MAP(CImportFromPAKDialog)
+	// {{AFX_MSG_MAP(CImportFromPAKDialog)
 	ON_BN_CLICKED(IDC_IFP_PAK_BROWSE_BUTTON, OnPAKBrowseButton)
 	ON_EN_CHANGE(IDC_IFP_PAK_BROWSE_EDIT, OnChangePAKBrowseEdit)
 	ON_BN_CLICKED(IDC_IFP_FILE_BROWSE_BUTTON, OnFileBrowseButton)
 	ON_EN_CHANGE(IDC_IFP_FILE_BROWSE_EDIT, OnChangeFileBrowseEdit)
-	//}}AFX_MSG_MAP
+	// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 BOOL CImportFromPAKDialog::OnInitDialog() 
 {
 	CResizeDialog::OnInitDialog();
 	
-	//0 PAK
-	//1 file
+	// 0 PAK
+	// 1 file
 	if ( resizeDialogOptions.szParameters.size() < 2 )
 	{
 		resizeDialogOptions.szParameters.resize( 2 );
@@ -94,7 +94,7 @@ BOOL CImportFromPAKDialog::OnInitDialog()
 	return TRUE;
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CImportFromPAKDialog::GetPAKPath( std::string *pszPAKPath )
 {
 	NI_ASSERT_T( pszPAKPath != 0, NStr::Format( _T( "CImportFromPAKDialog::GetPAKPath wrong parameter: pszPAKPath %x" ), pszPAKPath ) );
@@ -104,7 +104,7 @@ void CImportFromPAKDialog::GetPAKPath( std::string *pszPAKPath )
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CImportFromPAKDialog::GetFilePath( std::string *pszFilePath )
 {
 	NI_ASSERT_T( pszFilePath != 0, NStr::Format( _T( "CImportFromPAKDialog::GetFilePath wrong parameter: pszFilePath %x" ), pszFilePath ) );
@@ -114,7 +114,7 @@ void CImportFromPAKDialog::GetFilePath( std::string *pszFilePath )
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CImportFromPAKDialog::OnPAKBrowseButton() 
 {
 	CString strDialogTitle;
@@ -151,7 +151,7 @@ void CImportFromPAKDialog::OnPAKBrowseButton()
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CImportFromPAKDialog::OnFileBrowseButton() 
 {
 	CString strDialogTitle;
@@ -188,7 +188,7 @@ void CImportFromPAKDialog::OnFileBrowseButton()
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CImportFromPAKDialog::OnChangePAKBrowseEdit() 
 {
 	CString strFolderName;
@@ -197,7 +197,7 @@ void CImportFromPAKDialog::OnChangePAKBrowseEdit()
 	UpdateControls();
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CImportFromPAKDialog::OnChangeFileBrowseEdit() 
 {
 	CString strFileName;
@@ -206,7 +206,7 @@ void CImportFromPAKDialog::OnChangeFileBrowseEdit()
 	UpdateControls();
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void	CImportFromPAKDialog::UpdateControls()
 {
 	if ( CWnd *pWnd = GetDlgItem( IDOK ) )
@@ -215,7 +215,7 @@ void	CImportFromPAKDialog::UpdateControls()
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CImportFromPAKDialog::OnOK() 
 {
 	int nPointPos = resizeDialogOptions.szParameters[0].rfind( '.' );
@@ -231,6 +231,6 @@ void CImportFromPAKDialog::OnOK()
 	CResizeDialog::OnOK();
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// basement storage  
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// basement storage
+

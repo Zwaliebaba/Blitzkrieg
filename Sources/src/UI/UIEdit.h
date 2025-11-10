@@ -1,79 +1,93 @@
 #ifndef __UI_EDIT_BOX_H__
 #define __UI_EDIT_BOX_H__
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #include "UIBasic.h"
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CUIEditBox : public CSimpleWindow
 {
-	DECLARE_SERIALIZE;
-	int nCursorPos;									//позиция курсора в текущей редактируемой строке
-	bool bShowCursor;								//для мигания курсора
-	bool bFocused;									//для отображения курсора
-	DWORD dwLastCursorAnimatedTime;	//для анимации курсора
-	int m_nBeginSel;								//начало выделения
-	int m_nEndSel;									//конец выделения
-	DWORD dwSelColor;								//цвет для выделенного текста
-	int m_nBeginDragSel;						//начало выделения мышкой
-	bool bNumericMode;							//вводятся только числа
-	bool bGameSpySymbols;						//ограничение на вводимые символы
-	bool bLocalPlayerNameMode;			// local player's name allowed symbols
-	bool bFileNameSymbols;					//символы доступные для имени файла
-	int nMaxLength;									//если эта переменная установлена, то включено ограничение на количество символов в тексте
+  DECLARE_SERIALIZE;
+  int nCursorPos;// cursor position in the currently edited line
+  bool bShowCursor;// to blink the cursor
+  bool bFocused;// to display the cursor
+  DWORD dwLastCursorAnimatedTime;// for cursor animation
+  int m_nBeginSel;// beginning of selection
+  int m_nEndSel;// end of selection
+  DWORD dwSelColor;// color for selected text
+  int m_nBeginDragSel;// start of mouse selection
+  bool bNumericMode;// only numbers are entered
+  bool bGameSpySymbols;// character limit
+  bool bLocalPlayerNameMode;// local player's name allowed symbols
+  bool bFileNameSymbols;// characters available for filename
+  int nMaxLength;// if this variable is set, then the limit on the number of characters in the text is enabled
 
-	//для скроллинга текста влево и вправо
-	//в pGFXText будет храниться лишь часть отображаемой строки, а в этой переменной полностью текст
-	std::wstring wszFullText;
-	int nBeginText;		//с этой позиции начинается отображение текста szFullText
-	bool bTextScroll;	//если установлена эта переменная, то можно вводить текст шире поля edit box
+  // to scroll text left and right
+  // pGFXText will store only part of the displayed string, and this variable will store the entire text
+  std::wstring wszFullText;
+  int nBeginText;// from this position the text display szFullText begins
+  bool bTextScroll;// if this variable is set, you can enter text wider than the edit box
 
-	bool IsValidSymbol( int nAsciiCode );
+  bool IsValidSymbol(int nAsciiCode);
+
 public:
-	CUIEditBox() : nCursorPos( 0 ), dwLastCursorAnimatedTime( 0 ), bShowCursor( 0 ), bFocused( 0 ), bTextScroll( 0 ), nMaxLength( -1 ), bGameSpySymbols( 0 ), bFileNameSymbols( 0 ),
-		m_nBeginSel( -1 ), m_nEndSel( -1 ), dwSelColor( 0xff2e401b ), m_nBeginDragSel( -1 ), nBeginText( 0 ), bNumericMode( 0 ), bLocalPlayerNameMode ( false ) {}
-	~CUIEditBox() {}
+  CUIEditBox() : nCursorPos(0), bShowCursor(false), bFocused(false), dwLastCursorAnimatedTime(0), m_nBeginSel(-1), m_nEndSel(-1), dwSelColor(0xff2e401b), m_nBeginDragSel(-1),
+                 bNumericMode(false), bGameSpySymbols(false), bLocalPlayerNameMode(false), bFileNameSymbols(false), nMaxLength(-1), nBeginText(0), bTextScroll(false) {}
 
-	// mouse actions
-	virtual bool STDCALL OnMouseMove( const CVec2 &vPos, EMouseState mouseState );
-	virtual bool STDCALL OnLButtonDown( const CVec2 &vPos, EMouseState mouseState );
-	virtual bool STDCALL OnRButtonDown( const CVec2 &vPos, EMouseState mouseState );
-//	virtual bool STDCALL OnLButtonUp( const CVec2 &vPos, EMouseState mouseState ) { return true; }
+  ~CUIEditBox() override {}
 
-	//
-	virtual void STDCALL SetWindowText( int nState, const WORD *pszText );
-	virtual void STDCALL SetFocus( bool bFocus );
-	virtual void STDCALL SetCursor( int nPos );
-	virtual int  STDCALL GetCursor() { return nCursorPos; }
-	virtual void STDCALL Draw( IGFX *pGFX );
-	virtual void STDCALL Visit( interface ISceneVisitor *pVisitor );
-	virtual bool STDCALL Update( const NTimer::STime &currTime );
-	virtual void STDCALL SetSel( int nBegin, int nEnd ) { m_nBeginSel = nBegin; m_nEndSel = nEnd; }
-	virtual void STDCALL GetSel( int *nBegin, int *nEnd ) { *nBegin = m_nBeginSel; *nEnd = m_nEndSel; }
-	virtual void STDCALL SetMaxLength( const int nLength ) { nMaxLength = nLength; }
+  // mouse actions
+  bool STDCALL OnMouseMove(const CVec2 &vPos, EMouseState mouseState) override;
+  bool STDCALL OnLButtonDown(const CVec2 &vPos, EMouseState mouseState) override;
+  bool STDCALL OnRButtonDown(const CVec2 &vPos, EMouseState mouseState) override;
+  // virtual bool STDCALL OnLButtonUp( const CVec2 &vPos, EMouseState mouseState ) { return true; 
 
-	// serializing...
-	virtual int STDCALL operator&( IDataTree &ss );
-	virtual bool STDCALL OnChar( int nAsciiCode, int nVirtualKey, bool bPressed, DWORD keyState );
-	virtual bool STDCALL ProcessMessage( const SUIMessage &msg );
+  //
+  void STDCALL SetWindowText(int nState, const WORD *pszText) override;
+  void STDCALL SetFocus(bool bFocus) override;
+  virtual void STDCALL SetCursor(int nPos);
+  virtual int STDCALL GetCursor() { return nCursorPos; }
+  void STDCALL Draw(IGFX *pGFX) override;
+  void STDCALL Visit(interface ISceneVisitor *pVisitor) override;
+  bool STDCALL Update(const NTimer::STime &currTime) override;
+
+  virtual void STDCALL SetSel(int nBegin, int nEnd)
+  {
+    m_nBeginSel = nBegin;
+    m_nEndSel = nEnd;
+  }
+
+  virtual void STDCALL GetSel(int *nBegin, int *nEnd)
+  {
+    *nBegin = m_nBeginSel;
+    *nEnd = m_nEndSel;
+  }
+
+  virtual void STDCALL SetMaxLength(const int nLength) { nMaxLength = nLength; }
+
+  // serializing...
+  int STDCALL operator&(IDataTree &ss) override;
+  bool STDCALL OnChar(int nAsciiCode, int nVirtualKey, bool bPressed, DWORD keyState) override;
+  bool STDCALL ProcessMessage(const SUIMessage &msg) override;
+
 private:
-	bool DeleteSelection();
-	int GetSelection( int nX );
-	//посылка сообщения наверх об изменении текущей позиции
-	void NotifyTextChanged();
-	void EnsureCursorVisible();
-	bool IsTextInsideEditBox();
+  bool DeleteSelection();
+  int GetSelection(int nX);
+  // sending a message to the top about a change in the current position
+  void NotifyTextChanged();
+  void EnsureCursorVisible();
+  bool IsTextInsideEditBox();
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CUIEditBoxBridge : public IUIEditBox, public CUIEditBox
 {
-	OBJECT_NORMAL_METHODS( CUIEditBoxBridge );
-	DECLARE_SUPER( CUIEditBox );
-	DEFINE_UIELEMENT_BRIDGE;
+  OBJECT_NORMAL_METHODS(CUIEditBoxBridge);
+  DECLARE_SUPER(CUIEditBox);
+  DEFINE_UIELEMENT_BRIDGE;
 
-	virtual void STDCALL SetCursor( int nPos ) { CSuper::SetCursor( nPos ); }
-	virtual int  STDCALL GetCursor() { return CSuper::GetCursor(); }
-	virtual void STDCALL SetSel( int nBegin, int nEnd ) { CSuper::SetSel( nBegin, nEnd ); }
-	virtual void STDCALL GetSel( int *nBegin, int *nEnd ) { CSuper::GetSel( nBegin, nEnd ); }
-	virtual void STDCALL SetMaxLength( const int nLength ) { CSuper::SetMaxLength( nLength ); }
+  void STDCALL SetCursor(int nPos) override { CSuper::SetCursor(nPos); }
+  int STDCALL GetCursor() override { return CSuper::GetCursor(); }
+  void STDCALL SetSel(int nBegin, int nEnd) override { CSuper::SetSel(nBegin, nEnd); }
+  void STDCALL GetSel(int *nBegin, int *nEnd) override { CSuper::GetSel(nBegin, nEnd); }
+  void STDCALL SetMaxLength(const int nLength) override { CSuper::SetMaxLength(nLength); }
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // __UI_EDIT_BOX_H__

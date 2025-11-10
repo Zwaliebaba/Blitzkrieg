@@ -11,7 +11,7 @@
 #include "Messages.h"
 #include "SpellChecker.h"
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CMainFrame : public SECFrameWnd
 {
 protected: 
@@ -36,11 +36,11 @@ protected:
 	CComboBox *pwndFiltersComboBox;
 	void FillFiltersComboBox();
 
-	//SECCustomToolBar m_wndToolBar;
-	//SECReBar	m_wndReBar;
-	//CDialogBar	m_wndDlgBar;
+	// SECCustomToolBar m_wndToolBar;
+	// SECReBar m_wndReBar;
+	// CDialogBar m_wndDlgBar;
 
-	//{{AFX_MSG(CMainFrame)
+	// {{AFX_MSG(CMainFrame)
 	afx_msg int OnCreate( LPCREATESTRUCT lpCreateStruct );
 	afx_msg void OnToolsCustomize();
 	afx_msg void OnClose();
@@ -106,7 +106,7 @@ protected:
 	afx_msg void OnUpdateFileDelete(CCmdUI* pCmdUI);
 	afx_msg void OnToolsChooseFons();
 	afx_msg void OnUpdateToolsChooseFons(CCmdUI* pCmdUI);
-	//}}AFX_MSG
+	// }}AFX_MSG
 	afx_msg void OnRecentElk( UINT nID );
 	afx_msg void OnUpdateRecentElkRange( CCmdUI* pCmdUI );
   afx_msg LONG OnFindReplace( WPARAM wParam, LPARAM lParam );
@@ -115,8 +115,8 @@ protected:
 	afx_msg void OnChangeFilter();
 	DECLARE_MESSAGE_MAP()
 
-//	afx_msg void OnRecentElk( UINT nID );
-//	afx_msg void OnUpdateRecentElkRange( CCmdUI* pCmdUI );
+// afx_msg void OnRecentElk( UINT nID );
+// afx_msg void OnUpdateRecentElkRange( CCmdUI* pCmdUI );
 
 	int OnETNTextSelected( int nState );
 	int OnETNFolderSelected( int nState );
@@ -140,20 +140,16 @@ public:
 
 	void RunExternalHelpFile( const std::string &rszHelpFilePath );
 
-	//{{AFX_VIRTUAL(CMainFrame)
+	// {{AFX_VIRTUAL(CMainFrame)
 	public:
 	virtual BOOL PreCreateWindow( CREATESTRUCT& cs );
 	protected:
 	virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
-	//}}AFX_VIRTUAL
+	// }}AFX_VIRTUAL
 
-/**
-#ifdef _DEBUG
-	virtual void AssertValid() const;
-	virtual void Dump( CDumpContext& dc ) const;
-#endif
-/**/
+/* *
+ */
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//{{AFX_INSERT_LOCATION}}
+
+// {{AFX_INSERT_LOCATION}}
 #endif // !defined(__ELK_MAIN_FRAME__)

@@ -1,61 +1,56 @@
 #ifndef __INTERFACEMPCHAT_H__
 #define __INTERFACEMPCHAT_H__
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma ONCE
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#pragma once
+
 #include "InterMission.h"
 #include "iMission.h"
 #include "MultiplayerCommandManager.h"
 #include "ListControlWrapper.h"
 #include "ChatWrapper.h"
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CInterfaceMPChat : public CInterfaceMultiplayerScreen, public IWhisper
 {
-	OBJECT_NORMAL_METHODS( CInterfaceMPChat );
+  OBJECT_NORMAL_METHODS(CInterfaceMPChat);
 
-	NInput::CCommandRegistrator commandMsgs;
-	// player list management
-	CListControlWrapper<SUIChatPlayerInfo,std::wstring> playerList;
+  NInput::CCommandRegistrator commandMsgs;
+  // player list management
+  CListControlWrapper<SUIChatPlayerInfo, std::wstring> playerList;
 
-	CChatWrapper chat;
+  CChatWrapper chat;
 
-	CPtr<IUIDialog> pDialog;							// for editting friend info
-	CPtr<SUIChatPlayerInfo> pCurEdittedInfo;	//current friend
-	NTimer::STime timeLastAwayPressed;
-	bool bAwayPressed;
-	virtual bool STDCALL ProcessMessage( const SGameMessage &msg );
-	CInterfaceMPChat() : CInterfaceMultiplayerScreen ( "InterMission" ), timeLastAwayPressed( 0 ), bAwayPressed( false ) { }
-	
-	void SendTextFromEditBox( const bool bWhisper = false );
-	bool ProcessMPCommand( SToUICommand & cmd );
-	void UpdateButtons();
-	
-	void ShowPlayerInfo( SUIChatPlayerInfo * pInfo );
-	void OnPlayerInfoOk();
-	void AddPlayer( SUIChatPlayerInfo * pInfo );
-	virtual bool STDCALL StepLocal( bool bAppActive );
+  CPtr<IUIDialog> pDialog;// for editing friend info
+  CPtr<SUIChatPlayerInfo> pCurEdittedInfo;// current friend
+  NTimer::STime timeLastAwayPressed;
+  bool bAwayPressed;
+  bool STDCALL ProcessMessage(const SGameMessage &msg) override;
+  CInterfaceMPChat() : CInterfaceMultiplayerScreen("InterMission"), timeLastAwayPressed(0), bAwayPressed(false) {}
+
+  void SendTextFromEditBox(bool bWhisper = false);
+  bool ProcessMPCommand(SToUICommand &cmd);
+  void UpdateButtons();
+
+  void ShowPlayerInfo(SUIChatPlayerInfo *pInfo);
+  void OnPlayerInfoOk();
+  void AddPlayer(SUIChatPlayerInfo *pInfo);
+  bool STDCALL StepLocal(bool bAppActive) override;
+
 public:
-	virtual bool STDCALL Init();
-	virtual void STDCALL StartInterface();
+  bool STDCALL Init() override;
+  void STDCALL StartInterface() override;
 
-	//IWhisper
-	const WORD * GetDestinationName();
+  // IWhisper
+  const WORD *GetDestinationName() override;
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CICMultyplayerChat : public CInterfaceCommandBase<CInterfaceMPChat, MISSION_INTERFACE_MULTYPLAYER_CHAT>
 {
-	OBJECT_NORMAL_METHODS( CICMultyplayerChat );
+  OBJECT_NORMAL_METHODS(CICMultyplayerChat);
 
-	virtual void PreCreate( IMainLoop *pML ) 
-	{ 
-		pML->ResetStack(); 
-	}
-	
-	virtual void PostCreate( IMainLoop *pML, CInterfaceMPChat *pIMM )
-	{
-		pML->PushInterface( pIMM );
-	}
+  void PreCreate(IMainLoop *pML) override { pML->ResetStack(); }
+
+  void PostCreate(IMainLoop *pML, CInterfaceMPChat *pIMM) override { pML->PushInterface(pIMM); }
 };
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // __INTERFACEMPCHAT_H__

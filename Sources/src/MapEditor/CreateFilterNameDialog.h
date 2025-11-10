@@ -8,27 +8,27 @@
 #include "Resource.h"
 #include "ResizeDialog.h"
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CCreateFilterNameDialog : public CResizeDialog
 {
 public:
 	CCreateFilterNameDialog( CWnd* pParent = NULL );
 
-	//{{AFX_DATA(CCreateFilterNameDialog)
+	// {{AFX_DATA(CCreateFilterNameDialog)
 	enum { IDD = IDD_CREATE_FILTER_NAME };
 	CString	m_Name;
-	//}}AFX_DATA
+	// }}AFX_DATA
 
-	//{{AFX_VIRTUAL(CCreateFilterNameDialog)
+	// {{AFX_VIRTUAL(CCreateFilterNameDialog)
 	protected:
 	virtual void DoDataExchange( CDataExchange* pDX );
-	//}}AFX_VIRTUAL
+	// }}AFX_VIRTUAL
 
 protected:
-	//{{AFX_MSG(CCreateFilterNameDialog)
+	// {{AFX_MSG(CCreateFilterNameDialog)
 	afx_msg void OnChangeFilterNameEdit();
 	virtual BOOL OnInitDialog();
-	//}}AFX_MSG
+	// }}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 
 protected:
@@ -42,7 +42,7 @@ protected:
 	void UpdateControls();
 public:
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//{{AFX_INSERT_LOCATION}}
+
+// {{AFX_INSERT_LOCATION}}
 #endif // !defined(__CREATE_FILTER_NAME_DIALOG__)

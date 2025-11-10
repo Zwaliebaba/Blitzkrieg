@@ -1,88 +1,95 @@
 #ifndef __IN_BULDING_STATES_H__
 #define __IN_BULDING_STATES_H__
 
-#pragma ONCE
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma once
+// //////////////////////////////////////////////////////////// 
 #include "UnitStates.h"
 #include "StatesFactory.h"
 #include "Behaviour.h"
 #include "CommonStates.h"
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// //////////////////////////////////////////////////////////// 
 class CInBuildingStatesFactory : public IStatesFactory
 {
-	OBJECT_COMPLETE_METHODS( CInBuildingStatesFactory );
-	
-	static CPtr<CInBuildingStatesFactory> pFactory;
-public:
-	static IStatesFactory* Instance();
+  OBJECT_COMPLETE_METHODS(CInBuildingStatesFactory);
 
-	virtual interface IUnitState* ProduceState( class CQueueUnit *pUnit, class CAICommand *pCommand );
-	virtual interface IUnitState* ProduceRestState( class CQueueUnit *pUnit );
-	virtual bool CanCommandBeExecuted( class CAICommand *pCommand );
-	
-	// for Saving/Loading of static members
-	friend class CStaticMembers;
+  static CPtr<CInBuildingStatesFactory> pFactory;
+
+public:
+  static IStatesFactory *Instance();
+
+  interface IUnitState *ProduceState(class CQueueUnit *pUnit, class CAICommand *pCommand) override;
+  interface IUnitState *ProduceRestState(class CQueueUnit *pUnit) override;
+  bool CanCommandBeExecuted(class CAICommand *pCommand) override;
+
+  // for Saving/Loading of static members
+  friend class CStaticMembers;
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// //////////////////////////////////////////////////////////// 
 class CSoldierRestInBuildingState : public IUnitState, public CStandartBehaviour
 {
-	OBJECT_COMPLETE_METHODS( CSoldierRestInBuildingState );
-	DECLARE_SERIALIZE;
+  OBJECT_COMPLETE_METHODS(CSoldierRestInBuildingState);
+  DECLARE_SERIALIZE;
 
-	class CSoldier *pSoldier;
+  class CSoldier *pSoldier;
 
-	NTimer::STime startTime;
+  NTimer::STime startTime;
+
 public:
-	static IUnitState* Instance( class CSoldier *pSoldier, class CBuilding *pBuilding );
+  static IUnitState *Instance(class CSoldier *pSoldier, class CBuilding *pBuilding);
 
-	CSoldierRestInBuildingState() : pSoldier( 0 ) { }
-	CSoldierRestInBuildingState( class CSoldier *pSoldier );
-	
-	void SendUnitTo( class CBuilding *pBuilding );
+  CSoldierRestInBuildingState() : pSoldier(nullptr) {}
+  CSoldierRestInBuildingState(class CSoldier *pSoldier);
 
-	virtual void Segment();
-	virtual ETryStateInterruptResult TryInterruptState( class CAICommand *pCommand );
+  void SendUnitTo(class CBuilding *pBuilding);
 
-	virtual EUnitStateNames GetName() { return EUSN_REST_IN_BUILDING; }
-	virtual bool IsAttackingState() const { return false; }
-	virtual const CVec2 GetPurposePoint() const;
+  void Segment() override;
+  ETryStateInterruptResult TryInterruptState(class CAICommand *pCommand) override;
 
-	// for Saving/Loading of static members
-	friend class CStaticMembers;
+  EUnitStateNames GetName() override { return EUSN_REST_IN_BUILDING; }
+  bool IsAttackingState() const override { return false; }
+  const CVec2 GetPurposePoint() const override;
+
+  // for Saving/Loading of static members
+  friend class CStaticMembers;
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// //////////////////////////////////////////////////////////// 
 class CSoldierAttackInBuildingState : public IUnitAttackingState
 {
-	OBJECT_COMPLETE_METHODS( CSoldierAttackInBuildingState );
-	DECLARE_SERIALIZE;
-	
-	class CSoldier *pSoldier;
-	CPtr<CAIUnit> pEnemy;
+  OBJECT_COMPLETE_METHODS(CSoldierAttackInBuildingState);
+  DECLARE_SERIALIZE;
 
-	CPtr<CBasicGun> pGun;
-	// стрельба окончена
-	bool bFinish;
-	// обязательно нужно прицелиться
-	bool bAim;
-	int nEnemyParty;
+  class CSoldier *pSoldier;
+  CPtr<CAIUnit> pEnemy;
 
-	CDamageToEnemyUpdater damageToEnemyUpdater;
+  CPtr<CBasicGun> pGun;
+  // shooting is over
+  bool bFinish;
+  // definitely need to aim
+  bool bAim;
+  int nEnemyParty;
 
-	//
-	void AnalyzeCurrentState();
+  CDamageToEnemyUpdater damageToEnemyUpdater;
+
+  //
+  void AnalyzeCurrentState();
+
 public:
-	static IUnitState* Instance( class CSoldier *pSoldier, class CAIUnit *pEnemy );
+  static IUnitState *Instance(class CSoldier *pSoldier, class CAIUnit *pEnemy);
 
-	CSoldierAttackInBuildingState() : pSoldier( 0 ) { }
-	CSoldierAttackInBuildingState( class CSoldier *pSoldier, class CAIUnit *pEnemy );
-	virtual void Segment();
-	virtual ETryStateInterruptResult TryInterruptState( class CAICommand *pCommand );
+  CSoldierAttackInBuildingState() : pSoldier(nullptr) {}
+  CSoldierAttackInBuildingState(class CSoldier *pSoldier, class CAIUnit *pEnemy);
+  void Segment() override;
+  ETryStateInterruptResult TryInterruptState(class CAICommand *pCommand) override;
 
-	virtual bool IsAttackingState() const { return true; }
-	virtual const CVec2 GetPurposePoint() const;
+  bool IsAttackingState() const override { return true; }
+  const CVec2 GetPurposePoint() const override;
 
-	virtual bool IsAttacksUnit() const { return true; }
-	virtual class CAIUnit* GetTargetUnit() const;
+  bool IsAttacksUnit() const override { return true; }
+  class CAIUnit *GetTargetUnit() const override;
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// //////////////////////////////////////////////////////////// 
 #endif // __IN_BULDING_STATES_H__

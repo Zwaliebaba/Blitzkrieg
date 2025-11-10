@@ -13,21 +13,21 @@ class CRMGTemplateGraphPropertiesDialog : public CResizeDialog
 public:
 	CRMGTemplateGraphPropertiesDialog( CWnd* pParent = NULL );
 
-	//{{AFX_DATA(CRMGTemplateGraphPropertiesDialog)
+	// {{AFX_DATA(CRMGTemplateGraphPropertiesDialog)
 	enum { IDD = IDD_RMG_TEMPLATE_GRAPH_PROPERTIES };
 	CString	m_strWeight;
 	CString	m_strStats;
 	CString	m_strPath;
-	//}}AFX_DATA
+	// }}AFX_DATA
 
-	//{{AFX_VIRTUAL(CRMGTemplateGraphPropertiesDialog)
+	// {{AFX_VIRTUAL(CRMGTemplateGraphPropertiesDialog)
 	protected:
 	virtual void DoDataExchange( CDataExchange* pDX );
-	//}}AFX_VIRTUAL
+	// }}AFX_VIRTUAL
 
 protected:
-	//{{AFX_MSG(CRMGTemplateGraphPropertiesDialog)
-	//}}AFX_MSG
+	// {{AFX_MSG(CRMGTemplateGraphPropertiesDialog)
+	// }}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 
 protected:
@@ -41,5 +41,5 @@ protected:
 public:
 };
 
-//{{AFX_INSERT_LOCATION}}
+// {{AFX_INSERT_LOCATION}}
 #endif // !defined(__RMG_Template_Graph_Properties_Dialog__)

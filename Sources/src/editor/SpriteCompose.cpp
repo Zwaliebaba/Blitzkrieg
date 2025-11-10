@@ -11,7 +11,7 @@
 #include "SpriteCompose.h"
 #include "ParentFrame.h"
 #include "Frames.h"
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 int SAnimationDesc::SDirDesc::operator&( IDataTree &ss )
 {
 	CTreeAccessor saver = &ss;
@@ -19,7 +19,7 @@ int SAnimationDesc::SDirDesc::operator&( IDataTree &ss )
 	saver.Add( "FrameShift", &ptFrameShift );
 	return 0;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 int SAnimationDesc::operator&( IDataTree &ss )
 {
 	CTreeAccessor saver = &ss;
@@ -103,7 +103,7 @@ bool BuildSpritesPack( const CSpritesPackBuilder::SPackParameter &rPackParameter
   return true;
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 IImage* BuildAnimations( std::vector<SAnimationDesc> *pSrc, SSpriteAnimationFormat *pDst,
 												 std::vector<std::string> &szFileNames, bool bProcessImages, DWORD dwMinAlpha )
 {
@@ -129,7 +129,7 @@ IImage* BuildAnimations( std::vector<SAnimationDesc> *pSrc, SSpriteAnimationForm
 	// fill dst structures
 	SSpriteAnimationFormat &animations = *pDst;
 	std::vector<SAnimationDesc> &animdescs = *pSrc;
-	// find biggest index for number of animations
+	// find the biggest index for number of animations
 	int nMaxAnimationIndex = 0;
 	for ( int i=0; i<animdescs.size(); ++i )
 	{
@@ -148,7 +148,7 @@ IImage* BuildAnimations( std::vector<SAnimationDesc> *pSrc, SSpriteAnimationForm
 		pAnimation->bCycled = animdesc.bCycled;
 		pAnimation->dirs.resize( animdesc.dirs.size() );
 		pAnimation->nFrameTime = animdesc.nFrameTime;
-		// копируем кадры с пересчём в новые индексы и составляем список индексов, используемых в этой анимации
+		// copy the frames with recalculation into new indices and compile a list of indices used in this animation
 		for ( int j=0; j<pAnimation->dirs.size(); ++j )
 		{
 			pAnimation->dirs[j].frames.resize( animdesc.dirs[j].frames.size() );
@@ -158,9 +158,9 @@ IImage* BuildAnimations( std::vector<SAnimationDesc> *pSrc, SSpriteAnimationForm
 				animdesc.AddUsedFrame( pAnimation->dirs[j].frames[k] );
 			}
 		}
-		// сортируем список индексов, используемых в этой анимации
+		// sort the list of indices used in this animation
 		std::sort( animdesc.usedFrames.begin(), animdesc.usedFrames.end() );
-		// переводим новые индексы в локальные индексы этой анимации
+		// transfer new indexes to local indexes of this animation
 		for ( int j=0; j<pAnimation->dirs.size(); ++j )
 		{
 			for ( int k=0; k<pAnimation->dirs[j].frames.size(); ++k )
@@ -213,8 +213,8 @@ IImage* BuildAnimations( std::vector<SAnimationDesc> *pSrc, SSpriteAnimationForm
 	{
 		SAnimationDesc &animdesc = animdescs[i];
 		SSpriteAnimationFormat::SSpriteAnimation *pAnimation = &( animations.animations[GetActionFromName(animdesc.szName)] );
-		// мы имеем список новых индексов в animdesc.usedFrames.
-		// необходимо составить из них новые кадры
+		// we have a list of new indexes in animdesc.usedFrames.
+		// it is necessary to create new personnel from them
 		//
 		for ( int j=0; j<pAnimation->rects.size(); ++j )
 		{
@@ -224,8 +224,8 @@ IImage* BuildAnimations( std::vector<SAnimationDesc> *pSrc, SSpriteAnimationForm
 			pAnimation->rects[j].maps.y1 = ( float( rcSubRect.top    ) + 0.5f ) / float( pImage->GetSizeY() );
 			pAnimation->rects[j].maps.y2 = ( float( rcSubRect.bottom ) + 0.5f ) / float( pImage->GetSizeY() );
 			const RECT &rcBase = rectsMain[ animdesc.usedFrames[j]  ];
-			// CRAP{ т.к. пришли к тому, что у всей анимации нулевая точка одна и та же
-			CVec2 ptFrame = animdesc.frames.begin()->second;//animdesc.frames[nOldIndex];
+			// CRAP{ because 
+			CVec2 ptFrame = animdesc.frames.begin()->second;// animdesc.frames[nOldIndex];
 			// CRAP}
 			pAnimation->rects[j].rect.Set(	rcSubRect.left - rcBase.left - ptFrame.x,
 																			rcSubRect.top - rcBase.top - ptFrame.y, 
@@ -256,7 +256,7 @@ IImage* BuildAnimations( std::vector<SAnimationDesc> *pSrc, SSpriteAnimationForm
 	}
 	return pImage;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 const CVec2 ComputeSpriteNewZeroPos( const IVisObj *pSprite, const CVec3 &vZero3, const CVec2 &vZero2Shift )
 {
 	NI_ASSERT_TF( pSprite != 0, "Can't compute new sprite zero position from NULL sprite", return VNULL2 );
@@ -272,9 +272,9 @@ const CVec2 ComputeSpriteNewZeroPos( const IVisObj *pSprite, const CVec3 &vZero3
 	// new 2D sprite zero with respect to sprite's texture top-left corner
 	CVec2 vZeroNew;
 	{
-		// вычислим положение нуля текстуры в экранных координатах
+		// calculate the position of the texture zero in screen coordinates
 		const SSpriteInfo *pInfo = static_cast<const ISpriteVisObj*>(pSprite)->GetSpriteInfo();
-		// расст. от начала текстуры до текущего нуля объекта (w, h)
+		// dist. 
 		int w0 = pInfo->pTexture->GetSizeX( 0 );
 		int h0 = pInfo->pTexture->GetSizeY( 0 );
 		int w1 = ceil( pInfo->maps.left * w0 - 0.5f );
@@ -283,7 +283,7 @@ const CVec2 ComputeSpriteNewZeroPos( const IVisObj *pSprite, const CVec3 &vZero3
 		int h2 = abs( pInfo->rect.top );
 		int w = w1 + w2;
 		int h = h1 + h2;
-		// положение нового нуля относительно начала текстуры
+		// the position of the new zero relative to the beginning of the texture
 		vZeroNew = vZero2 - ( vSprite2 - CVec2(w, h) );
 	}
 
@@ -293,7 +293,7 @@ const CVec2 ComputeSpriteNewZeroPos( const IVisObj *pSprite, const CVec3 &vZero3
 	return vZeroNew;
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 const CVec3 Get3DPosition( const CVec3 &vSpritePos, const CVec2 &vPointPos, const SSpritesPack &rSpritesPack, int nSpriteIndex, const CVec2 &vCenter, IGFX *pGFX )
 {
 	CMatrixStack<4> mstack;
@@ -313,11 +313,11 @@ const CVec3 Get3DPosition( const CVec3 &vSpritePos, const CVec2 &vPointPos, cons
 	matTransform.RotateHVector( &vecZ2, CVec3(-FP_SQRT_2, FP_SQRT_2, 0) );
 	const float fZBias2 = vecZ2.z - vecZ1.z;
 	
-	// calculate distance from zero line to object's border and write values to:
+	// calculate distance from zero line to object's border and write values ​​to:
 	float fZero2Border = 0.0f;
 	float fBorder2Point = -vPointPos.y;
 
-	//картинка
+	// picture
 	SSpritesPack::CSpritesList::const_iterator spritesListIterator = rSpritesPack.sprites.begin();
 	for ( int nSpritePackIndex = 0; nSpritePackIndex < nSpriteIndex; ++nSpritePackIndex )
 	{
@@ -363,7 +363,7 @@ const CVec3 Get3DPosition( const CVec3 &vSpritePos, const CVec2 &vPointPos, cons
 	return vPointPos3;
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 const CVec3 Get3DPosition( const CVec3 &vSpritePos, const CVec2 &vPointPos, const CVec2 &vCenter, const CImageAccessor &rImageAccessor, DWORD dwMinAlpha, IGFX *pGFX )
 {
 	CMatrixStack<4> mstack;
@@ -383,7 +383,7 @@ const CVec3 Get3DPosition( const CVec3 &vSpritePos, const CVec2 &vPointPos, cons
 	matTransform.RotateHVector( &vecZ2, CVec3(-FP_SQRT_2, FP_SQRT_2, 0) );
 	const float fZBias2 = vecZ2.z - vecZ1.z;
 	
-	// calculate distance from zero line to object's border and write values to:
+	// calculate distance from zero line to object's border and write values ​​to:
 	float fZero2Border = 0.0f;
 	float fBorder2Point = -vPointPos.y;
 	
@@ -413,7 +413,7 @@ const CVec3 Get3DPosition( const CVec3 &vSpritePos, const CVec2 &vPointPos, cons
 	//
 	return vPointPos3;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 const CVec2 GetOrigin2DPosition( const CVec2 &vOrigin )
 {
 	IGFX *pGFX = GetSingleton<IGFX>();
@@ -429,7 +429,7 @@ const CVec2 GetOrigin2DPosition( const CVec2 &vOrigin )
 	vOriginSreenPos -= vSpriteScreenPos;
 	return CVec2( vOriginSreenPos.x, vOriginSreenPos.y );
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 int GetActionFromName( const std::string &szAnimName )
 {
 	std::string szName = szAnimName;
@@ -494,7 +494,7 @@ int GetActionFromName( const std::string &szAnimName )
 	NI_ASSERT_T( 0, NStr::Format("Don't know animation \"%s\"", szAnimName.c_str()) );
 	return 0;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 typedef std::vector<std::string> CVectorOfStrings;
 bool ComposeSingleSprite( const char *pszFileName, const char *pszResultingDir, const char *pszResName, bool bFence )
 {
@@ -508,7 +508,7 @@ bool ComposeSingleSprite( const char *pszFileName, const char *pszResultingDir, 
 	if ( bFence )
 	{
 		IImageProcessor *pIP = GetImageProcessor();
-		//вычислим zeroPos, она для заборов точно посередине тайла
+		// let's calculate zeroPos, it is for fences exactly in the middle of the tile
 		{
 			CPtr<IDataStream> pStream = OpenFileStream( pszFileName, STREAM_ACCESS_READ );
 			NI_ASSERT_T( pStream != 0, NStr::Format("Can't open file \"%s\" to compose sprite", pszFileName) );
@@ -522,7 +522,7 @@ bool ComposeSingleSprite( const char *pszFileName, const char *pszResultingDir, 
 	animDesc.ptFrameShift = zeroPos;
 	animDesc.szName = "default";
 	
-	//Заполняем вектор directions
+	// Filling the directions vector
 	fileNameVector.resize( nLastSprite );
 	animDesc.dirs.resize( 1 );
 	
@@ -535,17 +535,14 @@ bool ComposeSingleSprite( const char *pszFileName, const char *pszResultingDir, 
 	
 	if ( _access( pszFileName, 04 ) )
 	{
-		/*
-		string str = "Can not access file  ";
-		str += szSpriteFullName;
-		AfxMessageBox( str.c_str() );
-		*/
+		/* string str = "Cannot access file";
+		 */
 		return false;
 	}
 	
 	if ( GetFileAttributes( pszFileName ) & FILE_ATTRIBUTE_DIRECTORY )
 	{
-		return false;		//директория
+		return false;		// directory
 	}
 
 	SSpriteAnimationFormat spriteAnimFmt;
@@ -553,11 +550,11 @@ bool ComposeSingleSprite( const char *pszFileName, const char *pszResultingDir, 
 	
 	if ( !pImage )
 	{
-//		AfxMessageBox( "Composing images failed!" );
+// AfxMessageBox( "Composing images failed!" );
 		return false;
 	}
 
-	//сохраняю .dds, .san файлы
+	// I save .dds, .san files
 	std::string szTemp = pszResultingDir;
 	szTemp += pszResName;
 	SaveTexture8888( pImage, szTemp.c_str() );
@@ -573,7 +570,7 @@ bool ComposeSingleSprite( const char *pszFileName, const char *pszResultingDir, 
 	saver.Add( 1, &spriteAnimFmt );
 	return true;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void SaveCompressedTexture( IImage *pSrc, const char *pszDestFileName )
 {
 	CParentFrame *pFrame = g_frameManager.GetActiveFrame();
@@ -583,7 +580,7 @@ void SaveCompressedTexture( IImage *pSrc, const char *pszDestFileName )
 	CPtr<IDataStream> pStream;
 	std::string szName;
 
-	//Compressed format
+	// Compressed format
 	szName = pszDestFileName;
 	szName += "_c.dds";
 	if ( pFrame->GetFrameType() == CFrameManager::E_MESH_FRAME )
@@ -593,7 +590,7 @@ void SaveCompressedTexture( IImage *pSrc, const char *pszDestFileName )
 	pStream = CreateFileStream( szName.c_str(), STREAM_ACCESS_WRITE );
 	pIP->SaveImageAsDDS( pStream, pDDS );
 	
-	//Low format
+	// Low format
 	szName = pszDestFileName;
 	szName += "_l.dds";
 	if ( pFrame->GetFrameType() == CFrameManager::E_MESH_FRAME )
@@ -603,14 +600,14 @@ void SaveCompressedTexture( IImage *pSrc, const char *pszDestFileName )
 	pStream = CreateFileStream( szName.c_str(), STREAM_ACCESS_WRITE );
 	pIP->SaveImageAsDDS( pStream, pDDS );
 	
-	//High format
+	// High format
 	szName = pszDestFileName;
 	szName += "_h.dds";
 	pDDS = pIP->Compress( pImage, (EGFXPixelFormat) pFrame->GetHighFormat() );
 	pStream = CreateFileStream( szName.c_str(), STREAM_ACCESS_WRITE );
 	pIP->SaveImageAsDDS( pStream, pDDS );
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void SaveCompressedShadow( IImage *pSrc, const char *pszDestFileName )
 {
 	CParentFrame *pFrame = g_frameManager.GetActiveFrame();
@@ -619,28 +616,28 @@ void SaveCompressedShadow( IImage *pSrc, const char *pszDestFileName )
 	CPtr<IDataStream> pStream;
 	std::string szName;
 	
-	//Compressed format
+	// Compressed format
 	szName = pszDestFileName;
 	szName += "_c.dds";
 	pDDS = pIP->Compress( pSrc, (EGFXPixelFormat) pFrame->GetCompressedShadowFormat() );
 	pStream = CreateFileStream( szName.c_str(), STREAM_ACCESS_WRITE );
 	pIP->SaveImageAsDDS( pStream, pDDS );
 	
-	//Low format
+	// Low format
 	szName = pszDestFileName;
 	szName += "_l.dds";
 	pDDS = pIP->Compress( pSrc, (EGFXPixelFormat) pFrame->GetLowShadowFormat() );
 	pStream = CreateFileStream( szName.c_str(), STREAM_ACCESS_WRITE );
 	pIP->SaveImageAsDDS( pStream, pDDS );
 	
-	//High format
+	// High format
 	szName = pszDestFileName;
 	szName += "_h.dds";
 	pDDS = pIP->Compress( pSrc, (EGFXPixelFormat) pFrame->GetHighShadowFormat() );
 	pStream = CreateFileStream( szName.c_str(), STREAM_ACCESS_WRITE );
 	pIP->SaveImageAsDDS( pStream, pDDS );
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void SaveTexture8888( IImage *pSrc, const char *pszDestFileName )
 {
 	IImageProcessor *pIP = GetSingleton<IImageProcessor>();
@@ -650,7 +647,7 @@ void SaveTexture8888( IImage *pSrc, const char *pszDestFileName )
 	CPtr<IDataStream> pStream = CreateFileStream( szName.c_str(), STREAM_ACCESS_WRITE );
 	pIP->SaveImageAsDDS( pStream, pDDS );
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void SaveTexture8888( const char *pszSrc, const char *pszDestFileName )
 {
 	IImageProcessor *pIP = GetSingleton<IImageProcessor>();
@@ -659,4 +656,4 @@ void SaveTexture8888( const char *pszSrc, const char *pszDestFileName )
 	CPtr<IImage> pImage = pIP->LoadImage( pStream );
 	SaveTexture8888( pImage, pszDestFileName );
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+

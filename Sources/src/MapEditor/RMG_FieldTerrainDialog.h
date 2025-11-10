@@ -8,10 +8,10 @@
 #include "Resource.h"
 #include "ResizeDialog.h"
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 int CALLBACK CFT_ShellsCompareFunc( LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort );
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CRMGFieldTerrainDialog : public CResizeDialog
 {
 	friend int CALLBACK CFT_ShellsCompareFunc( LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort );
@@ -25,21 +25,21 @@ public:
 
 	CRMGFieldTerrainDialog( CWnd* pParent = NULL );
 
-	//{{AFX_DATA(CRMGFieldTerrainDialog)
+	// {{AFX_DATA(CRMGFieldTerrainDialog)
 	enum { IDD = IDD_RMG_CF_TERRAIN_SHELLS };
 	CComboBox	m_SeasonComboBox;
 	CListCtrl	m_ShellsList;
 	CListCtrl	m_TilesList;
 	CListCtrl	m_AvailableTilesList;
-	//}}AFX_DATA
+	// }}AFX_DATA
 
-	//{{AFX_VIRTUAL(CRMGFieldTerrainDialog)
+	// {{AFX_VIRTUAL(CRMGFieldTerrainDialog)
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);
-	//}}AFX_VIRTUAL
+	// }}AFX_VIRTUAL
 
 protected:
-	//{{AFX_MSG(CRMGFieldTerrainDialog)
+	// {{AFX_MSG(CRMGFieldTerrainDialog)
 	virtual BOOL OnInitDialog();
 	afx_msg void OnDestroy();
 	virtual void OnOK();
@@ -72,7 +72,7 @@ protected:
 	afx_msg void OnRclickAvailableTilesList(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnKeydownAvailableTilesList(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnSize(UINT nType, int cx, int cy);
-	//}}AFX_MSG
+	// }}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 
 	void OnAvailableTileProperties();
@@ -80,8 +80,8 @@ protected:
 protected:
 	bool bCreateControls;
 	class CRMGCreateFieldDialog *pRMGCreateFieldDialog;
-	struct SRMFieldSet *pRMFieldSet;						//главный
-	std::vector<struct SRMFieldSet*> fieldSets;	//добавочные ( для изменения сезона и других вещей ( кроме шеллзов ) )
+	struct SRMFieldSet *pRMFieldSet;						// main
+	std::vector<struct SRMFieldSet*> fieldSets;	// additional (for changing the season and other things (except shells))
 	
 	int nSortColumn;
 	int nCurrentShell;
@@ -99,6 +99,6 @@ protected:
 	void LoadFieldToControls();
 	void SetShellItem( int nItem, const SRMTileSetShell &rTileSetShell );
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//{{AFX_INSERT_LOCATION}}
+
+// {{AFX_INSERT_LOCATION}}
 #endif // !defined(__RMG_Field_Terrain_Dialog__)

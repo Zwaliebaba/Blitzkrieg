@@ -7,4 +7,4 @@ bool ComposeSingleObjectPack( const char *pszObjFileName, const char *pszShadowF
 bool ComposeImageToTexture( const char *pszSource, const char *pszResult, bool bCorrect = true );
 CTRect<float> GetImageSize( const char *pszImageFile );
 
-#endif		//__BUILD_COMPOSE_H__
+#endif		// __BUILD_COMPOSE_H__

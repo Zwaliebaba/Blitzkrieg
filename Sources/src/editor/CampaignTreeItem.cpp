@@ -107,7 +107,7 @@ void CCampaignCommonPropsItem::UpdateItemValue( int nItemId, const CVariant &val
 	
 	if ( nItemId == 1 || nItemId == 2 || nItemId == 3 )
 	{
-		//сконвертим путь к файлу в относительный без расширени¤
+		// convert the file path to relative without extension
 		if ( !IsRelatedPath( value ) )
 		{
 			string szValue = value;
@@ -115,7 +115,7 @@ void CCampaignCommonPropsItem::UpdateItemValue( int nItemId, const CVariant &val
 			bool bRes =	MakeSubRelativePath( g_frameManager.GetFrame( CFrameManager::E_CAMPAIGN_FRAME )->GetProjectFileName().c_str(), szValue.c_str(), szRelatedPath );
 			if ( bRes )
 			{
-				//обрежем расширение в конце
+				// cut off the extension at the end
 				szRelatedPath = szRelatedPath.substr( 0, szRelatedPath.rfind( '.' ) );
 				CVariant newVal = szRelatedPath;
 				CTreeItem::UpdateItemValue( nItemId, newVal );
@@ -252,12 +252,12 @@ void CCampaignChapterPropsItem::UpdateItemValue( int nItemId, const CVariant &va
 	
 	if ( nItemId == 1 )
 	{
-		//добавл¤ю scenarious\\chapters\\ в начало имени, если оно еще не присутствует
+		// I add scenarious\\chapters\\ to the beginning of the name if it is not already present
 		std::string szValue = value;
 		std::string szPrefix = "scenarios\\chapters\\";
 		if ( strncmp( szValue.c_str(), szPrefix.c_str(), szPrefix.size() ) )
 		{
-			//нету такой строчки вначале
+			// there is no such line at the beginning
 			szValue = szPrefix + szValue;
 			CTreeItem::UpdateItemValue( nItemId, szValue );
 			g_frameManager.GetFrame( CFrameManager::E_CAMPAIGN_FRAME )->UpdatePropView( this );
@@ -336,14 +336,14 @@ void CCampaignTemplatesItem::UpdateItemValue( int nItemId, const CVariant &value
 	
 	if ( nItemId == 1 )
 	{
-		//изменилась директори¤, считываю все *.san файлы из поддиректорий
+		// directories have changed¤, I read all *.san files from subdirectories
 		std::string szVal = value;
 		string szMask = "*.xml";
 		vector<string> files;
 		std::string szBaseDir = theApp.GetEditorDataDir();
 		szBaseDir += "Scenarios\\TemplateMissions\\";
 		
-		//обновим им¤ директории
+		// update the directory with it
 		std::string szShortDirName;
 		bool bRes = MakeSubRelativePath( szBaseDir.c_str(), szVal.c_str(), szShortDirName );
 		if ( !bRes )
@@ -366,7 +366,7 @@ void CCampaignTemplatesItem::UpdateItemValue( int nItemId, const CVariant &value
 		g_frameManager.GetFrame( CFrameManager::E_CAMPAIGN_FRAME )->UpdatePropView( this );
 		g_frameManager.GetFrame( CFrameManager::E_CAMPAIGN_FRAME )->SetChangedFlag( true );
 		
-		//составл¤ю полный список xml файлов
+		// I am compiling a complete list of xml files
 		NFile::EnumerateFiles( szVal.c_str(), szMask.c_str(), NFile::CGetAllFilesRelative( szBaseDir.c_str(), &files ), true );
 		for ( int i=0; i<files.size(); i++ )
 		{
@@ -429,12 +429,12 @@ void CCampaignTemplatePropsItem::UpdateItemValue( int nItemId, const CVariant &v
 	
 	if ( nItemId == 1 )
 	{
-		//добавл¤ю scenarious\\templatemissions\\ в начало имени, если оно еще не присутствует
+		// I add scenarious\\templatemissions\\ to the beginning of the name if it is not already present
 		std::string szValue = value;
 		std::string szPrefix = "scenarios\\templatemissions\\";
 		if ( strncmp( szValue.c_str(), szPrefix.c_str(), szPrefix.size() ) )
 		{
-			//нету такой строчки вначале
+			// there is no such line at the beginning
 			ChangeItemName( szValue.c_str() );
 
 			szValue = szPrefix + szValue;
@@ -443,7 +443,7 @@ void CCampaignTemplatePropsItem::UpdateItemValue( int nItemId, const CVariant &v
 		}
 		else
 		{
-			//обрежем начало значени¤ и установим в качестве имени
+			// cut off the beginning of the value and set it as the name
 			szValue = szValue.c_str() + szPrefix.size();
 			ChangeItemName( szValue.c_str() );
 			g_frameManager.GetFrame( CFrameManager::E_CAMPAIGN_FRAME )->UpdatePropView( this );

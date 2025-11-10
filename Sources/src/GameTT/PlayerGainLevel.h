@@ -1,35 +1,35 @@
 #ifndef __PLAYER_GAIN_LEVEL_H__
 #define __PLAYER_GAIN_LEVEL_H__
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma ONCE
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#pragma once
+
 #include "InterMission.h"
 #include "iMission.h"
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CInterfacePlayerGainLevel : public CInterfaceInterMission
 {
-	OBJECT_NORMAL_METHODS( CInterfacePlayerGainLevel );
-	// input
-	NInput::CCommandRegistrator commandMsgs;
-	//
-	virtual bool STDCALL ProcessMessage( const SGameMessage &msg );
-	// disable explicit destruction
-	virtual ~CInterfacePlayerGainLevel();
-	CInterfacePlayerGainLevel() : CInterfaceInterMission( "Current" ) {  }
-	
+  OBJECT_NORMAL_METHODS(CInterfacePlayerGainLevel);
+  // input
+  NInput::CCommandRegistrator commandMsgs;
+  //
+  bool STDCALL ProcessMessage(const SGameMessage &msg) override;
+  // disable explicit destruction
+  ~CInterfacePlayerGainLevel() override;
+  CInterfacePlayerGainLevel() : CInterfaceInterMission("Current") {}
+
 public:
-	virtual bool STDCALL Init();
-	virtual void STDCALL StartInterface();
+  bool STDCALL Init() override;
+  void STDCALL StartInterface() override;
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CICPlayerGainLevel : public CInterfaceCommandBase<CInterfacePlayerGainLevel, MISSION_INTERFACE_PLAYER_GAIN_LEVEL>
 {
-	OBJECT_NORMAL_METHODS( CICPlayerGainLevel );
-	
-	virtual void PreCreate( IMainLoop *pML ) {}
-	virtual void PostCreate( IMainLoop *pML, CInterfacePlayerGainLevel *pISM );
-	//
-	CICPlayerGainLevel() {}
+  OBJECT_NORMAL_METHODS(CICPlayerGainLevel);
+
+  void PreCreate(IMainLoop *pML) override {}
+  void PostCreate(IMainLoop *pML, CInterfacePlayerGainLevel *pISM) override;
+  //
+  CICPlayerGainLevel() {}
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#endif		//__PLAYER_GAIN_LEVEL_H__
+
+#endif		// __PLAYER_GAIN_LEVEL_H__

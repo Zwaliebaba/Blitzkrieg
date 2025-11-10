@@ -1,46 +1,49 @@
 #ifndef __GRAPH_H__
 #define __GRAPH_H__
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma ONCE
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// неориентированный граф без петель с неотрицательными весами рёбер
+// //////////////////////////////////////////////////////////// 
+#pragma once
+// //////////////////////////////////////////////////////////// 
+// undirected graph without loops with nonnegative edge weights
 class CGraph
 {
-	DECLARE_SERIALIZE;
+  DECLARE_SERIALIZE;
 
-	// расстояния от v1 до вершин для подсчитанного пути
-	std::vector<float> dst;
-	std::vector<int> pred;
+  // distances from v1 to vertices for the calculated path
+  std::vector<float> dst;
+  std::vector<int> pred;
 
-	std::vector<int> graphComponent;
+  std::vector<int> graphComponent;
 
-	int v1, v2;
+  int v1, v2;
 
-	//
-	void FindUpperComponent( const int v );
+  //
+  void FindUpperComponent(int v);
+
 protected:
-	// для каждой вершини список соседних
-	std::vector< std::list<int> > nodes;
-	int n;
+  // for each vertex a list of neighboring
+  std::vector<std::list<int>> nodes;
+  int n;
+
 public:
-	CGraph() : n( 0 ), v1( -1 ), v2( -1 ) { }
-	void Clear();
+  CGraph() : v1(-1), v2(-1), n(0) {}
+  void Clear();
 
-	const int GetNNodes() const { return n; }
-	void AddEdge( const int v1, const int v2 );
+  const int GetNNodes() const { return n; }
+  void AddEdge(int v1, int v2);
 
-	// подсчитать путь от v1 до v2
-	void ComputePath( const int v1, const int v2 );
-	// выдать длину подсчитанного в ComputePath пути
-	// если путь не найден, то -1
-	const float GetPathLength() const;
-	void GetPath( std::list<int> *pPath ) const;
+  // calculate the path from v1 to v2
+  void ComputePath(int v1, int v2);
+  // display the length of the path calculated in ComputePath
+  // if the path is not found, then -1
+  const float GetPathLength() const;
+  void GetPath(std::list<int> *pPath) const;
 
-	// длина ребра между v1 и v2
-	virtual const float GetEdgeLength( const int v1, const int v2 ) = 0;
+  // edge length between v1 and v2
+  virtual const float GetEdgeLength(int v1, int v2) = 0;
 
-	// в одной ли компоненте связности вершины v1 и v2
-	bool IsInOneGraphComponent( const int v1, const int v2 );
+  // Are vertices v1 and v2 in the same connected component?
+  bool IsInOneGraphComponent(int v1, int v2);
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// //////////////////////////////////////////////////////////// 
 #endif // __GRAPH_H__

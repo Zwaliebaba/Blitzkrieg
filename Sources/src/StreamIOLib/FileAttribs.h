@@ -1,8 +1,8 @@
 #ifndef __FILEATTRIBS_H__
 #define __FILEATTRIBS_H__
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #pragma ONCE
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CFileAttribs : public CBasicAccessor<DWORD>
 {
 	enum
@@ -39,20 +39,20 @@ public:
 	bool IsDots( const char *pszName ) const { return IsDirectory() && ( (pszName[0] == '.') ) && ( (pszName[1] == '\0') || ((pszName[1] == '.') && (pszName[2] == '\0')) ); }
 	bool IsMatchesMask( DWORD dwMask ) const { return (dwAttribs & dwMask) == dwMask; }
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // function to transform DOS date/time format (time_t) to the Win32 date/time format (SWin32Time)
 inline DWORD DOSToWin32DateTime( time_t time )
 {
 	// transform DOS time to local time 'tm' structure
 	tm *pTime = localtime( &time );
-	// fill 'SWin32Time' structure to automagically convert to Win32 date/time format
+	// fill 'SWin32Time' structure to automatically convert to Win32 date/time format
 	SWin32Time filetime;
 	filetime.year    = pTime->tm_year - 80;	// due to 'tm' year relative to 1900 year, but we need relative to 1980
 	filetime.month   = pTime->tm_mon + 1;		// due to the month represented in the '0..11' format, but we need in '1..12'
 	filetime.day     = pTime->tm_mday;			// day in '1..31' format
 	filetime.hours   = pTime->tm_hour;			// hours in '0..23' format
 	filetime.minutes = pTime->tm_min;				// minutes in '0..59' format
-	filetime.seconds = pTime->tm_sec / 2;		// due to win32 seconds resolution are 2 sec. (i.e. seconds represented in '0..29' format)
+	filetime.seconds = pTime->tm_sec / 2;		// due to win32 seconds resolution are 2 sec. 
 
 	return bit_cast<DWORD>( filetime );
 }
@@ -67,7 +67,7 @@ inline DWORD FILETIMEToWin32DateTime( const FILETIME &filetime )
 // function to transform Win32 date/time format (SWin32Time) to the DOS date/time format (time_t)
 inline time_t Win32ToDOSDateTime( const SWin32Time &time )
 {
-	// compose 'tm' structure. for details you can see a function above
+	// compose 'tm' structure. 
 	tm tmTime;
 	Zero( tmTime );
 	tmTime.tm_year = int( time.year ) + 80;
@@ -80,5 +80,5 @@ inline time_t Win32ToDOSDateTime( const SWin32Time &time )
 	time_t result = mktime( &tmTime );
 	return result;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // __FILEATTRIBS_H__

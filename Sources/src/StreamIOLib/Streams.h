@@ -1,17 +1,17 @@
 #ifndef __STREAMS_H__
 #define __STREAMS_H__
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #pragma ONCE
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// потоки в памяти для организации быстрой работы с данными быз виртуальных функций
-// только для работы внутри модуля!!!
-// в основном для использования в structure saver'е
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// streams in memory for organizing fast work with data from virtual functions
+// only for working inside the module!!!
+// mainly for use in structure saver
+
 // this classes use big endian numbers format
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// интерфейс потока с возможностью резервирования для быстрых операций
+
+// redundant flow interface for fast operations
 // binary mode only
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CDataStream
 {
 protected:
@@ -36,31 +36,31 @@ protected:
 	void ClearWasted() { nFlags &= ~F_Wasted; }
 protected:
 	void FixupSize() const { if ( pCurrent > pFileEnd ) pFileEnd = pCurrent; } // this limits us to max file size 2M
-	// возможные исключительные случаи во время функционирования объекта
-	// a) недостаток размера буфера для операция прямого доступа
+	// possible exceptional cases during the operation of the object
+	// a) insufficient buffer size for direct access operation
 	virtual void AllocForDirectReadAccess( unsigned int nSize ) = 0;
-	// должна сохранять текущее содержимое буфера в памяти, nSize - требуемый размер буфера
+	// must store the current buffer contents in memory, nSize is the required buffer size
 	virtual void AllocForDirectWriteAccess( unsigned int nSize ) = 0;
-	// b) сообщение об окончании режима прямого доступа
+	// b) message about end of direct access mode
 	virtual void NotifyFinishDirectAccess() {}
-	// c) чтение/запись не укладывающиеся в текущий буфер
+	// c) reading/writing that does not fit into the current buffer
 	virtual unsigned int DirectRead( void *pDest, unsigned int nSize ) = 0;
 	virtual unsigned int DirectWrite( const void *pSrc, unsigned int nSize ) = 0;
 	//
-	// функции для обеспечения режима прямого (и соответственно быстрого) доступа к данным
+	// functions to provide direct (and therefore fast) access to data
 	// can be called multiple times
-	// зарезервировать для считывания/записи nSize байт (такое количество информации
-	// должно быть доступно по возвращаемому указателю после вызова этой функции)
-	// функция всегда должна заканчиватся успешно
+	// reserve nSize bytes for reading/writing (this amount of information
+	// must be accessible by the returned pointer after calling this function)
+	// the function should always succeed
 	inline unsigned char* ReserveR( unsigned int nSize );
-	// функция ReserveW должна оставлять весь текущий буфер в памяти
+	// the ReserveW function must leave the entire current buffer in memory
 	inline unsigned char* ReserveW( unsigned int nSize );
 	// fixes up stream size if needed
-	// закончить режим прямого доступа к данным, функция должна переставить указатель
-	// текущей позиции в pFinish
+	// end direct data access mode, the function must rearrange the pointer
+	// current position in pFinish
 	void Free( unsigned char *pFinish ) { pCurrent = pFinish; NotifyFinishDirectAccess(); }
 
-	// непроверяющие чтение и запись
+	// non-checking read and write
 	void RRead( void *pDest, unsigned int nSize ) { memcpy( pDest, pCurrent, nSize ); pCurrent += nSize; ASSERT( pCurrent <= pReservedEnd ); }
 	void RWrite( const void *pSrc, unsigned int nSize ) { memcpy( pCurrent, pSrc, nSize ); pCurrent += nSize; ASSERT( pCurrent <= pReservedEnd ); }
 	// exceptional case
@@ -69,10 +69,10 @@ protected:
 public:
 	CDataStream() { nBufferStart = 0; }
 	virtual ~CDataStream() {}
-	// позиционирование
+	// positioning
 	virtual void Seek( unsigned int nPos ) = 0;
-	//void Trunc(); // instead of SetSize, truncates file on current position
-	// обычные функции для чтения/записи из/в поток
+	// void Trunc(); 
+	// regular functions for reading/writing from/to a stream
 	inline unsigned int Read( void *pDest, unsigned int nSize );
 	inline unsigned int Write( const void *pSrc, unsigned int nSize );
 	//
@@ -81,7 +81,7 @@ public:
 	bool IsOk() const { return ( nFlags & F_Failed ) == 0; }
 	void SetOk() { nFlags &= ~F_Failed; }
 	//
-	// стандартные операции ввода/вывода
+	// standard I/O operations
 	bool ReadString( std::string &res, int nMaxSize = -1 );
 	void WriteString( const std::string &res );
 	template<class T>
@@ -98,8 +98,8 @@ public:
 
 	friend class CBitLocker;
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// чтение фиксированной памяти, полезно при работе с memory mapped files
+
+// reading fixed memory, useful when working with memory mapped files
 class CFixedMemStream: public CDataStream
 {
 protected:
@@ -119,12 +119,12 @@ public:
 	}
 	virtual void Seek( unsigned int nPos ) { pCurrent = pBuffer + nPos; ASSERT( pCurrent <= pReservedEnd ); }
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// поток, целиком распологающийся в памяти
+
+// stream located entirely in memory
 class CMemoryStream: public CDataStream
 {
 protected:
-	// изменить размер так, чтобы как минимум nNewSize байт было доступно
+	// resize so that at least nNewSize bytes are available
 	void FixupBufferSize( int nNewSize );
 	virtual void AllocForDirectReadAccess( unsigned int nSize );
 	virtual void AllocForDirectWriteAccess( unsigned int nSize );
@@ -142,14 +142,14 @@ public:
 	virtual void Seek( unsigned int nPos ) { FixupSize(); pCurrent = pBuffer + nPos; if ( pCurrent > pReservedEnd ) FixupBufferSize( pCurrent - pBuffer ); }
 	// special memory stream funcs, this functions work only for memory stream
 	void Clear() { pFileEnd = pBuffer; pCurrent = pBuffer; nFlags = F_CanRead|F_CanWrite; }
-	// fast buffer access, use only if perfomance is of paramount importance
+	// fast buffer access, use only if performance is of paramount importance
 	const unsigned char* GetBuffer() const { return pBuffer; }
 	unsigned char* GetBufferForWrite() const { return pBuffer; }
 	void SetSize( int nSize ) { pFileEnd = pBuffer + nSize; pCurrent = pBuffer; if ( pFileEnd > pReservedEnd ) FixupBufferSize( nSize ); }
 	void SetSizeDiscard( int nSize );
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// универсальный буферизирующий поток
+
+// universal buffering stream
 class CBufferedStream: public CDataStream
 {
 private:
@@ -161,7 +161,7 @@ private:
 	virtual void AllocForDirectReadAccess( unsigned int nSize );
 	virtual void AllocForDirectWriteAccess( unsigned int nSize );
 	virtual void NotifyFinishDirectAccess();
-	// c) чтение/запись не укладывающиеся в текущий буфер
+	// c) reading/writing that does not fit into the current buffer
 	virtual unsigned int DirectRead( void *pDest, unsigned int nSize );
 	virtual unsigned int DirectWrite( const void *pSrc, unsigned int nSize );
 	CBufferedStream( const CBufferedStream &a ) { ASSERT(0); }
@@ -177,10 +177,10 @@ public:
 	~CBufferedStream() { FinishAccess(); }
 	virtual void Seek( unsigned int nPos );
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// класс для последовательной записи/считывания данных, включая возможность записи
-// или считывания побитных данных, может использоваться на произовольных областях
-// памяти
+
+// class for sequential writing/reading of data, including write capability
+// or reading bit data, can be used on arbitrary areas
+// memory
 class CBitStream
 {
 public:
@@ -237,10 +237,10 @@ public:
 	//
 	friend class CBitEmbedded;
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// класс для выполнения побитного и скоростного ввода/вывода в поток общего назначени
-// после того, как с CDataStream начинает работать CBitLocker прямые операции с
-// DataStream приведут к некорректному результату
+
+// class for performing bitwise and high-speed I/O to a general purpose stream
+// after CBitLocker starts working with CDataStream, direct operations with
+// DataStream will lead to incorrect results
 class CBitLocker: public CBitStream
 {
 	CDataStream *pData;
@@ -251,13 +251,13 @@ public:
 	// once per life of this object
 	void LockRead( CDataStream &data, unsigned int nSize );
 	void LockWrite( CDataStream &data, unsigned int nSize );
-	// alloc additional buffer space, for better perfomance minimize number of this
+	// alloc additional buffer space, for better performance minimize number of this
 	// function calls
 	void ReserveRead( unsigned int nSize );
 	void ReserveWrite( unsigned int nSize );
 	void Free() { ASSERT( pData ); FlushBits(); pData->Free( pCurrent ); pData = 0; }
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CBitEmbedded: public CBitStream
 {
 	CBitStream &bits;
@@ -271,12 +271,12 @@ public:
 		,bits(_bits) {}
 	~CBitEmbedded() { bits.pCurrent = pCurrent; }
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// realization of inline functions for above classes
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// CDataStream realization
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// implementation of inline functions for above classes
+
+// CDataStream implementation
+
 inline unsigned char* CDataStream::ReserveR( unsigned int nSize )
 {
 	ASSERT( CanRead() );
@@ -284,8 +284,8 @@ inline unsigned char* CDataStream::ReserveR( unsigned int nSize )
 		AllocForDirectReadAccess( nSize );
 	return pCurrent;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// функция ReserveW должна оставлять весь текущий буфер в памяти
+
+// the ReserveW function must leave the entire current buffer in memory
 inline unsigned char* CDataStream::ReserveW( unsigned int nSize )
 {
 	ASSERT( CanWrite() );
@@ -294,7 +294,7 @@ inline unsigned char* CDataStream::ReserveW( unsigned int nSize )
 		AllocForDirectWriteAccess( nSize );
 	return pCurrent;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 inline unsigned int CDataStream::Read( void *pDest, unsigned int nSize )
 {
 	ASSERT( CanRead() );
@@ -311,7 +311,7 @@ inline unsigned int CDataStream::Read( void *pDest, unsigned int nSize )
 	}
 	return ReadOverflow( pDest, nSize);
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 inline unsigned int CDataStream::Write( const void *pSrc, unsigned int nSize )
 {
 	ASSERT( CanWrite() );
@@ -323,7 +323,7 @@ inline unsigned int CDataStream::Write( const void *pSrc, unsigned int nSize )
 	}
 	else return DirectWrite( pSrc, nSize );
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 inline unsigned int CDataStream::ReadTo( CDataStream &dst, unsigned int nSize )
 {
 	dst.Seek(0);
@@ -332,7 +332,7 @@ inline unsigned int CDataStream::ReadTo( CDataStream &dst, unsigned int nSize )
 	dst.Free( pBuf + nSize );
 	return nRes;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 inline unsigned int CDataStream::WriteFrom( CDataStream &src )
 {
 	src.Seek(0);
@@ -342,9 +342,9 @@ inline unsigned int CDataStream::WriteFrom( CDataStream &src )
 	src.Free( pBuf + nSize );
 	return nRes;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// CBitStream realization
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// CBitStream implementation
+
 inline void CBitStream::Init( unsigned char *pData, Mode _mode, int nSize )
 {
 	pCurrent = pData; nBitsCount = 0; pBitPtr = 0;
@@ -353,7 +353,7 @@ inline void CBitStream::Init( unsigned char *pData, Mode _mode, int nSize )
 	pReservedEnd = pCurrent + nSize;
 #endif
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 inline void CBitStream::WriteBits( unsigned int _nBits, unsigned int _nBitsCount )
 {
 	if ( nBitsCount != 0 )
@@ -369,13 +369,13 @@ inline void CBitStream::WriteBits( unsigned int _nBits, unsigned int _nBitsCount
 	}
 	while ( nBitsCount > 8 )
 	{
-		pBitPtr[0] = (unsigned char)nBits; //( nBits & 0xff );
+		pBitPtr[0] = (unsigned char)nBits; // ( nBits & 0xff );
 		nBits >>= 8; nBitsCount -= 8;
 		pBitPtr = pCurrent++;
 	}
 	CheckCurrentW();
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 inline void CBitStream::WriteBit( unsigned int _nBits )
 {
 	if ( nBitsCount == 0 )
@@ -391,13 +391,13 @@ inline void CBitStream::WriteBit( unsigned int _nBits )
 	}
 	if ( nBitsCount > 8 )
 	{
-		pBitPtr[0] = (unsigned char)nBits; //( nBits & 0xff );
+		pBitPtr[0] = (unsigned char)nBits; // ( nBits & 0xff );
 		nBits >>= 8; nBitsCount -= 8;
 		pBitPtr = pCurrent++;
 	}
 	CheckCurrentW();
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 inline unsigned int CBitStream::ReadBits( unsigned int _nBitsCount )
 {
 	while ( nBitsCount < _nBitsCount )
@@ -411,7 +411,7 @@ inline unsigned int CBitStream::ReadBits( unsigned int _nBitsCount )
 	CheckCurrentR();
 	return nRes;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 inline unsigned int CBitStream::ReadBit()
 {
 	if ( nBitsCount < 1 )
@@ -425,5 +425,5 @@ inline unsigned int CBitStream::ReadBit()
 	CheckCurrentR();
 	return nRes;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // __STREAMS_H__

@@ -2,10 +2,10 @@
 
 #include "RMG_GraphLinkPropertiesDialog.h"
 
-//#include "editor.h"
+// #include "editor.h"
 
-//#include "MapEditorBarWnd.h"
-//#include "TemplateEditorFrame1.h"
+// #include "MapEditorBarWnd.h"
+// #include "TemplateEditorFrame1.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -13,13 +13,13 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 const int   GRAPH_LINKS_COLUMN_COUNT = 4;
 const char *GRAPH_LINKS_COLUMN_NAME  [GRAPH_LINKS_COLUMN_COUNT] = { "Path", "N%", "Start Node", "End Node" };
 const int   GRAPH_LINKS_COLUMN_FORMAT[GRAPH_LINKS_COLUMN_COUNT] = { LVCFMT_LEFT, LVCFMT_RIGHT, LVCFMT_LEFT, LVCFMT_LEFT };
 int					GRAPH_LINKS_COLUMN_WIDTH [GRAPH_LINKS_COLUMN_COUNT] = { 200, 20, 110, 110 };
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 int CALLBACK GraphLinksCompareFunc( LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort )
 {
 	CRMGGraphLinkPropertiesDialog* pGraphLinkPropertiesDialog = reinterpret_cast<CRMGGraphLinkPropertiesDialog*>( lParamSort );
@@ -36,40 +36,40 @@ int CALLBACK GraphLinksCompareFunc( LPARAM lParam1, LPARAM lParam2, LPARAM lPara
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 const int CRMGGraphLinkPropertiesDialog::vID[] = 
 {
-	IDC_RMG_GLP_LINKS_LABEL,									//0
-	IDC_RMG_GLP_LINKS_LIST,										//1
-	IDC_RMG_GLP_DELETE_LINK_BUTTON,						//2
-	IDC_RMG_GLP_LINK_TYPE_LABEL,							//3
-	IDC_RMG_GLP_LINK_TYPE_00_RADIO_BUTTON,		//4
-	IDC_RMG_GLP_LINK_TYPE_01_RADIO_BUTTON,		//5
-	IDC_RMG_GLP_LINK_DESK_LABEL,							//6
-	IDC_RMG_GLP_LINK_DESC_EDIT,								//7
-	IDC_RMG_GLP_LINK_DESC_BROWSE_BUTTON,			//8
-	IDC_RMG_GLP_LINK_CORNER_LABEL,						//9
-	IDC_RMG_GLP_LINK_CORNER_RADIUS_LABEL,			//10
-	IDC_RMG_GLP_LINK_CORNER_RADIUS_EDIT,			//11
-	IDC_RMG_GLP_LINK_CORNER_PARTS_LABEL,			//12
-	IDC_RMG_GLP_LINK_CORNER_PARTS_EDIT,				//13
-	IDC_RMG_GLP_LINK_LINE_LABEL,							//14
-	IDC_RMG_GLP_LINK_LINE_LENGTH_LABEL,				//15
-	IDC_RMG_GLP_LINK_LINE_LENGTH_EDIT,				//16
-	IDC_RMG_GLP_LINK_LINE_WIDTH_LABEL,				//17
-	IDC_RMG_GLP_LINK_LINE_WIDTH_EDIT,					//18
-	IDC_RMG_GLP_LINK_LINE_DISTURBANCE_LABEL,	//19
-	IDC_RMG_GLP_LINK_LINE_DISTURBANCE_EDIT,		//20
-	IDOK,																			//21
-	IDCANCEL,																	//22
+	IDC_RMG_GLP_LINKS_LABEL,									// 0
+	IDC_RMG_GLP_LINKS_LIST,										// 1
+	IDC_RMG_GLP_DELETE_LINK_BUTTON,						// 2
+	IDC_RMG_GLP_LINK_TYPE_LABEL,							// 3
+	IDC_RMG_GLP_LINK_TYPE_00_RADIO_BUTTON,		// 4
+	IDC_RMG_GLP_LINK_TYPE_01_RADIO_BUTTON,		// 5
+	IDC_RMG_GLP_LINK_DESK_LABEL,							// 6
+	IDC_RMG_GLP_LINK_DESC_EDIT,								// 7
+	IDC_RMG_GLP_LINK_DESC_BROWSE_BUTTON,			// 8
+	IDC_RMG_GLP_LINK_CORNER_LABEL,						// 9
+	IDC_RMG_GLP_LINK_CORNER_RADIUS_LABEL,			// 10
+	IDC_RMG_GLP_LINK_CORNER_RADIUS_EDIT,			// 11
+	IDC_RMG_GLP_LINK_CORNER_PARTS_LABEL,			// 12
+	IDC_RMG_GLP_LINK_CORNER_PARTS_EDIT,				// 13
+	IDC_RMG_GLP_LINK_LINE_LABEL,							// 14
+	IDC_RMG_GLP_LINK_LINE_LENGTH_LABEL,				// 15
+	IDC_RMG_GLP_LINK_LINE_LENGTH_EDIT,				// 16
+	IDC_RMG_GLP_LINK_LINE_WIDTH_LABEL,				// 17
+	IDC_RMG_GLP_LINK_LINE_WIDTH_EDIT,					// 18
+	IDC_RMG_GLP_LINK_LINE_DISTURBANCE_LABEL,	// 19
+	IDC_RMG_GLP_LINK_LINE_DISTURBANCE_EDIT,		// 20
+	IDOK,																			// 21
+	IDCANCEL,																	// 22
 };
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 CRMGGraphLinkPropertiesDialog::CRMGGraphLinkPropertiesDialog( CWnd* pParent )
 	: CResizeDialog( CRMGGraphLinkPropertiesDialog::IDD, pParent ), bCreateControls( false ), nSortColumn( 0 )
 {
-	//{{AFX_DATA_INIT(CRMGGraphLinkPropertiesDialog)
-	//}}AFX_DATA_INIT
+	// {{AFX_DATA_INIT(CRMGGraphLinkPropertiesDialog)
+	// }}AFX_DATA_INIT
 
 	SetControlStyle( vID[0], ANCHORE_LEFT_TOP | RESIZE_HOR );
 	SetControlStyle( vID[1], ANCHORE_LEFT_TOP | RESIZE_HOR_VER );
@@ -99,11 +99,11 @@ CRMGGraphLinkPropertiesDialog::CRMGGraphLinkPropertiesDialog( CWnd* pParent )
 	SetControlStyle( vID[22], ANCHORE_RIGHT_BOTTOM );
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGGraphLinkPropertiesDialog::DoDataExchange(CDataExchange* pDX)
 {
 	CResizeDialog::DoDataExchange( pDX );
-	//{{AFX_DATA_MAP(CRMGGraphLinkPropertiesDialog)
+	// {{AFX_DATA_MAP(CRMGGraphLinkPropertiesDialog)
 	DDX_Control(pDX, IDC_RMG_GLP_LINK_LINE_DISTURBANCE_EDIT, m_DisturbanceEdit);
 	DDX_Control(pDX, IDC_RMG_GLP_LINK_LINE_WIDTH_EDIT, m_WidthEdit);
 	DDX_Control(pDX, IDC_RMG_GLP_LINK_LINE_LENGTH_EDIT, m_LengthEdit);
@@ -111,12 +111,12 @@ void CRMGGraphLinkPropertiesDialog::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_RMG_GLP_LINK_CORNER_PARTS_EDIT, m_PartsEdit);
 	DDX_Control(pDX, IDC_RMG_GLP_LINK_DESC_EDIT, m_DescEdit);
 	DDX_Control(pDX, IDC_RMG_GLP_LINKS_LIST, m_GraphLinksList);
-	//}}AFX_DATA_MAP
+	// }}AFX_DATA_MAP
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 BEGIN_MESSAGE_MAP(CRMGGraphLinkPropertiesDialog, CResizeDialog)
-	//{{AFX_MSG_MAP(CRMGGraphLinkPropertiesDialog)
+	// {{AFX_MSG_MAP(CRMGGraphLinkPropertiesDialog)
 	ON_NOTIFY(LVN_COLUMNCLICK, IDC_RMG_GLP_LINKS_LIST, OnColumnclickLinksList)
 	ON_COMMAND(IDC_RMG_GLP_DELETE_MENU, OnDeleteMenu)
 	ON_BN_CLICKED(IDC_RMG_GLP_DELETE_LINK_BUTTON, OnDeleteLinkButton)
@@ -132,11 +132,11 @@ BEGIN_MESSAGE_MAP(CRMGGraphLinkPropertiesDialog, CResizeDialog)
 	ON_BN_CLICKED(IDC_RMG_GLP_LINK_TYPE_01_RADIO_BUTTON, OnType01RadioButton)
 	ON_BN_CLICKED(IDC_RMG_GLP_LINK_DESC_BROWSE_BUTTON, OnDescBrowseButton)
 	ON_NOTIFY(NM_RCLICK, IDC_RMG_GLP_LINKS_LIST, OnRclickLinksList)
-	//}}AFX_MSG_MAP
+	// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 BOOL CRMGGraphLinkPropertiesDialog::OnInitDialog() 
 {
 	CResizeDialog::OnInitDialog();
@@ -174,7 +174,7 @@ void CRMGGraphLinkPropertiesDialog::OnCancel()
 	CResizeDialog::OnCancel();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGGraphLinkPropertiesDialog::OnColumnclickLinksList(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
@@ -195,7 +195,7 @@ void CRMGGraphLinkPropertiesDialog::OnColumnclickLinksList(NMHDR* pNMHDR, LRESUL
 	*pResult = 0;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGGraphLinkPropertiesDialog::OnItemchangedLinksList(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
@@ -264,7 +264,7 @@ void CRMGGraphLinkPropertiesDialog::OnDeleteLinkButton()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGGraphLinkPropertiesDialog::OnKeydownLinksList(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	LV_KEYDOWN* pLVKeyDoww = (LV_KEYDOWN*)pNMHDR;
@@ -281,7 +281,7 @@ void CRMGGraphLinkPropertiesDialog::OnKeydownLinksList(NMHDR* pNMHDR, LRESULT* p
 	*pResult = 0;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGGraphLinkPropertiesDialog::OnRclickLinksList(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	CMenu composersMenu;
@@ -301,31 +301,31 @@ void CRMGGraphLinkPropertiesDialog::OnRclickLinksList(NMHDR* pNMHDR, LRESULT* pR
 	*pResult = 0;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGGraphLinkPropertiesDialog::OnChangeCornerPartsEdit() 
 {
 	SaveGraphLinkFromControls();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGGraphLinkPropertiesDialog::OnChangeCornerRadiusEdit() 
 {
 	SaveGraphLinkFromControls();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGGraphLinkPropertiesDialog::OnChangeDescEdit() 
 {
 	SaveGraphLinkFromControls();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGGraphLinkPropertiesDialog::OnChangeLineDisturbanceEdit() 
 {
 	SaveGraphLinkFromControls();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGGraphLinkPropertiesDialog::OnChangeLengthEdit() 
 {
 	SaveGraphLinkFromControls();
@@ -338,19 +338,19 @@ void CRMGGraphLinkPropertiesDialog::OnChangeLengthEdit()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGGraphLinkPropertiesDialog::OnChangeWidthEdit() 
 {
 	SaveGraphLinkFromControls();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGGraphLinkPropertiesDialog::OnType00RadioButton() 
 {
 	SaveGraphLinkFromControls();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGGraphLinkPropertiesDialog::OnType01RadioButton() 
 {
 	SaveGraphLinkFromControls();
@@ -405,7 +405,7 @@ void CRMGGraphLinkPropertiesDialog::OnDescBrowseButton()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool CRMGGraphLinkPropertiesDialog::LoadGraphLinks()
 {
 	bCreateControls = true;
@@ -431,7 +431,7 @@ bool CRMGGraphLinkPropertiesDialog::LoadGraphLinks()
 	return true;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void  CRMGGraphLinkPropertiesDialog::SetGraphLinkItem( int nItem, int nSelectedLink )
 {
 	m_GraphLinksList.SetItem( nItem, 1, LVIF_TEXT, NStr::Format( "%d", nSelectedLink ), 0, 0, 0, 0 );
@@ -455,7 +455,7 @@ void  CRMGGraphLinkPropertiesDialog::SetGraphLinkItem( int nItem, int nSelectedL
 														0, 0, 0, 0 );
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 float GetRoundFloat( float fValue )
 {
 	int nValue = (int)( fValue + 0.5f );
@@ -466,7 +466,7 @@ float GetRoundFloat( float fValue )
 	return fValue;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool CRMGGraphLinkPropertiesDialog::LoadGraphLinkToControls()
 {
 	int nFocusedItem = m_GraphLinksList.GetNextItem( -1, LVNI_FOCUSED );
@@ -500,7 +500,7 @@ bool CRMGGraphLinkPropertiesDialog::LoadGraphLinkToControls()
 	return false;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool CRMGGraphLinkPropertiesDialog::SaveGraphLinkFromControls()
 {
 	int nFocusedItem = m_GraphLinksList.GetNextItem( -1, LVNI_FOCUSED );
@@ -556,7 +556,7 @@ bool CRMGGraphLinkPropertiesDialog::SaveGraphLinkFromControls()
 	return false;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGGraphLinkPropertiesDialog::CreateControls()
 {
 	bCreateControls = true;
@@ -586,6 +586,6 @@ void CRMGGraphLinkPropertiesDialog::UpdateControls()
 		pWnd->EnableWindow( m_GraphLinksList.GetSelectedCount() > 0 );
 	}
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// basement storage  
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// basement storage
+

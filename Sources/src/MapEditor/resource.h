@@ -1,4 +1,4 @@
-//{{NO_DEPENDENCIES}}
+// {{NO_DEPENDENCIES}}
 // Microsoft Developer Studio generated include file.
 // Used by editor.rc
 //
@@ -1180,7 +1180,7 @@
 #define IDS_MAP_NAME_INVALID            61278
 #define IDS_INVALID_FIELD_SEASON        61279
 
-// Next default values for new objects
+// Next default values ​​for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS

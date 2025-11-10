@@ -168,7 +168,7 @@ void CChapterCommonPropsItem::UpdateItemValue( int nItemId, const CVariant &valu
 	
 	if ( nItemId == 1 || nItemId == 2 || nItemId == 3 || nItemId == 4 || nItemId == 5 || nItemId == 9 )
 	{
-		//сконвертим путь к файлу в относительный без расширения
+		// convert the file path to relative without extension
 		if ( !IsRelatedPath( value ) )
 		{
 			string szValue = value;
@@ -176,7 +176,7 @@ void CChapterCommonPropsItem::UpdateItemValue( int nItemId, const CVariant &valu
 			bool bRes =	MakeSubRelativePath( g_frameManager.GetFrame( CFrameManager::E_CHAPTER_FRAME )->GetProjectFileName().c_str(), szValue.c_str(), szRelatedPath );
 			if ( bRes )
 			{
-				//обрежем расширение в конце
+				// cut off the extension at the end
 				szRelatedPath = szRelatedPath.substr( 0, szRelatedPath.rfind( '.' ) );
 				CVariant newVal = szRelatedPath;
 				CTreeItem::UpdateItemValue( nItemId, newVal );

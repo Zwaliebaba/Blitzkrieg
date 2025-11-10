@@ -30,13 +30,13 @@ public:
 	
 	// Overrides
 	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CChapterFrame)
+	// {{AFX_VIRTUAL(CChapterFrame)
 protected:
-	//}}AFX_VIRTUAL
+	// }}AFX_VIRTUAL
 	
 	// Implementation
 private:
-	std::string szPrefix;		//эта переменная используется для передачи параметра в функцию FillRpgStats, чтобы не было необходимости изменять интерфейс
+	std::string szPrefix;		// this variable is used to pass a parameter to the FillRpgStats function so that there is no need to change the interface
 	CChapterMissionPropsItem *pActiveMission;
 	CChapterPlacePropsItem *pActivePlaceHolder;
 	bool bEditCrosses;
@@ -58,20 +58,20 @@ protected:
 	
 	// Generated message map functions
 protected:
-	//{{AFX_MSG(CChapterFrame)
+	// {{AFX_MSG(CChapterFrame)
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 	afx_msg void OnShowCrosses();
 	afx_msg void OnUpdateShowCrosses(CCmdUI* pCmdUI);
-	//}}AFX_MSG
+	// }}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 
-//{{AFX_INSERT_LOCATION}}
+// {{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
 
-#endif		//__CHAPTERFRM_H__
+#endif		// __CHAPTERFRM_H__

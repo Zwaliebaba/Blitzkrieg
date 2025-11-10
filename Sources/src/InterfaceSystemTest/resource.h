@@ -1,11 +1,11 @@
-//{{NO_DEPENDENCIES}}
+// {{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
 // Used by INTERFACESYSTEMTEST.RC
 //
 #define IDR_MAINFRAME					128
 #define IDD_INTERFACESYSTEMTEST_DIALOG				102
 
-// Next default values for new objects
+// Next default values ​​for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS

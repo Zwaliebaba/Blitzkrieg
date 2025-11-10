@@ -1,8 +1,8 @@
 #ifndef __SPELLCHECKER_H__
 #define __SPELLCHECKER_H__
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #pragma ONCE
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 #include"csapi.h"
 
@@ -13,7 +13,7 @@
 #define USA_CODE			( 0x0409 )
 #define BRITISH_CODE	( 0x0809 )
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 typedef GLOBALSEC ( *TSpellVer )					( WORD  FAR *, WORD FAR *, WORD FAR * );
 typedef GLOBALSEC ( *TSpellInit )					( SPLID FAR *, WSC FAR * );
 typedef GLOBALSEC ( *TSpellOptions )			( SPLID splid, long nSpellOptions );
@@ -33,7 +33,7 @@ typedef GLOBALSEC ( *TSpellGetListUdr )		( SPLID splid, UDR udr, WORD iszStart, 
 typedef GLOBALSEC ( *TSpellVerifyMdr )		( LPSPATH lpspathMdr, LID lidExpected, LID FAR *lpLid );
 
 // SpellEngine state values.
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CSpellEngine
 {
 	friend class CSpellChecker;
@@ -120,11 +120,11 @@ class CSpellEngine
 
 	int OpenUserDict( const std::string &rszPath );
 
-	int Suggest( LPCTSTR pWord );		//Get suggestion list
-	int SuggestMore();							//Get additional suggestions 
-	int Check( LPCTSTR pWord );			//Check word, return 0 - if no errors, 1-14 if any errors exist
-	int AddWord( LPCTSTR pWord );		//Add word to custom dictionary
-	int CreateList();								//Parse Suggest and SuggestMore output and create words list.
+	int Suggest( LPCTSTR pWord );		// Get suggestion list
+	int SuggestMore();							// Get additional suggestions
+	int Check( LPCTSTR pWord );			// Check word, return 0 - if no errors, 1-14 if any errors exist
+	int AddWord( LPCTSTR pWord );		// Add word to custom dictionary
+	int CreateList();								// Parse Suggest and SuggestMore output and create words list.
 	int Ignore( LPCTSTR pWord );
 };
 
@@ -163,5 +163,5 @@ public:
 	void Ignore( const CString &rstrText );
 	int GetVariants( const CString &rstrText, std::vector<CString> *pWords );
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // __SPELLCHECKER_H__

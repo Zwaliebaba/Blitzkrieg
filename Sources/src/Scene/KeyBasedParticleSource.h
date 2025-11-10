@@ -1,71 +1,72 @@
 #ifndef __KEYBASEDPARTICLESOURCE_H__
 #define __KEYBASEDPARTICLESOURCE_H__
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma ONCE
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#pragma once
+
 #include "PFX.h"
 #include "ParticleSourceData.h"
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CKeyBasedParticleSource : public IParticleSource, public IParticleSourceWithInfo
 {
-	OBJECT_NORMAL_METHODS(CKeyBasedParticleSource);
-	DECLARE_SERIALIZE;
-	//
-	CPtr<SParticleSourceData> pData;			// данные об источнике
-	NTimer::STime nStartTime;             // врем¤ рождени¤
-	NTimer::STime nLastUpdateTime;				// врем¤ последнего обновлени¤
-	NTimer::STime nLastParticleUpdate;    // врем¤ последнего обновлени¤ сгенеренных партиклов
-	CVec3 vPosition;											// относительно положение источника
-	float fDirectionPhi;                  // направление источника в сферической системе координат
-	float fDirectionTheta;                // направление источника в сферической системе координат
-	CVec3 vDirection;                     // направдение источнике без учета pData
-	CPtr<IGFXTexture> pTexture;           // текстура с партиклами
-	float lastError;                      // поправка на нецелое число партиклов при последней генерации
-	std::vector< CTRect<float> > rcRects;  // координаты текстурных фреймов
-	std::list<SExtendedParticle> particles; // они
-	float fScale;                         // масштаб эффекта
-	bool bStopped;                        // остановка эффекта
-	bool bSuspended;               
-	STrackContext contextDensity;         // контекст дл¤ интегрировани¤ плотности партиклов
-	typedef CVec3 GetParticlePositionFunction( const float area, const CVec3 &vPosition );
-	GetParticlePositionFunction *pfnGPPfunc; // указатель на функцию, определ¤ющую характер области вылета частиц
+  OBJECT_NORMAL_METHODS(CKeyBasedParticleSource);
+  DECLARE_SERIALIZE;
+  //
+  CPtr<SParticleSourceData> pData;// source information
+  NTimer::STime nStartTime;// time of birth
+  NTimer::STime nLastUpdateTime;// time¤ last update¤
+  NTimer::STime nLastParticleUpdate;// time of last update of generated particles
+  CVec3 vPosition;// relative to source position
+  float fDirectionPhi;// source direction in spherical coordinate system
+  float fDirectionTheta;// source direction in spherical coordinate system
+  CVec3 vDirection;// source direction excluding pData
+  CPtr<IGFXTexture> pTexture;// texture with particles
+  float lastError;// correction for a non-integer number of particles at the last generation
+  std::vector<CTRect<float>> rcRects;// texture frame coordinates
+  std::list<SExtendedParticle> particles;// They
+  float fScale;// scale of effect
+  bool bStopped;// stop the effect
+  bool bSuspended;
+  STrackContext contextDensity;// context for integrating particle density
+  using GetParticlePositionFunction = CVec3(float area, const CVec3 &vPosition);
+  GetParticlePositionFunction *pfnGPPfunc;// pointer to a function that determines the nature of the particle emission region
 public:
-			// data retrieving for rendering
-	virtual interface IGFXTexture* STDCALL GetTexture() const;
-	virtual const int STDCALL GetNumParticles() const;
-	virtual void STDCALL FillParticleBuffer( SSimpleParticle *buff ) const;
-	// position/direction
-	virtual const CVec3 STDCALL GetPos() const;
-	virtual void STDCALL SetPos( const CVec3 &vPos );
-	virtual const CVec3 STDCALL GetDirection() const;
-	virtual void STDCALL SetScale( float _fScale );
-	virtual void STDCALL SetDirection( const SHMatrix &mDir );
-	// update and work with time
-	virtual void STDCALL Update( const NTimer::STime &time );
-	virtual void STDCALL SetStartTime( const NTimer::STime &time );
-	virtual const NTimer::STime STDCALL GetStartTime() const;
-	virtual const NTimer::STime STDCALL GetEffectLifeTime() const;
-	virtual bool STDCALL IsFinished() const;
-	// statistics
-	virtual void STDCALL GetInfo( SParticleSourceInfo &info );
-	virtual float STDCALL GetArea() const;
-	virtual void STDCALL Stop();
-	//
-	virtual void Init( SParticleSourceData *_pData );
-	virtual int STDCALL GetOptimalUpdateTime() const;
-	virtual void STDCALL SetSuspendedState( bool bState );
+  // data retrieving for rendering
+  interface IGFXTexture * STDCALL GetTexture() const override;
+  const int STDCALL GetNumParticles() const override;
+  void STDCALL FillParticleBuffer(SSimpleParticle *buff) const override;
+  // position/direction
+  const CVec3 STDCALL GetPos() const override;
+  void STDCALL SetPos(const CVec3 &vPos) override;
+  const CVec3 STDCALL GetDirection() const override;
+  void STDCALL SetScale(float _fScale) override;
+  void STDCALL SetDirection(const SHMatrix &mDir) override;
+  // update and work with time
+  void STDCALL Update(const NTimer::STime &time) override;
+  void STDCALL SetStartTime(const NTimer::STime &time) override;
+  const NTimer::STime STDCALL GetStartTime() const override;
+  const NTimer::STime STDCALL GetEffectLifeTime() const override;
+  bool STDCALL IsFinished() const override;
+  // statistics
+  void STDCALL GetInfo(SParticleSourceInfo &info) override;
+  float STDCALL GetArea() const override;
+  void STDCALL Stop() override;
+  //
+  virtual void Init(SParticleSourceData *_pData);
+  int STDCALL GetOptimalUpdateTime() const override;
+  void STDCALL SetSuspendedState(bool bState) override;
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CParticleGenerator
 {
-	static float fStartAngle;
-	static float nCurrParticle;
-	static float fStep;
+  static float fStartAngle;
+  static float nCurrParticle;
+  static float fStep;
+
 public:
-	static CVec3 GetParticlePositionSquare( const float area, const CVec3 &vPosition );
-	static CVec3 GetParticlePositionDisk( const float area, const CVec3 &vPosition );
-	static CVec3 GetParticlePositionCircle( const float area, const CVec3 &vPosition );
-	static void ResetGenerator( int nNextNumParticles );
+  static CVec3 GetParticlePositionSquare(float area, const CVec3 &vPosition);
+  static CVec3 GetParticlePositionDisk(float area, const CVec3 &vPosition);
+  static CVec3 GetParticlePositionCircle(float area, const CVec3 &vPosition);
+  static void ResetGenerator(int nNextNumParticles);
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // __KEYBASEDPARTICLESOURCE_H__

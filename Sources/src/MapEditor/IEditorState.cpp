@@ -1,6 +1,6 @@
 // IEditorState.cpp: implementation of the IEditorState class.
 //
-//////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
 #include "editor.h"
@@ -37,19 +37,12 @@ bool CStateParameter::Update( STATE_EVENT nType, const CTPoint<int> &rPoint, CTe
 					GetCursorPos( &point );
 					g_frameManager.GetGameWnd()->ScreenToClient( &point );
 				}
-				/**
-				else
-				{
-					g_frameManager.GetGameWnd()->ClientToScreen( &point );
-				}
-				/**/
-				//g_frameManager.GetGameWnd()->ScreenToClient( &point );
+				/* *
+				 */
+				// g_frameManager.GetGameWnd()->ScreenToClient( &point );
 
-				/**
-				RECT screenRect;
-				g_frameManager.GetGameWnd()->GetClientRect( &screenRect );
-				CVec2 v2Point( point.x - screenRect.left, point.y - screenRect.top );
-				/**/
+				/* *
+				 */
 
 				pScene->GetPos3( &vLastPos, CVec2( point.x, point.y ) );
 				

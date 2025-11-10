@@ -8,7 +8,7 @@
 #include "..\RandomMapGen\Registry_Types.h"
 #include "..\RandomMapGen\Resource_Types.h"
 #include "..\Formats\fmtFont.h"
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 struct SELKTextProperty
 {
 	enum STATE
@@ -43,10 +43,10 @@ struct SELKTextProperty
 
 struct SELKDescription
 {
-	std::string szName;					// имя в дереве
-	std::string szPAKName;			// относительное имя файла, куда необходимо автоматичесаи запаковывать файл
-	std::string szUPDPrefix;		// префикс в именах UPD файлов
-	bool bGenerateFonts;				// генерить или нет фонты
+	std::string szName;					// name in tree
+	std::string szPAKName;			// relative file name where the file should be automatically packed
+	std::string szUPDPrefix;		// prefix in UPD file names
+	bool bGenerateFonts;				// whether to generate fonts or not
 
 	SELKDescription() : bGenerateFonts( false ) {}
 	// serializing...
@@ -54,21 +54,21 @@ struct SELKDescription
 	virtual int STDCALL operator&( IDataTree &ss );
 };
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 struct SELKElement
 {
 public:
 	static const TCHAR DATA_BASE_FOLDER[];
 	static const TCHAR DATA_BASE_RESERVE_FOLDER[];
 
-	//получить каталог с базой по статистике
+	// get a catalog with a statistics database
 	static void GetDataBaseFolder( const std::string &rszELKPath, std::string *pszDataBaseFolder );
 	static void GetDataBaseReserveFolder( const std::string &rszELKPath, std::string *pszDataBaseReserveFolder );
 	void GetDataBaseFolder( std::string *pszDataBaseFolder ) const;
 	void GetDataBaseReserveFolder( std::string *pszDataBaseReserveFolder ) const;
 
 	SELKDescription description;
-	std::string szPath;					//без расширения!
+	std::string szPath;					// no extension!
 	std::string szVersion;
 	int nLastUpdateNumber;
 
@@ -94,7 +94,7 @@ public:
 	virtual int STDCALL operator&( IDataTree &ss );
 };
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 struct SELKElementStatistic
 {
 	struct SState 
@@ -126,7 +126,7 @@ struct SELKElementStatistic
 		virtual int STDCALL operator&( IDataTree &ss );
 	};
 
-	std::vector<SState> states; //по стейтам
+	std::vector<SState> states; // by state
 
 	SELKElementStatistic()
 	{
@@ -151,11 +151,11 @@ struct SELKElementStatistic
 	virtual int STDCALL operator&( IDataTree &ss );
 };
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 struct SELKStatistic
 {
-	std::vector<SELKElementStatistic> original; //по элементам
-	std::vector<SELKElementStatistic> translation; //по элементам
+	std::vector<SELKElementStatistic> original; // by element
+	std::vector<SELKElementStatistic> translation; // by element
 	bool bValid;
 
 	SELKStatistic() : bValid( false ) {}
@@ -185,7 +185,7 @@ struct SELKStatistic
 	}
 };
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CELK
 {
 public:
@@ -221,37 +221,37 @@ public:
 
 public:
 	std::vector<SELKElement> elements;
-	std::hash_map<std::string, int> elementNames; //не сериализуется, заполняется в Open
-	std::string szPath;	//с расширением
-	SELKStatistic statistic; //статистика получаемая во время игры.
-	SELKStatistic previousStatistic; //предыдущая статистика
+	std::hash_map<std::string, int> elementNames; // not serialized, filled in Open
+	std::string szPath;	// with extension
+	SELKStatistic statistic; // statistics obtained during the game.
+	SELKStatistic previousStatistic; // previous statistics
 	SEnumFolderStructureParameter enumFolderStructureParameter;
 	
 public:
-	//работа со статистикой
+	// working with statistics
 	bool IsOpened() { return ( !szPath.empty() ); }
 	bool Open( const std::string &rszELKPath, bool bEnumFiles );
 	bool Save();
 	void Close();
 	
-	//расширения необходимо откинуть!!
-	//std::string szFileName = szFileName.substr( 0, szFileName.rfind( '.' ) );
-	//получить различный тексты в UNICODE
+	// extensions must be removed!!
+	// std::string szFileName = szFileName.substr( 0, szFileName.rfind( '.' ) );
+	// get various texts in UNICODE
 	static void GetOriginalText  ( const std::string &rszTextPath, CString *pstrText, int nCodePage, bool bRemove_0D = false );
 	static void GetTranslatedText( const std::string &rszTextPath, CString *pstrText, int nCodePage, bool bRemove_0D = false );
 	static void GetDescription   ( const std::string &rszTextPath, CString *pstrText, int nCodePage, bool bRemove_0D = false );
 	static int GetState( const std::string &rszTextPath, bool *pbTranslated );
 
-	//расширения необходимо откинуть!!
-	//std::string szFileName = szFileName.substr( 0, szFileName.rfind( '.' ) );
-	//установить различные тексты в UNICODE
+	// extensions must be removed!!
+	// std::string szFileName = szFileName.substr( 0, szFileName.rfind( '.' ) );
+	// set various texts to UNICODE
 	static void SetTranslatedText( const std::string &rszTextPath, const CString &rstrText, int nCodePage, bool bAdd_0D = false );
-	static int SetState( const std::string &rszTextPath, int nState, bool *pbTranslated ); //возвращает предыдущий стейт
+	static int SetState( const std::string &rszTextPath, int nState, bool *pbTranslated ); // returns previous state
 	
-	//создать PAK файл
+	// create PAK file
 	static bool CreatePAK( const std::string &rszGamePath, const std::string &rszFilePath, const std::string &rszZIPToolPath, class CProgressDialog* pwndProgressDialog = 0 );
-	//запаковать переведенные тексты ( APPROVED )
-	//только для SELKElement
+	// pack translated texts (APPROVED)
+	// only for SELKElement
 	static bool ExportToPAK( const std::string &rszELKPath,
 													 const std::string &rszPAKPath,
 													 const std::string &rszZIPToolPath,
@@ -266,16 +266,16 @@ public:
 													 const struct SSimpleFilter *pELKFilter = 0 );
 	static bool ImportFromPAK( const std::string &rszPAKPath, const std::string &rszELKPath, bool bAbsolute, std::string *pszNewVersion, class CProgressDialog* pwndProgressDialog = 0 );
 
-	//распаковать PAK в ELK c апдейтом состояний
-	//для всего CELK ( впереди ставится номер SELKElement )
+	// unpack PAK into ELK with state update
+	// for the entire CELK (the SELKElement number is placed in front)
 	static bool ExportToXLS( const CELK &rELK, const std::string &rszXLSPath, class CELKTreeWindow *pwndELKTreeWindow, int nCodePage, class CProgressDialog* pwndProgressDialog = 0 );
 	static bool ImportFromXLS( const CELK &rELK, const std::string &rszXLSPath, std::string *pszNewVersion, int nCodePage, class CProgressDialog* pwndProgressDialog = 0 );
 
 	static bool CreateStatistic( SELKStatistic *pStatistic, class CELKTreeWindow *pwndELKTreeWindow, int nCodePage, class CProgressDialog* pwndProgressDialog = 0 );
 
-	//взять и проапдейтить все паки, начиная с указанного
+	// take and update all the packs, starting with the specified one
 	static bool UpdateELK( const std::string &rszPath, const std::string &rszPAKFileName, class CProgressDialog* pwndProgressDialog = 0 );
-	//взять базу из указанного места и положить ее в игру, при этом запускать игру или нет
+	// take the base from the specified location and put it into the game, whether to launch the game or not
 	static void UpdateGame( const CELK &rELK,
 													const std::string &rszZIPToolPath,
 													class CELKTreeWindow *pwndELKTreeWindow,
@@ -291,7 +291,7 @@ public:
 	virtual int STDCALL operator&( IDataTree &ss );
 };
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 typedef std::list<std::string> TSimpleFilterItem;
 typedef std::list<TSimpleFilterItem> TSimpleFilter;
 struct SSimpleFilter
@@ -328,16 +328,16 @@ struct SSimpleFilter
 };
 typedef std::hash_map<std::string, SSimpleFilter> TFilterHashMap;
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // CFontInfo
-//      This class stores information about the currently loaded font.
-//      This includes TEXTMETRIC, ABCs, Kerning pairs and estimated texture size for the font letters image
+// This class stores information about the currently loaded font.
+// This includes TEXTMETRIC, ABCs, Kerning pairs and estimated texture size for the font letters image
 struct SFontInfo
 {
   HFONT hFont;													// HFONT used to draw with this font
-  TEXTMETRIC tm;												// text metrics, e.g. character height
+  TEXTMETRIC tm;												// text metrics, e.g. 
 	std::vector<ABC> abc;									// character ABC widths
-	std::vector<KERNINGPAIR> kps;					// kernging pairs
+	std::vector<KERNINGPAIR> kps;					// kerning pairs
 	int nTextureSizeX, nTextureSizeY;			// estimated texture size
 	std::hash_map<WORD, WORD> translate;	// ANSI => UNICODE translation table
 	//
@@ -353,7 +353,7 @@ struct SFontInfo
   virtual ~SFontInfo() { if ( hFont ) DeleteObject( hFont ); }
 };
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 struct SKPZeroFunctional
 {
   const std::hash_map<WORD, WORD> *pTranslate;
@@ -377,9 +377,9 @@ struct SKPZeroFunctional
 	}
 };
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #define FONTS_COUNT ( 4 )
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CFontGen
 {
 public:
@@ -430,7 +430,7 @@ public:
 	static int GetFonts( DWORD dwCharacterSet, std::set<CString> *pFontsList );
 };
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 struct SMainFrameParams
 {
 	struct SSearchParam
@@ -511,5 +511,5 @@ struct SMainFrameParams
 
 	const SSimpleFilter* GetCurrentFilter() const;
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // !defined(__ELK_TYPES__)

@@ -1,6 +1,6 @@
 // WindowConsole.h: interface for the CWindowConsole class.
 //
-//////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////
 
 #if !defined(AFX_WINDOWCONSOLE_H__3222DEC4_B4EB_4831_9CE4_417F561454C6__INCLUDED_)
 #define AFX_WINDOWCONSOLE_H__3222DEC4_B4EB_4831_9CE4_417F561454C6__INCLUDED_
@@ -11,7 +11,7 @@
 
 #include "Window.h"
 class CWindowEditLine;
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CWindowConsole : public CWindow  
 {
 	OBJECT_COMPLETE_METHODS(CWindowConsole)
@@ -32,8 +32,8 @@ class CWindowConsole : public CWindow
 
 	typedef std::vector<std::wstring> CVectorOfStrings;
 	typedef std::vector<SColorString> CVectorOfColorStrings;
-	CVectorOfColorStrings vectorOfStrings;		//все строчки в консоли
-	CVectorOfStrings vectorOfCommands;				//выполненные команды в консоли, для выбора предыдущих команд по стрелочкам вверх/вниз
+	CVectorOfColorStrings vectorOfStrings;		// all lines in the console
+	CVectorOfStrings vectorOfCommands;				// executed commands in the console, to select previous commands using the up/down arrows
 
 	typedef std::hash_set<std::string> CConsoleFunctions;
 	CConsoleFunctions consoleFunctions;
@@ -41,10 +41,10 @@ class CWindowConsole : public CWindow
 	CNCPtr<CWindowEditLine> pEditLine;
 
 	NTimer::STime currTime;
-	int nCursorPos;							//позиция курсора в текущей редактируемой строке
-	int nBeginString;						//начальная отображаемая строка из списка строк
-															//0 считается самой свежей строчкой
-	int nBeginCommand;					//текущая команда из лога команд
+	int nCursorPos;							// cursor position in the currently edited line
+	int nBeginString;						// initial display string from a list of strings
+															// 0 is considered the most recent line
+	int nBeginCommand;					// current command from the command log
 	bool bCanLaunchEffect;									// console is notified about open effect finish.
 	DWORD dwColor;
 
@@ -52,7 +52,7 @@ class CWindowConsole : public CWindow
 	void RegisteMessageSinks();
 	void UnRegisteMessageSinks();
 
-	//это дело вызывается после считывания новой комманды из буфера
+	// this case is called after reading a new command from the buffer
 	void ParseCommand( const std::wstring &szCommand );
 public:
 	CWindowConsole() : currTime( 0 ), bCanLaunchEffect( true ), nBeginCommand( 0 ),
@@ -76,6 +76,6 @@ public:
 
 	virtual int STDCALL operator&( IDataTree &ss );
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 #endif // !defined(AFX_WINDOWCONSOLE_H__3222DEC4_B4EB_4831_9CE4_417F561454C6__INCLUDED_)

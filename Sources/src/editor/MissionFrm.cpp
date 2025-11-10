@@ -10,7 +10,7 @@
 #include "..\RandomMapGen\MapInfo_types.h"
 
 #include "editor.h"
-#include "BuildCompose.h"			//для компоновки картинки в текстуру
+#include "BuildCompose.h"			// for composing a picture into a texture
 #include "TreeDockWnd.h"
 #include "PropView.h"
 #include "TreeItem.h"
@@ -27,23 +27,23 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // CMissionFrame
 
 IMPLEMENT_DYNCREATE(CMissionFrame, CImageFrame)
 
 BEGIN_MESSAGE_MAP(CMissionFrame, CImageFrame)
-	//{{AFX_MSG_MAP(CMissionFrame)
+	// {{AFX_MSG_MAP(CMissionFrame)
 	ON_WM_CREATE()
 	ON_WM_LBUTTONDOWN()
 	ON_WM_LBUTTONUP()
 	ON_WM_MOUSEMOVE()
 	ON_COMMAND(ID_GENERATE_IMAGE, OnGenerateImage)
 	ON_UPDATE_COMMAND_UI(ID_GENERATE_IMAGE, OnUpdateGenerateImage)
-	//}}AFX_MSG_MAP
+	// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // CMissionFrame construction/destruction
 
 CMissionFrame::CMissionFrame()
@@ -56,10 +56,10 @@ CMissionFrame::CMissionFrame()
 	pWndView = new CImageView;
 	pActiveObjective = 0;
 
-//CRAP{
-//	szAddDir = "scenarios\\missions\\";
+// CRAP{
+// szAddDir = "scenarios\\missions\\";
 	szAddDir = "scenarios\\";
-//CRAP}
+// CRAP}
 
 	m_nCompressedFormat = GFXPF_DXT3;
 	m_nLowFormat = GFXPF_ARGB1555;
@@ -78,7 +78,7 @@ int CMissionFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	return 0;
 }
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // CMissionFrame message handlers
 
 void CMissionFrame::FillRPGStats( SMissionStats &rpgStats, CTreeItem *pRootItem, const char *pszProjectName )
@@ -105,7 +105,7 @@ void CMissionFrame::FillRPGStats( SMissionStats &rpgStats, CTreeItem *pRootItem,
 		else
 			NI_ASSERT( 0 );
 		
-//		NI_ASSERT( pMusics->GetChildsCount() == pMusicStats->size() );
+// NI_ASSERT( pMusics->GetChildsCount() == pMusicStats->size() );
 		for ( CTreeItem::CTreeItemList::const_iterator it=pMusics->GetBegin(); it!=pMusics->GetEnd(); ++it )
 		{
 			CMissionMusicPropsItem *pMusicProps = static_cast<CMissionMusicPropsItem *> ( it->GetPtr() );
@@ -215,8 +215,8 @@ void CMissionFrame::LoadRPGStats( IDataTree *pDT, CTreeItem *pRootItem )
 		CString text;
 		text.Format( "Generating map image..." );
 		theApp.GetMainFrame()->m_wndStatusBar.SetWindowText( text );
-		//загрузим и отобразим картинку на экране
-		//Скомпонуем спрайт в editor temp dir
+		// load and display the image on the screen
+		// Let's compose the sprite in editor temp dir
 		CMissionCommonPropsItem *pCommonProps = static_cast<CMissionCommonPropsItem *> ( pRootItem->GetChildItem( E_MISSION_COMMON_PROPS_ITEM ) );
 		std::string szMapFileName, szTemp, szTemp1;
 		szMapFileName = pCommonProps->GetFinalMap();
@@ -249,7 +249,7 @@ bool CMissionFrame::ExportFrameData( IDataTree *pDT, const char *pszProjectName,
 	NI_ASSERT( pRootItem != 0 );
 	NI_ASSERT( pRootItem->GetItemType() == E_MISSION_ROOT_ITEM );
 	{
-		//validation
+		// validation
 		CMissionCommonPropsItem *pCommonProps = static_cast<CMissionCommonPropsItem *> ( pRootItem->GetChildItem( E_MISSION_COMMON_PROPS_ITEM ) );
 		std::string szErrorMsg;
 		std::string szTemp;
@@ -320,7 +320,7 @@ bool CMissionFrame::ExportFrameData( IDataTree *pDT, const char *pszProjectName,
 	szPrefix = szAddDir + szPrevExportFileName.substr( 0, szPrevExportFileName.rfind('\\') + 1 );
 	SaveRPGStats( pDT, pRootItem, pszProjectName );
 	
-	//Скопирую все данные в экспорт директорию
+	// I will copy all the data to the export directory
 	szPrefix = theApp.GetDestDir() + szPrefix;
 	CMissionCommonPropsItem *pCommonProps = static_cast<CMissionCommonPropsItem *> ( pRootItem->GetChildItem( E_MISSION_COMMON_PROPS_ITEM ) );
 	std::string szTemp, szSource, szResult, szDir;
@@ -649,13 +649,13 @@ void CMissionFrame::OnMouseMove(UINT nFlags, CPoint point)
 	
 	CImageFrame::OnMouseMove(nFlags, point);
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ///////////////////////////////
 void CMissionFrame::OnUpdateGenerateImage(CCmdUI* pCmdUI) 
 {
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
 	pCmdUI->Enable( pTree != 0 );
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ///////////////////////////////
 void CMissionFrame::OnGenerateImage() 
 {
 	CString text;
@@ -670,8 +670,8 @@ void CMissionFrame::OnGenerateImage()
 		if ( pRoot == 0 )
 			return;
 		CMissionCommonPropsItem *pCommonProps = static_cast<CMissionCommonPropsItem *> ( pRoot->GetChildItem( E_MISSION_COMMON_PROPS_ITEM ) );
-		//загрузим и отобразим картинку на экране
-		//Скомпонуем спрайт в editor temp dir
+		// load and display the image on the screen
+		// Let's compose the sprite in editor temp dir
 		std::string szMapFileName, szTemp, szTemp1;
 		szMapFileName = pCommonProps->GetFinalMap();
 		szMapFileName = "Maps\\" + szMapFileName;
@@ -695,4 +695,4 @@ void CMissionFrame::OnGenerateImage()
 	text.Format( "Ready" );
 	theApp.GetMainFrame()->m_wndStatusBar.SetWindowText( text );
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ///////////////////////////////

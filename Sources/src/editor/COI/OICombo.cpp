@@ -10,7 +10,7 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // COICombo
 
 COICombo::COICombo()
@@ -23,13 +23,13 @@ COICombo::~COICombo()
 
 
 BEGIN_MESSAGE_MAP(COICombo, CComboBox)
-	//{{AFX_MSG_MAP(COICombo)
+	// {{AFX_MSG_MAP(COICombo)
 	ON_WM_CREATE()
 	ON_WM_KILLFOCUS()
-	//}}AFX_MSG_MAP
+	// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // COICombo message handlers
 
 int COICombo::OnCreate(LPCREATESTRUCT lpCreateStruct) 

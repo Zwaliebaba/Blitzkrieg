@@ -5,8 +5,8 @@
 
 static const int ICON_SIZE = 64;
 static const float NORMAL_LENGTH = 40;
-static const float fOX = -622;			//не менять эти значения, подсчитанны экспериментально для совместимости со старыми проектами.
-static const float fOY = 296;				//иначе съедет сетка залоченных AI тайлов
+static const float fOX = -622;			// do not change these values, calculated experimentally for compatibility with old projects.
+static const float fOY = 296;				// otherwise the grid of locked AI tiles will move away
 
 int SAITile::operator&( IDataTree &ss )
 {
@@ -49,7 +49,7 @@ void CGridFrame::GFXDraw()
 void CGridFrame::MyCreateGrid()
 {
 	const int nX = 60;
-	const int nY = 60;			//количество полосок по горизонтали и по вертикали
+	const int nY = 60;			// number of stripes horizontally and vertically
 	float fX = fOX;
 	float fY = fOY;
 
@@ -61,7 +61,7 @@ void CGridFrame::MyCreateGrid()
 		int nStart;
 		CVerticesLock<SGFXTLVertex> vertices( pGridVertices );
 
-		//AI tiles
+		// AI tiles
 		fX = fOX;
 		fY = fOY + fCellSizeY;
 		nStart = 0;
@@ -90,7 +90,7 @@ void CGridFrame::MyCreateGrid()
 				1, 1, 0xffc0c0c0, 0xff00000, 0, 0 );
 		}
 
-		//Common tiles
+		// Common tiles
 		fX = fOX;
 		fY = fOY;
 		nStart = nY * 4;
@@ -161,7 +161,7 @@ void CGridFrame::SetTileInListOfTiles( CListOfTiles &listOfTiles, int nTileX, in
 		{
 			if ( nVal == 0 )
 			{
-				//удаляем этот тайл
+				// delete this tile
 				listOfTiles.erase( it );
 				return;
 			}
@@ -175,7 +175,7 @@ void CGridFrame::SetTileInListOfTiles( CListOfTiles &listOfTiles, int nTileX, in
 		if ( nVal == 0 )
 			return;
 
-		//создаем новый прозрачный объект
+		// create a new transparent object
 		SAITile tile;
 		tile.nTileX = nTileX;
 		tile.nTileY = nTileY;
@@ -183,7 +183,7 @@ void CGridFrame::SetTileInListOfTiles( CListOfTiles &listOfTiles, int nTileX, in
 		listOfTiles.push_back( tile );
 	}
 	
-	//теперь обновлю картинку
+	// I'll update the picture now
 	DWORD dwColor = 0x00000000;
 	if ( nTypeOfTile == E_TRANSEPARENCE_TILE )
 	{
@@ -211,7 +211,7 @@ void CGridFrame::SetTileInListOfTiles( CListOfTiles &listOfTiles, int nTileX, in
 			dwColor = 0xffe0e000;
 			break;
 		default:
-			NI_ASSERT( 0 );			//WTF? поддерживается всего 8 значений прозрачности
+			NI_ASSERT( 0 );			// WTF? 
 		}
 	}
 	else if ( nTypeOfTile == E_ENTRANCE_TILE )
@@ -261,7 +261,7 @@ void CGridFrame::SetTileInListOfNormalTiles( CListOfNormalTiles &listOfTiles, in
 	{
 		if ( it->nTileX == nTileX && it->nTileY == nTileY )
 		{
-			//замещаем значение
+			// replace the value
 			it->nVal = nVal;
 			float alpha = (float) PI * nVal / 8;
 			CVerticesLock<SGFXTLVertex> vertices( it->pNormalVertices );
@@ -271,7 +271,7 @@ void CGridFrame::SetTileInListOfNormalTiles( CListOfNormalTiles &listOfTiles, in
 		}
 	}
 	
-	//создаем новый прозрачный объект
+	// create a new transparent object
 	SAINormalTile tile;
 	tile.nTileX = nTileX;
 	tile.nTileY = nTileY;
@@ -283,7 +283,7 @@ void CGridFrame::SetTileInListOfNormalTiles( CListOfNormalTiles &listOfTiles, in
 		vertices[1].Setup( vShift.x, vShift.y, 1, 1, 0xffff0000, 0xff000000, 0, 0 );
 	}
 
-	//теперь обновлю картинку
+	// I'll update the picture now
 	tile.pVertices = pGFX->CreateVertices( 4, SGFXTLVertex::format, GFXPT_TRIANGLELIST, GFXD_DYNAMIC );
 	{
 		CVerticesLock<SGFXTLVertex> vertices( tile.pVertices );
@@ -302,7 +302,7 @@ void CGridFrame::DeleteTileInListOfNormalTiles( CListOfNormalTiles &listOfTiles,
 	{
 		if ( it->nTileX == nTileX && it->nTileY == nTileY )
 		{
-			//удаляем найденный тайл
+			// delete the found tile
 			listOfTiles.erase( it );
 			return;
 		}
@@ -322,7 +322,7 @@ bool CGridFrame::SaveIconFile( const char *pszSrc, const char *pszRes )
 		if ( pSrcImage == 0 )
 			break;
 
-		//надо найти минимальные размеры картинки по горизонтали и по вертикали
+		// you need to find the minimum dimensions of the image horizontally and vertically
 		int nSizeX = pSrcImage->GetSizeX();
 		int nSizeY = pSrcImage->GetSizeY();
 		int nMinX = nSizeX, nMinY = -1;
@@ -376,7 +376,7 @@ bool CGridFrame::SaveIconFile( const char *pszSrc, const char *pszRes )
 			pMinImage->CopyFromAB( pSrcImage, &rc, 0, 0 );
 		}
 		
-		//рассчитаем scale factor
+		// calculate the scale factor
 		nSizeX = pMinImage->GetSizeX();
 		nSizeY = pMinImage->GetSizeY();
 		double fRateX = (double) ICON_SIZE/nSizeX;
@@ -408,7 +408,7 @@ bool CGridFrame::SaveIconFile( const char *pszSrc, const char *pszRes )
 			pResImage->CopyFrom( pScaleImage, &rc, nLeft, 0 );
 		}
 		else
-			pResImage = pScaleImage;		//равного размера
+			pResImage = pScaleImage;		// equal size
 
 		CPtr<IDataStream> pResStream = CreateFileStream( pszRes, STREAM_ACCESS_WRITE );
 		if ( pResStream == 0 )

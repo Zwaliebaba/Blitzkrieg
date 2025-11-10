@@ -17,60 +17,66 @@
 #include "lstate.h"
 
 
-
 const TObject luaO_nilobject = {LUA_TNIL, {NULL}};
 
 
 const char *const luaO_typenames[] = {
-  "userdata", "nil", "number", "string", "table", "function"
+    "userdata", "nil", "number", "string", "table", "function"
 };
-
 
 
 /*
 ** returns smaller power of 2 larger than `n' (minimum is MINPOWER2) 
 */
-lint32 luaO_power2 (lint32 n) {
+lint32 luaO_power2(lint32 n)
+{
   lint32 p = MINPOWER2;
-  while (p<=n) p<<=1;
+  while (p <= n) p <<= 1;
   return p;
 }
 
 
-int luaO_equalObj (const TObject *t1, const TObject *t2) {
+int luaO_equalObj(const TObject *t1, const TObject *t2)
+{
   if (ttype(t1) != ttype(t2)) return 0;
-  switch (ttype(t1)) {
+  switch (ttype(t1))
+  {
     case LUA_TNUMBER:
       return nvalue(t1) == nvalue(t2);
-    case LUA_TSTRING: case LUA_TUSERDATA:
+    case LUA_TSTRING:
+    case LUA_TUSERDATA:
       return tsvalue(t1) == tsvalue(t2);
-    case LUA_TTABLE: 
+    case LUA_TTABLE:
       return hvalue(t1) == hvalue(t2);
     case LUA_TFUNCTION:
       return clvalue(t1) == clvalue(t2);
     default:
       LUA_ASSERT(ttype(t1) == LUA_TNIL, "invalid type");
-      return 1; /* LUA_TNIL */
+      return 1;/* LUA_TNIL */
   }
 }
 
 
-char *luaO_openspace (lua_State *L, size_t n) {
-  if (n > L->Mbuffsize) {
+char *luaO_openspace(lua_State *L, size_t n)
+{
+  if (n > L->Mbuffsize)
+  {
     luaM_reallocvector(L, L->Mbuffer, n, char);
-    L->nblocks += (n - L->Mbuffsize)*sizeof(char);
+    L->nblocks += (n - L->Mbuffsize) * sizeof(char);
     L->Mbuffsize = n;
   }
   return L->Mbuffer;
 }
 
 
-int luaO_str2d (const char *s, Number *result) {  /* LUA_NUMBER */
+int luaO_str2d(const char *s, Number *result)
+{
+  /* LUA_NUMBER */
   char *endptr;
   Number res = lua_str2number(s, &endptr);
-  if (endptr == s) return 0;  /* no conversion */
-  while (isspace((unsigned char)*endptr)) endptr++;
-  if (*endptr != '\0') return 0;  /* invalid trailing characters? */
+  if (endptr == s) return 0;/* no conversion */
+  while (isspace((unsigned char) *endptr)) endptr++;
+  if (*endptr != '\0') return 0;/* invalid trailing characters? */
   *result = res;
   return 1;
 }
@@ -80,9 +86,10 @@ int luaO_str2d (const char *s, Number *result) {  /* LUA_NUMBER */
 #define MAX_VERROR	280
 
 /* this function needs to handle only '%d' and '%.XXs' formats */
-void luaO_verror (lua_State *L, const char *fmt, ...) {
+void luaO_verror(lua_State *L, const char *fmt, ...)
+{
   va_list argp;
-  char buff[MAX_VERROR];  /* to hold formatted message */
+  char buff[MAX_VERROR];/* to hold formatted message */
   va_start(argp, fmt);
   vsprintf(buff, fmt, argp);
   va_end(argp);
@@ -90,36 +97,42 @@ void luaO_verror (lua_State *L, const char *fmt, ...) {
 }
 
 
-void luaO_chunkid (char *out, const char *source, int bufflen) {
-  if (*source == '=') {
-    strncpy(out, source+1, bufflen);  /* remove first char */
-    out[bufflen-1] = '\0';  /* ensures null termination */
+void luaO_chunkid(char *out, const char *source, int bufflen)
+{
+  if (*source == '=')
+  {
+    strncpy(out, source + 1, bufflen);/* remove first char */
+    out[bufflen - 1] = '\0';/* ensures null termination */
   }
-  else {
-    if (*source == '@') {
+  else
+  {
+    if (*source == '@')
+    {
       int l;
-      source++;  /* skip the `@' */
+      source++;/* skip the `@' */
       bufflen -= sizeof("file `...%s'");
       l = strlen(source);
-      if (l>bufflen) {
-        source += (l-bufflen);  /* get last part of file name */
+      if (l > bufflen)
+      {
+        source += (l - bufflen);/* get last part of file name */
         sprintf(out, "file `...%.99s'", source);
       }
-      else
-        sprintf(out, "file `%.99s'", source);
+      else sprintf(out, "file `%.99s'", source);
     }
-    else {
-      int len = strcspn(source, "\n");  /* stop at first newline */
+    else
+    {
+      int len = strcspn(source, "\n");/* stop at first newline */
       bufflen -= sizeof("string \"%.*s...\"");
       if (len > bufflen) len = bufflen;
-      if (source[len] != '\0') {  /* must truncate? */
+      if (source[len] != '\0')
+      {
+        /* must truncate? */
         strcpy(out, "string \"");
         out += strlen(out);
         strncpy(out, source, len);
-        strcpy(out+len, "...\"");
+        strcpy(out + len, "...\"");
       }
-      else
-        sprintf(out, "string \"%.99s\"", source);
+      else sprintf(out, "string \"%.99s\"", source);
     }
   }
 }

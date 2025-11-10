@@ -2,169 +2,156 @@
 
 #include "LoadMission.h"
 
-#include "..\Main\iMainCommands.h"
+#include "../Main/iMainCommands.h"
 #include "SaveLoadCommon.h"
 #include "CommonId.h"
-#include "..\Main\ScenarioTracker.h"
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-static const NInput::SRegisterCommandEntry loadmissionCommands[] = 
+#include "../Main/ScenarioTracker.h"
+
+static const NInput::SRegisterCommandEntry loadmissionCommands[] =
 {
-	{ "cancel_load"	,	IMC_CANCEL					},
-	{ "load_mission", IMC_OK							},
-	{ "key_up",				MESSAGE_KEY_UP			},
-	{ "key_down",			MESSAGE_KEY_DOWN		},
-	{ "key_left",			MESSAGE_KEY_LEFT		},
-	{ "key_right",		MESSAGE_KEY_RIGHT		},
-	{ 0							,	0										}
+    {"cancel_load", IMC_CANCEL},
+    {"load_mission", IMC_OK},
+    {"key_up", MESSAGE_KEY_UP},
+    {"key_down", MESSAGE_KEY_DOWN},
+    {"key_left", MESSAGE_KEY_LEFT},
+    {"key_right", MESSAGE_KEY_RIGHT},
+    {nullptr, 0}
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CICLoadMission::PostCreate( IMainLoop *pML, CInterfaceLoadMission *pILM )
-{
-	pML->PushInterface( pILM );
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-CInterfaceLoadMission::~CInterfaceLoadMission()
-{
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void CICLoadMission::PostCreate(IMainLoop *pML, CInterfaceLoadMission *pILM) { pML->PushInterface(pILM); }
+
+CInterfaceLoadMission::~CInterfaceLoadMission() {}
+
 bool CInterfaceLoadMission::Init()
 {
-	NStr::SetCodePage( GetACP() );
-	CInterfaceScreenBase::Init();
-	SetBindSection( "loadmission" );
-	loadmissionMsgs.Init( pInput, loadmissionCommands );
-	
-	return true;
+  NStr::SetCodePage(GetACP());
+  CInterfaceScreenBase::Init();
+  SetBindSection("loadmission");
+  loadmissionMsgs.Init(pInput, loadmissionCommands);
+
+  return true;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CInterfaceLoadMission::StartInterface()
 {
-	CInterfaceScreenBase::StartInterface();
-	// initialize UI saves list with available saves
-	pUIScreen = CreateObject<IUIScreen>( UI_SCREEN );
-	pUIScreen->Load( "ui\\LoadMission" );
-	pUIScreen->Reposition( pGFX->GetScreenRect() );
-	
-	IUIElement *pElement = pUIScreen->GetChildByID( 1000 );		//should be List Control
-	IUIListControl *pList = checked_cast<IUIListControl*>( pElement );
-	if ( !pList )
-		return;			//не нашелся list control
-	
-	// enumerate all available saves
-	szSaves.clear();
-	std::string szMask = "*.sav";
-	std::string szBaseDir = std::string( GetSingleton<IDataStorage>()->GetName() );
-	szBaseDir = szBaseDir.substr( 0, szBaseDir.rfind('\\') );
-	szBaseDir = szBaseDir.substr( 0, szBaseDir.rfind('\\') );
-	const std::string szModname = GetSingleton<IUserProfile>()->GetMOD();
-	szBaseDir += "\\";
-	if ( !szModname.empty() )
-	{
-		szBaseDir += "mods\\";
-		szBaseDir += szModname;
-	}
-	szBaseDir += "saves\\";
-	// collect files and sort it by last write time
-	std::vector<SLoadFileDesc> files;
-	NFile::EnumerateFiles( szBaseDir.c_str(), szMask.c_str(), CGetFiles2Load(files, szBaseDir), true );
-	std::sort( files.begin(), files.end(), SLoadFileLessFunctional() );
-	// add strings to list control
-	const DWORD dwTextColor = GetGlobalVar( "Scene.Colors.Summer.Text.Default.Color", int(0xffd8bd3e) );
-	for ( int i=0; i<files.size(); i++ )
-	{
-		pList->AddItem();
-		IUIListRow *pRow = pList->GetItem( i );
-		
-		//установим имя save файла
-		IUIStatic *pStatic = checked_cast<IUIStatic*> ( pRow->GetElement( 0 ) );
-		szSaves.push_back( files[i].szFileName );
-		//отрежем extension
-		std::wstring wszTemp;
-		NStr::ToUnicode( &wszTemp, files[i].szFileName.substr( 0, files[i].szFileName.rfind( '.' ) ) );
-		pStatic->SetWindowText( pStatic->GetState(), wszTemp.c_str() );
-		pStatic->SetTextColor( dwTextColor );
-	}
-	
-	if ( szSaves.size() > 0 )
-	{
-		std::string szEdit = szSaves[0];
-		szEdit = szEdit.substr( 0, szEdit.rfind( '.' ) );
-		// отобразим этот элемент в загружаемом имени
-		pElement = pUIScreen->GetChildByID( 2000 );
-		pElement->SetWindowText( 0, NStr::ToUnicode(szEdit).c_str() );
-		pList->SetSelectionItem( 0 );
-	}
-	
-	pList->InitialUpdate();
-	pUIScreen->Reposition( pGFX->GetScreenRect() );
-	// add UI screen to scene
-	pScene->AddUIScreen( pUIScreen );
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool CInterfaceLoadMission::ProcessMessage( const SGameMessage &msg )
-{
-	switch ( msg.nEventID )
-	{
-		case IMC_SELECTION_CHANGED:
-			{
-				//попробуем взять текущий selection из list control
-				IUIElement *pElement = pUIScreen->GetChildByID( 1000 );		//should be List Control
-				IUIListControl *pList = checked_cast<IUIListControl*>( pElement );
-				if ( !pList )
-					return true;			//не нашелся list control
-				int nSave = pList->GetSelectionItem();
-				if ( nSave == -1 )
-					return true;
-				
-				std::string szEdit = szSaves[nSave];
-				szEdit = szEdit.substr( 0, szEdit.rfind( '.' ) );
-				//отобразим этот элемент в загружаемом имени
-				pElement = pUIScreen->GetChildByID( 2000 );
-				pElement->SetWindowText( 0, NStr::ToUnicode(szEdit).c_str() );
-			}
-			return true;
-			
-		case IMC_CANCEL:
-			{
-				IMainLoop *pML = GetSingleton<IMainLoop>();
-				CloseInterface();
-				pML->Command( MAIN_COMMAND_CMD, NStr::Format("%d", CMD_GAME_UNPAUSE_MENU) );	//уберем паузу
-				//pML->Command( MAIN_COMMAND_CMD, NStr::Format("%d", MC_SHOW_ESCAPE_MENU) );	//покажем escape menu
-				return true;
-			}
+  CInterfaceScreenBase::StartInterface();
+  // initialize UI saves list with available saves
+  pUIScreen = CreateObject<IUIScreen>(UI_SCREEN);
+  pUIScreen->Load("ui\\LoadMission");
+  pUIScreen->Reposition(pGFX->GetScreenRect());
 
-		case IMC_OK:
-			{
-				//попробуем взять текущий selection из list control
-				IUIElement *pElement = pUIScreen->GetChildByID( 1000 );		//should be List Control
-				IUIListControl *pList = checked_cast<IUIListControl*>( pElement );
-				if ( !pList )
-					return true;			//не нашелся list control
-				int nSave = pList->GetSelectionItem();
-				if ( nSave == -1 )
-					return true;
+  IUIElement *pElement = pUIScreen->GetChildByID(1000);// should be List Control
+  auto pList = checked_cast<IUIListControl *>(pElement);
+  if (!pList) return;// list control not found
 
-				std::string szEdit = szSaves[nSave];
-				IMainLoop *pML = GetSingleton<IMainLoop>();
-				CloseInterface();
-				pML->Command( MAIN_COMMAND_LOAD, szEdit.c_str() );
-				pML->Command( MAIN_COMMAND_CMD, NStr::Format("%d", CMD_GAME_UNPAUSE_MENU) );	//уберем паузу
-				return true;
-			}
-	}
-	//
-	return false;
+  // enumerate all available saves
+  szSaves.clear();
+  std::string szMask = "*.sav";
+  auto szBaseDir = std::string(GetSingleton<IDataStorage>()->GetName());
+  szBaseDir = szBaseDir.substr(0, szBaseDir.rfind('\\'));
+  szBaseDir = szBaseDir.substr(0, szBaseDir.rfind('\\'));
+  const std::string szModname = GetSingleton<IUserProfile>()->GetMOD();
+  szBaseDir += "\\";
+  if (!szModname.empty())
+  {
+    szBaseDir += "mods\\";
+    szBaseDir += szModname;
+  }
+  szBaseDir += "saves\\";
+  // collect files and sort it by last write time
+  std::vector<SLoadFileDesc> files;
+  NFile::EnumerateFiles(szBaseDir.c_str(), szMask.c_str(), CGetFiles2Load(files, szBaseDir), true);
+  std::sort(files.begin(), files.end(), SLoadFileLessFunctional());
+  // add strings to list control
+  const DWORD dwTextColor = GetGlobalVar("Scene.Colors.Summer.Text.Default.Color", static_cast<int>(0xffd8bd3e));
+  for (int i = 0; i < files.size(); i++)
+  {
+    pList->AddItem();
+    IUIListRow *pRow = pList->GetItem(i);
+
+    // set the name of the save file
+    auto pStatic = checked_cast<IUIStatic *>(pRow->GetElement(0));
+    szSaves.push_back(files[i].szFileName);
+    // cut off the extension
+    std::wstring wszTemp;
+    NStr::ToUnicode(&wszTemp, files[i].szFileName.substr(0, files[i].szFileName.rfind('.')));
+    pStatic->SetWindowText(pStatic->GetState(), wszTemp.c_str());
+    pStatic->SetTextColor(dwTextColor);
+  }
+
+  if (szSaves.size() > 0)
+  {
+    std::string szEdit = szSaves[0];
+    szEdit = szEdit.substr(0, szEdit.rfind('.'));
+    // display this element in the loaded name
+    pElement = pUIScreen->GetChildByID(2000);
+    pElement->SetWindowText(0, NStr::ToUnicode(szEdit).c_str());
+    pList->SetSelectionItem(0);
+  }
+
+  pList->InitialUpdate();
+  pUIScreen->Reposition(pGFX->GetScreenRect());
+  // add UI screen to scene
+  pScene->AddUIScreen(pUIScreen);
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool CInterfaceLoadMission::StepLocal( bool bAppActive )
+
+bool CInterfaceLoadMission::ProcessMessage(const SGameMessage &msg)
 {
-	const CVec2 vPos = pCursor->GetPos();
-	CInterfaceScreenBase::OnCursorMove( vPos );
-	pUIScreen->Update( pTimer->GetAbsTime() );
-	return true;
+  switch (msg.nEventID)
+  {
+    case IMC_SELECTION_CHANGED:
+    {
+      // let's try to take the current selection from the list control
+      IUIElement *pElement = pUIScreen->GetChildByID(1000);// should be List Control
+      auto pList = checked_cast<IUIListControl *>(pElement);
+      if (!pList) return true;// list control not found
+      int nSave = pList->GetSelectionItem();
+      if (nSave == -1) return true;
+
+      std::string szEdit = szSaves[nSave];
+      szEdit = szEdit.substr(0, szEdit.rfind('.'));
+      // display this element in the loaded name
+      pElement = pUIScreen->GetChildByID(2000);
+      pElement->SetWindowText(0, NStr::ToUnicode(szEdit).c_str());
+    }
+      return true;
+
+    case IMC_CANCEL:
+    {
+      IMainLoop *pML = GetSingleton<IMainLoop>();
+      CloseInterface();
+      pML->Command(MAIN_COMMAND_CMD, NStr::Format("%d", CMD_GAME_UNPAUSE_MENU));// let's take a break
+      // pML->Command( MAIN_COMMAND_CMD, NStr::Format("%d", MC_SHOW_ESCAPE_MENU) );	
+      return true;
+    }
+
+    case IMC_OK:
+    {
+      // let's try to take the current selection from the list control
+      IUIElement *pElement = pUIScreen->GetChildByID(1000);// should be List Control
+      auto pList = checked_cast<IUIListControl *>(pElement);
+      if (!pList) return true;// list control not found
+      int nSave = pList->GetSelectionItem();
+      if (nSave == -1) return true;
+
+      std::string szEdit = szSaves[nSave];
+      IMainLoop *pML = GetSingleton<IMainLoop>();
+      CloseInterface();
+      pML->Command(MAIN_COMMAND_LOAD, szEdit.c_str());
+      pML->Command(MAIN_COMMAND_CMD, NStr::Format("%d", CMD_GAME_UNPAUSE_MENU));// let's take a break
+      return true;
+    }
+  }
+  //
+  return false;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CInterfaceLoadMission::DrawAdd()
+
+bool CInterfaceLoadMission::StepLocal(bool bAppActive)
 {
+  const CVec2 vPos = pCursor->GetPos();
+  CInterfaceScreenBase::OnCursorMove(vPos);
+  pUIScreen->Update(pTimer->GetAbsTime());
+  return true;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void CInterfaceLoadMission::DrawAdd() {}

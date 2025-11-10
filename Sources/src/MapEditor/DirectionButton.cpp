@@ -11,7 +11,7 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 
-/////////////////////////////////////////////////////////////////////////////
+// //
 // CDirectionButton
 
 CDirectionButton::CDirectionButton()
@@ -24,14 +24,14 @@ CDirectionButton::~CDirectionButton()
 }
 
 BEGIN_MESSAGE_MAP(CDirectionButton, CWnd)
-	//{{AFX_MSG_MAP(CDirectionButton)
+	// {{AFX_MSG_MAP(CDirectionButton)
 	ON_WM_CREATE()
 	ON_WM_PAINT()
 	ON_WM_LBUTTONDOWN()
 	ON_WM_MOUSEMOVE()
 	ON_WM_LBUTTONUP()
 	ON_WM_DESTROY()
-	//}}AFX_MSG_MAP
+	// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 
@@ -87,11 +87,8 @@ void CDirectionButton::OnPaint()
 	}
 	dc.LineTo( cx + clientRC.right/2, clientRC.bottom/2 - cy );
 
-/*	dc.MoveTo( cx + clientRC.right/2, clientRC.bottom/2 - cy  );
-	dc.LineTo( p1.x + clientRC.right/2, clientRC.bottom/2 - p1.y );
-
-	dc.MoveTo( cx + clientRC.right/2, clientRC.bottom/2 - cy  );
-	dc.LineTo( p2.x + clientRC.right/2, clientRC.bottom/2 - p2.y );*/
+/* dc.MoveTo( cx + clientRC.right/2, clientRC.bottom/2 - cy );
+	 */
 	
 	
 	{
@@ -106,26 +103,18 @@ void CDirectionButton::OnPaint()
 		float angle  = fAngle ;
 		angle = angle < 0 ? ( 2 * PI - fabs( angle ) ) : angle;
 		angle = angle > PI / 4 ? angle - PI / 4 : 2 * PI - ( PI / 4 -  angle ) ;
-		//sprintf( str, "%.2f " , ( angle * 180 ) / PI  );
-		//dc.TextOut( clientRC.left , clientRC.bottom - 11, str , strlen( str ) );
+		// sprintf( str, "%.2f " , ( angle * 180 ) / PI );
+		// dc.TextOut( clientRC.left , clientRC.bottom - 11, str , strlen( str ) );
 		sprintf( str, "Angle: %.2f", ( angle * 180 ) / PI );
 		dc.TextOut( clientRC.left, clientRC.top - 2, str, strlen( str ) );
 		dc.SelectObject( pOldFont );
 	}
 
-/*	LOGBRUSH logBrush;
-	logBrush.lbStyle = BS_HATCHED;
-	logBrush.lbColor = RGB(255, 0, 0);
-	logBrush.lbHatch = HS_CROSS;
-	CBrush brush;
-	brush.CreateBrushIndirect( &logBrush );
-	CBrush *pOldBrush = (CBrush *) dc.SelectObject( &brush );
-	dc.SetBkColor( RGB(255, 0, 0) );
-	dc.Ellipse( cx + clientRC.right/2 - 5, clientRC.bottom/2 - cy - 5, cx + clientRC.right/2 + 5, clientRC.bottom/2 - cy + 5 );
-	dc.SelectObject( pOldBrush );*/
+/* LOGBRUSH logBrush;
+	 */
 }
 
-/////////////////////////////////////////////////////////////////////////////
+// //
 // CDirectionButton message handlers
 
 int CDirectionButton::GetQuadrant()
@@ -155,11 +144,11 @@ void CDirectionButton::OnLButtonDown(UINT nFlags, CPoint pt)
 {
 	RECT clientRC;
 	GetClientRect( &clientRC );
-	int cx, cy;		//расстояния от текущей позиции курсора до центра кнопки
+	int cx, cy;		// distance from the current cursor position to the center of the button
 	cx = pt.x - clientRC.right/2;
 	cy = clientRC.bottom/2 - pt.y;
 	
-//	OutputDebugString( "OnLButtonDown" );
+// OutputDebugString( "OnLButtonDown" );
 
 	fAngle = atan2( cy, cx );
 	GetParent()->PostMessage( WM_ANGLE_CHANGED );
@@ -174,18 +163,18 @@ void CDirectionButton::OnMouseMove(UINT nFlags, CPoint pt)
 	{
 		RECT clientRC;
 		GetClientRect( &clientRC );
-		int cx, cy;		//расстояния от текущей позиции курсора до центра кнопки
+		int cx, cy;		// distance from the current cursor position to the center of the button
 		cx = pt.x - clientRC.right/2;
 		cy = clientRC.bottom/2 - pt.y;
 		
-//		OutputDebugString( "OnMouseMove" );
+// OutputDebugString( "OnMouseMove" );
 
 		fAngle = atan2( cy, cx );
 		GetParent()->PostMessage( WM_ANGLE_CHANGED );
-//		RedrawWindow();
+// RedrawWindow();
 		Invalidate();
 	}
-	//CVec2
+	// CVec2
 	CWnd::OnMouseMove(nFlags, pt);
 }
 

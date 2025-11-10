@@ -13,22 +13,22 @@ class CRMGTemplateFieldPropertiesDialog : public CResizeDialog
 public:
 	CRMGTemplateFieldPropertiesDialog( CWnd* pParent = NULL );
 
-	//{{AFX_DATA(CRMGTemplateFieldPropertiesDialog)
+	// {{AFX_DATA(CRMGTemplateFieldPropertiesDialog)
 	enum { IDD = IDD_RMG_TEMPLATE_FIELD_PROPERTIES };
 	BOOL	m_bDefault;
 	CString	m_strWeight;
 	CString	m_strStats;
 	CString	m_strPath;
-	//}}AFX_DATA
+	// }}AFX_DATA
 
-	//{{AFX_VIRTUAL(CRMGTemplateFieldPropertiesDialog)
+	// {{AFX_VIRTUAL(CRMGTemplateFieldPropertiesDialog)
 	protected:
 	virtual void DoDataExchange( CDataExchange* pDX );
-	//}}AFX_VIRTUAL
+	// }}AFX_VIRTUAL
 
 protected:
-	//{{AFX_MSG(CRMGTemplateFieldPropertiesDialog)
-	//}}AFX_MSG
+	// {{AFX_MSG(CRMGTemplateFieldPropertiesDialog)
+	// }}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 
 protected:
@@ -42,5 +42,5 @@ protected:
 public:
 };
 
-//{{AFX_INSERT_LOCATION}}
+// {{AFX_INSERT_LOCATION}}
 #endif // !defined(__RMG_Template_Field_Properties_Dialog__)

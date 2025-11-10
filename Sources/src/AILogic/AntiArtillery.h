@@ -1,73 +1,75 @@
 #ifndef __ANTI_ARTILLERY_H__
 #define __ANTI_ARTILLERY_H__
 
-#pragma ONCE
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma once
+
 #include "UpdatableObject.h"
 #include "LinkObject.h"
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CRevealCircle : public CLinkObject
 {
-	OBJECT_COMPLETE_METHODS( CRevealCircle );
-	DECLARE_SERIALIZE;
+  OBJECT_COMPLETE_METHODS(CRevealCircle);
+  DECLARE_SERIALIZE;
 
-	CCircle circle;
+  CCircle circle;
+
 public:
-	CRevealCircle() { }
-	CRevealCircle( const CVec2 &center, const float fR ) : circle( center, fR ) { SetUniqueId(); }
-	CRevealCircle( const CCircle &_circle ) : circle( _circle ) { SetUniqueId(); }
+  CRevealCircle() {}
+  CRevealCircle(const CVec2 &center, const float fR) : circle(center, fR) { SetUniqueId(); }
+  CRevealCircle(const CCircle &_circle) : circle(_circle) { SetUniqueId(); }
 
-	virtual void GetRevealCircle( CCircle *pCircle ) const { *pCircle = circle; }
-	
-	virtual const bool IsVisible( const BYTE party ) const { return true; }
-	virtual void GetTilesForVisibility( CTilesSet *pTiles ) const { pTiles->clear(); }
-	virtual bool ShouldSuspendAction( const EActionNotify &eAction ) const { return false; }
+  void GetRevealCircle(CCircle *pCircle) const override { *pCircle = circle; }
+
+  const bool IsVisible(const BYTE party) const override { return true; }
+  void GetTilesForVisibility(CTilesSet *pTiles) const override { pTiles->clear(); }
+  bool ShouldSuspendAction(const EActionNotify &eAction) const override { return false; }
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CAntiArtillery : public CLinkObject
 {
-	OBJECT_COMPLETE_METHODS( CAntiArtillery );
-	DECLARE_SERIALIZE;
+  OBJECT_COMPLETE_METHODS(CAntiArtillery);
+  DECLARE_SERIALIZE;
 
-	float fMaxRadius;
-	int nParty;
+  float fMaxRadius;
+  int nParty;
 
-	NTimer::STime lastScan;
-	// время последнего услышанного выстрела и последнего посланного круга из этой артиллерии для каждой из сторон
-	std::vector<NTimer::STime> lastShotTime;
-	std::vector<NTimer::STime> lastRevealCircleTime;
+  NTimer::STime lastScan;
+  // time of the last shot heard and the last circle sent from this artillery for each side
+  std::vector<NTimer::STime> lastShotTime;
+  std::vector<NTimer::STime> lastRevealCircleTime;
 
-	// расстояние до ближайшего врага ( считается только для врагов )
-	std::vector<float> closestEnemyDist2;
-	std::vector<CVec2> lastHeardPos;
-	std::vector<BYTE> nHeardShots;
-	std::vector<CVec2> lastRevealCenter;
+  // distance to the nearest enemy (counts only for enemies)
+  std::vector<float> closestEnemyDist2;
+  std::vector<CVec2> lastHeardPos;
+  std::vector<BYTE> nHeardShots;
+  std::vector<CVec2> lastRevealCenter;
 
-	//
-	void Scan( const CVec2 &center );
+  //
+  void Scan(const CVec2 &center);
+
 public:
-	CAntiArtillery() { }
-	explicit CAntiArtillery( class CAIUnit *pOwner );
-	
-	void SetParty( const int _nParty ) { nParty = _nParty; }
+  CAntiArtillery() {}
+  explicit CAntiArtillery(class CAIUnit *pOwner);
 
-	void Init( const float fMaxRadius, const int nParty );
-	void Fired( const float fGunRadius, const CVec2 &center );
+  void SetParty(const int _nParty) { nParty = _nParty; }
 
-	// bOwnerVisible - видет ли owner игроком
-	void Segment( bool bOwnerVisible );
+  void Init(float fMaxRadius, int nParty);
+  void Fired(float fGunRadius, const CVec2 &center);
 
-	const CCircle GetRevealCircle( const int nParty ) const;
-	const NTimer::STime GetLastHeardTime( const int nParty ) const;
+  // bOwnerVisible - whether the owner is visible to the player
+  void Segment(bool bOwnerVisible);
 
-	//
-	virtual const bool IsVisible( const BYTE party ) const { return true; }
-	virtual void GetTilesForVisibility( CTilesSet *pTiles ) const { pTiles->clear(); }
-	virtual bool ShouldSuspendAction( const EActionNotify &eAction ) const { return false; }
-	
-	//
-	friend struct SAntiArtillerySort;
-	friend class CAntiArtilleryManager;
+  const CCircle GetRevealCircle(int nParty) const;
+  const NTimer::STime GetLastHeardTime(int nParty) const;
+
+  //
+  const bool IsVisible(const BYTE party) const override { return true; }
+  void GetTilesForVisibility(CTilesSet *pTiles) const override { pTiles->clear(); }
+  bool ShouldSuspendAction(const EActionNotify &eAction) const override { return false; }
+
+  //
+  friend struct SAntiArtillerySort;
+  friend class CAntiArtilleryManager;
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // __ANTI_ARTILLERY_H__

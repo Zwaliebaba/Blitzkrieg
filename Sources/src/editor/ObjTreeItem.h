@@ -23,14 +23,14 @@ public:
 	CObjectCommonPropsItem() { nItemType = E_OBJECT_COMMON_PROPS_ITEM; nImageIndex = 0; InitDefaultValues(); }
 	~CObjectCommonPropsItem() {};
 	
-	//Получение внутренних параметров
+	// Getting internal parameters
 	int GetHealth() { return values[0].value; }
 	int GetArmor() { return values[1].value; }
 	int GetSilhouette() { return values[2].value; }
 	const char *GetAmbientSound() { return values[3].value; }
 	const char *GetCycledSound() { return values[4].value; }
 
-	//Установка
+	// Installation
 	void SetHealth( int nVal ) { values[0].value = nVal; }
 	void SetArmor( int nVal ) { values[1].value = nVal; }
 	void SetSilhouette( int nVal ) { values[2].value = nVal; }
@@ -59,7 +59,7 @@ public:
 	~CObjectPassPropsItem() {};
 
 	int GetPassAIClass();
-//	void SetPassAIClass( int nVal );
+// void SetPassAIClass( int nVal );
 
 	virtual void InitDefaultValues();
 	virtual void MyKeyDown( int nChar );
@@ -83,7 +83,7 @@ public:
 	CObjectGraphicPropsItem() { bStaticElements = true; /* nItemType = E_OBJECT_GRAPHIC_PROPS_ITEM */; nImageIndex = 3; InitDefaultValues(); }
 	~CObjectGraphicPropsItem() {};
 	
-	//Получение внутренних параметров
+	// Getting internal parameters
 	const char *GetFileName() { return values[0].value; }
 	const char *GetShadowFileName() { return values[1].value; }
 	
@@ -129,41 +129,41 @@ class CObjectSpritePropsItem : public CTreeItem
 {
 	OBJECT_NORMAL_METHODS( CObjectSpritePropsItem );
 public:
-//	CObjectSpritePropsItem() { nItemType = E_OBJECT_SPRITE_PROPS_ITEM; nImageIndex = 2; InitDefaultValues(); }
+// CObjectSpritePropsItem() { nItemType = E_OBJECT_SPRITE_PROPS_ITEM; 
 	CObjectSpritePropsItem() {}
 	~CObjectSpritePropsItem() {};
 	
-	//Получение внутренних параметров
-//	const char *GetFileName() { return values[0].value; }
+	// Getting internal parameters
+// const char *GetFileName() { return values[0].value; 
 	
-//	virtual void InitDefaultValues();
-//	virtual void UpdateItemValue( int nItemId, const CVariant &value );
+// virtual void InitDefaultValues();
+// virtual void UpdateItemValue( int nItemId, const CVariant &value );
 };
 
 class CObjectShadowPropsItem : public CTreeItem
 {
 	OBJECT_NORMAL_METHODS( CObjectShadowPropsItem );
 public:
-//	CObjectShadowPropsItem() { nItemType = E_OBJECT_SHADOW_PROPS_ITEM; nImageIndex = 3; InitDefaultValues(); }
+// CObjectShadowPropsItem() { nItemType = E_OBJECT_SHADOW_PROPS_ITEM; 
 	CObjectShadowPropsItem() {}
 	~CObjectShadowPropsItem() {};
 	
-	//Получение внутренних параметров
-//	const char *GetFileName() { return values[0].value; }
+	// Getting internal parameters
+// const char *GetFileName() { return values[0].value; 
 	
-//	virtual void InitDefaultValues();
-//	virtual void UpdateItemValue( int nItemId, const CVariant &value );
+// virtual void InitDefaultValues();
+// virtual void UpdateItemValue( int nItemId, const CVariant &value );
 };
 
 class CObjectParticlesItem : public CTreeItem
 {
 	OBJECT_NORMAL_METHODS( CObjectParticlesItem );
 public:
-//	CObjectParticlesItem() { nItemType = E_OBJECT_PARTICLES_ITEM; nImageIndex = 4; InitDefaultValues(); }
+// CObjectParticlesItem() { nItemType = E_OBJECT_PARTICLES_ITEM; 
 	CObjectParticlesItem() {}
 	~CObjectParticlesItem() {};
 
-//	virtual void InitDefaultValues();
+// virtual void InitDefaultValues();
 };
 
 class CObjectEffectsItem : public CTreeItem
@@ -173,7 +173,7 @@ public:
 	CObjectEffectsItem() { bStaticElements = true; nItemType = E_OBJECT_EFFECTS_ITEM; InitDefaultValues(); nImageIndex = 1; }
 	~CObjectEffectsItem() {};
 	
-	//Получение внутренних параметров
+	// Getting internal parameters
 	const char *GetEffectExplosion() { return values[0].value; }
 	const char *GetEffectDeath() { return values[1].value; }
 	
@@ -183,4 +183,4 @@ public:
 	virtual void InitDefaultValues();
 };
 
-#endif		//__OBJECT_TREE_ITEM_H__
+#endif		// __OBJECT_TREE_ITEM_H__

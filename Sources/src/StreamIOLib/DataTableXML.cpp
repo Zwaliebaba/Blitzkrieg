@@ -4,13 +4,13 @@
 #include "DataTreeXML.h"
 
 #include "..\StreamIO\StreamAdaptor.h"
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 CDataTableXML::CDataTableXML()
 : xmlDocument( "Microsoft.XMLDOM" ), bModified( false )
 {
 	xmlDocument->async = false; 
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 CDataTableXML::~CDataTableXML()
 {
 	try
@@ -25,7 +25,7 @@ CDataTableXML::~CDataTableXML()
 	{
 	}
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool CDataTableXML::Open( IDataStream *_pStream, const char *pszBaseNode )
 {
 	try
@@ -52,15 +52,15 @@ bool CDataTableXML::Open( IDataStream *_pStream, const char *pszBaseNode )
 	}
 	return false;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // ************************************************************************************************************************ //
 // **
-// ** 
+// **
 // **
 // **
 // **
 // ************************************************************************************************************************ //
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 IXMLDOMNodePtr CDataTableXML::GetNode( const std::string &szName )
 {
 	const int nPos = szName.rfind( '/' );
@@ -74,7 +74,7 @@ IXMLDOMNodePtr CDataTableXML::GetNode( const std::string &szName )
 	}
 	return 0;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 inline int AddToBuffer( const std::string &szName, char* &pszBuffer, const int nBufferSize, const int nTotalSize )
 {
 	NI_ASSERT_TF( nTotalSize + szName.size() + 2 < nBufferSize, "Buffer too small to add name", return 0 );
@@ -83,7 +83,7 @@ inline int AddToBuffer( const std::string &szName, char* &pszBuffer, const int n
 	*pszBuffer++ = '\0';
 	return szName.size() + 1;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 int CDataTableXML::GetRowNames( char *pszBuffer, int nBufferSize )
 {
 	try
@@ -104,7 +104,7 @@ int CDataTableXML::GetRowNames( char *pszBuffer, int nBufferSize )
 	}
 	return 0;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 int CDataTableXML::GetEntryNames( const char *pszRow, char *pszBuffer, int nBufferSize )
 {
 	try
@@ -157,7 +157,7 @@ int CDataTableXML::GetEntryNames( const char *pszRow, char *pszBuffer, int nBuff
 	}
 	return 0;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // get
 int CDataTableXML::GetInt( const char *pszRow, const char *pszEntry, int defval )
 {
@@ -202,7 +202,7 @@ int CDataTableXML::GetRawData( const char *pszRow, const char *pszEntry, void *p
 	}
 	return 0;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // set
 void CDataTableXML::SetInt( const char *pszRow, const char *pszEntry, int val )
 {
@@ -242,4 +242,4 @@ void CDataTableXML::SetRawData( const char *pszRow, const char *pszEntry, const 
 	SetString( pszRow, pszEntry, szString.c_str() );
 	SetModified();
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+

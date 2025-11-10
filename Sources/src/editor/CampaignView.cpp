@@ -10,7 +10,7 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // CCampaignView
 
 CCampaignView::CCampaignView()
@@ -23,15 +23,15 @@ CCampaignView::~CCampaignView()
 
 
 BEGIN_MESSAGE_MAP(CCampaignView, CWnd)
-//{{AFX_MSG_MAP(CCampaignView)
+// {{AFX_MSG_MAP(CCampaignView)
 ON_WM_PAINT()
 ON_WM_HSCROLL()
 ON_WM_VSCROLL()
-//}}AFX_MSG_MAP
+// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // CCampaignView message handlers
 
 BOOL CCampaignView::PreCreateWindow(CREATESTRUCT& cs) 
@@ -113,11 +113,11 @@ void CCampaignView::UpdateScrolls( UINT nSBCode, UINT nPos, CScrollBar* pScrollB
 			nNewPos = info.nPos + info.nPage;
 		break;
 		
-	case SB_THUMBPOSITION: // Scroll to absolute position. nPos is the position
+	case SB_THUMBPOSITION: // Scroll to absolute position. 
 		nNewPos = nPos;      // of the scroll box at the end of the drag operation.
 		break;
 		
-	case SB_THUMBTRACK:   // Drag scroll box to specified position. nPos is the
+	case SB_THUMBTRACK:   // Drag scroll box to specified position. 
 		nNewPos = nPos;     // position that the scroll box has been dragged to.
 		break;
 	}

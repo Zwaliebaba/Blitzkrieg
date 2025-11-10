@@ -193,10 +193,10 @@ void CTrenchSourcePropsItem::UpdateItemValue( int nItemId, const CVariant &value
 	
 	if ( nItemId == 1 )
 	{
-		//»зменилось значение имени файла, конвертируем его в относительный путь
+		// "the value of the file name has changed, convert it to a relative path
 		if ( !IsRelatedPath( value ) )
 		{
-			//“ут вычисл¤етс¤ относительный путь, относительно файла с проектом
+			// “ut is calculated” as a relative path relative to the project file
 			string szProjectName = g_frameManager.GetFrame( CFrameManager::E_TRENCH_FRAME )->GetProjectFileName();
 			string szValue = value;
 			string szRelatedPath;

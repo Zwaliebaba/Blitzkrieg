@@ -48,7 +48,7 @@ res\PlanePathTest.rc2
 
 
 
-/////////////////////////////////////////////////////////////////////////////
+////
 
 AppWizard creates one dialog class:
 
@@ -59,7 +59,7 @@ PlanePathTestDlg.h, PlanePathTestDlg.cpp - the dialog
 	Visual C++.
 
 
-/////////////////////////////////////////////////////////////////////////////
+////
 Other standard files:
 
 StdAfx.h, StdAfx.cpp
@@ -70,7 +70,7 @@ Resource.h
     This is the standard header file, which defines new resource IDs.
     Microsoft Visual C++ reads and updates this file.
 
-/////////////////////////////////////////////////////////////////////////////
+////
 Other notes:
 
 AppWizard uses "TODO:" to indicate parts of the source code you
@@ -85,4 +85,4 @@ For example, MFC42DEU.DLL contains resources translated to German.)  If you
 don't do this, some of the UI elements of your application will remain in the
 language of the operating system.
 
-/////////////////////////////////////////////////////////////////////////////
+////

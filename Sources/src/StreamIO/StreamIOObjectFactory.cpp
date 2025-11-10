@@ -5,14 +5,15 @@
 
 #include "MemFileSystem.h"
 #include "RandomGenInternal.h"
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 CStreamIOObjectFactory theStreamIOObjectFactory;
+
 CStreamIOObjectFactory::CStreamIOObjectFactory()
 {
-	REGISTER_CLASS( this, STREAMIO_MEMORY_STREAM, CMemFileStream );
-	REGISTER_CLASS( this, STREAMIO_RANDOM_GEN_SEED, CRandomGenSeed );
+  REGISTER_CLASS(this, STREAMIO_MEMORY_STREAM, CMemFileStream);
+  REGISTER_CLASS(this, STREAMIO_RANDOM_GEN_SEED, CRandomGenSeed);
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // ************************************************************************************************************************ //
 // **
 // ** module descriptor and additional procedures
@@ -21,10 +22,6 @@ CStreamIOObjectFactory::CStreamIOObjectFactory()
 // **
 // **
 // ************************************************************************************************************************ //
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-static SModuleDescriptor theModuleDescriptor( "StreamIO", STREAMIO_STREAMIO, 0x0100, &theStreamIOObjectFactory, 0 );
-const SModuleDescriptor* STDCALL GetModuleDescriptor()
-{
-	return &theModuleDescriptor;
-}
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+static SModuleDescriptor theModuleDescriptor("StreamIO", STREAMIO_STREAMIO, 0x0100, &theStreamIOObjectFactory, nullptr);
+const SModuleDescriptor * STDCALL GetModuleDescriptor() { return &theModuleDescriptor; }

@@ -6,24 +6,24 @@
 #include "..\..\PlanePathTest\src\CPlanePreferences.h"
 #include "..\..\PlanePathTest\src\CManuverBuilder.h"
 #include "..\..\ailogic\Trigonometry.h"
-/////////////////////////////////////////////////////////////////////////////
+// //
 extern float g = 0.0000000983f;
 BASIC_REGISTER_CLASS( CManuver );
 BASIC_REGISTER_CLASS( IManuver );
 BASIC_REGISTER_CLASS( CManuverSteepClimb );
 BASIC_REGISTER_CLASS( CManuverGeneric );
 
-/////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////
-//	SPlanesConsts
-/////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////
+// //
+// //
+// SPlanesConsts
+// //
+// //
 const float SPlanesConsts::MIN_HEIGHT = 100.0f;
-/////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////
-//	CManuverBuilder ::
-/////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////
+// //
+// //
+// CManuverBuilder::
+// //
+// //
 #include "..\..\AILogic\StaticObject.h"
 #include "..\..\AILogic\Mine.h"
 #include "..\..\AILogic\updater.h"
@@ -69,7 +69,7 @@ public:
 CManuverVisualizeDEBUG theManuverDEBUG;
 
 
-/////////////////////////////////////////////////////////////////////////////
+// //
 int CManuverGeneric::operator&( IStructureSaver &ss )
 {
 	CSaverAccessor saver = &ss;
@@ -96,15 +96,15 @@ int CManuver::operator&( IStructureSaver &ss )
 	saver.Add( 5, &vSpeed );
 	saver.Add( 6, &vNormal );			
 
-	//SerializeOwner( 1, &pPlane, &saver );
+	// SerializeOwner( 1, &pPlane, &saver );
 	return 0;
 }
 
-/////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////
-//	CManuver
-/////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////
+// //
+// //
+// CManover
+// //
+// //
 const CVec3 CManuver::CalcPredictedPoint( interface IPlane *pPos, interface IPlane *pEnemy )
 {
 	// distance to enemy
@@ -118,7 +118,7 @@ const CVec3 CManuver::CalcPredictedPoint( interface IPlane *pPos, interface IPla
 
 	return pEnemy->GetManuver()->GetProspectivePoint( fTime );
 }
-/////////////////////////////////////////////////////////////////////////////
+// //
 CVec3 CManuver::GetProspectivePoint( const float fT ) const
 {
 	// assume that speed is constant
@@ -130,7 +130,7 @@ CVec3 CManuver::GetProspectivePoint( const float fT ) const
 	else
 		return pPath->GetPoint( fAdd + fProgress );
 }
-/////////////////////////////////////////////////////////////////////////////
+// //
 void CManuver::InitCommon( interface IPathFraction *_pPath, interface IPlane *_pPlane )
 {
 	pPlane = _pPlane;
@@ -143,31 +143,31 @@ void CManuver::InitCommon( interface IPathFraction *_pPath, interface IPlane *_p
 	CalcPoint();
 	CalcSpeed();
 	CalcNormale();
-	//NStr::DebugTrace( NStr::Format( "Initted(%f,%f,%f)\n", vSpeed.x, vSpeed.y,vSpeed.z ) );
+	// NStr::DebugTrace( NStr::Format( "Initted(%f,%f,%f)\n", vSpeed.x, vSpeed.y,vSpeed.z ) );
 }
-/////////////////////////////////////////////////////////////////////////////
+// //
 void CManuver::CalcSpeed()
 {
 	vSpeed = pPath->GetTangent( fProgress );
 	Normalize( &vSpeed );
 	vSpeed *= fSpeed;
-	//NStr::DebugTrace( NStr::Format( "dir (%f,%f,%f)\n", vSpeed.x, vSpeed.y,vSpeed.z ) );
+	// NStr::DebugTrace( NStr::Format( "dir (%f,%f,%f)\n", vSpeed.x, vSpeed.y,vSpeed.z ) );
 }
-/////////////////////////////////////////////////////////////////////////////
+// //
 void CManuver::CalcPoint()
 {
 	vCenter = pPath->GetPoint( fProgress );
 }
-/////////////////////////////////////////////////////////////////////////////
+// //
 void CManuver::CalcNormale()
 {
 	vNormal = pPath->GetNormale( fProgress );
 	Normalize( &vNormal );
 }
-/////////////////////////////////////////////////////////////////////////////
+// //
 bool CManuver::GetToHorisontalOffset( const CVec3 &vSpeed, const float _fTurnRadius, const float fHeight, CVec3 *pManuverPos ) const
 {
-	//NI_ASSERT_T( vSpeed.z < 0, "not diving, need not check" );
+	// NI_ASSERT_T( vSpeed.z < 0, "not diving, need not check" );
 	const float fAlpha = NTrg::ASin( vSpeed.z / fabs( vSpeed ) );
 	const float fSinAHalf = NTrg::Sin( 0.5f * fAlpha );
 	const float fCrit = 2 * _fTurnRadius * sqr( fSinAHalf );
@@ -182,7 +182,7 @@ bool CManuver::GetToHorisontalOffset( const CVec3 &vSpeed, const float _fTurnRad
 	}
 	return false;
 }
-/////////////////////////////////////////////////////////////////////////////
+// //
 bool CManuver::AdvanceCommon( const NTimer::STime timeDiff )
 {
 	fProgress += fSpeed * timeDiff;
@@ -191,9 +191,9 @@ bool CManuver::AdvanceCommon( const NTimer::STime timeDiff )
 	
 	fDz -= vCenter.z;
 
-	//CRAP{ IMPLEMENT PREFERENCES
+	// CRAP{ IMPLEMENT PREFERENCES
 	fSpeed += 2 * g * fDz / fSpeed;
-	//CRAP}
+	// CRAP}
 
 	CalcSpeed();
 	CVec3 vTmp = vNormal;
@@ -207,7 +207,7 @@ bool CManuver::AdvanceCommon( const NTimer::STime timeDiff )
 		CVec3 vOffset;
 		if ( GetToHorisontalOffset( vSpeed, pPlane->GetPreferencesB2().GetR( fSpeed ), vCenter.z, &vOffset ) )
 		{
-			// to horisontal manuver
+			// to horizontal manuver
 			CPathFractionArcLine3D * pNewPath = new CPathFractionArcLine3D;
 			pNewPath->Init( vCenter, vSpeed, vCenter + vOffset, pPlane->GetPreferencesB2().GetR( fSpeed ) );
 		}
@@ -215,26 +215,26 @@ bool CManuver::AdvanceCommon( const NTimer::STime timeDiff )
 	// check if it is time to gain speed
 	else if ( fSpeed <= pPlane->GetPreferencesB2().GetStallSpeed() ) 
 	{
-		// to horisontal manuver
+		// to horizontal manuver
 		
 	}
 
 	
 	return fProgress + fSpeed * timeDiff >= pPath->GetLength();
 }
-/////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////
-//	CManuverSteepClimb
-/////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////
+// //
+// //
+// CManuverSteepClimb
+// //
+// //
 void CManuverSteepClimb::Init( const enum EManuverDestination dest, interface IPlane *_pPlane, interface IPlane *pEnemy )
 {
 	NI_ASSERT_T( EMD_MANUVER_DEPENDENT == dest, "CANNOT DO GORKA ANYWERE OTHER THEN EMD_MANUVER_DEPENDENT" );
-	//CRAP{ SOME DIFFERENCES BASED ON DISTANCE WILL BE GOOD
+	// CRAP{ SOME DIFFERENCES BASED ON DISTANCE WILL BE GOOD
 	Init( _pPlane );
-	//CRAP}
+	// CRAP}
 }
-/////////////////////////////////////////////////////////////////////////////
+// //
 void CManuverSteepClimb::Init( interface IPlane *pPos )
 {
 	const CPlanePreferences &pref = pPos->GetPreferencesB2();
@@ -254,18 +254,18 @@ void CManuverSteepClimb::Init( interface IPlane *pPos )
 	
 	InitCommon( pNewPath, pPos );
 }
-/////////////////////////////////////////////////////////////////////////////
+// //
 bool CManuverSteepClimb::Advance( const NTimer::STime timeDiff )
 {
 	// determine if it is circle path fraction or not.
 	const bool bRet = AdvanceCommon( timeDiff );
 	return bRet;
 }
-/////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////
-//	CManuverGeneric::
-/////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////
+// //
+// //
+// CManoverGeneric::
+// //
+// //
 void CManuverGeneric::Init( interface IPlane *pPos, const CVec3 &vPos )
 {
 	const CPlanePreferences &pref = pPos->GetPreferencesB2();
@@ -276,7 +276,7 @@ void CManuverGeneric::Init( interface IPlane *pPos, const CVec3 &vPos )
 	
 	InitCommon( pNewPath, pPos );
 }
-/////////////////////////////////////////////////////////////////////////////
+// //
 bool CManuverGeneric::Advance( const NTimer::STime timeDiff )
 {
 	// determine if it is circle path fraction or not.

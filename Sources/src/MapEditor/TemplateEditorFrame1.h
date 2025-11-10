@@ -22,22 +22,22 @@
 #include "EditorObjectItem.h"
 
 
-/////////////////////////////////////////////////////////////////////////////
+// //
 // CTemplateEditorFrame window
 class CTabTileEditDialog;
 class CMapEditorBarWnd;
 class CPropertieDialog; 
 struct IVisObj; 
 interface IImage;
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 #include "UnitCreation.h"
 #include "AIStartCommand.h"
 #include "ReservePosition.h"
 #include "MapSoundInfo.h"
 #include "MODCollector.h"
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 struct SReinforcementCheckBoxesInfo
 {
 	std::hash_map< int, int > groupsCheckBoxes; 
@@ -57,7 +57,7 @@ struct SReinforcementCheckBoxesInfo
 	}
 };
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CMapEditorOptions
 {
 public:
@@ -91,9 +91,9 @@ class CTemplateEditorFrame : public   SECWorksheet, public CWorldBase
 	friend class CRandomMapGeneratorDialog;
 	friend class CMainFrame;
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // ************************************************************************************************************************ //
-// новые поля
+// new fields
 public:
 	enum INPUT_STATES
 	{
@@ -150,9 +150,9 @@ public:
 	std::vector<CPtr<IVisObj> > cameraVisObj;
 	
 	CMapInfo currentMapInfo;
-	//std::string szSeasonFolderBackup;
-	//std::string szChapterNameBackup;
-	//int nMissionIndexBackup;
+	// std::string szSeasonFolderBackup;
+	// std::string szChapterNameBackup;
+	// int nMissionIndexBackup;
 
 	CUCHelper ucHelper;
 	CAISCHelper aiscHelper;
@@ -218,36 +218,36 @@ public:
 private:
 	DECLARE_DYNCREATE(CTemplateEditorFrame)
 
-	//-----------------------------------------------------
+	// -------------------------------------------------------
 	std::string  m_scriptName;
 	CMutableUnitCreationInfo m_unitCreationInfo;
-	//-----------------------------------------------------
+	// -------------------------------------------------------
 
-	//-----------------------------------------------------
+	// -------------------------------------------------------
 	std::vector<SEntrenchmentInfo> m_entrenchments;	
 	std::vector< std::vector< std::vector< IRefCount* > > > m_entrenchmentsAI;
 	void CalculateTrenchFromAI();
 	void CalculateTrenchToAI();
-	//-----------------------------------------------------
+	// -------------------------------------------------------
 
-	//-----------------------------------------------------
-	std::vector<SScriptArea> m_scriptAreas;									// скриптовые области
+	// -------------------------------------------------------
+	std::vector<SScriptArea> m_scriptAreas;									// script areas
 	void CalculateAreasFromAI();
 	void CalculateAreasToAI();
-	//-----------------------------------------------------
+	// -------------------------------------------------------
 
-	//----------------------------------------------------- // все для мостов 
+	// ------------------------------------------------------- // everything for bridges
 		std::vector< CPtr<SBridgeSpanObject> >									m_tempSpans;
 		std::vector< std::vector< CPtr<SBridgeSpanObject> > >		m_Spans;
-	//-----------------------------------------------------
+	// -------------------------------------------------------
 
 	std::map< std::string, int >						m_objectFor;	
 
 		
-	//=====================Всякие Default'ные для редактора==============================
+	// =======All Default's for the editor============================================
 	
-	///SRiverInfo				 m_defaultRiver;
-	//===================================================================================
+	// /SRiverInfo m_defaultRiver;
+	// ======================================================================================================
 
 	std::string szStartDirectory;
 
@@ -256,9 +256,9 @@ private:
 	CTabTileEditDialog *m_pTabTileEditDialog;
 	CInputControlBar *m_mapEditorBarPtr;
 
-	//SRoadsetDesc descrRoads;
-	// для групп поддержки
-	//std::map< int, std::vector< SMapObject * > > m_reinforcementGroups;  
+	// SRoadsetDesc descrRoads;
+	// for support groups
+	// std::map< int, std::vector< SMapObject * > > m_reinforcementGroups;
 	SReinforcementGroupInfo m_reinforcementGroup;
 	SReinforcementCheckBoxesInfo m_reinforcementGroupCheckBoxes;
 	
@@ -270,17 +270,17 @@ private:
 	TMutableReservePositionList m_reservePositions;
 	CMutableReservePosition m_CurentReservePosition;
 	bool isReservePositionActive;
-	//0 - pos
-	//1 - artillery
-	//2 - truck
+	// 0 - pos
+	// 1 - artillery
+	// 2 - truck
 	std::list<int> m_ReservePositionSequence;
 	
 	inline void AddArtilleryToCurrentReservePosition()
 	{
 		m_CurentReservePosition.pArtilleryObject = m_currentMovingObjectPtrAI;
-		//0 - pos
-		//1 - artillery
-		//2 - truck
+		// 0 - pos
+		// 1 - artillery
+		// 2 - truck
 		if ( ( m_ReservePositionSequence.size() > 2 ) ||
 				 ( ( !m_ReservePositionSequence.empty() ) && 
 					 ( ( *m_ReservePositionSequence.begin() ) == 1 ) ) )
@@ -293,9 +293,9 @@ private:
 	inline void AddTruckToCurrentReservePosition()
 	{
 		m_CurentReservePosition.pTruckObject = m_currentMovingObjectPtrAI;
-		//0 - pos
-		//1 - artillery
-		//2 - truck
+		// 0 - pos
+		// 1 - artillery
+		// 2 - truck
 		if ( ( m_ReservePositionSequence.size() > 2 ) ||
 				 ( ( !m_ReservePositionSequence.empty() ) && 
 					 ( ( *m_ReservePositionSequence.begin() ) == 2 ) ) )
@@ -308,9 +308,9 @@ private:
 	inline void AddPosToCurrentReservePosition( const CVec3 &v )
 	{
 		m_CurentReservePosition.vPos = CVec2( v.x, v.y );
-		//0 - pos
-		//1 - artillery
-		//2 - truck
+		// 0 - pos
+		// 1 - artillery
+		// 2 - truck
 		if ( ( m_ReservePositionSequence.size() > 2 ) ||
 				 ( ( !m_ReservePositionSequence.empty() ) && 
 			     ( ( *m_ReservePositionSequence.begin() ) == 0 ) ) )
@@ -333,17 +333,17 @@ private:
 
 	bool			m_bGrid ;
 
-	//std::vector< SRoadItem > m_roads;
+	// std::vector< SRoadItem > m_roads;
 	
 	std::hash_map< IVisObj*, SEditorObjectItem, SDefaultPtrHash > m_objects;  
-	//----------- возим полупрозрачные картинки перед постановкой -------------------
+	// ----------- we carry translucent pictures before staging -------------------
 	CPtr<IVisObj> m_currentMovingObjectForPlacementPtr;	
 	
 	std:: vector<CPtr<IVisObj> > m_currentMovingObjectsForPlacementPtr;
-	std::string						 m_currentMovingPasteGroupName;	// когда из Advanced clippboard'a делаем paste 
-																												// то перед постановкой нужна возможность 
-																												// повозить.
-	//-------------------------------------------------------------------------------
+	std::string						 m_currentMovingPasteGroupName;	// when we make paste from Advanced clipboard
+																												// then before staging you need an opportunity
+																												// tinker.
+	// -------------------------------------------------------------------------------
 	std::vector< std::pair<IVisObj*, CVec2> > m_pickedObjects;
 
 	std::hash_map< SMapObject *, SEditorObjectItem*, SDefaultPtrHash > m_objectsAI;  
@@ -353,8 +353,8 @@ private:
 	std::map<IRefCount*, CVec2>									m_squadsShiftsForMovingObjectsAI;
 	std::vector<SMapObject*>											m_currentForPasteObjectsAI;
 	std::map<SMapObject*, CVec3>									m_shiftsForPasteObjectsAI;
-	//SMapObject*																		m_currentObjectForPastePtrAI;	
-	// для предварительного рисования заборов
+	// SMapObject* m_currentObjectForPastePtrAI;
+	// for preliminary drawing of fences
 	std::vector<IVisObj*>	m_currentFences;
 	
 	bool				m_ifCanMultiSelect;
@@ -363,9 +363,9 @@ private:
 	CVec2			m_currentObjectShift;
 	int m_curPickNum;
 
-	//void DrawLine( int x1, int y1, int x2,int y2);
+	// void DrawLine(int x1, int y1, int x2,int y2);
 
-	//std::stack< IUndoRedoCmd* > m_undoStack;
+	// std::stack< IUndoRedoCmd* > m_undoStack;
 
 	CTPoint<int>		m_firstSelectPoint;
 	CTPoint<int>		m_lastSelectPoint;
@@ -374,13 +374,13 @@ private:
 	
 	LPTSTR m_cursorName;
 
-// Construction 
+// Construction
 public: 
 
 	CTemplateEditorFrame();
 	 
 	CInputControlBar* GetMapEditorBar() { return m_mapEditorBarPtr; } 
-//	CAdvancedClipboardBar* GetAdvancedClipboardBar() { return m_advancedClipBoardBar; } 
+// CAdvancedClipboardBar* GetAdvancedClipboardBar() { return m_advancedClipBoardBar; 
 
 	int				m_brushDX; 
 	int				m_brushDY;
@@ -397,11 +397,11 @@ public:
 	std::string m_currentMapName;
 	CPropertieDialog *dlg;
 
-	//---------------------------------------------------------------------------------------
-	// для сохранения размеров ресайзовых диалогов
-	//CMiniMapDialog, CCreateForestDilaog
+	// ------------------------------------------------------------------------
+	// to save the size of resize dialogs
+	// CMiniMapDialog, CCreateForestDilaog
 	CTRect<int> m_minimapDialogRect;
-	//---------------------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 	
 	SEditorObjectItem* GetEditorObjectItem( SMapObject* ptr )
 	{
@@ -418,43 +418,34 @@ public:
 	}
 
 
-	//===================================================================================
-  /**
-	void UpdateRiver()
-	{
-			if( inputStates.GetActiveState() == STATE_VECTOR_OBJECTS )
-			{
-				inputStates.OnKeyDown( VK_RETURN, 1, 0, this );		
-			}
-			RedrawWindow();
-	}
-	SRiverInfo::SLayer GetDefaultRiverLayer();
-	/**/
-	//===================================================================================
+	// ======================================================================================================
+  /* *
+	 */
+	// ======================================================================================================
 
 // Attributes
 public: 
 
-// Operations 
+// Operations
 public:
 		
 // Overrides
 	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CTemplateEditorFrame)
+	// {{AFX_VIRTUAL(CTemplateEditorFrame)
 	protected:
 	virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
-	//}}AFX_VIRTUAL
+	// }}AFX_VIRTUAL
 
 
 // Implementation
 public: 
-	//=============================== Функции для посадки =========================================
-	void PopFromBuilding( SEditorObjectItem *obj ); // выгоним всех солдатиков если они есть 
-	int  GetNumSoldiersInBuilding( SEditorObjectItem *obj ); // сколько солдатиков в этом объекте сидит  
-	int  GetSoldiersInBuilding( SEditorObjectItem *obj, std::vector<SEditorObjectItem*> &units );// возвращает всех солдатиков в obj
+	// ============================================= Landing functions =======================================================
+	void PopFromBuilding( SEditorObjectItem *obj ); // let's kick out all the soldiers if there are any
+	int  GetNumSoldiersInBuilding( SEditorObjectItem *obj ); // how many soldiers are sitting in this object
+	int  GetSoldiersInBuilding( SEditorObjectItem *obj, std::vector<SEditorObjectItem*> &units );// returns all soldiers to obj
 
-	void MoveObject( IRefCount *pAiObject, short x, short y, bool isFormation = false ); // двигает с учетом сидящих unit' ов   
-	//=============================================================================================
+	void MoveObject( IRefCount *pAiObject, short x, short y, bool isFormation = false ); // moves taking into account seated units
+	// =======================================================================================
 	
 	void  FillMapInfoParamForObject( SMapObjectInfo &info, SMapObject* obj  );
 
@@ -465,20 +456,20 @@ public:
 	
 	SReinforcementGroupInfo& GetGroupInfo() { return m_reinforcementGroup; }
 	void SetGroupInfo( SReinforcementGroupInfo &info ) { m_reinforcementGroup = info; }
-	void CalculateReinforcementGroups( bool update = true ); //true  - m_reinforcementGroupCheckBoxes->list
-																													 //false - list->m_reinforcementGroupCheckBoxes
+	void CalculateReinforcementGroups( bool update = true ); // true - m_reinforcementGroupCheckBoxes->list
+																													 // false - list->m_reinforcementGroupCheckBoxes
 
 	void ShowAIInfo()												{	ToggleAIInfo(); RedrawWindow(); }
 	bool ifObjectExist( SMapObject * ptr )	{ return m_objectsAI.find(ptr) !=  m_objectsAI.end() ;}
 	bool IfCashedFile( std::string name );
-	//void AddRoad( SRoadItem &s );
-	//void DeleteRoad( SRoadItem &road);
+	// void AddRoad( SRoadItem &s );
+	// void DeleteRoad( SRoadItem &road);
 	void MoveObject( IVisObj *obj, CVec3 &pos, bool isFormation = false );
 	void AddTileCmd(  std::vector<STileRedoCmdInfo> &inf, bool cmd = true );
 	void RemoveObject( IVisObj* object);
 	void RemoveObject(SMapObject *object);
 	
-	//Работа со стартовыми командами
+	// Working with start commands
 	void RemoveObjectFromAIStartCommand( SMapObject *object );
 	void AddObjectToAIStartCommand( SMapObject *object, bool isRemove = false );
 	
@@ -491,14 +482,14 @@ public:
 	void DrawUnitsSelection();
 	//
 
-	//Работа с reserve positions
+	// Working with reserve positions
 	void RemoveObjectFromReservePositions( SMapObject *object );
 	void DrawReservePositionRedLines();
 	
-	//temp == true если надо заносаить в список undo / redo
+	// temp == true if you need to add it to the undo / redo list
 	IVisObj* AddObject( const SGDBObjectDesc &desc, int p = 0 ,bool temp = false);
 	SMapObject*	AddObjectByAI( SMapObjectInfo &info , int p = 0 ,bool temp = false, bool bScenarioUnit = false );
-	//void CalculateRoads();
+	// void CalculateRoads();
 	void CalculateAreas();
 
 	void ShowFrameWindows( int nCommand);
@@ -517,7 +508,7 @@ public:
 protected:
 	virtual void ResetSelection( SMapObject *pMO ) {};
 protected:
-	//{{AFX_MSG(CTemplateEditorFrame)
+	// {{AFX_MSG(CTemplateEditorFrame)
 	afx_msg void OnMouseMove( UINT nFlags, CPoint point );
 	afx_msg void OnLButtonDown( UINT nFlags, CPoint point );
 	afx_msg void OnLButtonUp( UINT nFlags, CPoint point );
@@ -622,7 +613,7 @@ protected:
 	afx_msg void OnUpdateFileSaveBzm(CCmdUI* pCmdUI);
 	afx_msg void OnFileSaveXml();
 	afx_msg void OnUpdateFileSaveXml(CCmdUI* pCmdUI);
-	//}}AFX_MSG
+	// }}AFX_MSG
 public:
 	afx_msg void OnButtonUpdate();
 	DECLARE_MESSAGE_MAP() 
@@ -641,13 +632,13 @@ private:
 	void FillGRect( GRect &r, std::vector< CTPoint<int> > &points  );
 	void GetTileIndexBy2DPoint( int x, int y , int &xtile, int &ytile );
 	SRoadItem ifRoadItemIntersect( int x, int y );
-	//ERoadItemTypes GetTileType( SRoadItem &item, int x, int y );
+	// ERoadItemTypes GetTileType( SRoadItem &item, int x, int y );
 	int GetCurrentDirection();
-	//int GetCurrentRoadType();
+	// int GetCurrentRoadType();
 };
-/////////////////////////////////////////////////////////////////////////////
+// //
 
-//{{AFX_INSERT_LOCATION}}
+// {{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
 
 #endif // !defined(AFX_TEMPLATEEDITORFRAME1_H__FA5612CB_1305_4F95_959D_94DB91746A51__INCLUDED_)

@@ -1,6 +1,6 @@
 // WindowSlider.h: interface for the CWindowSlider class.
 //
-//////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////
 
 #if !defined(AFX_WINDOWSLIDER_H__FF45A97C_D276_4BE2_BF2C_061AFFE51E2F__INCLUDED_)
 #define AFX_WINDOWSLIDER_H__FF45A97C_D276_4BE2_BF2C_061AFFE51E2F__INCLUDED_
@@ -12,11 +12,11 @@
 #include "Interface.h"
 #include "Window.h"
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// window with button. button can move horisontally or vertically,
+
+// window with button. 
 // 
 class CWindowMSButton;
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CWindowSlider : public CWindow, public ISlider  
 {
 	OBJECT_COMPLETE_METHODS(CWindowSlider)
@@ -41,7 +41,7 @@ class CWindowSlider : public CWindow, public ISlider
 
 	ISliderNotify * pNotifySink;						// parent
 	
-	//Verifies that the position of a slider control is between the minimum and maximum values.
+	// Verifies that the position of a slider control is between the minimum and maximum values.
 	void UpdatePos();
 	// return fCur suitable for current mouse pressed pos
 	float CalcPressedPos( const CVec2 &vPos ) const;
@@ -88,5 +88,5 @@ public:
 	virtual void STDCALL OnButtonUp( const CVec2 &vPos, const int nButton );
 
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // !defined(AFX_WINDOWSLIDER_H__FF45A97C_D276_4BE2_BF2C_061AFFE51E2F__INCLUDED_)

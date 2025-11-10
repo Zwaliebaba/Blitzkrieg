@@ -13,7 +13,7 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // CMeshView
 
 CMeshView::CMeshView()
@@ -26,13 +26,13 @@ CMeshView::~CMeshView()
 
 
 BEGIN_MESSAGE_MAP(CMeshView, CWnd)
-//{{AFX_MSG_MAP(CMeshView)
+// {{AFX_MSG_MAP(CMeshView)
 ON_WM_PAINT()
-	//}}AFX_MSG_MAP
+	// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // CMeshView message handlers
 
 BOOL CMeshView::PreCreateWindow(CREATESTRUCT& cs) 
@@ -50,7 +50,7 @@ BOOL CMeshView::PreCreateWindow(CREATESTRUCT& cs)
 void CMeshView::OnPaint() 
 {
 
-//	if ( g_frameManager.GetObjectFrame()->IsRunning() )
+// if ( g_frameManager.GetObjectFrame()->IsRunning() )
 	{
 		RECT valRC;
 		((CWnd *) g_frameManager.GetGameWnd())->GetWindowRect( &valRC );
@@ -60,10 +60,6 @@ void CMeshView::OnPaint()
 		CWnd::OnPaint();
 		g_frameManager.GetFrame( CFrameManager::E_MESH_FRAME )->GFXDraw();
 	}
-/*	else
-	{
-		CWnd::OnPaint();
-		ValidateRect( 0 );
-	}
-*/
+/* else
+	 */
 }

@@ -3,4 +3,4 @@
 
 void FillVectorOfSides( std::vector<std::string> &sides );
 
-#endif		//__UNIT_SIDE_H__
+#endif		// __UNIT_SIDE_H__

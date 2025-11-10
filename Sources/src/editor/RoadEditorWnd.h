@@ -7,7 +7,7 @@
 // RoadEditorWnd.h : header file
 //
 
-/////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////
 // CRoadEditorWnd window
 
 
@@ -26,10 +26,10 @@ public:
 
 // Overrides
 	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CRoadEditorWnd)
+	// {{AFX_VIRTUAL(CRoadEditorWnd)
 	public:
 	virtual BOOL Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID, CCreateContext* pContext = NULL);
-	//}}AFX_VIRTUAL
+	// }}AFX_VIRTUAL
 
 // Implementation
 public:
@@ -37,17 +37,17 @@ public:
 
 	// Generated message map functions
 protected:
-	//{{AFX_MSG(CRoadEditorWnd)
+	// {{AFX_MSG(CRoadEditorWnd)
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg void OnPaint();
-	//}}AFX_MSG
+	// }}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
 
-/////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////
 
-//{{AFX_INSERT_LOCATION}}
+// {{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
 
 #endif // !defined(AFX_RoadEditorWnd_H__B695C508_0D00_475E_8FF7_C9693CE02D39__INCLUDED_)

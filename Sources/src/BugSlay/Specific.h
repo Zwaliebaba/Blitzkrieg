@@ -1,4 +1,4 @@
-//#include "WarningsOff.h"
+// #include "WarningsOff.h"
 #define FLEXIBLE_SYMBOLENGINE 1
 
 #include <commctrl.h>
@@ -8,4 +8,4 @@
 #include "PSAPI.h"
 
 #include <d3d8.h>
-//#include "WarningsOn.h"
+// #include "WarningsOn.h"

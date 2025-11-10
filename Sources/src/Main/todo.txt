@@ -1,14 +1,13 @@
 * GFX
-	- shader - содержит в себе ссылку на текстуры, матрицы и прочие константы. Замена всяким RS/TSS/VS/PS
-	- необходимо уметь объединять shader'ы в некие MIP уровни для упрощения/усложнения эффекта с расстоянием/возможностями
+	- shader - contains references to textures, matrices, and other constants. Can be swapped/changed via RS/TSS/VS/PS
+	- should be able to group shaders into MIP-like levels to simplify or enhance effects and control placement/capabilities
 
 * Optimization
-	- удалить из сцены множество area maps и оставить только static objects, dynamic objects, units
-	- при выводе террейна сначала формировать большой буффер, а потом выводить его через temp vertices/indices. 
-		если террейн не изменяется в течении нескольких кадров, то создавать для него статический буфер
-	- для рек и 3D дорог - нарезать их на strip'ы
-	- при генерации партиклов по пути полёта оптимизировать выражение рассчёта положения
+	- remove multiple area maps from the scene and keep only static objects, dynamic objects, and units
+	- when rendering terrain, first build a large buffer and then draw it using temporary vertices/indices. If the terrain doesn't change for several frames, create a static buffer for it
+	- for rivers and 3D roads — break them into strips
+	- when generating particles along a path/field, optimize the distance/position calculation
 
 * Startup & API Checks
-	- иметь список "обязательных" модулей и после всей загрузки проверить его
-	- для модулей сделать "checker" - то, что проверяет наличие нужного API
+	- maintain a list of "required" modules and validate it after all loading completes
+	- implement a "checker" for modules that verifies the presence of the required API

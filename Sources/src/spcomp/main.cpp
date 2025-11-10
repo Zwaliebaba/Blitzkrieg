@@ -1,16 +1,16 @@
 #include "StdAfx.h"
 
 #include "..\Common\fmtAnimation.h"
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////// 
 inline long Width( const RECT &rc ) { return rc.right - rc.left; }
 inline long Height( const RECT &rc ) { return rc.bottom - rc.top; }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////// 
 
-//¬спомогательные структурки
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ¬auxiliary structures
+// //////////////////////////////////////////////////////////// 
 struct SDirDesc
 {
-	std::vector<short> frames;						// frame indices for this direction sequence
+	std::vector<short> frames;						// frame indicators for this direction sequence
 	CVec2 ptFrameShift;										// shift for all frames, which participates in this dir sequence
 };
 struct SAnimationDesc 
@@ -18,7 +18,7 @@ struct SAnimationDesc
 	std::string szName;										// animation name
 	int nFirstSprite;
 	int nLastSprite;
-	std::vector<SDirDesc> dirs;						// direction descritions
+	std::vector<SDirDesc> dirs;						// direction definitions
 	std::hash_map<int, CVec2> frames;			// each frame unique shift
 	int nFrameTime;												// general one frame show time
 	CVec2 ptFrameShift;										// general one frame shift
@@ -26,39 +26,9 @@ struct SAnimationDesc
 	bool bCycled;													// cycled or one-shot animation
 };
 
-/*const int nBoundValue = 1000000;
-RECT AnalyzeSubrect( const CImageAccessor &image, const RECT &rect )
-{
-	int minx = nBoundValue, miny = nBoundValue, maxx = -nBoundValue, maxy = -nBoundValue;
-	bool bNoYBefore = true;
-	for ( int i=rect.top; i <= rect.bottom; ++i )
-	{
-		bool bEmptyLine = true;
-		bool bNoXBefore = true;
-		for ( int j=rect.left; j <= rect.right; ++j )
-		{
-			BYTE a = image[i][j].a;
-			if ( image[i][j].a != 0 )
-			{
-				if ( bNoXBefore )
-					minx = Min( minx, j ); 
-				bNoXBefore = false;
-				maxx = Max( maxx, j );
-				bEmptyLine = false;
-			}
-		}
-		if ( !bEmptyLine )
-		{
-			if ( bNoYBefore )
-				miny = i;
-			bNoYBefore = false;
-			maxy = Max( maxy, i );
-		}
-	}
-	RECT ret = { minx, miny, maxx, maxy };
-	return ret;
-}*/
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/* const int nBoundValue = 1000000;
+ */
+// //////////////////////////////////////////////////////////// 
 void Serialize( CTreeAccessor *pFile, SDirDesc *pData )
 {
 	pFile->AddDataContainer( "seq", &pData->frames );
@@ -74,7 +44,7 @@ void Serialize( CTreeAccessor *pFile, SAnimationDesc *pData )
 	pFile->AddData( "speed", &pData->fSpeed );
 	pFile->AddData( "cycled", &pData->bCycled );
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////// 
 // spcomp.exe <sprite sequence dir> <output name>
 int main( int argc, char *argv[] )
 {
@@ -125,7 +95,7 @@ int main( int argc, char *argv[] )
 			anim.ptFrameShift.Set( fvals[0], fvals[1] );
 		else
 			NI_ASSERT_TF( fvals.size() == 0, NStr::Format("wrong number of components in the general frame shift for animation \"%s\"", szSections[i].c_str()), return 0xDEAD );
-		// read dirs info
+		// read information
 		for ( int j=0; j<anim.dirs.size(); ++j )
 		{
 			SDirDesc &dir = anim.dirs[j];
@@ -160,7 +130,7 @@ int main( int argc, char *argv[] )
 		pAnimation->nFrameTime = animdesc.nFrameTime;
 		for ( int j=0; j<pAnimation->dirs.size(); ++j )
 			pAnimation->dirs[j].frames = animdesc.dirs[j].frames;
-		// CRAP{ сейчас предполагаем что в анимации задействованы все кадры 
+		// CRAP{ now we assume that all frames are involved in the animation
 		pAnimation->rects.resize( animdesc.frames.size() );
 		// CRAP}
 		for ( int j=0; j<pAnimation->rects.size(); ++j )
@@ -234,4 +204,4 @@ int main( int argc, char *argv[] )
 	//
 	return 0;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////// 

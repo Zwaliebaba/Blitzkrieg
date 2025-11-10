@@ -1,6 +1,6 @@
 // Window.h: interface for the CWindow class.
 //
-//////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////
 
 #if !defined(AFX_WINDOW_H__54783510_EE35_420B_A2EC_19C1C30EA449__INCLUDED_)
 #define AFX_WINDOW_H__54783510_EE35_420B_A2EC_19C1C30EA449__INCLUDED_
@@ -15,12 +15,12 @@ interface IBackground;
 
 #include "DeepCPtrCopy.h"
 #include "WindowMessageHandle.h"
-//////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////
 struct SWindowCompare
 {
 	bool operator()( const CDCPtr<CWindow> &o1, const CDCPtr<CWindow> &o2 ) const;
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 enum EWindowPlacementFlags
 {
 	EWPF_POS_X					= 1,
@@ -30,7 +30,7 @@ enum EWindowPlacementFlags
 	
 	EWPF_ALL						= 0xffff,
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 enum EPositionAllign
 {
 	EPA_LOW_END,							// LEFT OR TOP
@@ -45,7 +45,7 @@ enum EMouseStateB2
 	MSTATE_BUTTON2		= 2,
 	MSTATE_BUTTON3		= 4,
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // base class to all UI windows;
 // single background window.
 class CWindow : public IWindow
@@ -81,17 +81,17 @@ class CWindow : public IWindow
 	std::string szName;								// window ID
 	bool bVisible;
 	int nPriority;
-	CVec2 vChildPos;													// coordinates relative to parent & alingnment
+	CVec2 vChildPos;													// coordinates relative to parent & alignment
 	CVec2 vSize;												// size
-	EPositionAllign nVerAllign;				//задает точку привязки (vertical)
-	EPositionAllign nHorAllign;									//задает точку привязки (horisontal)
+	EPositionAllign nVerAllign;				// sets the anchor point (vertical)
+	EPositionAllign nHorAllign;									// sets the anchor point (horisontal)
 	// END loads from data
 protected:
 
 	CWindow() {  }
-	//CRAP{ FOR TEST
+	// CRAP{ FOR TEST
 	void Init( int TEST );
-	//CRAP}
+	// CRAP}
 
 	void SetBackground( IBackground *_pBackground );
 
@@ -120,7 +120,7 @@ public:
 
 	virtual void STDCALL Reposition( const CTRect<float> &parentRect );
 	virtual void STDCALL Init();
-	// window may want to be notified about finish state sequience, that it launched
+	// window may want to be notified about finish state sequence, that it launched
 	virtual void NotifyStateSequenceFinished() { }
 
 	// placement flags = OR of number EWindowPlacementFlags
@@ -158,7 +158,7 @@ public:
 	virtual void STDCALL OnChar( const wchar_t chr );
 	virtual void STDCALL OnMouseMove( const CVec2 &vPos, const int nButton );
 	virtual IWindow* STDCALL Pick( const CVec2 &vPos );
-	//get manipulator for editor functionality
+	// get manipulator for editor functionality
 	virtual IManipulator* STDCALL GetManipulator();
 	// help context
 	virtual interface IText* STDCALL GetHelpContext();
@@ -169,7 +169,7 @@ public:
 	friend struct SWindowCompare;
 	friend class CUIMessageHandler;
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // !defined(AFX_WINDOW_H__54783510_EE35_420B_A2EC_19C1C30EA449__INCLUDED_)
 
 

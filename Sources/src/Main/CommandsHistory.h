@@ -1,75 +1,77 @@
 #ifndef __COMMANDS_HISTORY_H__
 #define __COMMANDS_HISTORY_H__
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma ONCE
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#pragma once
+
 #include "CommandsHistoryInterface.h"
 
-#include "..\zlib\zlib.h"
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#include <zlib.h>
+
 interface IAILogicCommand;
 interface IRandomGenSeed;
 interface IScenarioTracker;
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CCommandsHistory : public ICommandsHistory
 {
-	OBJECT_COMPLETE_METHODS( CCommandsHistory );
-	DECLARE_SERIALIZE;
+  OBJECT_COMPLETE_METHODS(CCommandsHistory);
+  DECLARE_SERIALIZE;
 
-	typedef std::hash_map<int, std::list< CPtr<IAILogicCommand> > > CHistory;
-	CHistory savingHistory;
-	CHistory loadedHistory;
+  using CHistory = std::hash_map<int, std::list<CPtr<IAILogicCommand>>>;
+  CHistory savingHistory;
+  CHistory loadedHistory;
 
-	uLong startMapCheckSum;
-	
-	CPtr<IRandomGenSeed> pStartRandomSeed;
-	CPtr<IScenarioTracker> pStartScenarioTracker;
+  uLong startMapCheckSum;
 
-	bool bLoadedFromCommandLine;
-	bool bLoadedHistory;
-	bool bStored;													// scenario tracker stored
-	
-	uLong checkSumMap;
-	uLong checkSumRes;
+  CPtr<IRandomGenSeed> pStartRandomSeed;
+  CPtr<IScenarioTracker> pStartScenarioTracker;
 
-	struct SMPPlayerInfo
-	{
-		int nLogicID; 
-		int nSide; 
+  bool bLoadedFromCommandLine;
+  bool bLoadedHistory;
+  bool bStored;// scenario tracker stored
 
-		int operator&( IDataTree &ss )
-		{
-			CTreeAccessor saver = &ss;
-			saver.Add( "LogicID", &nLogicID );
-			saver.Add( "Side", &nSide );
-			return 0;
-		}
-	};
-	std::vector<SMPPlayerInfo> players;
+  uLong checkSumMap;
+  uLong checkSumRes;
 
-	std::string szModName;
-	std::string szModVersion;
-	//
-	void InvalidHistory( const char *pMessage );
+  struct SMPPlayerInfo
+  {
+    int nLogicID;
+    int nSide;
+
+    int operator&(IDataTree &ss)
+    {
+      CTreeAccessor saver = &ss;
+      saver.Add("LogicID", &nLogicID);
+      saver.Add("Side", &nSide);
+      return 0;
+    }
+  };
+
+  std::vector<SMPPlayerInfo> players;
+
+  std::string szModName;
+  std::string szModVersion;
+  //
+  void InvalidHistory(const char *pMessage);
+
 public:
-	CCommandsHistory() : startMapCheckSum( 0 ), bLoadedFromCommandLine( false ), bLoadedHistory( false ), bStored( false ) { }
+  CCommandsHistory() : startMapCheckSum(0), bLoadedFromCommandLine(false), bLoadedHistory(false), bStored(false) {}
 
-	virtual void STDCALL PrepareToStartMission();
-	virtual bool STDCALL LoadCommandLineHistory();
-	virtual bool STDCALL Load( const char *pszFileName );
-	virtual void STDCALL Save( const char *pszFileName );
-	virtual void STDCALL Clear();
+  void STDCALL PrepareToStartMission() override;
+  bool STDCALL LoadCommandLineHistory() override;
+  bool STDCALL Load(const char *pszFileName) override;
+  void STDCALL Save(const char *pszFileName) override;
+  void STDCALL Clear() override;
 
-	virtual void STDCALL AddCommand( const int nSegment, interface IAILogicCommand *pCmd );
-	virtual void STDCALL ExecuteSegmentCommands( const int nSegment, interface ITransceiver *pTranceiver );
-	virtual void STDCALL CheckStartMapCheckSum( const int nCheckSum );
+  void STDCALL AddCommand(int nSegment, interface IAILogicCommand *pCmd) override;
+  void STDCALL ExecuteSegmentCommands(int nSegment, interface ITransceiver *pTranceiver) override;
+  void STDCALL CheckStartMapCheckSum(int nCheckSum) override;
 
-	virtual const int GetNumPlayersInMPGame() const { return players.size(); }
-	virtual const int GetMPPlayerLogicID( const int nPlayer ) const;
-	virtual const int GetMPPlayerSide( const int nPlayer ) const;
+  const int GetNumPlayersInMPGame() const override { return players.size(); }
+  const int GetMPPlayerLogicID(int nPlayer) const override;
+  const int GetMPPlayerSide(int nPlayer) const override;
 
-	virtual const char* STDCALL GetModName() const { return szModName.c_str(); }
-	virtual const char* STDCALL GetModVersion() const { return szModVersion.c_str(); }
+  const char * STDCALL GetModName() const override { return szModName.c_str(); }
+  const char * STDCALL GetModVersion() const override { return szModVersion.c_str(); }
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif __COMMANDS_HISTORY_H__

@@ -44,7 +44,7 @@ bool CSTreeItem::KillEditor()
 		//
 		try
 		{
-			tmp.ChangeType( var.vt, NULL) ; //если не получилочь сконвертить
+			tmp.ChangeType( var.vt, NULL) ; // if you don't get it, convert it
 		}
 		catch(...)
 		{	
@@ -61,9 +61,9 @@ bool CSTreeItem::KillEditor()
 	}
 	return bKilleditor;
 }
-//---------------------------------------------------------------------------------------------
-//																	CTrueFalseTreeItem
-//---------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------
+// CTrueFalseTreeItem
+// -------------------------------------------------------------------------------
 bool CTrueFalseTreeItem::BuildEditor( HTREEITEM *item , CMultiTree *treePtr)
 {
 	CRect rect;
@@ -97,9 +97,9 @@ bool CTrueFalseTreeItem::KillEditor()
 	}
 	return bKilleditor;
 }
-//---------------------------------------------------------------------------------------------
-//																	CProcentTreeItem
-//---------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------
+// CProcentTreeItem
+// -------------------------------------------------------------------------------
 bool CProcentTreeItem::BuildEditor( HTREEITEM *item , CMultiTree *treePtr)
 {
 	CRect rect;
@@ -114,10 +114,8 @@ bool CProcentTreeItem::BuildEditor( HTREEITEM *item , CMultiTree *treePtr)
 	m_SliderDlg->SetWindowPos(NULL , treePtr->GetColumnWidth(0) , rect.top , 
 	rect2.right - rect2.left , rect2.bottom- rect2.top
 	, SWP_SHOWWINDOW   );
- 	/*m_SliderCtrl->Create( WS_CHILD | WS_VISIBLE | WS_VSCROLL | WS_THICKFRAME |TBS_HORZ   ,
-      CRect(treePtr->GetColumnWidth(0)+2, rect.top
-		,treePtr->GetColumnWidth(1) + treePtr->GetColumnWidth(0), rect.bottom + 1 * (rect.bottom - rect.top )), treePtr, 1);
-	*/
+ 	/* m_SliderCtrl->Create( WS_CHILD | WS_VISIBLE | WS_VSCROLL | WS_THICKFRAME |TBS_HORZ ,
+       */
 	m_SliderDlg->SetFocus();
 	return  true;
 }
@@ -137,15 +135,15 @@ bool CProcentTreeItem::KillEditor()
 	}
 	return bKilleditor;
 }
-//---------------------------------------------------------------------------------------------
-//																	CNumComboBoxTreeItem
-//---------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------
+// CNumComboBoxTreeItem
+// -------------------------------------------------------------------------------
 bool CNumComboBoxTreeItem::BuildEditor( HTREEITEM *item , CMultiTree *treePtr)
 {
 	CRect rect;
 	treePtr->GetItemRect( *item , &rect, FALSE );
 	m_ComboBoxCtrl= new CTreeItemComboBox ();
-	m_ComboBoxCtrl->Create( WS_CHILD | WS_VISIBLE | WS_VSCROLL | CBS_DROPDOWNLIST/*| WS_BORDER */  ,
+	m_ComboBoxCtrl->Create( WS_CHILD | WS_VISIBLE | WS_VSCROLL | CBS_DROPDOWNLIST/* |  */  ,
 		CRect(treePtr->GetColumnWidth(0) + 2, rect.top - 3
 		,treePtr->GetColumnWidth(1) + treePtr->GetColumnWidth(0), rect.bottom + 3 * (rect.bottom - rect.top )), treePtr, 1);
 	m_ComboBoxCtrl->SetFocus();
@@ -184,9 +182,9 @@ std::string			  CNumComboBoxTreeItem::GetNormalProperty()
 	return std::string(rString);
 }
 
-//---------------------------------------------------------------------------------------------
-//																	CEmptyTreeItem
-//---------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------
+// CEmptyTreeItem
+// -------------------------------------------------------------------------------
 bool CEmptyTreeItem::BuildEditor( HTREEITEM *item , CMultiTree *treePtr)
 {
 	treePtr->SendMessage( WM_USER + 2);
@@ -197,9 +195,9 @@ bool CEmptyTreeItem::KillEditor()
 {
 	return false;
 }
-//---------------------------------------------------------------------------------------------
-//																	CPropertieTreeItem
-//---------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------
+// CPropertieTreeItem
+// -------------------------------------------------------------------------------
 bool CPropertieTreeItem::BuildEditor( HTREEITEM *item , CMultiTree *treePtr)
 {
 	CRect rect;
@@ -282,22 +280,19 @@ bool CPropertieTreeItem::KillEditor()
 	}
 	return bKilleditor;
 }
-//---------------------------------------------------------------------------------------------
-//																	CComboBoxTreeItemPropertieTreeItem
-//---------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------
+// CComboBoxTreeItemPropertieTreeItem
+// -------------------------------------------------------------------------------
 bool CComboBoxTreeItemPropertieTreeItem::BuildEditor( HTREEITEM *item , CMultiTree *treePtr)
 {
 	CRect rect;
 	treePtr->GetItemRect( *item , &rect, FALSE );
 	m_ComboBoxCtrl= new CTreeItemComboBox ();
-	m_ComboBoxCtrl->Create( WS_CHILD | WS_VISIBLE | WS_VSCROLL | CBS_SORT | CBS_DROPDOWNLIST/*| WS_BORDER */  ,
+	m_ComboBoxCtrl->Create( WS_CHILD | WS_VISIBLE | WS_VSCROLL | CBS_SORT | CBS_DROPDOWNLIST/* |  */  ,
 		CRect(treePtr->GetColumnWidth(0) + 2, rect.top - 3
-		, rect.right/*treePtr->GetColumnWidth(1) + treePtr->GetColumnWidth(0)*/, rect.bottom + 7 * (rect.bottom - rect.top )), treePtr, 1);
-/*	m_ComboBoxCtrl->SetFocus();
-	m_ComboBoxCtrl->AddString( "0" );
-	m_ComboBoxCtrl->AddString( "1" );
-
-	m_ComboBoxCtrl->SetCurSel( m_var ); */
+		, rect.right/* treePtr->GetColumnWidth(1) + treePtr->GetColumnWidth(0) */, rect.bottom + 7 * (rect.bottom - rect.top )), treePtr, 1);
+/* m_ComboBoxCtrl->SetFocus();
+	 */
 		if( m_ComboBoxCtrl )
 		{
 			m_ComboBoxCtrl->SetFocus();
@@ -314,7 +309,7 @@ bool CComboBoxTreeItemPropertieTreeItem::BuildEditor( HTREEITEM *item , CMultiTr
 				{
 					COleVariant tmp;
 					tmp = m_pManipulator->GetPropertyDesc( m_propName.c_str() )->values[i];
-					//ptr->GetValue( m_propName.c_str(), &tmp );
+					// ptr->GetValue( m_propName.c_str(), &tmp );
 					tmp.ChangeType( VT_BSTR, NULL );
 					CString strBuffer = tmp.bstrVal;	
 					m_ComboBoxCtrl->AddString( strBuffer );
@@ -326,11 +321,8 @@ bool CComboBoxTreeItemPropertieTreeItem::BuildEditor( HTREEITEM *item , CMultiTr
 		return true;
 }
 
-/*void	CComboBoxTreeItemPropertieTreeItem::Setup( std::string &name, IManipulator *ptr )
-{	
-	m_propName = name ;
-	m_pManipulator = ptr;
-}*/
+/* void CComboBoxTreeItemPropertieTreeItem::Setup( std::string &name, IManipulator *ptr )
+ */
 bool CComboBoxTreeItemPropertieTreeItem::KillEditor()
 {
 	if ( ( m_ComboBoxCtrl != NULL ) && ( !bKilleditor ) )
@@ -347,7 +339,7 @@ bool CComboBoxTreeItemPropertieTreeItem::KillEditor()
 		//
 		try
 		{
-			tmp.ChangeType( var.vt, NULL ); //если не получилочь сконвертить
+			tmp.ChangeType( var.vt, NULL ); // if you don't get it, convert it
 		}
 		catch(...)
 		{	
@@ -365,12 +357,12 @@ bool CComboBoxTreeItemPropertieTreeItem::KillEditor()
 	}
 	return bKilleditor;
 }
-//---------------------------------------------------------------------------------------------
-//																	FileChosePropertieTreeItem
-//---------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------
+// FileChosePropertieTreeItem
+// -------------------------------------------------------------------------------
 bool CFileChosePropertieTreeItem::BuildEditor( HTREEITEM *item , CMultiTree *treePtr)
 {
-	CFileDialog dlg( true );//. dlg( "Select Directory" );
+	CFileDialog dlg( true );// . 
 	CString str;
 	if ( dlg.DoModal() == IDOK )
 	{
@@ -382,7 +374,7 @@ bool CFileChosePropertieTreeItem::BuildEditor( HTREEITEM *item , CMultiTree *tre
 		var = var_t;
 		try
 		{
-			tmp.ChangeType( var.vt, NULL) ; //если не получилочь сконвертить
+			tmp.ChangeType( var.vt, NULL) ; // if you don't get it, convert it
 		}
 		catch(...)
 		{	
@@ -397,12 +389,12 @@ bool CFileChosePropertieTreeItem::KillEditor()
 {
 	return false;
 }
-//---------------------------------------------------------------------------------------------
-//																	FileChosePropertieTreeItem
-//---------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------
+// FileChosePropertieTreeItem
+// -------------------------------------------------------------------------------
 bool CDirChosePropertieTreeItem::BuildEditor( HTREEITEM *item , CMultiTree *treePtr)
 {
-	SECDirSelectDlg dlg;//. dlg( "Select Directory" );
+	SECDirSelectDlg dlg;// . 
 	CString str;
 	if ( dlg.DoModal() == IDOK )
 	{
@@ -414,7 +406,7 @@ bool CDirChosePropertieTreeItem::BuildEditor( HTREEITEM *item , CMultiTree *tree
 		var = var_t;
 		try
 		{
-			tmp.ChangeType( var.vt, NULL) ; //если не получилочь сконвертить
+			tmp.ChangeType( var.vt, NULL) ; // if you don't get it, convert it
 		}
 		catch(...)
 		{	
@@ -428,33 +420,15 @@ bool CDirChosePropertieTreeItem::KillEditor()
 {
 	return false;
 }
-//---------------------------------------------------------------------------------------------
-//																	FileChosePropertieTreeItem
-//---------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------
+// FileChosePropertieTreeItem
+// -------------------------------------------------------------------------------
 bool CUnitsPropertieTreeItem::BuildEditor( HTREEITEM *item , CMultiTree *treePtr)
 {
 	COleVariant tmp;
 	m_pManipulator->SetValue( m_propName.c_str(),  tmp );			
 		
-	/*
-	SECDirSelectDlg dlg;//. dlg( "Select Directory" );
-	CString str;
-	if ( dlg.DoModal() == IDOK )
-	{
-		str = dlg.GetPathName(  );
-		COleVariant var,tmp;
-		tmp = str;
-		m_pManipulator->GetValue( m_propName.c_str(), &var );
-		try
-		{
-			tmp.ChangeType( var.vt, NULL) ; //если не получилочь сконвертить
-		}
-		catch(...)
-		{	
-		}	
-		m_pManipulator->SetValue( m_propName.c_str(), tmp );				
-
-	}*/
+	/* SECDirSelectDlg dlg;//.  */
 	return  false;
 }
 bool CUnitsPropertieTreeItem::KillEditor()

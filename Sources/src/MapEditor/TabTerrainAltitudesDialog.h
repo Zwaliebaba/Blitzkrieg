@@ -15,10 +15,10 @@ class CShadeEditorWnd : public CResizeDialog
 public:
 	enum LEVEL_TO
 	{
-		LEVEL_TO_0 = 0, //к нулю 
-		LEVEL_TO_1 = 1, //к выделенному тайлу
-		LEVEL_TO_2 = 2, //к мгновенной средней высое
-		LEVEL_TO_3 = 3, //к выделенной средней высоте
+		LEVEL_TO_0 = 0, // to zero
+		LEVEL_TO_1 = 1, // to the selected tile
+		LEVEL_TO_2 = 2, // to instantaneous average high
+		LEVEL_TO_3 = 3, // to the selected average height
 	};
 
 	SVAPattern m_currentPattern;
@@ -33,14 +33,14 @@ public:
 	void UpdateControls();
 	CShadeEditorWnd(CWnd* pParent = NULL);
 
-	//{{AFX_DATA(CShadeEditorWnd)
+	// {{AFX_DATA(CShadeEditorWnd)
 	enum { IDD = IDD_TAB_TERRAIN_ALTITUDES };
-	//}}AFX_DATA
+	// }}AFX_DATA
 
-	//{{AFX_VIRTUAL(CShadeEditorWnd)
+	// {{AFX_VIRTUAL(CShadeEditorWnd)
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);
-	//}}AFX_VIRTUAL
+	// }}AFX_VIRTUAL
 
 // Implementation
 
@@ -50,7 +50,7 @@ protected:
 	virtual std::string GetXMLOptionsLabel() { return "CShadeEditorWnd"; }
 
 	void CreateCurrentPattern();
-	//{{AFX_MSG(CShadeEditorWnd)
+	// {{AFX_MSG(CShadeEditorWnd)
 	virtual BOOL OnInitDialog();
 	afx_msg void OnReleasedcaptureShadeBrushSize(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnChangeShadeHeight();
@@ -72,9 +72,9 @@ protected:
 	afx_msg void OnShadeUpdateButton();
 	afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
 	afx_msg void OnDestroy();
-	//}}AFX_MSG
+	// }}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
 
-//{{AFX_INSERT_LOCATION}}
+// {{AFX_INSERT_LOCATION}}
 #endif // !defined(__Tabs__Terrain_Altitudes_Tab_Dialog__)

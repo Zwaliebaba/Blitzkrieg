@@ -5,7 +5,7 @@
 #pragma once
 #endif // _MSC_VER >= 1000
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CEditorWindowSingletonBase
 {
 protected:
@@ -21,7 +21,7 @@ public:
   };
 };
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CEditorWindowSingletonApp : public CEditorWindowSingletonBase
 {
 private:
@@ -36,7 +36,7 @@ public:
   void RemoveMapFile();
 };
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CEditorWindowSingletonChecker : public CEditorWindowSingletonBase
 {
 private:
@@ -46,5 +46,5 @@ public:
   bool BringAppOnTop() const;
 	bool OpenFileOnApp( const std::string &rszFilePath ) const;
 };
-//{{AFX_INSERT_LOCATION}}
+// {{AFX_INSERT_LOCATION}}
 #endif // !defined(__EDITOR_WINDOW_SINGLETON__)

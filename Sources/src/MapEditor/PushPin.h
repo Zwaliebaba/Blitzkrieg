@@ -4,27 +4,27 @@
 #define __PUSHPIN_H__
 
 
-////////////////////////////////// Classes ///////////////////////////////////
+// /////////////////////////////// Classes //////////////////////////////////
 
 class CPushPinButton : public CButton
 {
 public:
-//Constructors / Destructors
+// Constructors/Destructors
 	CPushPinButton();
 
-//General Methods
+// General Methods
 	BOOL Create(const RECT& rect, CWnd* pParentWnd, UINT nID);
 	void SetBitmapIDs(UINT uiCombnBmpID, BOOL b6Buttons = TRUE, CWnd* pWndMessageTo = NULL);
 
-//Pinning support
+// Pinning support
 	void SetPinned(BOOL bPinned);
 	BOOL IsPinned() const;
 
-//Should be called in response to system color changes
+// Should be called in response to system color changes
 	void ReloadBitmaps(); 
 
 protected:
-//Enums
+// Enums
   enum ButtonState
   {
 	  UNPINNED_NORMAL,
@@ -36,18 +36,18 @@ protected:
 	  MAX_BUTTON_INDEX,
   };
 
-  //{{AFX_MSG(CPushPinButton)
+  // {{AFX_MSG(CPushPinButton)
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 	afx_msg void OnCaptureChanged(CWnd *pWnd);
 	afx_msg LPARAM OnMouseLeave(WPARAM wParam, LPARAM lParam);
-	//}}AFX_MSG
+	// }}AFX_MSG
 
-  //{{AFX_VIRTUAL(CPushPinButton)
+  // {{AFX_VIRTUAL(CPushPinButton)
 	virtual void DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct);
 	virtual void PreSubclassWindow();
-	//}}AFX_VIRTUAL
+	// }}AFX_VIRTUAL
 
 	void SizeToContent();
 	void LoadBitmaps();
@@ -63,4 +63,4 @@ protected:
 	CBitmap     m_bmpCombined;
 };
 
-#endif //__PUSHPIN_H__
+#endif // __PUSHPIN_H__

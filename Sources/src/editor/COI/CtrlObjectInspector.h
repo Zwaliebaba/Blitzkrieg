@@ -24,7 +24,7 @@ const GroupID GroupDefault = -2;
 const int N_BORDER = 2;
 const int N_TEXT_BORDER = 3;
 
-// Domen type ID
+// Domain type ID
 enum
 {
 	DT_ERROR = 0,
@@ -38,7 +38,7 @@ enum
 	DT_COLOR,
 	DT_FLOAT,
 	
-	//Ссылки
+	// Links
 	DT_ANIMATION_REF,
 	DT_FUNC_PARTICLE_REF,
 	DT_EFFECT_REF,
@@ -71,9 +71,9 @@ struct SCOIProperties
 	CVariant varValue;
 	string  strName;
   bool    bReadOnly;
-  vector<string> szStrs;  // поля комбо-бокса
+  vector<string> szStrs;  // combo box fields
 };
-typedef std::map<PropID, SCOIProperties> CCOIPropMap; // хранить все свойства по ID
+typedef std::map<PropID, SCOIProperties> CCOIPropMap; // store all properties by ID
 typedef std::list<SCOIProperties*> CCOIPropPtrs;
 
 struct SCOIGroup
@@ -81,9 +81,9 @@ struct SCOIGroup
 	bool    isExpand;
 	bool    isVisible;
   bool    bRadioGroup;
-  PropID  iActiveProp;  // если это радио-группа, то здесь сохраняется текущий активный элемент
+  PropID  iActiveProp;  // if this is a radio group, then the current active element is stored here
 	CCOIPropPtrs aPorops;
-//	GroupID idGroup;
+// GroupID idGroup;
 	string strGroupName;
 	SCOIGroup() : isExpand(true), isVisible(true), strGroupName("Unnamed") {}
 };
@@ -98,14 +98,14 @@ struct SCOIPaintElem
 
 typedef std::vector<SCOIPaintElem> CCOIPaintElemVector;
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 
 struct SCOICustomListDomen
 {
 	CStlStringList aValueSet;
 };
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // CCtrlObjectInspector window
 
 class COIEdit;
@@ -135,11 +135,11 @@ private:
 
 	// Logic data
 	CCOIPropMap		m_mapProps;
-	CCOIGpoupMap	m_mapGroups;	// все группы
+	CCOIGpoupMap	m_mapGroups;	// all groups
 	CCOIPaintElemVector m_aPaintElems;
 
-	int m_nFirstElem;	// первая строчка которая видна на экране из m_aPaintElems
-	int	m_nCurVirtualLine; // текущий выбранный элемент из m_aPaintElems
+	int m_nFirstElem;	// the first line that is visible on the screen from m_aPaintElems
+	int	m_nCurVirtualLine; // currently selected element from m_aPaintElems
 	int m_nCurGroup;
 	bool bDraggingSplitter;
 
@@ -158,7 +158,7 @@ private:
 	void DrawPlus( CDC* pDC, int nLine, bool isPlus );
 
 	CRect	GetPlusRect( int nPaintLine ) const	{ int nSideSize = ( m_nLineHeight / 4 ); return CRect( nSideSize, nSideSize + nPaintLine * m_nLineHeight, m_nLineHeight - nSideSize, (nPaintLine+1) * m_nLineHeight - nSideSize ); }
-//	int		GetPaintLineCount() const			{ return ( m_sizeClient.cy - N_BORDER * 2 ) / m_nLineHeight + 1; }	// Количество линий которое умещается в окне
+// int GetPaintLineCount() const { return ( m_sizeClient.cy - N_BORDER * 2 ) / m_nLineHeight + 1; 
 	int		GetPaintLine( const CPoint &point ) const { return ( point.y / m_nLineHeight ); } // 0 - if then click on caption
 	int		GetCol( const CPoint &point ) const { return point.x > m_nSplitterPos; }
 	int		GetLineCount() const				{ return m_sizeClient.cy / m_nLineHeight - 1; }
@@ -178,7 +178,7 @@ public:
 	// General operations
 	void ClearAll();
 	
-	// Domen operation
+	// Domain operation
 	// nNewDomenID must DT_CUSTOM + Number
 	void AddCustomDomen( PropID idNewDomen, int eBaseDomenType );
 	void AddCustomListDomen( PropID idNewDomen, int eBaseDomenType, CStlStringList );
@@ -197,7 +197,7 @@ public:
   PropID GetActiveProp( int nGroupID );
 	void   SetActiveProp( PropID nID );
 
-	PropID GetMyActiveProp();		//RR
+	PropID GetMyActiveProp();		// R.R.
 	
 	// Events
 	virtual void OnPropertiesChangeOK( PropID idProp, const CVariant &var ) {}
@@ -205,12 +205,12 @@ public:
 
 // Overrides
 	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CCtrlObjectInspector)
+	// {{AFX_VIRTUAL(CCtrlObjectInspector)
 	public:
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
 	protected:
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
-	//}}AFX_VIRTUAL
+	// }}AFX_VIRTUAL
 
 // Implementation
 public:
@@ -218,7 +218,7 @@ public:
 
 	// Generated message map functions
 protected:
-	//{{AFX_MSG(CCtrlObjectInspector)
+	// {{AFX_MSG(CCtrlObjectInspector)
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnPaint();
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
@@ -229,13 +229,13 @@ protected:
 	afx_msg void OnKillFocus(CWnd* pNewWnd);
 	afx_msg void OnSetFocus(CWnd* pOldWnd);
 	afx_msg void OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
-	//}}AFX_MSG
+	// }}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 
-//{{AFX_INSERT_LOCATION}}
+// {{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
 
 #endif // !defined(AFX_CTRLOBJECTINSPECTOR_H__A6751B03_5DCC_4993_8D98_89E650E73626__INCLUDED_)

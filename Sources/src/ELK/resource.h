@@ -1,4 +1,4 @@
-//{{NO_DEPENDENCIES}}
+// {{NO_DEPENDENCIES}}
 // Microsoft Developer Studio generated include file.
 // Used by ELK.rc
 //
@@ -237,7 +237,7 @@
 #define IDS_REGISTRY_FONT_NAME          61279
 #define IDS_FONT_SIZE_DIMENSIONS_FORMAT 61280
 
-// Next default values for new objects
+// Next default values ​​for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS

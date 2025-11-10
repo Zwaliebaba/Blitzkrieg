@@ -2,110 +2,103 @@
 
 #include "SwitchToNextChapter.h"
 #include "CommonId.h"
-#include "..\Main\GameStats.h"
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-static const NInput::SRegisterCommandEntry commands[] = 
+#include "../Main/GameStats.h"
+
+static constexpr NInput::SRegisterCommandEntry commands[] =
 {
-	{ "inter_ok"				,	IMC_OK				},
-	{ "inter_cancel"		, IMC_CANCEL		},
-	{ 0									,	0							}
+    {"inter_ok", IMC_OK},
+    {"inter_cancel", IMC_CANCEL},
+    {nullptr, 0}
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-static const NInput::SRegisterCommandEntry commands1[] = 
+
+static constexpr NInput::SRegisterCommandEntry commands1[] =
 {
-	{ "inter_ok"				,	IMC_OK				},
-	{ "inter_cancel"		, IMC_OK				},
-	{ 0									,	0							}
+    {"inter_ok", IMC_OK},
+    {"inter_cancel", IMC_OK},
+    {nullptr, 0}
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-CInterfaceNextChapter::CInterfaceNextChapter() : CInterfaceInterMission( "InterMission" )
-{
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-CInterfaceNextChapter::~CInterfaceNextChapter()
-{
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+CInterfaceNextChapter::CInterfaceNextChapter() : CInterfaceInterMission("InterMission") {}
+
+CInterfaceNextChapter::~CInterfaceNextChapter() {}
+
 bool CInterfaceNextChapter::Init()
 {
-	CInterfaceInterMission::Init();
-	return true;
+  CInterfaceInterMission::Init();
+  return true;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CInterfaceNextChapter::StartInterface()
 {
-	CInterfaceInterMission::StartInterface();
-	pUIScreen = CreateObject<IUIScreen>( UI_SCREEN );
-	
-	
-	std::string szChapterName = GetGlobalVar( "Chapter.Current.Name" );
-	//загружаем информацию о чаптере
-	const SChapterStats *pStats = NGDB::GetGameStats<SChapterStats>( szChapterName.c_str(), IObjectsDB::CHAPTER );
+  CInterfaceInterMission::StartInterface();
+  pUIScreen = CreateObject<IUIScreen>(UI_SCREEN);
 
-	bool bTemplateExists = false;
-	// check if there is random mission ( if only scenario then do not allow stay in chapter )
-	for ( int i = 0; i < pStats->missions.size(); ++i )
-	{
-		if ( pStats->missions[i].pMission->IsTemplate() )
-		{
-			bTemplateExists = true;
-			break;
-		}
-	}
+  std::string szChapterName = GetGlobalVar("Chapter.Current.Name");
+  // loading information about the chapter
+  const SChapterStats *pStats = NGDB::GetGameStats<SChapterStats>(szChapterName.c_str(), IObjectsDB::CHAPTER);
 
-	bAllowStay = bTemplateExists;
-	if ( bTemplateExists ) // allow stay in current chapter.
-	{
-		commandMsgs.Init( pInput, commands );
-		pUIScreen->Load( "ui\\Popup\\NextChapter" );
-	}
-	else
-	{
-		commandMsgs.Init( pInput, commands1 );
-		pUIScreen->Load( "ui\\Popup\\NextChapterNoStay" );
-	}
-	
-	pUIScreen->Reposition( pGFX->GetScreenRect() );
-	pScene->AddUIScreen( pUIScreen );
+  bool bTemplateExists = false;
+  // check if there is random mission ( if only scenario then do not allow stay in chapter )
+  for (int i = 0; i < pStats->missions.size(); ++i)
+  {
+    if (pStats->missions[i].pMission->IsTemplate())
+    {
+      bTemplateExists = true;
+      break;
+    }
+  }
+
+  bAllowStay = bTemplateExists;
+  if (bTemplateExists)// allow stay in current chapter.
+  {
+    commandMsgs.Init(pInput, commands);
+    pUIScreen->Load("ui\\Popup\\NextChapter");
+  }
+  else
+  {
+    commandMsgs.Init(pInput, commands1);
+    pUIScreen->Load("ui\\Popup\\NextChapterNoStay");
+  }
+
+  pUIScreen->Reposition(pGFX->GetScreenRect());
+  pScene->AddUIScreen(pUIScreen);
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool CInterfaceNextChapter::ProcessMessage( const SGameMessage &msg )
+
+bool CInterfaceNextChapter::ProcessMessage(const SGameMessage &msg)
 {
-	if ( CInterfaceInterMission::ProcessMessage( msg ) )
-		return true;
-	
-	switch ( msg.nEventID )
-	{
-		case IMC_CANCEL:
-			if ( bAllowStay )
-			{
-				CloseInterface();
-				return true;
-			}
-			// no break - OK
-		case IMC_OK:
-		{
-			//установим global var, что текущий чаптер уже пройден
-			std::string szChapterName = GetGlobalVar( "Chapter.Current.Name", "" );
-			NI_ASSERT_T( szChapterName.size() > 0, "There is no global var Chapter.Current.Name" );
-			std::string szVarName = "Chapter." + szChapterName + ".Status";
-			SetGlobalVar( szVarName.c_str(), 2 );
+  if (CInterfaceInterMission::ProcessMessage(msg)) return true;
 
-			//—меним глобальную переменную нового чаптера
-			szVarName = "Chapter.New.Available";
-			std::string szNewChapter = GetGlobalVar( szVarName.c_str(), "" );
-			NI_ASSERT_T( szNewChapter.size() > 0, "New chapter name is empty" );
-			SetGlobalVar( "Chapter.Current.Name", szNewChapter.c_str() );
-			RemoveGlobalVar( szVarName.c_str() );
-			SetGlobalVar( "NextChapter.Confirmed", 1 );
-			RemoveGlobalVar( "Mission.Last.FinishStatus" );
+  switch (msg.nEventID)
+  {
+    case IMC_CANCEL:
+      if (bAllowStay)
+      {
+        CloseInterface();
+        return true;
+      }
+    // no break - OK
+    case IMC_OK:
+    {
+      // set global var to indicate that the current chapter has already been passed
+      std::string szChapterName = GetGlobalVar("Chapter.Current.Name", "");
+      NI_ASSERT_T(szChapterName.size() > 0, "There is no global var Chapter.Current.Name");
+      std::string szVarName = "Chapter." + szChapterName + ".Status";
+      SetGlobalVar(szVarName.c_str(), 2);
 
-			CloseInterface();
-			return true;
-		}
-	}
-	
-	//
-	return false;
+      // — change the global variable of the new chapter
+      szVarName = "Chapter.New.Available";
+      std::string szNewChapter = GetGlobalVar(szVarName.c_str(), "");
+      NI_ASSERT_T(szNewChapter.size() > 0, "New chapter name is empty");
+      SetGlobalVar("Chapter.Current.Name", szNewChapter.c_str());
+      RemoveGlobalVar(szVarName.c_str());
+      SetGlobalVar("NextChapter.Confirmed", 1);
+      RemoveGlobalVar("Mission.Last.FinishStatus");
+
+      CloseInterface();
+      return true;
+    }
+  }
+
+  //
+  return false;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

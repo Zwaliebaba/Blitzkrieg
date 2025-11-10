@@ -25,9 +25,9 @@ public:
 
 // Overrides
 	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CMineFrame)
+	// {{AFX_VIRTUAL(CMineFrame)
 protected:
-	//}}AFX_VIRTUAL
+	// }}AFX_VIRTUAL
 
 // Implementation
 private:
@@ -43,15 +43,15 @@ protected:
 
 // Generated message map functions
 protected:
-	//{{AFX_MSG(CMineFrame)
+	// {{AFX_MSG(CMineFrame)
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
-	//}}AFX_MSG
+	// }}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 
-//{{AFX_INSERT_LOCATION}}
+// {{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
 
-#endif		//__MINEFRM_H__
+#endif		// __MINEFRM_H__

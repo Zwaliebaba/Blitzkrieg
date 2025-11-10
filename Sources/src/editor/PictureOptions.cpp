@@ -11,23 +11,23 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-/////////////////////////////////////////////////////////////////////////////
+// //
 // CPictureOptions dialog
 
 
-CPictureOptions::CPictureOptions(CWnd* pParent /*=NULL*/)
+CPictureOptions::CPictureOptions(CWnd* pParent /* =NULL */)
 	: CDialog(CPictureOptions::IDD, pParent)
 {
-	//{{AFX_DATA_INIT(CPictureOptions)
+	// {{AFX_DATA_INIT(CPictureOptions)
 	m_CurrentProjectCheck = FALSE;
-	//}}AFX_DATA_INIT
+	// }}AFX_DATA_INIT
 }
 
 
 void CPictureOptions::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(CPictureOptions)
+	// {{AFX_DATA_MAP(CPictureOptions)
 	DDX_Control(pDX, IDC_RIGHT_IMAGE, m_rightImage);
 	DDX_Control(pDX, IDC_LEFT_IMAGE, m_leftImage);
 	DDX_Control(pDX, IDC_CONTRAST, m_contrastSlider);
@@ -37,12 +37,12 @@ void CPictureOptions::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_EDIT_CONTRAST, m_editContrast);
 	DDX_Control(pDX, IDC_EDIT_BRIGHTNESS, m_editBrightness);
 	DDX_Check(pDX, IDC_CONFIG_FOR_CURRENT_PROJECT_ONLY, m_CurrentProjectCheck);
-	//}}AFX_DATA_MAP
+	// }}AFX_DATA_MAP
 }
 
 
 BEGIN_MESSAGE_MAP(CPictureOptions, CDialog)
-//{{AFX_MSG_MAP(CPictureOptions)
+// {{AFX_MSG_MAP(CPictureOptions)
 ON_BN_CLICKED(IDAPPLY, OnApply)
 ON_EN_CHANGE(IDC_EDIT_CONTRAST, OnChangeEditContrast)
 	ON_EN_CHANGE(IDC_EDIT_BRIGHTNESS, OnChangeEditBrightness)
@@ -50,10 +50,10 @@ ON_EN_CHANGE(IDC_EDIT_CONTRAST, OnChangeEditContrast)
 	ON_NOTIFY(NM_RELEASEDCAPTURE, IDC_CONTRAST, OnReleasedcaptureContrast)
 	ON_NOTIFY(NM_RELEASEDCAPTURE, IDC_BRIGHTNESS, OnReleasedcaptureBrightness)
 	ON_NOTIFY(NM_RELEASEDCAPTURE, IDC_GAMMA, OnReleasedcaptureGamma)
-	//}}AFX_MSG_MAP
+	// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-/////////////////////////////////////////////////////////////////////////////
+// //
 // CPictureOptions message handlers
 
 void CPictureOptions::OnApply() 
@@ -89,57 +89,18 @@ BOOL CPictureOptions::OnInitDialog()
 	m_rightImage.LoadBitmap( szName.c_str(), "" );
 	EndWaitCursor();
 
-//	UpdateData( TRUE );
+// UpdateData(TRUE);
 	m_brightnessSlider.SetPos( fBrightness*1000 + 1000 );
 	m_contrastSlider.SetPos( fContrast*1000 + 1000 );
 	m_gammaSlider.SetPos( fGamma*1000 + 1000 );
-//	UpdateData( TRUE );
+// UpdateData(TRUE);
 	
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE
 }
 
-/*
-BOOL CPictureOptions::PreTranslateMessage(MSG* pMsg) 
-{
-	if ( ( pMsg->message == WM_KEYDOWN ) && ( pMsg->wParam == VK_RETURN ) )
-	{
-//		OnEnterPressed();  // вызов диспетчера нажатия Enter
-		CWnd *pWnd = GetFocus();
-		if ( pWnd == &m_editGamma )
-		{
-			CString szVal;
-			m_editGamma.GetWindowText( szVal );
-			fGamma = atof( szVal );
-			m_gammaSlider.SetPos( fGamma * 1000 );
-			UpdateData( TRUE );
-			return TRUE;       // запрет дальнейшей обработки
-		}
-
-		if ( pWnd == &m_editContrast )
-		{
-			CString szVal;
-			m_editContrast.GetWindowText( szVal );
-			fContrast = atof( szVal );
-			m_contrastSlider.SetPos( fContrast * 1000 );
-			UpdateData( TRUE );
-			return TRUE;       // запрет дальнейшей обработки
-		}
-		
-		if ( pWnd == &m_editBrightness )
-		{
-			CString szVal;
-			m_editBrightness.GetWindowText( szVal );
-			fBrightness = atof( szVal );
-			m_brightnessSlider.SetPos( fBrightness * 1000 );
-			UpdateData( TRUE );
-			return TRUE;       // запрет дальнейшей обработки
-		}
-	}
-	
-	return CDialog::PreTranslateMessage(pMsg);
-}
-*/
+/* BOOL CPictureOptions::PreTranslateMessage(MSG* pMsg) 
+ */
 
 void CPictureOptions::OnChangeEditContrast() 
 {

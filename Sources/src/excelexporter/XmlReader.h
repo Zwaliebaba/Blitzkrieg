@@ -9,7 +9,7 @@ typedef vector< CXMLValue > CXMLValuesVector;
 
 struct SXMLValue
 {
-	bool bString;			//если 0 то number если 1 то string
+	bool bString;			// if 0 then number if 1 then string
 	string szName;
 	string szVal;
 	
@@ -52,4 +52,4 @@ public:
 	bool SaveRPGInformationToXML( const char *pszFileName, const CXMLValuesVector &valuesVector, const char *pszNodeName );
 };
 
-#endif		//__XML_READER_H__
+#endif		// __XML_READER_H__

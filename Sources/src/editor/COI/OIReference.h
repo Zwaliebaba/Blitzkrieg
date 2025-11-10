@@ -9,7 +9,7 @@
 
 class COIReferenceEdit;
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 
 class COIReferenceButton : public CButton
 {
@@ -21,8 +21,8 @@ public:
   BOOL Create();
   
 protected:
-  //{{AFX_MSG(COIReferenceButton)
-  //}}AFX_MSG
+  // {{AFX_MSG(COIReferenceButton)
+  // }}AFX_MSG
   DECLARE_MESSAGE_MAP()
     
 protected:
@@ -41,7 +41,7 @@ protected:
   UINT m_uiID;  
 };
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 
 class COIReferenceEdit : public CWnd
 {
@@ -75,20 +75,20 @@ protected:
 
 	virtual BOOL PreTranslateMessage( MSG* pMsg );
 
-	//{{AFX_MSG(COIReferenceEdit)  
+	// {{AFX_MSG(COIReferenceEdit)
 	afx_msg void OnEnable(BOOL bEnable);
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg void OnShowWindow(BOOL bShow, UINT nStatus);
-	//}}AFX_MSG
+	// }}AFX_MSG
 
 	DECLARE_MESSAGE_MAP()
 
 };
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 
-//{{AFX_INSERT_LOCATION}}
+// {{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
 
 #endif // __OI_REFERENCE_EDIT_H__

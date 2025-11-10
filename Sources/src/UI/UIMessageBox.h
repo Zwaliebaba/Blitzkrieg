@@ -6,39 +6,39 @@
 
 class CUIMessageBox : public CMultipleWindow
 {
-	DECLARE_SERIALIZE;
+  DECLARE_SERIALIZE;
 
-	CUIButton *pOK;				//инициализируется во время загрузки и используется для ускорения доступа к компонентам
-	CUIButton *pCancel;
-	CUIStatic *pText;
-	int m_nResult;
-	int m_nType;
-	
+  CUIButton *pOK;// initialized at boot time and used to speed up access to components
+  CUIButton *pCancel;
+  CUIStatic *pText;
+  int m_nResult;
+  int m_nType;
+
 public:
-	CUIMessageBox() : pOK( 0 ), pCancel( 0 ), pText( 0 ), m_nResult( 0 ), m_nType( 0 ) {}
-	virtual ~CUIMessageBox() {}
-	
-	virtual void STDCALL ShowWindow( int _nCmdShow );
-	virtual bool STDCALL ProcessMessage( const SUIMessage &msg );
-	
-	// serializing...
-	virtual int STDCALL operator&( IDataTree &ss );
-	
-	void SetMessageBoxType( int nType );
-	virtual void STDCALL SetWindowText( int nState, const WORD *pszText );
-	
-	int GetResult() { return m_nResult; }
+  CUIMessageBox() : pOK(nullptr), pCancel(nullptr), pText(nullptr), m_nResult(0), m_nType(0) {}
+  ~CUIMessageBox() override {}
+
+  void STDCALL ShowWindow(int _nCmdShow) override;
+  bool STDCALL ProcessMessage(const SUIMessage &msg) override;
+
+  // serializing...
+  int STDCALL operator&(IDataTree &ss) override;
+
+  void SetMessageBoxType(int nType);
+  void STDCALL SetWindowText(int nState, const WORD *pszText) override;
+
+  int GetResult() { return m_nResult; }
 };
 
 class CUIMessageBoxBridge : public IUIContainer, public CUIMessageBox
 {
-	OBJECT_NORMAL_METHODS( CUIMessageBoxBridge );
-	DECLARE_SUPER( CUIMessageBox );
+  OBJECT_NORMAL_METHODS(CUIMessageBoxBridge);
+  DECLARE_SUPER(CUIMessageBox);
 
 public:
-	DEFINE_UICONTAINER_BRIDGE;
-	virtual void STDCALL SetMessageBoxType( int nType ) { CSuper::SetMessageBoxType( nType ); }
-	virtual int STDCALL GetResult() { return CSuper::GetResult(); }
+  DEFINE_UICONTAINER_BRIDGE;
+  virtual void STDCALL SetMessageBoxType(int nType) { CSuper::SetMessageBoxType(nType); }
+  virtual int STDCALL GetResult() { return CSuper::GetResult(); }
 };
 
-#endif		//__UI_MESSAGE_BOX_H__
+#endif		// __UI_MESSAGE_BOX_H__

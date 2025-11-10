@@ -1,114 +1,133 @@
 #ifndef __RESISTANCE_H__
 #define __RESISTANCE_H__
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma ONCE
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ///////////////////////////////////////////////////////////// 
+#pragma once
+// ///////////////////////////////////////////////////////////// 
 //
-// очаги сопротивления
+// pockets of resistance
 struct SResistance
 {
 private:
-	int nCellNumber;
-	int nWeight;
+  int nCellNumber;
+  int nWeight;
+
 public:
-	SResistance() { Clear(); }
-	SResistance( const int _nCellNumber, const float fWeight ) 
-		: nCellNumber( _nCellNumber ), nWeight( fWeight * 100 ) { }
+  SResistance() { Clear(); }
 
-	void Clear(){ nCellNumber = -1; nWeight = -1.0f; }
-	const float GetWeight() const { return (float)nWeight / 100.0f; }
-	const bool IsInitted() const { return nWeight != -1; }
-	const int GetCellNumber() const { return nCellNumber; }
-	const CVec2 GetResistanceCellCenter() const { return GetResistanceCellCenter( nCellNumber ); }
+  SResistance(const int _nCellNumber, const float fWeight)
+    : nCellNumber(_nCellNumber), nWeight(fWeight * 100) {}
 
-	static const CVec2 GetResistanceCellCenter( const int nCell );
+  void Clear()
+  {
+    nCellNumber = -1;
+    nWeight = -1.0f;
+  }
 
-	int operator&( IStructureSaver &ss )
-	{
-		CSaverAccessor saver = &ss;
+  const float GetWeight() const { return static_cast<float>(nWeight) / 100.0f; }
+  const bool IsInitted() const { return nWeight != -1; }
+  const int GetCellNumber() const { return nCellNumber; }
+  const CVec2 GetResistanceCellCenter() const { return GetResistanceCellCenter(nCellNumber); }
 
-		saver.Add( 1, &nCellNumber );
-		saver.Add( 2, &nWeight );
+  static const CVec2 GetResistanceCellCenter(int nCell);
 
-		return 0;
-	}
+  int operator&(IStructureSaver &ss)
+  {
+    CSaverAccessor saver = &ss;
+
+    saver.Add(1, &nCellNumber);
+    saver.Add(2, &nWeight);
+
+    return 0;
+  }
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// ///////////////////////////////////////////////////////////// 
 struct SResistanceCmp
 {
-	bool operator()( const SResistance &r1, const SResistance &r2 ) const
-	{
-		return r1.GetWeight() > r2.GetWeight();
-	}
+  bool operator()(const SResistance &r1, const SResistance &r2) const { return r1.GetWeight() > r2.GetWeight(); }
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-typedef std::set<SResistance, SResistanceCmp> CResistance;
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// ///////////////////////////////////////////////////////////// 
+using CResistance = std::set<SResistance, SResistanceCmp>;
+
+// ///////////////////////////////////////////////////////////// 
 class CResistancesContainer
 {
-	DECLARE_SERIALIZE;
-	
-	CResistance resistances;
+  DECLARE_SERIALIZE;
 
-	struct SSellInfo
-	{
-		float fCellWeight;									// net weight for this cell
-		bool bInUse;												// this cell is being attacked
-		bool bAllowShoot;										// shooting to the cell is allowed
+  CResistance resistances;
 
-		SSellInfo() : fCellWeight( 0.0f ), bInUse( false ), bAllowShoot( true ) { }
-		SSellInfo( const float _fCellWeight, const bool _bInUse, const bool _bAllowShoot ) : fCellWeight( _fCellWeight ), bInUse( _bInUse ), bAllowShoot( _bAllowShoot ) { }
-	};
+  struct SSellInfo
+  {
+    float fCellWeight;// net weight for this cell
+    bool bInUse;// this cell is being attacked
+    bool bAllowShoot;// shooting to the cell is allowed
 
-	typedef std::hash_map<int, SSellInfo> CCellsWeights;
-	CCellsWeights cellsWeights;
-	std::list<CCircle> excluded;				// general will not shoot to these circles
+    SSellInfo() : fCellWeight(0.0f), bInUse(false), bAllowShoot(true) {}
+    SSellInfo(const float _fCellWeight, const bool _bInUse, const bool _bAllowShoot) : fCellWeight(_fCellWeight), bInUse(_bInUse), bAllowShoot(_bAllowShoot) {}
+  };
 
-	class CIter
-	{
-		CResistance::iterator iter;
-		CResistancesContainer *pContainter;
+  using CCellsWeights = std::hash_map<int, SSellInfo>;
+  CCellsWeights cellsWeights;
+  std::list<CCircle> excluded;// general will not shoot to these circles
 
-		CIter() { }
-		void IterateToNotInUse();
-	public:
-		CIter( CResistancesContainer *_pContainter, CResistance::iterator _iter )
-			: pContainter( _pContainter ), iter( _iter ) { IterateToNotInUse(); }
+  class CIter
+  {
+    CResistance::iterator iter;
+    CResistancesContainer *pContainter;
 
-		void Iterate();
-		bool IsFinished() const { return iter == pContainter->resistances.end(); }
-		const SResistance& operator*() const { NI_ASSERT_T( !IsFinished(), "Can't call operator *" ); return *iter;	}
-	};
+    CIter() {}
+    void IterateToNotInUse();
 
-	const int GetResistanceCellNumber( const CVec2 &vPos );
-	bool IsCellExcluded( const CVec2 &vCellCenter );
+  public:
+    CIter(CResistancesContainer *_pContainter, CResistance::iterator _iter)
+      : iter(_iter), pContainter(_pContainter) { IterateToNotInUse(); }
 
-	void AddCell( const int nCell, const SSellInfo &cell );
+    void Iterate();
+    bool IsFinished() const { return iter == pContainter->resistances.end(); }
+
+    const SResistance &operator*() const
+    {
+      NI_ASSERT_T(!IsFinished(), "Can't call operator *");
+      return *iter;
+    }
+  };
+
+  const int GetResistanceCellNumber(const CVec2 &vPos);
+  bool IsCellExcluded(const CVec2 &vCellCenter);
+
+  void AddCell(int nCell, const SSellInfo &cell);
+
 public:
-	CResistancesContainer() { }
+  CResistancesContainer() {}
 
-	void Clear() { resistances.clear(); cellsWeights.clear(); }
+  void Clear()
+  {
+    resistances.clear();
+    cellsWeights.clear();
+  }
 
-	void UpdateEnemyUnitInfo( class CAIUnitInfoForGeneral *pInfo,
-			const NTimer::STime lastVisibleTimeDelta, const CVec2 &vLastVisiblePos,
-			const NTimer::STime lastAntiArtTimeDelta, const CVec2 &vLastVisibleAntiArtCenter, const float fDistToLastVisibleAntiArt );			
+  void UpdateEnemyUnitInfo(class CAIUnitInfoForGeneral *pInfo,
+                           NTimer::STime lastVisibleTimeDelta, const CVec2 &vLastVisiblePos,
+                           NTimer::STime lastAntiArtTimeDelta, const CVec2 &vLastVisibleAntiArtCenter, float fDistToLastVisibleAntiArt);
 
-	void UnitDied( CAIUnitInfoForGeneral *pInfo );
-	void UnitChangedParty( CAIUnitInfoForGeneral *pInfo );
+  void UnitDied(CAIUnitInfoForGeneral *pInfo);
+  void UnitChangedParty(CAIUnitInfoForGeneral *pInfo);
 
-	bool IsEmpty() const { return resistances.empty(); }
+  bool IsEmpty() const { return resistances.empty(); }
 
-	void SetCellInUse( const int nResistanceCellNumber, bool bInUse );
-	bool IsInUse( const int nResistanceCellNumber );
+  void SetCellInUse(int nResistanceCellNumber, bool bInUse);
+  bool IsInUse(int nResistanceCellNumber);
 
-	void RemoveExcluded( const CVec2 &vCenter );
-	void AddExcluded( const CVec2 &vCenter, const float fRadius );
-	bool IsInResistanceCircle( const CVec2 &vCenter ) const;
+  void RemoveExcluded(const CVec2 &vCenter);
+  void AddExcluded(const CVec2 &vCenter, float fRadius);
+  bool IsInResistanceCircle(const CVec2 &vCenter) const;
 
-	typedef CIter iterator;
-	friend class CIter;
+  using iterator = CIter;
+  friend class CIter;
 
-	iterator begin() { return CIter( this, resistances.begin() ); }
+  iterator begin() { return CIter(this, resistances.begin()); }
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// ///////////////////////////////////////////////////////////// 
 #endif // __RESISTANCE_H__

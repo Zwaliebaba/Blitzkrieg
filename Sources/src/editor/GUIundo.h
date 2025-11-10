@@ -25,4 +25,4 @@ public:
 };
 
 
-#endif		//__GUI_UNDO_H__
+#endif		// __GUI_UNDO_H__

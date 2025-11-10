@@ -11,7 +11,7 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-/////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////
 // CRoadEditorWnd
 
 CRoadEditorWnd::CRoadEditorWnd()
@@ -24,15 +24,15 @@ CRoadEditorWnd::~CRoadEditorWnd()
 
 
 BEGIN_MESSAGE_MAP(CRoadEditorWnd, CWnd)
-	//{{AFX_MSG_MAP(CRoadEditorWnd)
+	// {{AFX_MSG_MAP(CRoadEditorWnd)
 	ON_WM_CREATE()
 	ON_WM_SIZE()
 	ON_WM_PAINT()
-	//}}AFX_MSG_MAP
+	// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 
-/////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////
 // CRoadEditorWnd message handlers
 
 BOOL CRoadEditorWnd::Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID, CCreateContext* pContext) 

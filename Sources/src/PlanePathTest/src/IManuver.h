@@ -5,23 +5,21 @@
 
 
 extern float g;
-/**
- * у кажддого маневра есть ID.
- * @interface
- */
+/* *
+  */
 interface IManuver : public IRefCount
 {
 	// world position
 	virtual CVec3 STDCALL GetPos() const = 0;
-	// plane speed 
+	// plane speed
 	virtual CVec3 STDCALL GetSpeed() const = 0;
 	// plane's top direction
 	virtual CVec3 STDCALL GetNormale() const = 0;
 	// preferred top direction
 	virtual CVec3 STDCALL GetTopDirection() const = 0;
 
-	// advance plane according it's speed 
-	//return true if manuver is finished.
+	// advance plane according to it's speed
+	// return true if manuver is finished.
 	virtual bool STDCALL Advance( const NTimer::STime timeDiff ) = 0;
 
 	// PREDICTION
@@ -32,8 +30,8 @@ interface IManuver : public IRefCount
 	virtual void Init( const enum EManuverDestination dest, interface IPlane *pPlane, interface IPlane *pEnemy = 0 ) { NI_ASSERT_T(false,"WRONG CALL");}
 
 
-	//CRAP{ FOR TEST
+	// CRAP{ FOR TEST
 	virtual const CVec3 STDCALL GetEndPoint() const = 0;
-	//CRAP}
+	// CRAP}
 };
-#endif //IMANUVER_H
+#endif // IMANUVER_H

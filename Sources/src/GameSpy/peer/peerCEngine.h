@@ -1,86 +1,75 @@
-/*
-GameSpy Peer SDK 
-Dan "Mr. Pants" Schoenblum
-dan@gamespy.com
-
-Copyright 1999-2001 GameSpy Industries, Inc
-
-18002 Skypark Circle
-Irvine, California 92614
-949.798.4200 (Tel)
-949.798.4299 (Fax)
-devsupport@gamespy.com
-*/
+/* GameSpy Peer SDK 
+ */
 
 #ifndef _PEERCENGINE_H_
 #define _PEERCENGINE_H_
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
+
 #endif
 
-/*************
-** INCLUDES **
-*************/
+/* ************
+ */
 #include "peerMain.h"
 
-/**************
-** FUNCTIONS **
-**************/
+/* *************
+ */
 PEERBool piCEngineInit
 (
-	PEER peer
-);
+    PEER peer
+    );
 
 void piCEngineCleanup
 (
-	PEER peer
-);
+    PEER peer
+    );
 
 PEERBool piCEngineStartListingGames
 (
-	PEER peer,
-	const char * filter
-);
+    PEER peer,
+    const char *filter
+    );
 
 void piCEngineStopListingGames
 (
-	PEER peer
-);
+    PEER peer
+    );
 
 void piListingGamesChannelMessage
 (
-	CHAT chat,
-	const char * channel,
-	const char * user,
-	const char * message,
-	int type,
-	PEER peer
-);
+    CHAT chat,
+    const char *channel,
+    const char *user,
+    const char *message,
+    int type,
+    PEER peer
+    );
 
 void piListingGamesChannelKicked
 (
-	CHAT chat,
-	const char * channel,
-	const char * user,
-	const char * reason,
-	PEER peer
-);
+    CHAT chat,
+    const char *channel,
+    const char *user,
+    const char *reason,
+    PEER peer
+    );
 
 PEERBool piCEngineStartListingGroups
 (
-	PEER peer
-);
+    PEER peer
+    );
 
 void piCEngineStopListingGroups
 (
-	PEER peer
-);
+    PEER peer
+    );
 
 void piCEngineThink
 (
-	PEER peer
-);
+    PEER peer
+    );
 
 #ifdef __cplusplus
 }

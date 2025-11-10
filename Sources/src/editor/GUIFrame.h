@@ -31,11 +31,11 @@ public:
 
 // Operations
 public:
-	virtual void Init( IGFX *_pGFX );			//ининциализация
+	virtual void Init( IGFX *_pGFX );			// initialization
 	virtual void ShowFrameWindows( int nCommand );
 	virtual void GFXDraw();
 
-	BOOL Run();										//Вызывается из EditorApp OnIdle()
+	BOOL Run();										// Called from EditorApp OnIdle()
 	bool IsRunning() { return bRunning; }
 
 	void LoadSprites();
@@ -47,16 +47,16 @@ public:
 
 // Overrides
 	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CGUIFrame)
+	// {{AFX_VIRTUAL(CGUIFrame)
 	protected:
-	//}}AFX_VIRTUAL
+	// }}AFX_VIRTUAL
 
 // Implementation
 private:
-	// view for the client area of the frame.
+	// view for the client area of ​​the frame.
 	CPropertyDockBar *pPropertyDockBar;
 	CTemplatePropsTreeItem *pTemplatePropsItem;
-	bool bRunning;								//есть два состояния, редактирование и предварительный просмотр
+	bool bRunning;								// there are two states, editing and preview
 	
 	CObj<IUIScreen> m_pScreen;
 	CPtr<IUIContainer> m_pContainer;
@@ -74,7 +74,7 @@ private:
 		MODE_DRAG,
 		MODE_DRAW
 	};
-	enum EMode m_mode;						//текущий мод, определяет активное действие мышки, например перетаскивание объекта или рисование нового
+	enum EMode m_mode;						// current mod, determines the active action of the mouse, for example dragging an object or drawing a new one
 
 	CVec2 m_beginDrag;
 
@@ -90,30 +90,30 @@ private:
 		R_RIGHT_BOTTOM,
 		R_LEFT_BOTTOM
 	};
-	EResizeMode m_resizeMode;			//для определения направления resize
+	EResizeMode m_resizeMode;			// to determine the direction of resize
 
 	// undo/redo operations
 	typedef list< CPtr<IGUIUndo> > CUndoStack;
 	CUndoStack m_undoStack;
 	CPtr<IGUIUndo> pUnchanged;
 
-	//для Run Mode
-//	CVec2 vCursorPos;
+	// for Run Mode
+// CVec2 vCursorPos;
 	int mouseState;
 	NInput::CCommandRegistrator standardMsgs;
 	
 protected:
-	virtual BOOL SpecificTranslateMessage( MSG *pMsg );			//специфичная обработка сообщений для модуля
-	virtual void SpecificInit();														//для инициализации внутренних данных после загрузки проекта или создании нового
+	virtual BOOL SpecificTranslateMessage( MSG *pMsg );			// module-specific message processing
+	virtual void SpecificInit();														// to initialize internal data after loading a project or creating a new one
 	virtual void SpecificClearBeforeBatchMode();
-	virtual void SpecificSave( IDataTree *pDT );						//вызывается при записи проекта, нужно только в GUI composer
+	virtual void SpecificSave( IDataTree *pDT );						// called when writing a project, only needed in GUI composer
 
-	//экспортирует один проект, если все ОК, возвращает 0, иначе код ошибки
+	// exports one project, if everything is OK, returns 0, otherwise error code
 	virtual bool ExportFrameData( IDataTree *pDT, const char *pszProjectName, const char *pszResultFileName, CTreeItem *pRootItem );
-//	virtual FILETIME FindMaximalSourceTime( const char *pszProjectName, CTreeItem *pRootItem );
-//	virtual FILETIME FindMinimalExportFileTime( const char *pszResultFileName, CTreeItem *pRootItem );
+// virtual FILETIME FindMaximalSourceTime( const char *pszProjectName, CTreeItem *pRootItem );
+// virtual FILETIME FindMinimalExportFileTime( const char *pszResultFileName, CTreeItem *pRootItem );
 	
-	//GUI Module
+	// GUI Module
 	CTRect<float> GetElementRect( IUIElement *pElement );
 	void SetElementRect( IUIElement *pElement, const CTRect<float> &rc );
 	void GFXDrawFrame( const CTRect<float> &rc, DWORD color, float width );
@@ -125,7 +125,7 @@ protected:
 
 	// Generated message map functions
 protected:
-	//{{AFX_MSG(CGUIFrame)
+	// {{AFX_MSG(CGUIFrame)
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnRunButton();
 	afx_msg void OnStopButton();
@@ -147,13 +147,13 @@ protected:
 	afx_msg void OnEditCut();
 	afx_msg void OnUpdateEditCut(CCmdUI* pCmdUI);
 	afx_msg void OnEditUndo();
-	//}}AFX_MSG
+	// }}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 
-//{{AFX_INSERT_LOCATION}}
+// {{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
 
-#endif		//__GUIFRAME_H__
+#endif		// __GUIFRAME_H__

@@ -1,39 +1,42 @@
 #ifndef __INTERMISSION_H__
 #define __INTERMISSION_H__
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma ONCE
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#include "..\Common\InterfaceScreenBase.h"
-#include "..\Input\InputHelper.h"
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma once
+
+#include "../Common/InterfaceScreenBase.h"
+#include "../Input/InputHelper.h"
+
+
 class CInterfaceInterMission : public CInterfaceScreenBase
 {
-	//
-	virtual void STDCALL DrawAdd();
+  //
+  void STDCALL DrawAdd() override;
+
 protected:
+  // input
+  NInput::CCommandRegistrator intermissionMsgs;
 
-	// input
-	NInput::CCommandRegistrator intermissionMsgs;
+  bool STDCALL StepLocal(bool bAppActive) override;
+  bool STDCALL ProcessMessage(const SGameMessage &msg) override;
+  CInterfaceInterMission(const std::string &szInterfaceType) : CInterfaceScreenBase(szInterfaceType) {}
 
-	virtual bool STDCALL StepLocal( bool bAppActive );
-	virtual bool STDCALL ProcessMessage( const SGameMessage &msg );
-	CInterfaceInterMission( const std::string &szInterfaceType ) : CInterfaceScreenBase( szInterfaceType ) {  }
 public:
-	virtual bool STDCALL Init();
+  bool STDCALL Init() override;
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 interface IMPToUICommandManager;
-class CInterfaceMultiplayerScreen : public CInterfaceInterMission 
+
+class CInterfaceMultiplayerScreen : public CInterfaceInterMission
 {
 protected:
-	CPtr<IMPToUICommandManager> pCommandManager;	// singleton shortcut
+  CPtr<IMPToUICommandManager> pCommandManager;// singleton shortcut
 
-	CInterfaceMultiplayerScreen( const std::string &szInterfaceType ) : CInterfaceInterMission( szInterfaceType ) {  }
-	virtual bool STDCALL StepLocal( bool bAppActive );
+  CInterfaceMultiplayerScreen(const std::string &szInterfaceType) : CInterfaceInterMission(szInterfaceType) {}
+  bool STDCALL StepLocal(bool bAppActive) override;
+
 public:
-	virtual bool STDCALL Init();
+  bool STDCALL Init() override;
 
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // __INTERMISSION_H__

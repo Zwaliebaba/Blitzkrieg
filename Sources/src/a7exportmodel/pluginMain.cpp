@@ -1,6 +1,6 @@
 #include "StdAfx.h"
 //
-// Copyright (C) 2001 Nival Interactive 
+// Copyright (C) 2001 Nival Interactive
 // 
 // File: pluginMain.cpp
 //
@@ -21,13 +21,13 @@
 
 EXPORT MStatus initializePlugin( MObject obj )
 //
-//	Description:
-//		this method is called when the plug-in is loaded into Maya.  It 
-//		registers all of the services that this plug-in provides with 
-//		Maya.
+// Description:
+// this method is called when the plug-in is loaded into Maya.
+// registers all of the services that this plug-in provides with
+// Maya.
 //
-//	Arguments:
-//		obj - a handle to the plug-in object (use MFnPlugin to access it)
+// Arguments:
+// obj - a handle to the plug-in object (use MFnPlugin to access it)
 //
 { 
 	MFnPlugin plugin( obj, "Nival Interactive", VERSION, "Any" );
@@ -38,12 +38,12 @@ EXPORT MStatus initializePlugin( MObject obj )
 
 EXPORT MStatus uninitializePlugin( MObject obj )
 //
-//	Description:
-//		this method is called when the plug-in is unloaded from Maya. It 
-//		deregisters all of the services that it was providing.
+// Description:
+// this method is called when the plug-in is unloaded from Maya.
+// deregisters all of the services that it was providing.
 //
-//	Arguments:
-//		obj - a handle to the plug-in object (use MFnPlugin to access it)
+// Arguments:
+// obj - a handle to the plug-in object (use MFnPlugin to access it)
 //
 {
 	MFnPlugin plugin( obj );

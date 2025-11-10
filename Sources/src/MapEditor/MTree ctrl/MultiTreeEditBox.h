@@ -7,7 +7,7 @@
 // MultiTreeEditBox.h : header file
 //
 
-/////////////////////////////////////////////////////////////////////////////
+// //
 // CMultiTreeEditBox window
 
 class CMultiTreeEditBox : public CEdit
@@ -24,10 +24,10 @@ public:
 
 // Overrides
 	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CMultiTreeEditBox)
+	// {{AFX_VIRTUAL(CMultiTreeEditBox)
 	public:
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
-	//}}AFX_VIRTUAL
+	// }}AFX_VIRTUAL
 
 // Implementation
 public:
@@ -35,18 +35,18 @@ public:
 
 	// Generated message map functions
 protected:
-	//CFont	m_Font;
-	//{{AFX_MSG(CMultiTreeEditBox)
+	// CFont m_Font;
+	// {{AFX_MSG(CMultiTreeEditBox)
 	afx_msg void OnKillFocus(CWnd* pNewWnd);
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
-	//}}AFX_MSG
+	// }}AFX_MSG
 
 	DECLARE_MESSAGE_MAP()
 };
 
-/////////////////////////////////////////////////////////////////////////////
+// //
 
-//{{AFX_INSERT_LOCATION}}
+// {{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
 
 #endif // !defined(AFX_MULTITREEEDITBOX_H__FC15D22B_F5FA_44C1_8140_39689B14A0B1__INCLUDED_)

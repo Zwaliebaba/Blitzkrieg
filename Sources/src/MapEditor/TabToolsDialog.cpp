@@ -12,31 +12,31 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 const int CTabToolsDialog::vID[] = 
 {
-	IDC_TOOLS_DAMAGE_RADIO_BUTTON,			//0
-	IDC_TOOLS_DAMAGE_LABEL_LEFT,				//1
-	IDC_TOOLS_DAMAGE_EDIT,							//2
-	IDC_TOOLS_DAMAGE_SPIN,							//3
-	IDC_TOOLS_DELIMITER_00,							//4
-	IDC_TOOLS_SCRIPT_AREA_RADIO_BUTTON,	//5
-	IDC_TOOLS_SA_RECT_RADIO_BUTTON,			//6
-	IDC_TOOLS_SA_CIRCLE_RADIO_BUTTON,		//7
-	IDC_TOOLS_SA_DELETE_BUTTON,					//8
-	IDC_TOOLS_SA_LIST,									//9
-	IDC_TOOLS_DAMAGE_LABEL_RIGHT,				//10
+	IDC_TOOLS_DAMAGE_RADIO_BUTTON,			// 0
+	IDC_TOOLS_DAMAGE_LABEL_LEFT,				// 1
+	IDC_TOOLS_DAMAGE_EDIT,							// 2
+	IDC_TOOLS_DAMAGE_SPIN,							// 3
+	IDC_TOOLS_DELIMITER_00,							// 4
+	IDC_TOOLS_SCRIPT_AREA_RADIO_BUTTON,	// 5
+	IDC_TOOLS_SA_RECT_RADIO_BUTTON,			// 6
+	IDC_TOOLS_SA_CIRCLE_RADIO_BUTTON,		// 7
+	IDC_TOOLS_SA_DELETE_BUTTON,					// 8
+	IDC_TOOLS_SA_LIST,									// 9
+	IDC_TOOLS_DAMAGE_LABEL_RIGHT,				// 10
 };
 
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 CTabToolsDialog::CTabToolsDialog( CWnd* pParent )
 	: CResizeDialog( CTabToolsDialog::IDD, pParent ), bCreateControls( false )
 {
-	//{{AFX_DATA_INIT(CTabToolsDialog)
+	// {{AFX_DATA_INIT(CTabToolsDialog)
 	m_mode = 0;
 	m_drawType = 0;
-	//}}AFX_DATA_INIT
+	// }}AFX_DATA_INIT
 	
 	SetControlStyle( IDC_TOOLS_DAMAGE_RADIO_BUTTON, ANCHORE_LEFT_TOP | RESIZE_HOR );
 	SetControlStyle( IDC_TOOLS_DAMAGE_LABEL_LEFT, ANCHORE_LEFT_TOP );
@@ -51,22 +51,22 @@ CTabToolsDialog::CTabToolsDialog( CWnd* pParent )
 	SetControlStyle( IDC_TOOLS_DAMAGE_LABEL_RIGHT, ANCHORE_RIGHT_TOP );
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTabToolsDialog::DoDataExchange( CDataExchange* pDX )
 {
 	CResizeDialog::DoDataExchange(pDX); 
-	//{{AFX_DATA_MAP(CTabToolsDialog)
+	// {{AFX_DATA_MAP(CTabToolsDialog)
 	DDX_Control(pDX, IDC_TOOLS_SA_LIST, m_areas);
-	//DDX_Control(pDX, IDC_TOOLS_DAMAGE_SPIN, m_spin);
+	// DDX_Control(pDX, IDC_TOOLS_DAMAGE_SPIN, m_spin);
 	DDX_Text(pDX, IDC_TOOLS_DAMAGE_EDIT, m_hp);
 	DDX_Radio(pDX, IDC_TOOLS_DAMAGE_RADIO_BUTTON, m_mode);
 	DDX_Radio(pDX, IDC_TOOLS_SA_RECT_RADIO_BUTTON, m_drawType);
-	//}}AFX_DATA_MAP
+	// }}AFX_DATA_MAP
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 BEGIN_MESSAGE_MAP(CTabToolsDialog, CResizeDialog)
-	//{{AFX_MSG_MAP(CTabToolsDialog)
+	// {{AFX_MSG_MAP(CTabToolsDialog)
 	ON_EN_CHANGE(IDC_TOOLS_DAMAGE_EDIT, OnChangeEdit1)
 	ON_BN_CLICKED(IDC_TOOLS_DAMAGE_RADIO_BUTTON, OnRadioChanged0)
 	ON_BN_CLICKED(IDC_TOOLS_SCRIPT_AREA_RADIO_BUTTON, OnRadioChanged1)
@@ -76,17 +76,17 @@ BEGIN_MESSAGE_MAP(CTabToolsDialog, CResizeDialog)
 	ON_LBN_SELCHANGE(IDC_TOOLS_SA_LIST, OnSelchangeToolsSaList)
 	ON_WM_CREATE()
 	ON_WM_DESTROY()
-	//}}AFX_MSG_MAP
+	// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 BOOL CTabToolsDialog::OnInitDialog() 
 {
 	bCreateControls = true;
 	CResizeDialog::OnInitDialog();
 
-	//m_mode = 0;
-	//m_drawType = 0;
+	// m_mode = 0;
+	// m_drawType = 0;
 	if ( resizeDialogOptions.nParameters.size() < 3 )
 	{	
 		resizeDialogOptions.nParameters.resize( 3 );
@@ -106,7 +106,7 @@ BOOL CTabToolsDialog::OnInitDialog()
 	return TRUE;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTabToolsDialog::OnChangeEdit1() 
 {
 	UpdateData();
@@ -114,7 +114,7 @@ void CTabToolsDialog::OnChangeEdit1()
 	UpdateControls();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTabToolsDialog::OnRadioChanged0() 
 {
 	m_mode = toolStateConsts::nRepair;
@@ -122,7 +122,7 @@ void CTabToolsDialog::OnRadioChanged0()
 	UpdateControls();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTabToolsDialog::OnRadioChanged1() 
 {
 	m_mode = toolStateConsts::nArea;
@@ -130,7 +130,7 @@ void CTabToolsDialog::OnRadioChanged1()
 	UpdateControls();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTabToolsDialog::OnRadio1Changed0() 
 {
 	m_drawType = toolStateConsts::nRectType;
@@ -138,7 +138,7 @@ void CTabToolsDialog::OnRadio1Changed0()
 	UpdateControls();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTabToolsDialog::OnRadio1Changed1() 
 {
 	m_drawType = toolStateConsts::nCircleType;
@@ -146,7 +146,7 @@ void CTabToolsDialog::OnRadio1Changed1()
 	UpdateControls();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTabToolsDialog::OnButtonDelArea() 
 {
 	CTemplateEditorFrame* pFrame = g_frameManager.GetTemplateEditorFrame();
@@ -166,7 +166,7 @@ void CTabToolsDialog::OnButtonDelArea()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTabToolsDialog::OnSelchangeToolsSaList() 
 {
 	UpdateControls();
@@ -198,7 +198,7 @@ void CTabToolsDialog::OnSelchangeToolsSaList()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTabToolsDialog::UpdateControls()
 {
 	bool bEnabled = false;
@@ -247,10 +247,10 @@ void CTabToolsDialog::UpdateControls()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTabToolsDialog::OnDestroy() 
 {
 	CResizeDialog::SaveResizeDialogOptions();
 	CResizeDialog::OnDestroy();
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+

@@ -8,10 +8,10 @@
 #include "CtrlObjectInspector.h"
 class CTreeItem;
 
-//Это сообщения из Object Inspector через дерево идут во frame
-const UINT WM_USERCHANGEPARAM = WM_USER + 10;		// пользователь поменял значение в OI
+// These are messages from the Object Inspector going through the tree to frame
+const UINT WM_USERCHANGEPARAM = WM_USER + 10;		// the user changed the value in OI
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // CPropView window
 
 class CPropView : public SECControlBar
@@ -23,16 +23,11 @@ public:
 	void SetItemProperty( const char *szItemName, CTreeItem *pProp );
 	void ClearControl() { pActiveTreeItem = 0; m_wndOI.ClearAll(); }
 
-/*
-  void SetPropMap( const CPropMap *_pPropMap );
-  int  GetActiveProp( int nGroupID );
-	void SetActiveProp( int nPropID );
-  void UpdatePropList();
-  void UpdateProperty( int nPropID );
-*/
+/* void SetPropMap( const CPropMap *_pPropMap );
+   */
   // Implementation
   BOOL PreTranslateMessage( MSG* pMsg );
-  //  BOOL OnInitDialog();
+  // BOOL OnInitDialog();
   
 public:
   CPropView();  
@@ -45,11 +40,11 @@ protected:
 	CTreeItem *pActiveTreeItem;
 
   
-  //{{AFX_MSG(CPropView)
+  // {{AFX_MSG(CPropView)
   afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
   afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg LRESULT OnChangeProp( WPARAM wParam, LPARAM lParam );
-	//}}AFX_MSG
+	// }}AFX_MSG
   DECLARE_MESSAGE_MAP()
 };
 

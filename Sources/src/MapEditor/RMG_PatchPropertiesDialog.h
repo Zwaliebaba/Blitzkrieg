@@ -13,7 +13,7 @@ class CRMGPatchPropertiesDialog : public CResizeDialog
 public:
 	CRMGPatchPropertiesDialog( CWnd* pParent = NULL );
 
-	//{{AFX_DATA(CRMGPatchPropertiesDialog)
+	// {{AFX_DATA(CRMGPatchPropertiesDialog)
 	enum { IDD = IDD_RMG_PATCH_PROPERTIES };
 	CComboBox	m_Places;
 	CString	m_strPath;
@@ -22,18 +22,18 @@ public:
 	int		m_n180;
 	int		m_n270;
 	int		m_n90;
-	//}}AFX_DATA
+	// }}AFX_DATA
 
-	//{{AFX_VIRTUAL(CRMGPatchPropertiesDialog)
+	// {{AFX_VIRTUAL(CRMGPatchPropertiesDialog)
 	protected:
 	virtual void DoDataExchange( CDataExchange* pDX );
-	//}}AFX_VIRTUAL
+	// }}AFX_VIRTUAL
 
 protected:
-	//{{AFX_MSG(CRMGPatchPropertiesDialog)
+	// {{AFX_MSG(CRMGPatchPropertiesDialog)
 	virtual BOOL OnInitDialog();
 	afx_msg void OnSelchangeRmgPpPlaceComboBox();
-	//}}AFX_MSG
+	// }}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 
 protected:
@@ -49,5 +49,5 @@ public:
 	std::string szPlace;
 };
 
-//{{AFX_INSERT_LOCATION}}
+// {{AFX_INSERT_LOCATION}}
 #endif // !defined(__RMG_Patch_Properties_Dialog__)

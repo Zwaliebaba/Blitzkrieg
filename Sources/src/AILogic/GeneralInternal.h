@@ -1,15 +1,15 @@
 #ifndef __GENERAL_INTERNAL__
 #define __GENERAL_INTERNAL__
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #include "General.h"
 #include "GeneralInternalInterfaces.h"
 #include "Commander.h"
 #include "AIHashFuncs.h"
 #include "Resistance.h"
-#include "..\Misc\FreeIDs.h"
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma ONCE
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#include "../Misc/FreeIDs.h"
+
+#pragma once
+
 class CArtillery;
 class CAIUnit;
 class CFormation;
@@ -17,111 +17,110 @@ class CCommonUnit;
 class CGeneralAirForce;
 class CGeneralArtillery;
 class CGeneralIntendant;
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CGeneral : public CCommander, public IEnemyContainer
 {
-	DECLARE_SERIALIZE;
-	OBJECT_COMPLETE_METHODS(CGeneral);
-	CFreeIds requestIDs;
-	int nParty;													// general is for this player
-	
-	typedef std::pair< CPtr<CAIUnit>, NTimer::STime> CUnitTimeSeen;
-	typedef std::hash_map< int/* unit unique ID*/, CUnitTimeSeen > CEnemyVisibility;
+  DECLARE_SERIALIZE;
+  OBJECT_COMPLETE_METHODS(CGeneral);
+  CFreeIds requestIDs;
+  int nParty;// general is for this player
 
-	//{ do not save these, it is only for IN-Segment use
-	CEnemyVisibility::iterator curProcessed;	// cannot be saved, so there will be some tricks
-	std::list<int> erased;
-	//}
+  using CUnitTimeSeen = std::pair<CPtr<CAIUnit>, NTimer::STime>;
+  using CEnemyVisibility = std::hash_map<int/* unit unique ID */, CUnitTimeSeen>;
 
-	CEnemyVisibility enemys;
-	CEnemyVisibility antiAviation;
+  // { do not save these, it is only for IN-Segment use
+  CEnemyVisibility::iterator curProcessed;// cannot be saved, so there will be some tricks
+  std::list<int> erased;
+  // }
 
-	CommonUnits infantryInTrenches;				//commander strores only unasigned units
-	CommonUnits infantryFree;
-	CommonUnits tanksFree;
-	CommonUnits stationaryTanks;
-	CommonUnits transportsFree;
+  CEnemyVisibility enemys;
+  CEnemyVisibility antiAviation;
 
-	NTimer::STime timeNextUpdate;					// next update of this general
-	std::hash_set<int> mobileReinforcementGroupIDs;
+  CommonUnits infantryInTrenches;// commander strores only unsigned units
+  CommonUnits infantryFree;
+  CommonUnits tanksFree;
+  CommonUnits stationaryTanks;
+  CommonUnits transportsFree;
 
-	CPtr<CGeneralAirForce> pAirForce;
-	CPtr<CGeneralArtillery> pGeneralArtillery;
-	CPtr<CGeneralIntendant> pIntendant;
+  NTimer::STime timeNextUpdate;// next update of this general
+  std::hash_set<int> mobileReinforcementGroupIDs;
 
-	typedef std::hash_map< int/*request ID*/, CPtr<IGeneralTask> > RequestedTasks;
-	RequestedTasks requestedTasks;
-	
-	CResistancesContainer resContainer;
+  CPtr<CGeneralAirForce> pAirForce;
+  CPtr<CGeneralArtillery> pGeneralArtillery;
+  CPtr<CGeneralIntendant> pIntendant;
 
-	NTimer::STime lastBombardmentCheck;
-	// 0 - артиллерия, 1 - бомберы
-	BYTE cBombardmentType;
-	bool bSendReserves;										// send tanks to swarm
+  using RequestedTasks = std::hash_map<int/* request ID */, CPtr<IGeneralTask>>;
+  RequestedTasks requestedTasks;
 
-	// сегмент принятия решения - начинать арт. обстрел / бомбардировку или нет
-	void BombardmentSegment();
-	// дать команду начать арт. обстрел
-	void GiveCommandToBombardment();
+  CResistancesContainer resContainer;
 
-	void EraseLastSeen();
+  NTimer::STime lastBombardmentCheck;
+  // 0 - artillery, 1 - bombers
+  BYTE cBombardmentType;
+  bool bSendReserves;// send tanks to swarm
+
+  // decision making segment - start art. 
+  void BombardmentSegment();
+  // give the command to start art. 
+  void GiveCommandToBombardment();
+
+  void EraseLastSeen();
+
 public:
-	CGeneral() 
-		: lastBombardmentCheck( 0 ), timeNextUpdate( 0 ) 
-	{ 
-		curProcessed = enemys.end();
-	}
-	CGeneral( const int nParty ) : nParty( nParty ), lastBombardmentCheck( 0 ), timeNextUpdate( 0 ) { }
+  CGeneral()
+    : timeNextUpdate(0), lastBombardmentCheck(0) { curProcessed = enemys.end(); }
 
-	// сервисные функции
-	void Init( const struct SAIGeneralSideInfo &mapInfo );
-	void Init();
-	// появились новые юниты
-	void GiveNewUnits( const std::list<CCommonUnit*> &pUnits );
+  CGeneral(const int nParty) : nParty(nParty), timeNextUpdate(0), lastBombardmentCheck(0) {}
 
-	// для манипулирования мобильными резервами
-	bool IsMobileReinforcement( int nGroupID ) const;
+  // service functions
+  void Init(const struct SAIGeneralSideInfo &mapInfo);
+  void Init();
+  // new units have appeared
+  void GiveNewUnits(const std::list<CCommonUnit *> &pUnits);
 
-	// для того, чтобы следить за видимыми врагами
-	void SetUnitVisible( class CAIUnit *pUnit, const bool bVisible );
-	void SetAAVisible( class CAIUnit *pUnit, const bool bVisible );
+  // to manipulate mobile reserves
+  bool IsMobileReinforcement(int nGroupID) const;
 
-	//IEnemyContainer
-	void GiveEnemies( IEnemyEnumerator *pEnumerator );
-	virtual void AddResistance( const CVec2 &vCenter, const float fRadius );
-	virtual void RemoveResistance( const CVec2 &vCenter );
+  // to keep track of visible enemies
+  void SetUnitVisible(class CAIUnit *pUnit, bool bVisible);
+  void SetAAVisible(class CAIUnit *pUnit, bool bVisible);
 
-	//ICommander
-	virtual float GetMeanSeverity() const { return 0; }
-	virtual void EnumWorkers( const EForceType eType, IWorkerEnumerator *pEnumerator );
-	virtual void GiveResistances( IEnemyEnumerator *pEnmumerator );
+  // IEnemyContainer
+  void GiveEnemies(IEnemyEnumerator *pEnumerator) override;
+  void AddResistance(const CVec2 &vCenter, float fRadius) override;
+  void RemoveResistance(const CVec2 &vCenter) override;
 
-	// при получении подкрепления его нужно отдать в управление генералу.
-	// забирает работника назад
-	void Give( CCommonUnit *pWorker );
+  // ICommander
+  float GetMeanSeverity() const override { return 0; }
+  void EnumWorkers(EForceType eType, IWorkerEnumerator *pEnumerator) override;
+  void GiveResistances(IEnemyEnumerator *pEnmumerator) override;
 
-	void Segment();
+  // upon receipt of reinforcements, it must be given to the general’s control.
+  // takes the employee back
+  void Give(CCommonUnit *pWorker) override;
 
-	virtual void CancelRequest( int nRequestID, enum EForceType eType  );
-	virtual int /*request ID*/CGeneral::RequestForSupport( const CVec2 &vSupportCenter, enum EForceType eType );
+  void Segment() override;
 
-	
-	// для очагов сопротивления
-	void UpdateEnemyUnitInfo( class CAIUnitInfoForGeneral *pInfo,
-		const NTimer::STime lastVisibleTimeDelta, const CVec2 &vLastVisiblePos,
-		const NTimer::STime lastAntiArtTimeDelta, const CVec2 &vLastVisibleAntiArtCenter, const float fDistToLastVisibleAntiArt );
-	void UnitDied( class CAIUnitInfoForGeneral *pInfo );
-	void UnitDied( class CCommonUnit * pUnit );
-	void UnitChangedParty( CAIUnit *pUnit, const int nNewParty );
+  void CancelRequest(int nRequestID, enum EForceType eType) override;
+  int /* request ID */CGeneral::RequestForSupport(const CVec2 &vSupportCenter, enum EForceType eType) override;
 
-	// to allow Intendant tracking registered units 
-	void UnitChangedPosition( class CCommonUnit * pUnit, const CVec2 &vNewPos );
-	void UnitAskedForResupply( class CCommonUnit * pUnit, const EResupplyType eType, const bool bSet );
 
-	void ReserveAviationForTimes( const std::vector<NTimer::STime> &times );
+  // for areas of resistance
+  void UpdateEnemyUnitInfo(class CAIUnitInfoForGeneral *pInfo,
+                           NTimer::STime lastVisibleTimeDelta, const CVec2 &vLastVisiblePos,
+                           NTimer::STime lastAntiArtTimeDelta, const CVec2 &vLastVisibleAntiArtCenter, float fDistToLastVisibleAntiArt);
+  void UnitDied(class CAIUnitInfoForGeneral *pInfo);
+  void UnitDied(class CCommonUnit *pUnit);
+  void UnitChangedParty(CAIUnit *pUnit, int nNewParty);
 
-	void SetCellInUse( const int nResistanceCellNumber, bool bInUse );
-	bool IsInResistanceCircle( const CVec2 &vPoint ) const;
+  // to allow Intendant tracking registered units
+  void UnitChangedPosition(class CCommonUnit *pUnit, const CVec2 &vNewPos);
+  void UnitAskedForResupply(class CCommonUnit *pUnit, EResupplyType eType, bool bSet);
+
+  void ReserveAviationForTimes(const std::vector<NTimer::STime> &times);
+
+  void SetCellInUse(int nResistanceCellNumber, bool bInUse);
+  bool IsInResistanceCircle(const CVec2 &vPoint) const;
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // __GENERAL_INTERNAL__

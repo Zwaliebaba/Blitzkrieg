@@ -9,7 +9,7 @@
 #include "ResizeDialog.h"
 
 class CRMGCreateFieldDialog;
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CRMGFieldHeightsDialog : public CResizeDialog
 {
 	friend class CRMGCreateFieldDialog;
@@ -17,7 +17,7 @@ class CRMGFieldHeightsDialog : public CResizeDialog
 public:
 	CRMGFieldHeightsDialog( CWnd* pParent = NULL );
 
-	//{{AFX_DATA(CRMGFieldHeightsDialog)
+	// {{AFX_DATA(CRMGFieldHeightsDialog)
 	enum { IDD = IDD_RMG_CF_HEIGHTS };
 	CEdit	m_SizeMinEdit;
 	CEdit	m_SizeMaxEdit;
@@ -25,15 +25,15 @@ public:
 	CEdit	m_PositiveRatioEdit;
 	CEdit	m_HeightEdit;
 	CSliderCtrl	m_PositiveRatioSlider;
-	//}}AFX_DATA
+	// }}AFX_DATA
 
-	//{{AFX_VIRTUAL(CRMGFieldHeightsDialog)
+	// {{AFX_VIRTUAL(CRMGFieldHeightsDialog)
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);
-	//}}AFX_VIRTUAL
+	// }}AFX_VIRTUAL
 
 protected:
-	//{{AFX_MSG(CRMGFieldHeightsDialog)
+	// {{AFX_MSG(CRMGFieldHeightsDialog)
 	virtual BOOL OnInitDialog();
 	virtual void OnOK();
 	virtual void OnCancel();
@@ -44,14 +44,14 @@ protected:
 	afx_msg void OnChangeSizeMinEdit();
 	afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
 	afx_msg void OnProfileBrowseButton();
-	//}}AFX_MSG
+	// }}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 
 protected:
 	bool bCreateControls;
 	class CRMGCreateFieldDialog *pRMGCreateFieldDialog;
-	struct SRMFieldSet *pRMFieldSet;						//главный
-	std::vector<struct SRMFieldSet*> fieldSets;	//довавочные ( для изменения сезона и других вещей ( кроме шеллзов ) )
+	struct SRMFieldSet *pRMFieldSet;						// main
+	std::vector<struct SRMFieldSet*> fieldSets;	// additional items (for changing the season and other things (except shells))
 
 	virtual std::string GetXMLOptionsLabel() { return "CRMGFieldHeightsDialog"; }
 
@@ -59,6 +59,6 @@ protected:
 	void UpdateControls();
 	void LoadFieldToControls();
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//{{AFX_INSERT_LOCATION}}
+
+// {{AFX_INSERT_LOCATION}}
 #endif // !defined(__RMG_Field_Heights_Dialog__)

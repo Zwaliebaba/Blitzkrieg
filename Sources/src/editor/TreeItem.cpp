@@ -31,7 +31,7 @@ bool CTreeItem::IsCompatibleWith( CTreeItem *pCompare )
 	if ( nItemType == pCompare->GetItemType() )
 		return true;
 
-	//—ложные item не копируютс¤
+	// —false items are not copied¤
 	if ( bComplexItem || pCompare->bComplexItem )
 		return false;
 	
@@ -74,8 +74,8 @@ void CTreeItem::UpdateItemValue( int nItemId, const CVariant &newValue )
 	}
 	NI_ASSERT( it != values.end() );
 	NI_ASSERT( pTreeCtrl != 0 );
-//	pTreeCtrl->SendMessage( WM_USERCHANGEPARAM, nItemId );
-//	pTreeCtrl->PostMessage( WM_USERCHANGEPARAM, nItemId );
+// pTreeCtrl->SendMessage( WM_USERCHANGEPARAM, nItemId );
+// pTreeCtrl->PostMessage( WM_USERCHANGEPARAM, nItemId );
 }
 
 void CTreeItem::SelectMeInTheTree()
@@ -86,10 +86,8 @@ void CTreeItem::SelectMeInTheTree()
 
 CTreeItem *CTreeItem::GetParentTreeItem()
 {
-	/*NI_ASSERT( pTreeCtrl != 0 );
-	HTREEITEM hParent = pTreeCtrl->GetParentItem( hItem );
-	CTreeItem *pPapa = (CTreeItem *) pTreeCtrl->GetItemData( hParent );
-	return pPapa;*/
+	/* NI_ASSERT( pTreeCtrl != 0 );
+	 */
 	NI_ASSERT( pItemParent != 0 );
 	return pItemParent;
 }
@@ -141,8 +139,8 @@ void CTreeItem::ChangeItemName( const char *pszName )
 void CTreeItem::AddChild( CTreeItem *pItem )
 {
 	NI_ASSERT( pItem != 0 );
-//	NI_ASSERT( pTreeCtrl != 0 );		//¤ хочу добавл¤ть items даже если нету tree ctrl
-//	NI_ASSERT( hItem != 0 );
+// NI_ASSERT( pTreeCtrl != 0 );		
+// NI_ASSERT( hItem != 0 );
 
 	treeItemList.push_back( pItem );
 
@@ -175,7 +173,7 @@ void CTreeItem::InsertNewTreeItem( CTreeItem *pItem )
 		return;
 	}
 
-	//ƒобавл¤ем новый item в tree ctrl
+	// Add a new item to tree ctrl
 	TV_INSERTSTRUCT tvis;
 	tvis.hParent = hItem;
 	tvis.hInsertAfter = TVI_LAST;
@@ -270,7 +268,7 @@ void CTreeItem::DeleteNullChilds()
 			it = treeItemList.erase( it );
 		else
 		{
-			//вызываем рекурсивно дл¤ всех детей
+			// call recursively for all children
 			(*it)->DeleteNullChilds();
 			++it;
 		}
@@ -280,13 +278,13 @@ void CTreeItem::DeleteNullChilds()
 void CTreeItem::CreateDefaultChilds()
 {
 	{
-		//—оздаем values по умолчанию
+		// —create default values
 		CPropVector::iterator itemIt;
 		CPropVector::iterator defIt;
 
 		if ( values.begin() == values.end() )
 		{
-			//„астный случай, если в накиданных нету childs, то создаю defaultValues
+			// “In a particular case, if there is no childs in the thrown ones, then I create defaultValues
 			for ( defIt=defaultValues.begin(); defIt!=defaultValues.end(); ++defIt )
 			{
 				values.push_back( *defIt );
@@ -294,7 +292,7 @@ void CTreeItem::CreateDefaultChilds()
 		}
 		else
 		{
-			//ѕрохожу по уже созданным values и, если какого то нету в списке defaultValues, то удал¤ю его
+			// I go through the already created values ​​and, if one is not in the defaultValues ​​list, then I delete it
 			for ( itemIt=values.begin(); itemIt!=values.end(); )
 			{
 				for ( defIt=defaultValues.begin(); defIt!=defaultValues.end(); ++defIt )
@@ -309,12 +307,12 @@ void CTreeItem::CreateDefaultChilds()
 					++itemIt;
 			}
 
-			//—ортирую список накиданных values в соответствии с пор¤дком в defaultValues
+			// — I sort the list of thrown values ​​in accordance with the order in defaultValues
 			CValuesSortFunc sortFunctor;
 			sortFunctor.Init( defaultValues );
 			sort( values.begin(), values.end(), sortFunctor );
 			
-			//ѕрохожу по списку defaultValues и, если какого то нету в накиданных values, то создаю его
+			// I go through the list of defaultValues ​​and, if something is not in the entered values, then I create it
 			itemIt = values.begin();
 			for ( defIt=defaultValues.begin(); defIt!=defaultValues.end(); ++defIt )
 			{
@@ -328,7 +326,7 @@ void CTreeItem::CreateDefaultChilds()
 				}
 				else
 				{
-					//может быть помен¤лись id или опции в комбобоксе, скопирую их из default values
+					// Maybe the id or options in the combobox have changed, I’ll copy them from default values
 					itemIt->nId = defIt->nId;
 					itemIt->szDisplayName = defIt->szDisplayName;
 					itemIt->value.SetType( defIt->value.GetType() );
@@ -343,14 +341,14 @@ void CTreeItem::CreateDefaultChilds()
 
 	if ( bStaticElements )
 	{
-		//—оздаем child items по умолчанию
+		// —create child items by default
 		CTreeItemList::iterator itemIt;
 		CChildItemsList::iterator defIt;
 		IObjectFactory *pFactory = GetCommonFactory();
 
 		if ( treeItemList.begin() == treeItemList.end() )
 		{
-			//„астный случай, если в накиданных нету childs, то создаю defaultChilds
+			// “In a special case, if there are no childs in the thrown ones, then I create defaultChilds
 			for ( defIt=defaultChilds.begin(); defIt!=defaultChilds.end(); ++defIt )
 			{
 				IRefCount *pNewObject = pFactory->CreateObject( defIt->nChildItemType );
@@ -365,7 +363,7 @@ void CTreeItem::CreateDefaultChilds()
 		}
 		else
 		{
-			//ѕрохожу по уже накиданным childs и, если какого то нету в списке defaultChilds, то удал¤ю его
+			// I go through the already added childs and, if one is not in the defaultChilds list, then I delete it
 			for ( itemIt=treeItemList.begin(); itemIt!=treeItemList.end(); )
 			{
 				for ( defIt=defaultChilds.begin(); defIt!=defaultChilds.end(); ++defIt )
@@ -379,12 +377,12 @@ void CTreeItem::CreateDefaultChilds()
 				else
 					++itemIt;
 			}
-			//—ортирую список накиданных childs в соответствии с defaultChilds
+			// —sort the list of childs in accordance with defaultChilds
 			CTreeItemSortFunc sortFunctor;
 			sortFunctor.Init( defaultChilds );
 			treeItemList.sort( sortFunctor );
 
-			//ѕрохожу по списку defaultChilds и, если какого то нету в накиданных childs, то создаю его
+			// I go through the list of defaultChilds and, if one is not in the selected childs, then I create it
 			itemIt = treeItemList.begin();
 			for ( defIt=defaultChilds.begin(); defIt!=defaultChilds.end(); ++defIt )
 			{
@@ -409,7 +407,7 @@ void CTreeItem::CreateDefaultChilds()
 		}
 	}
 
-	//рекурсивный вызов
+	// recursive call
 	for ( CTreeItemList::iterator it=treeItemList.begin(); it!=treeItemList.end(); ++it )
 	{
 		(*it)->CreateDefaultChilds();
@@ -425,7 +423,7 @@ void CTreeItem::RemoveChild( CTreeItem *pItem )
 	pTreeCtrl->DeleteItem( pItem->GetHTREEITEM() );
 	treeItemList.remove( pItem );
 
-	//найдем следующий item, который будет выделен при удалении текущего
+	// find the next item that will be selected when the current one is deleted
 	HTREEITEM hSel = pTreeCtrl->GetSelectedItem();
 	if ( !hSel )
 		return;
@@ -439,12 +437,12 @@ void CTreeItem::RemoveAllChilds()
 	{
 		for ( CTreeItemList::iterator it=treeItemList.begin(); it!=treeItemList.end(); ++it )
 		{
-			//”дал¤ем из дерева
+			// “let’s make it from wood”
 			pTreeCtrl->DeleteItem( (*it)->GetHTREEITEM() );
 		}
 	}
 
-//	NI_ASSERT( pTreeCtrl != 0 );
+// NI_ASSERT( pTreeCtrl != 0 );
 	treeItemList.clear();
 }
 
@@ -452,24 +450,24 @@ int CTreeItem::operator&( interface IStructureSaver &ss )
 {
 	CSaverAccessor saver = &ss;
 
-	//—охран¤ем тип
+	// —we protect the type
 	saver.Add( 1, &nItemType );
-	//—охран¤ем им¤ по умолчанию
+	// —we protect it by default
 	saver.Add( 2, &szDefaultName );
-	//—охран¤ем отображаемое им¤
+	// —we protect what is displayed by it¤
 	saver.Add( 3, &szDisplayName );
 
-	//—охран¤ем значени¤
+	// —we protect the values
 	saver.Add( 4, &values );
 
-	//—охран¤ем внутренний список - child items
+	// —we protect the internal list - child items
 	saver.Add( 5, &treeItemList );
 
-	//—охран¤ем expand state
+	// —we protect the expand state
 	if ( saver.IsReading() )
 	{
 		saver.Add( 6, &nNeedExpand );
-		//развернем в функции InsertChildItems
+		// expand it in the InsertChildItems function
 	}
 	else
 	{
@@ -499,11 +497,11 @@ int CTreeItem::operator&( IDataTree &ss )
 	saver.Add( "default_name", &szDefaultName );
 	saver.Add( "display_name", &szDisplayName );
 	saver.Add( "values", &values );
-	//—охран¤ем expand state
+	// —we protect the expand state
 	if ( saver.IsReading() )
 	{
 		saver.Add( "expand", &nNeedExpand );
-		//развернем в функции InsertChildItems
+		// expand it in the InsertChildItems function
 	}
 	else
 	{
@@ -514,7 +512,7 @@ int CTreeItem::operator&( IDataTree &ss )
 			nNeedExpand = false;
 		saver.Add( "expand", &nNeedExpand );
 	}
-	//сохран¤ем childs
+	// save childs
 	if ( bSerializeChilds )
 		saver.Add( "childs", &treeItemList );
 	if ( saver.IsReading() )
@@ -537,40 +535,8 @@ void CTreeItem::ExpandTreeItem( bool bExpand )
 		pTreeCtrl->Expand( hItem, TVE_COLLAPSE );
 }
 
-/*
-void Serialize( CTreeAccessor *pFile, CTreeItem *pData )
-{
-//—охран¤ем тип
-int nVal = pData->nItemType;
-pFile->AddData( "type", &nVal );
-//—охран¤ем им¤ по умолчанию
-pFile->AddObject( "default_name", &pData->szDefaultName );
-//—охран¤ем отображаемое им¤
-pFile->AddObject( "display_name", &pData->szDisplayName );
-
-	//—охран¤ем значени¤
-	pFile->AddContainer( "values", &pData->values );
-	
-		//—охран¤ем внутренний список - child items
-		pFile->AddContainer( "childs", &pData->treeItemList );
-		
-			//—охран¤ем expand state
-			if ( pFile->IsReading() )
-			{
-			saver.AddData( 6, &nNeedExpand );
-			//развернем в функции InsertChildItems
-			}
-			else
-			{
-			int nState = pTreeCtrl->GetItemState( hItem, TVIS_EXPANDED );
-			if ( nState == TVIS_EXPANDED )
-			nNeedExpand = true;
-			else
-			nNeedExpand = false;
-			saver.AddData( 6, &nNeedExpand );
-			}
-			}
-*/
+/* void Serialize( CTreeAccessor *pFile, CTreeItem *pData )
+ */
 
 int CKeyFrameTreeItem::operator&( IDataTree &ss )
 {
@@ -579,4 +545,4 @@ int CKeyFrameTreeItem::operator&( IDataTree &ss )
 	saver.Add( "Key_frames", &framesList );
 	return 0;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////

@@ -40,7 +40,7 @@ void CLocalizationItem::UpdateItemValue( int nItemId, const CVariant &value )
 {
 	CTreeItem::UpdateItemValue( nItemId, value );
 
-	//преобразуем к относительному пути
+	// convert to relative path
 	if ( !IsRelatedPath( value ) )
 	{
 		string szValue = value;
@@ -48,10 +48,8 @@ void CLocalizationItem::UpdateItemValue( int nItemId, const CVariant &value )
 		bool bRes =	MakeSubRelativePath( GetDirectory(g_frameManager.GetActiveFrame()->GetProjectFileName().c_str() ).c_str(), szValue.c_str(), szRelatedPath );
 		if ( bRes )
 		{
-/*
-			//обрежем расширение в конце
-			szRelatedPath = szRelatedPath.substr( 0, szRelatedPath.rfind( '.' ) );
-*/
+/* //cut off the extension at the end
+			 */
 
 			CVariant newVal = szRelatedPath;
 			CTreeItem::UpdateItemValue( nItemId, newVal );

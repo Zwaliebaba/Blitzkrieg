@@ -14,13 +14,13 @@ CParticleView::~CParticleView()
 
 
 BEGIN_MESSAGE_MAP(CParticleView, CWnd)
-//{{AFX_MSG_MAP(CParticleView)
+// {{AFX_MSG_MAP(CParticleView)
 ON_WM_PAINT()
-//}}AFX_MSG_MAP
+// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 
-/////////////////////////////////////////////////////////////////////////////
+// //
 // CParticleView message handlers
 
 BOOL CParticleView::PreCreateWindow(CREATESTRUCT& cs) 

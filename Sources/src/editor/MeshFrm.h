@@ -1,6 +1,6 @@
 // MeshFrm.h : interface of the CMeshFrame class
 //
-/////////////////////////////////////////////////////////////////////////////
+// 
 
 #ifndef __MESHFRM_H__
 #define __MESHFRM_H__
@@ -40,14 +40,14 @@ public:
 	void SetTransportableMesh( const char *pszMeshName, const char *pszProjectName, CTreeItem *pRootItem = 0 );
 
 	void SelectLocator( CMeshLocatorPropsItem *pLoc );
-//	void UpdateItemType();
+// void UpdateItemType();
 	void UpdateLocatorVisibility();
 	
 // Overrides
 	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CMeshFrame)
+	// {{AFX_VIRTUAL(CMeshFrame)
 	protected:
-	//}}AFX_VIRTUAL
+	// }}AFX_VIRTUAL
 
 // Implementation
 private:
@@ -65,7 +65,7 @@ protected:
 	virtual void SpecificInit();
 	virtual void SpecificClearBeforeBatchMode();
 	virtual BOOL SpecificTranslateMessage( MSG *pMsg );
-	//загружает данные перед экспортом проекта
+	// loads data before exporting the project
 	virtual bool LoadFramePreExportData( const char *pszProjectFile, CTreeItem *pRootItem );
 	
 	virtual void SaveRPGStats( IDataTree *pDT, CTreeItem *pRootItem, const char *pszProjectName );
@@ -79,7 +79,7 @@ protected:
 
 // Generated message map functions
 protected:
-	//{{AFX_MSG(CMeshFrame)
+	// {{AFX_MSG(CMeshFrame)
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnShowLocatorsInfo();
 	afx_msg void OnUpdateShowLocatorsInfo(CCmdUI* pCmdUI);
@@ -88,13 +88,13 @@ protected:
 	afx_msg void OnShowDirectionButton();	
 	afx_msg void OnUpdateShowDirectionButton(CCmdUI* pCmdUI);
 	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
-	//}}AFX_MSG
+	// }}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 
-//{{AFX_INSERT_LOCATION}}
+// {{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
 
-#endif		//__MESHFRM_H__
+#endif		// __MESHFRM_H__

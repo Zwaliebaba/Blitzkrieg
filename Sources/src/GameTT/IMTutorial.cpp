@@ -3,65 +3,58 @@
 #include "IMTutorial.h"
 #include "iMission.h"
 #include "CommonId.h"
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-static const NInput::SRegisterCommandEntry commands[] = 
+
+static constexpr NInput::SRegisterCommandEntry commands[] =
 {
-	{ "inter_ok"				,	IMC_OK				},
-	{ "inter_cancel"		, IMC_OK				},
-	{ 0									,	0							}
+    {"inter_ok", IMC_OK},
+    {"inter_cancel", IMC_OK},
+    {nullptr, 0}
 };
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-CInterfaceIMTutorial::CInterfaceIMTutorial() : CInterfaceInterMission( "Current" )
-{
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-CInterfaceIMTutorial::~CInterfaceIMTutorial()
-{
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+CInterfaceIMTutorial::CInterfaceIMTutorial() : CInterfaceInterMission("Current") {}
+
+CInterfaceIMTutorial::~CInterfaceIMTutorial() {}
+
 bool CInterfaceIMTutorial::Init()
 {
-	CInterfaceInterMission::Init();
-	commandMsgs.Init( pInput, commands );
-	
-	return true;
+  CInterfaceInterMission::Init();
+  commandMsgs.Init(pInput, commands);
+
+  return true;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CInterfaceIMTutorial::StartInterface()
 {
-	CInterfaceInterMission::StartInterface();
-	pUIScreen = CreateObject<IUIScreen>( UI_SCREEN );
-	pUIScreen->Load( "ui\\Popup\\IMTutorial" );
-	pUIScreen->Reposition( pGFX->GetScreenRect() );
+  CInterfaceInterMission::StartInterface();
+  pUIScreen = CreateObject<IUIScreen>(UI_SCREEN);
+  pUIScreen->Load("ui\\Popup\\IMTutorial");
+  pUIScreen->Reposition(pGFX->GetScreenRect());
 
-	const WORD *pText = GetGlobalWVar( "TutorialText", (const WORD *) 0 );
-	NI_ASSERT_T( pText != 0, "Invalid tutorial text" );
-	if ( !pText )
-		return;
+  const WORD *pText = GetGlobalWVar("TutorialText", nullptr);
+  NI_ASSERT_T(pText != 0, "Invalid tutorial text");
+  if (!pText) return;
 
-	IUIDialog *pDialog = checked_cast<IUIDialog*> ( pUIScreen->GetChildByID( 100 ) );
-	IUIElement *pElement = pDialog->GetChildByID( 3000 );
-	pElement->SetWindowText( 0, pText );
-	RemoveGlobalVar( "TutorialText" );
+  auto pDialog = checked_cast<IUIDialog *>(pUIScreen->GetChildByID(100));
+  IUIElement *pElement = pDialog->GetChildByID(3000);
+  pElement->SetWindowText(0, pText);
+  RemoveGlobalVar("TutorialText");
 
-	pScene->AddUIScreen( pUIScreen );
+  pScene->AddUIScreen(pUIScreen);
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool CInterfaceIMTutorial::ProcessMessage( const SGameMessage &msg )
+
+bool CInterfaceIMTutorial::ProcessMessage(const SGameMessage &msg)
 {
-	if ( CInterfaceInterMission::ProcessMessage( msg ) )
-		return true;
-	
-	switch ( msg.nEventID )
-	{
-		case IMC_OK:
-		case IMC_CANCEL:
-			CloseInterface();
-			return true;
-	}
-	
-	//
-	return false;
+  if (CInterfaceInterMission::ProcessMessage(msg)) return true;
+
+  switch (msg.nEventID)
+  {
+    case IMC_OK:
+    case IMC_CANCEL:
+      CloseInterface();
+      return true;
+  }
+
+  //
+  return false;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

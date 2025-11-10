@@ -10,7 +10,7 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // COIEdit
 
 COIEdit::COIEdit()
@@ -23,13 +23,13 @@ COIEdit::~COIEdit()
 
 
 BEGIN_MESSAGE_MAP(COIEdit, CEdit)
-	//{{AFX_MSG_MAP(COIEdit)
+	// {{AFX_MSG_MAP(COIEdit)
 	ON_WM_KILLFOCUS()
 	ON_WM_KEYDOWN()
-	//}}AFX_MSG_MAP
+	// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // COIEdit message handlers
 
 void COIEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) 

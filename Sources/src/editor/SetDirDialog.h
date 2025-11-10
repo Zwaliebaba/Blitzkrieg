@@ -7,7 +7,7 @@
 // SetDirDialog.h : header file
 //
 
-/////////////////////////////////////////////////////////////////////////////
+// //
 // CSetDirDialog dialog
 
 class CSetDirDialog : public CDialog
@@ -17,20 +17,20 @@ public:
 	CSetDirDialog(CWnd* pParent = NULL);   // standard constructor
 
 // Dialog Data
-	//{{AFX_DATA(CSetDirDialog)
+	// {{AFX_DATA(CSetDirDialog)
 	enum { IDD = IDD_SET_DIRECTORIES_DIALOG };
 	CString	m_szSourceDir;
 	CString	m_szExecDir;
 	CString	m_szExecArgs;
-	//}}AFX_DATA
+	// }}AFX_DATA
 
 
 // Overrides
 	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CSetDirDialog)
+	// {{AFX_VIRTUAL(CSetDirDialog)
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	//}}AFX_VIRTUAL
+	// }}AFX_VIRTUAL
 
 // Implementation
 public:
@@ -44,14 +44,14 @@ public:
 protected:
 
 	// Generated message map functions
-	//{{AFX_MSG(CSetDirDialog)
+	// {{AFX_MSG(CSetDirDialog)
 	afx_msg void OnBrowseSourceDir();
 	afx_msg void OnBrowseExecDir();
-	//}}AFX_MSG
+	// }}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
 
-//{{AFX_INSERT_LOCATION}}
+// {{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
 
 #endif // !defined(AFX_SETDIRDIALOG_H__7B2C3F7C_861D_46D7_B240_BAE5ABD38E92__INCLUDED_)

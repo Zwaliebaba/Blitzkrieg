@@ -1,15 +1,17 @@
 #ifndef _CHATCRYPT_H_
 #define _CHATCRYPT_H_
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
+
 #endif
 
-	
+
 typedef struct _gs_crypt_key
-{      
-   unsigned char state[256];       
-   unsigned char x;        
-   unsigned char y;
+{
+  unsigned char state[256];
+  unsigned char x;
+  unsigned char y;
 } gs_crypt_key;
 
 

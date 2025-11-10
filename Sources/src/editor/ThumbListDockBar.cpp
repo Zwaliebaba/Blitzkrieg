@@ -10,7 +10,7 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-/////////////////////////////////////////////////////////////////////////////
+// //
 // CThumbListDockBar
 
 CThumbListDockBar::CThumbListDockBar()
@@ -23,14 +23,14 @@ CThumbListDockBar::~CThumbListDockBar()
 
 
 BEGIN_MESSAGE_MAP(CThumbListDockBar, SECControlBar)
-//{{AFX_MSG_MAP(CThumbListDockBar)
+// {{AFX_MSG_MAP(CThumbListDockBar)
 ON_WM_CREATE()
 ON_WM_SIZE()
-//}}AFX_MSG_MAP
+// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 
-/////////////////////////////////////////////////////////////////////////////
+// //
 // CThumbListDockBar message handlers
 
 int CThumbListDockBar::OnCreate(LPCREATESTRUCT lpCreateStruct) 

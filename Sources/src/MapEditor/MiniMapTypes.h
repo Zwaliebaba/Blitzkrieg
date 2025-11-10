@@ -5,32 +5,32 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-//Базовые интерфейсы
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//Средство рисования примитивов
+// Basic Interfaces
+
+// Primitive Drawer
 class IMiniMapDrawTool
 {
 public:
-	//pen tools
+	// pen tools
 	virtual void SetPen( int penStyle, int penWidth, COLORREF penColor ) = 0;
 	virtual void DestroyPen() = 0;
-	//line tools
+	// line tools
 	virtual void MoveTo( const CTPoint<int> &pointTo ) = 0;
 	virtual void LineTo( const CTPoint<int> &pointTo ) = 0;
 	virtual void Line( const CTPoint<int> &pointFrom, const CTPoint<int> &pointTo ) = 0;
 	virtual void Circle( const CTPoint<int> &center, int radius ) = 0;
 	virtual void Frame( const CTRect<int> &rectFrame ) = 0;
 	virtual void FillSolidRect( const CTRect<int> &rectFrame, COLORREF color ) = 0;
-	//bitmap tools
+	// bitmap tools
 	virtual void DrawBitmap( CDC* pBitmapDC, int nXSize, int nYSize ) = 0;
-	//pixel tools
-	//virtual void Pixel( const CTPoint<int> point, COLORREF pointColor ) = 0;
+	// pixel tools
+	// virtual void Pixel( const CTPoint<int> point, COLORREF pointColor ) = 0;
 	virtual void DrawDoubleLine( int nWidth, COLORREF darkColor, COLORREF lightColor, const CTPoint<int> &rShift ) {}
 
 	virtual ~IMiniMapDrawTool() { }
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//Примитив
+
+// Primitive
 class IMiniMapElement : public IRefCount
 {
 public:
@@ -39,15 +39,15 @@ public:
 	virtual void Draw( IMiniMapDrawTool* pTool ) = 0;
 };
 
-//Готовые примитивы
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//Рамка игрового экрана
+// Ready-made primitives
+
+// Game screen frame
 class CScreenFrame : public IMiniMapElement
 {
 	OBJECT_NORMAL_METHODS( CScreenFrame );
 
 private:
-	//внутренние данные
+	// internal data
 	CTPoint<int> point0;
 	CTPoint<int> point1;
 	CTPoint<int> point2;
@@ -58,11 +58,11 @@ private:
 	COLORREF penColor;
 
 public:	
-	//конструктор, конструктор копирования, оператор копирования, деструктор
+	// constructor, copy constructor, copy operator, destructor
 	CScreenFrame( int _penStyle = PS_SOLID, int _penWidth = 1, COLORREF _penColor = RGB( 0xFF, 0xFF, 0xFF ) )
 		: point0( 0, 0 ), point1( 0, 0 ), point2( 0, 0 ), point3( 0, 0 ),
 		  penStyle( _penStyle ), penWidth ( _penWidth ), penColor( _penColor ) { }
-	//IMiniMapElement interface
+	// IMiniMapElement interface
 	virtual void GetName( std::string *pszName )
 	{
 		NI_ASSERT_SLOW_T( pszName != 0,
@@ -84,7 +84,7 @@ public:
 	}
 };
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CUnitsSelection : public IMiniMapElement
 {
 	OBJECT_NORMAL_METHODS( CUnitsSelection );
@@ -98,7 +98,7 @@ class CUnitsSelection : public IMiniMapElement
 	std::list<SUnitInfo> units;
 
 public:
-	//IMiniMapElement interface
+	// IMiniMapElement interface
 	virtual void GetName( std::string *pszName )
 	{
 		NI_ASSERT_SLOW_T( pszName != 0,
@@ -119,13 +119,13 @@ public:
 };
 
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CFireRangeAreas : public IMiniMapElement
 {
 	OBJECT_NORMAL_METHODS( CFireRangeAreas );
 
 private:
-	//внутренние данные
+	// internal data
 	std::vector<SShootAreas> areas;
 
 	int circlePenStyle;
@@ -137,13 +137,13 @@ private:
 	//
 	void DrawShootArea( IMiniMapDrawTool* pTool, const SShootArea &area );
 public:	
-	//конструктор, конструктор копирования, оператор копирования, деструктор
+	// constructor, copy constructor, copy operator, destructor
 	CFireRangeAreas( const int _circlePenStyle = PS_SOLID, const int _circlePenWidth = 1,
 									 const int _sectorPenStyle = PS_SOLID, const int _sectorPenWidth = 1 )
 		: circlePenStyle( _circlePenStyle ), circlePenWidth( _circlePenWidth ),
 		  sectorPenStyle( _sectorPenStyle ), sectorPenWidth( _sectorPenWidth ) { }
 
-	//IMiniMapElement interface	
+	// IMiniMapElement interface
 	virtual void GetName( std::string *pszName )
 	{
 		NI_ASSERT_SLOW_T( pszName != 0, NStr::Format( "Wrong parameter <pszName>: %x", pszName ) );
@@ -152,97 +152,16 @@ public:
 	virtual void Update( CDC *pDC );
 	virtual void Draw( IMiniMapDrawTool* pTool );
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/**
-class CReservePositions : public IMiniMapElement
-{
-	OBJECT_NORMAL_METHODS( CReservePositions );
 
-private:
-	//внутренние данные
-	std::vector< std::vector<CTPoint<int> > > positions;
-	std::vector<CTPoint<int> > currentPosition;
+/* *
+ */
 
-	int circlePenStyle;
-	int circlePenWidth;
-	COLORREF circlePenColor;
-	
-	int sectorPenStyle;
-	int sectorPenWidth;
-	COLORREF sectorPenColor;
-
-public:	
-	//конструктор, конструктор копирования, оператор копирования, деструктор
-	CFireRangeAreas( int _circlePenStyle = PS_SOLID, 
-									 int _circlePenWidth = 1,
-									 COLORREF _circlePenColor = RGB( 0xFF, 0xFF, 0xFF ),
-									 int _sectorPenStyle = PS_SOLID, 
-									 int _sectorPenWidth = 1,
-									 COLORREF _sectorPenColor = RGB( 0xFF, 0xFF, 0xFF ) )
-		: circlePenStyle( _circlePenStyle ),
-		  circlePenWidth (_circlePenWidth ),
-			circlePenColor( _circlePenColor ),
-		  sectorPenStyle( _sectorPenStyle ),
-		  sectorPenWidth (_sectorPenWidth ),
-			sectorPenColor( _sectorPenColor ) { }
-
-	//IMiniMapElement interface	
-	virtual void GetName( std::string *pszName )
-	{
-		NI_ASSERT_SLOW_T( pszName != 0,
-											NStr::Format( "Wrong parameter <pszName>: %x", pszName ) );
-		*pszName = "Fire Range Areas";
-	}
-	virtual void Update( CDC *pDC );
-	virtual void Draw( IMiniMapDrawTool* pTool )
-	{
-		NI_ASSERT_SLOW_T( pTool != 0,
-											NStr::Format( "Wrong parameter <pTool>: %x", pTool ) );
-
-		for ( int index = 0; index < areas.size(); ++index )
-		{
-			pTool->SetPen( circlePenStyle, circlePenWidth, circlePenColor );
-			pTool->Circle( CTPoint<int>( areas[index].shootCircle.center.x, areas[index].shootCircle.center.y ), areas[index].shootCircle.r );
-			pTool->DestroyPen();
-			
-			if ( areas[index].wStartAngle != areas[index].wFinishAngle )
-			{
-				pTool->SetPen( sectorPenStyle, sectorPenWidth, sectorPenColor );
-				pTool->MoveTo( CTPoint<int>( areas[index].shootCircle.center.x, areas[index].shootCircle.center.y ) );
-				{
-					float fAngle = fmod( float( areas[index].wStartAngle ) / 65535.0f * FP_2PI + FP_PI2, FP_2PI );
-					float fCos = cos( fAngle );
-					float fSin = sin( fAngle );
-
-					int x = areas[index].shootCircle.center.x + areas[index].shootCircle.r * fCos;
-					int y = areas[index].shootCircle.center.y + areas[index].shootCircle.r * fSin;
-		
-					pTool->LineTo( CTPoint<int>( x, y ) );
-				}
-				pTool->MoveTo( CTPoint<int>( areas[index].shootCircle.center.x, areas[index].shootCircle.center.y ) );
-				{
-					float fAngle = fmod( float( areas[index].wFinishAngle ) / 65535.0f * FP_2PI + FP_PI2, FP_2PI );
-					float fCos = cos( fAngle );
-					float fSin = sin( fAngle );
-
-					int x = areas[index].shootCircle.center.x + areas[index].shootCircle.r * fCos;
-					int y = areas[index].shootCircle.center.y + areas[index].shootCircle.r * fSin;
-		
-					pTool->LineTo( CTPoint<int>( x, y ) );
-				}
-				pTool->DestroyPen();
-			}
-		}
-	}
-};
-/**/
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class CMiniMapTerrain : public IMiniMapElement
 {
 	OBJECT_NORMAL_METHODS( CMiniMapTerrain );
 
 private:
-	//внутренние данные
+	// internal data
 	CDC dc;
 	CBitmap *pBitmap;
 	CBitmap *pOldBitmap;
@@ -274,7 +193,7 @@ private:
 	}
 
 public:	
-	//конструктор, конструктор копирования, оператор копирования, деструктор
+	// constructor, copy constructor, copy operator, destructor
 	CMiniMapTerrain() 
 		: pBitmap( 0 ), pOldBitmap( 0 ), size( 0, 0 ), bGame( false )
 	{
@@ -291,10 +210,10 @@ public:
 	void SetInGame( bool _bGame ) { bGame = _bGame; } 
 	bool GetInGame() { return bGame; } 
 
-	//дополнительные методы
+	// additional methods
 	void UpdateColor();
 
-	//IMiniMapElement interface	
+	// IMiniMapElement interface
 	virtual void GetName( std::string *pszName )
 	{
 		NI_ASSERT_SLOW_T( pszName != 0,
@@ -310,13 +229,13 @@ public:
 		pTool->DrawBitmap( &dc, size.x, size.y );
 	}
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CMiniMapTerrainGrid : public IMiniMapElement
 {
 	OBJECT_NORMAL_METHODS( CMiniMapTerrainGrid );
 
 private:
-	//внутренние данные
+	// internal data
 	CTPoint<int> size;
 	CTPoint<int> glidLines;
 
@@ -325,11 +244,11 @@ private:
 	COLORREF penColor;
 
 public:	
-	//конструктор, конструктор копирования, оператор копирования, деструктор
+	// constructor, copy constructor, copy operator, destructor
 	CMiniMapTerrainGrid( int _penStyle = PS_SOLID, int _penWidth = 1, COLORREF _penColor = RGB( 0xFF, 0xFF, 0xFF ) )
 		: size( 0, 0 ), glidLines( 0, 0 ),
 		  penStyle( _penStyle ), penWidth ( _penWidth ), penColor( _penColor ) { }
-	//IMiniMapElement interface
+	// IMiniMapElement interface
 	virtual void GetName( std::string *pszName )
 	{
 		NI_ASSERT_SLOW_T( pszName != 0,
@@ -367,7 +286,7 @@ public:
 		}
 	}
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CSizedMiniMapDrawTool : public IMiniMapDrawTool
 {
 protected:
@@ -441,7 +360,7 @@ public:
 												color );
 	}
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CXORLinesMiniMapDrawTool : public CSizedMiniMapDrawTool
 {
 protected:
@@ -466,13 +385,13 @@ public:
 	CXORLinesMiniMapDrawTool( const CRect &_drawingRect, const CPoint &_maxPoint, CDC* _pDC )
 		: CSizedMiniMapDrawTool( _drawingRect, _maxPoint, _pDC ), pOldPen( 0 ), pNewPen( 0 )
 	{
-		//nPreviousDrawMode = pDC->GetROP2();
-		//pDC->SetROP2( R2_XORPEN );
+		// nPreviousDrawMode = pDC->GetROP2();
+		// pDC->SetROP2( R2_XORPEN );
 	}
 	~CXORLinesMiniMapDrawTool()
 	{
 		DestroyPen();
-		//pDC->SetROP2( nPreviousDrawMode );
+		// pDC->SetROP2( nPreviousDrawMode );
 	}
 	virtual void SetPen( int penStyle, int penWidth, COLORREF penColor )
 	{
@@ -495,7 +414,7 @@ public:
 	virtual void DrawBitmap( CDC* pBitmapDC, int nXSize, int nYSize ) {}
 };
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CXORDoubleLinesMiniMapDrawTool : public CSizedMiniMapDrawTool
 {
 	std::list<CTPoint<int> > points;
@@ -547,7 +466,7 @@ public:
 	}
 };
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CBitmapMiniMapDrawTool : public CSizedMiniMapDrawTool
 {
 public:
@@ -574,64 +493,16 @@ public:
 		::SetBrushOrgEx( pDC->m_hDC, orgPoint.x, orgPoint.y, &point );
 	}
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// basement storage  
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	/**
-	CScreenFrame( const CScreenFrame &screenFrame )
-		: point0( screenFrame.point0 ), point1( screenFrame.point1 ), point2( screenFrame.point2 ), point3( screenFrame.point3 ),
-		  penStyle( screenFrame.penStyle ), penWidth ( screenFrame.penWidth ), penColor( screenFrame.penColor ) { }
-	CScreenFrame& operator=( const CScreenFrame &screenFrame )
-	{
-		if ( this != &screenFrame )
-		{
-			point0 = screenFrame.point0;
-			point1 = screenFrame.point1;
-			point2 = screenFrame.point2;
-			point3 = screenFrame.point3;
-		  penStyle = screenFrame.penStyle;
-			penWidth = screenFrame.penWidth;
-			penColor = screenFrame.penColor;
-		}
-		return ( *this );
-	}
-	/**/
-/**
-class CMiniMapVectorElement : public IMiniMapElement
-{
-	OBJECT_NORMAL_METHODS( CMiniMapVectorElement );
 
-private:
-	std::vector<CPtr<IMiniMapElement> > vElements;
-	
-public:	
-	std::vector<CPtr<IMiniMapElement> >& Elements() { return vElements; }
-	
-	//IMiniMapElement interface	
-	virtual void Draw( IMiniMapDrawTool* pTool )
-	{
-		for( int index = 0; index < vElements.size(); ++index )
-		vElements[index]->Draw( pTool );
-	}
-};
-/**/
-/**
-							pColors[i].r = builder.GetTerrainType( pTiles[i].tile ) * 16;
-							pColors[i].b = pTiles[i].shade;
-							pColors[i].g = 255;
-/**/
-/**
-enum MiniMapLayers
-{
-	LAYER_TERRAIN = 0,
-	LAYER_ENVIRONMENT = 1,
-	LAYER_ROAD = 2,
-	LAYER_UNIT = 3,
-	LAYER_GRID = 4,
-	LAYER_FRAME = 5,
+// basement storage
 
-	LAYER_DIMENSION = 6,
-};
-/**/
+	/* *
+	 */
+/* *
+ */
+/* *
+							 */
+/* *
+ */
 #endif // !defined(__EditorMiniMap_Types__)
 

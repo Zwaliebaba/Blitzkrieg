@@ -13,7 +13,7 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // CEffectView
 
 CEffectView::CEffectView()
@@ -26,13 +26,13 @@ CEffectView::~CEffectView()
 
 
 BEGIN_MESSAGE_MAP(CEffectView, CWnd)
-//{{AFX_MSG_MAP(CEffectView)
+// {{AFX_MSG_MAP(CEffectView)
 ON_WM_PAINT()
-//}}AFX_MSG_MAP
+// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // CEffectView message handlers
 
 BOOL CEffectView::PreCreateWindow(CREATESTRUCT& cs) 
@@ -62,11 +62,8 @@ void CEffectView::OnPaint()
 	}
 	else
 	{
-/*
-		ValidateRect( 0 );
-		CWnd::OnPaint();
-		g_frameManager.GetFrame( CFrameManager::E_EFFECT_FRAME )->UpdateChildWindows();
-*/
+/* ValidateRect( 0 );
+		 */
 		CWnd::OnPaint();
 		ValidateRect( 0 );
 	}
@@ -74,15 +71,8 @@ void CEffectView::OnPaint()
 
 BOOL CEffectView::PreTranslateMessage( MSG* pMsg )
 {
-/*
-	switch ( pMsg->message )
-	{
-		case WM_THUMB_LIST_DBLCLK:
-		case WM_THUMB_LIST_DELETE:
-			GetParent()->PostMessage( pMsg->message, pMsg->wParam );
-			return true;
-	}
-*/
+/* switch ( pMsg->message )
+	 */
 
 	return CWnd::PreTranslateMessage(pMsg);
 }

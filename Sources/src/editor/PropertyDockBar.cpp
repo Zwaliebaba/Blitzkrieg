@@ -2,7 +2,7 @@
 #include "resource.h"
 #include "PropertyDockBar.h"
 
-/////////////////////////////////////////////////////////////////////////////
+// //
 // CPropertyDockBar
 
 CPropertyDockBar::CPropertyDockBar()
@@ -15,14 +15,14 @@ CPropertyDockBar::~CPropertyDockBar()
 
 
 BEGIN_MESSAGE_MAP(CPropertyDockBar, SECControlBar)
-	//{{AFX_MSG_MAP(CPropertyDockBar)
+	// {{AFX_MSG_MAP(CPropertyDockBar)
 	ON_WM_CREATE()
 	ON_WM_SIZE()
-	//}}AFX_MSG_MAP
+	// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 
-/////////////////////////////////////////////////////////////////////////////
+// //
 // CPropertyDockBar message handlers
 
 int CPropertyDockBar::OnCreate(LPCREATESTRUCT lpCreateStruct) 
@@ -79,54 +79,17 @@ void CPropertyDockBar::OnSize(UINT nType, int cx, int cy)
 
 BOOL CPropertyDockBar::PreTranslateMessage(MSG* pMsg) 
 {
-/*
-	switch ( pMsg->message )
-	{
-	case WM_KEY_FRAME_RCLICK:
-		{
-			//Отображаем меню
-			CMenu menu;
-			menu.LoadMenu( IDR_KEYFRAME_ZOOM_MENU );
-			CMenu *popupMenu = menu.GetSubMenu( 0 );
-			popupMenu->TrackPopupMenu( TPM_LEFTALIGN | TPM_LEFTBUTTON, pMsg->wParam, pMsg->lParam, this );
-			return true;
-		}
+/* switch ( pMsg->message )
+	 */
 	
-	case WM_KEY_FRAME_UPDATE:
-		if ( pActiveKeyItem )
-		{
-			//Обновляем список значений
-			pActiveKeyItem->SetFramesList( m_pKeyFramer->GetFramesList() );
-			//сейчас работает только с ParticleFrame
-			g_frameManager.GetParticleFrame()->SetChangedFlag( true );
-		}
-		return true;
-	}
-*/
-	
-/*
-	switch ( pMsg->message )
-	{
-		case WM_KEYDOWN:
-			::PostMessage( m_pKeyFramer->GetSafeHwnd(), WM_KEYDOWN, pMsg->wParam, pMsg->lParam );
-			return true;
-	}
-*/
+/* switch ( pMsg->message )
+	 */
 
 	return SECControlBar::PreTranslateMessage( pMsg );
 }
 
-/*
-void CPropertyDockBar::SetActiveKeyFrameTreeItem( CKeyFrameTreeItem *pItem )
-{
-	NI_ASSERT( pItem != 0 );
-
-	pActiveKeyItem = pItem;
-	m_pKeyFramer->SetFramesList( pItem->framesList );
-	m_pKeyFramer->SetXResizeMode( pItem->bResizeMode );
-	m_pKeyFramer->SetDimentions( pItem->fMinValX, pItem->fMaxValX, pItem->fStepX, pItem->fMinValY, pItem->fMaxValY, pItem->fStepY );
-}
-*/
+/* void CPropertyDockBar::SetActiveKeyFrameTreeItem( CKeyFrameTreeItem *pItem )
+ */
 
 void CPropertyDockBar::AddRootVariable( std::string &str, int variable)
 {
@@ -155,7 +118,7 @@ HTREEITEM CPropertyDockBar::AddEmptyNode( std::string &str, HTREEITEM hPARoot )
 		return hPA;
 }
 
-//!!!!!!!!!!!!!!!!!!!!!!!Надо переделать 
+// !!!!!!!!!!!!!!!!!!!!!!!!We need to redo it
 int CPropertyDockBar::GetVariable( std::string &name)
 {
 	
@@ -184,7 +147,7 @@ int CPropertyDockBar::GetVariable( std::string &name)
 void CPropertyDockBar::ClearVariables()
 {
 	m_pCurrentObject = 0;
-	//!!!!
+	// !!!!
 	m_tree.m_tree.DeleteAllItems();
 	m_varHandles.clear();
 }
@@ -197,7 +160,7 @@ void CPropertyDockBar::AddManipulatorVariable( std::string &str, IManipulator *p
 	std::string tmpStr;
 	if( szVector.size() != 1 )
 	{
-		// есть ветви 
+		// there are branches
 		for( std::vector<std::string>::iterator it = szVector.begin(); it != szVector.end() - 1; ++it )
 		{
 			tmpStr += (*it);

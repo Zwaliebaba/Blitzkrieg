@@ -42,7 +42,7 @@ void CObjectTreeRootItem::ComposeAnimations( const char *pszProjectFileName, con
 	CTreeItem *pGraphItem = GetChildItem( E_OBJECT_GRAPHICS_ITEM );
 	ASSERT( pGraphItem != 0 );
 	string szDir = GetDirectory( pszProjectFileName );
-	int i = 0;		//это номер сезона
+	int i = 0;		// this is the season number
 	for ( CTreeItem::CTreeItemList::const_iterator it=pGraphItem->GetBegin(); it!=pGraphItem->GetEnd(); ++it )
 	{
 		CObjectGraphicPropsItem *pGraphPropsItem = static_cast<CObjectGraphicPropsItem *> ( it->GetPtr() );
@@ -216,12 +216,8 @@ int CObjectPassPropsItem::GetPassAIClass()
 	return GetAIClassInfo( szVal.c_str() );
 }
 
-/*
-void CObjectPassPropsItem::SetPassAIClass( int nVal )
-{
-	values[0].value = GetAIClassInfo( nVal );
-}
-*/
+/* void CObjectPassPropsItem::SetPassAIClass( int nVal )
+ */
 
 void CObjectGraphicsItem::InitDefaultValues()
 {
@@ -253,7 +249,7 @@ void CObjectGraphicPropsItem::UpdateItemValue( int nItemId, const CVariant &valu
 	if ( nItemId == 1 || nItemId == 2 )
 	{
 		CObjectFrame *pFrame = static_cast<CObjectFrame *> ( g_frameManager.GetFrame( CFrameManager::E_OBJECT_FRAME ) );
-		//»зменилось им¤ файла, конвертируем его к относительному виду
+		// "changed the name of the file, convert it to relative form
 		if ( !IsRelatedPath( value ) )
 		{
 			string szProjectName = g_frameManager.GetFrame( CFrameManager::E_OBJECT_FRAME )->GetProjectFileName();
@@ -278,7 +274,7 @@ void CObjectGraphicPropsItem::UpdateItemValue( int nItemId, const CVariant &valu
 
 void CObjectGraphicPropsItem::MyLButtonClick()
 {
-	//этот item становитс¤ текущим спрайтом в Object composer
+	// this item becomes the current sprite in Object composer
 	CObjectFrame *pFrame = static_cast<CObjectFrame *> ( g_frameManager.GetFrame( CFrameManager::E_OBJECT_FRAME ) );
 	pFrame->SetActiveGraphicPropsItem( this );
 }

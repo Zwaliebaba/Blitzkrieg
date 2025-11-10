@@ -42,8 +42,8 @@ const int CAIGState::POSITION_ARROW_POINT_PARTS = 16;
 const SColor CAIGState::PARCEL_COLORS[3] = { SColor( 0xFF, 0xFF, 0x80, 0x80 ), SColor( 0xFF, 0x80, 0xFF, 0x80 ), SColor( 0xFF, 0xFF, 0xFF, 0x80 ) };
 const SColor CAIGState::POSITION_COLORS[3] = { SColor( 0xFF, 0xFF, 0x20, 0x20 ), SColor( 0xFF, 0x20, 0xFF, 0x20 ), SColor( 0xFF, 0xFF, 0xFF, 0x20 ) };
 
-//CAIGSelectState
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// CAIGSelectState
+
 void CAIGSelectState::OnLButtonDown( UINT nFlags, const CTPoint<int> &rMousePoint, CTemplateEditorFrame* pFrame )
 {
 	if ( pParentState->stateParameter.Update( CInputStateParameter::ISE_LBUTTONDOWN, rMousePoint, pFrame ) )
@@ -208,12 +208,12 @@ void CAIGSelectState::OnLButtonDown( UINT nFlags, const CTPoint<int> &rMousePoin
 			pParentState->SetActiveState( CAIGState::STATE_EDIT );
 		}
 		
-		//pParentState->Draw( pFrame );
+		// pParentState->Draw( pFrame );
 		pFrame->RedrawWindow();
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CAIGSelectState::OnMouseMove( UINT nFlags, const CTPoint<int> &rMousePoint, CTemplateEditorFrame* pFrame )
 {
 	if ( pParentState->stateParameter.Update( CInputStateParameter::ISE_MOUSEMOVE, rMousePoint, pFrame ) )
@@ -221,24 +221,24 @@ void CAIGSelectState::OnMouseMove( UINT nFlags, const CTPoint<int> &rMousePoint,
 		pParentState->activePoint.isValid = false;
 		pParentState->SetActiveState( CAIGState::STATE_SELECT );
 
-		//pParentState->Draw( pFrame );
+		// pParentState->Draw( pFrame );
 		pFrame->RedrawWindow();
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CAIGSelectState::OnKeyDown( UINT nChar, UINT nRepCnt, UINT nFlags, CTemplateEditorFrame* pFrame )
 {
 	if ( pParentState->stateParameter.Update( CInputStateParameter::ISE_KEYDOWN, CTPoint<int>( 0, 0 ), pFrame ) )
 	{
-		//pParentState->Draw( pFrame );
-		//не надо
-		//pFrame->RedrawWindow();
+		// pParentState->Draw( pFrame );
+		// No need
+		// pFrame->RedrawWindow();
 	}
 }
 
-//CAIGEditState
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// CAIGEditState
+
 void CAIGEditState::OnLButtonUp( UINT nFlags, const CTPoint<int> &rMousePoint, CTemplateEditorFrame* pFrame )
 {
 	if ( pParentState->stateParameter.Update( CInputStateParameter::ISE_LBUTTONUP, rMousePoint, pFrame ) )
@@ -246,12 +246,12 @@ void CAIGEditState::OnLButtonUp( UINT nFlags, const CTPoint<int> &rMousePoint, C
 		pParentState->activePoint.isValid = false;
 		pParentState->SetActiveState( CAIGState::STATE_SELECT );
 
-		//pParentState->Draw( pFrame );
+		// pParentState->Draw( pFrame );
 		pFrame->RedrawWindow();
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CAIGEditState::OnMouseMove( UINT nFlags, const CTPoint<int> &rMousePoint, CTemplateEditorFrame* pFrame )
 {
 	if ( pParentState->stateParameter.Update( CInputStateParameter::ISE_MOUSEMOVE, rMousePoint, pFrame ) )
@@ -326,12 +326,12 @@ void CAIGEditState::OnMouseMove( UINT nFlags, const CTPoint<int> &rMousePoint, C
 				pParentState->SetActiveState( CAIGState::STATE_SELECT );
 			}
 		}
-		//pParentState->Draw( pFrame );
+		// pParentState->Draw( pFrame );
 		pFrame->RedrawWindow();
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CAIGEditState::OnKeyDown( UINT nChar, UINT nRepCnt, UINT nFlags, CTemplateEditorFrame* pFrame )
 {
 	if ( pParentState->stateParameter.Update( CInputStateParameter::ISE_KEYDOWN, CTPoint<int>( 0, 0 ), pFrame ) )
@@ -378,7 +378,7 @@ void CAIGEditState::OnKeyDown( UINT nChar, UINT nRepCnt, UINT nFlags, CTemplateE
 					}
 					pParentState->activePoint.isValid = false;
 					pParentState->SetActiveState( CAIGState::STATE_SELECT );
-					//pParentState->Draw( pFrame );
+					// pParentState->Draw( pFrame );
 					pFrame->RedrawWindow();
 					return;
 				}
@@ -403,7 +403,7 @@ void CAIGEditState::OnKeyDown( UINT nChar, UINT nRepCnt, UINT nFlags, CTemplateE
 					}
 					pParentState->activePoint.isValid = false;
 					pParentState->SetActiveState( CAIGState::STATE_SELECT );
-					//pParentState->Draw( pFrame );
+					// pParentState->Draw( pFrame );
 					pFrame->RedrawWindow();
 					return;
 				}
@@ -415,14 +415,14 @@ void CAIGEditState::OnKeyDown( UINT nChar, UINT nRepCnt, UINT nFlags, CTemplateE
 			}
 		}
 
-		//pParentState->Draw( pFrame );
-		//не надо
-		//pFrame->RedrawWindow();
+		// pParentState->Draw( pFrame );
+		// No need
+		// pFrame->RedrawWindow();
 	}
 }
 
-//AIG
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// AIG
+
 void CAIGState::Enter()
 {
 	SetActiveState( STATE_SELECT );
@@ -431,12 +431,12 @@ void CAIGState::Enter()
 		pFrame->m_mapEditorBarPtr->GetAIGeneralTab()->LoadAIGReinforcementsInfo();
 		pFrame->m_mapEditorBarPtr->GetAIGeneralTab()->LoadAIGPositionsInfo();
 		
-		//Draw( pFrame );
+		// Draw( pFrame );
 		pFrame->RedrawWindow();
 	}
-	//CInputMultiState::Enter();
+	// CInputMultiState::Enter();
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CAIGState::Leave()
 {
 	nCurrentParcel = INVALID_INDEX;
@@ -447,10 +447,10 @@ void CAIGState::Leave()
 	{
 		pFrame->RedrawWindow();
 	}
-	//CInputMultiState::Leave();
+	// CInputMultiState::Leave();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CAIGState::Draw( CTemplateEditorFrame* pFrame )
 {
 	if ( IScene *pScene = GetSingleton<IScene>() )
@@ -461,17 +461,8 @@ void CAIGState::Draw( CTemplateEditorFrame* pFrame )
 			{
 				STerrainInfo &rTerrainInfo = const_cast<STerrainInfo&>( pTerrainEditor->GetTerrainInfo() );
 
-				/**
-				if ( GetActiveState() == STATE_SELECT )
-				{
-				}
-				else if ( GetActiveState() == STATE_EDIT )
-				{
-				}
-				else if ( GetActiveState() == STATE_ADD )
-				{
-				}
-				/**/
+				/* *
+				 */
 
 				const SAIGeneralMapInfo &rAIGeneralMapInfo = pFrame->currentMapInfo.aiGeneralMapInfo;
 				int nSide = pFrame->m_mapEditorBarPtr->GetAIGeneralTab()->m_nSide;
@@ -646,7 +637,7 @@ void CAIGState::Draw( CTemplateEditorFrame* pFrame )
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CAIGState::Update()
 {
 	if ( IScene *pScene = GetSingleton<IScene>() )
@@ -657,11 +648,11 @@ void CAIGState::Update()
 			{
 				if ( CTemplateEditorFrame *pFrame = g_frameManager.GetTemplateEditorFrame() )
 				{
-					//Draw( pFrame );
+					// Draw( pFrame );
 					pFrame->RedrawWindow();
 				}
 			}
 		}
 	}
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+

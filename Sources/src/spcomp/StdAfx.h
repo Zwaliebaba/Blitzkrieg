@@ -1,6 +1,6 @@
 // stdafx.h : include file for standard system include files,
-//  or project specific include files that are used frequently, but
-//      are changed infrequently
+// or project specific include files that are used frequently, but
+// are changed infrequently
 //
 
 #if !defined(AFX_STDAFX_H__A9DB83DB_A9FD_11D0_BFD1_444553540000__INCLUDED_)
@@ -43,7 +43,7 @@
 #include <comutil.h>
 #endif // __AFX__
 
-//#include <stdlib.h>
+// #include <stdlib.h>
 #include <math.h>
 // STL headers
 #pragma warning( disable : 4503 4018 4786 4800 4290 4146 4244 4284 )
@@ -59,7 +59,7 @@
 //
 typedef __int64 int64;									// due to lack of 'long long' type support
 typedef unsigned __int64 QWORD;					// quadra word
-#define for if(false); else for					// to achive standard variable scope resolving, declared inside 'for'
+#define for if(false); else for					// to achieve standard variable scope resolving, declared inside 'for'
 #define STDCALL __stdcall								// to use with interface function calls
 // define 'interface' keyword
 #ifndef interface
@@ -71,7 +71,7 @@ typedef unsigned __int64 QWORD;					// quadra word
 #else
 #define ONCE message ""
 #endif // _MSC_VER > 1000
-// define ASSERT for easy access and common usage. in the non-_DEBUG mode turn it off
+// define ASSERT for easy access and common usage. 
 #ifdef _DEBUG
 #ifndef ASSERT
 #define ASSERT( x ) assert( x )
@@ -93,8 +93,8 @@ typedef unsigned __int64 QWORD;					// quadra word
 #include "..\StreamIO\Globals.h"				// globals - singleton, global var system, temp buffers, console, etc.
 #include "..\StreamIO\StreamIO.h"				// stream I/O base interfaces
 #include "..\StreamIO\DBIO.h"						// database I/O base interfaces
-#include "..\StreamIO\StructureSaver.h"	// strucutre saver base interfaces
-#include "..\StreamIO\SSHelper.h"				// strucutre saver helper classes
+#include "..\StreamIO\StructureSaver.h"	// structure saver base interfaces
+#include "..\StreamIO\SSHelper.h"				// structure saver helper classes
 #include "..\StreamIO\DTHelper.h"				// data tree helper classes
 
 #include "..\Main\GameTimer.h"
@@ -104,7 +104,7 @@ typedef unsigned __int64 QWORD;					// quadra word
 
 // TODO: reference additional headers your program requires here
 
-//{{AFX_INSERT_LOCATION}}
+// {{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
 
 #endif // !defined(AFX_STDAFX_H__A9DB83DB_A9FD_11D0_BFD1_444553540000__INCLUDED_)

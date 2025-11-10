@@ -3,4 +3,4 @@
 
 using namespace std;
 
-#endif		//__SPECIFIC_H__
+#endif		// __SPECIFIC_H__

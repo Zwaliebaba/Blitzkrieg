@@ -7,18 +7,18 @@
 #include "..\Misc\StrProc.h"
 
 #include <strstream>
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 const int nLeadingPixels = 2;
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // CFontInfo
-//      This class stores information about the currently loaded font.
-//      This includes TEXTMETRIC, ABCs, Kerning pairs and estimated texture size for the font letters image
+// This class stores information about the currently loaded font.
+// This includes TEXTMETRIC, ABCs, Kerning pairs and estimated texture size for the font letters image
 struct SFontInfo
 {
   HFONT hFont;													// HFONT used to draw with this font
-  TEXTMETRIC tm;												// text metrics, e.g. character height
+  TEXTMETRIC tm;												// text metrics, e.g. 
 	std::vector<ABC> abc;									// character ABC widths
-	std::vector<KERNINGPAIR> kps;					// kernging pairs
+	std::vector<KERNINGPAIR> kps;					// kerning pairs
 	int nTextureSizeX, nTextureSizeY;			// estimated texture size
 	std::hash_map<WORD, WORD> translate;	// ANSI => UNICODE translation table
 	//
@@ -32,13 +32,13 @@ struct SFontInfo
   SFontInfo() : hFont( 0 ), nTextureSizeX( 0 ), nTextureSizeY( 0 ) {  }
   virtual ~SFontInfo() { if ( hFont ) DeleteObject( hFont ); }
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // estimate, is requested number of chars fit in the selected texture
 inline bool IsFit( const SFontInfo &fi, DWORD dwNumChars, DWORD dwSizeX, DWORD dwSizeY )
 {
   return ( dwSizeX / (fi.tm.tmAveCharWidth + 2) ) * ( dwSizeY / fi.tm.tmHeight ) >= dwNumChars;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // estimate optimal texture size
 bool EstimateTextureSize( SFontInfo &fi, DWORD dwNumChars )
 {
@@ -61,14 +61,14 @@ bool EstimateTextureSize( SFontInfo &fi, DWORD dwNumChars )
   // too big texture!!!
   return false;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 struct SKPZeroFunctional
 {
   bool operator()( const KERNINGPAIR &kp ) const { return kp.iKernAmount == 0; }
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//      Fills SFontInfo fi with text metrics, char widths and kerning pairs
-//      -> hdc: HDC that the font is currently selected into
+
+// Fills SFontInfo fi with text metrics, char widths and kerning pairs
+// -> hdc: HDC that the font is currently selected into
 void MeasureFont( HDC hdc, SFontInfo &fi, std::vector<WORD> &chars )
 {
   GetTextMetrics( hdc, &fi.tm );
@@ -108,7 +108,7 @@ void MeasureFont( HDC hdc, SFontInfo &fi, std::vector<WORD> &chars )
   fi.kps.erase( std::remove_if( fi.kps.begin(), fi.kps.end(), SKPZeroFunctional() ), fi.kps.end() );
   // estimate texture size
   if ( EstimateTextureSize( fi, chars.size() ) == false )
-    throw 1; // too large texture !!!
+    throw 1; // too large texture!!!
   // check and correct size estimating
   int x = 0, y = 0;
 	for ( int i=0; i<chars.size(); ++i )
@@ -131,7 +131,7 @@ void MeasureFont( HDC hdc, SFontInfo &fi, std::vector<WORD> &chars )
     x += nNextCharShift;
 	}
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // create font object and estimate metrics and texture size
 void LoadFont( HWND hWnd, SFontInfo &fi, int nHeight, int nWeight, bool bItalic, DWORD dwCharSet, 
 							 bool bAntialias, DWORD dwPitch, const std::string &szFaceName, std::vector<WORD> &chars )
@@ -144,13 +144,13 @@ void LoadFont( HWND hWnd, SFontInfo &fi, int nHeight, int nWeight, bool bItalic,
     fi.hFont = 0;
   }
   // create font (in this version this will be with the hardcoded height)
-  // in the next version I want completely remove 'ChooseFont' dialog and take all info from the .ini file
+  // in the next version I want to completely remove 'ChooseFont' dialog and take all info from the .ini file
   fi.hFont = ::CreateFont( nHeight, 0, 0, 0, nWeight, bItalic, FALSE, FALSE, 
                            dwCharSet, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, 
                            bAntialias ? ANTIALIASED_QUALITY : NONANTIALIASED_QUALITY,
                            dwPitch, szFaceName.c_str() );
   // retrieve logfont
-//  ::GetObject( fi.hFont, sizeof(fi.lf), &fi.lf );
+// ::GetObject( fi.hFont, sizeof(fi.lf), &fi.lf );
   // get HDC:
   HDC hdc = GetDC( hWnd );
   // select font:
@@ -180,7 +180,7 @@ void LoadFont( HWND hWnd, SFontInfo &fi, int nHeight, int nWeight, bool bItalic,
   // release HDC:
   ReleaseDC( hWnd, hdc );
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // draw font in the DC
 bool DrawFont( HDC hdc, const SFontInfo &fi, const std::vector<WORD> &chars )
 {
@@ -203,13 +203,13 @@ bool DrawFont( HDC hdc, const SFontInfo &fi, const std::vector<WORD> &chars )
 	}
   return true;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // draw font in the DC, extract bitmap from the DC and convert it to the Image
 IImage* CreateFontImage( const SFontInfo &fi, const std::vector<WORD> &chars )
 {
   // Create an offscreen bitmap:
-  int width = fi.nTextureSizeX;//16 * fi.tm.tmMaxCharWidth;
-  int height = fi.nTextureSizeY;//14 * fi.tm.tmHeight;
+  int width = fi.nTextureSizeX;// 16 * fi.tm.tmMaxCharWidth;
+  int height = fi.nTextureSizeY;// 14 * fi.tm.tmHeight;
   // Prepare to create a bitmap
   BYTE *pBitmapBits = 0;
   BITMAPINFO bmi;
@@ -244,7 +244,7 @@ IImage* CreateFontImage( const SFontInfo &fi, const std::vector<WORD> &chars )
   for ( int i=0, j=0; i<fi.nTextureSizeX * fi.nTextureSizeY * 3; i+=3, ++j )
   {
 		DWORD a = pBitmapBits[i];
-    DWORD c = pBitmapBits[i];//( a != 0 ? 255 : pBitmapBits[i] );
+    DWORD c = pBitmapBits[i];// ( a != 0 ? 255 : pBitmapBits[i] );
     imagedata[j] = (a << 24) | (c << 16) | (c << 8) | c;
   }
 	IImage *pImage = Singleton<IImgProc>()->CreateImage( fi.nTextureSizeX, fi.nTextureSizeY, &(imagedata[0]) );
@@ -252,7 +252,7 @@ IImage* CreateFontImage( const SFontInfo &fi, const std::vector<WORD> &chars )
 
 	return pImage;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // create and fill SFontFormat with the complete data for the font
 SFontFormat* CreateFontFormat( const std::string &szFaceName, const SFontInfo &fi, const std::vector<WORD> &chars )
 {
@@ -270,7 +270,7 @@ SFontFormat* CreateFontFormat( const std::string &szFaceName, const SFontInfo &f
 	pFF->metrics.nMaxCharWidth = fi.tm.tmMaxCharWidth;
 	pFF->metrics.wDefaultChar = fi.Translate( fi.tm.tmDefaultChar );
 	pFF->metrics.cCharSet = fi.tm.tmCharSet;
-	// pFF->metrics.fSpaceWidth will be filled later 
+	// pFF->metrics.fSpaceWidth will be filled later
 	// kerning pairs
 	for ( int i=0; i<fi.kps.size(); ++i )
 	{
@@ -299,7 +299,7 @@ SFontFormat* CreateFontFormat( const std::string &szFaceName, const SFontInfo &f
     chardesc.fC = fi.abc[i].abcC;
     chardesc.fWidth = fi.abc[i].abcB + ( fi.abc[i].abcC > 0 ? fi.abc[i].abcC : 0 );
     // character rect in the texture's coords
-    // add '0.5f' to all coords to achive an excellent letter quality (due to texel center in (0.5,0.5) with respect to pixel center)
+    // add '0.5f' to all coords to achieve an excellent letter quality (due to texel center in (0.5,0.5) with respect to pixel center)
     chardesc.x1 = float( x + 0.5f ) / fi.nTextureSizeX;
     chardesc.y1 = float( y * fi.tm.tmHeight + 0.5f ) / fi.nTextureSizeY;
     chardesc.x2 = float( x + chardesc.fWidth + 0.5f ) / fi.nTextureSizeX;
@@ -312,15 +312,15 @@ SFontFormat* CreateFontFormat( const std::string &szFaceName, const SFontInfo &f
 	//
 	return pFF;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // params:
-//   height (in pixels)
-//   weight (100-900. normal == 400, bold == 700)
-//   italic (t/f)
-//   charset
-//   antialiased (t/f)
-//   pitch (default, fixed, variable)
-//   face name (ZB "Times New Roman")
+// height (in pixels)
+// weight (100-900. normal == 400, bold == 700)
+// italic (t/f)
+// charset
+// antialiased (t/f)
+// pitch (default, fixed, variable)
+// face name (ZB "Times New Roman")
 
 // ANSI_CHARSET
 // BALTIC_CHARSET
@@ -336,11 +336,11 @@ SFontFormat* CreateFontFormat( const std::string &szFaceName, const SFontInfo &f
 // SHIFTJIS_CHARSET
 // SYMBOL_CHARSET
 // TURKISH_CHARSET
-// Windows NT/2000 or Middle-Eastern Windows 3.1 or later: 
+// Windows NT/2000 or Middle-Eastern Windows 3.1 or later:
 // HEBREW_CHARSET
-// ARABIC_CHARSET 
-// Windows NT/2000 or Thai Windows 3.1 or later: 
-// THAI_CHARSET 
+// ARABIC_CHARSET
+// Windows NT/2000 or Thai Windows 3.1 or later:
+// THAI_CHARSET
 
 int main( int argc, char *argv[] )
 {
@@ -396,7 +396,7 @@ int main( int argc, char *argv[] )
 
     printf( ss.str() );
 
-    //::MessageBox( 0, ss.str(), "Warning", MB_OK | MB_ICONWARNING );
+    // ::MessageBox( 0, ss.str(), "Warning", MB_OK | MB_ICONWARNING );
     return 0xDEAD;
   }
   // initialize charsets map
@@ -482,4 +482,4 @@ int main( int argc, char *argv[] )
 	//
 	return 0;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+

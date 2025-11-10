@@ -7,8 +7,8 @@
 // OICombo.h : header file
 //
 
-/////////////////////////////////////////////////////////////////////////////
-// COICombo window
+// 
+// COI Combo window
 
 class COICombo : public CComboBox
 {
@@ -24,8 +24,8 @@ public:
 
 // Overrides
 	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(COICombo)
-	//}}AFX_VIRTUAL
+	// {{AFX_VIRTUAL(COICombo)
+	// }}AFX_VIRTUAL
 
 // Implementation
 public:
@@ -35,17 +35,17 @@ public:
 protected:
   CFont	m_fntDef;
 
-	//{{AFX_MSG(COICombo)
+	// {{AFX_MSG(COICombo)
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnKillFocus(CWnd* pNewWnd);
-	//}}AFX_MSG
+	// }}AFX_MSG
 
 	DECLARE_MESSAGE_MAP()
 };
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 
-//{{AFX_INSERT_LOCATION}}
+// {{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
 
 #endif // !defined(AFX_OICOMBO_H__B4AC7D2E_CAF0_4314_BFCB_D0C13D6C244C__INCLUDED_)

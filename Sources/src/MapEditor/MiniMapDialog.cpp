@@ -19,17 +19,17 @@ static char THIS_FILE[] = __FILE__;
 #define LAYER_DIMENSION ( 6 )
 #define FRAME_OFFSET ( 2 )
  
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 const int CMiniMapDialog::vID[] = 
 {
-	IDC_MINIMAP_VIEW,						//0
-	IDC_MINIMAP_EDITOR,					//1
-	IDC_MINIMAP_GAME,						//2
-	IDC_MINIMAP_GAME_CREATE,		//3
-	IDC_MINIMAP_CLOSE,					//4
+	IDC_MINIMAP_VIEW,						// 0
+	IDC_MINIMAP_EDITOR,					// 1
+	IDC_MINIMAP_GAME,						// 2
+	IDC_MINIMAP_GAME_CREATE,		// 3
+	IDC_MINIMAP_CLOSE,					// 4
 };
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 CMiniMapDialog::CMiniMapDialog( CWnd* pParent )
 	: CDialog( CMiniMapDialog::IDD, pParent ), 
 		m_frame( 0 ), m_isCreating( true ),
@@ -37,21 +37,21 @@ CMiniMapDialog::CMiniMapDialog( CWnd* pParent )
 		fireRangeAreas( PS_SOLID, 1, PS_SOLID, 1 ),
 		miniMapTerrainGrid( PS_DOT, 1, RGB( 0x00, 0x00, 0x00 ) )
 {
-	//{{AFX_DATA_INIT(CMiniMapDialog)
-	//}}AFX_DATA_INIT
+	// {{AFX_DATA_INIT(CMiniMapDialog)
+	// }}AFX_DATA_INIT
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CMiniMapDialog::DoDataExchange( CDataExchange* pDX )
 {
 	CDialog::DoDataExchange( pDX );
-	//{{AFX_DATA_MAP(CMiniMapDialog)
-	//}}AFX_DATA_MAP
+	// {{AFX_DATA_MAP(CMiniMapDialog)
+	// }}AFX_DATA_MAP
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 BEGIN_MESSAGE_MAP( CMiniMapDialog, CDialog )
-	//{{AFX_MSG_MAP(CMiniMapDialog)
+	// {{AFX_MSG_MAP(CMiniMapDialog)
 	ON_BN_CLICKED( IDC_MINIMAP_CLOSE, OnMinimapClose )
 	ON_WM_SIZE()
 	ON_WM_SIZING()
@@ -63,16 +63,16 @@ BEGIN_MESSAGE_MAP( CMiniMapDialog, CDialog )
 	ON_BN_CLICKED(IDC_MINIMAP_EDITOR, OnMinimapUpdate)
 	ON_BN_CLICKED(IDC_MINIMAP_GAME, OnMinimapGame)
 	ON_BN_CLICKED(IDC_MINIMAP_GAME_CREATE, OnMinimapGameCreate)
-	//}}AFX_MSG_MAP
+	// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CMiniMapDialog::OnMinimapClose() 
 {
 	SendMessage( WM_CLOSE );
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 BOOL CMiniMapDialog::OnInitDialog() 
 {
 	m_isCreating = true;
@@ -105,7 +105,7 @@ BOOL CMiniMapDialog::OnInitDialog()
 	return TRUE;
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CMiniMapDialog::OnSize( UINT nType, int cx, int cy ) 
 {
 	CDialog::OnSize( nType, cx, cy );
@@ -149,7 +149,7 @@ void CMiniMapDialog::OnSize( UINT nType, int cx, int cy )
   InvalidateRect(NULL, TRUE);
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CMiniMapDialog::OnSizing( UINT fwSide, LPRECT pRect ) 
 {
 	CDialog::OnSizing( fwSide, pRect );
@@ -199,7 +199,7 @@ void CMiniMapDialog::OnSizing( UINT fwSide, LPRECT pRect )
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CMiniMapDialog::OnMove( int x, int y ) 
 {
 	CDialog ::OnMove(x, y);
@@ -215,7 +215,7 @@ void CMiniMapDialog::OnMove( int x, int y )
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CMiniMapDialog::DrawMiniMapTerrain( CDC *pDC )
 {
 	NI_ASSERT_SLOW_T( pDC != 0,
@@ -228,7 +228,7 @@ void CMiniMapDialog::DrawMiniMapTerrain( CDC *pDC )
 	miniMapTerrain.Draw( &bitmapTool );
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CMiniMapDialog::DrawGameScreenFrame( CDC *pDC )
 {
 	NI_ASSERT_SLOW_T( pDC != 0,
@@ -252,7 +252,7 @@ void CMiniMapDialog::DrawGameScreenFrame( CDC *pDC )
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CMiniMapDialog::DrawFireRangeAreas( CDC *pDC )
 {
 	NI_ASSERT_SLOW_T( pDC != 0,
@@ -277,7 +277,7 @@ void CMiniMapDialog::DrawFireRangeAreas( CDC *pDC )
 }
 
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CMiniMapDialog::DrawUnitsSelection( CDC *pDC )
 {
 	NI_ASSERT_SLOW_T( pDC != 0,
@@ -301,7 +301,7 @@ void CMiniMapDialog::DrawUnitsSelection( CDC *pDC )
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CMiniMapDialog::DrawMiniMapTerrainGrid( CDC *pDC )
 {
 	NI_ASSERT_SLOW_T( pDC != 0,
@@ -327,7 +327,7 @@ void CMiniMapDialog::DrawMiniMapTerrainGrid( CDC *pDC )
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CMiniMapDialog::OnLButtonDown( UINT nFlags, CPoint point ) 
 {
 	CRect miniMapRect;
@@ -357,12 +357,12 @@ void CMiniMapDialog::OnLButtonDown( UINT nFlags, CPoint point )
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CMiniMapDialog::OnLButtonUp( UINT nFlags, CPoint point ) 
 {
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CMiniMapDialog::OnMouseMove(UINT nFlags, CPoint point) 
 {
 	if ( nFlags & MK_LBUTTON )
@@ -371,7 +371,7 @@ void CMiniMapDialog::OnMouseMove(UINT nFlags, CPoint point)
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CMiniMapDialog::GetMiniMapRect( CRect* pRect, bool onlyDimensions )
 {
 	NI_ASSERT_SLOW_T( pRect != 0,
@@ -396,7 +396,7 @@ void CMiniMapDialog::GetMiniMapRect( CRect* pRect, bool onlyDimensions )
 	pRect->SetRectEmpty();
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CMiniMapDialog::InvalidateMiniMapRect()
 {
 	CRect miniMapRect;
@@ -404,17 +404,17 @@ void CMiniMapDialog::InvalidateMiniMapRect()
 	InvalidateRect( &miniMapRect, false );
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CMiniMapDialog::UpdateScreenFrame()
 {
 	CDC* pDC = GetDC();
 	if( pDC )
 	{ 
-		//miniMapTerrain.Update( pDC );
+		// miniMapTerrain.Update( pDC );
 		fireRangeAreas.Update( pDC );
 		gameScreenFrame.Update( pDC );
 		miniMapTerrainGrid.Update( pDC );
-		//unitsSelection.Update( pDC );
+		// unitsSelection.Update( pDC );
 		ReleaseDC( pDC );
 	}
 
@@ -422,13 +422,13 @@ void CMiniMapDialog::UpdateScreenFrame()
 	UpdateWindow();
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CMiniMapDialog::OnPaint() 
 {
-	//CDialog::OnPaint();
+	// CDialog::OnPaint();
 	CPaintDC paintDC(this);
 
-	//берем рабочую область экрана
+	// take the working area of ​​the screen
 	CRect miniMapRect;
 	GetMiniMapRect( &miniMapRect );
 
@@ -448,18 +448,11 @@ void CMiniMapDialog::OnPaint()
 	paintDC.BitBlt( miniMapRect.left, miniMapRect.top, miniMapRect.Width(), miniMapRect.Height(), &dc, 0, 0, SRCCOPY );
 	dc.SelectObject( pOldBitmap );
 
-	/**
-	CRect clientRect;
-	GetClientRect( &clientRect );
-
-	clientRect.left = clientRect.right - ::GetSystemMetrics( SM_CXHSCROLL );
-	clientRect.top = clientRect.bottom - ::GetSystemMetrics( SM_CYVSCROLL );
-
-	paintDC.DrawFrameControl( clientRect, DFC_SCROLL, DFCS_SCROLLSIZEGRIP );
-	/**/
+	/* *
+	 */
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CMiniMapDialog::UpdateMinimap( bool bUpdateUnits ) 
 {
 	UpdateControls();
@@ -477,34 +470,34 @@ void CMiniMapDialog::UpdateMinimap( bool bUpdateUnits )
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CMiniMapDialog::UpdateMinimapEditor( bool bUpdateUnits ) 
 {
 	miniMapTerrain.SetInGame( false );
 	UpdateMinimap( bUpdateUnits );
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CMiniMapDialog::OnMinimapUpdate() 
 {
 	miniMapTerrain.SetInGame( false );
 	UpdateMinimap( true );
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CMiniMapDialog::OnMinimapGame() 
 {
 	miniMapTerrain.SetInGame( true );
 	UpdateMinimap( true );
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CMiniMapDialog::OnMinimapGameCreate() 
 {
 	g_frameManager.GetTemplateEditorFrame()->CreateMiniMap();
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CMiniMapDialog::UpdateControls()
 {
 	bool bEnable = false;
@@ -555,59 +548,18 @@ void CMiniMapDialog::UpdateControls()
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// basement storage  
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/**
-	if ( m_frame )
-	{
-		for ( std::hash_map< SMapObject *, SEditorObjectItem*, SDefaultPtrHash >::iterator it = m_frame->m_objectsAI.begin(); it != m_frame->m_objectsAI.end(); ++it )
-		{ 
-			if( it->first)->IsHuman() )
-			{
-				CVec3 vec3 = (it->first)->pVisObj->GetPosition();
 
+// basement storage
 
-			}
-		}
-	}
-/**/
-/**
-ITerrain *terra = GetSingleton<IScene>()->GetTerrain();
-if ( terra )
-{		
-	dynamic_cast<ITerrainEditor*>(terra)->SetMarker( NULL, 0 );
-}
-/**/
+/* *
+	 */
+/* *
+ */
 
-/**	
-	if( CWnd* pwnd = GetDlgItem( IDC_MINIMAP_VIEW ) )
-	{
-		CRect wndRect;
-		pwnd.GetWindowRect( &wndRect );
-		if ( wndRect.PtInRect( point ) )
-		{
-			CDialog::OnLButtonDown( nFlags, point );
-			mouseFrame.GetFrame().Set( point.x, point.y, point.x, point.y );
-			DrawXORMouseFrame();
-			SetCapture();
-		}
-	}
-/**/
-/**
-	CDialog::OnLButtonUp( nFlags, point );
-	DrawXORMouseFrame();
-	ReleaseCapture();
+/* *	
+	 */
+/* *
+	 */
 
-/**/
-
-/**
-	if ( nFlags & MK_LBUTTON )
-	{
-		DrawXORMouseFrame();
-		mouseFrame.GetFrame().right = point.x;
-		mouseFrame.GetFrame().bottom = point.y;
-		DrawXORMouseFrame();
-	}
-	CDialog::OnMouseMove(nFlags, point);
-/**/
+/* *
+	 */

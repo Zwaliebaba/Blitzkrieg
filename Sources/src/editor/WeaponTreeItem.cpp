@@ -487,7 +487,7 @@ void CWeaponEffectPropsItem::UpdateItemValue( int nItemId, const CVariant &value
 	
 	if ( nItemId == 2 )
 	{
-		//сконвертим путь к звуковому файлу в относительный без расширени¤
+		// convert the path to the sound file to relative without extension¤
 		if ( !IsRelatedPath( value ) )
 		{
 			string szValue = value;
@@ -495,7 +495,7 @@ void CWeaponEffectPropsItem::UpdateItemValue( int nItemId, const CVariant &value
 			bool bRes =	MakeSubRelativePath( theApp.GetEditorDataDir().c_str(), szValue.c_str(), szRelatedPath );
 			if ( bRes )
 			{
-				//обрежем расширение в конце
+				// cut off the extension at the end
 				szRelatedPath = szRelatedPath.substr( 0, szRelatedPath.rfind( '.' ) );
 				CVariant newVal = szRelatedPath;
 				CTreeItem::UpdateItemValue( nItemId, newVal );
@@ -585,15 +585,15 @@ void CWeaponCratersItem::UpdateItemValue( int nItemId, const CVariant &value )
 	
 	if ( nItemId == 1 )
 	{
-		//изменилась директори¤, считываю все *.san файлы из поддиректорий
+		// directories have changed¤, I read all *.san files from subdirectories
 		std::string szVal = value;
 		string szMask = "*.san";
 		vector<string> files;
 		
-		//—перва составл¤ю полный список san файлов
+		// — first I make a complete list of san files
 		std::string szBaseDir = theApp.GetEditorDataDir();
 		
-		//обновим им¤ директории
+		// update the directory with it
 		std::string szShortDirName;
 		bool bRes = MakeSubRelativePath( szBaseDir.c_str(), szVal.c_str(), szShortDirName );
 		if ( !bRes )
@@ -624,14 +624,11 @@ void CWeaponCratersItem::UpdateItemValue( int nItemId, const CVariant &value )
 			NI_ASSERT( szName.size() > 0 );
 			int nLast = szName[szName.size() - 1];
 			if ( nLast == 'a' || nLast == 'w' || nLast == 'A' || nLast == 'W' )
-				continue;		//считаетс¤ что это африканские или зимние картинки
+				continue;		// It is believed that these are African or winter pictures
 
 			CWeaponCraterPropsItem *pProps = new CWeaponCraterPropsItem;
-/*
-			int nLen = sizeof( "TerraObjects\\Shell_Hole\\" );
-			std::string szTemp = szName.substr( nLen - 1 );
-			pProps->SetItemName( szTemp.c_str() );
-*/
+/* int nLen = sizeof( "TerraObjects\\Shell_Hole\\" );
+			 */
 			pProps->SetItemName( szName.c_str() );
 			pProps->SetCraterFileName( szName.c_str() );
 			AddChild( pProps );

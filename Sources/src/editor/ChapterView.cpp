@@ -9,7 +9,7 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // CChapterView
 
 CChapterView::CChapterView()
@@ -22,13 +22,13 @@ CChapterView::~CChapterView()
 
 
 BEGIN_MESSAGE_MAP(CChapterView, CWnd)
-//{{AFX_MSG_MAP(CChapterView)
+// {{AFX_MSG_MAP(CChapterView)
 ON_WM_PAINT()
-//}}AFX_MSG_MAP
+// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // CChapterView message handlers
 
 BOOL CChapterView::PreCreateWindow(CREATESTRUCT& cs) 

@@ -1,14 +1,14 @@
 #ifndef __STRUCTURESAVER_H__
 #define __STRUCTURESAVER_H__
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // ************************************************************************************************************************ //
 // **
 // ** structure saver interface
-// ** для записи данных в поток в виде chunk'ов
+// ** for writing data to the stream in the form of chunks
 // **
 // **
 // ************************************************************************************************************************ //
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 typedef char SSChunkID;
 interface IStructureSaver : public IRefCount
 {
@@ -20,7 +20,7 @@ interface IStructureSaver : public IRefCount
 	enum EStoreMode
 	{
 		ALL = 1,														// store data and store objects with re-creation, etc... - complete save/load mode
-		DATAONLY = 2												// store data only. don't re-create objects - data save/load mode - special for internal data access
+		DATAONLY = 2												// store data only. 
 	};
 	// start new complex chunk
 	virtual bool STDCALL StartChunk( const SSChunkID idChunk ) = 0;
@@ -36,26 +36,26 @@ interface IStructureSaver : public IRefCount
 	virtual void STDCALL SetChunkCounter( int nCount ) = 0;
 	// is structure saver opened in the READ mode?
 	virtual bool STDCALL IsReading() const = 0;
-	// загрузка объекта с воссозданием его
+	// loading an object and recreating it
 	virtual IRefCount* STDCALL LoadObject() = 0;
-	// запись объекта и данных, необходимых для его воссоздания при загрузке
+	// recording the object and data needed to recreate it when loaded
 	virtual void STDCALL StoreObject( IRefCount *pObj ) = 0;
-	// получить указатель на игровую базу данных
+	// get a pointer to the game database
 	virtual interface IGDB* STDCALL GetGDB() = 0;
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // ************************************************************************************************************************ //
 // **
 // ** data tree interface
-// **	для записи/чтения данных из потока в виде дерева.
-// **	отличается от IStructureSaver'а тем, что предназначен только для данных (не поддерживает восстановление объектов)
-// **	и, т.ж., записывает информацию в текстовые файлы в удобном для последующего просмотра в third-party editor'е виде.
-// ** По большому счёту, данный интерфейс избыточен. 
-// ** Но это идёт из-за того, что необходимо записать данные в текстовый файл так, 
-// ** чтобы потом их было удобно читать в каком либо third-party viewer'е
+// ** for writing/reading data from a stream in the form of a tree.
+// ** differs from IStructureSaver in that it is intended only for data (does not support object restoration)
+// ** and also writes information into text files in a form convenient for later viewing in a third-party editor.
+// ** By and large, this interface is redundant.
+// ** But this is due to the fact that it is necessary to write data to a text file like this:
+// ** so that later they can be conveniently read in some third-party viewer
 // **
 // ************************************************************************************************************************ //
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 typedef const char* DTChunkID;
 interface IDataTree : public IRefCount
 {
@@ -83,15 +83,15 @@ interface IDataTree : public IRefCount
 	virtual int STDCALL StartContainerChunk( DTChunkID idChunk ) = 0;
 	virtual void STDCALL FinishContainerChunk() = 0;
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // ************************************************************************************************************************ //
 // **
 // ** save/load system
-// ** создание saver'а и регистрация объектов, производных от IRefCount 
-// ** для последующего автоматического создания их при загрузке
+// ** creating a saver and registering objects derived from IRefCount
+// ** for subsequent automatic creation of them upon loading
 // **
 // ************************************************************************************************************************ //
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 interface ISaveLoadSystem
 {
 	// common factory
@@ -111,8 +111,8 @@ interface ISaveLoadSystem
 	virtual IDataTable* STDCALL OpenDataTable( IDataStream *pStream, const char *pszBaseNode = "base" ) = 0;
 	virtual IDataTable* STDCALL OpenIniDataTable( IDataStream *pStream ) = 0;
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// функции для работа с save/load системой и глобальной фабрикой
+
+// functions for working with the save/load system and the global factory
 extern ISaveLoadSystem *g_pGlobalSaveLoadSystem;
 inline ISaveLoadSystem* GetSLS() { return g_pGlobalSaveLoadSystem; }
 // save/load system
@@ -133,7 +133,7 @@ template <class TYPE>
 	inline TYPE* CreateObject( IObjectFactory *pFactory, int nTypeID ) { return static_cast<TYPE*>( pFactory->CreateObject(nTypeID) ); }
 template <class TYPE> 
 	inline TYPE* CreateObject( int nTypeID ) { return CreateObject<TYPE>( GetCommonFactory(), nTypeID ); }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // ************************************************************************************************************************ //
 // **
 // ** open/create storage/file helper functions
@@ -141,17 +141,17 @@ template <class TYPE>
 // **
 // **
 // ************************************************************************************************************************ //
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 inline IDataStorage* OpenStorage( const char *pszName, DWORD dwAccessMode, DWORD type = STORAGE_TYPE_FILE )
 {
 	return GetSLS()->OpenStorage( pszName, dwAccessMode, type );
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 inline IDataStorage* CreateStorage( const char *pszName, DWORD dwAccessMode, DWORD type = STORAGE_TYPE_FILE )
 {
 	return GetSLS()->CreateStorage( pszName, dwAccessMode, type );
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 inline IDataStream* OpenFileStream( const std::string &szFullName, DWORD dwAccessMode )
 {
 	const int nPos = szFullName.rfind( '\\' );
@@ -160,7 +160,7 @@ inline IDataStream* OpenFileStream( const std::string &szFullName, DWORD dwAcces
 	CPtr<IDataStorage> pStorage = OpenStorage( szPathName.c_str(), dwAccessMode, STORAGE_TYPE_FILE );
 	return pStorage->OpenStream( szFileName.c_str(), dwAccessMode );
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 inline IDataStream* CreateFileStream( const std::string &szFullName, DWORD dwAccessMode )
 {
 	const int nPos = szFullName.rfind( '\\' );
@@ -169,7 +169,7 @@ inline IDataStream* CreateFileStream( const std::string &szFullName, DWORD dwAcc
 	CPtr<IDataStorage> pStorage = CreateStorage( szPathName.c_str(), dwAccessMode, STORAGE_TYPE_FILE );
 	return pStorage->CreateStream( szFileName.c_str(), dwAccessMode );
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // ************************************************************************************************************************ //
 // **
 // ** open database/datatable
@@ -177,7 +177,7 @@ inline IDataStream* CreateFileStream( const std::string &szFullName, DWORD dwAcc
 // **
 // **
 // ************************************************************************************************************************ //
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 inline IDataBase* OpenDataBase( const char *pszName, DWORD dwAccessMode, DWORD type = DB_TYPE_INI )
 {
 	return GetSLS()->OpenDataBase( pszName, dwAccessMode, type );
@@ -190,7 +190,7 @@ inline IDataTable* OpenIniDataTable( IDataStream *pStream )
 {
 	return GetSLS()->OpenIniDataTable( pStream );
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #ifndef _DONT_USE_SINGLETON
 namespace NDB
 {
@@ -202,5 +202,5 @@ namespace NDB
 	}
 };
 #endif // _DONT_USE_SINGLETON
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // __STRUCTURESAVER_H__

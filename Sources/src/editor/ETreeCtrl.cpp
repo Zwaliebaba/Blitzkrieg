@@ -12,7 +12,7 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // CETreeCtrl
 
 CETreeCtrl::CETreeCtrl()
@@ -23,17 +23,14 @@ CETreeCtrl::CETreeCtrl()
 
 CETreeCtrl::~CETreeCtrl()
 {
-//	delete pRootItem;
-	pRootItem = 0;					//удаляется как CPtr
+// delete pRootItem;
+	pRootItem = 0;					// deleted as CPtr
 }
 
 void CETreeCtrl::OnDestroy() 
 {
-/*
-	HTREEITEM handle = m_treeCtrl.GetRootItem();
-	if ( handle )
-		DestroySiblingItems( handle );
-*/		//Все удаляется как часть pRootItem
+/* HTREEITEM handle = m_treeCtrl.GetRootItem();
+	 */		// Everything is deleted as part of pRootItem
 	CWnd::OnDestroy();
 }
 
@@ -50,11 +47,8 @@ void CETreeCtrl::DestroySiblingItems(HTREEITEM _handle)
 		{
 			delete pItem;
 		}
-/*
-		HTREEITEM child = m_treeCtrl.GetNextItem( handle, TVGN_CHILD );
-		if ( child )
-			DestroySiblingItems( child );
-*/
+/* HTREEITEM child = m_treeCtrl.GetNextItem( handle, TVGN_CHILD );
+		 */
 		handle = m_treeCtrl.GetNextItem( handle, TVGN_NEXT );
 	}
 }
@@ -95,7 +89,7 @@ CTreeItem* CETreeCtrl::GetTreeItem( HTREEITEM hti )
 }
 
 BEGIN_MESSAGE_MAP(CETreeCtrl, CWnd)
-	//{{AFX_MSG_MAP(CETreeCtrl)
+	// {{AFX_MSG_MAP(CETreeCtrl)
 	ON_WM_CREATE()
   ON_NOTIFY(TVN_BEGINDRAG, IDC_TREE_CONTROL, OnBegindrag)
 	ON_WM_MOUSEMOVE()
@@ -107,10 +101,10 @@ BEGIN_MESSAGE_MAP(CETreeCtrl, CWnd)
 	ON_NOTIFY(TVN_SELCHANGED, IDC_TREE_CONTROL, OnSelect)
 	ON_NOTIFY(NM_RCLICK, IDC_TREE_CONTROL, OnRButtonClick)
 	ON_NOTIFY(TVN_KEYDOWN, IDC_TREE_CONTROL, OnKeyDown)
-	//}}AFX_MSG_MAP
+	// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // CETreeCtrl message handlers
 
 int CETreeCtrl::OnCreate(LPCREATESTRUCT lpCreateStruct) 
@@ -120,19 +114,17 @@ int CETreeCtrl::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		TVS_HASBUTTONS |
 		TVS_LINESATROOT |
 		TVS_HASLINES |
-//		TVS_EDITLABELS |
+// TVS_EDITLABELS |
 		TVS_SHOWSELALWAYS |
-//		TVS_DISABLEDRAGDROP |
+// TVS_DISABLEDRAGDROP |
 		WS_CHILD | WS_VISIBLE;
 	
-	DWORD dwStyleEx = /*TVXS_MULTISEL | */ TVXS_FLYBYTOOLTIPS | LVXS_HILIGHTSUBITEMS;
+	DWORD dwStyleEx = /* TVXS_MULTISEL | */ TVXS_FLYBYTOOLTIPS | LVXS_HILIGHTSUBITEMS;
 	
 	bool bCreated = m_treeCtrl.Create( dwStyle, dwStyleEx, CRect(0, 0, 0, 0), this, IDC_TREE_CONTROL);
 	NI_ASSERT(bCreated);
-/*
-  AddSomeItems();
-	m_treeCtrl.SetImageList(&m_imlNormal, TVSIL_NORMAL);
-*/
+/* AddSomeItems();
+	 */
 	m_treeCtrl.ShowWindow( SW_SHOW );  
   m_treeCtrl.SetNotifyWnd( this );
   m_treeCtrl.UpdateWindow();
@@ -160,7 +152,7 @@ void CETreeCtrl::LoadImageList( UINT nID )
 
 void CETreeCtrl::OnBegindrag(NMHDR* pNMHDR, LRESULT* pResult)
 {
-//	TRACE(_T("Begin Drag\n"));
+// TRACE(_T("Begin Drag\n"));
 	NI_ASSERT(m_bDragging == FALSE);
 	NI_ASSERT(m_pDragImageList == NULL);
 	
@@ -193,7 +185,7 @@ void CETreeCtrl::OnBegindrag(NMHDR* pNMHDR, LRESULT* pResult)
 
 	m_pDragImageList->DragMove(ptAction);
 	m_pDragImageList->DragEnter(theApp.GetMainWnd(), ptAction);
-//	m_pDragImageList->DragEnter(this, ptAction);
+// m_pDragImageList->DragEnter(this, ptAction);
 	SetCapture();
 	
   *pResult = 0;
@@ -221,11 +213,11 @@ void CETreeCtrl::OnMouseMove(UINT nFlags, CPoint point)
 		hitem = m_treeCtrl.HitTest(ptTree, &flags);
 		if ( hitem && (TVHT_ONITEM & flags) )
 		{
-			//Проверяем типы item drag & item drop
+			// Checking item drag & item drop types
 			CTreeItem *pDrag = GetTreeItem( m_hitemDrag );
 			CTreeItem *pDrop = GetTreeItem( hitem );
 
-//			if ( pDrag->GetItemType() == pDrop->GetItemType() )
+// if ( pDrag->GetItemType() == pDrop->GetItemType() )
 			if ( pDrag->IsCompatibleWith(pDrop) )
 			{
 				m_pDragImageList->DragLeave( theApp.GetMainWnd() );
@@ -247,14 +239,8 @@ void CETreeCtrl::OnMouseMove(UINT nFlags, CPoint point)
 			m_treeCtrl.SelectDropTarget( 0 );
 			m_pDragImageList->DragEnter(theApp.GetMainWnd(), pt);
 		}
-/*
-		else if ( m_hitemDrop && !(TVHT_ONITEM & flags) )
-		{
-			//m_treeCtrl.SelectDropTarget(0);
-			m_treeCtrl.SelectItem(0);
-			m_hitemDrop = 0;
-		}
-*/
+/* else if ( m_hitemDrop && !(TVHT_ONITEM & flags) )
+		 */
 	}
 	
 	CWnd::OnMouseMove(nFlags, point);
@@ -264,7 +250,7 @@ void CETreeCtrl::OnLButtonUp(UINT nFlags, CPoint point)
 {
   if(m_bDragging == TRUE)
   {
-//		TRACE(_T("End Drag\n"));
+// TRACE(_T("End Drag\n"));
 		ReleaseCapture();
 		NI_ASSERT(m_pDragImageList != NULL);
 		m_pDragImageList->DragLeave(this);
@@ -272,68 +258,28 @@ void CETreeCtrl::OnLButtonUp(UINT nFlags, CPoint point)
 		delete m_pDragImageList;
 		m_pDragImageList = NULL;
 		m_bDragging = FALSE;
-/*
-		TV_ITEM tvidrag;
-		memset( &tvidrag, 0, sizeof(tvidrag) );
-		tvidrag.mask  = TVIF_PARAM;
-		tvidrag.hItem = m_hitemDrag;
-		m_treeCtrl.GetItem(&tvidrag);
-*/
+/* TV_ITEM tvidrag;
+		 */
 
-//		m_treeCtrl.SelectDropTarget( 0 );
-/*
-		CRect rect;
-		GetClientRect( &rect );
-		// если объект кинули мимо нашего окна, посылаем сообщение родительскому окну и выходим
-		if ( !rect.PtInRect( point )
-			//&& !IsFolder( tvidrag.lParam )
-			)
-		{
-			m_treeCtrl.SelectDropTarget( 0 );
-			GetParent()->PostMessage( WM_DROPITEM, nTreeID, tvidrag.lParam );
-			CWnd::OnLButtonUp(nFlags, point);
-			m_treeCtrl.SelectDropTarget( 0 );
-			return;
-		}
-*/
+// m_treeCtrl.SelectDropTarget( 0 );
+/* CRect rect;
+		 */
 		HTREEITEM hItemDrop = m_treeCtrl.GetDropHilightItem();
 		m_treeCtrl.SelectDropTarget( 0 );
 		if ( hItemDrop == NULL || hItemDrop == m_hitemDrag )
 			return;
 
-		//Проверяем типы item drag & item drop
+		// Checking item drag & item drop types
 		CTreeItem *pDrag = GetTreeItem( m_hitemDrag );
 		CTreeItem *pDrop = GetTreeItem( hItemDrop );
 		pDrag->CopyItemTo( pDrop );
 
-//		CopyItemValues( pDrag, pDrop );
-/*
-		if ( pDrag->GetItemType() == pDrop->GetItemType() )
-		{
-			if ( m_treeCtrl.ItemHasChildren(hItemDrop) )
-			{
-				//Дропаем drag item в начало папки hItemDrop
-				m_treeCtrl.SetNodeParent( m_hitemDrag, hItemDrop, TRUE, TVI_FIRST );
-			}
-			else
-			{
-				//Дропаем после подсвеченного элемента
-				HTREEITEM htiNewParent = m_treeCtrl.GetParentItem( hItemDrop );
-				m_treeCtrl.SetNodeParent( m_hitemDrag, htiNewParent, TRUE, hItemDrop );
-			}
-		}
-*/
+// CopyItemValues( pDrag, pDrop );
+/* if ( pDrag->GetItemType() == pDrop->GetItemType() )
+		 */
 
-/*
-		if ( IsFolder( tvi.lParam ) ) // можно кидать только в папку
-			ChangeParent( m_hitemDrag, hItemDrop );
-		else
-		{
-			HTREEITEM hNewParent = m_treeCtrl.GetParentItem( hItemDrop );
-			if ( hNewParent && hNewParent != m_hitemDrag )
-				ChangeParent( m_hitemDrag, hNewParent, hItemDrop );
-		}
-*/
+/* if ( IsFolder( tvi.lParam ) ) // can only be thrown into a folder
+			 */
   }
   
   CWnd::OnLButtonUp(nFlags, point);
@@ -341,16 +287,8 @@ void CETreeCtrl::OnLButtonUp(UINT nFlags, CPoint point)
 
 void CETreeCtrl::OnItemExpanding(NMHDR* pNMHDR, LRESULT* pResult) 
 {
-/*
-	NM_TREEVIEW* pInfo = (NM_TREEVIEW*)pNMHDR;
-	TRACE( _T("expanding\n"));
-	
-	if ( (pInfo->itemNew.lParam == ON_DEMAND_NODE) && (pInfo->action == TVE_EXPAND) )
-	{
-		TRACE( _T("adding children on demand\n"));
-		AddChildrenOnDemand( pInfo->itemNew.hItem );
-	}
-*/
+/* NM_TREEVIEW* pInfo = (NM_TREEVIEW*)pNMHDR;
+	 */
 	*pResult = 0;
 }
 
@@ -358,14 +296,14 @@ void CETreeCtrl::OnShowWindow(BOOL bShow, UINT nStatus)
 {
 	CWnd::OnShowWindow(bShow, nStatus);
 	
-	// для правильной работы QuickView окна, 
-	// которое показывает текущий поселекченный объект
+	// for proper operation of the QuickView window,
+	// which shows the currently selected object
 	if ( !bShow )
 		m_treeCtrl.DeselectAllItems();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////
-// Без этой функции триконтрола мы не увидим
+// ///////
+// Without this tricontrol function we will not see
 void CETreeCtrl::OnSize(UINT nType, int cx, int cy) 
 {
 	CWnd::OnSize(nType, cx, cy);
@@ -389,38 +327,8 @@ void CETreeCtrl::OnSelect(NMHDR* pNMHDR, LRESULT* pResult)
 	*pResult = 0;
 }
 
-/*
-void CETreeCtrl::OnRButtonDown(UINT nFlags, CPoint point) 
-{
-	if ( m_bDragging )
-	{
-		m_bDragging = false;
-		m_hitemDrag = 0;
-		m_hitemDrop = 0;
-    ReleaseCapture();
-    NI_ASSERT(m_pDragImageList != NULL);
-    m_pDragImageList->DragLeave(this);
-    m_pDragImageList->EndDrag();
-    delete m_pDragImageList;
-    m_pDragImageList = 0;
-		m_treeCtrl.SelectDropTarget( 0 );
-	}
-
-	CWnd::OnRButtonDown(nFlags, point);
-}
-
-void CETreeCtrl::OnRButtonUp(UINT nFlags, CPoint point) 
-{
-	HTREEITEM hti = m_treeCtrl.GetFirstSelectedItem();
-	if ( hti )
-	{
-		LPARAM lParam = m_treeCtrl.GetItemData( hti );
-		GetParent()->PostMessage( WM_USERRBUTTONUP, 0, lParam );
-	}
-
-	CWnd::OnRButtonUp(nFlags, point);
-}
-*/
+/* void CETreeCtrl::OnRButtonDown(UINT nFlags, CPoint point) 
+ */
 
 void CETreeCtrl::OnRButtonClick(NMHDR* pNMHDR, LRESULT* pResult)
 {
@@ -454,7 +362,7 @@ void CETreeCtrl::SaveTree( IStructureSaver *pSS )
 
 void CETreeCtrl::LoadTree( IStructureSaver *pSS )
 {
-	//Сперва убиваем все childs в дереве
+	// First we kill all the childrens in the tree
 	pRootItem->RemoveAllChilds();
 
 	pRootItem->operator &( *pSS );
@@ -469,11 +377,11 @@ void CETreeCtrl::SaveTree( IDataTree *pDT )
 
 void CETreeCtrl::LoadTree( IDataTree *pDT )
 {
-	//Сперва убиваем все childs в дереве
+	// First we kill all the childrens in the tree
 	pRootItem->RemoveAllChilds();
 	
 	pRootItem->operator&( *pDT );
-	//тут надо пройти по всем childs и удалить нулевые элементы
+	// here you need to go through all childs and remove zero elements
 	pRootItem->DeleteNullChilds();
 	pRootItem->CreateDefaultChilds();
 	pRootItem->InsertChildItems();

@@ -19,7 +19,7 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 const char *CF_FIELDS_XML_NAME = "Fields";
 const char *CF_FIELDS_FILE_NAME = "Editor\\DefaultFields";
 const char *CF_FIELDS_DIALOG_TITLE = "Fields Composer";
@@ -37,7 +37,7 @@ const char* CRMGCreateFieldDialog::FIELD_TAB_LABELS[FIELD_TAB_COUNT] =
 	"Heights",
 };
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 int CALLBACK CF_FieldsCompareFunc( LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort )
 {
 	CRMGCreateFieldDialog* pFieldDialog = reinterpret_cast<CRMGCreateFieldDialog*>( lParamSort );
@@ -54,7 +54,7 @@ int CALLBACK CF_FieldsCompareFunc( LPARAM lParam1, LPARAM lParam2, LPARAM lParam
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 const int CRMGCreateFieldDialog::vID[] = 
 {
 	IDC_RMG_CF_DELIMITER_00,
@@ -72,12 +72,12 @@ const int CRMGCreateFieldDialog::vID[] =
 	IDCANCEL,
 };
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 CRMGCreateFieldDialog::CRMGCreateFieldDialog( CWnd* pParent )
 	: CResizeDialog( CRMGCreateFieldDialog::IDD, pParent ), nSortColumn( 0 ), bCreateControls( true ), pInput3DTabWindow( 0 ) 
 {
-	//{{AFX_DATA_INIT(CRMGCreateFieldDialog)
-	//}}AFX_DATA_INIT
+	// {{AFX_DATA_INIT(CRMGCreateFieldDialog)
+	// }}AFX_DATA_INIT
 
 	pInput3DTabWindow = new CInput3DTabWindow();
 
@@ -96,7 +96,7 @@ CRMGCreateFieldDialog::CRMGCreateFieldDialog( CWnd* pParent )
 	SetControlStyle( IDCANCEL, ANCHORE_RIGHT_BOTTOM );
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 CRMGCreateFieldDialog::~CRMGCreateFieldDialog()
 {
 	if ( pInput3DTabWindow != 0 )
@@ -106,18 +106,18 @@ CRMGCreateFieldDialog::~CRMGCreateFieldDialog()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CRMGCreateFieldDialog::DoDataExchange(CDataExchange* pDX)
 {
 	CResizeDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(CRMGCreateFieldDialog)
+	// {{AFX_DATA_MAP(CRMGCreateFieldDialog)
 	DDX_Control(pDX, IDC_RMG_CF_FIELDS_LIST, m_FieldsList);
-	//}}AFX_DATA_MAP
+	// }}AFX_DATA_MAP
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 BEGIN_MESSAGE_MAP(CRMGCreateFieldDialog, CResizeDialog)
-	//{{AFX_MSG_MAP(CRMGCreateFieldDialog)
+	// {{AFX_MSG_MAP(CRMGCreateFieldDialog)
 	ON_COMMAND(ID_FILE_NEW, OnFileNew)
 	ON_COMMAND(ID_FILE_OPEN, OnFileOpen)
 	ON_COMMAND(ID_FILE_SAVE, OnFileSave)
@@ -133,18 +133,18 @@ BEGIN_MESSAGE_MAP(CRMGCreateFieldDialog, CResizeDialog)
 	ON_NOTIFY(NM_RCLICK, IDC_RMG_CF_FIELDS_LIST, OnRclickFieldsList)
 	ON_NOTIFY(LVN_KEYDOWN, IDC_RMG_CF_FIELDS_LIST, OnKeydownFieldsList)
 	ON_BN_CLICKED(IDC_RMG_CF_SAVE_BUTTON, OnSaveButton)
-	//}}AFX_MSG_MAP
+	// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 BOOL CRMGCreateFieldDialog::OnInitDialog() 
 {
 	CResizeDialog::OnInitDialog();
-	//0 открытие TempatesHashMap
-	//1 добавление field
-	//2 текущий FieldsHashMap
-	//3 фильтр у обьектов
-	//4 путь до профиля
+	// 0 opening TempatesHashMap
+	// 1 addition field
+	// 2 current FieldsHashMap
+	// 3 filter for objects
+	// 4 way to profile
 	
 	if ( resizeDialogOptions.szParameters.size() < 5 )
 	{
@@ -166,7 +166,7 @@ BOOL CRMGCreateFieldDialog::OnInitDialog()
 	return true;
 }	
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 bool CRMGCreateFieldDialog::LoadFieldsList()
 {
 	IDataStorage* pDataStorage = GetSingleton<IDataStorage>();
@@ -177,11 +177,11 @@ bool CRMGCreateFieldDialog::LoadFieldsList()
 
 	SetWindowText( NStr::Format( "%s - [%s]", CF_FIELDS_DIALOG_TITLE, resizeDialogOptions.szParameters[2] ) );
 	BeginWaitCursor();
-	//считываем fields с диска
+	// read fields from disk
 	LoadDataResource( resizeDialogOptions.szParameters[2], "", false, 0, CF_FIELDS_XML_NAME, fields );
 	
-	//заполняем информацию по fields
-	//основной источник - база, если утеряня база, придется добавлять филды по новому, при сейве базы сейвятся и филды из базы
+	// fill in the information on fields
+	// the main source is the database, if the database is lost, you will have to add new fields; when you save the database, the fields from the database are also saved
 	m_FieldsList.DeleteAllItems();
 	for ( CRMFieldSetsHashMap::const_iterator fieldIterator = fields.begin();  fieldIterator != fields.end(); ++fieldIterator )
 	{
@@ -199,7 +199,7 @@ bool CRMGCreateFieldDialog::LoadFieldsList()
 	return true;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 bool CRMGCreateFieldDialog::SaveFieldsList()
 {
 	IDataStorage* pDataStorage = GetSingleton<IDataStorage>();
@@ -210,7 +210,7 @@ bool CRMGCreateFieldDialog::SaveFieldsList()
 
 	SetWindowText( NStr::Format( "%s - [%s]", CF_FIELDS_DIALOG_TITLE, resizeDialogOptions.szParameters[2] ) );
 	BeginWaitCursor();
-	//сохраняем fields на диск
+	// save fields to disk
 	for ( CRMFieldSetsHashMap::const_iterator fieldIterator = fields.begin();  fieldIterator != fields.end(); ++fieldIterator )
 	{
 		SRMFieldSet rmField = fieldIterator->second;
@@ -219,7 +219,7 @@ bool CRMGCreateFieldDialog::SaveFieldsList()
 			return false;
 		}
 	}
-	//сохраняем список fields на диск
+	// save the list of fields to disk
 	if ( !SaveDataResource( resizeDialogOptions.szParameters[2], "", false, 0, CF_FIELDS_XML_NAME, fields ) )
 	{
 		EndWaitCursor();
@@ -229,10 +229,10 @@ bool CRMGCreateFieldDialog::SaveFieldsList()
 	return true;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 bool CRMGCreateFieldDialog::LoadFieldToControls()
 {
-	//обновляем контролы по текущему field
+	// updating controls based on the current field
 	bCreateControls = true;
 
 	GetRMGFieldTerrainDialog()->pRMFieldSet = 0;
@@ -273,10 +273,10 @@ bool CRMGCreateFieldDialog::LoadFieldToControls()
 	return true;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 bool CRMGCreateFieldDialog::UpdateFieldList( const SRMFieldSet *pRMFieldSet )
 {
-	//обновляем состояние темплейта в списке темплейтов
+	// update the state of the template in the list of templates
 	{
 		int nSelectedItem = m_FieldsList.GetNextItem( CB_ERR, LVNI_SELECTED );
 		while ( nSelectedItem != CB_ERR )
@@ -294,7 +294,7 @@ bool CRMGCreateFieldDialog::UpdateFieldList( const SRMFieldSet *pRMFieldSet )
 	return false;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CRMGCreateFieldDialog::SetFieldItem( int nItem, const SRMFieldSet &rField )
 {
 	std::string szSeasonName;
@@ -308,7 +308,7 @@ void CRMGCreateFieldDialog::SetFieldItem( int nItem, const SRMFieldSet &rField )
 	m_FieldsList.SetItem( nItem, 7, LVIF_TEXT, NStr::Format( "%.2f", rField.fPositiveRatio * 100 ), 0, 0, 0, 0 );
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CRMGCreateFieldDialog::OnOK() 
 {
 	for ( int nColumnIndex = 0; nColumnIndex < CF_FIELDS_COLUMN_COUNT; ++nColumnIndex )
@@ -319,7 +319,7 @@ void CRMGCreateFieldDialog::OnOK()
 	CResizeDialog::OnOK();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CRMGCreateFieldDialog::OnCancel() 
 {
 	for ( int nColumnIndex = 0; nColumnIndex < CF_FIELDS_COLUMN_COUNT; ++nColumnIndex )
@@ -329,7 +329,7 @@ void CRMGCreateFieldDialog::OnCancel()
 	CResizeDialog::OnCancel();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CRMGCreateFieldDialog::CreateControls()
 {
 	bCreateControls = true;
@@ -395,7 +395,7 @@ void CRMGCreateFieldDialog::CreateControls()
 	bCreateControls = false;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 CRMGFieldTerrainDialog* CRMGCreateFieldDialog::GetRMGFieldTerrainDialog()
 {
 	if ( !pInput3DTabWindow->inputTabWindows.empty() )
@@ -408,7 +408,7 @@ CRMGFieldTerrainDialog* CRMGCreateFieldDialog::GetRMGFieldTerrainDialog()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 CRMGFieldObjectsDialog* CRMGCreateFieldDialog::GetRMGFieldObjectsDialog()
 {
 	if ( !pInput3DTabWindow->inputTabWindows.empty() )
@@ -421,7 +421,7 @@ CRMGFieldObjectsDialog* CRMGCreateFieldDialog::GetRMGFieldObjectsDialog()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 CRMGFieldHeightsDialog* CRMGCreateFieldDialog::GetRMGFieldHeightsDialog()
 {
 	if ( !pInput3DTabWindow->inputTabWindows.empty() )
@@ -434,16 +434,16 @@ CRMGFieldHeightsDialog* CRMGCreateFieldDialog::GetRMGFieldHeightsDialog()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CRMGCreateFieldDialog::ClearControls()
 {
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CRMGCreateFieldDialog::UpdateControls()
 {
 	CWnd* pWnd = 0;
-	//Fields buttons
+	// Fields buttons
 	if ( pWnd = GetDlgItem( IDC_RMG_CT_DELETE_FIELD_BUTTON ) )
 	{
 		pWnd->EnableWindow( m_FieldsList.GetSelectedCount() > 0 );
@@ -455,7 +455,7 @@ void CRMGCreateFieldDialog::UpdateControls()
 	//
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CRMGCreateFieldDialog::OnColumnclickFieldsList(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
@@ -476,7 +476,7 @@ void CRMGCreateFieldDialog::OnColumnclickFieldsList(NMHDR* pNMHDR, LRESULT* pRes
 	*pResult = 0;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CRMGCreateFieldDialog::OnFileNew() 
 {
 	SaveFieldsList();
@@ -485,7 +485,7 @@ void CRMGCreateFieldDialog::OnFileNew()
 	UpdateControls();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CRMGCreateFieldDialog::OnFileOpen() 
 {
 	IDataStorage* pDataStorage = GetSingleton<IDataStorage>();
@@ -530,19 +530,19 @@ void CRMGCreateFieldDialog::OnFileOpen()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CRMGCreateFieldDialog::OnFileSave() 
 {
 	SaveFieldsList();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CRMGCreateFieldDialog::OnSaveButton() 
 {
 	SaveFieldsList();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CRMGCreateFieldDialog::OnFileSaveas() 
 {
 	IDataStorage* pDataStorage = GetSingleton<IDataStorage>();
@@ -583,13 +583,13 @@ void CRMGCreateFieldDialog::OnFileSaveas()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CRMGCreateFieldDialog::OnFileExit() 
 {
 	OnOK();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CRMGCreateFieldDialog::OnAddFieldButton() 
 {
 	IDataStorage* pDataStorage = GetSingleton<IDataStorage>();
@@ -601,7 +601,7 @@ void CRMGCreateFieldDialog::OnAddFieldButton()
 	CFileDialog fileDialog( true, ".xml", "", OFN_ALLOWMULTISELECT, "XML files (*.xml)|*.xml||" );
 	fileDialog.m_ofn.lpstrFile = new char[0xFFFF];
 	fileDialog.m_ofn.lpstrFile[0] = 0;			
-	fileDialog.m_ofn.nMaxFile = 0xFFFF - 1; //на всякий пожарный
+	fileDialog.m_ofn.nMaxFile = 0xFFFF - 1; // just in case, fireman
 	fileDialog.m_ofn.lpstrInitialDir = resizeDialogOptions.szParameters[1].c_str();
 
 	if ( fileDialog.DoModal() == IDOK )
@@ -670,7 +670,7 @@ void CRMGCreateFieldDialog::OnAddFieldButton()
 	delete[] fileDialog.m_ofn.lpstrFile;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CRMGCreateFieldDialog::OnDeleteFieldButton() 
 {
 	CString strTitle;
@@ -695,7 +695,7 @@ void CRMGCreateFieldDialog::OnDeleteFieldButton()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CRMGCreateFieldDialog::OnRclickFieldsList( NMHDR* pNMHDR, LRESULT* pResult ) 
 {
 	CMenu composersMenu;
@@ -719,7 +719,7 @@ void CRMGCreateFieldDialog::OnRclickFieldsList( NMHDR* pNMHDR, LRESULT* pResult 
 	*pResult = 0;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CRMGCreateFieldDialog::OnKeydownFieldsList( NMHDR* pNMHDR, LRESULT* pResult ) 
 {
 	LV_KEYDOWN* pLVKeyDown = (LV_KEYDOWN*)pNMHDR;
@@ -746,13 +746,13 @@ void CRMGCreateFieldDialog::OnKeydownFieldsList( NMHDR* pNMHDR, LRESULT* pResult
 	*pResult = 0;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CRMGCreateFieldDialog::OnAddFieldMenu() 
 {
 	OnAddFieldButton();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CRMGCreateFieldDialog::OnDeleteFieldMenu() 
 {
 	if ( CWnd* pWnd = GetDlgItem( IDC_RMG_CF_DELETE_FIELD_BUTTON ) )
@@ -764,7 +764,7 @@ void CRMGCreateFieldDialog::OnDeleteFieldMenu()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CRMGCreateFieldDialog::OnCheckFieldsButton() 
 {
 	if ( CPtr<IDataStorage> pDataStorage = GetSingleton<IDataStorage>() )
@@ -782,7 +782,7 @@ void CRMGCreateFieldDialog::OnCheckFieldsButton()
 		for ( CRMFieldSetsHashMap::iterator fieldSetIterator = fields.begin(); fieldSetIterator != fields.end(); ++fieldSetIterator )
 		{
 			SRMFieldSet &rFieldSet = fieldSetIterator->second;
-			//season
+			// season
 			if ( ( rFieldSet.nSeason < 0 ) || ( rFieldSet.nSeason >= CMapInfo::REAL_SEASONS_COUNT ) )
 			{
 				rFieldSet.nSeason = CMapInfo::REAL_SEASONS[CMapInfo::SEASON_SUMMER];
@@ -790,7 +790,7 @@ void CRMGCreateFieldDialog::OnCheckFieldsButton()
 			}
 			const STilesetDesc &rTileSetDesc = tileSetDescs[CMapInfo::GetSelectedSeason( rFieldSet.nSeason, rFieldSet.szSeasonFolder )];
 
-			//height
+			// height
 			if ( rFieldSet.fHeight < 0.0f )
 			{
 				rFieldSet.fHeight = 0.0f;
@@ -841,10 +841,10 @@ void CRMGCreateFieldDialog::OnCheckFieldsButton()
 				rFieldSet.patternSize.min = rFieldSet.patternSize.max;
 				rFieldSet.patternSize.max = nMin;
 			}
-			//terrain
+			// terrain
 			for ( CRMTileSet::iterator tileShellIterator = rFieldSet.tilesShells.begin(); tileShellIterator != rFieldSet.tilesShells.end(); ++tileShellIterator )
 			{
-				//shell overall
+				// shell overall
 				SRMTileSetShell &rTileSetShell = ( *tileShellIterator );
 				if ( rTileSetShell.fWidth < 0.0f )
 				{
@@ -854,7 +854,7 @@ void CRMGCreateFieldDialog::OnCheckFieldsButton()
 				{
 					rTileSetShell.fWidth = 512.0f;
 				}
-				//tiles
+				// tiles
 				for ( int nShellElementIndex = 0; nShellElementIndex < rTileSetShell.tiles.size(); )
 				{
 					if ( ( rTileSetShell.tiles[nShellElementIndex] < 0 ) ||
@@ -873,11 +873,11 @@ void CRMGCreateFieldDialog::OnCheckFieldsButton()
 					}
 				}
 			}
-			//objects
+			// objects
 			for ( CRMObjectSet::iterator objectShellIterator = rFieldSet.objectsShells.begin(); objectShellIterator != rFieldSet.objectsShells.end(); ++objectShellIterator )
 			{
 				SRMObjectSetShell &rObjectSetShell = ( *objectShellIterator );
-				//shell overall
+				// shell overall
 				if ( rObjectSetShell.fWidth < 0.0f )
 				{
 					rObjectSetShell.fWidth = 0.0f;
@@ -900,7 +900,7 @@ void CRMGCreateFieldDialog::OnCheckFieldsButton()
 				{
 					rObjectSetShell.nBetweenDistance = 1;
 				}
-				//tiles
+				// tiles
 				for ( int nShellElementIndex = 0; nShellElementIndex < rObjectSetShell.objects.size(); )
 				{
 					if ( pTabSimpleObjectsDialog->objectsImageIndices.find( rObjectSetShell.objects[nShellElementIndex] ) == pTabSimpleObjectsDialog->objectsImageIndices.end() )
@@ -925,7 +925,7 @@ void CRMGCreateFieldDialog::OnCheckFieldsButton()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CRMGCreateFieldDialog::OnItemchangedFieldsList(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
@@ -936,6 +936,6 @@ void CRMGCreateFieldDialog::OnItemchangedFieldsList(NMHDR* pNMHDR, LRESULT* pRes
 	}
 	*pResult = 0;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// basement storage  
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
+// basement storage
+// ////////////////////////////////////////////////

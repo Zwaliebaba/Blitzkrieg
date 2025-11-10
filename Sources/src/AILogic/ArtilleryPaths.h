@@ -1,106 +1,112 @@
 #ifndef __ARTILLERY_PATHS_H__
 #define __ARTILLERY_PATHS_H__
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma ONCE
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#pragma once
+
 #include "Path.h"
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// специфический путь для артиллеристов - напролом сквозь все.
-// этот путь включается только когда артиллеристы уже у пушки.
+
+// a specific path for artillerymen - straight through everything.
+// this path is activated only when the gunners are already at the cannon.
 class CArtilleryCrewPath : public ISmoothPath
 {
-	OBJECT_COMPLETE_METHODS( CArtilleryCrewPath );
-	DECLARE_SERIALIZE;
+  OBJECT_COMPLETE_METHODS(CArtilleryCrewPath);
+  DECLARE_SERIALIZE;
 
-	interface IBasePathUnit *pUnit;
+  interface IBasePathUnit *pUnit;
 
-	CVec2 vCurPoint;
-	CVec2 vEndPoint;
-	float fSpeedLen;
-	bool bSelfSpeed;
-	bool bNotInitialized;
-	CVec3 vSpeed3;
+  CVec2 vCurPoint;
+  CVec2 vEndPoint;
+  float fSpeedLen;
+  bool bSelfSpeed;
+  bool bNotInitialized;
+  CVec3 vSpeed3;
+
 public:
-	CArtilleryCrewPath()
-		: pUnit( 0 ), vCurPoint( VNULL2 ), vEndPoint( VNULL2 ), fSpeedLen( 0.0f ), bSelfSpeed( false ), bNotInitialized( true ), vSpeed3( VNULL3 ) { }
-	CArtilleryCrewPath( interface IBasePathUnit *pUnit, const CVec2 &vStartPoint, const CVec2 &vEndPoint, const float fMaxSpeed = 0.0f );
+  CArtilleryCrewPath()
+    : pUnit(nullptr), vCurPoint(VNULL2), vEndPoint(VNULL2), fSpeedLen(0.0f), bSelfSpeed(false), bNotInitialized(true), vSpeed3(VNULL3) {}
 
-	void SetParams( const CVec2 &vEndPoint, const float fMaxSpeed );
-	void SetParams( const CVec2 &_vEndPoint, const float fMaxSpeed, const CVec2 &_vSpeed2 );
-	
-	virtual bool IsFinished() const;
-	virtual const CVec3 GetPoint( NTimer::STime timeDiff );
+  CArtilleryCrewPath(interface IBasePathUnit *pUnit, const CVec2 &vStartPoint, const CVec2 &vEndPoint, float fMaxSpeed = 0.0f);
 
-	virtual const CVec2& GetFinishPoint() const { return vEndPoint; }
-//ненужные функции
-	virtual bool Init( interface IBasePathUnit *pUnit, IPath *pPath, bool bSmoothTurn = true, bool bCheckTurn = true );
-	virtual bool InitByFormationPath( class CFormation *pFormation, interface IBasePathUnit *pUnit  ) { return true; }
-	virtual bool Init( interface IMemento *pMemento, interface IBasePathUnit *pUnit );
-	virtual void Stop() {}
-	virtual float& GetSpeedLen() { return fSpeedLen; }
-	virtual void NotifyAboutClosestThreat( interface IBasePathUnit *pCollUnit, const float fDist ) { }
-	virtual void SlowDown() {}
-	virtual bool CanGoBackward() const { return false; }
-	virtual bool CanGoForward() const { return true; }
-	virtual void GetNextTiles( std::list<SVector> *pTiles ) {}
-	virtual CVec2 GetShift( const int nToShift ) const { return VNULL2; };
-	virtual IMemento* GetMemento() const { return 0; }
-	virtual float GetCurvatureRadius() const { return 0.0f; }
-	virtual bool IsWithFormation() const { return true; }
-	//virtual void GetSpeed3( CVec3 *pSpeed ) const ;
+  void SetParams(const CVec2 &vEndPoint, float fMaxSpeed);
+  void SetParams(const CVec2 &_vEndPoint, float fMaxSpeed, const CVec2 &_vSpeed2);
 
-	virtual void SetOwner( interface IBasePathUnit *_pUnit ) { pUnit = _pUnit; }
-	virtual IBasePathUnit* GetOwner() const { return pUnit; }
+  bool IsFinished() const override;
+  const CVec3 GetPoint(NTimer::STime timeDiff) override;
+
+  const CVec2 &GetFinishPoint() const override { return vEndPoint; }
+  // unnecessary functions
+  bool Init(interface IBasePathUnit *pUnit, IPath *pPath, bool bSmoothTurn = true, bool bCheckTurn = true) override;
+  bool InitByFormationPath(class CFormation *pFormation, interface IBasePathUnit *pUnit) override { return true; }
+  bool Init(interface IMemento *pMemento, interface IBasePathUnit *pUnit) override;
+  void Stop() override {}
+  float &GetSpeedLen() override { return fSpeedLen; }
+  void NotifyAboutClosestThreat(interface IBasePathUnit *pCollUnit, const float fDist) override {}
+  void SlowDown() override {}
+  bool CanGoBackward() const override { return false; }
+  bool CanGoForward() const override { return true; }
+  void GetNextTiles(std::list<SVector> *pTiles) override {}
+  CVec2 GetShift(const int nToShift) const override { return VNULL2; };
+  IMemento *GetMemento() const override { return nullptr; }
+  float GetCurvatureRadius() const override { return 0.0f; }
+  bool IsWithFormation() const override { return true; }
+  // virtual void GetSpeed3( CVec3 *pSpeed ​​) const ;
+
+  void SetOwner(interface IBasePathUnit *_pUnit) override { pUnit = _pUnit; }
+  IBasePathUnit *GetOwner() const override { return pUnit; }
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// путь для артиллерии, которую буксируют
+
+// path for towed artillery
 class CArtilleryBeingTowedPath : public ISmoothPath
 {
-	OBJECT_COMPLETE_METHODS( CArtilleryBeingTowedPath );
-	DECLARE_SERIALIZE;
+  OBJECT_COMPLETE_METHODS(CArtilleryBeingTowedPath);
+  DECLARE_SERIALIZE;
 
-	float fSpeedLen;
-	CVec3 vCurPoint;
-	CVec2 vCurPoint2D;
-	CVec2 vSpeed;
+  float fSpeedLen;
+  CVec3 vCurPoint;
+  CVec2 vCurPoint2D;
+  CVec2 vSpeed;
+
 public:
-	CArtilleryBeingTowedPath() : fSpeedLen( 0.0f ), vCurPoint( VNULL3	), vCurPoint2D( VNULL2 ), vSpeed( VNULL2 ) { }
-	CArtilleryBeingTowedPath( const float fSpeedLen, const CVec2 &vCurPoint, const CVec2 &vSpeed );
-	bool Init( float fSpeedLen, const class CVec2 &vCurPoint, const CVec2 &vSpeed );
+  CArtilleryBeingTowedPath() : fSpeedLen(0.0f), vCurPoint(VNULL3), vCurPoint2D(VNULL2), vSpeed(VNULL2) {}
+  CArtilleryBeingTowedPath(float fSpeedLen, const CVec2 &vCurPoint, const CVec2 &vSpeed);
+  bool Init(float fSpeedLen, const class CVec2 &vCurPoint, const CVec2 &vSpeed);
 
-	virtual const CVec2& GetFinishPoint() const { return vCurPoint2D; }
-	virtual bool IsFinished() const { return false; }
-	virtual const CVec3 GetPoint( NTimer::STime timeDiff ) { return vCurPoint; }
+  const CVec2 &GetFinishPoint() const override { return vCurPoint2D; }
+  bool IsFinished() const override { return false; }
+  const CVec3 GetPoint(NTimer::STime timeDiff) override { return vCurPoint; }
 
-//ненужные функции
-	virtual bool Init( interface IBasePathUnit *pUnit, IPath *pPath, bool bSmoothTurn = true, bool bCheckTurn = true )
-	{
-		CPtr<IPath> p = pPath;
-		return true;
-	}
-	virtual bool InitByFormationPath( class CFormation *pFormation, interface IBasePathUnit *pUnit  ) { return true; }
-	virtual bool Init( interface IMemento *pMemento, interface IBasePathUnit *pUnit ) 
-	{
-		CPtr<IMemento> p = pMemento;
-		return true;
-	}
-	virtual void Stop() { }
-	virtual float& GetSpeedLen() { return fSpeedLen; }
-	virtual void NotifyAboutClosestThreat( interface IBasePathUnit *pCollUnit, const float fDist ) { }
-	virtual void SlowDown() { }
-	virtual bool CanGoBackward() const { return true; }
-	virtual bool CanGoForward() const { return true; }
-	virtual void GetNextTiles( std::list<SVector> *pTiles ) { }
-	virtual CVec2 GetShift( const int nToShift ) const { return VNULL2; };
-	virtual IMemento* GetMemento() const { return 0; }
-	virtual float GetCurvatureRadius() const { return 0.0f; }
+  // unnecessary functions
+  bool Init(interface IBasePathUnit *pUnit, IPath *pPath, bool bSmoothTurn = true, bool bCheckTurn = true) override
+  {
+    CPtr<IPath> p = pPath;
+    return true;
+  }
 
-	virtual bool IsWithFormation() const { return false; }
-	
-	virtual void GetSpeed3( CVec3 *pvSpeed ) const { *pvSpeed = CVec3( vSpeed, 0.0f ); }
+  bool InitByFormationPath(class CFormation *pFormation, interface IBasePathUnit *pUnit) override { return true; }
 
-	void SetOwner( interface IBasePathUnit *pUnit ) { }
-	virtual IBasePathUnit* GetOwner() const { return 0; }
+  bool Init(interface IMemento *pMemento, interface IBasePathUnit *pUnit) override
+  {
+    CPtr<IMemento> p = pMemento;
+    return true;
+  }
+
+  void Stop() override {}
+  float &GetSpeedLen() override { return fSpeedLen; }
+  void NotifyAboutClosestThreat(interface IBasePathUnit *pCollUnit, const float fDist) override {}
+  void SlowDown() override {}
+  bool CanGoBackward() const override { return true; }
+  bool CanGoForward() const override { return true; }
+  void GetNextTiles(std::list<SVector> *pTiles) override {}
+  CVec2 GetShift(const int nToShift) const override { return VNULL2; };
+  IMemento *GetMemento() const override { return nullptr; }
+  float GetCurvatureRadius() const override { return 0.0f; }
+
+  bool IsWithFormation() const override { return false; }
+
+  void GetSpeed3(CVec3 *pvSpeed) const override { *pvSpeed = CVec3(vSpeed, 0.0f); }
+
+  void SetOwner(interface IBasePathUnit *pUnit) override {}
+  IBasePathUnit *GetOwner() const override { return nullptr; }
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // __ARTILLERY_PATHS_H__

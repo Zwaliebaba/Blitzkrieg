@@ -3,12 +3,12 @@
 #include "..\RefDlg.h"
 #include "..\MultySelDialog.h"
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // COIReferenceButton
-/////////////////////////////////////////////////////////////////////////////
+// 
 BEGIN_MESSAGE_MAP(COIReferenceButton, CButton)
-//{{AFX_MSG_MAP(COIReferenceButton)
-//}}AFX_MSG_MAP
+// {{AFX_MSG_MAP(COIReferenceButton)
+// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 static std::string MakeOneSlash( std::string str )
@@ -31,8 +31,8 @@ COIReferenceButton::COIReferenceButton( COIReferenceEdit *pPrnt, CEdit* pEdtBrow
 {
   ASSERT( pPrnt );
   ASSERT( pEdtBrowse );
-  //{{AFX_DATA_INIT(COIReferenceButton)
-  //}}AFX_DATA_INIT
+  // {{AFX_DATA_INIT(COIReferenceButton)
+  // }}AFX_DATA_INIT
   
   m_pEdtBrowse = pEdtBrowse;
   m_pParentWnd = pPrnt;
@@ -45,7 +45,7 @@ COIReferenceButton::~COIReferenceButton()
 
 BOOL COIReferenceButton::Create()
 {
-  // Make sure we have an edit control.  
+  // Make sure we have an edit control.
   ASSERT(m_pEdtBrowse != NULL);
   
   // Get the parent edit control and shrink it by the width
@@ -84,16 +84,16 @@ BOOL COIReferenceButton::OnChildNotify( UINT uiMsg, WPARAM wParam, LPARAM lParam
   return FALSE;
 }
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // COIReferenceButton
-/////////////////////////////////////////////////////////////////////////////
+// 
 BEGIN_MESSAGE_MAP(COIReferenceEdit, CWnd)
-//{{AFX_MSG_MAP(COIReferenceEdit)
+// {{AFX_MSG_MAP(COIReferenceEdit)
   ON_WM_ENABLE()
 	ON_WM_CREATE()
 	ON_WM_SIZE()
 	ON_WM_SHOWWINDOW()
-	//}}AFX_MSG_MAP
+	// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 COIReferenceEdit::COIReferenceEdit() : m_BrowseBtn( this, &m_Edit )

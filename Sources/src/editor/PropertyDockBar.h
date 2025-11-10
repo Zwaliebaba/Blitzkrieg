@@ -3,7 +3,7 @@
 
 #include "MTree ctrl\FrameTree.h"
 
-/////////////////////////////////////////////////////////////////////////////
+// //
 // CPropertyDockBar window
 
 class CPropertyDockBar : public SECControlBar
@@ -24,14 +24,14 @@ public:
 	
 	// Overrides
 	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CPropertyDockBar)
+	// {{AFX_VIRTUAL(CPropertyDockBar)
 public:
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
-	//}}AFX_VIRTUAL
+	// }}AFX_VIRTUAL
 	
 	// Implementation
 public:
-//	void SetPropertyDialogTreeItem( CKeyFrameTreeItem *pItem );
+// void SetPropertyDialogTreeItem( CKeyFrameTreeItem *pItem );
 	
 private:
 	CFrameTree m_tree;
@@ -41,27 +41,27 @@ private:
 	std::map<std::string, HTREEITEM> m_varHandles;
 	int		GetVariable( std::string &name );
 	void	AddRootVariable( std::string &str, int variable );
-	void	AddManipulatorVariable( std::string &str, IManipulator *ptr ); // добавляет пустые промежуточные nod'ы + конечный( редактируемый ) node
+	void	AddManipulatorVariable( std::string &str, IManipulator *ptr ); // adds empty intermediate nodes + final (editable) node
 	
-	HTREEITEM	AddEmptyNode( std::string &str, HTREEITEM hPARoot = TVI_ROOT ); // node который не содержит данных
+	HTREEITEM	AddEmptyNode( std::string &str, HTREEITEM hPARoot = TVI_ROOT ); // node which contains no data
 	HTREEITEM	AddPropertieNode( std::string &str, std::string &propName,IManipulator *ptr, HTREEITEM hPARoot = TVI_ROOT ); 
 	
 	
 	// Generated message map functions
 protected:
 	
-	//{{AFX_MSG(CPropertyDockBar)
+	// {{AFX_MSG(CPropertyDockBar)
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg void OnKeyframeDeleteNode();
 	afx_msg void OnKeyframeResetAll();
-	//}}AFX_MSG
+	// }}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
 
-/////////////////////////////////////////////////////////////////////////////
+// //
 
-//{{AFX_INSERT_LOCATION}}
+// {{AFX_INSERT_LOCATION}}
 // Microsoft Developer Studio will insert additional declarations immediately before the previous line.
 
-#endif	//__PROPERTY_DOCK_H__
+#endif	// __PROPERTY_DOCK_H__

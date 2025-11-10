@@ -25,668 +25,592 @@
 #include "TimeCounter.h"
 #include "UnitCreation.h"
 
-#include "..\Scene\Scene.h"
-#include "..\Formats\fmtMap.h"
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#include "../Scene/Scene.h"
+#include "../Formats/fmtMap.h"
+
 extern CTimeCounter timeCounter;
 extern CAILogic *pAILogic;
 extern NTimer::STime curTime;
 extern CDiplomacy theDipl;
 extern CGroupLogic theGroupLogic;
 extern CUnitCreation theUnitCreation;
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-BASIC_REGISTER_CLASS( CGeneral );
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//*******************************************************************
-//*														CGeneral															*
-//*******************************************************************
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CGeneral::EnumWorkers( const enum EForceType eType, IWorkerEnumerator *pEnumerator )
+
+BASIC_REGISTER_CLASS(CGeneral);
+
+// **********************************************************************
+// *CGeneral*
+// **********************************************************************
+
+void CGeneral::EnumWorkers(const enum EForceType eType, IWorkerEnumerator *pEnumerator)
 {
-	//search trough reserve to give it to the task
-	switch( eType )
-	{
-	case FT_INFANTRY_IN_TRENCHES:
-		EnumWorkersInternal( eType, pEnumerator, &infantryInTrenches );
+  // search through reserve to give it to the task
+  switch (eType)
+  {
+    case FT_INFANTRY_IN_TRENCHES:
+      EnumWorkersInternal(eType, pEnumerator, &infantryInTrenches);
 
-		break;
-	case FT_FREE_INFANTRY:
-		EnumWorkersInternal( eType, pEnumerator, &infantryFree );
+      break;
+    case FT_FREE_INFANTRY:
+      EnumWorkersInternal(eType, pEnumerator, &infantryFree);
 
-		break;
-	case FT_SWARMING_TANKS:
-		EnumWorkersInternal( eType, pEnumerator, &tanksFree );
+      break;
+    case FT_SWARMING_TANKS:
+      EnumWorkersInternal(eType, pEnumerator, &tanksFree);
 
-		break;
-	case FT_MOBILE_TANKS:
-		EnumWorkersInternal( eType, pEnumerator, &tanksFree );
+      break;
+    case FT_MOBILE_TANKS:
+      EnumWorkersInternal(eType, pEnumerator, &tanksFree);
 
-		break;
-	case FT_STATIONARY_MECH_UNITS:
-		EnumWorkersInternal( eType, pEnumerator, &stationaryTanks );
+      break;
+    case FT_STATIONARY_MECH_UNITS:
+      EnumWorkersInternal(eType, pEnumerator, &stationaryTanks);
 
-		break;
-	case FT_TRUCK_REPAIR_BUILDING:
-		EnumWorkersInternal( eType, pEnumerator, &transportsFree );
-		break;
+      break;
+    case FT_TRUCK_REPAIR_BUILDING:
+      EnumWorkersInternal(eType, pEnumerator, &transportsFree);
+      break;
 
-	default:
-		NI_ASSERT_T( false, NStr::Format( "wrong type asked from commander %d", eType ) );
-		break;
-	}
+    default:
+      NI_ASSERT_T(false, NStr::Format( "wrong type asked from commander %d", eType ));
+      break;
+  }
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CGeneral::CancelRequest( int nRequestID, enum EForceType eType ) 
-{  
-	switch( eType )
-	{
-	case FT_AIR_SCOUT:
-	case FT_AIR_GUNPLANE:
-		pAirForce->CancelRequest( nRequestID, eType );
-		break;
-	case FT_RECAPTURE_STORAGE:
-		{
-			//find desired task
-			RequestedTasks::iterator it = requestedTasks.find( nRequestID );
-			if ( it != requestedTasks.end() )
-			{
-				IGeneralTask * pTask = requestedTasks[nRequestID];
-				pTask->CancelTask( this );
-				requestIDs.AddToFreeId( nRequestID );
-			}
-		}
-		break;
-	}
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-int /*request ID*/CGeneral::RequestForSupport( const CVec2 &vSupportCenter, enum EForceType eType ) 
-{ 
-	switch( eType )
-	{
-	case FT_AIR_SCOUT:
-	case FT_AIR_GUNPLANE:
-		return pAirForce->RequestForSupport( vSupportCenter, eType );
-		break;
-	case FT_RECAPTURE_STORAGE:
-		{
-			const int nID = requestIDs.GetFreeId();
-			CGeneralTaskRecaptureStorage * pTask = new CGeneralTaskRecaptureStorage( vSupportCenter );
-			requestedTasks[nID] = pTask;
-			tasks.push_back( pTask );
 
-			return nID;
-		}
-		break;
-	}
-	return 0;
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CGeneral::Give( CCommonUnit *pWorker )
+void CGeneral::CancelRequest(int nRequestID, enum EForceType eType)
 {
-	if ( !pWorker || !pWorker->IsValid() || !pWorker->IsAlive() ) 
-		return;
-
-	if ( pWorker->IsFormation() )
-	{
-		CFormation * pFormation = static_cast<CFormation*>( pWorker );
-		if ( pFormation->GetState()->GetName() == EUSN_GUN_CAPTURE )
-		{
-			// don't consider gunners as infantry. they are pictures.
-		}
-		else if ( pFormation->IsInEntrenchment() || 
-					( pFormation->GetNextCommand() && 
-						( ACTION_COMMAND_IDLE_TRENCH == pFormation->GetNextCommand()->ToUnitCmd().cmdType ||
-							ACTION_COMMAND_IDLE_BUILDING == pFormation->GetNextCommand()->ToUnitCmd().cmdType ||
-							ACTION_COMMAND_ENTER == pFormation->GetNextCommand()->ToUnitCmd().cmdType
-						)
-					)
-				)
-		{
-			infantryInTrenches.push_back( static_cast<CFormation*>(pWorker) );
-		}
-		else
-			infantryFree.push_back( static_cast<CFormation*>(pWorker) );
-	}
-	else
-	{
-		NI_ASSERT_T( dynamic_cast<CAIUnit*>(pWorker) != 0, "Wrong unit passed" );
-		CAIUnit *pUnit = static_cast<CAIUnit*>(pWorker);
-
-		// дальнобойные оруди¤
-		if ( pUnit->GetFirstArtilleryGun() != 0 )
-		{
-			if ( pUnit->GetStats()->IsArtillery() || pUnit->GetStats()->IsSPG() || pUnit->GetStats()->type == RPG_TYPE_TRAIN_SUPER )
-				pGeneralArtillery->TakeArtillery( pUnit );
-		}
-		else
-		{
-			const SUnitBaseRPGStats *pStats = pUnit->GetStats();
-			if ( pStats->IsTransport() )
-			{
-				if ( IsMobileReinforcement( pAILogic->GetScriptID( pWorker ) ) )
-				{
-					if ( pStats->type == RPG_TYPE_TRN_CIVILIAN_AUTO ) 
-					{
-						//така¤ байда нафиг не нужна генералу
-					}
-					else if ( pStats->type == RPG_TYPE_TRN_MILITARY_AUTO )
-					{
-						pIntendant->AddReiforcePosition( pUnit->GetCenter(), pUnit->GetDir() );
-						pIntendant->Give( pUnit );
-					}
-					else
-					{
-						CAITransportUnit * pTransport = static_cast<CAITransportUnit*>( pUnit );
-						if ( !pTransport->IsMustTow() )
-						{
-							pIntendant->AddReiforcePosition( pUnit->GetCenter(), pUnit->GetDir() );
-							pIntendant->Give( pWorker );
-						}
-						else
-						{
-							pGeneralArtillery->TakeTruck( pUnit );
-						}
-					}
-				}
-			}
-			else if ( IsMobileReinforcement( pAILogic->GetScriptID( pWorker ) ) )
-				tanksFree.push_back( pWorker );
-			else 
-				stationaryTanks.push_back( pWorker );
-		}
-	}
+  switch (eType)
+  {
+    case FT_AIR_SCOUT:
+    case FT_AIR_GUNPLANE:
+      pAirForce->CancelRequest(nRequestID, eType);
+      break;
+    case FT_RECAPTURE_STORAGE:
+    {
+      // find desired task
+      RequestedTasks::iterator it = requestedTasks.find(nRequestID);
+      if (it != requestedTasks.end())
+      {
+        IGeneralTask *pTask = requestedTasks[nRequestID];
+        pTask->CancelTask(this);
+        requestIDs.AddToFreeId(nRequestID);
+      }
+    }
+    break;
+  }
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+int /* request ID */CGeneral::RequestForSupport(const CVec2 &vSupportCenter, enum EForceType eType)
+{
+  switch (eType)
+  {
+    case FT_AIR_SCOUT:
+    case FT_AIR_GUNPLANE:
+      return pAirForce->RequestForSupport(vSupportCenter, eType);
+      break;
+    case FT_RECAPTURE_STORAGE:
+    {
+      const int nID = requestIDs.GetFreeId();
+      auto pTask = new CGeneralTaskRecaptureStorage(vSupportCenter);
+      requestedTasks[nID] = pTask;
+      tasks.push_back(pTask);
+
+      return nID;
+    }
+    break;
+  }
+  return 0;
+}
+
+void CGeneral::Give(CCommonUnit *pWorker)
+{
+  if (!pWorker || !pWorker->IsValid() || !pWorker->IsAlive()) return;
+
+  if (pWorker->IsFormation())
+  {
+    auto pFormation = static_cast<CFormation *>(pWorker);
+    if (pFormation->GetState()->GetName() == EUSN_GUN_CAPTURE)
+    {
+      // don't consider gunners as infantry. 
+    }
+    else if (pFormation->IsInEntrenchment() ||
+             (pFormation->GetNextCommand() &&
+              (ACTION_COMMAND_IDLE_TRENCH == pFormation->GetNextCommand()->ToUnitCmd().cmdType ||
+               ACTION_COMMAND_IDLE_BUILDING == pFormation->GetNextCommand()->ToUnitCmd().cmdType ||
+               ACTION_COMMAND_ENTER == pFormation->GetNextCommand()->ToUnitCmd().cmdType
+              )
+             )
+    ) { infantryInTrenches.push_back(pWorker); }
+    else infantryFree.push_back(pWorker);
+  }
+  else
+  {
+    NI_ASSERT_T(dynamic_cast<CAIUnit*>(pWorker) != 0, "Wrong unit passed");
+    auto pUnit = static_cast<CAIUnit *>(pWorker);
+
+    // long-range guns¤
+    if (pUnit->GetFirstArtilleryGun() != nullptr) { if (pUnit->GetStats()->IsArtillery() || pUnit->GetStats()->IsSPG() || pUnit->GetStats()->type == RPG_TYPE_TRAIN_SUPER) pGeneralArtillery->TakeArtillery(pUnit); }
+    else
+    {
+      const SUnitBaseRPGStats *pStats = pUnit->GetStats();
+      if (pStats->IsTransport())
+      {
+        if (IsMobileReinforcement(pAILogic->GetScriptID(pWorker)))
+        {
+          if (pStats->type == RPG_TYPE_TRN_CIVILIAN_AUTO)
+          {
+            // the general doesn’t need such a canoe
+          }
+          else if (pStats->type == RPG_TYPE_TRN_MILITARY_AUTO)
+          {
+            pIntendant->AddReiforcePosition(pUnit->GetCenter(), pUnit->GetDir());
+            pIntendant->Give(pUnit);
+          }
+          else
+          {
+            auto pTransport = static_cast<CAITransportUnit *>(pUnit);
+            if (!pTransport->IsMustTow())
+            {
+              pIntendant->AddReiforcePosition(pUnit->GetCenter(), pUnit->GetDir());
+              pIntendant->Give(pWorker);
+            }
+            else { pGeneralArtillery->TakeTruck(pUnit); }
+          }
+        }
+      }
+      else if (IsMobileReinforcement(pAILogic->GetScriptID(pWorker))) tanksFree.push_back(pWorker);
+      else stationaryTanks.push_back(pWorker);
+    }
+  }
+}
+
 void CGeneral::EraseLastSeen()
 {
-	int nStep = 10; // optimisation parameter;
+  int nStep = 10;// optimization parameter;
 
-	// if finished, start again
-	if ( curProcessed == enemys.end() ) 
-		curProcessed = enemys.begin();
+  // if finished, start again
+  if (curProcessed == enemys.end()) curProcessed = enemys.begin();
 
-	// убрать всех врагов, которых видели давно.
-	for ( ; curProcessed != enemys.end() && nStep > 0; ++curProcessed )
-	{
-		--nStep;
-		const CUnitTimeSeen &unitTimeSeen = curProcessed->second;
-		if ( unitTimeSeen.second != -1 && curTime - unitTimeSeen.second > SGeneralConsts::TIME_DONT_SEE_ENEMY_BEFORE_FORGET )
-			erased.push_back( curProcessed->first );
-	}
-	while ( !erased.empty() )
-	{
-		enemys.erase( *erased.begin() );
-		erased.pop_front();
-	}
+  // remove all enemies that have been seen for a long time.
+  for (; curProcessed != enemys.end() && nStep > 0; ++curProcessed)
+  {
+    --nStep;
+    const CUnitTimeSeen &unitTimeSeen = curProcessed->second;
+    if (unitTimeSeen.second != -1 && curTime - unitTimeSeen.second > SGeneralConsts::TIME_DONT_SEE_ENEMY_BEFORE_FORGET) erased.push_back(curProcessed->first);
+  }
+  while (!erased.empty())
+  {
+    enemys.erase(*erased.begin());
+    erased.pop_front();
+  }
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CGeneral::Segment()
 {
-	/*RegisterCounter( 64, "general_removedead" );
-	RegisterCounter( 65, "general_removeenemies" );
-	RegisterCounter( 66, "general_commander" );
-	RegisterCounter( 67, "general_artillery" );
-	RegisterCounter( 68, "general_intendant" );*/
+  /* RegisterCounter( 64, "general_removedad" );
+   */
 
-	if ( curTime > timeNextUpdate )
-	{
-		timeCounter.Count( 64, true );
-		SGeneralHelper::RemoveDead( &infantryInTrenches );
-		SGeneralHelper::RemoveDead( &infantryFree );
-		SGeneralHelper::RemoveDead( &tanksFree );
-		SGeneralHelper::RemoveDead( &stationaryTanks );
-		SGeneralHelper::RemoveDead( &transportsFree );
-		timeCounter.Count( 64, false );
+  if (curTime > timeNextUpdate)
+  {
+    timeCounter.Count(64, true);
+    SGeneralHelper::RemoveDead(&infantryInTrenches);
+    SGeneralHelper::RemoveDead(&infantryFree);
+    SGeneralHelper::RemoveDead(&tanksFree);
+    SGeneralHelper::RemoveDead(&stationaryTanks);
+    SGeneralHelper::RemoveDead(&transportsFree);
+    timeCounter.Count(64, false);
 
-		//CRAP{ ѕќ“≈—“»–ќ¬ј“№, ≈—Ћ» будет тормозить, то разнести по сегментам
-		timeCounter.Count( 65, true );
-		EraseLastSeen();
-		timeCounter.Count( 65, false );
+    // CRAP{ ѕќ“≈—“”–ќ¬ј“№, ≈—Ћ” will slow down, then split into segments
+    timeCounter.Count(65, true);
+    EraseLastSeen();
+    timeCounter.Count(65, false);
 
-		timeCounter.Count( 66, true );
-		CCommander::Segment();
-		timeCounter.Count( 66, false );
-		
-		pAirForce->Segment();
+    timeCounter.Count(66, true);
+    CCommander::Segment();
+    timeCounter.Count(66, false);
 
-		timeCounter.Count( 67, true );
-		// бомбардировака областей
-		BombardmentSegment();
-		pGeneralArtillery->Segment();
-		timeCounter.Count( 67, false );
+    pAirForce->Segment();
 
-		timeCounter.Count( 68, true );
-		if ( pIntendant )
-			pIntendant->Segment();
-		timeCounter.Count( 68, false );
-		//CRAP}
+    timeCounter.Count(67, true);
+    // bombing areas
+    BombardmentSegment();
+    pGeneralArtillery->Segment();
+    timeCounter.Count(67, false);
 
-		timeNextUpdate = curTime + SGeneralConsts::GENERAL_UPDATE_PERIOD + Random( 1000 );
-		
-		GetSingleton<IScene>()->GetStatSystem()->UpdateEntry( "General: visible enemies", "" );
-		GetSingleton<IScene>()->GetStatSystem()->UpdateEntry( "General: antiartillery circles", "" );
-	}
+    timeCounter.Count(68, true);
+    if (pIntendant) pIntendant->Segment();
+    timeCounter.Count(68, false);
+    // CRAP}
+
+    timeNextUpdate = curTime + SGeneralConsts::GENERAL_UPDATE_PERIOD + Random(1000);
+
+    GetSingleton<IScene>()->GetStatSystem()->UpdateEntry("General: visible enemies", "");
+    GetSingleton<IScene>()->GetStatSystem()->UpdateEntry("General: antiartillery circles", "");
+  }
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CGeneral::GiveCommandToBombardment()
 {
-	if ( 2 == cBombardmentType ) return;
-	
-	const float fComparativeWeight = 
-		cBombardmentType == 1 ? SGeneralConsts::MIN_WEIGHT_TO_SEND_BOMBERS : SGeneralConsts::MIN_WEIGHT_TO_ARTILLERY_FIRE;
-	// количество областей, среди которых кидать рандом
-	int cnt = 0;
-	CResistancesContainer::iterator iter = resContainer.begin();
-	while ( cnt < 10 && !iter.IsFinished() && (*iter).GetWeight() >= fComparativeWeight )
-	{
-		const CVec2 vCellCenter = SResistance::GetResistanceCellCenter( (*iter).GetCellNumber() );
-		if ( cBombardmentType == 1 || pGeneralArtillery->CanBombardRegion( vCellCenter ) )
-			++cnt;
+  if (2 == cBombardmentType) return;
 
-		iter.Iterate();
-	}
+  const float fComparativeWeight =
+      cBombardmentType == 1 ? SGeneralConsts::MIN_WEIGHT_TO_SEND_BOMBERS : SGeneralConsts::MIN_WEIGHT_TO_ARTILLERY_FIRE;
+  // number of areas among which to throw randomly
+  int cnt = 0;
+  auto iter = resContainer.begin();
+  while (cnt < 10 && !iter.IsFinished() && (*iter).GetWeight() >= fComparativeWeight)
+  {
+    const CVec2 vCellCenter = SResistance::GetResistanceCellCenter((*iter).GetCellNumber());
+    if (cBombardmentType == 1 || pGeneralArtillery->CanBombardRegion(vCellCenter)) ++cnt;
 
-	// можно бомбить
-	if ( cnt > 0 )
-	{
-		const int nRegion = Random( 1, cnt );
-		
-		cnt = 0;
-		iter = resContainer.begin();
-		while ( cnt < nRegion )
-		{
-			const CVec2 vCellCenter = SResistance::GetResistanceCellCenter( (*iter).GetCellNumber() );
-			if ( cBombardmentType == 1 || pGeneralArtillery->CanBombardRegion( vCellCenter ) )
-				++cnt;
-			if ( cnt < nRegion )
-				iter.Iterate();
-		}
+    iter.Iterate();
+  }
 
-		const CVec2 vCellCenter = SResistance::GetResistanceCellCenter( (*iter).GetCellNumber() );
-		const float fRadius = SGeneralConsts::RESISTANCE_CELL_SIZE * SConsts::TILE_SIZE + Random( 0, 2 ) * SConsts::TILE_SIZE;
+  // you can bomb
+  if (cnt > 0)
+  {
+    const int nRegion = Random(1, cnt);
 
-		CVec2 vCenter( VNULL2 );
-		int nUnits = 0;
-		bool bIsAntiArtilleryFight = false;
-		for ( CUnitsIter<0,3> unitsIter( nParty, EDI_ENEMY, vCellCenter, fRadius ); !unitsIter.IsFinished(); unitsIter.Iterate() )
-		{
-			CAIUnit *pUnit = *unitsIter;
-			CAIUnitInfoForGeneral* pInfo = pUnit->GetUnitInfoForGeneral();
+    cnt = 0;
+    iter = resContainer.begin();
+    while (cnt < nRegion)
+    {
+      const CVec2 vCellCenter = SResistance::GetResistanceCellCenter((*iter).GetCellNumber());
+      if (cBombardmentType == 1 || pGeneralArtillery->CanBombardRegion(vCellCenter)) ++cnt;
+      if (cnt < nRegion) iter.Iterate();
+    }
 
-			// если послать бомберов или если это враг и его видели не так давно
-			if ( cBombardmentType == 1 || curTime - pInfo->GetLastTimeOfVisibility() < pUnit->GetTimeToForget() )
-			{
-				if ( pInfo->IsLastVisibleAntiArt() )
-					bIsAntiArtilleryFight = true;
-				
-				vCenter += pUnit->GetCenter();
-				++nUnits;
-			}
-		}
+    const CVec2 vCellCenter = SResistance::GetResistanceCellCenter((*iter).GetCellNumber());
+    const float fRadius = SGeneralConsts::RESISTANCE_CELL_SIZE * SConsts::TILE_SIZE + Random(0, 2) * SConsts::TILE_SIZE;
 
-		if ( nUnits > 0 )
-		{
-			vCenter /= float( nUnits );
+    CVec2 vCenter(VNULL2);
+    int nUnits = 0;
+    bool bIsAntiArtilleryFight = false;
+    for (CUnitsIter<0, 3> unitsIter(nParty, EDI_ENEMY, vCellCenter, fRadius); !unitsIter.IsFinished(); unitsIter.Iterate())
+    {
+      CAIUnit *pUnit = *unitsIter;
+      CAIUnitInfoForGeneral *pInfo = pUnit->GetUnitInfoForGeneral();
 
-			if ( cBombardmentType == 1 )
-				pAirForce->RequestForSupport( vCenter, FT_AIR_BOMBER, (*iter).GetCellNumber() );
-			else	
-			{
-				float fMaxDistance = 0;
-				for ( CUnitsIter<0,3> unitsIter( nParty, EDI_ENEMY, vCellCenter, fRadius ); !unitsIter.IsFinished(); unitsIter.Iterate() )
-				{
-					CAIUnit *pUnit = *unitsIter;
-					CAIUnitInfoForGeneral* pInfo = pUnit->GetUnitInfoForGeneral();
+      // if you send bombers or if it is an enemy and he was seen not so long ago
+      if (cBombardmentType == 1 || curTime - pInfo->GetLastTimeOfVisibility() < pUnit->GetTimeToForget())
+      {
+        if (pInfo->IsLastVisibleAntiArt()) bIsAntiArtilleryFight = true;
 
-					// если это враг и его видели не так давно		
-					if ( curTime - pInfo->GetLastTimeOfVisibility() < pUnit->GetTimeToForget() )
-					{
-						const float fDist = fabs( pUnit->GetCenter() - vCenter );
-						if ( fDist > fMaxDistance )
-							fMaxDistance = fDist;
+        vCenter += pUnit->GetCenter();
+        ++nUnits;
+      }
+    }
 
-						// "забыть" о невидимых юнитах в этом радиусе
-						if ( !pUnit->IsVisible( nParty ) )
-							pUnit->SetLastVisibleTime( 0 );
-					}
-				}
+    if (nUnits > 0)
+    {
+      vCenter /= static_cast<float>(nUnits);
 
-				pGeneralArtillery->RequestForSupport( vCenter, fMaxDistance, bIsAntiArtilleryFight, (*iter).GetCellNumber() );
-			}
-		}
-	}
+      if (cBombardmentType == 1) pAirForce->RequestForSupport(vCenter, FT_AIR_BOMBER, (*iter).GetCellNumber());
+      else
+      {
+        float fMaxDistance = 0;
+        for (CUnitsIter<0, 3> unitsIter(nParty, EDI_ENEMY, vCellCenter, fRadius); !unitsIter.IsFinished(); unitsIter.Iterate())
+        {
+          CAIUnit *pUnit = *unitsIter;
+          CAIUnitInfoForGeneral *pInfo = pUnit->GetUnitInfoForGeneral();
+
+          // if it's an enemy and he was seen not long ago
+          if (curTime - pInfo->GetLastTimeOfVisibility() < pUnit->GetTimeToForget())
+          {
+            const float fDist = fabs(pUnit->GetCenter() - vCenter);
+            if (fDist > fMaxDistance) fMaxDistance = fDist;
+
+            // "forget" about invisible units in this radius
+            if (!pUnit->IsVisible(nParty)) pUnit->SetLastVisibleTime(0);
+          }
+        }
+
+        pGeneralArtillery->RequestForSupport(vCenter, fMaxDistance, bIsAntiArtilleryFight, (*iter).GetCellNumber());
+      }
+    }
+  }
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CGeneral::GiveResistances( IEnemyEnumerator *pEnumerator )
+
+void CGeneral::GiveResistances(IEnemyEnumerator *pEnumerator)
 {
-	if ( bSendReserves )
-	{
-		CResistancesContainer::iterator iter = resContainer.begin();
-		while ( !iter.IsFinished() && (*iter).GetWeight() > SGeneralConsts::MIN_WEIGHT_TO_SEND_SWARM && pEnumerator->EnumResistances( *iter ) )
-			iter.Iterate();
-	}
+  if (bSendReserves)
+  {
+    auto iter = resContainer.begin();
+    while (!iter.IsFinished() && (*iter).GetWeight() > SGeneralConsts::MIN_WEIGHT_TO_SEND_SWARM && pEnumerator->EnumResistances(*iter)) iter.Iterate();
+  }
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const float Func( const float fX, const float fBound )
+
+const float Func(const float fX, const float fBound)
 {
-	//	return ( 1 - exp( -fX * 0.3 ) ) * fBound;
+  // return ( 1 - exp( -fX * 0.3 ) ) * fBound;
 
-	// x <= f  -->  exp( k * ( x - f ) )
-	// x > f   -->  2 - exp( -k * ( x - f ) )
+  // x <= f --> exp( k * ( x - f ) )
+  // x > f --> 2 - exp( -k * ( x - f ) )
 
-	// точка смены - п¤терна¤ минимальна¤
-	const float f = 5.0f;
-	// угол касательной в точке f
-	const float k = 2.0f;
+  // change point - minimum
+  constexpr float f = 5.0f;
+  // tangent angle at point f
+  constexpr float k = 2.0f;
 
-	float func;
-	if ( fX <= f )
-		func = exp( k * ( fX - f ) );
-	else
-		func = 2 - exp( -k * ( fX - f ) );
+  float func;
+  if (fX <= f) func = exp(k * (fX - f));
+  else func = 2 - exp(-k * (fX - f));
 
-	// сдвиг функции в ноль в нуле и в fBound в бесконечности
-	func = ( func - exp( -k*f ) ) / ( 2 - exp( -k*f ) ) * fBound;
+  // shift the function to zero at zero and to fBound at infinity
+  func = (func - exp(-k * f)) / (2 - exp(-k * f)) * fBound;
 
-	return func;
+  return func;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CGeneral::BombardmentSegment()
 {
-	CResistancesContainer::iterator iter = resContainer.begin();
-	if ( !iter.IsFinished() )
-	{
-		if ( curTime >= lastBombardmentCheck + 1000 )
-		{
-			const float fComparativeWeight = SGeneralConsts::MIN_WEIGHT_TO_ARTILLERY_FIRE;
+  auto iter = resContainer.begin();
+  if (!iter.IsFinished())
+  {
+    if (curTime >= lastBombardmentCheck + 1000)
+    {
+      const float fComparativeWeight = SGeneralConsts::MIN_WEIGHT_TO_ARTILLERY_FIRE;
 
-			const SResistance &maxCell = *iter;
+      const SResistance &maxCell = *iter;
 
-			const float fRatio = maxCell.GetWeight() / fComparativeWeight;
-			bSendReserves = maxCell.GetWeight() >= SGeneralConsts::MIN_WEIGHT_TO_SEND_SWARM;
-			// стоит выстрелить по наилучшей из областей
-			if ( fRatio >= 1.0f )
-			{
-				// веро¤тность выстрелить по прошествии среднего времени ( TIME_TO_ARTILLERY_FIRE )
-				const float fProbability = 
-					Func( fRatio, 1 - SGeneralConsts::PROBABILITY_TO_SHOOT_AFTER_ARTILLERY_FIRE )
-					+ 
-					SGeneralConsts::PROBABILITY_TO_SHOOT_AFTER_ARTILLERY_FIRE;
+      const float fRatio = maxCell.GetWeight() / fComparativeWeight;
+      bSendReserves = maxCell.GetWeight() >= SGeneralConsts::MIN_WEIGHT_TO_SEND_SWARM;
+      // it's worth shooting at the best of areas
+      if (fRatio >= 1.0f)
+      {
+        // probability of firing after the average time has passed (TIME_TO_ARTILLERY_FIRE)
+        const float fProbability =
+            Func(fRatio, 1 - SGeneralConsts::PROBABILITY_TO_SHOOT_AFTER_ARTILLERY_FIRE)
+            +
+            SGeneralConsts::PROBABILITY_TO_SHOOT_AFTER_ARTILLERY_FIRE;
 
-				// делитс¤ на 1000, т.к. проверка раз в секунду
-				const float fProbNow = 1 - exp( 1.0f/((float)SGeneralConsts::TIME_TO_ARTILLERY_FIRE / 1000.0f) * log( 1 - fProbability ) );
-				
-				// нужно стрел¤ть
-				if ( Random( 0.0f, 1.0f ) < fProbNow )
-				{
-					lastBombardmentCheck = curTime;
-					
-					// послать бомбардировщиков
-					const bool bSendBombers = 
-						theUnitCreation.IsAviaEnabled( nParty, SUCAviation::AT_BOMBER ) &&
-						maxCell.GetWeight() >= SGeneralConsts::MIN_WEIGHT_TO_SEND_BOMBERS;
+        // is divided by 1000, because 
+        const float fProbNow = 1 - exp(1.0f / (SGeneralConsts::TIME_TO_ARTILLERY_FIRE / 1000.0f) * log(1 - fProbability));
 
-					if ( bSendBombers )
-						cBombardmentType = 1;
-					else
-						cBombardmentType = 0;
+        // need to shoot
+        if (Random(0.0f, 1.0f) < fProbNow)
+        {
+          lastBombardmentCheck = curTime;
 
-					lastBombardmentCheck = curTime + 1000;
-					GiveCommandToBombardment();
+          // send bombers
+          const bool bSendBombers =
+              theUnitCreation.IsAviaEnabled(nParty, SUCAviation::AT_BOMBER) &&
+              maxCell.GetWeight() >= SGeneralConsts::MIN_WEIGHT_TO_SEND_BOMBERS;
 
-					if ( cBombardmentType == 1 )
-					{
-						cBombardmentType = 0;
-						GiveCommandToBombardment();
-					}
-				}
-			}
-		}
-	}
+          if (bSendBombers) cBombardmentType = 1;
+          else cBombardmentType = 0;
+
+          lastBombardmentCheck = curTime + 1000;
+          GiveCommandToBombardment();
+
+          if (cBombardmentType == 1)
+          {
+            cBombardmentType = 0;
+            GiveCommandToBombardment();
+          }
+        }
+      }
+    }
+  }
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool CGeneral::IsMobileReinforcement( int nGroupID ) const
+
+bool CGeneral::IsMobileReinforcement(int nGroupID) const { return mobileReinforcementGroupIDs.find(nGroupID) != mobileReinforcementGroupIDs.end(); }
+
+void CGeneral::GiveNewUnits(const std::list<CCommonUnit *> &pUnits)
 {
-	return mobileReinforcementGroupIDs.find( nGroupID ) != mobileReinforcementGroupIDs.end();
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CGeneral::GiveNewUnits( const std::list<CCommonUnit*> &pUnits )
-{
-	typedef std::hash_map<int, bool> Formations;
-	Formations formations; // добавл¤емые формации
-	
-	// забрать все юниты, кроме солдат. солдат забирать формаци¤ми	
-	for ( std::list<CCommonUnit*>::const_iterator iter = pUnits.begin(); iter != pUnits.end(); ++iter )
-	{
-		CCommonUnit *pUnit = *iter;
-		if ( theDipl.GetDiplStatusForParties( pUnit->GetParty(), nParty ) == EDI_FRIEND )
-		{
-			if ( pUnit->IsInFormation() &&
-					 pUnit->GetFormation()->GetState()->GetName() != EUSN_GUN_CREW_STATE )
-				formations[pUnit->GetFormation()->GetUniqueId()] = true;
-			else
-				Give( pUnit );
-		}
-	}
+  using Formations = std::hash_map<int, bool>;
+  Formations formations;// added formations
 
-	// забрать формации
-	for( Formations::iterator it = formations.begin(); it != formations.end(); ++it )
-	{
-		if ( CCommonUnit *pUnit = GetObjectByUniqueIdSafe<CCommonUnit>( it->first ) )
-			Give( pUnit );
-	}
-	
-	// another oppotunity to ask for worker for tasks
-	for ( Tasks::iterator it = tasks.begin(); it != tasks.end(); ++it )
-		(*it)->AskForWorker( this, 0, true );
+  // pick up all units except soldiers. 
+  for (auto iter = pUnits.begin(); iter != pUnits.end(); ++iter)
+  {
+    CCommonUnit *pUnit = *iter;
+    if (theDipl.GetDiplStatusForParties(pUnit->GetParty(), nParty) == EDI_FRIEND)
+    {
+      if (pUnit->IsInFormation() &&
+          pUnit->GetFormation()->GetState()->GetName() != EUSN_GUN_CREW_STATE)
+        formations[pUnit->GetFormation()->GetUniqueId()] = true;
+      else Give(pUnit);
+    }
+  }
+
+  // pick up formations
+  for (Formations::iterator it = formations.begin(); it != formations.end(); ++it) { if (CCommonUnit *pUnit = GetObjectByUniqueIdSafe<CCommonUnit>(it->first)) Give(pUnit); }
+
+  // another oppotunity to ask for worker for tasks
+  for (auto it = tasks.begin(); it != tasks.end(); ++it) (*it)->AskForWorker(this, 0, true);
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CGeneral::Init()
 {
-	bSendReserves = false;
-	SGeneralConsts::Init();
-	pAirForce = new CGeneralAirForce( nParty, this );
-	pGeneralArtillery = new CGeneralArtillery( nParty, this );
-	pIntendant = new CGeneralIntendant( nParty, this );
-	pIntendant->Init();
+  bSendReserves = false;
+  SGeneralConsts::Init();
+  pAirForce = new CGeneralAirForce(nParty, this);
+  pGeneralArtillery = new CGeneralArtillery(nParty, this);
+  pIntendant = new CGeneralIntendant(nParty, this);
+  pIntendant->Init();
 
-	tasks.push_back( new CGeneralTaskToSwarmToPoint( this, this ) );
+  tasks.push_back(new CGeneralTaskToSwarmToPoint(this, this));
 
-	curProcessed = enemys.begin();
+  curProcessed = enemys.begin();
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CGeneral::Init( const SAIGeneralSideInfo &mapInfo )
-{
-	// создать список мобильных отр¤дов
-	for ( int i = 0; i < mapInfo.mobileScriptIDs.size(); ++i )
-		mobileReinforcementGroupIDs.insert( mapInfo.mobileScriptIDs[i] );
 
-	Init();
-	
-	bool bReinforceCreated = false;
+void CGeneral::Init(const SAIGeneralSideInfo &mapInfo)
+{
+  // create a list of mobile departments
+  for (int i = 0; i < mapInfo.mobileScriptIDs.size(); ++i) mobileReinforcementGroupIDs.insert(mapInfo.mobileScriptIDs[i]);
 
-	for ( int i = 0; i < mapInfo.parcels.size(); ++i )
-	{
-		switch( mapInfo.parcels[i].eType )
-		{
-		case SAIGeneralParcelInfo::EPATCH_DEFENCE:								// защита патчей 
-			{
-				CGeneralTaskToDefendPatch * pTask  = new CGeneralTaskToDefendPatch;
-				pTask->Init( mapInfo.parcels[i], this );
-				pTask->AskForWorker( this, 0, true );
-				tasks.push_back( pTask );
-				pTask->SetEnemyConatiner( this );
-			}
-			break;
-		case SAIGeneralParcelInfo::EPATCH_REINFORCE:
-			{
-				bReinforceCreated = true;
-				// манипулирование резервами
-				CGeneralTaskToHoldReinforcement * pTask = new CGeneralTaskToHoldReinforcement;
-				pTask->Init( mapInfo.parcels[i] );
-				// notify Intendant about points to hold reinforcement.
-				pIntendant->AddReiforcePositions( mapInfo.parcels[i] );
-				pTask->AskForWorker( this, 0, true );
-				tasks.push_back( pTask );
-				pTask->SetEnemyConatiner( this );
-			}
-			break;
-		}
-	}
-	// there is no reinforcement positions. create one, MUST HAVE at leas one
-	if ( !bReinforceCreated )
-	{
-		// манипулирование резервами
-		CGeneralTaskToHoldReinforcement * pTask = new CGeneralTaskToHoldReinforcement;
-		pTask->Init();
-		pTask->AskForWorker( this, 0, true );
-		tasks.push_back( pTask );
-		pTask->SetEnemyConatiner( this );
-	}
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CGeneral::SetAAVisible( class CAIUnit *pUnit, const bool bVisible )
-{
-	pAirForce->SetAAVisible( pUnit, bVisible );
-	enemys[pUnit->GetUniqueId()] = CUnitTimeSeen( pUnit, bVisible ? -1 : curTime );
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CGeneral::SetUnitVisible( class CAIUnit *pUnit, const bool bVisible )
-{
-	const SUnitBaseRPGStats * pStats = pUnit->GetStats();
-	if ( EDI_ENEMY == theDipl.GetDiplStatusForParties( pUnit->GetParty(), nParty ) )
-	{	
-		if ( !pStats->IsAviation() )
-		{
-			if ( pStats->IsArtillery() )
-			{
-				// invisible artillery is cannot be supplied
+  Init();
 
-			}
-			if ( pUnit->CanShootToPlanes() )
-				SetAAVisible( pUnit, bVisible );
-			else
-			{
-				NI_ASSERT_T( pUnit->GetUniqueId(), "unit has zero unique ID" );
-				enemys[pUnit->GetUniqueId()] = CUnitTimeSeen(pUnit, bVisible ? -1 : curTime );
-			}
-		}
-	}
-	if ( pUnit->GetParty() == theDipl.GetNeutralParty() && pStats->IsArtillery() )
-	{
-		pIntendant->SetArtilleryVisible( pUnit, bVisible );
-	}
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CGeneral::RemoveResistance( const CVec2 &vCenter )
-{
-	resContainer.RemoveExcluded( vCenter );
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CGeneral::AddResistance( const CVec2 &vCenter, const float fRadius )
-{
-	resContainer.AddExcluded( vCenter, fRadius );
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CGeneral::GiveEnemies( IEnemyEnumerator *pEnumerator )
-{
-	for ( CEnemyVisibility::iterator it = enemys.begin();
-				it != enemys.end() && pEnumerator->EnumEnemy( it->second.first ); ++it );
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CGeneral::UpdateEnemyUnitInfo( CAIUnitInfoForGeneral *pInfo,
-	const NTimer::STime lastVisibleTimeDelta, const CVec2 &vLastVisiblePos,
-	const NTimer::STime lastAntiArtTimeDelta, const CVec2 &vLastVisibleAntiArtCenter, const float fDistToLastVisibleAntiArt )
-{
-	resContainer.UpdateEnemyUnitInfo(
-		pInfo, lastVisibleTimeDelta, vLastVisiblePos,	lastAntiArtTimeDelta, vLastVisibleAntiArtCenter, fDistToLastVisibleAntiArt );
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CGeneral::UnitDied( class CCommonUnit * pUnit )
-{
-	pIntendant->UnitDead( pUnit );
-	CEnemyVisibility::iterator it = enemys.find( pUnit->GetUniqueId() );
-	if ( it != enemys.end() )
-	{
-		if ( curProcessed == it )
-			++curProcessed;
-		enemys.erase( it );
-	}
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CGeneral::UnitDied( CAIUnitInfoForGeneral *pInfo )
-{
-	UnitDied( pInfo->GetOwner() );
+  bool bReinforceCreated = false;
 
-	if ( EDI_ENEMY == theDipl.GetDiplStatusForParties( pInfo->GetOwner()->GetParty(), nParty ) )
-	{
-		resContainer.UnitDied( pInfo );
-		pAirForce->DeleteAA( pInfo->GetOwner() );
-	}
-	else
-	{
-		CAIUnit *pUnit = pInfo->GetOwner();
-		CAIUnit *pTruck = pUnit->GetTruck();
-		if ( pTruck && pTruck->IsValid() && pTruck->IsAlive() )
-			Give( pTruck );			
-	}
+  for (int i = 0; i < mapInfo.parcels.size(); ++i)
+  {
+    switch (mapInfo.parcels[i].eType)
+    {
+      case SAIGeneralParcelInfo::EPATCH_DEFENCE: // patch protection
+      {
+        auto pTask = new CGeneralTaskToDefendPatch;
+        pTask->Init(mapInfo.parcels[i], this);
+        pTask->AskForWorker(this, 0, true);
+        tasks.push_back(pTask);
+        pTask->SetEnemyConatiner(this);
+      }
+      break;
+      case SAIGeneralParcelInfo::EPATCH_REINFORCE:
+      {
+        bReinforceCreated = true;
+        // manipulation of reserves
+        auto pTask = new CGeneralTaskToHoldReinforcement;
+        pTask->Init(mapInfo.parcels[i]);
+        // notify Intendant about points to hold reinforcement.
+        pIntendant->AddReiforcePositions(mapInfo.parcels[i]);
+        pTask->AskForWorker(this, 0, true);
+        tasks.push_back(pTask);
+        pTask->SetEnemyConatiner(this);
+      }
+      break;
+    }
+  }
+  // there is no reinforcement positions. 
+  if (!bReinforceCreated)
+  {
+    // manipulation of reserves
+    auto pTask = new CGeneralTaskToHoldReinforcement;
+    pTask->Init();
+    pTask->AskForWorker(this, 0, true);
+    tasks.push_back(pTask);
+    pTask->SetEnemyConatiner(this);
+  }
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CGeneral::UnitChangedPosition( class CCommonUnit * pUnit, const CVec2 &vNewPos )
-{
-	if ( pUnit->IsFormation() || !static_cast<CAIUnit*>( pUnit )->GetStats()->IsAviation() )
-	{
-		pIntendant->UnitChangedPosition( pUnit, vNewPos );
-	}
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CGeneral::UnitAskedForResupply( class CCommonUnit * pUnit, const EResupplyType eType, const bool bSet )
-{
-	pIntendant->UnitAskedForResupply( pUnit, eType, bSet );
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CGeneral::UnitChangedParty( CAIUnit *pUnit, const int nNewParty )
-{
-	switch ( theDipl.GetDiplStatusForParties( nNewParty, nParty ) )
-	{
-	case EDI_ENEMY:
-		{
-			resContainer.UnitChangedParty( pUnit->GetUnitInfoForGeneral() );
 
-			pAirForce->DeleteAA( pUnit );
-			if ( !pUnit->GetStats()->IsAviation() )
-				pIntendant->UnitDead( pUnit );
-		}
+void CGeneral::SetAAVisible(class CAIUnit *pUnit, const bool bVisible)
+{
+  pAirForce->SetAAVisible(pUnit, bVisible);
+  enemys[pUnit->GetUniqueId()] = CUnitTimeSeen(pUnit, bVisible ? -1 : curTime);
+}
 
-		break;
-	case EDI_NEUTRAL:
-		{
-			const SUnitBaseRPGStats * pStats = pUnit->GetStats();
-			if ( !pStats->IsAviation() && !pStats->IsArtillery() )
-				pIntendant->UnitDead( pUnit );
-		}
+void CGeneral::SetUnitVisible(class CAIUnit *pUnit, const bool bVisible)
+{
+  const SUnitBaseRPGStats *pStats = pUnit->GetStats();
+  if (EDI_ENEMY == theDipl.GetDiplStatusForParties(pUnit->GetParty(), nParty))
+  {
+    if (!pStats->IsAviation())
+    {
+      if (pStats->IsArtillery())
+      {
+        // invisible artillery is cannot be supplied
 
-		break;
-	case EDI_FRIEND:
-		if ( !pUnit->GetStats()->IsAviation() )
-			pIntendant->UnitDead( pUnit );
-		
-		break;
-	}
+      }
+      if (pUnit->CanShootToPlanes()) SetAAVisible(pUnit, bVisible);
+      else
+      {
+        NI_ASSERT_T(pUnit->GetUniqueId(), "unit has zero unique ID");
+        enemys[pUnit->GetUniqueId()] = CUnitTimeSeen(pUnit, bVisible ? -1 : curTime);
+      }
+    }
+  }
+  if (pUnit->GetParty() == theDipl.GetNeutralParty() && pStats->IsArtillery()) { pIntendant->SetArtilleryVisible(pUnit, bVisible); }
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CGeneral::ReserveAviationForTimes( const std::vector<NTimer::STime> &times )
+
+void CGeneral::RemoveResistance(const CVec2 &vCenter) { resContainer.RemoveExcluded(vCenter); }
+
+void CGeneral::AddResistance(const CVec2 &vCenter, const float fRadius) { resContainer.AddExcluded(vCenter, fRadius); }
+
+void CGeneral::GiveEnemies(IEnemyEnumerator *pEnumerator)
 {
-	pAirForce->ReserveAviationForTimes( times );
+  for (CEnemyVisibility::iterator it = enemys.begin();
+       it != enemys.end() && pEnumerator->EnumEnemy(it->second.first); ++it);
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CGeneral::SetCellInUse( const int nResistanceCellNumber, bool bInUse )
+
+void CGeneral::UpdateEnemyUnitInfo(CAIUnitInfoForGeneral *pInfo,
+                                   const NTimer::STime lastVisibleTimeDelta, const CVec2 &vLastVisiblePos,
+                                   const NTimer::STime lastAntiArtTimeDelta, const CVec2 &vLastVisibleAntiArtCenter, const float fDistToLastVisibleAntiArt)
 {
-	resContainer.SetCellInUse( nResistanceCellNumber, bInUse );
+  resContainer.UpdateEnemyUnitInfo(
+      pInfo, lastVisibleTimeDelta, vLastVisiblePos, lastAntiArtTimeDelta, vLastVisibleAntiArtCenter, fDistToLastVisibleAntiArt);
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool CGeneral::IsInResistanceCircle( const CVec2 &vPoint ) const
+
+void CGeneral::UnitDied(class CCommonUnit *pUnit)
 {
-	return resContainer.IsInResistanceCircle( vPoint );
+  pIntendant->UnitDead(pUnit);
+  CEnemyVisibility::iterator it = enemys.find(pUnit->GetUniqueId());
+  if (it != enemys.end())
+  {
+    if (curProcessed == it) ++curProcessed;
+    enemys.erase(it);
+  }
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void CGeneral::UnitDied(CAIUnitInfoForGeneral *pInfo)
+{
+  UnitDied(pInfo->GetOwner());
+
+  if (EDI_ENEMY == theDipl.GetDiplStatusForParties(pInfo->GetOwner()->GetParty(), nParty))
+  {
+    resContainer.UnitDied(pInfo);
+    pAirForce->DeleteAA(pInfo->GetOwner());
+  }
+  else
+  {
+    CAIUnit *pUnit = pInfo->GetOwner();
+    CAIUnit *pTruck = pUnit->GetTruck();
+    if (pTruck && pTruck->IsValid() && pTruck->IsAlive()) Give(pTruck);
+  }
+}
+
+void CGeneral::UnitChangedPosition(class CCommonUnit *pUnit, const CVec2 &vNewPos) { if (pUnit->IsFormation() || !static_cast<CAIUnit *>(pUnit)->GetStats()->IsAviation()) { pIntendant->UnitChangedPosition(pUnit, vNewPos); } }
+
+void CGeneral::UnitAskedForResupply(class CCommonUnit *pUnit, const EResupplyType eType, const bool bSet) { pIntendant->UnitAskedForResupply(pUnit, eType, bSet); }
+
+void CGeneral::UnitChangedParty(CAIUnit *pUnit, const int nNewParty)
+{
+  switch (theDipl.GetDiplStatusForParties(nNewParty, nParty))
+  {
+    case EDI_ENEMY:
+    {
+      resContainer.UnitChangedParty(pUnit->GetUnitInfoForGeneral());
+
+      pAirForce->DeleteAA(pUnit);
+      if (!pUnit->GetStats()->IsAviation()) pIntendant->UnitDead(pUnit);
+    }
+
+    break;
+    case EDI_NEUTRAL:
+    {
+      const SUnitBaseRPGStats *pStats = pUnit->GetStats();
+      if (!pStats->IsAviation() && !pStats->IsArtillery()) pIntendant->UnitDead(pUnit);
+    }
+
+    break;
+    case EDI_FRIEND:
+      if (!pUnit->GetStats()->IsAviation()) pIntendant->UnitDead(pUnit);
+
+      break;
+  }
+}
+
+void CGeneral::ReserveAviationForTimes(const std::vector<NTimer::STime> &times) { pAirForce->ReserveAviationForTimes(times); }
+
+void CGeneral::SetCellInUse(const int nResistanceCellNumber, bool bInUse) { resContainer.SetCellInUse(nResistanceCellNumber, bInUse); }
+
+bool CGeneral::IsInResistanceCircle(const CVec2 &vPoint) const { return resContainer.IsInResistanceCircle(vPoint); }

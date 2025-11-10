@@ -11,7 +11,7 @@ static char THIS_FILE[] = __FILE__;
 #endif
 #define ID_TREE_LIST_HEADER 3
 #define ID_TREE_LIST_CTRL   1
-/////////////////////////////////////////////////////////////////////////////
+// 
 // CFrameTree
 const int CFrameTree::SCROLL_BAR_SIZE = 18;
 CFrameTree::CFrameTree() : ifInit(false), bCreateControls( false )
@@ -30,15 +30,15 @@ CFrameTree::~CFrameTree()
 
 
 BEGIN_MESSAGE_MAP(CFrameTree, CWnd)
-	//{{AFX_MSG_MAP(CFrameTree)
+	// {{AFX_MSG_MAP(CFrameTree)
 	ON_WM_PAINT()
 	ON_WM_SIZE()
 	ON_WM_CTLCOLOR()
-	//}}AFX_MSG_MAP
+	// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // CFrameTree message handlers
 
 void CFrameTree::OnPaint() 
@@ -48,13 +48,8 @@ void CFrameTree::OnPaint()
 	// TODO: Add your message handler code here
 
 	// Do not call CWnd::OnPaint() for painting messages
-/*	{
-		RECT r;
-		GetClientRect( &r) ;
-		CBrush* pBrush =new CBrush( RGB(255, 255, 0));
-		dc.FillRect( &r, pBrush );
-		delete pBrush ;
-	}*/
+/* {
+		 */
 }
 
 BOOL CFrameTree::Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID, CCreateContext* pContext) 
@@ -136,7 +131,7 @@ void CFrameTree::OnSize(UINT nType, int cx, int cy)
 }
 HBRUSH CFrameTree::OnCtlColor( CDC* pDC, CWnd* pWnd, UINT nCtlColor )
 {
-//		pDC->SetBkColor( 0x00323232 );
-//		return (HBRUSH)(m_pEditBkBrush->GetSafeHandle());    
+// pDC->SetBkColor( 0x00323232 );
+// return (HBRUSH)(m_pEditBkBrush->GetSafeHandle());
 	return CWnd::OnCtlColor( pDC, pWnd, nCtlColor );
 }

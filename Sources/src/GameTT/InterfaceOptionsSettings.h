@@ -1,57 +1,60 @@
 #ifndef __INTERFACEOPTIONSSETTINGS_H__
 #define __INTERFACEOPTIONSSETTINGS_H__
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma ONCE
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#pragma once
+
 #include "InterMission.h"
 #include "iMission.h"
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class COptionsListWrapper;
+
 class CInterfaceOptionsSettings : public CInterfaceInterMission
 {
-	OBJECT_NORMAL_METHODS( CInterfaceOptionsSettings );
+  OBJECT_NORMAL_METHODS(CInterfaceOptionsSettings);
 
-	std::vector< CPtr<COptionsListWrapper> > optionsLists;
+  std::vector<CPtr<COptionsListWrapper>> optionsLists;
 
-	int nActive;													// nurrent active division
-	int nMaxDivision;											// total number of divisions.
-	int nMinDifficulty;
+  int nActive;// current active division
+  int nMaxDivision;// total number of divisions.
+  int nMinDifficulty;
 
-	// input
-	NInput::CCommandRegistrator commandMsgs;
-	//
-	virtual bool STDCALL ProcessMessage( const SGameMessage &msg );
+  // input
+  NInput::CCommandRegistrator commandMsgs;
+  //
+  bool STDCALL ProcessMessage(const SGameMessage &msg) override;
 
-	virtual ~CInterfaceOptionsSettings() {  }
-	CInterfaceOptionsSettings() : CInterfaceInterMission( /*"InterMission"*/"Current" ), nActive( -1 ), nMaxDivision( 0 ) {  }
+  ~CInterfaceOptionsSettings() override {}
+  CInterfaceOptionsSettings() : CInterfaceInterMission(/* "InterMission" */"Current"), nActive(-1), nMaxDivision(0) {}
 
-	virtual void SuspendAILogic( bool bSuspend );
-	void OnChangeDivision( const int nDivision );
-	void Close();
-	virtual bool OpenCurtains();
+  void SuspendAILogic(bool bSuspend) override;
+  void OnChangeDivision(int nDivision);
+  void Close();
+  bool OpenCurtains() override;
+
 public:
-	virtual void STDCALL Done();
-	virtual bool STDCALL Init();
-	void Create();
+  void STDCALL Done() override;
+  bool STDCALL Init() override;
+  void Create();
 
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-class CICOptionsSettings: public CInterfaceCommandBase<CInterfaceOptionsSettings, MISSION_INTERFACE_OPTIONSSETTINGS>
+
+class CICOptionsSettings : public CInterfaceCommandBase<CInterfaceOptionsSettings, MISSION_INTERFACE_OPTIONSSETTINGS>
 {
-	OBJECT_NORMAL_METHODS( CICOptionsSettings );
-	
-	virtual void PreCreate( IMainLoop *pML ) { }
-	virtual void PostCreate( IMainLoop *pML, CInterfaceOptionsSettings *pEI )
-	{
-		pEI->Create();
-		pML->PushInterface( pEI );
-	}
-	//
-	CICOptionsSettings() {  }
+  OBJECT_NORMAL_METHODS(CICOptionsSettings);
+
+  void PreCreate(IMainLoop *pML) override {}
+
+  void PostCreate(IMainLoop *pML, CInterfaceOptionsSettings *pEI) override
+  {
+    pEI->Create();
+    pML->PushInterface(pEI);
+  }
+
+  //
+  CICOptionsSettings() {}
+
 public:
-	virtual void STDCALL Configure( const char *pszConfig ) 
-	{  
-	}
+  void STDCALL Configure(const char *pszConfig) override {}
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // __INTERFACEOPTIONSSETTINGS_H__

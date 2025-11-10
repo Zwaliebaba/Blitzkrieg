@@ -21,7 +21,7 @@ public:
 	CWeaponCommonPropsItem() { nItemType = E_WEAPON_COMMON_PROPS_ITEM; InitDefaultValues(); nImageIndex = 0; }
 	~CWeaponCommonPropsItem() {};
 	
-	//Получение внутренних параметров
+	// Getting internal parameters
 	const char* GetWeaponName() { return values[0].value; }
 	int GetDeltaAngle() { return values[1].value; }
 	int GetAmmoPerShoot() { return values[2].value; }
@@ -32,7 +32,7 @@ public:
 	int GetCeiling() { return values[7].value; }
 	float GetRevealRadius() { return values[8].value; }
 		
-	//Установка внутренних параметров
+	// Setting internal parameters
 	void SetWeaponName( const char *pszName ) { values[0].value = pszName; }
 	void SetDeltaAngle( int nCount ) { values[1].value = nCount; }
 	void SetAmmoPerShoot( int nVal ) { values[2].value = nVal; }
@@ -65,7 +65,7 @@ public:
 	CWeaponDamagePropsItem() { bStaticElements = true; nItemType = E_WEAPON_DAMAGE_PROPS_ITEM; InitDefaultValues(); nImageIndex = 5; }
 	~CWeaponDamagePropsItem() {};
 
-	//Получение внутренних параметров
+	// Getting internal parameters
 	SWeaponRPGStats::SShell::ETrajectoryType GetTrajectoryType();
 	int GetPiercingPower() { return values[1].value; }
 	int GetRandomPiercing() { return values[2].value; }
@@ -83,7 +83,7 @@ public:
 	float GetTraceSpeed() { return values[14].value; }
 	float GetBreakTrackProbability() { return values[15].value; }
 
-	//Установка внутренних параметров
+	// Setting internal parameters
 	void SetTrajectoryType( int nVal );
 	void SetPiercingPower( int nVal ) { values[1].value = nVal; }
 	void SetRandomPiercing( int nVal ) { values[2].value = nVal; }
@@ -113,7 +113,7 @@ public:
 	CWeaponEffectsItem() { bStaticElements = true; nItemType = E_WEAPON_EFFECTS_ITEM; InitDefaultValues(); nImageIndex = 1; }
 	~CWeaponEffectsItem() {};
 
-	//Получение внутренних параметров
+	// Getting internal parameters
 	const char *GetHumanFireSound() { return values[0].value; }
 	const char *GetEffectGunFire() { return values[1].value; }
 	const char *GetEffectTrajectory() { return values[2].value; }
@@ -124,7 +124,7 @@ public:
 	const char *GetEffectHitWater() { return values[7].value; }
 	const char *GetEffectHitAir() { return values[8].value; }
 
-	//Установка внутренних параметров
+	// Setting internal parameters
 	void SetHumanFireSound( const char *pszVal ) { values[0].value = pszVal; }
 	void SetEffectGunFire( const char *pszVal ) { values[1].value = pszVal; }
 	void SetEffectTrajectory( const char *pszVal ) { values[2].value = pszVal; }
@@ -145,14 +145,14 @@ public:
 	CWeaponSoundPropsItem() { bStaticElements = true; nItemType = E_WEAPON_SOUND_PROPS_ITEM; InitDefaultValues(); nImageIndex = 3; }
 	~CWeaponSoundPropsItem() {};
 	
-	//Получение внутренних параметров
+	// Getting internal parameters
 	const char* GetShootSound() { return values[0].value; }
 	const char* GetTrajectorySound() { return values[1].value; }
 	const char* GetExplosionSound() { return values[2].value; }
 	const char* GetMissSound() { return values[3].value; }
 	const char* GetReflectSound() { return values[4].value; }
 	
-	//Установка внутренних параметров
+	// Setting internal parameters
 	void SetShootSound( const char *pszName ) { values[0].value = pszName; }
 	void SetTrajectorySound( const char *pszName ) { values[1].value = pszName; }
 	void SetExplosionSound( const char *pszName ) { values[2].value = pszName; }
@@ -170,13 +170,13 @@ public:
 	CWeaponEffectPropsItem() { nItemType = E_WEAPON_EFFECT_PROPS_ITEM; InitDefaultValues(); nImageIndex = 5; }
 	~CWeaponEffectPropsItem() {};
 	
-	//Получение внутренних параметров
+	// Getting internal parameters
 	const char *GetEffectName() { return values[0].value; }
 	const char *GetSoundName() { return values[1].value; }
 	float GetMinDistance() { return values[2].value; }
 	float GetMaxDistance() { return values[3].value; }
 	
-	//Установка внутренних параметров
+	// Setting internal parameters
 	void SetEffectName( const char *pszVal ) { values[0].value = pszVal; }
 	void SetSoundName( const char *pszVal ) { values[1].value = pszVal; }
 	void SetMinDistance( float fVal ) { values[2].value = fVal; }
@@ -193,11 +193,11 @@ public:
 	CWeaponFlashPropsItem() { nItemType = E_WEAPON_FLASH_PROPS_ITEM; InitDefaultValues(); nImageIndex = 0; }
 	~CWeaponFlashPropsItem() {};
 	
-	//Получение внутренних параметров
+	// Getting internal parameters
 	int GetFlashPower() { return values[0].value; }
 	int GetFlashDuration() { return values[1].value; }
 	
-	//Установка внутренних параметров
+	// Setting internal parameters
 	void SetFlashPower( int nVal ) { values[0].value = nVal; }
 	void SetFlashDuration( int nVal ) { values[1].value = nVal; }
 	
@@ -211,7 +211,7 @@ public:
 	CWeaponCratersItem() { nItemType = E_WEAPON_CRATERS_ITEM; nImageIndex = 7; InitDefaultValues(); }
 	~CWeaponCratersItem() {};
 
-	//Получение внутренних параметров
+	// Getting internal parameters
 	const char *GetDirectory() { return values[0].value; }
 
 	virtual void InitDefaultValues();
@@ -227,10 +227,10 @@ public:
 	CWeaponCraterPropsItem() { bComplexItem = true; nItemType = E_WEAPON_CRATER_PROPS_ITEM; nImageIndex = 3; InitDefaultValues(); }
 	~CWeaponCraterPropsItem() {};
 	
-	//Получение внутренних параметров
+	// Getting internal parameters
 	const char *GetCraterFileName() { return values[0].value; }
 	
-	//Установка внутренних параметров
+	// Setting internal parameters
 	void SetCraterFileName( const char *pszName ) { values[0].value = pszName; }
 	
 	virtual void InitDefaultValues();
@@ -238,4 +238,4 @@ public:
 	virtual void MyRButtonClick();
 };
 
-#endif		//__WEAPON_TREE_ITEM_H__
+#endif		// __WEAPON_TREE_ITEM_H__

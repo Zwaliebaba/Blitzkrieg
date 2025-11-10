@@ -5,9 +5,9 @@
 #include "PlanePathMath.h"
 #include "PathFraction.h"
 
-/////////////////////////////////////////////////////////////////////////////
-//	CPathFractionComplex
-/////////////////////////////////////////////////////////////////////////////
+// //
+// CPathFractionComplex
+// //
 class CPathFractionComplex : public IPathFractionComplex
 {
 protected:
@@ -78,9 +78,9 @@ public:
 		return V3_AXIS_Z;
 	}
 };
-/////////////////////////////////////////////////////////////////////////////
-//	CPathFractionArc3D
-/////////////////////////////////////////////////////////////////////////////
+// //
+// CPathFractionArc3D
+// //
 class CPathFractionArc3D : public CPathFractionComplex
 {
 	OBJECT_COMPLETE_METHODS( CPathFractionArc3D );
@@ -92,21 +92,21 @@ class CPathFractionArc3D : public CPathFractionComplex
 	CVec3 x1;																// end of arc path fraction and start of line fraction
 	float fLength;
 
-	//CRAP{ FOR TEST
+	// CRAP{ FOR TEST
 	CVec3 v1;																// end point speed
 	WORD nDiff;															// dirs difference
-	//CRAP}
+	// CRAP}
 
 public:
 	void Init( const CVec3 &_i, const CVec3 &_j, const CVec3 &_k,
 						 const CDirectedCircle &_circle, const CVec3 &_x0, const CVec3 &_x1, const float _fLength,
 						 const CVec3 &_v1, const int _nDiff );
 	
-	//CRAP{ FOR TEST
+	// CRAP{ FOR TEST
 	virtual CVec3 STDCALL GetPoint( const float fDist ) const;
 	virtual CVec3 STDCALL GetTangent( const float fDist ) const;
 	virtual CVec3 STDCALL GetNormale( const float fDist ) const;
-	//CRAP}
+	// CRAP}
 	virtual float STDCALL GetLength() const { return fLength; }
 	virtual void STDCALL DoSubstitute( IPathFraction *pNext );
 	virtual CVec3 STDCALL GetEndPoint() const;
@@ -114,10 +114,10 @@ public:
 	virtual CVec3 STDCALL GetEndTangent() const;
 	virtual CVec3 STDCALL GetStartTangent() const;
 };
-/////////////////////////////////////////////////////////////////////////////
-//	CPathFractionArc
-/////////////////////////////////////////////////////////////////////////////
-// horisontal manuver
+// //
+// CPathFractionArc
+// //
+// horizontal manuver
 class CPathFractionArc : public CPathFractionComplex 
 {
 	OBJECT_COMPLETE_METHODS( CPathFractionArc )
@@ -136,17 +136,17 @@ public:
 	}
 	virtual void STDCALL DoSubstitute( IPathFraction *pNext );
 	
-	//CRAP{ FOR TEST
+	// CRAP{ FOR TEST
 	virtual CVec3 STDCALL GetPoint( const float fDist ) const;
 	virtual CVec3 STDCALL GetTangent( const float fDist ) const;
 
-	//CRAP}
+	// CRAP}
 };
-/////////////////////////////////////////////////////////////////////////////
-//	CPathFractionArcLine3D
-/////////////////////////////////////////////////////////////////////////////
-// sircle arc - line path fraction (in 3D)
-// v1 in x1 doesn't matter. the only thing is that whole maneuver is in 1 plane (v0, x1-x0)
+// //
+// CPathFractionArcLine3D
+// //
+// circle arc - line path fraction (in 3D)
+// v1 in x1 doesn't matter. 
 class CPathFractionArcLine3D : public CPathFractionComplex
 {
 	OBJECT_COMPLETE_METHODS( CPathFractionArcLine3D )
@@ -155,9 +155,9 @@ class CPathFractionArcLine3D : public CPathFractionComplex
 
 	bool TryCircle( const CVec3 &x0, const CVec3 &v0, const CVec3 &x1, const float fR, const int nDir, CVec3 *vT );
 public:
-	// creates arc and line path fractions if 3D (but manuver is flat)
+	// creates arc and line path fractions if 3D (but manover is flat)
 	// nPathDirection = 1 => circle first, -1 => line is first
-	void Init( const CVec3 &x0, const CVec3 &_v0, const CVec3 &x1, const float fR/*circle radius*/);
+	void Init( const CVec3 &x0, const CVec3 &_v0, const CVec3 &x1, const float fR/* circle radius */);
 	virtual float STDCALL GetLength() const;
 	
 	virtual void STDCALL DoSubstitute( IPathFraction *pNext );
@@ -166,9 +166,9 @@ public:
 	CPathFractionArc3D * GetArc() { return pArc; }
 	IPathFraction * GetLine() { return pLine; }
 };
-/////////////////////////////////////////////////////////////////////////////
-//	CPathFractionCircleLineCircle
-/////////////////////////////////////////////////////////////////////////////
+// //
+// CPathFractionCircleLineCircle
+// //
 // s-shaped path (circle arc - line - circle arc )
 class CPathFractionCircleLineCircle : public CPathFractionComplex
 {
@@ -190,7 +190,7 @@ class CPathFractionCircleLineCircle : public CPathFractionComplex
 
 public:
 
-	//3D path
+	// 3D path
 	void Init( const CVec3 &x0, const CVec3 &x1,
 						 const CVec3 &v0, const CVec3 &v1,
 						 const float fR0, const float fR1 )
@@ -231,10 +231,10 @@ public:
 		substitute[2] = pFinish;
 	}
 };
-/////////////////////////////////////////////////////////////////////////////
-//	CPathFractionCircleLineCircle3D
-/////////////////////////////////////////////////////////////////////////////
-// path is suitable if 
+// //
+// CPathFractionCircleLineCircle3D
+// //
+// path is suitable if
 // 1) direction change is small ( < Pi/2 )
 // 2) direction difference of v0 and x1-x0 is small
 // 3) distance is long ( > 2R )
@@ -253,5 +253,5 @@ public:
 	virtual void STDCALL DoSubstitute( IPathFraction *pNext );
 	
 };
-/////////////////////////////////////////////////////////////////////////////
-#endif //_complex_path_fraction_
+// //
+#endif // _complex_path_fraction_

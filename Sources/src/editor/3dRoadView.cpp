@@ -14,13 +14,13 @@ C3DRoadView::~C3DRoadView()
 
 
 BEGIN_MESSAGE_MAP(C3DRoadView, CWnd)
-//{{AFX_MSG_MAP(C3DRoadView)
+// {{AFX_MSG_MAP(C3DRoadView)
 ON_WM_PAINT()
-//}}AFX_MSG_MAP
+// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // C3DRoadView message handlers
 
 BOOL C3DRoadView::PreCreateWindow(CREATESTRUCT& cs) 
@@ -38,7 +38,7 @@ BOOL C3DRoadView::PreCreateWindow(CREATESTRUCT& cs)
 void C3DRoadView::OnPaint() 
 {
 	C3DRoadFrame *pFrame = static_cast<C3DRoadFrame *> ( g_frameManager.GetFrame( CFrameManager::E_3DROAD_FRAME ) );
-//	if ( pFrame->IsRunning() )
+// if ( pFrame->IsRunning() )
 	{
 		RECT valRC;
 		((CWnd *) g_frameManager.GetGameWnd())->GetWindowRect( &valRC );
@@ -48,11 +48,6 @@ void C3DRoadView::OnPaint()
 		CWnd::OnPaint();
 		pFrame->GFXDraw();
 	}
-/*
-	else
-	{
-		CWnd::OnPaint();
-		ValidateRect( 0 );
-	}
-*/
+/* else
+	 */
 }

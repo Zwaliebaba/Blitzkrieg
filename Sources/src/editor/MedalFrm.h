@@ -25,13 +25,13 @@ public:
 	
 	// Overrides
 	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CMedalFrame)
+	// {{AFX_VIRTUAL(CMedalFrame)
 protected:
-	//}}AFX_VIRTUAL
+	// }}AFX_VIRTUAL
 	
 	// Implementation
 private:
-	std::string szPrefix;		//эта переменная используется для передачи параметра в функцию FillRpgStats, чтобы не было необходимости изменять интерфейс
+	std::string szPrefix;		// this variable is used to pass a parameter to the FillRpgStats function so that there is no need to change the interface
 	
 protected:
 	virtual void SaveRPGStats( IDataTree *pDT, CTreeItem *pRootItem, const char *pszProjectName );
@@ -45,15 +45,15 @@ protected:
 	
 	// Generated message map functions
 protected:
-	//{{AFX_MSG(CMedalFrame)
+	// {{AFX_MSG(CMedalFrame)
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
-	//}}AFX_MSG
+	// }}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 
-//{{AFX_INSERT_LOCATION}}
+// {{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
 
-#endif		//__MEDALFRM_H__
+#endif		// __MEDALFRM_H__

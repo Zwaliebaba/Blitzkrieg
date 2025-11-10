@@ -36,7 +36,7 @@ public:
 
 	int GetWindowType() { return nWindowType; }
 
-	virtual void InsertChildItems();					//Вызывается после создания всех компонентов для занесения их в дерево
+	virtual void InsertChildItems();					// Called after all components have been created to add them to the tree
 	virtual int operator&( IDataTree &ss );
 };
 
@@ -108,7 +108,7 @@ public:
 class CTemplatePropsTreeItem : public CTreeItem
 {
 private:
-	int nWindowType;			//инициализируется из XML файла при загрузке
+	int nWindowType;			// initialized from XML file on load
 	string szXMLFile;
 	
 public:
@@ -123,9 +123,7 @@ public:
 
 	virtual void MyLButtonClick();
 
-/*
-	virtual void InsertChildItems();					//Вызывается после создания всех компонентов для занесения их в дерево
-*/
+/* virtual void InsertChildItems();					 */
 	virtual int operator&( IDataTree &ss );
 	virtual void MyKeyDown( int nChar );
 };
@@ -189,4 +187,4 @@ public:
 int GetTreeItemTypeByWindowType( int nWindowType );
 
 
-#endif		//__GUI_TREE_ITEM_H__
+#endif		// __GUI_TREE_ITEM_H__

@@ -188,17 +188,17 @@ END_BUTTON_MAP()
 
 int wmAppToolBarWndNotify
   =	RegisterWindowMessage(_T("WM_SECTOOLBARWNDNOTIFY"));
-/////////////////////////////////////////////////////////////////////////////
+// 
 // CMainFrame
 
 IMPLEMENT_DYNAMIC(CMainFrame, SECWorkbook)
 
 BEGIN_MESSAGE_MAP(CMainFrame, SECWorkbook)
-	//{{AFX_MSG_MAP(CMainFrame)
+	// {{AFX_MSG_MAP(CMainFrame)
 	ON_WM_CREATE()
 	ON_REGISTERED_MESSAGE(wmAppToolBarWndNotify, OnCreateCombo)
 	ON_WM_CLOSE()
-	//}}AFX_MSG_MAP
+	// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
@@ -209,12 +209,12 @@ static UINT indicators[] =
 	ID_INDICATOR_TILEPOS,
 	ID_INDICATOR_OBJECTTYPE,
 
-	//	ID_INDICATOR_KANA,
-	//	ID_INDICATOR_NUM,
-	//	ID_INDICATOR_SCRL,
+	// ID_INDICATOR_KANA,
+	// ID_INDICATOR_NUM,
+	// ID_INDICATOR_SCRL,
 };
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // CMainFrame construction/destruction
 
 CMainFrame::CMainFrame() : m_pFenceCombo( 0 ), m_pObjectCombo( 0 ), m_pBuildingCombo( 0 ), m_pBridgeCombo( 0 ), m_fireRangeFilterComboBox ( 0 ), m_fireRangePressed( false ), m_nFireRangeRegisterGroup( -1 )
@@ -224,7 +224,7 @@ CMainFrame::CMainFrame() : m_pFenceCombo( 0 ), m_pObjectCombo( 0 ), m_pBuildingC
 	m_pMenuBar = new SECMDIMenuBar;	// this is a base class member
 	
 	// enable bitmap menu support.
-	//EnableBmpMenus();
+	// EnableBmpMenus();
 
 	// dynamic toolbar button group array
 	m_pDefButtonGroup = NULL;
@@ -430,7 +430,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 
 	// Load the master bitmap for ALL toolbars administrated by the
-	// toolbar manager (and the large bitmap counterpart). All toolbars
+	// toolbar manager (and the large bitmap counterpart). 
 	// (now and future) will be indices into this bitmap.
 
 	// Todo: create a large button resource and pass the ID as the
@@ -468,21 +468,13 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	pToolBarMgr->SetButtonMap(btnMap);
 	
 	// establish the default toolbar groupings.
-	// Note: m_pDefButtonGroup is allocated by the toolbar manager, 
+	// Note: m_pDefButtonGroup is allocated by the toolbar manager,
 	// and must be deleted in your destructor.
 	
 
 
-/*	pToolBarMgr->DefineDefaultToolBar(AFX_IDW_TOOLBAR,
-		_T("Default"),
-		IDR_MAINFRAME,
-		m_nDefButtonCount,
-		m_pDefButtonGroup,
-		CBRS_ALIGN_ANY,
-		AFX_IDW_DOCKBAR_FLOAT,
-		NULL,			//dock after this
-		TRUE,			//dock state
-		FALSE);		//visible*/
+/* pToolBarMgr->DefineDefaultToolBar(AFX_IDW_TOOLBAR,
+		 */
 
 
 	pToolBarMgr->DefineDefaultToolBar(AFX_IDW_TOOLBAR,
@@ -493,15 +485,8 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		AFX_IDW_DOCKBAR_TOP);
 
 
-/*
-	pToolBarMgr->DefineDefaultToolBar(AFX_IDW_TOOLBAR + 6,
-		_T("ObjectEditor"),
-		IDR_MAINFRAME,
-		m_nDefButtonCount,
-		m_pDefButtonGroup,
-		CBRS_ALIGN_ANY,
-		AFX_IDW_DOCKBAR_TOP);
-*/
+/* pToolBarMgr->DefineDefaultToolBar(AFX_IDW_TOOLBAR + 6,
+		 */
 
 	pToolBarMgr->DefineDefaultToolBar(AFX_IDW_TOOLBAR + 6, 
 		_T("ObjectEditor"),
@@ -640,21 +625,15 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		TRUE,
 		FALSE);
 	
-/*
-	// Initialize menubar support
-	pToolBarMgr->SetMenuInfo( 2, IDR_MAINFRAME, IDR_EDITORTYPE );
-	// this is required when not using document/view
-	LoadAdditionalMenus( 1, IDR_EDITORTYPE );
-	pToolBarMgr->SetMenuInfo( 2, IDR_MAINFRAME, IDR_EDITORTYPE );
-	EnableDocking( CBRS_ALIGN_ANY );
-*/
+/* // Initialize menubar support
+	 */
 
 	// Comment out if you don't want the application to start in
 	// workbook mode.
-//	SetWorkbookMode(TRUE);
+// SetWorkbookMode(TRUE);
 
 	// Call this to position the default toolbars as configured by
-	// the DefineDefaultToolBar	commands above. Don't do this
+	// the DefineDefaultToolBar commands above. 
 	// if you are going immediately use LoadBarState/LoadState,
 	// as these functions will call it anyway on nonexistant state info.
 
@@ -682,12 +661,12 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	EnableDocking( CBRS_ALIGN_ANY );
 	pToolBarMgr->SetDefaultDockState();
 	
-	//—оздаем игровое окошко
+	// - create a game window
 	if (!m_gameWnd.Create(NULL, NULL, WS_CHILD | WS_VISIBLE, 
 		CRect(0, 0, GAME_SIZE_X, GAME_SIZE_Y), this, AFX_IDW_PANE_FIRST, NULL))
-		//		const char* pszClassName = AfxRegisterWndClass( NULL);
-		//		if(!m_gameWnd.CreateEx ( WS_EX_TOPMOST, pszClassName, "", 
-		//		WS_VISIBLE, 0, 0, GAME_SIZE_X, GAME_SIZE_Y, GetSafeHwnd(),  NULL )) 
+		// const char* pszClassName = AfxRegisterWndClass( NULL);
+		// if(!m_gameWnd.CreateEx ( WS_EX_TOPMOST, pszClassName, "",
+		// WS_VISIBLE, 0, 0, GAME_SIZE_X, GAME_SIZE_Y, GetSafeHwnd(), NULL ))
 	{
 		
 		TRACE0("Failed to create GAME window\n");
@@ -717,10 +696,8 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	pInfantryToolBar = pToolBarMgr->ToolBarFromID(AFX_IDW_TOOLBAR + 17);
 	pMissionToolBar = pToolBarMgr->ToolBarFromID(AFX_IDW_TOOLBAR + 18);
 		
-/*	
-	if ( CreateGUIFrame() )
-		return -1;
-*/
+/* if (CreateGUIFrame())
+		 */
 	if ( CreateAnimationFrame() )
 		return -1;
 	if ( CreateSpriteFrame() )
@@ -764,12 +741,12 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	
 	if ( !theApp.IsVersionIncreased() )
 	{
-		//загрузим инфу о состо¤нии всплывающих окошек из реестра
+		// load information about the status of pop-up windows from the registry
 		LoadBarState( REG_BARSLAYOUT );
 	}
 	else
 	{
-//		ShowSECToolBar( pCommonToolBar, SW_HIDE );
+// ShowSECToolBar( pCommonToolBar, SW_HIDE );
 		DockControlToLeft( pObjectToolBar );
 		DockControlToLeft( pTileToolBar );
 		DockControlToLeft( pBuildingToolBar );
@@ -784,7 +761,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		DockControlToLeft( pEffectToolBar );
 		DockControlToLeft( pInfantryToolBar );
 	}
-	pCommonToolBar->DestroyWindow();		//как мне надоел этот тулбар
+	pCommonToolBar->DestroyWindow();		// I'm so tired of this toolbar
 
 	GetSingleton<ICursor>()->Show( false );
 	GetSingleton<ICursor>()->SetMode( 2 );
@@ -803,29 +780,26 @@ void CMainFrame::DockControlToLeft(SECCustomToolBar *pBar)
 	pBar->GetWindowRect(&rect);
 	rect.right = rect.Width();
 	rect.left = 0;
-/*
-	rect.bottom = rect.Height();			//не надо поднимать, иначе будет выше чем меню
-	rect.top = 0;
-*/
-	//	rect.OffsetRect(1,0);
+/* rect.bottom = rect.Height();			 */
+	// rect.OffsetRect(1,0);
 
 	DWORD dw = pBar->GetBarStyle();
 	UINT n = AFX_IDW_DOCKBAR_TOP;
 	
 	// When we take the default parameters on rect, DockControlBar will dock
-	// each Toolbar on a seperate line.  By calculating a rectangle, we in effect
+	// each Toolbar on a seperate line.  
 	// are simulating a Toolbar being dragged to that location and docked.
 	DockControlBar( pBar, n, &rect );
 
-	//	DockControlBar(Bar);
+	// DockControlBar(Bar);
 }
 
 int CMainFrame::CreateGUIFrame()
 {
 	NI_ASSERT_T( 0, "This module is swtiched off" );
-	///////////////////////////////////////////////////////////////////////////////////
-	//GUI Frame
-	///////////////////////////////////////////////////////////////////////////////////
+	// /////
+	// GUI Frame
+	// /////
 	// create a new MDI child window
 	CMDIChildWnd *pChildWnd = 0;
 	pChildWnd = CreateNewChild(RUNTIME_CLASS(CGUIFrame), IDR_GUI_EDITOR, NULL, m_hMDIAccel);
@@ -835,7 +809,7 @@ int CMainFrame::CreateGUIFrame()
 	CGUIFrame *pFrame = static_cast<CGUIFrame *> ( g_frameManager.GetFrame( CFrameManager::E_GUI_FRAME ) );
 	pFrame->Init( GetSingleton<IGFX>() );
 	
-	// ќкно редактировани¤ св-св
+	// Editing window sv-sv
 	int nID = SECControlBar::GetUniqueBarID(this, 98);
 	DWORD dwStyle = WS_CHILD|CBRS_RIGHT|CBRS_TOOLTIPS|CBRS_SIZE_DYNAMIC;
 	DWORD dwStyleEx = CBRS_EX_COOL | CBRS_EX_BORDERSPACE;
@@ -876,26 +850,21 @@ int CMainFrame::CreateGUIFrame()
 
 int CMainFrame::CreateAnimationFrame()
 {
-	///////////////////////////////////////////////////////////////////////////////////
-	//Animation editor
-	///////////////////////////////////////////////////////////////////////////////////
+	// /////
+	// Animation editor
+	// /////
 	// create a new MDI child window
 	CMDIChildWnd *pChildWnd = 0;
 	pChildWnd = CreateNewChild(RUNTIME_CLASS(CAnimationFrame), IDR_ANIMATIONS_EDITOR, NULL, m_hMDIAccel);
 	pChildWnd->MDIMaximize();
 	pChildWnd->ModifyStyle( WS_SYSMENU, 0 );
 	SECWorksheet *pwsh = GetWorksheet( 0 );
-/*
-	if ( pwsh )
-	{
-		pwsh->SetWindowText( "Animations" );
-		pwsh->SetTitle( "Animations" );
-	}
-*/
+/* if(pwsh)
+	 */
 	CParentFrame *pFrame = g_frameManager.GetFrame( CFrameManager::E_ANIMATION_FRAME );
 	pFrame->Init( GetSingleton<IGFX>() );
 
-	// ќкно редактировани¤ св-св
+	// Editing window sv-sv
 	int nID = SECControlBar::GetUniqueBarID(this, 101);
 	DWORD dwStyle = WS_CHILD|CBRS_RIGHT|CBRS_LEFT|CBRS_TOOLTIPS|CBRS_SIZE_DYNAMIC;
 	DWORD dwStyleEx = CBRS_EX_COOL | CBRS_EX_BORDERSPACE;
@@ -926,26 +895,21 @@ int CMainFrame::CreateAnimationFrame()
 
 int CMainFrame::CreateSpriteFrame()
 {
-	///////////////////////////////////////////////////////////////////////////////////
-	//Sprite Compose Frame
-	///////////////////////////////////////////////////////////////////////////////////
+	// /////
+	// Sprite Compose Frame
+	// /////
 	// create a new MDI child window
 	CMDIChildWnd *pChildWnd = 0;
 	pChildWnd = CreateNewChild(RUNTIME_CLASS(CSpriteFrame), IDR_SPRITE_EDITOR, NULL, m_hMDIAccel);
 	pChildWnd->MDIMaximize();
 	pChildWnd->ModifyStyle( WS_SYSMENU, 0 );
 	SECWorksheet *pwsh = GetWorksheet( 1 );
-/*
-	if ( pwsh )
-	{
-		pwsh->SetWindowText( "Sprite Compose" );
-		pwsh->SetTitle( "Sprite" );
-	}
-*/
+/* if(pwsh)
+	 */
 	CParentFrame *pFrame = g_frameManager.GetFrame( CFrameManager::E_SPRITE_FRAME );
 	pFrame->Init( GetSingleton<IGFX>() );
 
-	// ќкно редактировани¤ св-св
+	// Editing window sv-sv
 	int nID = SECControlBar::GetUniqueBarID(this, 106);
 	DWORD dwStyle = WS_CHILD|CBRS_RIGHT|CBRS_LEFT|CBRS_TOOLTIPS|CBRS_SIZE_DYNAMIC;
 	DWORD dwStyleEx = CBRS_EX_COOL | CBRS_EX_BORDERSPACE;
@@ -976,26 +940,21 @@ int CMainFrame::CreateSpriteFrame()
 
 int CMainFrame::CreateEffectFrame()
 {
-	///////////////////////////////////////////////////////////////////////////////////
-	//Effect Frame
-	///////////////////////////////////////////////////////////////////////////////////
+	// /////
+	// Effect Frame
+	// /////
 	// create a new MDI child window
 	CMDIChildWnd *pChildWnd = 0;
 	pChildWnd = CreateNewChild(RUNTIME_CLASS(CEffectFrame), IDR_EFFECT_EDITOR, NULL, m_hMDIAccel);
 	pChildWnd->MDIMaximize();
 	pChildWnd->ModifyStyle( WS_SYSMENU, 0 );
 	SECWorksheet *pwsh = GetWorksheet( 2 );
-/*
-	if ( pwsh )
-	{
-		pwsh->SetWindowText( "Effect Compose" );
-		pwsh->SetTitle( "Effect" );
-	}
-*/
+/* if(pwsh)
+	 */
 	CEffectFrame *pFrame = static_cast<CEffectFrame *>( g_frameManager.GetFrame( CFrameManager::E_EFFECT_FRAME ) );
 	pFrame->Init( GetSingleton<IGFX>() );
 
-	// ќкно редактировани¤ св-св
+	// Editing window sv-sv
 	DWORD dwStyle = WS_CHILD|CBRS_RIGHT|CBRS_LEFT|CBRS_TOOLTIPS|CBRS_SIZE_DYNAMIC;
 	DWORD dwStyleEx = CBRS_EX_COOL | CBRS_EX_BORDERSPACE;
 
@@ -1037,9 +996,9 @@ int CMainFrame::CreateEffectFrame()
 
 int CMainFrame::CreateObjectFrame()
 {
-	///////////////////////////////////////////////////////////////////////////////////
-	//Object Frame
-	///////////////////////////////////////////////////////////////////////////////////
+	// /////
+	// Object Frame
+	// /////
 	// create a new MDI child window
 	CMDIChildWnd *pChildWnd = 0;
 	pChildWnd = CreateNewChild(RUNTIME_CLASS(CObjectFrame), IDR_OBJECT_EDITOR, NULL, m_hMDIAccel);
@@ -1049,7 +1008,7 @@ int CMainFrame::CreateObjectFrame()
 	CObjectFrame *pFrame = static_cast<CObjectFrame *> ( g_frameManager.GetFrame( CFrameManager::E_OBJECT_FRAME ) );
 	pFrame->Init( GetSingleton<IGFX>() );
 	
-	// ќкно редактировани¤ св-св
+	// Editing window sv-sv
 	int nID = SECControlBar::GetUniqueBarID(this, 110);
 	DWORD dwStyle = WS_CHILD|CBRS_RIGHT|CBRS_LEFT|CBRS_TOOLTIPS|CBRS_SIZE_DYNAMIC;
 	DWORD dwStyleEx = CBRS_EX_COOL | CBRS_EX_BORDERSPACE;
@@ -1081,26 +1040,21 @@ int CMainFrame::CreateObjectFrame()
 
 int CMainFrame::CreateMeshFrame()
 {
-	///////////////////////////////////////////////////////////////////////////////////
-	//Mesh Frame
-	///////////////////////////////////////////////////////////////////////////////////
+	// /////
+	// Mesh Frame
+	// /////
 	// create a new MDI child window
 	CMDIChildWnd *pChildWnd = 0;
 	pChildWnd = CreateNewChild(RUNTIME_CLASS(CMeshFrame), IDR_MESH_EDITOR, NULL, m_hMDIAccel);
 	pChildWnd->MDIMaximize();
 	pChildWnd->ModifyStyle( WS_SYSMENU, 0 );
 	SECWorksheet *pwsh = GetWorksheet( 4 );
-/*
-	if ( pwsh )
-	{
-		pwsh->SetWindowText( "Mesh Compose" );
-		pwsh->SetTitle( "Mesh" );
-	}
-*/
+/* if(pwsh)
+	 */
 	CMeshFrame *pFrame = static_cast<CMeshFrame *> ( g_frameManager.GetFrame( CFrameManager::E_MESH_FRAME ) );
 	pFrame->Init( GetSingleton<IGFX>() );
 	
-	// ќкно редактировани¤ св-св
+	// Editing window sv-sv
 	DWORD dwStyle = WS_CHILD|CBRS_RIGHT|CBRS_LEFT|CBRS_TOOLTIPS|CBRS_SIZE_DYNAMIC;
 	DWORD dwStyleEx = CBRS_EX_COOL | CBRS_EX_BORDERSPACE;
 
@@ -1142,9 +1096,9 @@ int CMainFrame::CreateMeshFrame()
 
 int CMainFrame::CreateWeaponFrame()
 {
-	///////////////////////////////////////////////////////////////////////////////////
-	//Weapon Frame
-	///////////////////////////////////////////////////////////////////////////////////
+	// /////
+	// Weapon Frame
+	// /////
 	// create a new MDI child window
 	CMDIChildWnd *pChildWnd = 0;
 	pChildWnd = CreateNewChild(RUNTIME_CLASS(CWeaponFrame), IDR_WEAPON_EDITOR, NULL, m_hMDIAccel);
@@ -1154,7 +1108,7 @@ int CMainFrame::CreateWeaponFrame()
 	CParentFrame *pFrame = g_frameManager.GetFrame( CFrameManager::E_WEAPON_FRAME );
 	pFrame->Init( GetSingleton<IGFX>() );
 	
-	// ќкно редактировани¤ св-св
+	// Editing window sv-sv
 	int nID = SECControlBar::GetUniqueBarID(this, 114);
 	DWORD dwStyle = WS_CHILD|CBRS_RIGHT|CBRS_LEFT|CBRS_TOOLTIPS|CBRS_SIZE_DYNAMIC;
 	DWORD dwStyleEx = CBRS_EX_COOL | CBRS_EX_BORDERSPACE;
@@ -1184,9 +1138,9 @@ int CMainFrame::CreateWeaponFrame()
 
 int CMainFrame::CreateBuildingFrame()
 {
-	///////////////////////////////////////////////////////////////////////////////////
-	//Building Frame
-	///////////////////////////////////////////////////////////////////////////////////
+	// /////
+	// Building Frame
+	// /////
 	// create a new MDI child window
 	CMDIChildWnd *pChildWnd = 0;
 	pChildWnd = CreateNewChild(RUNTIME_CLASS(CBuildingFrame), IDR_BUILDING_EDITOR, NULL, m_hMDIAccel);
@@ -1196,7 +1150,7 @@ int CMainFrame::CreateBuildingFrame()
 	CBuildingFrame *pFrame = static_cast<CBuildingFrame *> ( g_frameManager.GetFrame( CFrameManager::E_BUILDING_FRAME ) );
 	pFrame->Init( GetSingleton<IGFX>() );
 	
-	// ќкно редактировани¤ св-св
+	// Editing window sv-sv
 	int nID = SECControlBar::GetUniqueBarID(this, 116);
 	DWORD dwStyle = WS_CHILD|CBRS_RIGHT|CBRS_LEFT|CBRS_TOOLTIPS|CBRS_SIZE_DYNAMIC;
 	DWORD dwStyleEx = CBRS_EX_COOL | CBRS_EX_BORDERSPACE;
@@ -1228,9 +1182,9 @@ int CMainFrame::CreateBuildingFrame()
 
 int CMainFrame::CreateTileSetFrame()
 {
-	///////////////////////////////////////////////////////////////////////////////////
-	//TileSet Frame
-	///////////////////////////////////////////////////////////////////////////////////
+	// /////
+	// TileSet Frame
+	// /////
 	// create a new MDI child window
 	CMDIChildWnd *pChildWnd = 0;
 	pChildWnd = CreateNewChild(RUNTIME_CLASS(CTileSetFrame), IDR_TILE_EDITOR, NULL, m_hMDIAccel);
@@ -1240,7 +1194,7 @@ int CMainFrame::CreateTileSetFrame()
 	CParentFrame *pFrame = g_frameManager.GetFrame( CFrameManager::E_TILESET_FRAME );
 	pFrame->Init( GetSingleton<IGFX>() );
 	
-	// ќкно редактировани¤ св-св
+	// Editing window sv-sv
 	int nID = SECControlBar::GetUniqueBarID(this, 118);
 	DWORD dwStyle = WS_CHILD|CBRS_RIGHT|CBRS_LEFT|CBRS_TOOLTIPS|CBRS_SIZE_DYNAMIC;
 	DWORD dwStyleEx = CBRS_EX_COOL | CBRS_EX_BORDERSPACE;
@@ -1263,7 +1217,7 @@ int CMainFrame::CreateTileSetFrame()
 	DockControlBarEx(pTileTreeDockWnd, AFX_IDW_DOCKBAR_LEFT, 0, 0, 0.5f, 220 );
 	pFrame->SetTreeDockBar( pTileTreeDockWnd );
 	pFrame->SetOIDockBar( pTilePropView );
-	//pFrame->SetToolBar( pTileToolBar );
+	// pFrame->SetToolBar( pTileToolBar );
 	pFrame->ShowFrameWindows( SW_HIDE );
 	
 	return 0;
@@ -1271,9 +1225,9 @@ int CMainFrame::CreateTileSetFrame()
 
 int CMainFrame::CreateFenceFrame()
 {
-	///////////////////////////////////////////////////////////////////////////////////
-	//Fence Frame
-	///////////////////////////////////////////////////////////////////////////////////
+	// /////
+	// Fence Frame
+	// /////
 	// create a new MDI child window
 	CMDIChildWnd *pChildWnd = 0;
 	pChildWnd = CreateNewChild(RUNTIME_CLASS(CFenceFrame), IDR_FENCE_EDITOR, NULL, m_hMDIAccel);
@@ -1283,7 +1237,7 @@ int CMainFrame::CreateFenceFrame()
 	CFenceFrame *pFrame = static_cast<CFenceFrame *> ( g_frameManager.GetFrame( CFrameManager::E_FENCE_FRAME ) );
 	pFrame->Init( GetSingleton<IGFX>() );
 	
-	// ќкно редактировани¤ св-св
+	// Editing window sv-sv
 	int nID = SECControlBar::GetUniqueBarID(this, 122);
 	DWORD dwStyle = WS_CHILD|CBRS_RIGHT|CBRS_LEFT|CBRS_TOOLTIPS|CBRS_SIZE_DYNAMIC;
 	DWORD dwStyleEx = CBRS_EX_COOL | CBRS_EX_BORDERSPACE;
@@ -1315,9 +1269,9 @@ int CMainFrame::CreateFenceFrame()
 
 int CMainFrame::CreateParticleFrame()
 {
-	///////////////////////////////////////////////////////////////////////////////////
-	//Particle Frame
-	///////////////////////////////////////////////////////////////////////////////////
+	// /////
+	// Particle Frame
+	// /////
 	// create a new MDI child window
 	CMDIChildWnd *pChildWnd = 0;
 	pChildWnd = CreateNewChild(RUNTIME_CLASS(CParticleFrame), IDR_PARTICLE_EDITOR, NULL, m_hMDIAccel);
@@ -1327,7 +1281,7 @@ int CMainFrame::CreateParticleFrame()
 	CParticleFrame *pFrame = static_cast<CParticleFrame *> ( g_frameManager.GetFrame( CFrameManager::E_PARTICLE_FRAME ) );
 	pFrame->Init( GetSingleton<IGFX>() );
 	
-	// ќкно редактировани¤ св-св
+	// Editing window sv-sv
 	int nID = SECControlBar::GetUniqueBarID(this, 124);
 	DWORD dwStyle = WS_CHILD|CBRS_RIGHT|CBRS_LEFT|CBRS_TOOLTIPS|CBRS_SIZE_DYNAMIC;
 	DWORD dwStyleEx = CBRS_EX_COOL | CBRS_EX_BORDERSPACE;
@@ -1369,9 +1323,9 @@ int CMainFrame::CreateParticleFrame()
 
 int CMainFrame::CreateTrenchFrame()
 {
-	///////////////////////////////////////////////////////////////////////////////////
-	//Trench Frame
-	///////////////////////////////////////////////////////////////////////////////////
+	// /////
+	// Trench Frame
+	// /////
 	// create a new MDI child window
 	CMDIChildWnd *pChildWnd = 0;
 	pChildWnd = CreateNewChild(RUNTIME_CLASS(CTrenchFrame), IDR_TRENCH_EDITOR, NULL, m_hMDIAccel);
@@ -1381,7 +1335,7 @@ int CMainFrame::CreateTrenchFrame()
 	CParentFrame *pFrame = g_frameManager.GetFrame( CFrameManager::E_TRENCH_FRAME );
 	pFrame->Init( GetSingleton<IGFX>() );
 	
-	// ќкно редактировани¤ св-св
+	// Editing window sv-sv
 	int nID = SECControlBar::GetUniqueBarID(this, 127);
 	DWORD dwStyle = WS_CHILD|CBRS_RIGHT|CBRS_LEFT|CBRS_TOOLTIPS|CBRS_SIZE_DYNAMIC;
 	DWORD dwStyleEx = CBRS_EX_COOL | CBRS_EX_BORDERSPACE;
@@ -1411,9 +1365,9 @@ int CMainFrame::CreateTrenchFrame()
 
 int CMainFrame::CreateSquadFrame()
 {
-	///////////////////////////////////////////////////////////////////////////////////
-	//Squad Frame
-	///////////////////////////////////////////////////////////////////////////////////
+	// /////
+	// Squad Frame
+	// /////
 	// create a new MDI child window
 	CMDIChildWnd *pChildWnd = 0;
 	pChildWnd = CreateNewChild(RUNTIME_CLASS(CSquadFrame), IDR_SQUAD_EDITOR, NULL, m_hMDIAccel);
@@ -1426,7 +1380,7 @@ int CMainFrame::CreateSquadFrame()
 	DWORD dwStyle = WS_CHILD|CBRS_RIGHT|CBRS_LEFT|CBRS_TOOLTIPS|CBRS_SIZE_DYNAMIC;
 	DWORD dwStyleEx = CBRS_EX_COOL | CBRS_EX_BORDERSPACE;
 
-	// ќкно редактировани¤ св-св
+	// Editing window sv-sv
 	int nID = SECControlBar::GetUniqueBarID(this, 129);
 	if (!pSquadDirectionButtonDockBar->Create(this, _T("Direction Button Dock Bar"), dwStyle, dwStyleEx, nID))
 	{
@@ -1465,9 +1419,9 @@ int CMainFrame::CreateSquadFrame()
 
 int CMainFrame::CreateMineFrame()
 {
-	///////////////////////////////////////////////////////////////////////////////////
-	//Mine Frame
-	///////////////////////////////////////////////////////////////////////////////////
+	// /////
+	// Mine Frame
+	// /////
 	// create a new MDI child window
 	CMDIChildWnd *pChildWnd = 0;
 	pChildWnd = CreateNewChild(RUNTIME_CLASS(CMineFrame), IDR_MINE_EDITOR, NULL, m_hMDIAccel);
@@ -1477,7 +1431,7 @@ int CMainFrame::CreateMineFrame()
 	CParentFrame *pFrame = g_frameManager.GetFrame( CFrameManager::E_MINE_FRAME );
 	pFrame->Init( GetSingleton<IGFX>() );
 	
-	// ќкно редактировани¤ св-св
+	// Editing window sv-sv
 	int nID = SECControlBar::GetUniqueBarID(this, 132);
 	DWORD dwStyle = WS_CHILD|CBRS_RIGHT|CBRS_LEFT|CBRS_TOOLTIPS|CBRS_SIZE_DYNAMIC;
 	DWORD dwStyleEx = CBRS_EX_COOL | CBRS_EX_BORDERSPACE;
@@ -1507,9 +1461,9 @@ int CMainFrame::CreateMineFrame()
 
 int CMainFrame::CreateBridgeFrame()
 {
-	///////////////////////////////////////////////////////////////////////////////////
-	//Bridge Frame
-	///////////////////////////////////////////////////////////////////////////////////
+	// /////
+	// Bridge Frame
+	// /////
 	// create a new MDI child window
 	CMDIChildWnd *pChildWnd = 0;
 	pChildWnd = CreateNewChild(RUNTIME_CLASS(CBridgeFrame), IDR_BRIDGE_EDITOR, NULL, m_hMDIAccel);
@@ -1519,7 +1473,7 @@ int CMainFrame::CreateBridgeFrame()
 	CBridgeFrame *pFrame = static_cast<CBridgeFrame *> ( g_frameManager.GetFrame( CFrameManager::E_BRIDGE_FRAME ) );
 	pFrame->Init( GetSingleton<IGFX>() );
 	
-	// ќкно редактировани¤ св-св
+	// Editing window sv-sv
 	int nID = SECControlBar::GetUniqueBarID(this, 134);
 	DWORD dwStyle = WS_CHILD|CBRS_RIGHT|CBRS_LEFT|CBRS_TOOLTIPS|CBRS_SIZE_DYNAMIC;
 	DWORD dwStyleEx = CBRS_EX_COOL | CBRS_EX_BORDERSPACE;
@@ -1551,9 +1505,9 @@ int CMainFrame::CreateBridgeFrame()
 
 int CMainFrame::CreateMissionFrame()
 {
-	///////////////////////////////////////////////////////////////////////////////////
-	//Mission Frame
-	///////////////////////////////////////////////////////////////////////////////////
+	// /////
+	// Mission Frame
+	// /////
 	// create a new MDI child window
 	CMDIChildWnd *pChildWnd = 0;
 	pChildWnd = CreateNewChild(RUNTIME_CLASS(CMissionFrame), IDR_MISSION_EDITOR, NULL, m_hMDIAccel);
@@ -1563,7 +1517,7 @@ int CMainFrame::CreateMissionFrame()
 	CParentFrame *pFrame = g_frameManager.GetFrame( CFrameManager::E_MISSION_FRAME );
 	pFrame->Init( GetSingleton<IGFX>() );
 	
-	// ќкно редактировани¤ св-св
+	// Editing window sv-sv
 	int nID = SECControlBar::GetUniqueBarID(this, 136);
 	DWORD dwStyle = WS_CHILD|CBRS_RIGHT|CBRS_LEFT|CBRS_TOOLTIPS|CBRS_SIZE_DYNAMIC;
 	DWORD dwStyleEx = CBRS_EX_COOL | CBRS_EX_BORDERSPACE;
@@ -1594,9 +1548,9 @@ int CMainFrame::CreateMissionFrame()
 
 int CMainFrame::CreateChapterFrame()
 {
-	///////////////////////////////////////////////////////////////////////////////////
-	//Chapter Frame
-	///////////////////////////////////////////////////////////////////////////////////
+	// /////
+	// Chapter Frame
+	// /////
 	// create a new MDI child window
 	CMDIChildWnd *pChildWnd = 0;
 	pChildWnd = CreateNewChild(RUNTIME_CLASS(CChapterFrame), IDR_CHAPTER_EDITOR, NULL, m_hMDIAccel);
@@ -1606,7 +1560,7 @@ int CMainFrame::CreateChapterFrame()
 	CParentFrame *pFrame = g_frameManager.GetFrame( CFrameManager::E_CHAPTER_FRAME );
 	pFrame->Init( GetSingleton<IGFX>() );
 	
-	// ќкно редактировани¤ св-св
+	// Editing window sv-sv
 	int nID = SECControlBar::GetUniqueBarID(this, 138);
 	DWORD dwStyle = WS_CHILD|CBRS_RIGHT|CBRS_LEFT|CBRS_TOOLTIPS|CBRS_SIZE_DYNAMIC;
 	DWORD dwStyleEx = CBRS_EX_COOL | CBRS_EX_BORDERSPACE;
@@ -1637,9 +1591,9 @@ int CMainFrame::CreateChapterFrame()
 
 int CMainFrame::CreateCampaignFrame()
 {
-	///////////////////////////////////////////////////////////////////////////////////
-	//Campaign Frame
-	///////////////////////////////////////////////////////////////////////////////////
+	// /////
+	// Campaign Frame
+	// /////
 	// create a new MDI child window
 	CMDIChildWnd *pChildWnd = 0;
 	pChildWnd = CreateNewChild(RUNTIME_CLASS(CCampaignFrame), IDR_CAMPAIGN_EDITOR, NULL, m_hMDIAccel);
@@ -1649,7 +1603,7 @@ int CMainFrame::CreateCampaignFrame()
 	CParentFrame *pFrame = g_frameManager.GetFrame( CFrameManager::E_CAMPAIGN_FRAME );
 	pFrame->Init( GetSingleton<IGFX>() );
 	
-	// ќкно редактировани¤ св-св
+	// Editing window sv-sv
 	int nID = SECControlBar::GetUniqueBarID(this, 140);
 	DWORD dwStyle = WS_CHILD|CBRS_RIGHT|CBRS_LEFT|CBRS_TOOLTIPS|CBRS_SIZE_DYNAMIC;
 	DWORD dwStyleEx = CBRS_EX_COOL | CBRS_EX_BORDERSPACE;
@@ -1679,9 +1633,9 @@ int CMainFrame::CreateCampaignFrame()
 
 int CMainFrame::Create3DRoadFrame()
 {
-	///////////////////////////////////////////////////////////////////////////////////
-	//3DRoad Frame
-	///////////////////////////////////////////////////////////////////////////////////
+	// /////
+	// 3DRoad Frame
+	// /////
 	// create a new MDI child window
 	CMDIChildWnd *pChildWnd = 0;
 	pChildWnd = CreateNewChild(RUNTIME_CLASS(C3DRoadFrame), IDR_3DROAD_EDITOR, NULL, m_hMDIAccel);
@@ -1691,7 +1645,7 @@ int CMainFrame::Create3DRoadFrame()
 	CParentFrame *pFrame = g_frameManager.GetFrame( CFrameManager::E_3DROAD_FRAME );
 	pFrame->Init( GetSingleton<IGFX>() );
 	
-	// ќкно редактировани¤ св-св
+	// Editing window sv-sv
 	int nID = SECControlBar::GetUniqueBarID(this, 142);
 	DWORD dwStyle = WS_CHILD|CBRS_RIGHT|CBRS_LEFT|CBRS_TOOLTIPS|CBRS_SIZE_DYNAMIC;
 	DWORD dwStyleEx = CBRS_EX_COOL | CBRS_EX_BORDERSPACE;
@@ -1722,9 +1676,9 @@ int CMainFrame::Create3DRoadFrame()
 
 int CMainFrame::Create3DRiverFrame()
 {
-	///////////////////////////////////////////////////////////////////////////////////
-	//3DRiver Frame
-	///////////////////////////////////////////////////////////////////////////////////
+	// /////
+	// 3DRiver Frame
+	// /////
 	// create a new MDI child window
 	CMDIChildWnd *pChildWnd = 0;
 	pChildWnd = CreateNewChild(RUNTIME_CLASS(C3DRiverFrame), IDR_3DRIVER_EDITOR, NULL, m_hMDIAccel);
@@ -1734,7 +1688,7 @@ int CMainFrame::Create3DRiverFrame()
 	CParentFrame *pFrame = g_frameManager.GetFrame( CFrameManager::E_3DRIVER_FRAME );
 	pFrame->Init( GetSingleton<IGFX>() );
 	
-	// ќкно редактировани¤ св-св
+	// Editing window sv-sv
 	int nID = SECControlBar::GetUniqueBarID(this, 144);
 	DWORD dwStyle = WS_CHILD|CBRS_RIGHT|CBRS_LEFT|CBRS_TOOLTIPS|CBRS_SIZE_DYNAMIC;
 	DWORD dwStyleEx = CBRS_EX_COOL | CBRS_EX_BORDERSPACE;
@@ -1765,9 +1719,9 @@ int CMainFrame::Create3DRiverFrame()
 
 int CMainFrame::CreateMedalFrame()
 {
-	///////////////////////////////////////////////////////////////////////////////////
-	//Medal Frame
-	///////////////////////////////////////////////////////////////////////////////////
+	// /////
+	// Medal Frame
+	// /////
 	// create a new MDI child window
 	CMDIChildWnd *pChildWnd = 0;
 	pChildWnd = CreateNewChild(RUNTIME_CLASS(CMedalFrame), IDR_MEDAL_EDITOR, NULL, m_hMDIAccel);
@@ -1777,7 +1731,7 @@ int CMainFrame::CreateMedalFrame()
 	CParentFrame *pFrame = g_frameManager.GetFrame( CFrameManager::E_MEDAL_FRAME );
 	pFrame->Init( GetSingleton<IGFX>() );
 	
-	// ќкно редактировани¤ св-св
+	// Editing window sv-sv
 	int nID = SECControlBar::GetUniqueBarID(this, 140);
 	DWORD dwStyle = WS_CHILD|CBRS_RIGHT|CBRS_LEFT|CBRS_TOOLTIPS|CBRS_SIZE_DYNAMIC;
 	DWORD dwStyleEx = CBRS_EX_COOL | CBRS_EX_BORDERSPACE;
@@ -1822,7 +1776,7 @@ int CMainFrame::InitGameWindow()
 		RegisterSingleton( IObjectsDB::tidTypeID, pODB );
 		GetSLS()->SetGDB( pODB );
 	}
-	// CRAP} 
+	// CRAP}
 	//
 	// load constants and set global vars from it
 	{
@@ -1884,12 +1838,10 @@ BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 	if( !SECWorkbook::PreCreateWindow(cs) )
 		return FALSE;
 	// TODO: Modify the Window class or styles here by modifying
-	//  the CREATESTRUCT cs
+	// the CREATESTRUCT cs
 
-/*
-	if ( cs.style && FWS_ADDTOTITLE )
-		cs.style &= ~FWS_ADDTOTITLE;
-*/
+/* if ( cs.style && FWS_ADDTOTITLE )
+		 */
 
 	return TRUE;
 }
@@ -1951,7 +1903,7 @@ void CMainFrame::ShowSECToolBar( SECControlBar *pToolBar, int nCommand )
 		ShowControlBar( pToolBar, FALSE, FALSE );
 }
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // CMainFrame message handlers
 
 void CMainFrame::OnCreateCombo(UINT wParam, LONG lParam)
@@ -2000,7 +1952,7 @@ void CMainFrame::OnCreateCombo(UINT wParam, LONG lParam)
 
 void CMainFrame::OnClose() 
 {
-	//надо сохранить информацию в реестре до убийства frames
+	// you need to save the information in the registry before killing frames
 	theApp.SaveNewFrameTypeToRegister();
 	theApp.SaveRegisterData();
 

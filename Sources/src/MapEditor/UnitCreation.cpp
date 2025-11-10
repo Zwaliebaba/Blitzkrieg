@@ -1,12 +1,12 @@
 #include "stdafx.h"
-//#include "editor.h"
-//#include "..\GFX\GFX.h"
-//#include <comdef.h>
-//#include <Mmsystem.h>
-//#include <set>
+// #include "editor.h"
+// #include "..\GFX\GFX.h"
+// #include <comdef.h>
+// #include <Mmsystem.h>
+// #include <set>
 #include "TemplateEditorFrame1.h"
 #include "PropertieDialog.h"
-//#include "SEditorMApObject.h"
+// #include "SEditorMApObject.h"
 #include "frames.h"
 
 #include "UnitCreation.h"
@@ -19,12 +19,12 @@ static char THIS_FILE[]=__FILE__;
 #define new DEBUG_NEW
 #endif
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 CPropertiesRegister thePropertiesRegister02;
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//коллекционер обьектов
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// object collector
+
 const char CUCHelper::DEFAULT_AVIATION_NAME[] = "aviation";
 const char CUCHelper::DEFAULT_SQUADS_NAME[] = "squads";
 const char CUCHelper::DEFAULT_UNITS_NAME[] = "units";
@@ -37,7 +37,7 @@ void CMutableUnitCreationInfo::MutableValidate()
 	}
 	for ( int nUnitTypeIndex = 0; nUnitTypeIndex < mutableUnits.size(); ++nUnitTypeIndex )
 	{
-		//самолеты
+		// aircraft
 		for ( int nAircraftIndex = SUCAviation::AT_SCOUT; nAircraftIndex < SUCAviation::AT_COUNT; ++nAircraftIndex )
 		{
 			if ( mutableUnits[nUnitTypeIndex].aviation.aircrafts[nAircraftIndex].szName.empty() )
@@ -49,12 +49,8 @@ void CMutableUnitCreationInfo::MutableValidate()
 		{ 
 			mutableUnits[nUnitTypeIndex].aviation.szParadropSquadName = DEFAULT_PARADROP_SOLDIER_NAME;
 		}
-		/**
-		if ( mutableUnits[nUnitTypeIndex].aviation.vAppearPoints.empty() )
-		{
-			mutableUnits[nUnitTypeIndex].aviation.vAppearPoints.push_back( VNULL3 );
-		}
-		/**/
+		/* *
+		 */
 		if ( mutableUnits[nUnitTypeIndex].aviation.nRelaxTime <= 0 )
 		{
 			mutableUnits[nUnitTypeIndex].aviation.nRelaxTime = DEFAULT_RELAX_TIME;
@@ -66,7 +62,7 @@ void CMutableUnitCreationInfo::MutableValidate()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CUCHelper::Initialize()
 {
 	CPtr<IObjectsDB> pODB = GetSingleton<IObjectsDB>();
@@ -107,9 +103,9 @@ void CUCHelper::Initialize()
 	isInitialized = true;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//обьекты с возможностью манипул¤ции
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// objects with the possibility of manipulation
+
 const char* CMutableUCAviation::AIRCRAFT_TYPE_NAMES[SUCAviation::AT_COUNT] =
 {
 	"Scouts",
@@ -118,7 +114,7 @@ const char* CMutableUCAviation::AIRCRAFT_TYPE_NAMES[SUCAviation::AT_COUNT] =
 	"Bombers",
 	"Attack planes",
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 const char* CMutableUnitCreationInfo::UNIT_TYPE_NAMES[3] =
 {
 	"Player",
@@ -126,7 +122,7 @@ const char* CMutableUnitCreationInfo::UNIT_TYPE_NAMES[3] =
 	"Neutral",
 };
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 IManipulator* CMutableUCAircraft::GetManipulator()
 {
 	CUCAircraftManipulator  *pManipulator = new CUCAircraftManipulator();  	
@@ -134,7 +130,7 @@ IManipulator* CMutableUCAircraft::GetManipulator()
 	return pManipulator; 
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 IManipulator* CMutableUCAviation::GetManipulator()
 {
 	CUCAviationManipulator *pManipulator = new CUCAviationManipulator();  	
@@ -142,7 +138,7 @@ IManipulator* CMutableUCAviation::GetManipulator()
 	return pManipulator; 
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 IManipulator* CMutableUnitCreation::GetManipulator()
 {
 	CUnitCreationManipulator  *pManipulator = new CUnitCreationManipulator();  	
@@ -150,7 +146,7 @@ IManipulator* CMutableUnitCreation::GetManipulator()
 	return pManipulator; 
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 IManipulator* CMutableUnitCreationInfo::GetManipulator()
 {
 	CUnitCreationInfoManipulator  *pManipulator = new CUnitCreationInfoManipulator();  	
@@ -158,9 +154,9 @@ IManipulator* CMutableUnitCreationInfo::GetManipulator()
 	return pManipulator; 
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//манипул¤торы
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// manipulators
+
 CUCAircraftManipulator::CUCAircraftManipulator()
 	: CManipulator( &thePropertiesRegister02, "UCAircraft" )
 {
@@ -199,7 +195,7 @@ CUCAircraftManipulator::CUCAircraftManipulator()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 CUCAviationManipulator::CUCAviationManipulator()
 	: CManipulator( &thePropertiesRegister02, "UCAviation" )
 {
@@ -280,7 +276,7 @@ CUCAviationManipulator::CUCAviationManipulator()
 																SBaseProperty::LEAF );
 	}
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 CUnitCreationManipulator::CUnitCreationManipulator()
 	: CManipulator( &thePropertiesRegister02, "Unit Creation" )
 {
@@ -313,7 +309,7 @@ CUnitCreationManipulator::CUnitCreationManipulator()
 }
 
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 CUnitCreationInfoManipulator::CUnitCreationInfoManipulator() 
 	: CManipulator( &thePropertiesRegister02, "Unit Creation Info" )
 {
@@ -332,14 +328,14 @@ CUnitCreationInfoManipulator::CUnitCreationInfoManipulator()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CUCAircraftManipulator::SetName( const variant_t &value )
 {
 	CString szBuffer( value.bstrVal );
 	pMutableObject->szName = szBuffer;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CUCAircraftManipulator::GetName( variant_t *pValue, int nIndex )
 {
 	if ( g_frameManager.GetTemplateEditorFrame() )
@@ -357,73 +353,73 @@ void CUCAircraftManipulator::GetName( variant_t *pValue, int nIndex )
 	*pValue = pMutableObject->szName.c_str();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CUCAircraftManipulator::SetFormationSize( const variant_t &value )
 {
 	pMutableObject->nFormationSize = long( value );
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CUCAircraftManipulator::GetFormationSize( variant_t *pValue, int nIndex )
 {
 	*pValue = variant_t( long( pMutableObject->nFormationSize ) );
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CUCAircraftManipulator::SetCount( const variant_t &value )
 {
 	pMutableObject->nPlanes = long( value );
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CUCAircraftManipulator::GetCount( variant_t *pValue, int nIndex )
 {
 	*pValue = variant_t( long( pMutableObject->nPlanes ) );
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CUCAviationManipulator::GetAircraft00( variant_t *pValue, int nIndex )
 {
 	pValue->byref = pMutableObject->mutableAircrafts[SUCAviation::AT_SCOUT].GetManipulator();
 	pValue->vt = VT_EMPTY;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CUCAviationManipulator::GetAircraft01( variant_t *pValue, int nIndex )
 {
 	pValue->byref = pMutableObject->mutableAircrafts[SUCAviation::AT_FIGHTER].GetManipulator();
 	pValue->vt = VT_EMPTY;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CUCAviationManipulator::GetAircraft02( variant_t *pValue, int nIndex )
 {
 	pValue->byref = pMutableObject->mutableAircrafts[SUCAviation::AT_PARADROPER].GetManipulator();
 	pValue->vt = VT_EMPTY;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CUCAviationManipulator::GetAircraft03( variant_t *pValue, int nIndex )
 {
 	pValue->byref = pMutableObject->mutableAircrafts[SUCAviation::AT_BOMBER].GetManipulator();
 	pValue->vt = VT_EMPTY;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CUCAviationManipulator::GetAircraft04( variant_t *pValue, int nIndex )
 {
 	pValue->byref = pMutableObject->mutableAircrafts[SUCAviation::AT_BATTLEPLANE].GetManipulator();
 	pValue->vt = VT_EMPTY;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CUCAviationManipulator::SetParadropSquadName( const variant_t &value )
 {
 	CString szBuffer( value.bstrVal );
 	pMutableObject->szParadropSquadName = szBuffer;	
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CUCAviationManipulator::GetParadropSquadName( variant_t *pValue, int nIndex )
 {
 	if ( g_frameManager.GetTemplateEditorFrame() )
@@ -441,31 +437,31 @@ void CUCAviationManipulator::GetParadropSquadName( variant_t *pValue, int nIndex
 	*pValue = pMutableObject->szParadropSquadName.c_str();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CUCAviationManipulator::SetParadropSquadCount( const variant_t &value )
 {
 	pMutableObject->nParadropSquadCount = long( value );
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CUCAviationManipulator::GetParadropSquadCount( variant_t *pValue, int nIndex )
 {
 	*pValue = variant_t( long( pMutableObject->nParadropSquadCount ) );
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CUCAviationManipulator::SetRelaxTime( const variant_t &value )
 {
 	pMutableObject->nRelaxTime = long( value );
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CUCAviationManipulator::GetRelaxTime( variant_t *pValue, int nIndex )
 {
 	*pValue = variant_t( long( pMutableObject->nRelaxTime ) );
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CUCAviationManipulator::SetAppearPoints( const variant_t &value )
 {
 	CPEPointsListDialog dialog;
@@ -484,7 +480,7 @@ void CUCAviationManipulator::SetAppearPoints( const variant_t &value )
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CUCAviationManipulator::GetAppearPoints( variant_t *pValue, int nIndex )
 {
 	if ( pMutableObject->vAppearPoints.empty() )
@@ -501,14 +497,14 @@ void CUCAviationManipulator::GetAppearPoints( variant_t *pValue, int nIndex )
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CUnitCreationManipulator::GetAviation( variant_t *pValue, int nIndex )
 {
 	pValue->byref = pMutableObject->mutableAviation.GetManipulator();
 	pValue->vt = VT_EMPTY;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CUnitCreationManipulator::SetPartyName( const variant_t &value )
 {
 	CString szBuffer( value.bstrVal );
@@ -519,7 +515,7 @@ void CUnitCreationManipulator::SetPartyName( const variant_t &value )
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CUnitCreationManipulator::GetPartyName( variant_t *pValue, int nIndex )
 {
 	if ( g_frameManager.GetTemplateEditorFrame() )
@@ -541,7 +537,7 @@ void CUnitCreationManipulator::GetPartyName( variant_t *pValue, int nIndex )
 	*pValue = pMutableObject->szPartyName.c_str();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CUnitCreationInfoManipulator::GetUnits( variant_t *pValue, int nIndex )
 {
 	if ( nIndex < pMutableObject->mutableUnits.size() )
@@ -555,4 +551,4 @@ void CUnitCreationInfoManipulator::GetUnits( variant_t *pValue, int nIndex )
 		pValue->vt = VT_EMPTY;
 	}
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+

@@ -6,7 +6,7 @@
 #include "ConsoleBuffer.h"
 #include "RandomGenInternal.h"
 #endif // __REDUCED_SINGLETON__
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // temp buffer
 static std::vector<BYTE> tempbuffers[10];
 struct STempBufferAutomatic
@@ -18,7 +18,7 @@ struct STempBufferAutomatic
 	}
 };
 static STempBufferAutomatic tempinitautomagic;
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void* STDCALL GetTempRawBuffer_Hook( int nSize, int nIndex )
 {
 	NI_ASSERT_SLOW_TF( nIndex < 10, "Can use only 10 temp buffers", return 0 );
@@ -29,7 +29,7 @@ void* STDCALL GetTempRawBuffer_Hook( int nSize, int nIndex )
 typedef void* (STDCALL *GETTEMPRAWBUFFER_HOOK)( int nAmount, int nBufferIndex );
 GETTEMPRAWBUFFER_HOOK g_pfnGlobalGetTempRawBuffer = GetTempRawBuffer_Hook;
 #endif // __REDUCED_SINGLETON__
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CSingleton : public ISingleton
 {
 	typedef std::hash_map< int, CPtr<IRefCount> > CObjectIDs;
@@ -49,7 +49,7 @@ public:
 	// done - release all objects
 	virtual void STDCALL Done() { objects.clear(); }
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 CSingleton::CSingleton()
 {
 #ifndef __REDUCED_SINGLETON__	
@@ -66,7 +66,7 @@ CSingleton::CSingleton()
 	}
 #endif // __REDUCED_SINGLETON__
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 CSingleton theSingleton;
 ISingleton* STDCALL GetSingletonGlobal_Hook()
 {
@@ -76,7 +76,7 @@ ISingleton* STDCALL GetSingletonGlobal_Hook()
 #ifdef __REDUCED_SINGLETON__
 ISingleton *g_pGlobalSingleton = &theSingleton;
 #endif // __REDUCED_SINGLETON__
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool CSingleton::Register( int nID, IRefCount *pObj )
 {
 	CObjectIDs::const_iterator pos = objects.find( nID );
@@ -84,7 +84,7 @@ bool CSingleton::Register( int nID, IRefCount *pObj )
 	objects[nID] = pObj;
 	return true;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool CSingleton::UnRegister( int nID )
 {
 	CObjectIDs::iterator pos = objects.find( nID );
@@ -92,7 +92,7 @@ bool CSingleton::UnRegister( int nID )
 		objects.erase( pos );
 	return true;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool CSingleton::UnRegister( IRefCount *pObj )
 {
 	for ( CObjectIDs::iterator it = objects.begin(); it != objects.end(); ++it )
@@ -105,14 +105,14 @@ bool CSingleton::UnRegister( IRefCount *pObj )
 	}
 	return false;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 IRefCount* CSingleton::Get( int nID )
 {
 	CObjectIDs::iterator pos = objects.find( nID );
-//	NI_ASSERT_SLOW_TF( pos != objects.end(), NStr::Format("object with id = 0x%x does not registered", nID), return false );
+// NI_ASSERT_SLOW_TF( pos != objects.end(), NStr::Format("object with id = 0x%x does not registered", nID), return false );
 	return pos == objects.end() ? 0 : pos->second;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // get all registered objects
 int CSingleton::GetAllObjects( IRefCount ***ppBuffer, int *pnBufferSize )
 {
@@ -124,4 +124,4 @@ int CSingleton::GetAllObjects( IRefCount ***ppBuffer, int *pnBufferSize )
 		*pBuffer++ = it->second;
 	return *pnBufferSize;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+

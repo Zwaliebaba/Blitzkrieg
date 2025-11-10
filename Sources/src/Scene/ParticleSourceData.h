@@ -1,79 +1,80 @@
 #ifndef __PARTICLESOURCEDATA_H__
 #define __PARTICLESOURCEDATA_H__
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma ONCE
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#pragma once
+
 #include "PFX.h"
 #include "Track.h"
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-struct SExtendedParticle: public SSimpleParticle
+
+struct SExtendedParticle : SSimpleParticle
 {
-	NTimer::STime birthTime;              // время рождения
-	NTimer::STime deathTime;              // время смерти
-	float fSpin;                          // угловая скорость
-	CVec3 vSpeed;                         // просто скорость
-	CVec3 vWind;                          // ветер для частицы
-	float fOpacity;                       // начальная прозрачность
-	STrackContext contextSpeed;						// контексты для расчета интегралов
-	STrackContext contextZSpeed; 
-	STrackContext contextSpin;
+  NTimer::STime birthTime;// time of birth
+  NTimer::STime deathTime;// time of death
+  float fSpin;// angular velocity
+  CVec3 vSpeed;// just speed
+  CVec3 vWind;// wind for particle
+  float fOpacity;// initial transparency
+  STrackContext contextSpeed;// contexts for calculating integrals
+  STrackContext contextZSpeed;
+  STrackContext contextSpin;
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 enum
 {
-	PSA_TYPE_SQUARE = 0,
-	PSA_TYPE_DISK   = 1,
-	PSA_TYPE_CIRCLE = 2
+  PSA_TYPE_SQUARE = 0,
+  PSA_TYPE_DISK = 1,
+  PSA_TYPE_CIRCLE = 2
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-struct SParticleSourceData : public CTRefCount<ISharedResource>
-{
-	OBJECT_SERVICE_METHODS( SParticleSourceData );
-	DECLARE_SERIALIZE;
-	SHARED_RESOURCE_METHODS( nRefData, "ParticleSource.Data" );
-public:
-	SParticleSourceData();
 
-	bool bComplexParticleSource;					//тип источника, если true, complex particle source
-	// параметры генератора
-	int nLifeTime;												// время жизни всего источника
-	float fGravity;												// параметр гравитации (никакого отношения к физике не имеет)
-	int nTextureDX;												// сколько кадров по X (для анимированной текстуры)
-	int nTextureDY;												// сколько кадров по Y (для анимированной текстуры)
-	std::string szTextureName;            // название текстуры
-	CVec3 vWind;                          // ветер
-	CVec3 vDirection;                     // направление источника
-	int nAreaType;                        // тип области для генерации партиклов
-	float fRadialWind;                    // сила радиального ветра
-	CTrack trackGenerateArea;							// размер области из которой вылетают партиклы 
-	CTrack trackDensity;									// к-во партиклов рожденных в ед. времени 
-	CTrack trackBeginSpeed;								// начальная скорость частицы при  вылете 
-	CTrack trackBeginSpeedRandomizer;     // ее рандомизатор
-	CTrack trackBeginAngleRandomizer;			// рандомизатор угла вылета (в радианах, от 0 до PI)
-	CTrack trackLife;											// сколько живет партикл после генерации
-	CTrack trackLifeRandomizer;           // рандомизатор предыдущего (от 0 до 1)
-	CTrack trackGenerateSpin;							// начальная угловая скорость при вылете 
-	CTrack trackGenerateSpinRandomizer;   // рандомизатор предыдущего (пусть задается, но пока не юзается)
-	CTrack trackGenerateOpacity;					// начальная прозрачность при вылете ( 0 - 255 ) 
-	// параметры одной частицы
-	CTrack trackSpin;                     // коэфф. угловой скорости (0-1)
-	CTrack trackSpeed;                    // коэфф. скорости (0-1)
-	CTrack trackSpeedRnd;                 // его рандомизатор (0-1)
-	CTrack trackWeight;										// масса партикла (никакого отношения к физической массе не имеет)
-	CTrack trackTextureFrame;							// frame in texture [0..1]
-	CTrack trackSize;											// размер частици (0-1)
-	CTrack trackOpacity;									// коэффициент на прозрачность (0-1)
-	CTrack trackIntegralMass;             // первообразная от g*m(t), умноженная на коэффициент скорости (без его рандома) (сохранять не надо, рассчитывается по ходу дела)
-	float fDensityCoeff;                  // коэффициент на плотность, берется из сеттингов
-	//
-	virtual void STDCALL Init();
-	virtual void STDCALL InitIntegrals();
-	virtual void STDCALL SwapData( ISharedResource *pResource );
-	// internal container clearing
-	virtual void STDCALL ClearInternalContainer() {  }
-	virtual bool STDCALL Load( const bool bPreLoad = false );
-	//
-	virtual int STDCALL operator&( IDataTree &ss );
+struct SParticleSourceData : CTRefCount<ISharedResource>
+{
+  OBJECT_SERVICE_METHODS(SParticleSourceData);
+  DECLARE_SERIALIZE;
+  SHARED_RESOURCE_METHODS(nRefData, "ParticleSource.Data");
+
+public:
+  SParticleSourceData();
+
+  bool bComplexParticleSource;// source type, if true, complex particle source
+  // generator parameters
+  int nLifeTime;// lifetime of the entire source
+  float fGravity;// gravity parameter (has nothing to do with physics)
+  int nTextureDX;// how many frames in X (for an animated texture)
+  int nTextureDY;// how many frames in Y (for an animated texture)
+  std::string szTextureName;// texture name
+  CVec3 vWind;// wind
+  CVec3 vDirection;// source direction
+  int nAreaType;// type of area for particle generation
+  float fRadialWind;// radial wind force
+  CTrack trackGenerateArea;// size of the area from which particles fly out
+  CTrack trackDensity;// number of particles born per unit. 
+  CTrack trackBeginSpeed;// initial velocity of the particle upon departure
+  CTrack trackBeginSpeedRandomizer;// her randomizer
+  CTrack trackBeginAngleRandomizer;// Departure angle randomizer (in radians, from 0 to PI)
+  CTrack trackLife;// How long does a particle live after generation?
+  CTrack trackLifeRandomizer;// previous randomizer (from 0 to 1)
+  CTrack trackGenerateSpin;// initial angular velocity at departure
+  CTrack trackGenerateSpinRandomizer;// randomizer of the previous one (let it be specified, but not yet used)
+  CTrack trackGenerateOpacity;// initial transparency at departure (0 - 255)
+  // parameters of one particle
+  CTrack trackSpin;// coefficient 
+  CTrack trackSpeed;// coefficient 
+  CTrack trackSpeedRnd;// its randomizer (0-1)
+  CTrack trackWeight;// particle mass (has nothing to do with physical mass)
+  CTrack trackTextureFrame;// frame in texture [0..1]
+  CTrack trackSize;// particle size (0-1)
+  CTrack trackOpacity;// transparency coefficient (0-1)
+  CTrack trackIntegralMass;// antiderivative of g*m(t), multiplied by the speed coefficient (without its randomness) (no need to save, calculated as you go)
+  float fDensityCoeff;// coefficient for density, taken from the setting
+  //
+  virtual void STDCALL Init();
+  virtual void STDCALL InitIntegrals();
+  void STDCALL SwapData(ISharedResource *pResource) override;
+  // internal container clearing
+  void STDCALL ClearInternalContainer() override {}
+  bool STDCALL Load(bool bPreLoad = false) override;
+  //
+  virtual int STDCALL operator&(IDataTree &ss);
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // __PARTICLESOURCEDATA_H__

@@ -15,56 +15,56 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 const int CShadeEditorWnd::vID[] = 
 {
-	IDC_SHADE_BRUSH_SIZE_LABEL,					//0
-	IDC_SHADE_BRUSH_SIZE,								//1
-	IDC_SHADE_BRUSH_SIZE_LABEL_LEFT,		//2
-	IDC_SHADE_BRUSH_SIZE_LABEL_RIGHT,		//3
-	IDC_SHADE_LEVEL_LABEL,							//4
-	IDC_SHADE_LEVEL_TO_0,								//5
-	IDC_SHADE_LEVEL_TO_1,								//6
-	IDC_SHADE_LEVEL_TO_2,								//7
-	IDC_SHADE_LEVEL_TO_3,								//8
-	IDC_SHADE_BRUSH_SIZE_LABEL_BOTTOM,	//9
-	IDC_LEVEL_LABEL,										//10
-	IDC_SHADE_HEIGHT_LABEL_LEFT,				//11
-	IDC_SHADE_HEIGHT,										//12
-	IDC_SHADE_HEIGHT_LABEL_RIGHT,				//13
-	IDC_SHADE_LEVEL_RATIO_LABEL_LEFT,		//14
-	IDC_SHADE_LEVEL_RATIO,							//15
-	IDC_SHADE_LEVEL_RATIO_LABEL_RIGHT,	//16
-	IDC_SHADE_TYPE0,										//17
-	IDC_SHADE_TYPE1,										//18
-	IDC_SHADE_TYPE2,										//19
-	IDC_SHADE_TYPE3,										//20
-	IDC_SHADE_TYPE4,										//21
-	IDC_SHADE_GRANULARITY_LABEL,				//22
-	IDC_SHADE_GRANULARITY,							//23
-	IDC_SHADE_MAX_LABEL_LEFT,						//24
-	IDC_SHADE_MAX,											//25
-	IDC_SHADE_MAX_LABEL_RIGHT,					//26
-	IDC_SHADE_MIN_LABEL_LEFT,						//27
-	IDC_SHADE_MIN,											//28
-	IDC_SHADE_MIN_LABEL_RIGHT,					//29
-	IDC_SHADE_GENERATE_BUTTON,					//30
-	IDC_SHADE_UPDATE_BUTTON,						//31
-	IDC_SHADE_ZERO_BUTTON,							//32
-	IDC_SHADE_DELIMITER_00,							//33
-	IDC_SHADE_DELIMITER_01,							//34
-	IDC_SHADE_DELIMITER_02,							//35
-	IDOK,																//36
-	IDCANCEL,														//37
+	IDC_SHADE_BRUSH_SIZE_LABEL,					// 0
+	IDC_SHADE_BRUSH_SIZE,								// 1
+	IDC_SHADE_BRUSH_SIZE_LABEL_LEFT,		// 2
+	IDC_SHADE_BRUSH_SIZE_LABEL_RIGHT,		// 3
+	IDC_SHADE_LEVEL_LABEL,							// 4
+	IDC_SHADE_LEVEL_TO_0,								// 5
+	IDC_SHADE_LEVEL_TO_1,								// 6
+	IDC_SHADE_LEVEL_TO_2,								// 7
+	IDC_SHADE_LEVEL_TO_3,								// 8
+	IDC_SHADE_BRUSH_SIZE_LABEL_BOTTOM,	// 9
+	IDC_LEVEL_LABEL,										// 10
+	IDC_SHADE_HEIGHT_LABEL_LEFT,				// 11
+	IDC_SHADE_HEIGHT,										// 12
+	IDC_SHADE_HEIGHT_LABEL_RIGHT,				// 13
+	IDC_SHADE_LEVEL_RATIO_LABEL_LEFT,		// 14
+	IDC_SHADE_LEVEL_RATIO,							// 15
+	IDC_SHADE_LEVEL_RATIO_LABEL_RIGHT,	// 16
+	IDC_SHADE_TYPE0,										// 17
+	IDC_SHADE_TYPE1,										// 18
+	IDC_SHADE_TYPE2,										// 19
+	IDC_SHADE_TYPE3,										// 20
+	IDC_SHADE_TYPE4,										// 21
+	IDC_SHADE_GRANULARITY_LABEL,				// 22
+	IDC_SHADE_GRANULARITY,							// 23
+	IDC_SHADE_MAX_LABEL_LEFT,						// 24
+	IDC_SHADE_MAX,											// 25
+	IDC_SHADE_MAX_LABEL_RIGHT,					// 26
+	IDC_SHADE_MIN_LABEL_LEFT,						// 27
+	IDC_SHADE_MIN,											// 28
+	IDC_SHADE_MIN_LABEL_RIGHT,					// 29
+	IDC_SHADE_GENERATE_BUTTON,					// 30
+	IDC_SHADE_UPDATE_BUTTON,						// 31
+	IDC_SHADE_ZERO_BUTTON,							// 32
+	IDC_SHADE_DELIMITER_00,							// 33
+	IDC_SHADE_DELIMITER_01,							// 34
+	IDC_SHADE_DELIMITER_02,							// 35
+	IDOK,																// 36
+	IDCANCEL,														// 37
 };
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 CShadeEditorWnd::CShadeEditorWnd( CWnd* pParent )
 	: CResizeDialog(CShadeEditorWnd::IDD, pParent),
 		m_tickCount( 0xFFffFFff ), m_refreshRate( 100 ), isSetEditCtrlValue( true ) 
 {
-	//{{AFX_DATA_INIT(CShadeEditorWnd)
-	//}}AFX_DATA_INIT
+	// {{AFX_DATA_INIT(CShadeEditorWnd)
+	// }}AFX_DATA_INIT
 
 	SetControlStyle( IDC_SHADE_BRUSH_SIZE_LABEL, ANCHORE_LEFT_TOP );
 	SetControlStyle( IDC_SHADE_BRUSH_SIZE, ANCHORE_RIGHT_TOP | RESIZE_HOR );
@@ -107,17 +107,17 @@ CShadeEditorWnd::CShadeEditorWnd( CWnd* pParent )
 
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CShadeEditorWnd::DoDataExchange( CDataExchange* pDX )
 {
 	CResizeDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(CShadeEditorWnd)
-	//}}AFX_DATA_MAP
+	// {{AFX_DATA_MAP(CShadeEditorWnd)
+	// }}AFX_DATA_MAP
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 BEGIN_MESSAGE_MAP( CShadeEditorWnd, CResizeDialog )
-	//{{AFX_MSG_MAP(CShadeEditorWnd)
+	// {{AFX_MSG_MAP(CShadeEditorWnd)
 	ON_NOTIFY(NM_RELEASEDCAPTURE, IDC_SHADE_BRUSH_SIZE, OnReleasedcaptureShadeBrushSize)
 	ON_EN_CHANGE(IDC_SHADE_HEIGHT, OnChangeShadeHeight)
 	ON_EN_CHANGE(IDC_SHADE_LEVEL_RATIO, OnChangeShadeLevelratio)
@@ -138,17 +138,17 @@ BEGIN_MESSAGE_MAP( CShadeEditorWnd, CResizeDialog )
 	ON_BN_CLICKED(IDC_SHADE_UPDATE_BUTTON, OnShadeUpdateButton)
 	ON_WM_HSCROLL()
 	ON_WM_DESTROY()
-	//}}AFX_MSG_MAP
+	// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 BOOL CShadeEditorWnd::OnInitDialog() 
 {
 	CResizeDialog::OnInitDialog();
 	
-	//tile size
-	//level to
-	//genetate type
+	// tile size
+	// level to
+	// genetate type
 	if ( resizeDialogOptions.nParameters.size() < 3 )
 	{
 		resizeDialogOptions.nParameters.resize( 3 );
@@ -157,11 +157,11 @@ BOOL CShadeEditorWnd::OnInitDialog()
 		resizeDialogOptions.nParameters[2] = TG_FBM;
 	}
 
-	//fMaxHeight
-	//fLevelRatio
-	//range.min
-	//range.max
-	//fGranularity
+	// fMaxHeight
+	// fLevelRatio
+	// range.min
+	// range.max
+	// fGranularity
 	if ( resizeDialogOptions.fParameters.size() < 5 )
 	{
 		resizeDialogOptions.fParameters.resize( 5 );
@@ -197,7 +197,7 @@ BOOL CShadeEditorWnd::OnInitDialog()
 	return TRUE;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CShadeEditorWnd::CreateCurrentPattern()
 {
 	std::string stdFileName = "editor\\profile.tga";
@@ -222,14 +222,14 @@ void CShadeEditorWnd::CreateCurrentPattern()
 	SetDlgItemText( IDC_BRUSH_SIZE_LABEL, NStr::Format( "Brush size: %d", m_currentPattern.heights.GetSizeX() ) );
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CShadeEditorWnd::OnReleasedcaptureShadeBrushSize(NMHDR* pNMHDR, LRESULT* pResult) 
 {
-	//CreateCurrentPattern();
+	// CreateCurrentPattern();
 	*pResult = 0;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CShadeEditorWnd::OnChangeShadeHeight() 
 {
 	if ( !isSetEditCtrlValue )
@@ -241,7 +241,7 @@ void CShadeEditorWnd::OnChangeShadeHeight()
 		{
 			resizeDialogOptions.fParameters[0] = _fMaxHeight;
 			isSetEditCtrlValue = true;
-			//SetDlgItemText( IDC_SHADE_HEIGHT, NStr::Format( "%g", fMaxHeight ) );
+			// SetDlgItemText( IDC_SHADE_HEIGHT, NStr::Format( "%g", fMaxHeight ) );
 			isSetEditCtrlValue = false;
 		}
 		else 
@@ -251,7 +251,7 @@ void CShadeEditorWnd::OnChangeShadeHeight()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CShadeEditorWnd::OnChangeShadeLevelratio() 
 {
 	if ( !isSetEditCtrlValue )
@@ -263,53 +263,53 @@ void CShadeEditorWnd::OnChangeShadeLevelratio()
 		{
 			resizeDialogOptions.fParameters[1] = _fLevelRatio;
 			isSetEditCtrlValue = true;
-			//SetDlgItemText( IDC_SHADE_LEVELRATIO, NStr::Format( "%g", fLevelRatio * 100.0f ) );
+			// SetDlgItemText( IDC_SHADE_LEVELRATIO, NStr::Format( "%g", fLevelRatio * 100.0f ) );
 			isSetEditCtrlValue = false;
 		}
 		else
 		{
 			resizeDialogOptions.fParameters[1] = resizeDialogOptions.fParameters[1] / 100.0f;
 		}
-		//NStr::DebugTrace( "CShadeEditorWnd::OnChangeShadeLevelratio() %g\n", fLevelRatio );
+		// NStr::DebugTrace( "CShadeEditorWnd::OnChangeShadeLevelratio() %g\n", fLevelRatio );
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CShadeEditorWnd::OnShadeType0() 
 {
 	resizeDialogOptions.nParameters[2] = TG_FBM;
 	UpdateTerrainGenButtons();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CShadeEditorWnd::OnShadeType1() 
 {
 	resizeDialogOptions.nParameters[2] = TG_MULTI;
 	UpdateTerrainGenButtons();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CShadeEditorWnd::OnShadeType2() 
 {
 	resizeDialogOptions.nParameters[2] = TG_HETERO;
 	UpdateTerrainGenButtons();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CShadeEditorWnd::OnShadeType3() 
 {
 	resizeDialogOptions.nParameters[2] = TG_HYBRID;
 	UpdateTerrainGenButtons();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CShadeEditorWnd::OnShadeType4() 
 {
 	resizeDialogOptions.nParameters[2] = TG_RIDGED;
 	UpdateTerrainGenButtons();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CShadeEditorWnd::OnChangeShadeMax() 
 {
 	if ( !isSetEditCtrlValue )
@@ -321,13 +321,13 @@ void CShadeEditorWnd::OnChangeShadeMax()
 		{
 			resizeDialogOptions.fParameters[3] = _max;
 			isSetEditCtrlValue = true;
-			//SetDlgItemText( IDC_SHADE_MAX, NStr::Format( "%g", range.max ) );
+			// SetDlgItemText( IDC_SHADE_MAX, NStr::Format( "%g", range.max ) );
 			isSetEditCtrlValue = false;
 		}
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CShadeEditorWnd::OnChangeShadeMin() 
 {
 	if ( !isSetEditCtrlValue )
@@ -339,13 +339,13 @@ void CShadeEditorWnd::OnChangeShadeMin()
 		{
 			resizeDialogOptions.fParameters[2] = _min;
 			isSetEditCtrlValue = true;
-			//SetDlgItemText( IDC_SHADE_MIN, NStr::Format( "%g", range.min ) );
+			// SetDlgItemText( IDC_SHADE_MIN, NStr::Format( "%g", range.min ) );
 			isSetEditCtrlValue = false;
 		}
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CShadeEditorWnd::OnShadeGenerateButton() 
 {
 	if ( IAIEditor* pAIEditor = GetSingleton<IAIEditor>() )
@@ -364,7 +364,7 @@ void CShadeEditorWnd::OnShadeGenerateButton()
 						ITerrainEditor *pTerrainEditor = dynamic_cast<ITerrainEditor*>( pTerrain );
 						STerrainInfo &rTerrainInfo = const_cast<STerrainInfo&>( pTerrainEditor->GetTerrainInfo() );
 
-						//сгенерим высоты
+						// let's generate heights
 						NPerlinNoise::Init();
 						CHField hfield( rTerrainInfo.altitudes.GetSizeX(), rTerrainInfo.altitudes.GetSizeY() );
 
@@ -372,11 +372,11 @@ void CShadeEditorWnd::OnShadeGenerateButton()
 						fBmValue.featSize = resizeDialogOptions.fParameters[4];
 						hfield.Generate( fBmValue );
 						
-						//посчитаем максимум и минимум
+						// let's calculate the maximum and minimum
 						CTPoint<float> currentRange( 0.0f, 0.0f );
 						float fCurrentRange = hfield.AltitudeRange( &( currentRange.min ), &( currentRange.max ) );
 						
-						//перенесем в terrain
+						// transfer to terrain
 						for ( int nXIndex = 0; nXIndex < rTerrainInfo.altitudes.GetSizeX(); ++nXIndex )
 						{
 							for ( int nYIndex = 0; nYIndex < rTerrainInfo.altitudes.GetSizeY(); ++nYIndex )
@@ -396,7 +396,7 @@ void CShadeEditorWnd::OnShadeGenerateButton()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CShadeEditorWnd::OnShadeZeroButton() 
 {
 	if ( IAIEditor* pAIEditor = GetSingleton<IAIEditor>() )
@@ -412,7 +412,7 @@ void CShadeEditorWnd::OnShadeZeroButton()
 					strTitle.LoadString( IDR_EDITORTYPE );
 					if ( MessageBox( "Do you really want to zero all heights?", strTitle, MB_YESNO | MB_ICONQUESTION | MB_DEFBUTTON2 ) == IDYES )
 					{
-						//обнулим terrain
+						// reset the terrain
 						ITerrainEditor *pTerrainEditor = dynamic_cast<ITerrainEditor*>( pTerrain );
 						STerrainInfo &rTerrainInfo = const_cast<STerrainInfo&>( pTerrainEditor->GetTerrainInfo() );
 						rTerrainInfo.altitudes.SetZero();
@@ -428,7 +428,7 @@ void CShadeEditorWnd::OnShadeZeroButton()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CShadeEditorWnd::UpdateTerrainGenButtons()
 {
 	int type = IDC_SHADE_TYPE0;
@@ -463,7 +463,7 @@ void CShadeEditorWnd::UpdateTerrainGenButtons()
 	CheckRadioButton( IDC_SHADE_TYPE0, IDC_SHADE_TYPE4, type );
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CShadeEditorWnd::UpdateLevelToButtons()
 {
 	int type = IDC_SHADE_LEVEL_TO_0;
@@ -493,7 +493,7 @@ void CShadeEditorWnd::UpdateLevelToButtons()
 	CheckRadioButton( IDC_SHADE_LEVEL_TO_0, IDC_SHADE_LEVEL_TO_3, type );
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CShadeEditorWnd::OnChangeShadeGranularity() 
 {
 	if ( !isSetEditCtrlValue )
@@ -505,7 +505,7 @@ void CShadeEditorWnd::OnChangeShadeGranularity()
 		{
 			resizeDialogOptions.fParameters[4] = _fGranularity;
 			isSetEditCtrlValue = true;
-			//SetDlgItemText( IDC_SHADE_GRANULARITY, NStr::Format( "%g", fGranularity ) );
+			// SetDlgItemText( IDC_SHADE_GRANULARITY, NStr::Format( "%g", fGranularity ) );
 			isSetEditCtrlValue = false;
 		}
 		else 
@@ -515,35 +515,35 @@ void CShadeEditorWnd::OnChangeShadeGranularity()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CShadeEditorWnd::OnShadeLevelTo0() 
 {
 	resizeDialogOptions.nParameters[1] = LEVEL_TO_0;
 	UpdateLevelToButtons();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CShadeEditorWnd::OnShadeLevelTo1() 
 {
 	resizeDialogOptions.nParameters[1] = LEVEL_TO_1;
 	UpdateLevelToButtons();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CShadeEditorWnd::OnShadeLevelTo2() 
 {
 	resizeDialogOptions.nParameters[1] = LEVEL_TO_2;
 	UpdateLevelToButtons();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CShadeEditorWnd::OnShadeLevelTo3() 
 {
 	resizeDialogOptions.nParameters[1] = LEVEL_TO_3;
 	UpdateLevelToButtons();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CShadeEditorWnd::OnShadeUpdateButton() 
 {
 	if ( IAIEditor* pAIEditor = GetSingleton<IAIEditor>() )
@@ -566,14 +566,14 @@ void CShadeEditorWnd::OnShadeUpdateButton()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CShadeEditorWnd::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) 
 {
 	CResizeDialog ::OnHScroll(nSBCode, nPos, pScrollBar);
 	CreateCurrentPattern();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CShadeEditorWnd::UpdateControls()
 {
 	bool bEnabled = false;
@@ -602,7 +602,7 @@ void CShadeEditorWnd::UpdateControls()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CShadeEditorWnd::OnDestroy() 
 {
 	CResizeDialog::SaveResizeDialogOptions();

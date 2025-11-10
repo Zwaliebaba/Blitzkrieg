@@ -23,25 +23,16 @@ void CEffectTreeRootItem::InitDefaultValues()
 	child.szDisplayName = "Animations";
 	defaultChilds.push_back( child );
 	
-	/*child.nChildItemType = E_EFFECT_MESHES_ITEM;
-	child.szDefaultName = "Meshes";
-	child.szDisplayName = "Meshes";
-	defaultChilds.push_back( child );*/
+	/* child.nChildItemType = E_EFFECT_MESHES_ITEM;
+	 */
 	
 	child.nChildItemType = E_EFFECT_FUNC_PARTICLES_ITEM;
 	child.szDefaultName = "Function Particles";
 	child.szDisplayName = "Function Particles";
 	defaultChilds.push_back( child );
 	
-	/*child.nChildItemType = E_EFFECT_MAYA_PARTICLES_ITEM;
-	child.szDefaultName = "Maya Particles";
-	child.szDisplayName = "Maya Particles";
-	defaultChilds.push_back( child );
-	
-	child.nChildItemType = E_EFFECT_LIGHTS_ITEM;
-	child.szDefaultName = "Lights";
-	child.szDisplayName = "Lights";
-	defaultChilds.push_back( child );*/
+	/* child.nChildItemType = E_EFFECT_MAYA_PARTICLES_ITEM;
+	 */
 }
 
 void CEffectCommonPropsItem::InitDefaultValues()

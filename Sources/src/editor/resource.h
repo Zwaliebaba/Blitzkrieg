@@ -1,4 +1,4 @@
-//{{NO_DEPENDENCIES}}
+// {{NO_DEPENDENCIES}}
 // Microsoft Developer Studio generated include file.
 // Used by editor.rc
 //
@@ -497,7 +497,7 @@
 #define ID_SHOW_FIRE_RANGE_FILTER       61219
 #define IDC_SHORTCUTBAR                 61849
 
-// Next default values for new objects
+// Next default values ​​for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS

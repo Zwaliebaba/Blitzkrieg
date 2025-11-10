@@ -1,6 +1,6 @@
 // ObjectPlacerState.h: interface for the CObjectPlacerState class.
 //
-//////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////
 
 #if !defined(AFX_OBJECTPLACERSTATE_H__DB9EBB7D_57AE_4ABB_B281_3350C4494410__INCLUDED_)
 #define AFX_OBJECTPLACERSTATE_H__DB9EBB7D_57AE_4ABB_B281_3350C4494410__INCLUDED_
@@ -13,10 +13,10 @@
 
 class CObjectPlacerState : public IInputState
 {
-	//Common tools
+	// Common tools
 	CInputStateParameter stateParameter;
 
-	//IInputState interface
+	// IInputState interface
 	virtual void STDCALL Enter();
 	virtual void STDCALL Leave();
 	virtual void STDCALL Update();
@@ -35,16 +35,16 @@ class CObjectPlacerState : public IInputState
 		//
 		void CalculateShiftsForMultiSelect( CTemplateEditorFrame *frame, const CVec3 &center = VNULL3, const CVec3 &rShift = VNULL3 );
 		
-		// В зависимости от текущих и входных параметров инициализируем m_currentMovingObjectsAI,
+		// Depending on the current and input parameters, we initialize m_currentMovingObjectsAI,
 		// m_shiftsForMovingObjectsAI,m_currentMovingObjectAI
 		void CalculateObjectSelection(   std::vector< struct SMapObject*> &objects, CTemplateEditorFrame *frame, const CVec3 &center = VNULL3, bool bSquad = false );
 
-		//  GetObjectsSelection - смотрит какие объекты надо выделить ( т.е если кто то попался из 
-		// взвода то м\надо включить всех )
+		// GetObjectsSelection - looks at which objects need to be selected (i.e. if someone is caught from
+		// platoon then we need to include everyone)
 		std::vector<SMapObject*> 	GetObjectsSelection(   std::vector< struct SMapObject*> &objects, CTemplateEditorFrame *frame, bool *pbSquad = 0 );
 		std::vector<SMapObject*>	GetObjectsSelection(  SMapObject* object, CTemplateEditorFrame *frame, bool *pbSquad = 0 );
 
-		// смотрит если в  objects такие элементы которые уже были выделены - если да то моит их  
+		// looks if objects contain elements that have already been selected - if so, then washes them
 		void											FilterObjects( std::vector< struct SMapObject*> &objects, CTemplateEditorFrame *frame )	;
   
 		void ClearAllSelection( CTemplateEditorFrame * );

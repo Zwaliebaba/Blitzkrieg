@@ -1,35 +1,37 @@
 #ifndef __OBSTACLE_H__
 #define __OBSTACLE_H__
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////// 
 // wrapper pattern
-// оболочка для всех препятствий, которые нужно уничтожать на своем пути
-interface IObstacle : public IRefCount
+// a shell for all the obstacles that need to be destroyed on your way
+interface IObstacle : IRefCount
 {
-	// для того, чтобы не стрелять вем по 1 препятствию
-	virtual void UpdateTakenDamagePower( const float fUpdate ) = 0;
-	virtual const float GetTakenDamagePower() const = 0;
-	
-	// выбирает пушку, из которой юнит лучше разрушит это препятствие
-	virtual class CBasicGun *ChooseGunToShootToSelf( class CCommonUnit *pUnit, NTimer::STime *pTime ) = 0;
+  // in order not to shoot at 1 obstacle
+  virtual void UpdateTakenDamagePower(float fUpdate) = 0;
+  virtual const float GetTakenDamagePower() const = 0;
 
-	virtual int GetPlayer() const = 0;
-	virtual float GetHPPercent() const = 0;
-	virtual const CVec2 GetCenter() const = 0;
-	virtual bool IsAlive() const = 0;
-	
-	// помещает в начало очереди юнита команду на атаку этого обьекта
-	virtual void IssueUnitAttackCommand( class CCommonUnit *pUnit ) = 0;
-	
-	// может ли юнит разрушить объект просто проехав по нему.
-	virtual bool CanDeleteByMovingOver( class CAIUnit * pUnit ) = 0;
-	virtual interface IUpdatableObj *GetObject() const = 0;
+  // selects the gun from which the unit will better destroy this obstacle
+  virtual class CBasicGun *ChooseGunToShootToSelf(class CCommonUnit *pUnit, NTimer::STime *pTime) = 0;
+
+  virtual int GetPlayer() const = 0;
+  virtual float GetHPPercent() const = 0;
+  virtual const CVec2 GetCenter() const = 0;
+  virtual bool IsAlive() const = 0;
+
+  // places a command to attack this object at the beginning of the unit’s queue
+  virtual void IssueUnitAttackCommand(class CCommonUnit *pUnit) = 0;
+
+  // can a unit destroy an object simply by driving over it.
+  virtual bool CanDeleteByMovingOver(class CAIUnit *pUnit) = 0;
+  virtual interface IUpdatableObj *GetObject() const = 0;
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// //////////////////////////////////////////////////////////// 
 interface IObstacleEnumerator
 {
-	//true if enough objects enumerated.
-	virtual bool AddObstacle( IObstacle *pObstacle ) = 0;
+  // true if enough objects enumerated.
+  virtual bool AddObstacle(IObstacle *pObstacle) = 0;
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// //////////////////////////////////////////////////////////// 
 #endif // __OBSTACLE_H__

@@ -18,17 +18,8 @@ void CMedalTreeRootItem::InitDefaultValues()
 	child.szDisplayName = "Basic info";
 	defaultChilds.push_back( child );
 
-/*
-	child.nChildItemType = E_MEDAL_PICTURE_PROPS_ITEM;
-	child.szDefaultName = "Picture";
-	child.szDisplayName = "Picture";
-	defaultChilds.push_back( child );
-
-	child.nChildItemType = E_MEDAL_TEXT_PROPS_ITEM;
-	child.szDefaultName = "Description";
-	child.szDisplayName = "Description";
-	defaultChilds.push_back( child );
-*/
+/* child.nChildItemType = E_MEDAL_PICTURE_PROPS_ITEM;
+	 */
 }
 
 void CMedalCommonPropsItem::InitDefaultValues()
@@ -76,7 +67,7 @@ void CMedalCommonPropsItem::UpdateItemValue( int nItemId, const CVariant &value 
 	
 	if ( nItemId == 1 || nItemId == 2 || nItemId == 3 )
 	{
-		//сконвертим путь к файлу в относительный без расширения
+		// convert the file path to relative without extension
 		if ( !IsRelatedPath( value ) )
 		{
 			string szValue = value;
@@ -84,7 +75,7 @@ void CMedalCommonPropsItem::UpdateItemValue( int nItemId, const CVariant &value 
 			bool bRes =	MakeSubRelativePath( g_frameManager.GetFrame( CFrameManager::E_MEDAL_FRAME )->GetProjectFileName().c_str(), szValue.c_str(), szRelatedPath );
 			if ( bRes )
 			{
-				//обрежем расширение в конце
+				// cut off the extension at the end
 				szRelatedPath = szRelatedPath.substr( 0, szRelatedPath.rfind( '.' ) );
 				CVariant newVal = szRelatedPath;
 				CTreeItem::UpdateItemValue( nItemId, newVal );
@@ -143,7 +134,7 @@ void CMedalPicturePropsItem::UpdateItemValue( int nItemId, const CVariant &value
 	
 	if ( nItemId == 1 )
 	{
-		//сконвертим путь к файлу в относительный без расширения
+		// convert the file path to relative without extension
 		if ( !IsRelatedPath( value ) )
 		{
 			string szValue = value;
@@ -151,7 +142,7 @@ void CMedalPicturePropsItem::UpdateItemValue( int nItemId, const CVariant &value
 			bool bRes =	MakeSubRelativePath( g_frameManager.GetFrame( CFrameManager::E_MEDAL_FRAME )->GetProjectFileName().c_str(), szValue.c_str(), szRelatedPath );
 			if ( bRes )
 			{
-				//обрежем расширение в конце
+				// cut off the extension at the end
 				szRelatedPath = szRelatedPath.substr( 0, szRelatedPath.rfind( '.' ) );
 				CVariant newVal = szRelatedPath;
 				CTreeItem::UpdateItemValue( nItemId, newVal );
@@ -187,21 +178,8 @@ void CMedalTextPropsItem::InitDefaultValues()
 	defaultValues.push_back( prop );
 	prop.szStrings.clear();
 	
-/*
-	prop.nId = 2;
-	prop.nDomenType = DT_DEC;
-	prop.szDefaultName = "Text center position X";
-	prop.szDisplayName = "Text center position X";
-	prop.value = 0;
-	defaultValues.push_back( prop );
-	
-	prop.nId = 3;
-	prop.nDomenType = DT_DEC;
-	prop.szDefaultName = "Text center position Y";
-	prop.szDisplayName = "Text center position Y";
-	prop.value = 0;
-	defaultValues.push_back( prop );
-*/
+/* prop.nId = 2;
+	 */
 	
 	values = defaultValues;
 }
@@ -212,7 +190,7 @@ void CMedalTextPropsItem::UpdateItemValue( int nItemId, const CVariant &value )
 	
 	if ( nItemId == 1 )
 	{
-		//сконвертим путь к файлу в относительный без расширения
+		// convert the file path to relative without extension
 		if ( !IsRelatedPath( value ) )
 		{
 			string szValue = value;
@@ -220,7 +198,7 @@ void CMedalTextPropsItem::UpdateItemValue( int nItemId, const CVariant &value )
 			bool bRes =	MakeSubRelativePath( g_frameManager.GetFrame( CFrameManager::E_MEDAL_FRAME )->GetProjectFileName().c_str(), szValue.c_str(), szRelatedPath );
 			if ( bRes )
 			{
-				//обрежем расширение в конце
+				// cut off the extension at the end
 				szRelatedPath = szRelatedPath.substr( 0, szRelatedPath.rfind( '.' ) );
 				CVariant newVal = szRelatedPath;
 				CTreeItem::UpdateItemValue( nItemId, newVal );

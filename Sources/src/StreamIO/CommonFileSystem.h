@@ -1,71 +1,73 @@
 #ifndef __COMMONFILESYSTEM_H__
 #define __COMMONFILESYSTEM_H__
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma ONCE
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#pragma once
+
 struct SCommonFileInfo
 {
-	DWORD dwModTime;										// file modification time
-	IDataStorage *pStorage;							// storage, this file stored in
-	//
-	SCommonFileInfo() : dwModTime( 0 ), pStorage( 0 ) {  }
-	SCommonFileInfo( DWORD _dwModTime, IDataStorage *_pStorage ) : dwModTime( _dwModTime ), pStorage( _pStorage ) {  }
+  DWORD dwModTime;// file modification time
+  IDataStorage *pStorage;// storage, this file stored in
+  //
+  SCommonFileInfo() : dwModTime(0), pStorage(nullptr) {}
+  SCommonFileInfo(DWORD _dwModTime, IDataStorage *_pStorage) : dwModTime(_dwModTime), pStorage(_pStorage) {}
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CCommonFileSystemEnumerator : public IStorageEnumerator
 {
-	OBJECT_MINIMAL_METHODS( CCommonFileSystemEnumerator );
-	std::string szMask;										// enumeration mask
-	std::string szFileName;								// current enumerated file name
-	SStorageElementStats stats;						// temporary data storage to fill each call
-	//
-	typedef std::hash_map<std::string, SCommonFileInfo> CFilesMap;
-	const CFilesMap &files;
-	CFilesMap::const_iterator itCurrFile;
-	bool bReset;
+  OBJECT_MINIMAL_METHODS(CCommonFileSystemEnumerator);
+  std::string szMask;// enumeration mask
+  std::string szFileName;// current enumerated file name
+  SStorageElementStats stats;// temporary data storage to fill each call
+  //
+  using CFilesMap = std::hash_map<std::string, SCommonFileInfo>;
+  const CFilesMap &files;
+  CFilesMap::const_iterator itCurrFile;
+  bool bReset;
+
 public:
-	CCommonFileSystemEnumerator( const CFilesMap &_files ) : files( _files ), bReset( true ), itCurrFile( files.begin() ) {  }
-	//
-	virtual void STDCALL Reset( const char *pszName );
-	virtual bool STDCALL Next();
-	virtual const SStorageElementStats* STDCALL GetStats() const { return &stats; }
+  CCommonFileSystemEnumerator(const CFilesMap &_files) : files(_files), itCurrFile(files.begin()), bReset(true) {}
+  //
+  void STDCALL Reset(const char *pszName) override;
+  bool STDCALL Next() override;
+  const SStorageElementStats * STDCALL GetStats() const override { return &stats; }
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CCommonFileSystem : public IDataStorage
 {
-	OBJECT_MINIMAL_METHODS( CCommonFileSystem );
-	//
-	CPtr<IDataStorage> pZipStorage;				// zip file system
-	CPtr<IDataStorage> pFileStorage;			// open file system
-	typedef std::hash_map<std::string, SCommonFileInfo> CFilesMap;
-	CFilesMap files;											// соответствие имени файла и информации, необходимой для его получени
-	//
-	std::string szBase;
-	DWORD dwStorageAccessMode;
-	//
-	void EnumerateFiles( const std::string &szName, IDataStorage *pStorage );
+  OBJECT_MINIMAL_METHODS(CCommonFileSystem);
+  //
+  CPtr<IDataStorage> pZipStorage;// zip file system
+  CPtr<IDataStorage> pFileStorage;// open file system
+  using CFilesMap = std::hash_map<std::string, SCommonFileInfo>;
+  CFilesMap files;// correspondence between the file name and the information necessary to obtain it
+  //
+  std::string szBase;
+  DWORD dwStorageAccessMode;
+  //
+  void EnumerateFiles(const std::string &szName, IDataStorage *pStorage);
+
 public:
-	CCommonFileSystem( const char *pszName, DWORD dwAccessMode );
-	// проверить, есть ли такой поток
-	virtual const bool STDCALL IsStreamExist( const char *pszName );
-	// создать и открыть поток с указанным именем и правами доступа
-	virtual IDataStream* STDCALL CreateStream( const char *pszName, DWORD dwAccessMode );
-	// открыть существующий поток с указанным именем и правами доступа
-	virtual IDataStream* STDCALL OpenStream( const char *pszName, DWORD dwAccessMode );
-	// получить описание stream'а
-	virtual bool STDCALL GetStreamStats( const char *pszName, SStorageElementStats *pStats );
-	// убить элемент хранилища
-	virtual bool STDCALL DestroyElement( const char *pszName );
-	// переименовать элемент
-	virtual bool STDCALL RenameElement( const char *pszOldName, const char *pszNewName );
-	// перечисление элементов
-	virtual IStorageEnumerator* STDCALL CreateEnumerator();
-	// получить имя этого storage
-	virtual const char* STDCALL GetName() const { return szBase.c_str(); }
-	// добавить новый MOD
-	virtual bool STDCALL AddStorage( IDataStorage *pStorage, const char *pszName );
-	// убрать MOD
-	virtual bool STDCALL RemoveStorage( const char *pszName );
+  CCommonFileSystem(const char *pszName, DWORD dwAccessMode);
+  // check if such thread exists
+  const bool STDCALL IsStreamExist(const char *pszName) override;
+  // create and open a stream with the specified name and access rights
+  IDataStream * STDCALL CreateStream(const char *pszName, DWORD dwAccessMode) override;
+  // open an existing stream with the specified name and permissions
+  IDataStream * STDCALL OpenStream(const char *pszName, DWORD dwAccessMode) override;
+  // get stream description
+  bool STDCALL GetStreamStats(const char *pszName, SStorageElementStats *pStats) override;
+  // kill storage element
+  bool STDCALL DestroyElement(const char *pszName) override;
+  // rename element
+  bool STDCALL RenameElement(const char *pszOldName, const char *pszNewName) override;
+  // enumeration of elements
+  IStorageEnumerator * STDCALL CreateEnumerator() override;
+  // get the name of this storage
+  const char * STDCALL GetName() const override { return szBase.c_str(); }
+  // add new MOD
+  bool STDCALL AddStorage(IDataStorage *pStorage, const char *pszName) override;
+  // remove MOD
+  bool STDCALL RemoveStorage(const char *pszName) override;
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // __COMMONFILESYSTEM_H__

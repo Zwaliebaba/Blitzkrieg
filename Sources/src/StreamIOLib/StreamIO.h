@@ -1,15 +1,15 @@
 #ifndef __STREAMIO_H__
 #define __STREAMIO_H__
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #pragma ONCE
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 enum EStorageElementType
 {
 	SET_STORAGE	= 1,
 	SET_STREAM	= 2,
 	SET_FORCE_DWORD	= 0x7fffffff
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 enum EStreamAccessMode
 {
 	STREAM_ACCESS_READ   = 0x00000001,
@@ -18,7 +18,7 @@ enum EStreamAccessMode
 	STREAM_ACCESS_TEXT   = 0x00000008,
 	STREAM_ACCESS_FORCE_DWORD = 0x7fffffff
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 enum EStorageType
 {
 	STORAGE_TYPE_MOD		= 0,
@@ -28,7 +28,7 @@ enum EStorageType
 	STORAGE_TYPE_MEM		= 4,
 	STORAGE_TYPE_FORCE_DWORD = 0x7fffffff
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // special structure, which's bit fields represent Win32 date/time format in the correct form
 struct SWin32Time
 {
@@ -57,7 +57,7 @@ struct SWin32Time
 	WORD GetTime() const { return wTime; }
 	operator DWORD() const { return dwFulltime; }
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 struct SStorageElementStats
 {
 	const char *pszName;									// element name
@@ -67,70 +67,70 @@ struct SStorageElementStats
 	SWin32Time mtime;											// modification time
 	SWin32Time atime;											// last access time
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 interface IStorageEnumerator : public IRefCount
 {
 	virtual void STDCALL Reset( const char *pszName ) = 0;
 	virtual bool STDCALL Next() = 0;
 	virtual const SStorageElementStats* STDCALL GetStats() const = 0;
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 interface IDataStream : public IRefCount
 {
-	// чтение/запись данных
+	// read/write data
 	virtual int STDCALL Read( void *pBuffer, int nLength ) = 0;
 	virtual int STDCALL Write( const void *pBuffer, int nLength ) = 0;
-	// объявить текущую позицию в потоке за начало потока
+	// declare the current position in the stream as the beginning of the stream
 	virtual int STDCALL LockBegin() = 0;
-	// вернуть начало потока в нулевую позицию
+	// return the start of the stream to the zero position
 	virtual int STDCALL UnlockBegin() = 0;
-	// текущая позиция в потоке
+	// current position in the stream
 	virtual int STDCALL GetPos() const = 0;
-	// выставить текущую позицию в потоке
+	// set the current position in the stream
 	virtual int STDCALL Seek( int offset, STREAM_SEEK from ) = 0;
-	// получить размер потока
+	// get stream size
 	virtual int STDCALL GetSize() const = 0;
-	// изменить размер потока
+	// change stream size
 	virtual bool STDCALL SetSize( int nSize ) = 0;
-	// скопировать 'nLength' байт из текущей позиции потока в текущю позицию 'pDstStream' потока
+	// copy 'nLength' byte from current stream position to current 'pDstStream' stream position
 	virtual int STDCALL CopyTo( IDataStream *pDstStream, int nLength ) = 0;
-	// сбросить все закешированные данные
+	// reset all cached data
 	virtual void STDCALL Flush() = 0;
-	// получить информацию о потоке
+	// get information about the stream
 	virtual void STDCALL GetStats( SStorageElementStats *pStats ) = 0;
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 interface IDataStorage : public IRefCount
 {
 	// type ID
 	enum { tidTypeID = 0 };
-	// проверить, есть ли такой поток
+	// check if such thread exists
 	virtual const bool STDCALL IsStreamExist( const char *pszName ) = 0;
-	// создать и открыть поток с указанным именем и правами доступа
+	// create and open a stream with the specified name and access rights
 	virtual IDataStream* STDCALL CreateStream( const char *pszName, DWORD dwAccessMode ) = 0;
-	// открыть существующий поток с указанным именем и правами доступа
+	// open an existing stream with the specified name and permissions
 	virtual IDataStream* STDCALL OpenStream( const char *pszName, DWORD dwAccessMode ) = 0;
-	// получить описание stream'а
+	// get stream description
 	virtual bool STDCALL GetStreamStats( const char *pszName, SStorageElementStats *pStats ) = 0;
-	// убить элемент хранилища
+	// kill storage element
 	virtual bool STDCALL DestroyElement( const char *pszName ) = 0;
-	// переименовать элемент
+	// rename element
 	virtual bool STDCALL RenameElement( const char *pszOldName, const char *pszNewName ) = 0;
-	// перечисление элементов
+	// enumeration of elements
 	virtual IStorageEnumerator* STDCALL CreateEnumerator() = 0;
-	// получить имя этого storage
+	// get the name of this storage
 	virtual const char* STDCALL GetName() const = 0;
-	// добавить новый MOD по имени
+	// add new MOD by name
 	virtual bool STDCALL AddStorage( IDataStorage *pStorage, const char *pszName ) = 0;
-	// убрать MOD по имени
+	// remove MOD by name
 	virtual bool STDCALL RemoveStorage( const char *pszName ) = 0;
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 inline std::string GetStreamName( IDataStream *pStream )
 {
 	SStorageElementStats stats;
 	pStream->GetStats( &stats );
 	return stats.pszName == 0 ? "" : stats.pszName;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // __STREAMIO_H__

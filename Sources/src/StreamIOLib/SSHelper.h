@@ -1,6 +1,6 @@
 #ifndef __SSHELPER_H__
 #define __SSHELPER_H__
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #ifndef ZDATA_
 #define ZDATA_(a)
 #endif // ZDATA_
@@ -16,10 +16,10 @@
 #ifndef ZSKIP
 #define ZSKIP
 #endif // ZSKIP
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 template <class T>
 inline char operator&( T &c, IStructureSaver &ss ) { return 0; }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CSaverAccessor
 {
 	IStructureSaver *pSS;
@@ -243,7 +243,7 @@ class CSaverAccessor
 		}
 		else
 		{
-			//NI_ASSERT_SLOW_TF( pData->GetPtr() != 0, "Can't store NULL database object", return );
+			// NI_ASSERT_SLOW_TF( pData->GetPtr() != 0, "Can't store NULL database object", return );
 			if ( pData->GetPtr() != 0 )
 			{
 				std::string szString = (*pData)->GetParentName();
@@ -437,5 +437,5 @@ public:
 			pSS->FinishChunk();
 		}
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // __SSHELPER_H__

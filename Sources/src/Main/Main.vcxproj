@@ -247,7 +247,8 @@
     <ClCompile>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <InlineFunctionExpansion>Default</InlineFunctionExpansion>
-      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <FunctionLevelLinking>
+      </FunctionLevelLinking>
       <Optimization>Disabled</Optimization>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <WarningLevel>Level3</WarningLevel>
@@ -324,7 +325,6 @@
     <ClInclude Include="SinglePlayerTransceiver.h" />
     <ClInclude Include="Specific.h" />
     <ClInclude Include="StdAfx.h" />
-    <ClInclude Include="stl_user_config.h" />
     <ClInclude Include="TextManager.h" />
     <ClInclude Include="TextObject.h" />
     <ClInclude Include="TextSystem.h" />
@@ -670,10 +670,6 @@
     </ProjectReference>
     <ProjectReference Include="..\UI\UI.vcxproj">
       <Project>{fc094cb3-9fed-444c-9e08-e66ff6948a4c}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="..\zlib\zlib.vcxproj">
-      <Project>{9bfb8b73-7063-44e5-a55b-40b34767e84d}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>

@@ -1,232 +1,217 @@
 #include "StdAfx.h"
 
 #include "InterfaceAfterMissionPopups.h"
-#include "..\Main\ScenarioTracker.h"
-#include "..\Main\RPGStats.h"
-#include "..\Main\GameStats.h"
+#include "../Main/ScenarioTracker.h"
+#include "../Main/RPGStats.h"
+#include "../Main/GameStats.h"
 #include "CutScenesHelper.h"
 #include "UIConsts.h"
-#include "..\Main\ScenarioTrackerTypes.h"
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-BASIC_REGISTER_CLASS( CAfterMissionPopups );
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-int CAfterMissionPopups::operator&( IStructureSaver &ss )
+#include "../Main/ScenarioTrackerTypes.h"
+
+BASIC_REGISTER_CLASS(CAfterMissionPopups);
+
+int CAfterMissionPopups::operator&(IStructureSaver &ss)
 {
-	CSaverAccessor saver = &ss;
-	saver.Add( 1, &bTutorialWindow );
-	saver.Add( 2, &bCheckReplay );
-	saver.Add( 3, &nMedalIterator );
-	saver.Add( 4, &bMainScreenShown );
-	saver.Add( 5, &bUpgradesShown );
-	saver.Add( 6, &bNewUnitsShown );
-	saver.Add( 7, &bNextChapterShown );
-	saver.Add( 8, &bPlayerRankShown );
-	saver.Add( 9, &bLastFullScreen );
-	saver.Add( 10, &bNeedFinish );
-	saver.Add( 11, &nCommandID );
-	saver.Add( 12, &szCommandParams );
-	saver.Add( 13, &bUnitsPerformanceShown );
-	return 0;
+  CSaverAccessor saver = &ss;
+  saver.Add(1, &bTutorialWindow);
+  saver.Add(2, &bCheckReplay);
+  saver.Add(3, &nMedalIterator);
+  saver.Add(4, &bMainScreenShown);
+  saver.Add(5, &bUpgradesShown);
+  saver.Add(6, &bNewUnitsShown);
+  saver.Add(7, &bNextChapterShown);
+  saver.Add(8, &bPlayerRankShown);
+  saver.Add(9, &bLastFullScreen);
+  saver.Add(10, &bNeedFinish);
+  saver.Add(11, &nCommandID);
+  saver.Add(12, &szCommandParams);
+  saver.Add(13, &bUnitsPerformanceShown);
+  return 0;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CAfterMissionPopups::FinishInterface( const int _nCommandID, const char *pszParam )
+
+void CAfterMissionPopups::FinishInterface(const int _nCommandID, const char *pszParam)
 {
-	bNeedFinish = true;
-	nCommandID = _nCommandID;
-	if ( pszParam )
-		szCommandParams = pszParam;
-	else
-		szCommandParams.clear();
+  bNeedFinish = true;
+  nCommandID = _nCommandID;
+  if (pszParam) szCommandParams = pszParam;
+  else szCommandParams.clear();
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CAfterMissionPopups::OnGetFocus( bool bFocus )
+
+void CAfterMissionPopups::OnGetFocus(bool bFocus)
 {
-	bNeedFinish = false;
-	nCommandID = 0;
-	szCommandParams.clear();
+  bNeedFinish = false;
+  nCommandID = 0;
+  szCommandParams.clear();
 
-	if ( !bFocus ) 
-		return;
-	
+  if (!bFocus) return;
 
-	/*if ( !bMainScreenShown )
-	{
-		bMainScreenShown = 1;
-		return;
-	}*/
-	
-	/*if ( bTutorialWindow )
-	{
-		bTutorialWindow = false;
-		return;
-	}*/
-	
-	IScenarioTracker *pST = GetSingleton<IScenarioTracker>();
-	IPlayerScenarioInfo *pUserPlayer = pST->GetUserPlayer();
-	IMainLoop *pML = GetSingleton<IMainLoop>();
-	
-	/*
-	*/
+  /* if (!bMainScreenShown)
+   */
 
-	bool bMultiplayerGame = GetGlobalVar( "MultiplayerGame", 0 );
-	if ( bMultiplayerGame )
-	{
-		//если эта переменная > 0, то мы находимся в multiplayer режиме
-		//выходим в окошко со списком multiplayer games
-		FinishInterface( MISSION_COMMAND_MULTIPLAYER_GAMESLIST, 0 );
-		return;
-	}
+  /* if (bTutorialWindow)
+   */
 
-	// если показаны еще не все медальки, то отображаю их
-	if ( nMedalIterator < pUserPlayer->GetNumNewMedals() )
-	{
-		const std::string &szMedalName = pUserPlayer->GetNewMedal( nMedalIterator++ );
-		pML->Command( MISSION_COMMAND_SINGLE_MEDAL, szMedalName.c_str() );
-		bLastFullScreen = false;
-		return;
-	}
+  IScenarioTracker *pST = GetSingleton<IScenarioTracker>();
+  IPlayerScenarioInfo *pUserPlayer = pST->GetUserPlayer();
+  IMainLoop *pML = GetSingleton<IMainLoop>();
 
-	// если изменился player rank, то надо его отобразить
-	if ( !bPlayerRankShown )
-	{
-		bPlayerRankShown = true;
-		if ( pUserPlayer->IsGainLevel() )
-		{
-			pML->Command( MISSION_COMMAND_PLAYER_GAIN_LEVEL, 0 );
-			bLastFullScreen = false;
-			return;
-		}
-	}
-	
-	if ( !bMainScreenShown )
-	{
-		bMainScreenShown = true;
-		return;
-	}
-	
-	//определим статус прохождения миссии
-	std::string szMissionName = GetGlobalVar( "Mission.Current.Name", "" );
-	//		NI_ASSERT_T( szMissionName.size() > 0, "Mission name is of size 0???" );
-	if ( szMissionName.size() > 0 )
-	{
-		NStr::ToLower( szMissionName );
-		std::string szVarName = "Mission.";
-		szVarName += szMissionName;
-		szVarName += ".Finished";
-		if ( GetGlobalVar( szVarName.c_str(), -1 ) == 1 )
-		{
-			if ( !bUnitsPerformanceShown )
-			{
-				bUnitsPerformanceShown = true;
-				IMissionStatistics * pStat = pUserPlayer->GetMissionStats();
-				bool bNeedShow = pStat->GetNumKIA();
+  /*
+  */
 
-				IPlayerScenarioInfo *pPlayerInfo = GetSingleton<IScenarioTracker>()->GetUserPlayer();
-				const int nPlayerUnits = pPlayerInfo->GetNumUnits();
-				if ( !bNeedShow )
-				{
-					for ( int i = 0; i < nPlayerUnits; ++i )
-					{
-						IScenarioUnit * pUnit = pPlayerInfo->GetUnit( i );
-						const int nDiff = pUnit->GetValueDiff( STUT_LEVEL );
-						if ( nDiff > 0 )
-						{
-							bNeedShow = true;
-							break;
-						}
-					}
-				}
-				
-				if ( bNeedShow )
-				{
-					FinishInterface( MISSION_COMMAND_UNIT_PERFORMANCE, "1" );
-					bShowBlack = true;
-					bLastFullScreen = true;
-					return;
-				}
-			}
-			// миссия пройдена
-			// Показываем экран новых юнитов
-			if ( !bNewUnitsShown )
-			{
-				bNewUnitsShown = true;
-				if ( pUserPlayer->GetNumNewUnits() > 0 )
-				{
-					FinishInterface( MISSION_COMMAND_UNITS_POOL, "1" );
-					bShowBlack = true;
-					bLastFullScreen = true;
-					return;
-				}
-			}
-			
-			// Показываем экран upgrades
-			if ( !bUpgradesShown )
-			{
-				bUpgradesShown = true;
-				// определим, есть ли у нас юниты такого типа, чтобы их можно было апгрейдить
-				const std::string &szUpgrade = pUserPlayer->GetUpgrade();
-				if ( !szUpgrade.empty() ) 
-				{
-					if ( const SUnitBaseRPGStats *pUpgradeRPG = NGDB::GetRPGStats<SUnitBaseRPGStats>(szUpgrade.c_str()) )
-					{
-						for ( int i = 0; i < pUserPlayer->GetNumUnits(); ++i )
-						{
-							const std::string &szUnitRPGStatsName = pUserPlayer->GetUnit(i)->GetRPGStats();
-							const SUnitBaseRPGStats *pUnitRPG = NGDB::GetRPGStats<SUnitBaseRPGStats>( szUnitRPGStatsName.c_str() );
-							if ( pUnitRPG->GetRPGClass() == pUpgradeRPG->GetRPGClass() ) 
-							{
-								FinishInterface( MISSION_COMMAND_UPGRADE_UNIT, 0 );
-								bLastFullScreen = true;
-								return;
-							}
-						}
-					}
-				}
-			}
-		}
-	}
+  bool bMultiplayerGame = GetGlobalVar("MultiplayerGame", 0);
+  if (bMultiplayerGame)
+  {
+    // if this variable > 0, then we are in multiplayer mode
+    // go out to the window with the list of multiplayer games
+    FinishInterface(MISSION_COMMAND_MULTIPLAYER_GAMESLIST, nullptr);
+    return;
+  }
 
-	bShowBlack = false;
-	//Определим, вдруг нужно перейти в следующий chapter
-	std::string szNewChapter = GetGlobalVar( "Chapter.New.Available", "" );
-	if ( szNewChapter.size() > 0 && !bNextChapterShown )
-	{
-		//предложим переход в следующий чаптер
-		bNextChapterShown = true;
-		std::string szSaveName;
-		szSaveName += CUIConsts::GetCampaignNameAddition();
-		szSaveName += " Chapter End Auto";
-		szSaveName += ".sav";
+  // if not all medals are shown yet, I display them
+  if (nMedalIterator < pUserPlayer->GetNumNewMedals())
+  {
+    const std::string &szMedalName = pUserPlayer->GetNewMedal(nMedalIterator++);
+    pML->Command(MISSION_COMMAND_SINGLE_MEDAL, szMedalName.c_str());
+    bLastFullScreen = false;
+    return;
+  }
 
-		pML->Command( MAIN_COMMAND_SAVE, NStr::Format( "%s;1", szSaveName.c_str() ) );
-		pML->Command( MISSION_COMMAND_NEXT_CHAPTER, 0 );
-		bLastFullScreen = false;
-		return;
-	}
+  // if the player rank has changed, then you need to display it
+  if (!bPlayerRankShown)
+  {
+    bPlayerRankShown = true;
+    if (pUserPlayer->IsGainLevel())
+    {
+      pML->Command(MISSION_COMMAND_PLAYER_GAIN_LEVEL, nullptr);
+      bLastFullScreen = false;
+      return;
+    }
+  }
 
-	const std::string szChapterName = GetGlobalVar( "Chapter.Current.Name", "" );
-	{
-		if ( bLastFullScreen )	// Если играем в кампанию, то загружаем chapter interface
-		{
-			// чтобы второй раз не было открытия и закрытия шторок
-			SetGlobalVar( "CurtainsClosed", 1 );
-			if ( GetGlobalVar( "NextChapter.Confirmed", 0 ) )
-				pML->Command( MISSION_COMMAND_CAMPAIGN, 0 );
-			else
-				pML->Command( MISSION_COMMAND_CHAPTER, 0 );
-			RemoveGlobalVar( "NextChapter.Confirmed" );
-		}
-		else	// последний экранчик был popup, закроем шторки
-		{
-			if ( GetGlobalVar( "NextChapter.Confirmed", 0 ) )
-				FinishInterface( MISSION_COMMAND_CAMPAIGN, 0 );
-			else
-				FinishInterface( MISSION_COMMAND_CHAPTER, 0 );
-			RemoveGlobalVar( "NextChapter.Confirmed" );
+  if (!bMainScreenShown)
+  {
+    bMainScreenShown = true;
+    return;
+  }
 
-			//FinishInterface( MISSION_COMMAND_CHAPTER, 0 );
-			//pML->Command( MISSION_COMMAND_CAMPAIGN, 0 );
-		}
-		return;
-	}
+  // determine the status of the mission
+  std::string szMissionName = GetGlobalVar("Mission.Current.Name", "");
+  // NI_ASSERT_T( szMissionName.size() > 0, "Mission name is of size 0???" );
+  if (szMissionName.size() > 0)
+  {
+    NStr::ToLower(szMissionName);
+    std::string szVarName = "Mission.";
+    szVarName += szMissionName;
+    szVarName += ".Finished";
+    if (GetGlobalVar(szVarName.c_str(), -1) == 1)
+    {
+      if (!bUnitsPerformanceShown)
+      {
+        bUnitsPerformanceShown = true;
+        IMissionStatistics *pStat = pUserPlayer->GetMissionStats();
+        bool bNeedShow = pStat->GetNumKIA();
+
+        IPlayerScenarioInfo *pPlayerInfo = GetSingleton<IScenarioTracker>()->GetUserPlayer();
+        const int nPlayerUnits = pPlayerInfo->GetNumUnits();
+        if (!bNeedShow)
+        {
+          for (int i = 0; i < nPlayerUnits; ++i)
+          {
+            IScenarioUnit *pUnit = pPlayerInfo->GetUnit(i);
+            const int nDiff = pUnit->GetValueDiff(STUT_LEVEL);
+            if (nDiff > 0)
+            {
+              bNeedShow = true;
+              break;
+            }
+          }
+        }
+
+        if (bNeedShow)
+        {
+          FinishInterface(MISSION_COMMAND_UNIT_PERFORMANCE, "1");
+          bShowBlack = true;
+          bLastFullScreen = true;
+          return;
+        }
+      }
+      // mission completed
+      // Showing the screen of new units
+      if (!bNewUnitsShown)
+      {
+        bNewUnitsShown = true;
+        if (pUserPlayer->GetNumNewUnits() > 0)
+        {
+          FinishInterface(MISSION_COMMAND_UNITS_POOL, "1");
+          bShowBlack = true;
+          bLastFullScreen = true;
+          return;
+        }
+      }
+
+      // Showing the upgrades screen
+      if (!bUpgradesShown)
+      {
+        bUpgradesShown = true;
+        // let's determine whether we have units of this type so that they can be upgraded
+        const std::string &szUpgrade = pUserPlayer->GetUpgrade();
+        if (!szUpgrade.empty())
+        {
+          if (const SUnitBaseRPGStats *pUpgradeRPG = NGDB::GetRPGStats<SUnitBaseRPGStats>(szUpgrade.c_str()))
+          {
+            for (int i = 0; i < pUserPlayer->GetNumUnits(); ++i)
+            {
+              const std::string &szUnitRPGStatsName = pUserPlayer->GetUnit(i)->GetRPGStats();
+              const SUnitBaseRPGStats *pUnitRPG = NGDB::GetRPGStats<SUnitBaseRPGStats>(szUnitRPGStatsName.c_str());
+              if (pUnitRPG->GetRPGClass() == pUpgradeRPG->GetRPGClass())
+              {
+                FinishInterface(MISSION_COMMAND_UPGRADE_UNIT, nullptr);
+                bLastFullScreen = true;
+                return;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  bShowBlack = false;
+  // Let's determine if we suddenly need to move on to the next chapter
+  std::string szNewChapter = GetGlobalVar("Chapter.New.Available", "");
+  if (szNewChapter.size() > 0 && !bNextChapterShown)
+  {
+    // we will offer a transition to the next chapter
+    bNextChapterShown = true;
+    std::string szSaveName;
+    szSaveName += CUIConsts::GetCampaignNameAddition();
+    szSaveName += " Chapter End Auto";
+    szSaveName += ".sav";
+
+    pML->Command(MAIN_COMMAND_SAVE, NStr::Format("%s;1", szSaveName.c_str()));
+    pML->Command(MISSION_COMMAND_NEXT_CHAPTER, nullptr);
+    bLastFullScreen = false;
+    return;
+  }
+
+  const std::string szChapterName = GetGlobalVar("Chapter.Current.Name", "");
+  {
+    if (bLastFullScreen)// If we play a campaign, then load the chapter interface
+    {
+      // so that the second time there is no opening and closing of the curtains
+      SetGlobalVar("CurtainsClosed", 1);
+      if (GetGlobalVar("NextChapter.Confirmed", 0)) pML->Command(MISSION_COMMAND_CAMPAIGN, nullptr);
+      else pML->Command(MISSION_COMMAND_CHAPTER, nullptr);
+      RemoveGlobalVar("NextChapter.Confirmed");
+    }
+    else// the last screen was a popup, let's close the curtains
+    {
+      if (GetGlobalVar("NextChapter.Confirmed", 0)) FinishInterface(MISSION_COMMAND_CAMPAIGN, nullptr);
+      else FinishInterface(MISSION_COMMAND_CHAPTER, nullptr);
+      RemoveGlobalVar("NextChapter.Confirmed");
+
+      // FinishInterface( MISSION_COMMAND_CHAPTER, 0 );
+      // pML->Command( MISSION_COMMAND_CAMPAIGN, 0 );
+    }
+  }
 }

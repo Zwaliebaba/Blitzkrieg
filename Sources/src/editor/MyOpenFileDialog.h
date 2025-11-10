@@ -16,16 +16,16 @@ public:
 
 	// Overrides
 	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CMyOpenFileDialog)
+	// {{AFX_VIRTUAL(CMyOpenFileDialog)
 protected:
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
-	//}}AFX_VIRTUAL
+	// }}AFX_VIRTUAL
 	
 	// Generated message map functions
 protected:
-	//{{AFX_MSG(CMyOpenFileDialog)
+	// {{AFX_MSG(CMyOpenFileDialog)
 	afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
-	//}}AFX_MSG
+	// }}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
 
@@ -36,4 +36,4 @@ bool GetDirectoryFromExtensionTable( std::string &szRes, const std::string &szEx
 BOOL ShowFileDialog( std::string &szResult, LPCTSTR lpszInitDir, LPCTSTR lpszTitle, BOOL bOpen, LPCTSTR lpszDefExt = NULL,
 										LPCTSTR lpszFileName = NULL, LPCTSTR lpszFilter = NULL );
 
-#endif		//__MY_OPEN_FILE_DIALOG_H__
+#endif		// __MY_OPEN_FILE_DIALOG_H__

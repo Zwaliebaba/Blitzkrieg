@@ -1,36 +1,36 @@
 #ifndef __STRING_PROCESSING_H__
 #define __STRING_PROCESSING_H__
-////////////////////////////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////////////////////
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
-////////////////////////////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////////////////////
 #include <stack>
-////////////////////////////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////////////////////
 namespace NStr
 {
-	// все операции со скобками учитывают следующие скобки: (), {}, [], ""
+	// all operations with brackets take into account the following brackets: (), {}, [], ""
 	//
-	// получить закрывающую скобку по открывающей
-	// символ 'cOpenBracket' должен об¤зательно быть открывающей скобкой
+	// get a closing parenthesis from an opening one
+	// the 'cOpenBracket' character must be an opening bracket
 	const char GetCloseBracket( const char cOpenBracket );
-	// ¤вл¤етс¤ ли символ открывающей скобкой
+	// Is the character an opening parenthesis?
 	bool IsOpenBracket( const char cSymbol );
-	// добавить новую пару скобок
+	// add a new pair of parentheses
 	void AddBrackets( const char cOpenBracket, const char cCloseBracket );
-	// удалить пару скобок
+	// remove a couple of parentheses
 	void RemoveBrackets( const char cOpenBracket, const char cCloseBracket );
-	// разделить строку на массив строк по заданному разделителю
+	// split a string into an array of strings using a given delimiter
 	void SplitString( const std::string &szString, std::vector<std::string> &szVector, const char cSeparator );
-	// разделить строку на массив строк по заданному разделителю с учЄтом скобок одной вложенности
+	// divide a string into an array of strings using a given separator, taking into account parentheses of the same nesting
 	void SplitStringWithBrackets( const std::string &szString, std::vector<std::string> &szVector, const char cSeparator );
-	// разделить строку на массив строк по заданному разделителю с учЄтом скобок любой вложенности
+	// divide a string into an array of strings using a given separator, taking into account parentheses of any nesting
 	void SplitStringWithMultipleBrackets( const std::string &szString, std::vector<std::string> &szVector, const char cSeparator );
-	// найти закрывающую скобку без учЄта внутренних скобок
+	// find the closing parenthesis without taking into account the inner parentheses
 	int FindCloseBracket( const std::string &szString, int nPos, const char cOpenBracket );
-	// найти закрывающую скобку с учЄтом внутренних скобок
+	// find the closing parenthesis taking into account the inner parentheses
 	int FindMultipleCloseBracket( const std::string &szString, int nPos, const char cOpenBracket );
-	// посчитать длину строки
+	// calculate the length of a string
 	template <class TYPE>
 		inline int GetStrLen( const TYPE *pszString )
 		{
@@ -43,35 +43,35 @@ namespace NStr
 		{
 			return GetStrLen( szString.c_str() );
 		}
-	// отрезать все символы 'cTrim'
-	// отрезать все 'cTrim' слева
+	// trim all 'cTrim' characters
+	// cut off all 'cTrim' on the left
 	inline void TrimLeft( std::string &szString, const char cTrim ) { szString.erase( 0, szString.find_first_not_of( cTrim ) ); }
-	// отрезать все 'pszTrim' слева
+	// trim all 'pszTrim' on the left
 	inline void TrimLeft( std::string &szString, const char *pszTrim ) { szString.erase( 0, szString.find_first_not_of( pszTrim ) ); }
-	// отрезать все whitespaces слева
+	// cut off all whitespaces on the left
   inline void TrimLeft( std::string &szString ) { TrimLeft(szString, " \t\n\r"); } 
-	// отрезать все 'pszTrim' справа
+	// trim all 'pszTrim' on the right
 	void TrimRight( std::string &szString, const char *pszTrim );
-	// отрезать все 'cTrim' справа
+	// cut off all 'cTrim' on the right
 	void TrimRight( std::string &szString, const char cTrim );   
-	// отрезать все whitespaces справа
+	// cut off all whitespaces on the right
   inline void TrimRight( std::string &szString ) { TrimRight(szString, " \t\n\r"); }
-	// отрезать все 'pszTrim' с обоих концов
+	// cut off all 'pszTrim' from both ends
 	inline void TrimBoth( std::string &szString, const char *pszTrim ) { TrimLeft( szString, pszTrim ); TrimRight( szString, pszTrim ); }
-	// отрезать все 'cTrim' с обоих концов
+	// cut off all 'cTrim' from both ends
 	inline void TrimBoth( std::string &szString, const char cTrim ) { TrimLeft( szString, cTrim ); TrimRight( szString, cTrim ); }
-	// отрезать все whitespaces с обоих концов
+	// cut off all whitespaces from both ends
   inline void TrimBoth( std::string &szString ) { TrimBoth(szString, " \t\n\r"); }
-	// вырезать все символы 'cTrim' из строки
+	// strip all 'cTrim' characters from a string
 	void TrimInside( std::string &szString, const char *pszTrim );
 	inline void TrimInside( std::string &szString, const char cTrim ) { szString.erase( std::remove(szString.begin(), szString.end(), cTrim), szString.end() ); }
   inline void TrimInside( std::string &szString ) { TrimInside(szString, " \t\n\r"); }
-	// привести к верхнему или нижнему регистру
+	// convert to upper or lower case
 	void ToLower( std::string &szString );
 	void ToUpper( std::string &szString );
-  // преобразовать целое в строку, раздел¤¤ каждые три знака (три пор¤дка) специальным разделителем (default = '.')
+  // convert an integer to a string, section¤¤ every three characters (three orders of magnitude) with a special delimiter (default = '.')
   void ToDotString( std::string *pDst, int nVal, const char cSeparator = '.' );
-	// ¤вл¤етс¤ ли строка представлением числа
+	// Is the string a representation of a number?
 	inline bool IsBinDigit( const char cChar ) { return ( (cChar == '0') && (cChar == '1') ); }
 	inline bool IsOctDigit( const char cChar ) { return ( (cChar >= '0') && (cChar <= '7') ); }
 	inline bool IsDecDigit( const char cChar ) { return ( (cChar >= '0') && (cChar <= '9') ); }
@@ -104,15 +104,15 @@ namespace NStr
 		ToUnicode( &szDst, szSrc );
 		return szDst;
 	}
-	// convert bin data to string. 1 byte will be converted to 2 text hex bytes
+	// convert bin data to string. 
 	const char* BinToString( const void *pData, int nSize, char *pszBuffer );
-	// convert text, which represents hex data, to the binary. 2 bytes will be converted to 1
+	// convert text, which represents hex data, to the binary. 
 	void* StringToBin( const char *pszData, void *pBuffer, int *pnSize );
-	// форматирование строки как в sprintf. 
-	// NON-REENTRANT!!! Uses internal static buffer. Max string length = 2048 chars
-	// ¤ знаю, что non-reentrant функции это плохо, но дл¤ данного случа¤ это ќ„≈Ќ№ удобно
+	// string formatting as in sprintf.
+	// NON-REENTRANT!!! 
+	// ¤ I know that non-reentrant functions are bad, but for¤ this case¤ it is ќ„≈Ќ№ convenient
 	const char* __cdecl Format( const char *pszFormat, ... );
-	// форматированный вывод ч/з OutputDebugString
+	// formatted output via OutputDebugString
 	void __cdecl DebugTrace( const char *pszFormat, ... );
 	//
 	// default separator functor for CStringIterator
@@ -148,7 +148,7 @@ namespace NStr
 		CStringIterator( const std::string &_szInput, TSeparator &_tSeparator, int _nPos = 0 )
 			: szInput( _szInput ), tSeparator( _tSeparator ), nPos( _nPos ), nLastPos( _nPos ) { Next(); }
 		// iteration
-		// extract next lexem
+		// extract next lexeme
 		const CStringIterator& Next()
 		{
 			nLastPos = nPos;
@@ -165,13 +165,13 @@ namespace NStr
 			return *this;
 		}
 		const CStringIterator& operator++() { return Next(); }
-		// is 'nPos' at the end or at the begining of the string
+		// is 'nPos' at the end or at the beginning of the string
 		bool IsBegin() const { return nPos == 0; }
 		bool IsEnd() const { return nLastPos == szInput.size(); }
 		// positions
 		int GetLastPos() const { return nLastPos; }
 		int GetPos() const { return nPos; }
-		// access lexem (const and non-const)
+		// access lexeme (const and non-const)
 		operator const std::string*() const { return &szString; }
 		operator std::string*() { return &szString; }
 		const std::string* operator->() const { return &szString; }
@@ -184,5 +184,5 @@ namespace NStr
 		operator const int() const { return ToInt( szString ); }
 	};
 };
-////////////////////////////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////////////////////
 #endif // __STRING_PROCESSING_H__

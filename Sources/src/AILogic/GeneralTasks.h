@@ -1,211 +1,223 @@
 #ifndef __GENERAL_TASKS__
 #define __GENERAL_TASKS__
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma ONCE
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#pragma once
+
 #include "GeneralInternalInterfaces.h"
-#include "..\Formats\fmtMap.h"
+#include "../Formats/fmtMap.h"
 #include "AIHashFuncs.h"
 #include "Resistance.h"
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // ****
-// защита патча.
+// patch protection.
 // ****
-class CGeneralTaskToDefendPatch : public IGeneralTask, public IWorkerEnumerator, public IEnemyEnumerator 
+class CGeneralTaskToDefendPatch : public IGeneralTask, public IWorkerEnumerator, public IEnemyEnumerator
 {
-	DECLARE_SERIALIZE;
-	OBJECT_COMPLETE_METHODS(CGeneralTaskToDefendPatch);
-	
-	IEnemyContainer *pEnemyConatainer;
-	class CGeneral *pOwner;
+  DECLARE_SERIALIZE;
+  OBJECT_COMPLETE_METHODS(CGeneralTaskToDefendPatch);
 
-	SAIGeneralParcelInfo  patchInfo;
-	int nCurReinforcePoint;
-			
-	float fSeverity;										// current severity of this task
-	float fEnemyForce, fFriendlyForce, fFriendlyMobileForce;	// 
-	float fMaxSeverity;
+  IEnemyContainer *pEnemyConatainer;
+  class CGeneral *pOwner;
 
-	bool bFinished;
-	bool bWaitForFinish;								// wait for finish the task
-	NTimer::STime timeLastUpdate;				
+  SAIGeneralParcelInfo patchInfo;
+  int nCurReinforcePoint;
 
-	CommonUnits infantryInTrenches;				// списки юнитов по типам
-	CommonUnits infantryFree;
-	CommonUnits tanksMobile;
-	CommonUnits stationaryUnits;
-	CommonUnits enemyForces;
+  float fSeverity;// current severity of this task
+  float fEnemyForce, fFriendlyForce, fFriendlyMobileForce;// 
+  float fMaxSeverity;
 
-	int nRequestForGunPlaneID;
+  bool bFinished;
+  bool bWaitForFinish;// wait for finish the task
+  NTimer::STime timeLastUpdate;
 
-	void CalcSeverity( const bool bEnemyUpdated, const bool bFriendlyUpdated );
-	void InitTanks( class CCommonUnit *pUnit );
-	void InitInfantryInTrenches( class CCommonUnit *pUnit );
+  CommonUnits infantryInTrenches;// lists of units by type
+  CommonUnits infantryFree;
+  CommonUnits tanksMobile;
+  CommonUnits stationaryUnits;
+  CommonUnits enemyForces;
+
+  int nRequestForGunPlaneID;
+
+  void CalcSeverity(bool bEnemyUpdated, bool bFriendlyUpdated);
+  void InitTanks(class CCommonUnit *pUnit);
+  void InitInfantryInTrenches(class CCommonUnit *pUnit);
+
 public:
-	CGeneralTaskToDefendPatch();
-	void Init( const struct SAIGeneralParcelInfo &_patchInfo, class CGeneral *pOwner );
+  CGeneralTaskToDefendPatch();
+  void Init(const struct SAIGeneralParcelInfo &_patchInfo, class CGeneral *pOwner);
 
-	virtual void SetEnemyConatiner( IEnemyContainer * _pEnemyConatainer ) { pEnemyConatainer = _pEnemyConatainer; }
+  void SetEnemyConatiner(IEnemyContainer *_pEnemyConatainer) override { pEnemyConatainer = _pEnemyConatainer; }
 
-	//ITask
-	virtual ETaskName GetName() const ;
-	virtual void AskForWorker( ICommander *pManager, const float _fMaxSeverity, const bool bInit = false );
-	virtual void ReleaseWorker( ICommander *pManager, const float _fMinSeverity );
-	virtual float GetSeverity() const;
-	virtual bool IsFinished() const;
-	virtual void CancelTask( ICommander *pManager ) ;
-	virtual void Segment() ;
+  // ITask
+  ETaskName GetName() const override;
+  void AskForWorker(ICommander *pManager, float _fMaxSeverity, bool bInit = false) override;
+  void ReleaseWorker(ICommander *pManager, float _fMinSeverity) override;
+  float GetSeverity() const override;
+  bool IsFinished() const override;
+  void CancelTask(ICommander *pManager) override;
+  void Segment() override;
 
-	//IEnumerator
-	virtual bool EnumWorker( class CCommonUnit *pUnit, const enum EForceType eType );
-	virtual bool EvaluateWorker( CCommonUnit * pUnit, const enum EForceType eType ) const;
-	
-	//IEnemyEnumerator
-	virtual bool EnumEnemy( class CAIUnit *pEnemy );
+  // IEnumerator
+  bool EnumWorker(class CCommonUnit *pUnit, enum EForceType eType) override;
+  bool EvaluateWorker(CCommonUnit *pUnit, enum EForceType eType) const override;
+
+  // IEnemyEnumerator
+  bool EnumEnemy(class CAIUnit *pEnemy) override;
 
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // ****
 // hold reinforcemen
 // ****
 class CGeneralTaskToHoldReinforcement : public IGeneralTask, public IWorkerEnumerator
 {
-	DECLARE_SERIALIZE;
-	OBJECT_COMPLETE_METHODS(CGeneralTaskToHoldReinforcement);
-	CommonUnits tanksFree;
-	SAIGeneralParcelInfo patchInfo;
-	typedef std::hash_map<int, CVec2> UnitsPositions;
-	UnitsPositions unitsPositions;
+  DECLARE_SERIALIZE;
+  OBJECT_COMPLETE_METHODS(CGeneralTaskToHoldReinforcement);
+  CommonUnits tanksFree;
+  SAIGeneralParcelInfo patchInfo;
+  using UnitsPositions = std::hash_map<int, CVec2>;
+  UnitsPositions unitsPositions;
 
-	float fSeverity;										// current severity of this task
-	int nCurReinforcePoint;	
+  float fSeverity;// current severity of this task
+  int nCurReinforcePoint;
+
 public:
-	CGeneralTaskToHoldReinforcement();
-	void Init( const struct SAIGeneralParcelInfo &_patchInfo );
-	//empty reinforcement parcell. uses unit's initial positions as reinforcements positions.
-	void Init(){ 	fSeverity = 0; }
+  CGeneralTaskToHoldReinforcement();
+  void Init(const struct SAIGeneralParcelInfo &_patchInfo);
+  // empty reinforcement parcell. 
+  void Init() { fSeverity = 0; }
 
-	//ITask
-	virtual ETaskName GetName() const { return ETN_HOLD_REINFORCEMENT; }
-	virtual void AskForWorker( ICommander *pManager, const float fMaxSeverity, const bool bInit = false );
-	virtual void ReleaseWorker( ICommander *pManager, const float fMinSeverity );
-	virtual float GetSeverity() const ;
-	virtual bool IsFinished() const { return false; } 
-	virtual void CancelTask( ICommander *pManager ) ;
-	virtual void Segment() ;
-	virtual int NeedNBest( const enum EForceType eType ) const { return true; }
+  // ITask
+  ETaskName GetName() const override { return ETN_HOLD_REINFORCEMENT; }
+  void AskForWorker(ICommander *pManager, float fMaxSeverity, bool bInit = false) override;
+  void ReleaseWorker(ICommander *pManager, float fMinSeverity) override;
+  float GetSeverity() const override;
+  bool IsFinished() const override { return false; }
+  void CancelTask(ICommander *pManager) override;
+  void Segment() override;
+  int NeedNBest(const enum EForceType eType) const override { return true; }
 
 
-	//IEnumerator
-	virtual bool EnumWorker( class CCommonUnit *pUnit, const enum EForceType eType );
-	virtual bool EvaluateWorker( CCommonUnit * pUnit, const enum EForceType eType ) const;
+  // IEnumerator
+  bool EnumWorker(class CCommonUnit *pUnit, enum EForceType eType) override;
+  bool EvaluateWorker(CCommonUnit *pUnit, enum EForceType eType) const override;
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CGeneralTaskRecaptureStorage : public IGeneralTask, public IWorkerEnumerator
 {
-	DECLARE_SERIALIZE;
-	OBJECT_COMPLETE_METHODS(CGeneralTaskRecaptureStorage);
-	CommonUnits tanksFree;
-	CVec2 vReinforcePoint;
-	float fSeverity;										// current severity of this task
+  DECLARE_SERIALIZE;
+  OBJECT_COMPLETE_METHODS(CGeneralTaskRecaptureStorage);
+  CommonUnits tanksFree;
+  CVec2 vReinforcePoint;
+  float fSeverity;// current severity of this task
 
-	bool bFinished;
+  bool bFinished;
+
 public:
-	CGeneralTaskRecaptureStorage() {  }
-	CGeneralTaskRecaptureStorage( const CVec2 & vReinforcePoint );
+  CGeneralTaskRecaptureStorage() {}
+  CGeneralTaskRecaptureStorage(const CVec2 &vReinforcePoint);
 
-	//ITask
-	virtual ETaskName GetName() const { return ETN_HOLD_REINFORCEMENT; }
-	virtual void AskForWorker( ICommander *pManager, const float fMaxSeverity, const bool bInit = false );
-	virtual void ReleaseWorker( ICommander *pManager, const float fMinSeverity );
-	virtual float GetSeverity() const { return fSeverity; }
-	virtual bool IsFinished() const ; 
-	virtual void CancelTask( ICommander *pManager ) ;
-	virtual void Segment() ;
+  // ITask
+  ETaskName GetName() const override { return ETN_HOLD_REINFORCEMENT; }
+  void AskForWorker(ICommander *pManager, float fMaxSeverity, bool bInit = false) override;
+  void ReleaseWorker(ICommander *pManager, float fMinSeverity) override;
+  float GetSeverity() const override { return fSeverity; }
+  bool IsFinished() const override;
+  void CancelTask(ICommander *pManager) override;
+  void Segment() override;
 
-	//IEnumerator
-	virtual bool EnumWorker( class CCommonUnit *pUnit, const enum EForceType eType );
-	virtual bool EvaluateWorker( CCommonUnit * pUnit, const enum EForceType eType ) const;
+  // IEnumerator
+  bool EnumWorker(class CCommonUnit *pUnit, enum EForceType eType) override;
+  bool EvaluateWorker(CCommonUnit *pUnit, enum EForceType eType) const override;
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CGeneralTaskToSwarmToPoint : public IGeneralTask, public IWorkerEnumerator, public IEnemyEnumerator
 {
-	DECLARE_SERIALIZE;
-	OBJECT_COMPLETE_METHODS(CGeneralTaskToSwarmToPoint);
-	enum ESwarmState
-	{
-		ESS_PREPEARING,
-		ESS_ATTACKING,
-		ESS_REST,
-	};
-	ESwarmState eState;
-	CVec2 vPrepearCenter;
+  DECLARE_SERIALIZE;
+  OBJECT_COMPLETE_METHODS(CGeneralTaskToSwarmToPoint);
 
-	SResistance curResistanceToAttack;
-	float fSeverity;											// severity of this task
-	float fMaxSeverity;
-	float fMinSeverity;
-	int nAdditionalIterations;						// number of additional iterations to try swarm to
-	bool bFinished;
-	bool bReleaseWorkers;									// this task does not always release workers
-	NTimer::STime timeNextCheck;
+  enum ESwarmState
+  {
+    ESS_PREPEARING,
+    ESS_ATTACKING,
+    ESS_REST,
+  };
 
-	IEnemyContainer *pEnemyConatainer;
-	class CGeneral *pOwner;
+  ESwarmState eState;
+  CVec2 vPrepearCenter;
 
-	typedef std::vector< CPtr<CCommonUnit> > CTanks;
-	CTanks swarmingTanks;
-	bool bResistanesBusyByUs;
-	
-	CVec2 vTanksPosition;									// center of tanks formation
-	float fCurDistance;										// distance to nearest resistansce ( during enumeration )
+  SResistance curResistanceToAttack;
+  float fSeverity;// severity of this task
+  float fMaxSeverity;
+  float fMinSeverity;
+  int nAdditionalIterations;// number of additional iterations to try swarm to
+  bool bFinished;
+  bool bReleaseWorkers;// this task does not always release workers
+  NTimer::STime timeNextCheck;
 
-	void ClearResistanceToAcceptNewTask();
-	bool IsTimeToRun() const;
-	void Run();
-	void SendToGroupPoint();
+  IEnemyContainer *pEnemyConatainer;
+  class CGeneral *pOwner;
+
+  using CTanks = std::vector<CPtr<CCommonUnit>>;
+  CTanks swarmingTanks;
+  bool bResistanesBusyByUs;
+
+  CVec2 vTanksPosition;// center of tanks formation
+  float fCurDistance;// distance to nearest resistance (during enumeration)
+
+  void ClearResistanceToAcceptNewTask();
+  bool IsTimeToRun() const;
+  void Run();
+  void SendToGroupPoint();
+
 public:
-	CGeneralTaskToSwarmToPoint();
-	CGeneralTaskToSwarmToPoint( IEnemyContainer *_pEnemyConatainer, class CGeneral *pOwner );
-	
-	virtual void SetEnemyConatiner( IEnemyContainer * _pEnemyConatainer ) { pEnemyConatainer = _pEnemyConatainer; }
+  CGeneralTaskToSwarmToPoint();
+  CGeneralTaskToSwarmToPoint(IEnemyContainer *_pEnemyConatainer, class CGeneral *pOwner);
 
-	//ITask
-	virtual ETaskName GetName() const { return ETN_SWARM_TO_POINT; }
-	virtual void AskForWorker( ICommander *pManager, const float _fMaxSeverity, const bool bInit = false );
-	virtual void ReleaseWorker( ICommander *pManager, const float fMinSeverity );
-	virtual float GetSeverity() const ;
-	virtual bool IsFinished() const ; 
-	virtual void CancelTask( ICommander *pManager ) ;
-	virtual void Segment() ;
+  void SetEnemyConatiner(IEnemyContainer *_pEnemyConatainer) override { pEnemyConatainer = _pEnemyConatainer; }
 
-	//IEnumerator
-	virtual bool EnumWorker( class CCommonUnit *pUnit, const enum EForceType eType );
-	virtual bool EvaluateWorker( CCommonUnit * pUnit, const enum EForceType eType ) const;
-	virtual int NeedNBest( const enum EForceType eType ) const { return 10000; }
-	virtual float EvaluateWorkerRating( CCommonUnit * pUnit, const enum EForceType eType ) const;
+  // ITask
+  ETaskName GetName() const override { return ETN_SWARM_TO_POINT; }
+  void AskForWorker(ICommander *pManager, float _fMaxSeverity, bool bInit = false) override;
+  void ReleaseWorker(ICommander *pManager, float fMinSeverity) override;
+  float GetSeverity() const override;
+  bool IsFinished() const override;
+  void CancelTask(ICommander *pManager) override;
+  void Segment() override;
 
-	virtual bool EnumResistances( const struct SResistance &resistance );
-	virtual bool EnumEnemy( class CAIUnit *pEnemy ) { NI_ASSERT_T( false, "didn't asked to" ); return false; }
+  // IEnumerator
+  bool EnumWorker(class CCommonUnit *pUnit, enum EForceType eType) override;
+  bool EvaluateWorker(CCommonUnit *pUnit, enum EForceType eType) const override;
+  int NeedNBest(const enum EForceType eType) const override { return 10000; }
+  float EvaluateWorkerRating(CCommonUnit *pUnit, enum EForceType eType) const override;
 
-	friend class CGeneralSwarmWaitForReady;
+  bool EnumResistances(const struct SResistance &resistance) override;
+
+  bool EnumEnemy(class CAIUnit *pEnemy) override
+  {
+    NI_ASSERT_T(false, "didn't asked to");
+    return false;
+  }
+
+  friend class CGeneralSwarmWaitForReady;
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-class CGeneralSwarmWaitForReady : public IGeneralDelayedTask 
+
+class CGeneralSwarmWaitForReady : public IGeneralDelayedTask
 {
-	OBJECT_COMPLETE_METHODS( CGeneralSwarmWaitForReady );
-	DECLARE_SERIALIZE;
+  OBJECT_COMPLETE_METHODS(CGeneralSwarmWaitForReady);
+  DECLARE_SERIALIZE;
 
-	CPtr<CGeneralTaskToSwarmToPoint>  pGeneralTask;
+  CPtr<CGeneralTaskToSwarmToPoint> pGeneralTask;
+
 public:
-	CGeneralSwarmWaitForReady() {  }
-	CGeneralSwarmWaitForReady( class CGeneralTaskToSwarmToPoint *pTask )
-		:pGeneralTask( pTask )	
-	{
-	}
-	virtual bool IsTimeToRun() const { return pGeneralTask->IsTimeToRun(); }
-	virtual void Run() { pGeneralTask->Run(); }
+  CGeneralSwarmWaitForReady() {}
+
+  CGeneralSwarmWaitForReady(class CGeneralTaskToSwarmToPoint *pTask)
+    : pGeneralTask(pTask) {}
+
+  bool IsTimeToRun() const override { return pGeneralTask->IsTimeToRun(); }
+  void Run() override { pGeneralTask->Run(); }
 };
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // __GENERAL_TASKS__

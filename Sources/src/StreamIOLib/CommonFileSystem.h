@@ -1,8 +1,8 @@
 #ifndef __COMMONFILESYSTEM_H__
 #define __COMMONFILESYSTEM_H__
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #pragma ONCE
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 struct SCommonFileInfo
 {
 	DWORD dwModTime;										// file modification time
@@ -11,7 +11,7 @@ struct SCommonFileInfo
 	SCommonFileInfo() : dwModTime( 0 ), pStorage( 0 ) {  }
 	SCommonFileInfo( DWORD _dwModTime, IDataStorage *_pStorage ) : dwModTime( _dwModTime ), pStorage( _pStorage ) {  }
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CCommonFileSystemEnumerator : public IStorageEnumerator
 {
 	OBJECT_MINIMAL_METHODS( CCommonFileSystemEnumerator );
@@ -30,7 +30,7 @@ public:
 	virtual bool STDCALL Next();
 	virtual const SStorageElementStats* STDCALL GetStats() const { return &stats; }
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CCommonFileSystem : public IDataStorage
 {
 	OBJECT_MINIMAL_METHODS( CCommonFileSystem );
@@ -38,7 +38,7 @@ class CCommonFileSystem : public IDataStorage
 	CPtr<IDataStorage> pZipStorage;				// zip file system
 	CPtr<IDataStorage> pFileStorage;			// open file system
 	typedef std::hash_map<std::string, SCommonFileInfo> CFilesMap;
-	CFilesMap files;											// соответствие имени файла и информации, необходимой для его получени
+	CFilesMap files;											// correspondence between the file name and the information necessary to obtain it
 	//
 	std::string szBase;
 	DWORD dwStorageAccessMode;
@@ -46,26 +46,26 @@ class CCommonFileSystem : public IDataStorage
 	void EnumerateFiles( const std::string &szName, IDataStorage *pStorage );
 public:
 	CCommonFileSystem( const char *pszName, DWORD dwAccessMode );
-	// проверить, есть ли такой поток
+	// check if such thread exists
 	virtual const bool STDCALL IsStreamExist( const char *pszName );
-	// создать и открыть поток с указанным именем и правами доступа
+	// create and open a stream with the specified name and access rights
 	virtual IDataStream* STDCALL CreateStream( const char *pszName, DWORD dwAccessMode );
-	// открыть существующий поток с указанным именем и правами доступа
+	// open an existing stream with the specified name and permissions
 	virtual IDataStream* STDCALL OpenStream( const char *pszName, DWORD dwAccessMode );
-	// получить описание stream'а
+	// get stream description
 	virtual bool STDCALL GetStreamStats( const char *pszName, SStorageElementStats *pStats );
-	// убить элемент хранилища
+	// kill storage element
 	virtual bool STDCALL DestroyElement( const char *pszName );
-	// переименовать элемент
+	// rename element
 	virtual bool STDCALL RenameElement( const char *pszOldName, const char *pszNewName );
-	// перечисление элементов
+	// enumeration of elements
 	virtual IStorageEnumerator* STDCALL CreateEnumerator();
-	// получить имя этого storage
+	// get the name of this storage
 	virtual const char* STDCALL GetName() const { return szBase.c_str(); }
-	// добавить новый MOD
+	// add new MOD
 	virtual bool STDCALL AddStorage( IDataStorage *pStorage, const char *pszName );
-	// убрать MOD
+	// remove MOD
 	virtual bool STDCALL RemoveStorage( const char *pszName );
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // __COMMONFILESYSTEM_H__

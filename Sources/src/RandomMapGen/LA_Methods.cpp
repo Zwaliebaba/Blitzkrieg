@@ -8,120 +8,116 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//RMGC - random map generator constants
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const BYTE RMGC_UNLOCKED							= 0;
-const BYTE RMGC_LOCKED								= 1;
 
-const BYTE RMGC_START_POINT						= 2;
-const BYTE RMGC_FINISH_POINT					= 3;
+// RMGC - random map generator constants
 
-const BYTE RMGC_INVALID_DIRECTION			= 4;
-const BYTE RMGC_HORIZONTAL_TO_ZERO		= 5;
-const BYTE RMGC_HORIZONTAL_FROM_ZERO	= 6;
-const BYTE RMGC_VERTICAL_TO_ZERO			= 7;
-const BYTE RMGC_VERTICAL_FROM_ZERO		= 8;
+const BYTE RMGC_UNLOCKED = 0;
+const BYTE RMGC_LOCKED = 1;
 
-extern const CTPoint<int> RMGC_SHIFT_POINTS[4] = { CTPoint<int>( -1,  0 ),
-																									 CTPoint<int>(  1,  0 ),
-																									 CTPoint<int>(  0, -1 ),
-																									 CTPoint<int>(  0,  1 ), };
+const BYTE RMGC_START_POINT = 2;
+const BYTE RMGC_FINISH_POINT = 3;
 
-extern const BYTE RMGC_NEGATIVE_DIRECTIONS[4] = { RMGC_HORIZONTAL_FROM_ZERO,
-																									RMGC_HORIZONTAL_TO_ZERO,
-																									RMGC_VERTICAL_FROM_ZERO,
-																									RMGC_VERTICAL_TO_ZERO, };
+const BYTE RMGC_INVALID_DIRECTION = 4;
+const BYTE RMGC_HORIZONTAL_TO_ZERO = 5;
+const BYTE RMGC_HORIZONTAL_FROM_ZERO = 6;
+const BYTE RMGC_VERTICAL_TO_ZERO = 7;
+const BYTE RMGC_VERTICAL_FROM_ZERO = 8;
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-int FindPath( const CTPoint<int> &rStartPoint,
-						  const CTPoint<int> &rFinishPoint,
-						  CArray2D<BYTE> *pLockArray,
-						  std::vector<CTPoint<int> > *pPointList )
+extern const CTPoint<int> RMGC_SHIFT_POINTS[4] = {CTPoint<int>(-1, 0),
+                                                  CTPoint<int>(1, 0),
+                                                  CTPoint<int>(0, -1),
+                                                  CTPoint<int>(0, 1),};
+
+extern const BYTE RMGC_NEGATIVE_DIRECTIONS[4] = {RMGC_HORIZONTAL_FROM_ZERO,
+                                                 RMGC_HORIZONTAL_TO_ZERO,
+                                                 RMGC_VERTICAL_FROM_ZERO,
+                                                 RMGC_VERTICAL_TO_ZERO,};
+
+
+int FindPath(const CTPoint<int> &rStartPoint,
+             const CTPoint<int> &rFinishPoint,
+             CArray2D<BYTE> *pLockArray,
+             std::vector<CTPoint<int>> *pPointList)
 {
-	NI_ASSERT_T( pLockArray != 0,
-							 NStr::Format( "Wrong parameter: %x\n", pLockArray ) );
-	NI_ASSERT_T( pPointList != 0,
-							 NStr::Format( "Wrong parameter: %x\n", pPointList ) );
-	NI_ASSERT_T( IsValidIndices( (*pLockArray), rStartPoint ) &&
-		           IsValidIndices( (*pLockArray), rFinishPoint ),
-							 NStr::Format( "Invalid parameters!" ) );
+  NI_ASSERT_T(pLockArray != 0,
+              NStr::Format( "Wrong parameter: %x\n", pLockArray ));
+  NI_ASSERT_T(pPointList != 0,
+              NStr::Format( "Wrong parameter: %x\n", pPointList ));
+  NI_ASSERT_T(IsValidIndices( (*pLockArray), rStartPoint ) &&
+              IsValidIndices( (*pLockArray), rFinishPoint ),
+              NStr::Format( "Invalid parameters!" ));
 
-	//вектор уже может содержать точки
-	int nPointCount = 0;
-	//исключаем вырожденный случай
-	if ( rStartPoint == rFinishPoint )
-	{
-		pPointList->push_back( rFinishPoint );
-		 ++nPointCount;
-		return nPointCount;
-	}
+  // the vector may already contain points
+  int nPointCount = 0;
+  // exclude the degenerate case
+  if (rStartPoint == rFinishPoint)
+  {
+    pPointList->push_back(rFinishPoint);
+    ++nPointCount;
+    return nPointCount;
+  }
 
-	//может быть несколько точек финиша
-	//ClearLockArray( pLockArray );
+  // there may be several finishing points
+  // ClearLockArray( pLockArray );
 
-	//чтобы последовательность точек пути шла от первой точки меняем местами обозначения
-	(*pLockArray)[rStartPoint.y][rStartPoint.x] = RMGC_FINISH_POINT;
-	(*pLockArray)[rFinishPoint.y][rFinishPoint.x] = RMGC_START_POINT;
-	
-	//алгоритм поиска в ширину
-	std::list<CTPoint<int> > pointList;
-	pointList.push_back( rFinishPoint );
-	CTPoint<int> pointToAdd;
-	bool isFinished = false;
-	while ( !pointList.empty() )
-	{
-		CTPoint<int> pointToRemove = pointList.front();
-		pointList.pop_front();
+  // so that the sequence of path points goes from the first point, we swap the designations
+  (*pLockArray)[rStartPoint.y][rStartPoint.x] = RMGC_FINISH_POINT;
+  (*pLockArray)[rFinishPoint.y][rFinishPoint.x] = RMGC_START_POINT;
 
-		for ( BYTE nDirection = 0; nDirection < 4; ++nDirection )
-		{
-			pointToAdd = pointToRemove - RMGC_SHIFT_POINTS[nDirection];
-			if ( IsValidIndices( (*pLockArray), pointToAdd ) )
-			{
-				//точка финиша, все равно записываем в нее точку откуда пришли!
-				if ( (*pLockArray)[pointToAdd.y][pointToAdd.x] == RMGC_FINISH_POINT )
-				{
-					(*pLockArray)[pointToAdd.y][pointToAdd.x] = RMGC_HORIZONTAL_TO_ZERO + nDirection;
-					isFinished = true;
-					break;
-				}
-				//записываем точку откуда пришли
-				if ( (*pLockArray)[pointToAdd.y][pointToAdd.x] == RMGC_UNLOCKED )
-				{
-					(*pLockArray)[pointToAdd.y][pointToAdd.x] = RMGC_HORIZONTAL_TO_ZERO + nDirection;
-					pointList.push_back( pointToAdd );
-				}
-			}
-		}
-		if ( isFinished )
-		{
-			break;
-		}
-	}
-	
-	//нашли точку финиша, собираем точки поворотов
-	if ( isFinished )
-	{
-		pPointList->push_back( pointToAdd );
-		while ( (*pLockArray)[pointToAdd.y][pointToAdd.x] != RMGC_START_POINT )
-		{
-			NI_ASSERT_TF( ( (*pLockArray)[pointToAdd.y][pointToAdd.x] >= RMGC_HORIZONTAL_TO_ZERO ) &&
-				            ( (*pLockArray)[pointToAdd.y][pointToAdd.x] <= RMGC_VERTICAL_FROM_ZERO ),
-										"Wrong algorithm!",
-										return 0 );
-			CTPoint<int> point = pointToAdd + RMGC_SHIFT_POINTS[ (*pLockArray)[pointToAdd.y][pointToAdd.x] -  RMGC_HORIZONTAL_TO_ZERO];
-			if ( (*pLockArray)[point.y][point.x] != (*pLockArray)[pointToAdd.y][pointToAdd.x] )
-			{
-				pPointList->push_back( point );
-				++nPointCount;
-			}
-			pointToAdd = point;
-		}
-	}
-	
-	//оставляем для дальнейшего использования
-	//ClearLockArray( pLockArray );
-	return nPointCount;
+  // breadth first search algorithm
+  std::list<CTPoint<int>> pointList;
+  pointList.push_back(rFinishPoint);
+  CTPoint<int> pointToAdd;
+  bool isFinished = false;
+  while (!pointList.empty())
+  {
+    CTPoint<int> pointToRemove = pointList.front();
+    pointList.pop_front();
+
+    for (BYTE nDirection = 0; nDirection < 4; ++nDirection)
+    {
+      pointToAdd = pointToRemove - RMGC_SHIFT_POINTS[nDirection];
+      if (IsValidIndices((*pLockArray), pointToAdd))
+      {
+        // finishing point, we still write down the point where we came from!
+        if ((*pLockArray)[pointToAdd.y][pointToAdd.x] == RMGC_FINISH_POINT)
+        {
+          (*pLockArray)[pointToAdd.y][pointToAdd.x] = RMGC_HORIZONTAL_TO_ZERO + nDirection;
+          isFinished = true;
+          break;
+        }
+        // write down the point where you came from
+        if ((*pLockArray)[pointToAdd.y][pointToAdd.x] == RMGC_UNLOCKED)
+        {
+          (*pLockArray)[pointToAdd.y][pointToAdd.x] = RMGC_HORIZONTAL_TO_ZERO + nDirection;
+          pointList.push_back(pointToAdd);
+        }
+      }
+    }
+    if (isFinished) { break; }
+  }
+
+  // found the finish point, collect turning points
+  if (isFinished)
+  {
+    pPointList->push_back(pointToAdd);
+    while ((*pLockArray)[pointToAdd.y][pointToAdd.x] != RMGC_START_POINT)
+    {
+      NI_ASSERT_TF(( (*pLockArray)[pointToAdd.y][pointToAdd.x] >= RMGC_HORIZONTAL_TO_ZERO ) &&
+                   ( (*pLockArray)[pointToAdd.y][pointToAdd.x] <= RMGC_VERTICAL_FROM_ZERO ),
+                   "Wrong algorithm!",
+                   return 0);
+      CTPoint<int> point = pointToAdd + RMGC_SHIFT_POINTS[(*pLockArray)[pointToAdd.y][pointToAdd.x] - RMGC_HORIZONTAL_TO_ZERO];
+      if ((*pLockArray)[point.y][point.x] != (*pLockArray)[pointToAdd.y][pointToAdd.x])
+      {
+        pPointList->push_back(point);
+        ++nPointCount;
+      }
+      pointToAdd = point;
+    }
+  }
+
+  // leave for future use
+  // ClearLockArray( pLockArray );
+  return nPointCount;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

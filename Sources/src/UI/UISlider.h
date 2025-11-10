@@ -1,136 +1,147 @@
 #ifndef __UI_SLIDER_H__
 #define __UI_SLIDER_H__
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #include "UIButton.h"
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CUISlider : public CSimpleWindow
 {
-	DECLARE_SERIALIZE;
-	//
-	int m_nMin, m_nMax, m_nStep;
-	int m_nPrevPos, m_nPos;
-	int m_nKeyStep;													//keyboard step
-	int m_nElevatorWidth;										//размер элеватора вдоль линейки
-	int m_nLineWidth;												//ширина линейки
-	bool bVertical;													//если true то вертикальный слайдер
-	bool bSelElevator;											// выделен ли элеватор
-	
-	CPtr<IGFXTexture> pSliderTexture;				// внешний вид - текстура
-	CTRect<float> sliderMapa;
-	
-	//перед отрисовкой с помощью этой функции вычисл¤ю, где нужно рисовать элеватор
-	int ComputeElevatorCoord();
-	//дл¤ перемещени¤ элеватора в ответ на передвижение мышки
-	void UpdatePosition( int nCoord );
+  DECLARE_SERIALIZE;
+  //
+  int m_nMin, m_nMax, m_nStep;
+  int m_nPrevPos, m_nPos;
+  int m_nKeyStep;// keyboard step
+  int m_nElevatorWidth;// elevator size along the ruler
+  int m_nLineWidth;// ruler width
+  bool bVertical;// if true then vertical slider
+  bool bSelElevator;// is the elevator allocated?
 
-	//посылка сообщени¤ наверх об изменении текущей позиции
-	void NotifyPositionChanged();
+  CPtr<IGFXTexture> pSliderTexture;// appearance - texture
+  CTRect<float> sliderMapa;
+
+  // Before drawing, using this function, I calculate where to draw the elevator
+  int ComputeElevatorCoord();
+  // to move the elevator in response to mouse movement
+  void UpdatePosition(int nCoord);
+
+  // sending a message to the top about a change in the current position
+  void NotifyPositionChanged();
+
 public:
-	CUISlider() : m_nMin( 0 ), m_nMax( 0 ), m_nPos( 0 ), m_nStep( 0 ), m_nKeyStep( 20 ), m_nElevatorWidth( 0 ),
-		m_nLineWidth( 0 ), bVertical( false ), bSelElevator( false ), m_nPrevPos( -13 ) {}
-	virtual ~CUISlider() {}
+  CUISlider() : m_nMin(0), m_nMax(0), m_nStep(0), m_nPrevPos(-13), m_nPos(0), m_nKeyStep(20),
+                m_nElevatorWidth(0), m_nLineWidth(0), bVertical(false), bSelElevator(false) {}
 
-	virtual bool STDCALL OnChar( int nAsciiCode, int nVirtualKey, bool bPressed, DWORD keyState );
-	virtual bool STDCALL ProcessMessage( const SUIMessage &msg );
+  ~CUISlider() override {}
 
-	// serializing...
-	virtual int STDCALL operator&( IDataTree &ss );
+  bool STDCALL OnChar(int nAsciiCode, int nVirtualKey, bool bPressed, DWORD keyState) override;
+  bool STDCALL ProcessMessage(const SUIMessage &msg) override;
 
-	virtual void STDCALL Draw( IGFX *pGFX );
-	virtual void STDCALL Visit( interface ISceneVisitor *pVisitor );
+  // serializing...
+  int STDCALL operator&(IDataTree &ss) override;
 
-	// cursor and actions
-	virtual bool STDCALL OnMouseMove( const CVec2 &vPos, EMouseState mouseState );
-	virtual bool STDCALL OnLButtonDown( const CVec2 &vPos, EMouseState mouseState );
-	virtual bool STDCALL OnLButtonUp( const CVec2 &vPos, EMouseState mouseState ) { return true; }
-	
-	//дл¤ ScrollBar
-	//здесь изменение позиции не посылает сообщени¤ наверх.
-	//эти функции не должны использоватьс¤ извне, примен¤ютс¤ только в ScrollBar
-	void SetPosition( int nPos );
-	int GetPosition() { return m_nPos; }
-	int GetMinValue() { return m_nMin; }
-	int GetMaxValue() { return m_nMax; }
+  void STDCALL Draw(IGFX *pGFX) override;
+  void STDCALL Visit(interface ISceneVisitor *pVisitor) override;
 
-	void IncPosition( int nStep ) { m_nPos += nStep; if ( m_nPos > m_nMax ) m_nPos = m_nMax; }
-	void DecPosition( int nStep ) { m_nPos -= nStep; if ( m_nPos < m_nMin ) m_nPos = m_nMin; }
-	bool IsVertical() { return bVertical; }
+  // cursor and actions
+  bool STDCALL OnMouseMove(const CVec2 &vPos, EMouseState mouseState) override;
+  bool STDCALL OnLButtonDown(const CVec2 &vPos, EMouseState mouseState) override;
+  bool STDCALL OnLButtonUp(const CVec2 &vPos, EMouseState mouseState) override { return true; }
 
-	void SetMinValue( int nMin );
-	void SetMaxValue( int nMax );
-	void SetStep( int nStep ) { m_nStep = nStep; }
+  // for¤ ScrollBar
+  // here a change in position does not send a message to the top.
+  // these functions should not be used externally, they are used only in the ScrollBar
+  void SetPosition(int nPos);
+  int GetPosition() { return m_nPos; }
+  int GetMinValue() { return m_nMin; }
+  int GetMaxValue() { return m_nMax; }
+
+  void IncPosition(int nStep)
+  {
+    m_nPos += nStep;
+    if (m_nPos > m_nMax) m_nPos = m_nMax;
+  }
+
+  void DecPosition(int nStep)
+  {
+    m_nPos -= nStep;
+    if (m_nPos < m_nMin) m_nPos = m_nMin;
+  }
+
+  bool IsVertical() { return bVertical; }
+
+  void SetMinValue(int nMin);
+  void SetMaxValue(int nMax);
+  void SetStep(int nStep) { m_nStep = nStep; }
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CUISliderBridge : public IUISlider, public CUISlider
 {
-	OBJECT_NORMAL_METHODS( CUISliderBridge );
+  OBJECT_NORMAL_METHODS(CUISliderBridge);
+
 public:
-	DECLARE_SUPER( CUISlider );
-	DEFINE_UIELEMENT_BRIDGE;
-	virtual void STDCALL SetMinValue( int nVal ) { CSuper::SetMinValue( nVal ); }
-	virtual void STDCALL SetMaxValue( int nVal ) { CSuper::SetMaxValue( nVal ); }
-	virtual void STDCALL SetStep( int nVal ) { CSuper::SetStep( nVal ); }
-	virtual void STDCALL SetPosition( int nPos ) { CSuper::SetPosition( nPos ); }
-	virtual int STDCALL GetPosition() { return CSuper::GetPosition(); }
+  DECLARE_SUPER(CUISlider);
+  DEFINE_UIELEMENT_BRIDGE;
+  void STDCALL SetMinValue(int nVal) override { CSuper::SetMinValue(nVal); }
+  void STDCALL SetMaxValue(int nVal) override { CSuper::SetMaxValue(nVal); }
+  void STDCALL SetStep(int nVal) override { CSuper::SetStep(nVal); }
+  void STDCALL SetPosition(int nPos) override { CSuper::SetPosition(nPos); }
+  int STDCALL GetPosition() override { return CSuper::GetPosition(); }
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//ќкошко ведет себ¤ как MultipleWindow в плане обработки сообщений (просто передает их childs)
-//Ќо по другому Serialize, не сохран¤ет список childs, лева¤, права¤ кнопки и элеватор хран¤тс¤ отдельно
+
+// The cat behaves like MultipleWindow in terms of message processing (it just passes them to childs)
+// But in a different way Serialize does not save the list of childs, left, right buttons and the elevator is stored separately
 class CUIScrollBar : public CMultipleWindow
 {
-	DECLARE_SERIALIZE;
-	//
-	CUIButton *pMinButton;			//инициализируетс¤ во врем¤ загрузки и используетс¤ дл¤ ускорени¤ доступа к компонентам
-	CUIButton *pMaxButton;
-	CUISlider *pSlider;
-	int m_nButtonStep;					//сдвиг при нажатии на кнопку
-	DWORD dwLastUpdateTime;
-	
-	//посылка сообщени¤ наверх об изменении текущей позиции
-	void NotifyPositionChanged();
-	bool IsVertical() { return pSlider->IsVertical(); }
-public:
-	CUIScrollBar() : pMinButton( 0 ), pMaxButton( 0 ), pSlider( 0 ), m_nButtonStep( 1 ), dwLastUpdateTime( 0 ) {}
-	~CUIScrollBar() {}
-	
-	virtual void STDCALL Reposition( const CTRect<float> &rcParent );
-	/*
-	// state
-	virtual void STDCALL SetState( int nState );
-	virtual int  STDCALL GetState() { return nCurrentState; }
-	*/
-	
-	virtual bool STDCALL ProcessMessage( const SUIMessage &msg );
-	virtual bool STDCALL Update( const NTimer::STime &currTime );
-	
-	// serializing...
-	virtual int STDCALL operator&( IDataTree &ss );
-	
-	//дл¤ внутреннего применени¤
-	void SetPosition( int nPos ) { pSlider->SetPosition( nPos ); }
-	int GetPosition() { return pSlider->GetPosition(); }
-	int GetMinValue() { return pSlider->GetMinValue(); }
-	int GetMaxValue() { return pSlider->GetMaxValue(); }
+  DECLARE_SERIALIZE;
+  //
+  CUIButton *pMinButton;// initialized at boot time and used to speed up access to components
+  CUIButton *pMaxButton;
+  CUISlider *pSlider;
+  int m_nButtonStep;// shift when pressing a button
+  DWORD dwLastUpdateTime;
 
-	void SetMinValue( int nMin ) { pSlider->SetMinValue( nMin ); }
-	void SetMaxValue( int nMax ) { pSlider->SetMaxValue( nMax ); }
-	void SetStep( int nStep ) { pSlider->SetStep( nStep ); }
-	void SetButtonStep( int nVal ) { m_nButtonStep = nVal; }
+  // sending a message to the top about a change in the current position
+  void NotifyPositionChanged();
+  bool IsVertical() { return pSlider->IsVertical(); }
+
+public:
+  CUIScrollBar() : pMinButton(nullptr), pMaxButton(nullptr), pSlider(nullptr), m_nButtonStep(1), dwLastUpdateTime(0) {}
+  ~CUIScrollBar() override {}
+
+  void STDCALL Reposition(const CTRect<float> &rcParent) override;
+  /* //state
+   */
+
+  bool STDCALL ProcessMessage(const SUIMessage &msg) override;
+  bool STDCALL Update(const NTimer::STime &currTime) override;
+
+  // serializing...
+  int STDCALL operator&(IDataTree &ss) override;
+
+  // for¤ internal use¤
+  void SetPosition(int nPos) { pSlider->SetPosition(nPos); }
+  int GetPosition() { return pSlider->GetPosition(); }
+  int GetMinValue() { return pSlider->GetMinValue(); }
+  int GetMaxValue() { return pSlider->GetMaxValue(); }
+
+  void SetMinValue(int nMin) { pSlider->SetMinValue(nMin); }
+  void SetMaxValue(int nMax) { pSlider->SetMaxValue(nMax); }
+  void SetStep(int nStep) { pSlider->SetStep(nStep); }
+  void SetButtonStep(int nVal) { m_nButtonStep = nVal; }
 };
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CUIScrollBarBridge : public IUIScrollBar, public CUIScrollBar
 {
-	OBJECT_NORMAL_METHODS( CUIScrollBarBridge );
-	DECLARE_SUPER( CUIScrollBar );
-	DEFINE_UICONTAINER_BRIDGE;
-	virtual void STDCALL SetMinValue( int nVal ) { CSuper::SetMinValue( nVal ); }
-	virtual void STDCALL SetMaxValue( int nVal ) { CSuper::SetMaxValue( nVal ); }
-	virtual void STDCALL SetStep( int nVal ) { CSuper::SetStep( nVal ); }
-	virtual void STDCALL SetButtonStep( int nVal ) { CSuper::SetButtonStep( nVal ); }
-	virtual void STDCALL SetPosition( int nPos ) { CSuper::SetPosition( nPos ); }
-	virtual int STDCALL GetPosition() { return CSuper::GetPosition(); }
+  OBJECT_NORMAL_METHODS(CUIScrollBarBridge);
+  DECLARE_SUPER(CUIScrollBar);
+  DEFINE_UICONTAINER_BRIDGE;
+  void STDCALL SetMinValue(int nVal) override { CSuper::SetMinValue(nVal); }
+  void STDCALL SetMaxValue(int nVal) override { CSuper::SetMaxValue(nVal); }
+  void STDCALL SetStep(int nVal) override { CSuper::SetStep(nVal); }
+  void STDCALL SetButtonStep(int nVal) override { CSuper::SetButtonStep(nVal); }
+  void STDCALL SetPosition(int nPos) override { CSuper::SetPosition(nPos); }
+  int STDCALL GetPosition() override { return CSuper::GetPosition(); }
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#endif		//__UI_SLIDER_H__
+
+#endif		// __UI_SLIDER_H__

@@ -1,13 +1,13 @@
 #include "stdafx.h"
-//#include "editor.h"
-//#include "..\GFX\GFX.h"
-//#include <comdef.h>
-//#include <Mmsystem.h>
-//#include <set>
+// #include "editor.h"
+// #include "..\GFX\GFX.h"
+// #include <comdef.h>
+// #include <Mmsystem.h>
+// #include <set>
 #include "TemplateEditorFrame1.h"
 #include "PropertieDialog.h"
-//#include "SEditorMApObject.h"
-//#include "..\AILogic\AILogic.h"
+// #include "SEditorMApObject.h"
+// #include "..\AILogic\AILogic.h"
 #include "frames.h"
 
 #include "MapSoundInfo.h"
@@ -18,16 +18,16 @@ static char THIS_FILE[]=__FILE__;
 #define new DEBUG_NEW
 #endif
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-CPropertiesRegister thePropertiesRegister04;
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//коллекционер обьектов
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+CPropertiesRegister thePropertiesRegister04;
+
+
+
+// object collector
+
 const char CMSHelper::DEFAULT_SOUND_NAME[] = "sounds";
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CMSHelper::Initialize()
 {
 	CPtr<IObjectsDB> pODB = GetSingleton<IObjectsDB>();
@@ -48,7 +48,7 @@ void CMSHelper::Initialize()
 	isInitialized = true;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 IManipulator* CMutableMapSoundInfo::GetManipulator()
 {
 	CMapSoundInfoManipulator  *pManipulator = new CMapSoundInfoManipulator();  	
@@ -56,7 +56,7 @@ IManipulator* CMutableMapSoundInfo::GetManipulator()
 	return pManipulator; 
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 CMapSoundInfoManipulator::CMapSoundInfoManipulator() 
 	: CManipulator( &thePropertiesRegister04, "Map Sound Info" )
 {
@@ -82,31 +82,22 @@ CMapSoundInfoManipulator::CMapSoundInfoManipulator()
 }
 
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CMapSoundInfoManipulator::SetName( const variant_t &value )
 {
-/**
-	bstr_t bstrVal = value.bstrVal;
-	std::string szName = bstrVal;
-	szName = szName.substr( strlen("c:\\a7\\data\\" ) );
-	int pointPos = szName.rfind( '.' );
-	if ( pointPos >= 0 )
-	{
-		szName = szName.substr( 0, pointPos );	
-	}
-	pMutableObject->szName = szName;
-/**/
+/* *
+	 */
 
 	CString szBuffer( value.bstrVal );
 	pMutableObject->szName = szBuffer;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CMapSoundInfoManipulator::GetName( variant_t *pValue, int nIndex )
 {
-	//std::string szName;
-	//pValue->vt = VT_BSTR;
-	//pValue->bstrVal = bstr_t( pMutableObject->szName.c_str() );
+	// std::string szName;
+	// pValue->vt = VT_BSTR;
+	// pValue->bstrVal = bstr_t( pMutableObject->szName.c_str() );
 
 
 	for( std::list<std::string>::const_iterator soundIterator = g_frameManager.GetTemplateEditorFrame()->msHelper.soundsList.begin(); soundIterator != g_frameManager.GetTemplateEditorFrame()->msHelper.soundsList.end(); ++soundIterator )
@@ -120,4 +111,4 @@ void CMapSoundInfoManipulator::GetName( variant_t *pValue, int nIndex )
 	pMutableObject->szName = "";
 	*pValue = pMutableObject->szName.c_str();
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+

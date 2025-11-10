@@ -4,7 +4,7 @@
 
 #include "ImageEdge.h"
 
-//is point in edges?
+// is point in edges?
 bool SImageEdge::In( const CTPoint<int> &rPoint )
 {
   if(edges.GetSize() == 0 ) return false;
@@ -34,7 +34,7 @@ bool SImageEdge::In( const CTPoint<int> &rPoint )
   return false;
 }
 
-//fill edges
+// fill edges
 bool SImageEdge::CreateImageEdge( IImage *pImage,
                                   const CTPoint<int> &rOriginalLeftTop,
                                   DWORD alpha )
@@ -49,12 +49,12 @@ bool SImageEdge::CreateImageEdge( IImage *pImage,
 	int nYindex = 0;
   CImageAccessor imageAccessor = pImage;
   int elements = 0;
-  //get edge type 
+  // get edge type
   isHorizontal = dim.y <= dim.x;
 
   if ( isHorizontal )
   {
-    //get total pixels number
+    // get total pixels number
     for ( nYindex = 0; nYindex < dim.y; ++nYindex )
 	  {
       bool isOdd = false;
@@ -75,7 +75,7 @@ bool SImageEdge::CreateImageEdge( IImage *pImage,
         ++elements;
       }
 	  }
-    //create edges structure
+    // create edges structure
     if( ( elements > 0 ) && ( dim.y > 0 ) )
     {
       edges.SetSizes( elements, dim.y );
@@ -109,15 +109,15 @@ bool SImageEdge::CreateImageEdge( IImage *pImage,
       edges.SetSizes( elements, dim.x );
     }
   }
-  //if can't fine any edge return true
+  // if can't fine any edge return true
   if( edges.IsEmpty() ) return true;
 
-  //fill edges structure
+  // fill edges structure
   if ( isHorizontal )
   {
     for ( nYindex = 0; nYindex < dim.y; ++nYindex )
 	  {
-      //first circle - for current line pixels number
+      // first circle - for current line pixels number
       elements = 0;
       bool isOdd = false;
       for ( nXindex = 0; nXindex < dim.x; ++nXindex )
@@ -136,9 +136,9 @@ bool SImageEdge::CreateImageEdge( IImage *pImage,
       {
         ++elements;      
       }
-      //set line length
+      // set line length
       edges.SetLineLength( nYindex, elements );
-      //second circle - for fill edges structure
+      // second circle - for fill edges structure
       elements = 0;
       isOdd = false;
       for ( nXindex = 0; nXindex < dim.x; ++nXindex )
@@ -304,4 +304,4 @@ bool SImageEdge::MarkAlpha( IImage *pImage , DWORD dwMinAlpha, DWORD dwMaxAlpha 
   }
   return true;
 }
-#endif //#ifdef _DEBUG
+#endif // #ifdef_DEBUG

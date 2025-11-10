@@ -10,25 +10,25 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 const int CImportFromGameDialog::vID[] = 
 {
-	IDC_IFG_FOLDER_BROWSE_LABEL,	//0
-	IDC_IFG_FOLDER_BROWSE_EDIT,		//1
-	IDC_IFG_FOLDER_BROWSE_BUTTON,	//2
-	IDC_IFG_FILE_BROWSE_LABEL,		//3
-	IDC_IFG_FILE_BROWSE_EDIT,			//4
-	IDC_IFG_FILE_BROWSE_BUTTON,		//5
-	IDOK,													//6
-	IDCANCEL,											//7
+	IDC_IFG_FOLDER_BROWSE_LABEL,	// 0
+	IDC_IFG_FOLDER_BROWSE_EDIT,		// 1
+	IDC_IFG_FOLDER_BROWSE_BUTTON,	// 2
+	IDC_IFG_FILE_BROWSE_LABEL,		// 3
+	IDC_IFG_FILE_BROWSE_EDIT,			// 4
+	IDC_IFG_FILE_BROWSE_BUTTON,		// 5
+	IDOK,													// 6
+	IDCANCEL,											// 7
 };
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 CImportFromGameDialog::CImportFromGameDialog( CWnd* pParent )
 	: CResizeDialog( CImportFromGameDialog::IDD, pParent )
 {
-	//{{AFX_DATA_INIT(CImportFromGameDialog)
-	//}}AFX_DATA_INIT
+	// {{AFX_DATA_INIT(CImportFromGameDialog)
+	// }}AFX_DATA_INIT
 
 	SetControlStyle( IDC_IFG_FOLDER_BROWSE_LABEL, ANCHORE_LEFT_TOP );
 	SetControlStyle( IDC_IFG_FOLDER_BROWSE_EDIT, ANCHORE_LEFT_TOP | RESIZE_HOR );
@@ -42,7 +42,7 @@ CImportFromGameDialog::CImportFromGameDialog( CWnd* pParent )
 	SetControlStyle( IDCANCEL, ANCHORE_BOTTOM | ANCHORE_HOR_CENTER );
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 std::string CImportFromGameDialog::GetRegistryKey()
 {
 	CString strPath;
@@ -55,33 +55,33 @@ std::string CImportFromGameDialog::GetRegistryKey()
 	return szRegistryKey;
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CImportFromGameDialog::DoDataExchange(CDataExchange* pDX)
 {
 	CResizeDialog::DoDataExchange( pDX );
-	//{{AFX_DATA_MAP( CImportFromGameDialog )
+	// {{AFX_DATA_MAP( CImportFromGameDialog )
 	DDX_Control(pDX, IDC_IFG_FOLDER_BROWSE_EDIT, m_FolderEdit);
 	DDX_Control(pDX, IDC_IFG_FILE_BROWSE_EDIT, m_FileEdit);
-	//}}AFX_DATA_MAP
+	// }}AFX_DATA_MAP
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 BEGIN_MESSAGE_MAP(CImportFromGameDialog, CResizeDialog)
-	//{{AFX_MSG_MAP(CImportFromGameDialog)
+	// {{AFX_MSG_MAP(CImportFromGameDialog)
 	ON_BN_CLICKED(IDC_IFG_FILE_BROWSE_BUTTON, OnFileBrowseButton)
 	ON_BN_CLICKED(IDC_IFG_FOLDER_BROWSE_BUTTON, OnFolderBrowseButton)
 	ON_EN_CHANGE(IDC_IFG_FILE_BROWSE_EDIT, OnChangeFileBrowseEdit)
 	ON_EN_CHANGE(IDC_IFG_FOLDER_BROWSE_EDIT, OnChangeFolderBrowseEdit)
-	//}}AFX_MSG_MAP
+	// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 BOOL CImportFromGameDialog::OnInitDialog() 
 {
 	CResizeDialog::OnInitDialog();
 	
-	//0 folder
-	//1 file
+	// 0 folder
+	// 1 file
 	if ( resizeDialogOptions.szParameters.size() < 2 )
 	{
 		resizeDialogOptions.szParameters.resize( 2 );
@@ -94,7 +94,7 @@ BOOL CImportFromGameDialog::OnInitDialog()
 	return TRUE;
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CImportFromGameDialog::GetGamePath( std::string *pszGamePath )
 {
 	NI_ASSERT_T( pszGamePath != 0, NStr::Format( _T( "CImportFromGameDialog::GetGamePath() wrong parameter: pszGamePath %x" ), pszGamePath ) );
@@ -104,7 +104,7 @@ void CImportFromGameDialog::GetGamePath( std::string *pszGamePath )
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CImportFromGameDialog::GetFilePath( std::string *pszFilePath )
 {
 	NI_ASSERT_T( pszFilePath != 0, NStr::Format( _T( "CImportFromGameDialog::GetFilePath() wrong parameter: pszFilePath %x" ), pszFilePath ) );
@@ -114,7 +114,7 @@ void CImportFromGameDialog::GetFilePath( std::string *pszFilePath )
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CImportFromGameDialog::OnFolderBrowseButton() 
 {
 	CString strDialogTitle;
@@ -135,7 +135,7 @@ void CImportFromGameDialog::OnFolderBrowseButton()
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CImportFromGameDialog::OnFileBrowseButton() 
 {
 	CString strDialogTitle;
@@ -172,7 +172,7 @@ void CImportFromGameDialog::OnFileBrowseButton()
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CImportFromGameDialog::OnChangeFolderBrowseEdit() 
 {
 	CString strFolderName;
@@ -181,7 +181,7 @@ void CImportFromGameDialog::OnChangeFolderBrowseEdit()
 	UpdateControls();
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CImportFromGameDialog::OnChangeFileBrowseEdit() 
 {
 	CString strFileName;
@@ -190,7 +190,7 @@ void CImportFromGameDialog::OnChangeFileBrowseEdit()
 	UpdateControls();
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void	CImportFromGameDialog::UpdateControls()
 {
 	if ( CWnd *pWnd = GetDlgItem( IDOK ) )
@@ -199,7 +199,7 @@ void	CImportFromGameDialog::UpdateControls()
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CImportFromGameDialog::OnOK() 
 {
 	if ( resizeDialogOptions.szParameters[0][resizeDialogOptions.szParameters[0].size() - 1] != '\\' )
@@ -216,7 +216,7 @@ void CImportFromGameDialog::OnOK()
 	CResizeDialog::OnOK();
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// basement storage  
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// basement storage
+
 

@@ -1,40 +1,40 @@
 #ifndef __CHATMANAGER_H__
 #define __CHATMANAGER_H__
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma ONCE
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#pragma once
+
 #include "InterMission.h"
 #include "iMission.h"
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 interface IWhisper
 {
-	virtual const WORD * GetDestinationName() = 0;
+  virtual const WORD *GetDestinationName() = 0;
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CChatWrapper
 {
 
-	CPtr<IUIColorTextScroll> pChatText;
-	CPtr<IUIEditBox> pChatEdit;
-	CPtr<IMPToUICommandManager> pCommandManager;
-	int nWhisperButton;
-	IWhisper * pWhisper;
+  CPtr<IUIColorTextScroll> pChatText;
+  CPtr<IUIEditBox> pChatEdit;
+  CPtr<IMPToUICommandManager> pCommandManager;
+  int nWhisperButton;
+  IWhisper *pWhisper;
 
-	bool bEmptyChat;
+  bool bEmptyChat;
 
-	void AddEditBoxText( const bool bWhisper );
-	void ClearEditBoxText();
+  void AddEditBoxText(bool bWhisper);
+  void ClearEditBoxText();
 
 public:
-	void Init( IUIColorTextScroll * _pChatText,
-								IUIEditBox * _pChatEdit,
-								const int _nWhisperButton,
-								IWhisper * _pWhisper );
+  void Init(IUIColorTextScroll *_pChatText,
+            IUIEditBox *_pChatEdit,
+            int _nWhisperButton,
+            IWhisper *_pWhisper);
 
-	// directli to local window
-	void AddImportantText( const WORD * wszMessage );
-	bool ProcessMessage( const SGameMessage &msg );
-	void AddMessageToChat( const struct SChatMessage *pChatMessage );
+  // direct to local window
+  void AddImportantText(const WORD *wszMessage);
+  bool ProcessMessage(const SGameMessage &msg);
+  void AddMessageToChat(const struct SChatMessage *pChatMessage);
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // __CHATMANAGER_H__

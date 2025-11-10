@@ -1,6 +1,6 @@
 // stdafx.h : include file for standard system include files,
-//  or project specific include files that are used frequently, but
-//      are changed infrequently
+// or project specific include files that are used frequently, but
+// are changed infrequently
 //
 
 #if !defined(AFX_STDAFX_H__A9DB83DB_A9FD_11D0_BFD1_444553540000__INCLUDED_)
@@ -18,11 +18,11 @@
 #include <assert.h>
 
 typedef __int64 int64;									// due to lack of 'long long' type support
-#define for if(false); else for					// to achive standard resolving area of the variables, declared inside 'for'
+
 #define STDCALL __stdcall								// to use with interface function calls
-//
+
 #define ASSERT( a ) _ASSERT( a )
-//
+
 #pragma warning( disable : 4503 4018 4786 4800 4290 4146 4244 )
 #include <algorithm>
 #include <list>
@@ -53,14 +53,14 @@ typedef __int64 int64;									// due to lack of 'long long' type support
 #include "..\StreamIO\Globals.h"				// globals - singleton, global var system, temp buffers, console, etc.
 #include "..\StreamIO\StreamIO.h"				// stream I/O base interfaces
 #include "..\StreamIO\DBIO.h"						// database I/O base interfaces
-#include "..\StreamIO\StructureSaver.h"	// strucutre saver base interfaces
-#include "..\StreamIO\SSHelper.h"				// strucutre saver helper classes
+#include "..\StreamIO\StructureSaver.h"	// structure saver base interfaces
+#include "..\StreamIO\SSHelper.h"				// structure saver helper classes
 #include "..\StreamIO\DTHelper.h"				// data tree helper classes
 
 #include "..\Formats\fmtMesh.h"
 #include "data.h"
 
-//{{AFX_INSERT_LOCATION}}
+// {{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
 
 #endif // !defined(AFX_STDAFX_H__A9DB83DB_A9FD_11D0_BFD1_444553540000__INCLUDED_)

@@ -1,32 +1,33 @@
 #ifndef __SAVELOADSYSTEM_H__
 #define __SAVELOADSYSTEM_H__
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma ONCE
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#include "..\Misc\BasicObjectFactory.h"
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#pragma once
+
+#include "../Misc/BasicObjectFactory.h"
+
 class CSaveLoadSystem : public ISaveLoadSystem
 {
-	CBasicObjectFactory *pFactory;
-	IGDB *pGDB;
+  CBasicObjectFactory *pFactory;
+  IGDB *pGDB;
+
 public:
-	CSaveLoadSystem();
-	virtual ~CSaveLoadSystem();
-	// common factory
-	virtual void STDCALL AddFactory( IObjectFactory *pFactory );
-	virtual IObjectFactory* STDCALL GetCommonFactory() { return pFactory; }
-	virtual void STDCALL SetGDB( IGDB *_pGDB ) { pGDB = _pGDB; }
-	// structure and text tree savers
-	virtual IStructureSaver* STDCALL CreateStructureSaver( IDataStream *pStream, IStructureSaver::EAccessMode eAccessMode,
-		                                                     interface IProgressHook *pLoadHook );
-	virtual IDataTree* STDCALL CreateDataTreeSaver( IDataStream *pStream, IDataTree::EAccessMode eAccessMode, DTChunkID idBaseNode );
-	// storage opening/creating
-	virtual IDataStorage* STDCALL OpenStorage( const char *pszName, DWORD dwAccessMode, DWORD type = STORAGE_TYPE_FILE );
-	virtual IDataStorage* STDCALL CreateStorage( const char *pszName, DWORD dwAccessMode, DWORD type = STORAGE_TYPE_FILE );
-	// database and data table opening
-	virtual IDataBase* STDCALL OpenDataBase( const char *pszName, DWORD dwAccessMode, DWORD type = DB_TYPE_INI );
-	virtual IDataTable* STDCALL OpenDataTable( IDataStream *pStream, const char *pszBaseNode = "base" );
-	virtual IDataTable* STDCALL OpenIniDataTable( IDataStream *pStream );
+  CSaveLoadSystem();
+  virtual ~CSaveLoadSystem();
+  // common factory
+  void STDCALL AddFactory(IObjectFactory *pFactory) override;
+  IObjectFactory * STDCALL GetCommonFactory() override { return pFactory; }
+  void STDCALL SetGDB(IGDB *_pGDB) override { pGDB = _pGDB; }
+  // structure and text tree savers
+  IStructureSaver * STDCALL CreateStructureSaver(IDataStream *pStream, IStructureSaver::EAccessMode eAccessMode,
+                                                 interface IProgressHook *pLoadHook) override;
+  IDataTree * STDCALL CreateDataTreeSaver(IDataStream *pStream, IDataTree::EAccessMode eAccessMode, DTChunkID idBaseNode) override;
+  // storage opening/creating
+  IDataStorage * STDCALL OpenStorage(const char *pszName, DWORD dwAccessMode, DWORD type = STORAGE_TYPE_FILE) override;
+  IDataStorage * STDCALL CreateStorage(const char *pszName, DWORD dwAccessMode, DWORD type = STORAGE_TYPE_FILE) override;
+  // database and data table opening
+  IDataBase * STDCALL OpenDataBase(const char *pszName, DWORD dwAccessMode, DWORD type = DB_TYPE_INI) override;
+  IDataTable * STDCALL OpenDataTable(IDataStream *pStream, const char *pszBaseNode = "base") override;
+  IDataTable * STDCALL OpenIniDataTable(IDataStream *pStream) override;
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // __SAVELOADSYSTEM_H__

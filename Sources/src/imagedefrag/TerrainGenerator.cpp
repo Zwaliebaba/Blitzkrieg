@@ -37,7 +37,7 @@ void CHField::Init( int width, int height, float _fGridStep, float val )
   memset( &hf[0], val, hf.size() * sizeof(float) );
   bChanged = true;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////// 
 void CHField::operator= ( const CHField &val )
 {
   if ( dwDimX != val.dwDimX || dwDimY != val.dwDimY )
@@ -45,11 +45,11 @@ void CHField::operator= ( const CHField &val )
   memcpy( &hf[0], &val.hf[0], hf.size() * sizeof(float) );
   bChanged = true;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////// 
 // Procedural fBm evaluated at "pt"
 // Parameters:
-//   lacunarity -  is the gap between successive frequencies
-//   octaves    -  is the number of frequencies in the fBm
+// lacunarity - is the gap between successive frequencies
+// octaves - is the number of frequencies in the fBm
 float CHField::FBm( CVec3 pt, float lacunarity, float octaves )
 {
   int   i;
@@ -65,21 +65,21 @@ float CHField::FBm( CVec3 pt, float lacunarity, float octaves )
   float remainder = octaves - (int)octaves;
   if ( remainder != 0.0f )
   {
-    // add in ``octaves''  remainder
-    // ``i''  and spatial freq. are preset in loop above
+    // add in ``octaves'' remainder
+    // ``i'' and spatial frequency. 
     value += remainder * NPerlinNoise::Noise3( pt ) * fBmExponents[i];
   }
   return value;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////// 
 // Procedural multifractal evaluated at "pt"
 // Parameters:
-//   lacunarity -  is the gap between successive frequencies
-//   octaves    -  is the number of frequencies in the fBm
-//   offset     -  is the zero offset, which determines multifractality
+// lacunarity - is the gap between successive frequencies
+// octaves - is the number of frequencies in the fBm
+// offset - is the zero offset, which determines multifractality
 //
 // Note: this tends to yield very small values, so the results need
-//       to be scaled appropriately.
+// to be scaled appropriately.
 float CHField::Multifractal( CVec3 pt, float lacunarity, float octaves, float offset )
 {
   int   i;
@@ -98,17 +98,17 @@ float CHField::Multifractal( CVec3 pt, float lacunarity, float octaves, float of
     value += remainder * NPerlinNoise::Noise3( pt ) * fBmExponents[i];
   return value;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////// 
 // Heterogeneous procedural terrain function: stats by altitude method.
 // Parameters:
-//   lacunarity -  is the gap between successive frequencies
-//   octaves    -  is the number of frequencies in the fBm
-//   offset     -  raises the terrain from `sea level'
+// lacunarity - is the gap between successive frequencies
+// octaves - is the number of frequencies in the fBm
+// offset - raises the terrain from `sea level'
 float CHField::HeteroTerrain( CVec3 pt, float lacunarity, float octaves, float offset )
 {
   int   i;
   float increment;
-  // first unscaled octave of function; later octaves are scaled
+  // first unscaled octave of function; 
   float value = offset + NPerlinNoise::Noise3( pt );
   pt *= lacunarity;
   
@@ -119,7 +119,7 @@ float CHField::HeteroTerrain( CVec3 pt, float lacunarity, float octaves, float o
     increment = NPerlinNoise::Noise3( pt ) + offset;
     // scale amplitude appropriately for this frequency
     increment *= fBmExponents[i];
-    // scale increment by current `altitude' of function 
+    // scale increment by current `altitude' of function
     increment *= value;
     // add increment to ``value''
     value += increment;
@@ -136,15 +136,15 @@ float CHField::HeteroTerrain( CVec3 pt, float lacunarity, float octaves, float o
   
   return value;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////// 
 // Hybrid additive/multiplicative multifractal terrain model
-// Some good parameter values to start with:
-//   H:           0.25
-//   offset:      0.7
+// Some good parameter values ​​to start with:
+// H: 0.25
+// offset: 0.7
 float CHField::HybridMultifractal( CVec3 pt, float lacunarity, float octaves, float offset )
 {
   int i;
-  // get first octave of function 
+  // get first octave of function
   float ret = ( NPerlinNoise::Noise3( pt ) + offset ) * fBmExponents[0];
   float weight = ret;
   // increase frequency
@@ -172,12 +172,12 @@ float CHField::HybridMultifractal( CVec3 pt, float lacunarity, float octaves, fl
   
   return( ret/2.0f - 1.0f );
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////// 
 // Ridged multifractal terrain model.
-// Some good parameter values to start with:
-//     H:           1.0
-//     offset:      1.0
-//     gain:        2.0
+// Some good parameter values ​​to start with:
+// H: 1.0
+// offset: 1.0
+// gain: 2.0
 float CHField::RidgedMultifractal( CVec3 pt, float lacunarity, float octaves, float offset, float gain )
 {
   int i;
@@ -209,7 +209,7 @@ float CHField::RidgedMultifractal( CVec3 pt, float lacunarity, float octaves, fl
   }
   return( (ret-1.0)/2.0 );
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////// 
 void CHField::InitFBmExp( float H, float lacunarity, float octaves )
 {
   fBmExponents.resize( (int)octaves+1 );
@@ -221,7 +221,7 @@ void CHField::InitFBmExp( float H, float lacunarity, float octaves )
       frequency *= lacunarity;
   }
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////// 
 void CHField::GenTest( )
 {
   int i, j, n = 0;
@@ -241,12 +241,12 @@ void CHField::GenTest( )
   }
   bChanged = true;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//  Parameters:
-//   H          -  fractal dim
-//   lacunarity -  is the gap between successive frequencies
-//   octaves    -  is the number of frequencies in the fBm
-//   scale      -  вли¤ет на характерный размер особенностей
+// //////////////////////////////////////////////////////////// 
+// Parameters:
+// H - fractal dim
+// lacunarity - is the gap between successive frequencies
+// octaves - is the number of frequencies in the fBm
+// scale - affects the characteristic size of features
 void CHField::GenFBm( float H, float lacunarity, float octaves, float scale )
 {
   InitFBmExp( H, lacunarity, octaves );
@@ -267,7 +267,7 @@ void CHField::GenFBm( float H, float lacunarity, float octaves, float scale )
   }
   bChanged = true;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////// 
 void CHField::GenMultifractal( float H, float lacunarity, float octaves, float offset, float scale )
 {
   InitFBmExp( H, lacunarity, octaves );
@@ -288,7 +288,7 @@ void CHField::GenMultifractal( float H, float lacunarity, float octaves, float o
   }
   bChanged = true;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////// 
 void CHField::GenHeteroTerrain( float H, float lacunarity, float octaves, float offset, float scale )
 {
   InitFBmExp( H, lacunarity, octaves );
@@ -309,7 +309,7 @@ void CHField::GenHeteroTerrain( float H, float lacunarity, float octaves, float 
   }
   bChanged = true;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////// 
 void CHField::GenHybridMultifractal( float H, float lacunarity, float octaves, float offset, float scale )
 {
   InitFBmExp( H, lacunarity, octaves );
@@ -330,7 +330,7 @@ void CHField::GenHybridMultifractal( float H, float lacunarity, float octaves, f
   }
   bChanged = true;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////// 
 void CHField::GenRidgedMultifractal( float H, float lacunarity, float octaves, float offset, float gain, float scale )
 {
   InitFBmExp( H, lacunarity, octaves );
@@ -351,7 +351,7 @@ void CHField::GenRidgedMultifractal( float H, float lacunarity, float octaves, f
   }
   bChanged = true;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////// 
 void CHField::Generate( const SfBmValues &vals )
 {
   switch( vals.alg )
@@ -380,15 +380,15 @@ void CHField::Generate( const SfBmValues &vals )
     Scale( vals.fRange / dh );
   Translate( vals.fBaseHeight - AveHeight() );
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// »зменить масштаб высот
+// //////////////////////////////////////////////////////////// 
+// »change height scale
 void CHField::Scale( float scale )
 {
   for( int i = 0; i < hf.size(); ++i )
     hf[i] *= scale;
   bChanged = true;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////// 
 namespace
 {
   float grfSigma  = 1;
@@ -425,7 +425,7 @@ float GaussRand()
 
   return grfSigma * x;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////// 
 float CHField::AveHeight() const
 {
   float ret = 0;
@@ -435,13 +435,13 @@ float CHField::AveHeight() const
 
   return ret / hf.size();
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////// 
 void CHField::Translate( float shift )
 {
   for( int i = 0; i < hf.size(); ++i )
     hf[i] += shift;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////// 
 float CHField::MinHeight() const
 {
   if ( hf.empty() )
@@ -453,7 +453,7 @@ float CHField::MinHeight() const
 
   return ret;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////// 
 float CHField::MaxHeight() const
 {
   if ( hf.empty() )
@@ -465,9 +465,9 @@ float CHField::MaxHeight() const
 
   return ret;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//ќбъект ¤вл¤етс¤ суммой op1, op2
-// сам объект может быть одним из операндов
+// //////////////////////////////////////////////////////////// 
+// The object “is” the sum of op1, op2
+// the object itself can be one of the operands
 void CHField::Sum( const CHField &op1, const CHField &op2 )
 {
   DWORD w = Min( op1.Width(), op2.Width() );
@@ -483,7 +483,7 @@ void CHField::Sum( const CHField &op1, const CHField &op2 )
       ++n;
     }
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////// 
 float CHField::Volume()
 {
   float vol = 0;
@@ -492,7 +492,7 @@ float CHField::Volume()
 
   return vol;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////// 
 void CHField::Pow( float exp )
 {
   if ( hf.empty() )
@@ -506,7 +506,7 @@ void CHField::Pow( float exp )
   Scale( range / AltitudeRange( 0, 0 ) );
   Translate( min );
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////// 
 float CHField::AltitudeRange( float *pMin, float *pMax ) const
 {
   if ( hf.empty() )
@@ -526,18 +526,18 @@ float CHField::AltitudeRange( float *pMin, float *pMax ) const
 	//
   return max - min;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////// 
 CHField& CHField::operator- ()
 {
   for( int i = 0; i < hf.size(); ++i )
     hf[i] = -hf[i];
   return *this;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// ¬озвращает нормаль в точке (х, у)
-// карта высот всегда начинаетс¤ в точке (0, 0), рассто¤ние между
-// узловыми точками - fGridStep
-// интерпол¤ци¤ между ними с помощью бета-сплайнов
+// //////////////////////////////////////////////////////////// 
+// Returns the normal at point (x, y)
+// The height map always starts at point (0, 0), the distance between
+// anchor points - fGridStep
+// interpolation between them using beta splines
 CVec3 CHField::GetNormal( float x, float y ) const
 {
   float invStep = 1.0f / fGridStep;
@@ -553,7 +553,7 @@ CVec3 CHField::GetNormal( float x, float y ) const
   int i, j, n = 0;
   float fy = ny * fGridStep;
 
-  // ≈сли область интерпол¤ции вылазит за пределы массива получаем высоту с проверкой
+  // ≈if the interpolation area extends beyond the array, we get the height with a check
   if ( nx < 0 || ny < 0 || nx + 4 > dwDimX || ny + 4 > dwDimY )
   {
     for( j = 0; j < 4; ++j )
@@ -592,7 +592,7 @@ CVec3 CHField::GetNormal( float x, float y ) const
 
   return norm;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////// 
 float CHField::GetHApprox( float x, float y ) const
 {
   float invStep = 1.0f / fGridStep;
@@ -608,7 +608,7 @@ float CHField::GetHApprox( float x, float y ) const
   int i, j, n = 0;
   float fy = ny * fGridStep;
 
-  // ≈сли область интерпол¤ции вылазит за пределы массива получаем высоту с проверкой
+  // ≈if the interpolation area extends beyond the array, we get the height with a check
   if ( nx < 0 || ny < 0 || nx + 4 > dwDimX || ny + 4 > dwDimY )
   {
     for( j = 0; j < 4; ++j )

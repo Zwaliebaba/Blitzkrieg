@@ -5,7 +5,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-//все диалоги хранятся внутри этого элемента
+// all dialogs are stored inside this element
 #include "InputNotifyShortcutBar.h"
 #include "Input3DTabWnd.h"
 
@@ -26,7 +26,7 @@
 #include "GroupManagerDialog.h"
 #include "TabAIGeneralDialog.h"
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CInputControlBar : public SECControlBar
 {
 	friend class CMainFrame;
@@ -34,18 +34,18 @@ class CInputControlBar : public SECControlBar
 	CInputNotifyShortcutBar inputShortcutBar;
 
 	bool isCreating;
-	//{{AFX_VIRTUAL(CInputControlBar)
-	//}}AFX_VIRTUAL
+	// {{AFX_VIRTUAL(CInputControlBar)
+	// }}AFX_VIRTUAL
 
-	//{{AFX_MSG(CInputControlBar)
+	// {{AFX_MSG(CInputControlBar)
 protected:
 	afx_msg int OnCreate( LPCREATESTRUCT lpCreateStruct );
 	afx_msg void OnSize( UINT nType, int cx, int cy );
 	afx_msg BOOL OnNotifyShortcutChangePage( NMHDR *pNotifyStruct, LRESULT *pResult );
-	//}}AFX_MSG
+	// }}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	CWnd* GetInputStateWindow( CTemplateEditorFrame::INPUT_STATES inputStateIndex )
 	{
 		NI_ASSERT_T( ( inputShortcutBar.GetBarCount() == CTemplateEditorFrame::STATE_COUNT ) &&
@@ -63,7 +63,7 @@ protected:
 		return pWnd;
 	}
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	CWnd* GetStateObjectsWindowTab( CTemplateEditorFrame::INPUT_STATES_SIMPLE_OBJECTS inputStateVectorObjectIndex )
 	{
 		CInput3DTabWindow* pInput3DTabWindow = dynamic_cast<CInput3DTabWindow*>( GetInputStateWindow( CTemplateEditorFrame::STATE_SIMPLE_OBJECTS ) );
@@ -83,7 +83,7 @@ protected:
 		return pWnd;
 	}
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	CWnd* GetStateVOWindowTab( CTemplateEditorFrame::INPUT_STATES_VECTOR_OBJECTS inputStateVectorObjectIndex )
 	{
 		CInput3DTabWindow* pInput3DTabWindow = dynamic_cast<CInput3DTabWindow*>( GetInputStateWindow( CTemplateEditorFrame::STATE_VECTOR_OBJECTS ) );
@@ -103,7 +103,7 @@ protected:
 		return pWnd;
 	}
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	CWnd* GetStateTerrainWindowTab( CTemplateEditorFrame::INPUT_STATES_TERRAIN inputStateTerrainIndex )
 	{
 		CInput3DTabWindow* pInput3DTabWindow = dynamic_cast<CInput3DTabWindow*>( GetInputStateWindow( CTemplateEditorFrame::STATE_TERRAIN ) );
@@ -124,7 +124,7 @@ protected:
 	}
 
 public:
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	CInputControlBar() : isCreating( true ) {}
 	
 	int GetRoadEditorState() 
@@ -175,7 +175,7 @@ public:
 		return nActiveTab;
 	}
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	CTabTileEditDialog* GetTabTileEditDialog() 
 	{
 		CTabTileEditDialog *pTabTileEditDialog = dynamic_cast<CTabTileEditDialog*>( GetStateTerrainWindowTab( CTemplateEditorFrame::STATE_TERRAIN_TILES ) );
@@ -186,7 +186,7 @@ public:
 		return pTabTileEditDialog;
 	}
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	CShadeEditorWnd* GetShade() 
 	{
 		CShadeEditorWnd *pShadeEditorWnd = dynamic_cast<CShadeEditorWnd*>( GetStateTerrainWindowTab( CTemplateEditorFrame::STATE_TERRAIN_ALTITUDES ) );
@@ -197,7 +197,7 @@ public:
 		return pShadeEditorWnd;
 	}
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	CTabTerrainFieldsDialog* GetTerrainFieldsTab() 
 	{
 		CTabTerrainFieldsDialog *pTabTerrainFieldsDialog = dynamic_cast<CTabTerrainFieldsDialog*>( GetStateTerrainWindowTab( CTemplateEditorFrame::STATE_TERRAIN_FIELDS ) );
@@ -209,7 +209,7 @@ public:
 	}
 
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	CTabToolsDialog* GetToolsTab() 
 	{
 		CTabToolsDialog *pTabToolsDialog = dynamic_cast<CTabToolsDialog*>( GetInputStateWindow( CTemplateEditorFrame::STATE_TOOLS ) );
@@ -220,7 +220,7 @@ public:
 		return pTabToolsDialog;
 	}
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	CGroupManagerDialog* GetGroupMngWnd() 
 	{
 		CGroupManagerDialog *pGroupManagerDialog = dynamic_cast<CGroupManagerDialog*>( GetInputStateWindow( CTemplateEditorFrame::STATE_GROUPS ) );
@@ -232,7 +232,7 @@ public:
 	}
 
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	CTabAIGeneralDialog* GetAIGeneralTab() 
 	{
 		CTabAIGeneralDialog *pTabAIGeneralDialog = dynamic_cast<CTabAIGeneralDialog*>( GetInputStateWindow( CTemplateEditorFrame::STATE_AI_GENERAL ) );
@@ -244,7 +244,7 @@ public:
 	}
 
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	CTabSimpleObjectsDialog* GetObjectWnd() 
 	{
 		CTabSimpleObjectsDialog *pTabSimpleObjectsDialog = dynamic_cast<CTabSimpleObjectsDialog*>( GetStateObjectsWindowTab( CTemplateEditorFrame::STATE_SO_OBJECTS ) );
@@ -255,7 +255,7 @@ public:
 		return pTabSimpleObjectsDialog;
 	}
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	CFenceSetupWindow* GetFenceWnd() 
 	{
 		CFenceSetupWindow *pFenceSetupWindow = dynamic_cast<CFenceSetupWindow*>( GetStateObjectsWindowTab( CTemplateEditorFrame::STATE_SO_FENCES ) );
@@ -266,7 +266,7 @@ public:
 		return pFenceSetupWindow;
 	}
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	CBridgeSetupDialog* GetBridgeWnd() 
 	{
 		CBridgeSetupDialog *pBridgeSetupDialog = dynamic_cast<CBridgeSetupDialog*>( GetStateObjectsWindowTab( CTemplateEditorFrame::STATE_SO_BRIDGES ) );
@@ -277,7 +277,7 @@ public:
 		return pBridgeSetupDialog;
 	}
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	CTrenchSetupWindow* GetTrenchSetupWindow() 
 	{
 		CTrenchSetupWindow *pTrenchSetupWindow = dynamic_cast<CTrenchSetupWindow*>( GetStateVOWindowTab( CTemplateEditorFrame::STATE_VO_ENTRENCHMENTS ) );
@@ -288,7 +288,7 @@ public:
 		return pTrenchSetupWindow;
 	}
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	CTabVOVSODialog* GetRiversTab()
 	{
 		CTabVOVSODialog *pTabVOVSODialog = dynamic_cast<CTabVOVSODialog*>( GetStateVOWindowTab( CTemplateEditorFrame::STATE_VO_RIVERS ) );
@@ -299,7 +299,7 @@ public:
 		return pTabVOVSODialog;
 	}
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	CTabVOVSODialog* GetRoads3DTab()
 	{
 		CTabVOVSODialog *pTabVOVSODialog = dynamic_cast<CTabVOVSODialog*>( GetStateVOWindowTab( CTemplateEditorFrame::STATE_VO_ROADS3D ) );
@@ -310,9 +310,9 @@ public:
 		return pTabVOVSODialog;
 	}
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//{{AFX_INSERT_LOCATION}}
+
+// {{AFX_INSERT_LOCATION}}
 #endif // !defined(__INPUT_CONTROL_BAR__)
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// basement storage  
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// basement storage
+

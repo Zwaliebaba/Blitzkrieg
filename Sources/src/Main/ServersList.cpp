@@ -6,386 +6,347 @@
 #include "ServersListMessages.h"
 #include "LanChat.h"
 
-#include "..\StreamIO\StreamIOHelper.h"
-#include "..\StreamIO\StreamIOTypes.h"
+#include "../StreamIO/StreamIOHelper.h"
+#include "../StreamIO/StreamIOTypes.h"
 
-#include "..\Net\NetDriver.h"
+#include "../Net/NetDriver.h"
 #include "GameSpyPeerChat.h"
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-BASIC_REGISTER_CLASS( IServersList );
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//*******************************************************************
-//*		 								   CServersList																*
-//*******************************************************************
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CServersList::Init( INetDriver *_pNetDriver )
-{
-	pNetDriver = _pNetDriver;
-	servers.clear();
-	wCurUniqueId = 0;
-	lastServersCheck = 0;
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-IMultiplayerMessage* CServersList::GetMessage()
-{
-	return messages.GetMessage();
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CServersList::AddServer( INetNodeAddress *pAddress, const float fPing, const INetDriver::SGameInfo &gameInfo, const bool bSameVersion )
-{
-	servers.push_back();
-	SServerInfo &info = servers.back();
 
-	info.bUpdated = true;
-	info.pAddress = pAddress;
-	info.fPing = fPing;
-	info.wUniqueServerId = wCurUniqueId++;
-	info.Unpack( gameInfo );
+BASIC_REGISTER_CLASS(IServersList);
 
-	//
-	messages.AddMessage
-	(
-		new CServerInfoRefreshed
-		( 
-			info.wUniqueServerId, info.szGameName, info.fPing, info.eState, info.nCurPlayers, info.nMaxPlayers, 
-			info.szMapName, info.bPasswordRequired, info.szModName, info.szModVersion, bSameVersion, info.eGameType,
-			info.gameSettings
-		)
-	);
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CServersList::RefreshServerInfo( const SServerInfo &info, const bool bSameVersion )
-{
-	CServers::iterator iter = servers.begin();		
-	while ( iter != servers.end() && iter->wUniqueServerId != info.wUniqueServerId )
-		++iter;
+// **********************************************************************
+// *CServersList*
+// **********************************************************************
 
-	//
-	messages.AddMessage
-	(
-		new CServerInfoRefreshed( iter->wUniqueServerId, iter->szGameName, iter->fPing, iter->eState,
-															iter->nCurPlayers, iter->nMaxPlayers, iter->szMapName, iter->bPasswordRequired,
-															iter->szModName, iter->szModVersion, bSameVersion, iter->eGameType, iter->gameSettings )
-	);
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CServersList::RemoveServer( const SServerInfo &info )
+void CServersList::Init(INetDriver *_pNetDriver)
 {
-	messages.AddMessage( new CServerRemoved( info.wUniqueServerId ) );
+  pNetDriver = _pNetDriver;
+  servers.clear();
+  wCurUniqueId = 0;
+  lastServersCheck = 0;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+IMultiplayerMessage *CServersList::GetMessage() { return messages.GetMessage(); }
+
+void CServersList::AddServer(INetNodeAddress *pAddress, const float fPing, const INetDriver::SGameInfo &gameInfo, const bool bSameVersion)
+{
+  servers.push_back();
+  SServerInfo &info = servers.back();
+
+  info.bUpdated = true;
+  info.pAddress = pAddress;
+  info.fPing = fPing;
+  info.wUniqueServerId = wCurUniqueId++;
+  info.Unpack(gameInfo);
+
+  //
+  messages.AddMessage
+      (
+          new CServerInfoRefreshed(
+              info.wUniqueServerId, info.szGameName, info.fPing, info.eState, info.nCurPlayers, info.nMaxPlayers,
+              info.szMapName, info.bPasswordRequired, info.szModName, info.szModVersion, bSameVersion, info.eGameType,
+              info.gameSettings
+              )
+          );
+}
+
+void CServersList::RefreshServerInfo(const SServerInfo &info, const bool bSameVersion)
+{
+  auto iter = servers.begin();
+  while (iter != servers.end() && iter->wUniqueServerId != info.wUniqueServerId) ++iter;
+
+  //
+  messages.AddMessage
+      (
+          new CServerInfoRefreshed(iter->wUniqueServerId, iter->szGameName, iter->fPing, iter->eState,
+                                   iter->nCurPlayers, iter->nMaxPlayers, iter->szMapName, iter->bPasswordRequired,
+                                   iter->szModName, iter->szModVersion, bSameVersion, iter->eGameType, iter->gameSettings)
+          );
+}
+
+void CServersList::RemoveServer(const SServerInfo &info) { messages.AddMessage(new CServerRemoved(info.wUniqueServerId)); }
+
 void CServersList::RefreshServersList()
 {
-	INetDriver::SGameInfo gameInfo;
-	CPtr<INetNodeAddress> pAddress = CreateObject<INetNodeAddress>( NET_NODE_ADDRESS );
-	
-	const int nDebugTemp = servers.size();
+  INetDriver::SGameInfo gameInfo;
+  CPtr<INetNodeAddress> pAddress = CreateObject<INetNodeAddress>(NET_NODE_ADDRESS);
 
-	bool bWrongVersion = true;
-	float fPing = 0;
-	int i = 0;
-	while ( pNetDriver->GetGameInfo( i++, pAddress, &bWrongVersion, &fPing, &gameInfo ) )
-	{
-		CServers::iterator iter = servers.begin();
-		while ( iter != servers.end() && !pAddress->IsSameIP( iter->pAddress ) )
-			++iter;
+  const int nDebugTemp = servers.size();
 
-		// new server
-		if ( iter == servers.end() )
-			AddServer( pAddress, fPing, gameInfo, !bWrongVersion );
-		// old server information refresh
-		else
-		{
-			iter->bUpdated = true;
+  bool bWrongVersion = true;
+  float fPing = 0;
+  int i = 0;
+  while (pNetDriver->GetGameInfo(i++, pAddress, &bWrongVersion, &fPing, &gameInfo))
+  {
+    auto iter = servers.begin();
+    while (iter != servers.end() && !pAddress->IsSameIP(iter->pAddress)) ++iter;
 
-			SServerInfo info;
-			info.pAddress = pAddress;
-			info.fPing = fPing;
-			info.wUniqueServerId = iter->wUniqueServerId;
+    // new server
+    if (iter == servers.end()) AddServer(pAddress, fPing, gameInfo, !bWrongVersion);
+    // old server information refresh
+    else
+    {
+      iter->bUpdated = true;
 
-			info.Unpack( gameInfo );
+      SServerInfo info;
+      info.pAddress = pAddress;
+      info.fPing = fPing;
+      info.wUniqueServerId = iter->wUniqueServerId;
 
-			// information was refreshed
-			if ( info != *iter )
-			{
-				*iter = info;
-				RefreshServerInfo( *iter, !bWrongVersion );
-			}
-		}
+      info.Unpack(gameInfo);
 
-		pAddress = CreateObject<INetNodeAddress>( NET_NODE_ADDRESS );
-	}
+      // information was refreshed
+      if (info != *iter)
+      {
+        *iter = info;
+        RefreshServerInfo(*iter, !bWrongVersion);
+      }
+    }
 
-	const NTimer::STime curAbsTime = GetSingleton<IGameTimer>()->GetAbsTime();
-	if ( lastServersCheck + 2000 < curAbsTime )
-	{
-		lastServersCheck = curAbsTime;		
-		
-		CServers::iterator iter = servers.begin();
-		while ( iter != servers.end() )
-		{
-			// server disconnected
-			if ( !iter->bUpdated )
-			{
-				RemoveServer( *iter );
-				iter = servers.erase( iter );
-			}
-			else
-			{
-				iter->bUpdated = false;
-				++iter;
-			}
-		}
-	}
+    pAddress = CreateObject<INetNodeAddress>(NET_NODE_ADDRESS);
+  }
+
+  const NTimer::STime curAbsTime = GetSingleton<IGameTimer>()->GetAbsTime();
+  if (lastServersCheck + 2000 < curAbsTime)
+  {
+    lastServersCheck = curAbsTime;
+
+    auto iter = servers.begin();
+    while (iter != servers.end())
+    {
+      // server disconnected
+      if (!iter->bUpdated)
+      {
+        RemoveServer(*iter);
+        iter = servers.erase(iter);
+      }
+      else
+      {
+        iter->bUpdated = false;
+        ++iter;
+      }
+    }
+  }
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CServersList::Segment()
+
+void CServersList::Segment() { if (pNetDriver) RefreshServersList(); }
+
+void CServersList::DestroyNetDriver() { pNetDriver = nullptr; }
+
+const SServerInfo *CServersList::FindServerByID(const WORD wServerID) const
 {
-	if ( pNetDriver )
-		RefreshServersList();
+  auto iter = servers.begin();
+  while (iter != servers.end() && iter->wUniqueServerId != wServerID) ++iter;
+
+  if (iter == servers.end()) return nullptr;
+  return &(*iter);
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CServersList::DestroyNetDriver()
+
+bool CServersList::CanJoinToServerByID(const WORD wServerID)
 {
-	pNetDriver = 0;
+  const SServerInfo *pInfo = FindServerByID(wServerID);
+
+  if (pInfo)
+  {
+    std::string szIPAdderss = pInfo->pAddress->GetFastName();
+    const int n = szIPAdderss.find(':');
+    if (n >= 0) szIPAdderss.resize(n);
+
+    pInfo->pAddress->Clear();
+    if (!pInfo->pAddress->SetInetName(szIPAdderss.c_str(), SMultiplayerConsts::NET_PORT)) return false;
+
+    if (pInfo && pInfo->eState == SServerInfo::ESS_OPEN && pInfo->nCurPlayers < pInfo->nMaxPlayers) return true;
+  }
+
+  return false;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const SServerInfo* CServersList::FindServerByID( const WORD wServerID ) const
+
+bool CServersList::IsNeedPassword(const WORD wServerID) const
 {
-	CServers::const_iterator iter = servers.begin();
-	while ( iter != servers.end() && iter->wUniqueServerId != wServerID )
-		++iter;
-
-	if ( iter == servers.end() )
-		return 0;
-	else
-		return &(*iter);
+  const SServerInfo *pInfo = FindServerByID(wServerID);
+  return pInfo ? pInfo->bPasswordRequired : false;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool CServersList::CanJoinToServerByID( const WORD wServerID )
+
+IGameCreation *CServersList::JoinToServerByID(const WORD wServerID, CPtr<IChat> *pChat, bool bPasswordRequired, const std::string &szPassword)
 {
-	const SServerInfo *pInfo = FindServerByID( wServerID );
+  const SServerInfo *pInfo = FindServerByID(wServerID);
 
-	if ( pInfo )
-	{
-		std::string szIPAdderss = pInfo->pAddress->GetFastName();
-		const int n = szIPAdderss.find( ':' );
-		if ( n >= 0 )
-			szIPAdderss.resize( n );
+  NI_ASSERT_T(pInfo != 0, NStr::Format( "Server %d not found", wServerID ));
 
-		pInfo->pAddress->Clear();
-		if ( !pInfo->pAddress->SetInetName( szIPAdderss.c_str(), SMultiplayerConsts::NET_PORT ) )
-			return false;
-
-		if ( pInfo && pInfo->eState == SServerInfo::ESS_OPEN && pInfo->nCurPlayers < pInfo->nMaxPlayers )
-			return true;
-	}
-	
-	return false;
+  return JoinToServerByAddress(pInfo->pAddress, pChat, pInfo->nHostPort, bPasswordRequired, szPassword);
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool CServersList::IsNeedPassword( const WORD wServerID ) const
+
+IGameCreation *CServersList::JoinToServerByAddress(INetNodeAddress *pAddress, CPtr<IChat> *pChat, const int nPort, bool bPasswordRequired, const std::string &szPassword)
 {
-	const SServerInfo *pInfo = FindServerByID( wServerID );
-	return pInfo ? pInfo->bPasswordRequired : false;
+  CPtr<IDataStream> pPwd = CreateObject<IDataStream>(STREAMIO_MEMORY_STREAM);
+  CPtr<INetDriver> pNetDriver = CreateInGameNetDriver(SMultiplayerConsts::NET_PORT);
+
+  std::string szIPAdderss = pAddress->GetFastName();
+  const int n = szIPAdderss.find(':');
+  if (n >= 0) szIPAdderss.resize(n);
+
+  pAddress->Clear();
+  if (pAddress->SetInetName(szIPAdderss.c_str(), SMultiplayerConsts::NET_PORT))
+  {
+    pNetDriver->ConnectGame(pAddress, pPwd);
+    GetSingleton<IConsoleBuffer>()->WriteASCII(CONSOLE_STREAM_CONSOLE, NStr::Format("request for connect is sent"), 0xffffff00, true);
+
+    auto pGameCreation = new CClientGameCreation();
+    pGameCreation->Init(pNetDriver, bPasswordRequired, szPassword);
+
+    CreateInGameChat(pChat, pNetDriver);
+
+    return pGameCreation;
+  }
+  return nullptr;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-IGameCreation* CServersList::JoinToServerByID( const WORD wServerID, CPtr<IChat> *pChat, bool bPasswordRequired, const std::string &szPassword )
-{
-	const SServerInfo *pInfo = FindServerByID( wServerID );
 
-	NI_ASSERT_T( pInfo != 0, NStr::Format( "Server %d not found", wServerID ) );
+void CServersList::Refresh() { pNetDriver->RefreshServersList(); }
 
-	return JoinToServerByAddress( pInfo->pAddress, pChat, pInfo->nHostPort, bPasswordRequired, szPassword );
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-IGameCreation* CServersList::JoinToServerByAddress( INetNodeAddress *pAddress, CPtr<IChat> *pChat, const int nPort, bool bPasswordRequired, const std::string &szPassword )
-{
-	CPtr<IDataStream> pPwd = CreateObject<IDataStream>( STREAMIO_MEMORY_STREAM );
-	CPtr<INetDriver> pNetDriver = CreateInGameNetDriver( SMultiplayerConsts::NET_PORT );
-	
-	std::string szIPAdderss = pAddress->GetFastName();
-	const int n = szIPAdderss.find( ':' );
-	if ( n >= 0 )
-		szIPAdderss.resize( n );
+// **********************************************************************
+// *CLanServersList*
+// **********************************************************************
 
-	pAddress->Clear();
-	if ( pAddress->SetInetName( szIPAdderss.c_str(), SMultiplayerConsts::NET_PORT ) )
-	{
-		pNetDriver->ConnectGame( pAddress, pPwd );
-		GetSingleton<IConsoleBuffer>()->WriteASCII( CONSOLE_STREAM_CONSOLE, NStr::Format( "request for connect is sent" ), 0xffffff00, true );
-
-		CClientGameCreation *pGameCreation = new CClientGameCreation();
-		pGameCreation->Init( pNetDriver, bPasswordRequired, szPassword );
-
-		CreateInGameChat( pChat, pNetDriver );
-
-		return pGameCreation;
-	}
-	else
-		return 0;
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CServersList::Refresh()
-{
-	pNetDriver->RefreshServersList();
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//*******************************************************************
-//*		 								   CLanServersList														*
-//*******************************************************************
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CLanServersList::Init()
 {
-	INetDriver *pNetDriver = CreateObject<INetDriver>( INetDriver::tidTypeID );
-	pNetDriver->Init( GetGlobalVar("NetGameVersion", 1), SMultiplayerConsts::NET_PORT, true );
+  INetDriver *pNetDriver = CreateObject<INetDriver>(INetDriver::tidTypeID);
+  pNetDriver->Init(GetGlobalVar("NetGameVersion", 1), SMultiplayerConsts::NET_PORT, true);
 
-	CServersList::Init( pNetDriver );
+  CServersList::Init(pNetDriver);
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-INetDriver* CLanServersList::CreateInGameNetDriver( const int nPort )
+
+INetDriver *CLanServersList::CreateInGameNetDriver(const int nPort)
 {
-	INetDriver *pNetDriver = GetNetDriver();
+  INetDriver *pNetDriver = GetNetDriver();
 
-	if ( !pNetDriver )
-	{
-		pNetDriver = CreateObject<INetDriver>( INetDriver::tidTypeID );
-		if ( nPort == -1 )
-			pNetDriver->Init( GetGlobalVar("NetGameVersion", 1), SMultiplayerConsts::NET_PORT, true );
-		else
-			pNetDriver->Init( GetGlobalVar("NetGameVersion", 1), nPort, true );
-	}
+  if (!pNetDriver)
+  {
+    pNetDriver = CreateObject<INetDriver>(INetDriver::tidTypeID);
+    if (nPort == -1) pNetDriver->Init(GetGlobalVar("NetGameVersion", 1), SMultiplayerConsts::NET_PORT, true);
+    else pNetDriver->Init(GetGlobalVar("NetGameVersion", 1), nPort, true);
+  }
 
-	return pNetDriver;
+  return pNetDriver;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-IGameCreation* CLanServersList::CreateServer( const SGameInfo &gameInfo, const SQuickLoadMapInfo &mapInfo, CPtr<IChat> *pChat )
+
+IGameCreation *CLanServersList::CreateServer(const SGameInfo &gameInfo, const SQuickLoadMapInfo &mapInfo, CPtr<IChat> *pChat)
 {
-	DestroyNetDriver();
+  DestroyNetDriver();
 
-	INetDriver *pInGameNetDriver = CreateObject<INetDriver>( INetDriver::tidTypeID );
-	pInGameNetDriver->Init( GetGlobalVar("NetGameVersion", 1), SMultiplayerConsts::NET_PORT, false );
+  INetDriver *pInGameNetDriver = CreateObject<INetDriver>(INetDriver::tidTypeID);
+  pInGameNetDriver->Init(GetGlobalVar("NetGameVersion", 1), SMultiplayerConsts::NET_PORT, false);
 
-	CServerGameCreation *pGameCreation = new CServerGameCreation();
-	pGameCreation->Init( pInGameNetDriver, pInGameNetDriver, gameInfo, mapInfo );
+  auto pGameCreation = new CServerGameCreation();
+  pGameCreation->Init(pInGameNetDriver, pInGameNetDriver, gameInfo, mapInfo);
 
-	CLanChat *pCreatedChat = new CLanChat();
-	pCreatedChat->InitInGameChat( pInGameNetDriver );
-	*pChat = pCreatedChat;
+  auto pCreatedChat = new CLanChat();
+  pCreatedChat->InitInGameChat(pInGameNetDriver);
+  *pChat = pCreatedChat;
 
-	return pGameCreation;
+  return pGameCreation;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CLanServersList::CreateInGameChat( CPtr<IChat> *pChat, INetDriver *pNetDriver )
+
+void CLanServersList::CreateInGameChat(CPtr<IChat> *pChat, INetDriver *pNetDriver)
 {
-	CLanChat *pCreatedChat = new CLanChat();
-	pCreatedChat->InitInGameChat( pNetDriver );
-	*pChat = pCreatedChat;
+  auto pCreatedChat = new CLanChat();
+  pCreatedChat->InitInGameChat(pNetDriver);
+  *pChat = pCreatedChat;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//*******************************************************************
-//*		 								   CGameSpyServersList												*
-//*******************************************************************
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// **********************************************************************
+// *CGameSpyServersList*
+// **********************************************************************
+
 void CGameSpyServersList::Init()
 {
-	INetDriver *pNetDriver = CreateObject<INetDriver>( NET_GS_SERVERS_LIST_DIRVER );
-	pNetDriver->Init( GetGlobalVar("NetGameVersion", 1), SMultiplayerConsts::GS_NET_PORT, true );
+  INetDriver *pNetDriver = CreateObject<INetDriver>(NET_GS_SERVERS_LIST_DIRVER);
+  pNetDriver->Init(GetGlobalVar("NetGameVersion", 1), SMultiplayerConsts::GS_NET_PORT, true);
 
-	CServersList::Init( pNetDriver );
+  CServersList::Init(pNetDriver);
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CGameSpyServersList::CreateInGameChat( CPtr<IChat> *pChat, INetDriver *pInGameNetDriver )
+
+void CGameSpyServersList::CreateInGameChat(CPtr<IChat> *pChat, INetDriver *pInGameNetDriver)
 {
-	if ( (*pChat) == 0 )
-	{
-		*pChat = new CGameSpyPeerChat();
-		
-		std::wstring szPlayerName = GetGlobalWVar( "Options.Multiplayer.GameSpyPlayerName", L"Noname" );
-		if ( szPlayerName == L"Noname" )
-			szPlayerName = NStr::ToUnicode( GetGlobalVar( "Options.Multiplayer.PlayerName", "Noname" ) );
+  if ((*pChat) == nullptr)
+  {
+    *pChat = new CGameSpyPeerChat();
 
-		(*pChat)->InitGSChat( szPlayerName.c_str() );
-	}
+    std::wstring szPlayerName = GetGlobalWVar("Options.Multiplayer.GameSpyPlayerName", L"Noname");
+    if (szPlayerName == L"Noname") szPlayerName = NStr::ToUnicode(GetGlobalVar("Options.Multiplayer.PlayerName", "Noname"));
 
-	(*pChat)->InitInGameChat( pInGameNetDriver );
+    (*pChat)->InitGSChat(szPlayerName.c_str());
+  }
+
+  (*pChat)->InitInGameChat(pInGameNetDriver);
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-IGameCreation* CGameSpyServersList::CreateServer( const struct SGameInfo &gameInfo, const struct SQuickLoadMapInfo &mapInfo, CPtr<IChat> *pChat )
+
+IGameCreation *CGameSpyServersList::CreateServer(const struct SGameInfo &gameInfo, const struct SQuickLoadMapInfo &mapInfo, CPtr<IChat> *pChat)
 {
-	DestroyNetDriver();
+  DestroyNetDriver();
 
-	INetDriver *pInGameNetDriver = CreateObject<INetDriver>( INetDriver::tidTypeID );
-	pInGameNetDriver->Init( GetGlobalVar("NetGameVersion", 1), SMultiplayerConsts::NET_PORT, false );
+  INetDriver *pInGameNetDriver = CreateObject<INetDriver>(INetDriver::tidTypeID);
+  pInGameNetDriver->Init(GetGlobalVar("NetGameVersion", 1), SMultiplayerConsts::NET_PORT, false);
 
-	INetDriver *pOutGameNetDriver = CreateObject<INetDriver>( NET_GS_QUERY_REPORTING_DRIVER );
-	pOutGameNetDriver->Init( GetGlobalVar("NetGameVersion", 1), SMultiplayerConsts::GS_NET_PORT, false );
+  INetDriver *pOutGameNetDriver = CreateObject<INetDriver>(NET_GS_QUERY_REPORTING_DRIVER);
+  pOutGameNetDriver->Init(GetGlobalVar("NetGameVersion", 1), SMultiplayerConsts::GS_NET_PORT, false);
 
-	CServerGameCreation *pGameCreation = new CServerGameCreation();
-	pGameCreation->Init( pInGameNetDriver, pOutGameNetDriver, gameInfo, mapInfo );
+  auto pGameCreation = new CServerGameCreation();
+  pGameCreation->Init(pInGameNetDriver, pOutGameNetDriver, gameInfo, mapInfo);
 
-	CreateInGameChat( pChat, pInGameNetDriver );
+  CreateInGameChat(pChat, pInGameNetDriver);
 
-	return pGameCreation;
+  return pGameCreation;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-INetDriver* CGameSpyServersList::CreateInGameNetDriver( const int nPort )
+
+INetDriver *CGameSpyServersList::CreateInGameNetDriver(const int nPort)
 {
-	INetDriver *pNetDriver = CreateObject<INetDriver>( INetDriver::tidTypeID );
-	if ( nPort == -1 )
-		pNetDriver->Init( GetGlobalVar("NetGameVersion", 1), SMultiplayerConsts::NET_PORT, true );
-	else
-		pNetDriver->Init( GetGlobalVar("NetGameVersion", 1), nPort, true );
+  INetDriver *pNetDriver = CreateObject<INetDriver>(INetDriver::tidTypeID);
+  if (nPort == -1) pNetDriver->Init(GetGlobalVar("NetGameVersion", 1), SMultiplayerConsts::NET_PORT, true);
+  else pNetDriver->Init(GetGlobalVar("NetGameVersion", 1), nPort, true);
 
-	return pNetDriver;
+  return pNetDriver;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//*******************************************************************
-//*		 								   CInternetServersList												*
-//*******************************************************************
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CInternetServersList::Init()
+
+// **********************************************************************
+// *CInternetServersList*
+// **********************************************************************
+
+void CInternetServersList::Init() { CServersList::Init(nullptr); }
+
+INetDriver *CInternetServersList::CreateInGameNetDriver(const int nPort)
 {
-	CServersList::Init( 0 );
+  INetDriver *pNetDriver = GetNetDriver();
+
+  if (!pNetDriver)
+  {
+    pNetDriver = CreateObject<INetDriver>(INetDriver::tidTypeID);
+    if (nPort == -1) pNetDriver->Init(GetGlobalVar("NetGameVersion", 1), SMultiplayerConsts::NET_PORT, true);
+    else pNetDriver->Init(GetGlobalVar("NetGameVersion", 1), nPort, true);
+  }
+
+  return pNetDriver;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-INetDriver* CInternetServersList::CreateInGameNetDriver( const int nPort )
+
+IGameCreation *CInternetServersList::CreateServer(const SGameInfo &gameInfo, const SQuickLoadMapInfo &mapInfo, CPtr<IChat> *pChat)
 {
-	INetDriver *pNetDriver = GetNetDriver();
+  DestroyNetDriver();
 
-	if ( !pNetDriver )
-	{
-		pNetDriver = CreateObject<INetDriver>( INetDriver::tidTypeID );
-		if ( nPort == -1 )
-			pNetDriver->Init( GetGlobalVar("NetGameVersion", 1), SMultiplayerConsts::NET_PORT, true );
-		else
-			pNetDriver->Init( GetGlobalVar("NetGameVersion", 1), nPort, true );
-	}
+  INetDriver *pInGameNetDriver = CreateObject<INetDriver>(INetDriver::tidTypeID);
+  pInGameNetDriver->Init(GetGlobalVar("NetGameVersion", 1), SMultiplayerConsts::NET_PORT, false);
 
-	return pNetDriver;
+  auto pGameCreation = new CServerGameCreation();
+  pGameCreation->Init(pInGameNetDriver, pInGameNetDriver, gameInfo, mapInfo);
+
+  auto pCreatedChat = new CLanChat();
+  pCreatedChat->InitInGameChat(pInGameNetDriver);
+  *pChat = pCreatedChat;
+
+  return pGameCreation;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-IGameCreation* CInternetServersList::CreateServer( const SGameInfo &gameInfo, const SQuickLoadMapInfo &mapInfo, CPtr<IChat> *pChat )
+
+void CInternetServersList::CreateInGameChat(CPtr<IChat> *pChat, INetDriver *pNetDriver)
 {
-	DestroyNetDriver();
-
-	INetDriver *pInGameNetDriver = CreateObject<INetDriver>( INetDriver::tidTypeID );
-	pInGameNetDriver->Init( GetGlobalVar("NetGameVersion", 1), SMultiplayerConsts::NET_PORT, false );
-
-	CServerGameCreation *pGameCreation = new CServerGameCreation();
-	pGameCreation->Init( pInGameNetDriver, pInGameNetDriver, gameInfo, mapInfo );
-
-	CLanChat *pCreatedChat = new CLanChat();
-	pCreatedChat->InitInGameChat( pInGameNetDriver );
-	*pChat = pCreatedChat;
-
-	return pGameCreation;
+  auto pCreatedChat = new CLanChat();
+  pCreatedChat->InitInGameChat(pNetDriver);
+  *pChat = pCreatedChat;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CInternetServersList::CreateInGameChat( CPtr<IChat> *pChat, INetDriver *pNetDriver )
-{
-	CLanChat *pCreatedChat = new CLanChat();
-	pCreatedChat->InitInGameChat( pNetDriver );
-	*pChat = pCreatedChat;
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

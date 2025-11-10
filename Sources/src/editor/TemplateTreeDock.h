@@ -6,7 +6,7 @@ using namespace std;
 
 class CTemplateTreeCtrl;
 
-/////////////////////////////////////////////////////////////////////////////
+// //
 // CTemplateTreeDockBar window
 
 class CTemplateTreeDockBar : public SECControlBar
@@ -26,10 +26,10 @@ public:
 	
 	// Overrides
 	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CTemplateTreeDockBar)
+	// {{AFX_VIRTUAL(CTemplateTreeDockBar)
 public:
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
-	//}}AFX_VIRTUAL
+	// }}AFX_VIRTUAL
 	
 	// Implementation
 public:
@@ -38,16 +38,16 @@ public:
 protected:
 	CTemplateTreeCtrl *pTemplateTree;
 	
-	//{{AFX_MSG(CTemplateTreeDockBar)
+	// {{AFX_MSG(CTemplateTreeDockBar)
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
-	//}}AFX_MSG
+	// }}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
 
-/////////////////////////////////////////////////////////////////////////////
+// //
 
-//{{AFX_INSERT_LOCATION}}
+// {{AFX_INSERT_LOCATION}}
 // Microsoft Developer Studio will insert additional declarations immediately before the previous line.
 
 #endif // __TEMPLATE_TREE_DOCK_H__

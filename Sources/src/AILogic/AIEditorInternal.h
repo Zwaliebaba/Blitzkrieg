@@ -1,67 +1,68 @@
 #ifndef __AI_EDITOR_INTERNAL_H__
 #define __AI_EDITOR_INTERNAL_H__
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma ONCE
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#pragma once
+
 #include "AILogic.h"
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CAIEditor : public IAIEditor
 {
-	OBJECT_NORMAL_METHODS( CAIEditor );
-	DECLARE_SERIALIZE;
+  OBJECT_NORMAL_METHODS(CAIEditor);
+  DECLARE_SERIALIZE;
 
-	CPtr<ISegmentTimer> pGameSegment;
-	bool IsRectInsideOfMap( const struct SRect &unitRect ) const;
+  CPtr<ISegmentTimer> pGameSegment;
+  bool IsRectInsideOfMap(const struct SRect &unitRect) const;
+
 public:
-	virtual void STDCALL Init( const struct STerrainInfo &terrainInfo );
-	virtual void STDCALL Clear();	
-	
-	virtual bool STDCALL IsFormation( IRefCount *pObject ) const;
-	virtual void STDCALL GetUnitsInFormation( IRefCount *pObject, IRefCount ***pUnits, int *pnLen );
-	virtual IRefCount* STDCALL GetFormationOfUnit( IRefCount *pObject );
+  void STDCALL Init(const struct STerrainInfo &terrainInfo) override;
+  void STDCALL Clear() override;
 
-	virtual bool STDCALL AddNewObject( const SMapObjectInfo &object, IRefCount **pObject );
-	virtual bool STDCALL AddNewEntrencment( IRefCount** segments, const int nLen, IRefCount **pObject );
-	virtual void STDCALL LoadEntrenchments( const std::vector<SEntrenchmentInfo> &entrenchments );	
+  bool STDCALL IsFormation(IRefCount *pObject) const override;
+  void STDCALL GetUnitsInFormation(IRefCount *pObject, IRefCount ***pUnits, int *pnLen) override;
+  IRefCount * STDCALL GetFormationOfUnit(IRefCount *pObject) override;
 
-	virtual bool STDCALL MoveObject( IRefCount *pObject, short x, short y );
-	virtual void STDCALL DeleteObject( IRefCount *pObject );
-	virtual void STDCALL DamageObject( IRefCount *pObject, const float fHP );
-	
-	virtual bool STDCALL TurnObject( IRefCount *pObject, const WORD wDir );
+  bool STDCALL AddNewObject(const SMapObjectInfo &object, IRefCount **pObject) override;
+  bool STDCALL AddNewEntrencment(IRefCount **segments, int nLen, IRefCount **pObject) override;
+  void STDCALL LoadEntrenchments(const std::vector<SEntrenchmentInfo> &entrenchments) override;
 
-	virtual float STDCALL GetObjectHP( IRefCount *pObject );
-	virtual int STDCALL GetObjectScriptID( IRefCount *pObject );
-	
-	virtual void STDCALL HandOutLinks();
-	virtual IRefCount* STDCALL LinkToAI( const int ID );
-	virtual int STDCALL AIToLink( IRefCount *pObj );
-	
-	virtual const CVec2& STDCALL GetCenter( IRefCount *pObj ) const;
-	virtual const WORD STDCALL GetDir( IRefCount *pObj ) const;
-	
-	virtual const int STDCALL GetUnitDBID( IRefCount *pObj ) const;
-	
-	// проверяется: лежит ли объект внутри карты
-	virtual bool STDCALL IsObjectInsideOfMap( const struct SMapObjectInfo &object ) const;
-	// проверяется: лежит ли объект внутри карты и не ставится ли он на залоканные тайлы
-	virtual bool STDCALL CanAddObject( const struct SMapObjectInfo &object ) const;
-	
-	virtual void STDCALL ApplyPattern( const struct SVAPattern &rPattern );
-	virtual void STDCALL UpdateAllHeights();
+  bool STDCALL MoveObject(IRefCount *pObject, short x, short y) override;
+  void STDCALL DeleteObject(IRefCount *pObject) override;
+  void STDCALL DamageObject(IRefCount *pObject, float fHP) override;
 
-	// влючить - выключить что-нибудь, возвращает: true - включено, false - выключено
-	virtual bool STDCALL ToggleShow( const int nShowType );
-	
-	virtual void STDCALL UpdateTerrain( const CTRect<int> &rect, const struct STerrainInfo &terrainInfo );
+  bool STDCALL TurnObject(IRefCount *pObject, WORD wDir) override;
 
-	virtual void STDCALL RecalcPassabilityForPlayer( CArray2D<BYTE> *array, const int nPlayer );
-	
-	virtual void STDCALL SetPlayer( IRefCount *pObj, const int nPlayer );
-	virtual void STDCALL SetDiplomacies( const std::vector<BYTE> &playerParty );
+  float STDCALL GetObjectHP(IRefCount *pObject) override;
+  int STDCALL GetObjectScriptID(IRefCount *pObject) override;
 
-	virtual void STDCALL DeleteRiver( const SVectorStripeObject &river );
-	virtual void STDCALL AddRiver( const SVectorStripeObject &river );
+  void STDCALL HandOutLinks() override;
+  IRefCount * STDCALL LinkToAI(int ID) override;
+  int STDCALL AIToLink(IRefCount *pObj) override;
+
+  const CVec2 & STDCALL GetCenter(IRefCount *pObj) const override;
+  const WORD STDCALL GetDir(IRefCount *pObj) const override;
+
+  const int STDCALL GetUnitDBID(IRefCount *pObj) const override;
+
+  // checks whether the object is inside the map
+  bool STDCALL IsObjectInsideOfMap(const struct SMapObjectInfo &object) const override;
+  // checks whether the object is inside the map and whether it is placed on locked tiles
+  bool STDCALL CanAddObject(const struct SMapObjectInfo &object) const override;
+
+  void STDCALL ApplyPattern(const struct SVAPattern &rPattern) override;
+  void STDCALL UpdateAllHeights() override;
+
+  // enable - disable something, returns: true - enabled, false - disabled
+  bool STDCALL ToggleShow(int nShowType) override;
+
+  void STDCALL UpdateTerrain(const CTRect<int> &rect, const struct STerrainInfo &terrainInfo) override;
+
+  void STDCALL RecalcPassabilityForPlayer(CArray2D<BYTE> *array, int nPlayer) override;
+
+  void STDCALL SetPlayer(IRefCount *pObj, int nPlayer) override;
+  void STDCALL SetDiplomacies(const std::vector<BYTE> &playerParty) override;
+
+  void STDCALL DeleteRiver(const SVectorStripeObject &river) override;
+  void STDCALL AddRiver(const SVectorStripeObject &river) override;
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // __AI_EDITOR_INTERNAL_H__

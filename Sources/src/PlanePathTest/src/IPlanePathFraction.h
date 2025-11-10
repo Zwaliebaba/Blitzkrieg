@@ -5,9 +5,9 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-/////////////////////////////////////////////////////////////////////////////
-//	IPathFraction 
-/////////////////////////////////////////////////////////////////////////////
+// //
+// IPathFraction
+// //
 interface IPathFraction : public IRefCount
 {
 	virtual float STDCALL GetLength() const = 0;
@@ -16,7 +16,7 @@ interface IPathFraction : public IRefCount
 	// direction of plane's top (ideal)
 	virtual CVec3 STDCALL GetNormale( const float fDist ) const { return V3_AXIS_Z;}
 
-	// returns end point. unlike to GetPoint it works on unsubstituted paths
+	// returns end point. 
 	virtual CVec3 STDCALL GetEndPoint() const { return GetPoint( GetLength() );}
 	virtual CVec3 STDCALL GetStartPoint() const { return GetPoint(0.0f);}
 
@@ -24,18 +24,18 @@ interface IPathFraction : public IRefCount
 	virtual CVec3 STDCALL GetStartTangent() const { return GetTangent(0.0f);}
 
 	// before this path fraction is passed, is could be nessesary to substitute
-	// internal path fractions. may use next path fraction to ensure smoothness
+	// internal path fractions. 
 	virtual void STDCALL DoSubstitute( IPathFraction *pNext ) {  }
 };
 
-/////////////////////////////////////////////////////////////////////////////
-//	IPathFractionComplex 
-/////////////////////////////////////////////////////////////////////////////
+// //
+// IPathFractionComplex
+// //
 interface IPathFractionComplex : public IPathFraction
 {
 	// before this path fraction is passed, is could be nessesary to substitute
-	// internal path fractions. may use next path fraction to ensure smoothness
-	//virtual void STDCALL DoSubstitute( IPathFraction *pNext ) = 0;
+	// internal path fractions. 
+	// virtual void STDCALL DoSubstitute( IPathFraction *pNext ) = 0;
 };
 
-#endif //_IPathFraction_included_
+#endif // _IPathFraction_included_

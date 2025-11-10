@@ -1,11 +1,5 @@
-/*----------------------------------------------------------------------
-       John Robbins - Microsoft Systems Journal Bugslayer Column
-------------------------------------------------------------------------
-FILE        :   WarningsOn.h
-DISCUSSION  :
-    Turns back on all the warnings that we had to turn off just to get
-the MS headers to compile.
-----------------------------------------------------------------------*/
+/* ----------------------------------------------------------------------
+        */
 
 #ifndef _WARNINGSON_H
 #define _WARNINGSON_H
@@ -14,10 +8,10 @@ the MS headers to compile.
 #pragma warning ( default : 4201 )
 
 /* Unreferenced in inline function removed */
-/*#pragma warning ( default : 4514 )*/
+/* #pragma warning ( default : 4514 ) */
 
 /* conditional expression is constant */
-/*#pragma warning ( default : 4127 )*/
+/* #pragma warning ( default : 4127 ) */
 
 /* default constructor could not be generated */
 #pragma warning ( default : 4510 )
@@ -31,7 +25,7 @@ the MS headers to compile.
 
 /* STL spews errors just including them! */
 /* C++ language change: to explicitly specialize class template ''
-   use the following syntax:*/
+    */
 #pragma warning ( default : 4663 )
 /* '' : signed/unsigned mismatch */
 #pragma warning ( default : 4018 )
@@ -39,5 +33,3 @@ the MS headers to compile.
 #pragma warning ( default : 4100 )
 
 #endif  /* _WARNINGSON_H */
-
-

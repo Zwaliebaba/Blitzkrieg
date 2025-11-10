@@ -10,4 +10,4 @@ public:
 };
 IObjectFactory* STDCALL GetTreeItemObjectFactory();
 
-#endif		//__TREEITEMFACTORY_H__
+#endif		// __TREEITEMFACTORY_H__

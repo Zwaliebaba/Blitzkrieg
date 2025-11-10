@@ -8,7 +8,7 @@
 #include "..\Main\rpgstats.h"
 
 #include "editor.h"
-#include "BuildCompose.h"			//для компоновки картинки в текстуру
+#include "BuildCompose.h"			// for composing a picture into a texture
 #include "TreeDockWnd.h"
 #include "PropView.h"
 #include "TreeItem.h"
@@ -25,21 +25,21 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // CCampaignFrame
 
 IMPLEMENT_DYNCREATE(CCampaignFrame, CImageFrame)
 
 BEGIN_MESSAGE_MAP(CCampaignFrame, CImageFrame)
-	//{{AFX_MSG_MAP(CCampaignFrame)
+	// {{AFX_MSG_MAP(CCampaignFrame)
 	ON_WM_CREATE()
 	ON_WM_LBUTTONDOWN()
 	ON_WM_LBUTTONUP()
 	ON_WM_MOUSEMOVE()
-	//}}AFX_MSG_MAP
+	// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // CCampaignFrame construction/destruction
 
 CCampaignFrame::CCampaignFrame()
@@ -70,7 +70,7 @@ int CCampaignFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	return 0;
 }
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // CCampaignFrame message handlers
 
 void CCampaignFrame::FillRPGStats( SCampaignStats &rpgStats, CTreeItem *pRootItem, const char *pszProjectName )
@@ -177,7 +177,7 @@ void CCampaignFrame::LoadRPGStats( IDataTree *pDT, CTreeItem *pRootItem )
 
 	if ( szProjectFileName.size() > 0 )
 	{
-		//загрузим и отобразим картинку на экране
+		// load and display the image on the screen
 		CCampaignCommonPropsItem *pCommonProps = static_cast<CCampaignCommonPropsItem *> ( pRootItem->GetChildItem( E_CAMPAIGN_COMMON_PROPS_ITEM ) );
 		std::string szMapFileName, szTemp;
 		szTemp = pCommonProps->GetMapImage();
@@ -193,7 +193,7 @@ bool CCampaignFrame::ExportFrameData( IDataTree *pDT, const char *pszProjectName
 	NI_ASSERT( pRootItem->GetItemType() == E_CAMPAIGN_ROOT_ITEM );
 	
 	{
-		//validation
+		// validation
 		CCampaignCommonPropsItem *pCommonProps = static_cast<CCampaignCommonPropsItem *> ( pRootItem->GetChildItem( E_CAMPAIGN_COMMON_PROPS_ITEM ) );
 		std::string szErrorMsg;
 		std::string szTemp;
@@ -247,7 +247,7 @@ bool CCampaignFrame::ExportFrameData( IDataTree *pDT, const char *pszProjectName
 	szPrefix = szAddDir + szPrevExportFileName.substr( 0, szPrevExportFileName.rfind('\\') + 1 );
 	SaveRPGStats( pDT, pRootItem, pszProjectName );
 	
-	//Скопирую все данные в экспорт директорию
+	// I will copy all the data to the export directory
 	szPrefix = theApp.GetDestDir() + szPrefix;
 	CCampaignCommonPropsItem *pCommonProps = static_cast<CCampaignCommonPropsItem *> ( pRootItem->GetChildItem( E_CAMPAIGN_COMMON_PROPS_ITEM ) );
 	std::string szTemp, szSource, szResult, szDir;
@@ -274,7 +274,7 @@ bool CCampaignFrame::ExportFrameData( IDataTree *pDT, const char *pszProjectName
 	if ( szTemp.length() > 0 )
 	{
 		szTemp += ".tga";
-		//Надо скомпоновать картинку, чтобы она загружалась из текстуры
+		// You need to compose the image so that it is loaded from the texture
 		MakeFullPath( szDir.c_str(), szTemp.c_str(), szSource );
 		szResult = szPrefix + pCommonProps->GetMapImage();
 		if ( !ComposeImageToTexture( szSource.c_str(), szResult.c_str() ) )

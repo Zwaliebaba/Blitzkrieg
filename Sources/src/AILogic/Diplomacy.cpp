@@ -4,76 +4,68 @@
 #include "Units.h"
 #include "DifficultyLevel.h"
 
-#include "..\Main\ScenarioTracker.h"
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#include "../Main/ScenarioTracker.h"
+
 CDiplomacy theDipl;
 
 extern CDifficultyLevel theDifficultyLevel;
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CDiplomacy::Load( const std::vector<BYTE> &_playerParty )
+
+void CDiplomacy::Load(const std::vector<BYTE> &_playerParty)
 {
-	playerParty = _playerParty;
-	isPlayerExist.clear();
-	isPlayerExist.resize( playerParty.size() );
+  playerParty = _playerParty;
+  isPlayerExist.clear();
+  isPlayerExist.resize(playerParty.size());
 
-	IScenarioTracker *pScenarioTracker = GetSingleton<IScenarioTracker>();
-	int nMyNumber = -1;
-	for ( int i = 0; i < playerParty.size(); ++i )
-	{
-		IPlayerScenarioInfo *pPlayer = pScenarioTracker->GetPlayer( i );
-		if ( pPlayer && pPlayer->GetDiplomacySide() != 2 )
-			isPlayerExist[i] = 1;
+  IScenarioTracker *pScenarioTracker = GetSingleton<IScenarioTracker>();
+  int nMyNumber = -1;
+  for (int i = 0; i < playerParty.size(); ++i)
+  {
+    IPlayerScenarioInfo *pPlayer = pScenarioTracker->GetPlayer(i);
+    if (pPlayer && pPlayer->GetDiplomacySide() != 2) isPlayerExist[i] = 1;
 
-		if ( pPlayer == pScenarioTracker->GetUserPlayer() )
-			nMyNumber = i;
-	}
+    if (pPlayer == pScenarioTracker->GetUserPlayer()) nMyNumber = i;
+  }
 
-	// neutral always exists
-	isPlayerExist[playerParty.size() - 1] = 1;
+  // neutral always exists
+  isPlayerExist[playerParty.size() - 1] = 1;
 
-	NI_ASSERT_T( nMyNumber != -1, "Our player isn't found" );
-	SetMyNumber( nMyNumber );
+  NI_ASSERT_T(nMyNumber != -1, "Our player isn't found");
+  SetMyNumber(nMyNumber);
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CDiplomacy::SetPlayerNotExist( const int nPlayer )
+
+void CDiplomacy::SetPlayerNotExist(const int nPlayer) { isPlayerExist[nPlayer] = 0; }
+
+void CDiplomacy::SetDiplomaciesForEditor(const std::vector<BYTE> &_playerParty)
 {
-	isPlayerExist[nPlayer] = 0;
+  playerParty = _playerParty;
+  isPlayerExist.clear();
+  isPlayerExist.resize(playerParty.size(), 1);
+  SetMyNumber(0);
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CDiplomacy::SetDiplomaciesForEditor( const std::vector<BYTE> &_playerParty )
-{
-	playerParty = _playerParty;
-	isPlayerExist.clear();
-	isPlayerExist.resize( playerParty.size(), 1 );
-	SetMyNumber( 0 );
-}
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-int CDiplomacy::operator&( IStructureSaver &ss ) 
-{ 
-	CSaverAccessor saver = &ss; 
-	
-	saver.Add( 1, &playerParty ); 
-	saver.Add( 2, &nMyNumber ); 
-	saver.Add( 3, &bNetGame ); 
-	saver.Add( 4, &isPlayerExist );
-	saver.Add( 5, &bEditorMode );
 
-	return 0;
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool CDiplomacy::IsPlayerExist( const int nPlayer ) const
+// //////////////////////////////////////////////////////////// 
+int CDiplomacy::operator&(IStructureSaver &ss)
 {
-	if ( nPlayer >= GetNPlayers() )
-		return false;
-	else
-		return isPlayerExist[nPlayer];
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CDiplomacy::SetNetGame( bool _bNetGame )
-{ 
-	bNetGame = _bNetGame;
+  CSaverAccessor saver = &ss;
 
-	if ( bNetGame )
-		theDifficultyLevel.SetLevel( 1 );
+  saver.Add(1, &playerParty);
+  saver.Add(2, &nMyNumber);
+  saver.Add(3, &bNetGame);
+  saver.Add(4, &isPlayerExist);
+  saver.Add(5, &bEditorMode);
+
+  return 0;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+bool CDiplomacy::IsPlayerExist(const int nPlayer) const
+{
+  if (nPlayer >= GetNPlayers()) return false;
+  return isPlayerExist[nPlayer];
+}
+
+void CDiplomacy::SetNetGame(bool _bNetGame)
+{
+  bNetGame = _bNetGame;
+
+  if (bNetGame) theDifficultyLevel.SetLevel(1);
+}

@@ -1,145 +1,151 @@
 #ifndef __GENERAL_ARTILLERY_H__
 #define __GENERAL_ARTILLERY_H__
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma ONCE
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#pragma once
+
 #include "GeneralInternalInterfaces.h"
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CAntiArtillery;
 class CAIUnit;
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CGeneralArtilleryGoToPosition : public IRefCount
 {
-	OBJECT_COMPLETE_METHODS( CGeneralArtilleryGoToPosition );
-	DECLARE_SERIALIZE;
-	
-	enum EBombardmentState { EBS_START, EBS_MOVING, EBS_WAIT_FOR_TRUCK, EBS_MOVING_WITH_TRUCK, EBS_FINISHING };
-	EBombardmentState eState;
+  OBJECT_COMPLETE_METHODS(CGeneralArtilleryGoToPosition);
+  DECLARE_SERIALIZE;
 
-	CAIUnit *pUnit;
-	CVec2 vPos;
-	bool bToReservePosition;
-	bool bFinished;
-	NTimer::STime timeOfFinish;
-	NTimer::STime startTime;
+  enum EBombardmentState { EBS_START, EBS_MOVING, EBS_WAIT_FOR_TRUCK, EBS_MOVING_WITH_TRUCK, EBS_FINISHING };
 
-	// 
-	void StartState();
-	void WaitForTruck();
-	void MovingWithTruck();
-	void Finishing();
+  EBombardmentState eState;
+
+  CAIUnit *pUnit;
+  CVec2 vPos;
+  bool bToReservePosition;
+  bool bFinished;
+  NTimer::STime timeOfFinish;
+  NTimer::STime startTime;
+
+  // 
+  void StartState();
+  void WaitForTruck();
+  void MovingWithTruck();
+  void Finishing();
+
 public:
-	CGeneralArtilleryGoToPosition() { }
-	CGeneralArtilleryGoToPosition( CAIUnit *pUnit, const CVec2 &vPos, bool bToReservePosition );
+  CGeneralArtilleryGoToPosition() {}
+  CGeneralArtilleryGoToPosition(CAIUnit *pUnit, const CVec2 &vPos, bool bToReservePosition);
 
-	void Segment();
-	bool IsFinished() { return bFinished; }
+  void Segment();
+  bool IsFinished() { return bFinished; }
 
-	bool DoesGoToReservePosition() const { return bToReservePosition; }
+  bool DoesGoToReservePosition() const { return bToReservePosition; }
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CGeneralArtilleryTask
 {
-	DECLARE_SERIALIZE;
+  DECLARE_SERIALIZE;
 
-	bool bBombardmentFinished;
+  bool bBombardmentFinished;
 
-	CVec2 vBombardmentCenter;
-	float fBombardmentRadius;
-	NTimer::STime timeToFinishBombardment;
-	NTimer::STime timeToSendAntiArtilleryAck;
-	CVec2 vAntiArtilleryAckCenter;
-	bool bIsAntiArtilleryFight;
-	NTimer::STime startRotatingTime;
+  CVec2 vBombardmentCenter;
+  float fBombardmentRadius;
+  NTimer::STime timeToFinishBombardment;
+  NTimer::STime timeToSendAntiArtilleryAck;
+  CVec2 vAntiArtilleryAckCenter;
+  bool bIsAntiArtilleryFight;
+  NTimer::STime startRotatingTime;
 
-	enum EBombardmentState { EBS_START, EBS_ROTATING, EBS_GOING_TO_BATTLE, EBS_FIRING, EBS_ESCAPING };
-	EBombardmentState eState;
+  enum EBombardmentState { EBS_START, EBS_ROTATING, EBS_GOING_TO_BATTLE, EBS_FIRING, EBS_ESCAPING };
 
-	struct SBombardmentUnitState
-	{
-		DECLARE_SERIALIZE;
-	public:
-		CVec2 vReservePosition;
-		CVec2 vAttackPos;
+  EBombardmentState eState;
 
-		CPtr<CAIUnit> pUnit;
-		CPtr<CGeneralArtilleryGoToPosition> pGoToPosition;
+  struct SBombardmentUnitState
+  {
+    DECLARE_SERIALIZE;
 
-		SBombardmentUnitState() { }
-		explicit SBombardmentUnitState( CAIUnit *pUnit );
-	};
+  public:
+    CVec2 vReservePosition;
+    CVec2 vAttackPos;
 
-	std::list<SBombardmentUnitState> bombardmentUnits;
+    CPtr<CAIUnit> pUnit;
+    CPtr<CGeneralArtilleryGoToPosition> pGoToPosition;
 
-	class CGeneralArtillery *pOwner;
+    SBombardmentUnitState() {}
+    explicit SBombardmentUnitState(CAIUnit *pUnit);
+  };
 
-	int nCellNumber;
-	int nParty;
+  std::list<SBombardmentUnitState> bombardmentUnits;
 
-	//
-	// начало обстрела - дать команды подцепиться к грузовикам и ехать
-	void StartBombardment();
-	// как только приехали, дать команду развернуться к врагу
-	void GoingToBattle();
-	// как только развернулись, дать команду стрелять
-	void Rotating();
-	// когда отстрелялись, дать команду уезжать на резервные позиции
-	void Firing();
-	// когда приехали на резервные позиции, закончить артобстрел
-	void Escaping();
-	// если часть юнитов по какой-то причине не смогла провести артобстрел, проследить, 
-	// чтобы они вернулись на резервные позиции
-	void CheckEscapingUnits();
+  class CGeneralArtillery *pOwner;
 
-	void CalculateTimeToSendAntiArtilleryAck();
+  int nCellNumber;
+  int nParty;
 
-	void SetBombardmentFinished();
+  //
+  // start of shelling - give commands to hook up to the trucks and drive
+  void StartBombardment();
+  // as soon as we arrive, give the command to turn towards the enemy
+  void GoingToBattle();
+  // as soon as you turn around, give the command to shoot
+  void Rotating();
+  // when they have fired, give the command to leave for reserve positions
+  void Firing();
+  // when we arrived at the reserve positions, finish the shelling
+  void Escaping();
+  // if some of the units for some reason were unable to carry out artillery shelling, trace,
+  // so that they return to reserve positions
+  void CheckEscapingUnits();
+
+  void CalculateTimeToSendAntiArtilleryAck();
+
+  void SetBombardmentFinished();
+
 public:
-	CGeneralArtilleryTask() : bBombardmentFinished( true ), bIsAntiArtilleryFight( false ) { }
-	CGeneralArtilleryTask( CGeneralArtillery *pOwner, std::list<CAIUnit*> &givenUnits, bool bAntiArtilleryFight, const CVec2 &vCenter, const float fRadius, const int nCellNumber );
+  CGeneralArtilleryTask() : bBombardmentFinished(true), bIsAntiArtilleryFight(false) {}
+  CGeneralArtilleryTask(CGeneralArtillery *pOwner, std::list<CAIUnit *> &givenUnits, bool bAntiArtilleryFight, const CVec2 &vCenter, float fRadius, int nCellNumber);
 
-	void Segment();
+  void Segment();
 
-	bool IsTaskFinished() const { return bBombardmentFinished; }
+  bool IsTaskFinished() const { return bBombardmentFinished; }
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CGeneralArtillery : public IRefCount, public IEnemyEnumerator
 {
-	OBJECT_COMPLETE_METHODS( CGeneralArtillery );
-	DECLARE_SERIALIZE;
+  OBJECT_COMPLETE_METHODS(CGeneralArtillery);
+  DECLARE_SERIALIZE;
 
-	class CGeneral *pGeneralOwner;
-	int nParty;
+  class CGeneral *pGeneralOwner;
+  int nParty;
 
-	typedef std::list< CPtr<CAIUnit> > CUnitsList;
-	CUnitsList freeUnits;
-	CUnitsList trucks;
+  using CUnitsList = std::list<CPtr<CAIUnit>>;
+  CUnitsList freeUnits;
+  CUnitsList trucks;
 
-	std::list<CGeneralArtilleryTask> tasks;
+  std::list<CGeneralArtilleryTask> tasks;
+
 public:
-	CGeneralArtillery() { }
-	CGeneralArtillery( const int nParty, CGeneral *pGeneralOwner );
-	
-	// дать генералу юнит для использования в качестве артиллерии
-	void TakeArtillery( CAIUnit *pUnit );
-	// the same for trucks
-	void TakeTruck( CAIUnit *pUnit );
+  CGeneralArtillery() {}
+  CGeneralArtillery(int nParty, CGeneral *pGeneralOwner);
 
-	void Segment();
-	bool CanBombardRegion( const CVec2 &vRegionCenter );
+  // give the general a unit to use as artillery
+  void TakeArtillery(CAIUnit *pUnit);
+  // the same for trucks
+  void TakeTruck(CAIUnit *pUnit);
 
-	int RequestForSupport( const CVec2 &vCenter, const float fRadius, bool bIsAntiArtilleryFight, const int nCellNumber );
-	void CancelRequest( int nRequestID, enum EForceType eType );
+  void Segment();
+  bool CanBombardRegion(const CVec2 &vRegionCenter);
 
-	void SetEnemyContainer( IEnemyContainer *pEnemyContainer );
+  int RequestForSupport(const CVec2 &vCenter, float fRadius, bool bIsAntiArtilleryFight, int nCellNumber);
+  void CancelRequest(int nRequestID, enum EForceType eType);
 
-	//IEnemyEnumerator
-	virtual bool EnumEnemy( class CAIUnit *pEnemy );
+  void SetEnemyContainer(IEnemyContainer *pEnemyContainer);
 
-	const int GetParty() const { return nParty; }
-	const int GetNFreeUnits() const { return freeUnits.size(); }
+  // IEnemyEnumerator
+  bool EnumEnemy(class CAIUnit *pEnemy) override;
 
-	void SetCellInUse( const int nResistanceCell, bool bInUse );
+  const int GetParty() const { return nParty; }
+  const int GetNFreeUnits() const { return freeUnits.size(); }
+
+  void SetCellInUse(int nResistanceCell, bool bInUse);
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // __GENERAL_ARTILLERY_H__

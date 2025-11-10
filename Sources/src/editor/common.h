@@ -10,4 +10,4 @@ void FillTileMaps( int nSizeX, int nSizeY, vector<STileMapsDesc> &tileMaps, bool
 bool IsSpriteHit( IObjVisObj *pSprite, const CVec2 &point, CVec2 *pShift );
 bool CheckDDSExtension( const char *pszFileName );
 
-#endif		//__COMMON_H__
+#endif		// __COMMON_H__

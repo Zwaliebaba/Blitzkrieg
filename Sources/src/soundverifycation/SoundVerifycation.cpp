@@ -15,9 +15,9 @@ std::string szCurrentBeingReading = "current_sound.txt";
 std::string szBadSounds = "bad_sounds.txt";
 
 typedef std::hash_set<std::string> CBadFiles;
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
 class CEnumFiles
 {
 	CBadFiles *pBadFiles;
@@ -27,12 +27,12 @@ public:
 
 	void operator()( const class NFile::CFileIterator &fileIt ) const
 	{
-		//std::cout<<"+";
+		// std::cout<<"+";
 		if ( fileIt.IsDirectory() ) 
 			return;
 
 		const std::string szFileName = fileIt.GetFilePath();
-	//	std::cout<<szFileName<<"\n";
+	// std::cout<<szFileName<<"\n";
 		
 		CBadFiles::const_iterator it = pBadFiles->find( szFileName );
 		if ( it == pBadFiles->end() )
@@ -40,7 +40,7 @@ public:
 			// write the file name to recently read,
 			// try to open soud with FMOD,
 			// if it fails then we gon another bad sound.
-			// if all OK  - iterate furter.
+			// if all OK - iterate furter.
 			NFile::CFile currentSound;
 			if ( !currentSound.Open( szCurrentBeingReading.c_str(), NFile::CFile::modeReadWrite|NFile::CFile::modeCreate ) )
 			{
@@ -53,19 +53,16 @@ public:
 			currentSound.Close();
 
 			FSOUND_SAMPLE *samp1 = FSOUND_Sample_Load( FSOUND_UNMANAGED, szFileName.c_str(), FSOUND_NORMAL, 0 );
-			/*if ( !samp1 )
-			{
-				std::cout<<"Error loading sample\n";
-				exit(1);
-			}*/
-		//	const int nChannel = FSOUND_PlaySound( FSOUND_FREE, samp1 );
+			/* if (!samp1)
+			 */
+		// const int nChannel = FSOUND_PlaySound( FSOUND_FREE, samp1 );
 			FSOUND_Sample_Free( samp1 );
 		}
 	}
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
 bool InitFMOD()
 {
 	if (FSOUND_GetVersion() < FMOD_VERSION)
@@ -77,9 +74,7 @@ bool InitFMOD()
 	FSOUND_SetOutput(FSOUND_OUTPUT_DSOUND);
 	FSOUND_SetDriver(0);					/* Select sound card (0 = default) */
 
-	/*
-	    INITIALIZE
-	*/
+	/* INITIALIZE */
 	if (!FSOUND_Init(44100, 32, FSOUND_INIT_USEDEFAULTMIDISYNTH))
 	{
 		printf("Error!\n");
@@ -88,9 +83,9 @@ bool InitFMOD()
 	}
 	return 0;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
 int main( int argc, char* argv[] )
 {
 	if ( argc < 2 ) 
@@ -127,7 +122,7 @@ int main( int argc, char* argv[] )
 				std::cout<<"error reading file";
 				return 1;
 			}
-			// write it 
+			// write it
 			
 			badSounds.Seek( 0, NFile::CFile::end );
 

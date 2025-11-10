@@ -1,8 +1,8 @@
 #ifndef __FILESYSTEM_H__
 #define __FILESYSTEM_H__
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #pragma ONCE
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CFileSystemEnumerator : public IStorageEnumerator
 {
 	OBJECT_MINIMAL_METHODS( CFileSystemEnumerator );
@@ -31,7 +31,7 @@ private:
 	bool IsArchive() const { return ( findinfo.dwFileAttributes & FILE_ATTRIBUTE_ARCHIVE ) != 0; }
 	bool IsCompressed() const { return ( findinfo.dwFileAttributes & FILE_ATTRIBUTE_COMPRESSED ) != 0; }
 	bool IsDirectory() const { return ( findinfo.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY ) != 0; }
-	// special kind of directory: '.' - this dir and '..' - parent dir
+	// special kind of directory: '.' 
 	bool IsDots() const
 	{
 		return IsDirectory() &&
@@ -47,7 +47,7 @@ public:
 	virtual bool STDCALL Next();
 	virtual const SStorageElementStats* STDCALL GetStats() const { return &stats; }
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CFileStream : public IDataStream
 {
 	OBJECT_MINIMAL_METHODS( CFileStream );
@@ -64,31 +64,31 @@ private:
 public:
 	CFileStream( const char *pszFileName, DWORD dwAccessMode );
 	virtual ~CFileStream();
-	// чтение/запись данных
+	// read/write data
 	virtual int STDCALL Read( void *pBuffer, int nLength );
 	virtual int STDCALL Write( const void *pBuffer, int nLength );
-	// объявить текущую позицию в потоке за начало потока
+	// declare the current position in the stream as the beginning of the stream
 	virtual int STDCALL LockBegin();
-	// вернуть начало потока в нулевую позицию
+	// return the start of the stream to the zero position
 	virtual int STDCALL UnlockBegin();
-	// текущая позиция в потоке
+	// current position in the stream
 	virtual int STDCALL GetPos() const;
-	// выставить текущую позицию в потоке
+	// set the current position in the stream
 	virtual int STDCALL Seek( int offset, STREAM_SEEK from );
-	// получить размер потока
+	// get stream size
 	virtual int STDCALL GetSize() const;
-	// изменить размер потока
+	// change stream size
 	virtual bool STDCALL SetSize( int nSize );
-	// скопировать 'nLength' байт из текущей позиции потока в текущю позицию 'pDstStream' потока
+	// copy 'nLength' byte from current stream position to current 'pDstStream' stream position
 	virtual int STDCALL CopyTo( IDataStream *pDstStream, int nLength );
-	// сбросить все закешированные данные
+	// reset all cached data
 	virtual void STDCALL Flush();
-	// получить информацию о потоке
+	// get information about the stream
 	virtual void STDCALL GetStats( SStorageElementStats *pStats );
 	//
 	bool IsOpen() const { return hFile != INVALID_HANDLE_VALUE; }
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CFileSystem : public IDataStorage
 {
 	OBJECT_MINIMAL_METHODS( CFileSystem );
@@ -98,26 +98,26 @@ class CFileSystem : public IDataStorage
 	bool CreatePathRecursive( const std::string &szName );
 public:
 	CFileSystem( const char *pszName, DWORD dwAccessMode, bool bCreate );
-	// проверить, есть ли такой поток
+	// check if such thread exists
 	virtual const bool STDCALL IsStreamExist( const char *pszName );
-	// создать и открыть поток с указанным именем и правами доступа
+	// create and open a stream with the specified name and access rights
 	virtual IDataStream* STDCALL CreateStream( const char *pszName, DWORD dwAccessMode );
-	// открыть существующий поток с указанным именем и правами доступа
+	// open an existing stream with the specified name and permissions
 	virtual IDataStream* STDCALL OpenStream( const char *pszName, DWORD dwAccessMode );
-	// получить описание stream'а
+	// get stream description
 	virtual bool STDCALL GetStreamStats( const char *pszName, SStorageElementStats *pStats );
-	// убить элемент хранилища
+	// kill storage element
 	virtual bool STDCALL DestroyElement( const char *pszName );
-	// переименовать элемент
+	// rename element
 	virtual bool STDCALL RenameElement( const char *pszOldName, const char *pszNewName );
-	// перечисление элементов
+	// enumeration of elements
 	virtual IStorageEnumerator* STDCALL CreateEnumerator();
-	// получить имя этого storage
+	// get the name of this storage
 	virtual const char* STDCALL GetName() const { return szBase.c_str(); }
-	// добавить новый MOD
+	// add new MOD
 	virtual bool STDCALL AddStorage( IDataStorage *pStorage, const char *pszName );
-	// убрать MOD
+	// remove MOD
 	virtual bool STDCALL RemoveStorage( const char *pszName );
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // __FILESYSTEM_H__

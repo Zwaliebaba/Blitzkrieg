@@ -13,9 +13,9 @@ public:
 	virtual void OnBrowse();
 
 protected:
-	//{{AFX_MSG(COIColorEdit)  
+	// {{AFX_MSG(COIColorEdit)
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
-	//}}AFX_MSG
+	// }}AFX_MSG
 	
   DECLARE_MESSAGE_MAP()
 		

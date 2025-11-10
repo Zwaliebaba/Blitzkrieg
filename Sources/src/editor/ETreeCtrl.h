@@ -7,34 +7,24 @@
 
 #include <TrCtlX.h>
 class CTreeItem;
-//#include "TreeItem.h"
+// #include "TreeItem.h"
 
 // ETreeCtrl.h : header file
 //
 
-/*
-// сообщения, посылаемые родительскому окну
-// wParam - tree ctrl ID
-// lParam - ID итема
-const UINT WM_ME_TREESEL  = WM_USER + 1;       // поселекчен другой элемент (двойным кликом)
-const UINT WM_ME_DROPITEM = WM_USER + 2;       // 
-
-// Чтобы отличить среди элементов дерева папки от итемов 
-// по хранимому в элементе полю lParam
-// используем модификатор для создания ID папок
-const LPARAM FOLD_MODIFIER = 0x80000000;
-*/
+/* // messages sent to the parent window
+ */
 
 #define IDC_TREE_CONTROL 1005
 
-// Это сообщения от дерева
-const UINT WM_USERTREESEL				= WM_USER + 1;				// поселекчен другой элемент
-const UINT WM_USERDROPITEM			= WM_USER + 2;				// Drop вне текущего дерева
-const UINT WM_USERKEYDOWN				= WM_USER + 3;				// нажата клавиша
-const UINT WM_USERRBUTTONCLICK	= WM_USER + 4;				// клик правой мышой
+// These are messages from the tree
+const UINT WM_USERTREESEL				= WM_USER + 1;				// another element is selected
+const UINT WM_USERDROPITEM			= WM_USER + 2;				// Drop outside the current tree
+const UINT WM_USERKEYDOWN				= WM_USER + 3;				// key pressed
+const UINT WM_USERRBUTTONCLICK	= WM_USER + 4;				// right mouse click
 
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // CETreeCtrl window
 
 class CETreeCtrl : public CWnd
@@ -53,13 +43,11 @@ private:
 	bool m_bDragging;
 	
 	CPtr<CTreeItem> pRootItem;
-//	CDefItemsVector defItems;
+// CDefItemsVector defItems;
 // Operations
 public:
-/*
-	void InitImageLists();
-	void AddSomeItems();
-*/
+/* void InitImageLists();
+	 */
 	SECTreeCtrl* GetTreeCtrl() { return &m_treeCtrl; }
 	void LoadImageList( UINT nID );
 	CTreeItem *CreateRootItem( int nRootItemId );
@@ -77,11 +65,11 @@ protected:
 
 // Overrides
 	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CETreeCtrl)
+	// {{AFX_VIRTUAL(CETreeCtrl)
 public:
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
 protected:
-		//}}AFX_VIRTUAL
+		// }}AFX_VIRTUAL
 
 // Implementation
 public:
@@ -89,7 +77,7 @@ public:
 
 	// Generated message map functions
 protected:
-	//{{AFX_MSG(CETreeCtrl)
+	// {{AFX_MSG(CETreeCtrl)
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnBegindrag(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
@@ -101,14 +89,14 @@ protected:
 	afx_msg void OnSelect(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnRButtonClick(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnKeyDown(NMHDR* pNMHDR, LRESULT* pResult);
-	//}}AFX_MSG
+	// }}AFX_MSG
 
 	DECLARE_MESSAGE_MAP()
 };
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 
-//{{AFX_INSERT_LOCATION}}
+// {{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
 
 #endif // !defined(AFX_ETREECTRL_H__4C474B32_E849_401D_BCF3_3163E8CF920E__INCLUDED_)

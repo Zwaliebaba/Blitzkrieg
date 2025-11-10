@@ -5,31 +5,31 @@
 
 using std::string;
 
-/////////////////////////////////////////////////////////////////////////////
+// //
 // CReferenceDialog dialog
 
 enum EReferenceType
 {
 	E_ANIMATIONS_REF, // sprites
-	E_FUNC_PARTICLES_REF, //particles
-	E_EFFECTS_REF, //effects
-	E_WEAPONS_REF, //weapons
-	E_SOLDIER_REF, //infantry
-	E_ACTIONS_REF, //actions&exposures - MultiSelDialog
-	E_SCENARIO_MISSIONS_REF, //missions
-	E_TEMPLATE_MISSIONS_REF, //templates
-	E_CHAPTERS_REF, //chapters
-	E_SOUNDS_REF, //sounds
-	E_SETTING_REF, //settings
-	E_ASKS_REF, //asks
-	E_CRATER_REF, //craters
-	E_DEATHHOLE_REF, //deathholes
-	E_MAP_REF, //maps
-	E_MUSIC_REF, //maps
-	E_MOVIE_REF, //movies
+	E_FUNC_PARTICLES_REF, // particles
+	E_EFFECTS_REF, // effects
+	E_WEAPONS_REF, // weapons
+	E_SOLDIER_REF, // infantry
+	E_ACTIONS_REF, // actions&exposures - MultiSelDialog
+	E_SCENARIO_MISSIONS_REF, // missions
+	E_TEMPLATE_MISSIONS_REF, // templates
+	E_CHAPTERS_REF, // chapters
+	E_SOUNDS_REF, // sounds
+	E_SETTING_REF, // settings
+	E_ASKS_REF, // asks
+	E_CRATER_REF, // craters
+	E_DEATHHOLE_REF, // deathholes
+	E_MAP_REF, // maps
+	E_MUSIC_REF, // maps
+	E_MOVIE_REF, // movies
 	E_PARTICLE_TEXTURE_REF, // particle textures
-	E_ROAD_TEXTURE_REF, //road textures
-	E_WATER_TEXTURE_REF, //water textures
+	E_ROAD_TEXTURE_REF, // road textures
+	E_WATER_TEXTURE_REF, // water textures
 };
 
 class CReferenceDialog : public CDialog
@@ -42,21 +42,21 @@ public:
 	static void InitLists();
 
 // Dialog Data
-	//{{AFX_DATA(CReferenceDialog)
+	// {{AFX_DATA(CReferenceDialog)
 	enum { IDD = IDD_REFERENCE_DIALOG };
 	CListBox m_refList;
 	CString m_refVal;
-	//}}AFX_DATA
+	// }}AFX_DATA
 
 
 // Overrides
 	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CReferenceDialog)
+	// {{AFX_VIRTUAL(CReferenceDialog)
 	public:
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	//}}AFX_VIRTUAL
+	// }}AFX_VIRTUAL
 	
 // Implementation
 protected:
@@ -111,11 +111,11 @@ protected:
 	void CheckedAdd( const std::list<std::string> &entries, const std::string &szRef );
 		
 	// Generated message map functions
-	//{{AFX_MSG(CReferenceDialog)
+	// {{AFX_MSG(CReferenceDialog)
 	virtual BOOL OnInitDialog();
 	afx_msg void OnDblclkReferenceList();
-	//}}AFX_MSG
+	// }}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
 
-#endif		//__REF_DLG_H__
+#endif		// __REF_DLG_H__

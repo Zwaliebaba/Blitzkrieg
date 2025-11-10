@@ -102,7 +102,7 @@ enum
 
 const string STR_TRUE  = "true";
 const string STR_FALSE = "false";
-/////////////////////////////////////////////////////////////////////////////
+// 
 // CCtrlObjectInspector
 
 CCtrlObjectInspector::CCtrlObjectInspector() 
@@ -138,7 +138,7 @@ CCtrlObjectInspector::~CCtrlObjectInspector()
 
 
 BEGIN_MESSAGE_MAP(CCtrlObjectInspector, CWnd)
-	//{{AFX_MSG_MAP(CCtrlObjectInspector)
+	// {{AFX_MSG_MAP(CCtrlObjectInspector)
 	ON_WM_CREATE()
 	ON_WM_PAINT()
 	ON_WM_LBUTTONDOWN()
@@ -149,11 +149,11 @@ BEGIN_MESSAGE_MAP(CCtrlObjectInspector, CWnd)
 	ON_WM_KILLFOCUS()
 	ON_WM_SETFOCUS()
 	ON_WM_VSCROLL()
-	//}}AFX_MSG_MAP
+	// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // CCtrlObjectInspector message handlers
 
 int CCtrlObjectInspector::OnCreate(LPCREATESTRUCT lpCreateStruct) 
@@ -291,13 +291,13 @@ void CCtrlObjectInspector::OnPaint()
 
 			// second col
 			rect = GetTextColPartRect( nNumber, 1 );
-			//CRAP{ //for normal hex fields representation
+			// CRAP{ //for normal hex fields representation
 			if ( prop.idDomen == DT_HEX )
 			{
 				CVariant &value = const_cast<CVariant&>( prop.varValue );
 				value.SetType( CVariant::VT_INT32 );
 			}
-			//}CRAP
+			// }CRAP
 			string strVal = prop.varValue;
 			if ( DT_COLOR != prop.idDomen )
 				dc.DrawText( strVal.c_str(), strVal.length(), rect, DT_RIGHT );
@@ -406,7 +406,7 @@ void CCtrlObjectInspector::SelectRow( int nVirtualLine, bool needHide )
 		return;
   if ( nVirtualLine < 0 )
     return;
-//	m_pBEdit->SetBrowseFilter( "" );
+// m_pBEdit->SetBrowseFilter( "" );
 
   SCOIPaintElem *pOldElem = GetVirtualElem( m_nCurVirtualLine );
   if ( pOldElem && pOldElem->pProp && !pOldElem->pProp->bReadOnly )
@@ -430,7 +430,7 @@ void CCtrlObjectInspector::SelectRow( int nVirtualLine, bool needHide )
           if ( oldVal != pOldElem->pProp->varValue )
           {
             GetParent()->PostMessage( WM_USER + 1, pOldElem->pProp->idProp );
-						//Invalidate();
+						// Invalidate();
 					}
 				}
 				break;
@@ -493,7 +493,7 @@ void CCtrlObjectInspector::SelectRow( int nVirtualLine, bool needHide )
 		}
 	}
 	SCOIPaintElem *pElem = GetVirtualElem( nVirtualLine );
-	if ( !pElem || needHide /*|| VirtualToPaintLine(nVirtualLine) == 0*/ )
+	if ( !pElem || needHide /* ||  */ )
 		return;
 	if ( pElem->pProp )
 		SetActiveProp( pElem->pProp->idProp );
@@ -622,36 +622,14 @@ void CCtrlObjectInspector::ProcessKeyInput( UINT nChar )
 			break;
 
 		case VK_ESCAPE:
-/*
-			switch( pOldElem->pProp->idDomen )
-			{
-				case 
-					if ( pActiveWnd )
-						pActiveWnd->ShowWindow( SW_HIDE );
-			}
-*/
-/*			
-			CVariant GetPropertyValue( PropID idProp );
-			string   GetPropertyName( PropID idProp );
-			bool SetPropertiesValue( PropID idProp, const CVariant &var );
-			void SelectProperties( PropID nID );
-			PropID HitTest( CPoint ptClient );	// PropIDEmpty if not click in properties
-			PropID GetActiveProp( int nGroupID );
-*/
-/*
-			int nActive = GetActiveProp();
-			CVariant var = GetPropertyValue( nActive );
-			m_pEdit->SetWindowText( var );
-			m_pEdit->ShowWindow( SW_HIDE );
-			*/
-/*			
-			if ( m_pEdit == pActiveWnd )
-			{
-				pActiveWnd->ShowWindow( SW_HIDE );
-//			m_pEdit->ShowWindow( SW_HIDE );
-				pActiveWnd = 0;
-			}
-*/
+/* switch( pOldElem->pProp->idDomen )
+			 */
+/* CVariant GetPropertyValue( PropID idProp );
+			 */
+/* int nActive = GetActiveProp();
+			 */
+/* if ( m_pEdit == pActiveWnd )
+			 */
 			if ( pActiveWnd )
 			{
 				pActiveWnd->ShowWindow( SW_HIDE );
@@ -693,8 +671,8 @@ void CCtrlObjectInspector::OnLButtonUp( UINT nFlags, CPoint point )
 
 void CCtrlObjectInspector::OnMouseMove(UINT nFlags, CPoint point) 
 {
-	//добавим возможность перетаскивать линеечку
-//	rect = CRect( m_nSplitterPos - 1, 0, m_nSplitterPos + 1, m_sizeClient.cy + 2 );
+	// let's add the ability to drag the ruler
+// rect = CRect( m_nSplitterPos - 1, 0, m_nSplitterPos + 1, m_sizeClient.cy + 2 );
 	if ( (point.x >= m_nSplitterPos - 2 && point.x <= m_nSplitterPos + 2 &&
 		point.y >= 0 && point.y <= 15) || bDraggingSplitter )
 	{
@@ -726,10 +704,10 @@ BOOL CCtrlObjectInspector::PreTranslateMessage( MSG* pMsg )
 	}
 	else if ( pMsg->message == WM_KEYDOWN )
 	{
-		//CRAP{
-		//у мен¤ по другому не ход¤т copy/paste сообщени¤, какие-то глюки в редкаторе, ¤ не нашел источник
-		//возможно в будущей версии редактора это стоит пофиксить
-		//как способ фикса ¤ вижу создание нового редактора как MDI приложение с нул¤
+		// CRAP{
+		// I have no other way to copy/paste messages, some glitches in the editor, I couldn’t find the source
+		// Perhaps this should be fixed in a future version of the editor
+		// as a fix ¤ I see creating a new editor as an MDI application from scratch¤
 		if ( ( pMsg->wParam == 'C' || pMsg->wParam == 'V' || pMsg->wParam == 'X' || pMsg->wParam == VK_INSERT || pMsg->wParam == VK_DELETE ) && IsCtrlKeyDown() )
 		{
 			TranslateMessage( pMsg );
@@ -743,7 +721,7 @@ BOOL CCtrlObjectInspector::PreTranslateMessage( MSG* pMsg )
 			DispatchMessage( pMsg );
 			return TRUE;
 		}
-		//CRAP}
+		// CRAP}
 
 		switch ( pMsg->wParam )
 		{
@@ -764,8 +742,8 @@ BOOL CCtrlObjectInspector::PreTranslateMessage( MSG* pMsg )
 
 void CCtrlObjectInspector::LooseFocus()
 {
-	SelectRow( m_nCurVirtualLine, true );			//Ё“ј —“–ќ„ ј Ќ”∆Ќј, »Ќј„≈ Ќ≈ ќЅЌќ¬Ћя≈“—я —ќƒ≈–∆»ћќ≈ ѕ–» ѕ≈–≈’ќƒ≈ Ќј Ќќ¬џ… ITEM
-//	SelectRow( m_nCurVirtualLine );
+	SelectRow( m_nCurVirtualLine, true );			// Ё“ј —“–ќ„ ј Ќ”∆Ќј, »Ќј„≈ Ќ≈ ќЅЌќ¬Ћя≈“—я —ќƒ≈–∆»ћќ≈ ѕ–» ѕ≈–≈’ќƒ≈ Ќј 
+// SelectRow( m_nCurVirtualLine );
 	Invalidate( FALSE );
 }
 
@@ -780,22 +758,15 @@ void CCtrlObjectInspector::OnKillFocus(CWnd* pNewWnd)
 void CCtrlObjectInspector::OnSetFocus(CWnd* pOldWnd)
 {
 	CWnd::OnSetFocus(pOldWnd);
-//	if ( !m_haveFocus )
-//		SelectRow( m_nCurVirtualLine );
+// if (!m_haveFocus)
+// SelectRow( m_nCurVirtualLine );
 	m_haveFocus = true;	
 }
 
 void CCtrlObjectInspector::Init()
 {
-/*	// Calculate line height
-	CDC *pDC = GetDC();
-	TEXTMETRIC sTextMetrics;
-	pDC->GetTextMetrics(&sTextMetrics);
-	m_nLineHeight = sTextMetrics.tmHeight;
-	if ( !(m_nLineHeight % 2) )
-		m_nLineHeight--;
-	ReleaseDC(pDC);
-*/
+/* // Calculate line height
+	 */
 	bDraggingSplitter = false;
 	m_nLineHeight = 15;
 	// Create font
@@ -810,7 +781,7 @@ void CCtrlObjectInspector::Init()
 	CRect rect, rectClient;
 	// Create edit
 	m_pEdit->Create( WS_CHILD | ES_WANTRETURN | ES_MULTILINE | ES_LEFT | ES_AUTOHSCROLL, rect, this, SUB_CTRL_EDIT );
-//	m_pEdit->Create( WS_CHILD | ES_LEFT | ES_AUTOHSCROLL, rect, this, SUB_CTRL_EDIT );
+// m_pEdit->Create( WS_CHILD | ES_LEFT | ES_AUTOHSCROLL, rect, this, SUB_CTRL_EDIT );
 	m_pEdit->ModifyStyleEx( 0, WS_EX_STATICEDGE );
 	m_pEdit->SetFont( &m_fntDef );
 
@@ -818,20 +789,20 @@ void CCtrlObjectInspector::Init()
   m_pBEdit->Create( 0, "Browse Edit", WS_CHILD, rect, this, SUB_CTRL_BEDIT );
   m_pReference->Create( 0, "Reference", WS_CHILD, rect, this, SUB_CTRL_REFERENCE );
 	m_pCEdit->Create( 0, "Color Edit", WS_CHILD, rect, this, SUB_CTRL_CEDIT );
-//  m_pBEdit->ModifyStyleEx( 0, WS_EX_STATICEDGE );
+// m_pBEdit->ModifyStyleEx( 0, WS_EX_STATICEDGE );
   
 	// Create combo
   rect.SetRectEmpty();
   rect.right = 70;
   rect.bottom = 120;
-//	m_pCombo->Create( WS_VISIBLE | WS_CHILD | CBS_DROPDOWNLIST | CBS_SORT | CBS_NOINTEGRALHEIGHT | WS_VSCROLL, rect, this, SUB_CTRL_COMBO );
+// m_pCombo->Create( WS_VISIBLE | WS_CHILD | CBS_DROPDOWNLIST | CBS_SORT | CBS_NOINTEGRALHEIGHT | WS_VSCROLL, rect, this, SUB_CTRL_COMBO );
   m_pCombo->Create( CBS_DROPDOWNLIST | WS_CHILD | CBS_SORT | WS_VSCROLL | CBS_NOINTEGRALHEIGHT, rect, this, SUB_CTRL_COMBO );
-//	m_pCombo->ModifyStyleEx( 0, WS_EX_STATICEDGE );
+// m_pCombo->ModifyStyleEx( 0, WS_EX_STATICEDGE );
 	m_pCombo->SetFont( &m_fntDef );
   m_pCombo->SetItemHeight( 0, m_nLineHeight - 1 );  
 
 	GetClientRect( rectClient );
-//	m_nSplitterPos = 11 * rectClient.Width() / 20;
+// m_nSplitterPos = 11 * rectClient.Width() / 20;
   m_nSplitterPos = m_nLineHeight;
   CDC *pDC = GetDC();
   if ( pDC )
@@ -853,7 +824,7 @@ void CCtrlObjectInspector::Init()
 	bmp.DeleteObject();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////
 // 
 
 bool CCtrlObjectInspector::IsValidDomen( DomenID idDomen )
@@ -908,7 +879,7 @@ bool CCtrlObjectInspector::AddPropertiesValue( PropID idProp, DomenID idDomen, c
 			pDC->SelectObject( &m_fntDef );
       CSize sz = pDC->GetTextExtent( strName.c_str(), strlen( strName.c_str() ) );
       m_nSplitterPos = max( m_nSplitterPos, (int)sz.cx + m_nLineHeight + 2 );
-//      m_nSplitterPos = (int)sz.cx + m_nLineHeight;
+// m_nSplitterPos = (int)sz.cx + m_nLineHeight;
       ReleaseDC( pDC );
     }
     MakePaintList();
@@ -923,7 +894,7 @@ void CCtrlObjectInspector::ClearAll()
 	bDraggingSplitter = false;
 	if ( m_mapProps.empty() )
 		return;
-	//	SelectRow( m_nCurVirtualLine, true );
+	// SelectRow( m_nCurVirtualLine, true );
 	SelectRow( m_nCurVirtualLine );
 	SelectRow( 0 );
 	m_nSplitterPos = 0;
@@ -1001,7 +972,7 @@ BOOL CCtrlObjectInspector::PreCreateWindow(CREATESTRUCT& cs)
 {
 	CWnd::PreCreateWindow(cs);
 	cs.style |= WS_VSCROLL | WS_EX_STATICEDGE;
-//	cs.dwExStyle |= WS_EX_WINDOWEDGE; //WS_EX_CLIENTEDGE;
+// cs.dwExStyle |= WS_EX_WINDOWEDGE; 
 	cs.lpszClass = AfxRegisterWndClass(CS_HREDRAW|CS_VREDRAW|CS_DBLCLKS, 
 		::LoadCursor(NULL, IDC_ARROW), 0, NULL);
 	
@@ -1100,12 +1071,12 @@ void CCtrlObjectInspector::SetActiveProp( PropID nID )
 	Invalidate( FALSE );
 }
 
-//RR
+// R.R.
 PropID CCtrlObjectInspector::GetMyActiveProp()
 {
   SCOIPaintElem *pOldElem = GetVirtualElem( m_nCurVirtualLine );
 	if ( pOldElem && pOldElem->pProp )
 		return pOldElem->pProp->idProp;
 	else
-		return -1;		//ERROR
+		return -1;		// ERROR
 }

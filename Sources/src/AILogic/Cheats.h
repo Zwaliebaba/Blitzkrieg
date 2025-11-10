@@ -1,60 +1,60 @@
 #ifndef __CHEATS_H__
 #define __CHEATS_H__
 
-#pragma ONCE
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma once
+
 struct SCheats
 {
-	DECLARE_SERIALIZE;
-private:
-	// просчитывать ли туман bWarFog
-	bool bWarFog;
-	// для кого просчитывать туман
-	int nPartyForWarFog;
+  DECLARE_SERIALIZE;
+  // Should bWarFog calculate fog?
+  bool bWarFog;
+  // for whom to calculate the fog
+  int nPartyForWarFog;
 
-	// загружать статич. объекты и реки или нет
-	bool bLoadObjects;
-	
-	bool bTurnOffWarFog;
-	bool bHistoryPlaying;
-	//
-	// убиваема или нет данная сторона
-	std::vector<BYTE> immortals;
-	// убивает ли данная сторона с первого раза
-	std::vector<BYTE> firstShoot;
+  // load static 
+  bool bLoadObjects;
 
-	bool bPasswordOK;
+  bool bTurnOffWarFog;
+  bool bHistoryPlaying;
+  //
+  // whether this side is killable or not
+  std::vector<BYTE> immortals;
+  // Does this side kill the first time?
+  std::vector<BYTE> firstShoot;
+
+  bool bPasswordOK;
+
 public:
-	SCheats();
+  SCheats();
 
-	void Init();
-	void Clear() { Init(); }
+  void Init();
+  void Clear() { Init(); }
 
-	void SetWarFog( bool bWarFog );
-	bool GetWarFog() const { return bWarFog; }
+  void SetWarFog(bool bWarFog);
+  bool GetWarFog() const { return bWarFog; }
 
-	void SetNPartyForWarFog( const int nPartyForWarFog, bool bUnconditionly );
-	const int GetNPartyForWarFog() const { return nPartyForWarFog; }
+  void SetNPartyForWarFog(int nPartyForWarFog, bool bUnconditionly);
+  const int GetNPartyForWarFog() const { return nPartyForWarFog; }
 
-	void SetLoadObjects( bool bLoadObjects );
-	bool GetLoadObjects() const { return bLoadObjects; }
+  void SetLoadObjects(bool bLoadObjects);
+  bool GetLoadObjects() const { return bLoadObjects; }
 
-	void SetTurnOffWarFog( bool bTurnOffWarFog );
-	bool GetTurnOffWarFog() const { return bTurnOffWarFog; }
+  void SetTurnOffWarFog(bool bTurnOffWarFog);
+  bool GetTurnOffWarFog() const { return bTurnOffWarFog; }
 
-	void SetImmortals( const int nParty, const BYTE cValue );
-	BYTE GetImmortals( const int nParty ) const { return immortals[nParty]; }
+  void SetImmortals(int nParty, BYTE cValue);
+  BYTE GetImmortals(const int nParty) const { return immortals[nParty]; }
 
-	void SetFirstShoot( const int nParty, const BYTE cValue );
-	BYTE GetFirstShoot( const int nParty ) const { return firstShoot[nParty]; }
-	
-	void SetHistoryPlaying( bool _bHistoryPlaying ) { bHistoryPlaying = _bHistoryPlaying; }
-	bool IsHistoryPlaying() const { return bHistoryPlaying; }
-	
-	const unsigned long MakeCheckSum( const std::string &szPassword );
-	void CheckPassword( const std::string &szPassword );
-	
-	bool IsPasswordOk() const { return bPasswordOK; }
+  void SetFirstShoot(int nParty, BYTE cValue);
+  BYTE GetFirstShoot(const int nParty) const { return firstShoot[nParty]; }
+
+  void SetHistoryPlaying(bool _bHistoryPlaying) { bHistoryPlaying = _bHistoryPlaying; }
+  bool IsHistoryPlaying() const { return bHistoryPlaying; }
+
+  const unsigned long MakeCheckSum(const std::string &szPassword);
+  void CheckPassword(const std::string &szPassword);
+
+  bool IsPasswordOk() const { return bPasswordOK; }
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // __CHEATS_H__

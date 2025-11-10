@@ -223,12 +223,12 @@ public:
 	
 	inline void DrawToScene( bool bClear = true )
 	{
-		//рисовать здесь
+		// draw here
 		if ( IScene *pScene = GetSingleton<IScene>() )
 		{
 			if ( ITerrain *pTerrain = pScene->GetTerrain() )
 			{
-					//линии
+					// lines
 				if( !vertices.empty() )
 				{
 					NI_ASSERT_T( ( vertices.size() & 0x1 ) == 0,
@@ -262,7 +262,7 @@ public:
 					}
 				}
 
-				//красный маркер
+				// red marker
 				if ( bMarkerTilesValid )
 				{
 					if ( ITerrainEditor *pTerrainEditor = dynamic_cast<ITerrainEditor*>( pTerrain ) )
@@ -286,7 +286,7 @@ public:
 		}
 	}
 
-	//в terrain тайлах ( ось Y инвертирована )
+	// in terrain tiles (Y axis inverted)
 	inline void AddAIMarkerTiles( const CTRect<int> &rRect, DWORD dwGreenPass, bool isBounds = false )
 	{
 		bAIMarkerTilesValid = true;
@@ -318,7 +318,7 @@ public:
 		}
 	}
 	
-	//в ai тайлах
+	// in ai tiles
 	inline void AddAIMarkerAITiles( const CTRect<int> &rRect, DWORD dwGreenPass, bool isBounds = false )
 	{
 		bAIMarkerTilesValid = true;
@@ -344,29 +344,29 @@ public:
 		}
 	}
 
-	//в ai тайлах
+	// in ai tiles
 	//
-	//           Y / \
-	//           /     \
-	//         /         \
-	//       /             \
-	//     /    LT     RT    \
-	//0  /       -------       \
-	// /         |     |         \
-	// \         |     |         /
-	//   \       -------       /
-	//     \    LB     RB    /
-	//       \             /
-	//         \         /
-	//           \     /
-	//           X \ /
+	// Y/\
+	// /\
+	// /\
+	// /\
+	// /LTRT\
+	// 0/-------\
+	// / |     
+	// \ |     
+	// \-------/
+	// \LBRB/
+	// \/
+	// \/
+	// \/
+	// X\/
 	//
 
 	inline void AddAIMarkerAITiles( const CArray2D<BYTE> &rArray, DWORD dwGreenPass, const CVec2 &vLT, const CVec2 &vRT, const CVec2 &vLB, const CVec2 &vRB )
 	{
 		bAIMarkerTilesValid = true;
 
-		//рисовать здесь
+		// draw here
 		for ( int nYIndex = vLB.y; nYIndex <= vRT.y; ++nYIndex )
 		{
 			for ( int nXIndex = vLT.x; nXIndex <= vRB.x; ++nXIndex )
@@ -383,7 +383,7 @@ public:
 		}
 	}
 
-	//в terrain тайлах
+	// in terrain tiles
 	inline void AddMarkerTiles( const CTRect<int> &rRect, bool isBounds = false )
 	{
 		bMarkerTilesValid = true;
@@ -430,5 +430,5 @@ public:
 		vAIMarkerTiles.clear();
 	}
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // !defined(__DrawingTools__)

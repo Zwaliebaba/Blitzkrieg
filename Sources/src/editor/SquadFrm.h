@@ -37,9 +37,9 @@ public:
 	
 	// Overrides
 	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CSquadFrame)
+	// {{AFX_VIRTUAL(CSquadFrame)
 protected:
-	//}}AFX_VIRTUAL
+	// }}AFX_VIRTUAL
 	
 	// Implementation
 private:
@@ -57,11 +57,11 @@ private:
 	int m_mode;
 	CSquadFormationPropsItem *pActiveFormation;
 	CSquadFormationPropsItem::SUnit *pDraggingUnit;
-//	IObjVisObj *pDraggingUnit;
+// IObjVisObj *pDraggingUnit;
 	CVec2 objShift;
 
 protected:
-	virtual void SpecificInit();														//для инициализации внутренних данных после загрузки проекта или создании нового
+	virtual void SpecificInit();														// to initialize internal data after loading a project or creating a new one
 	virtual void SpecificClearBeforeBatchMode();
 	virtual BOOL SpecificTranslateMessage( MSG *pMsg );
 	
@@ -76,7 +76,7 @@ protected:
 
 // Generated message map functions
 protected:
-	//{{AFX_MSG(CSquadFrame)
+	// {{AFX_MSG(CSquadFrame)
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
@@ -85,13 +85,13 @@ protected:
 	afx_msg void OnUpdateSetZeroButton(CCmdUI* pCmdUI);
 	afx_msg void OnShowDirectionButton();	
 	afx_msg void OnUpdateShowDirectionButton(CCmdUI* pCmdUI);
-	//}}AFX_MSG
+	// }}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
 
-/////////////////////////////////////////////////////////////////////////////
+// //
 
-//{{AFX_INSERT_LOCATION}}
+// {{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
 
-#endif		//__SQUADFRM_H__
+#endif		// __SQUADFRM_H__

@@ -39,15 +39,15 @@ public:
 	CParentFrame();
 	virtual ~CParentFrame();
 	
-	virtual void Init( IGFX *_pGFX ) { pGFX = _pGFX; }			//ининциализация
-	virtual void ShowFrameWindows( int nCommand );					//вызывается при изменении фокуса, параметр SW_SHOW или SW_HIDE
-	virtual void GFXDraw() {}																//отрисовка
+	virtual void Init( IGFX *_pGFX ) { pGFX = _pGFX; }			// initialization
+	virtual void ShowFrameWindows( int nCommand );					// called when focus changes, parameter SW_SHOW or SW_HIDE
+	virtual void GFXDraw() {}																// rendering
 
-	void SetChangedFlag( bool bFlag );											//устанавливает флаг модификации, отображает * в имени проекта
-	int DisplayInsertMenu();																//отображает меню с пунктом insert
+	void SetChangedFlag( bool bFlag );											// sets the modification flag, displays * in the project name
+	int DisplayInsertMenu();																// displays a menu with an insert option
 	int DisplayDeleteMenu();
 	
-	//функции для сохранения и загрузки информации в реестре
+	// functions for saving and loading information in the registry
 	void SaveRegisterData();
 	void LoadRegisterData();
 
@@ -65,28 +65,28 @@ public:
 	int GetLowShadowFormat() { NI_ASSERT( m_nLowShadowFormat != -1 ); return m_nLowShadowFormat; }
 	int GetHighShadowFormat() { NI_ASSERT( m_nHighShadowFormat != -1 ); return m_nHighShadowFormat; }
 	
-	//инициализация OI и дерева
+	// OI and tree initialization
 	void SetTreeDockBar( CTreeDockWnd *pWnd ) { pTreeDockBar = pWnd; }
 	void SetOIDockBar( CPropView *pWnd );
 	void SetToolBar( SECCustomToolBar *pWnd ) { pToolBar = pWnd; }
 	void ClearPropView();
-	BOOL SaveFrame( bool bUnlock = false );					//для сохранения данных frame после завершения программы
-	virtual void UpdatePropView( CTreeItem *pTreeItem );								//для отображения в OI новой информации
-	string GetProjectFileName() { return szProjectFileName; }		//для вычисления относительной директории при изменении путей в дереве
+	BOOL SaveFrame( bool bUnlock = false );					// to save frame data after program completion
+	virtual void UpdatePropView( CTreeItem *pTreeItem );								// to display new information in OI
+	string GetProjectFileName() { return szProjectFileName; }		// to calculate relative directory when tree paths change
 	const char *GetModuleExtension() { return szExtension.c_str(); }
 	void RunBatchExporter( const char *pszSourceDir, const char *pszDestDir, const char *pszMask, bool bForceFlag, bool bOpenSave );
 	
 protected:
-	CWnd *pWndView;											//view окошко для отображения
-	CPtr<IGFX> pGFX;										//для ускорения доступа к GFX, старый остаток
-	CTreeDockWnd *pTreeDockBar;					//дерево для выбора редактируемого item
-	CPropView *pOIDockBar;							//object inspector, окно редактирования
-	SECCustomToolBar *pToolBar;					//toolbar для данного фрейма
+	CWnd *pWndView;											// view window for displaying
+	CPtr<IGFX> pGFX;										// to speed up access to GFX, old balance
+	CTreeDockWnd *pTreeDockBar;					// tree for selecting the edited item
+	CPropView *pOIDockBar;							// object inspector, editing window
+	SECCustomToolBar *pToolBar;					// toolbar for this frame
 
-	string szProjectFileName;						//имя открытого проекта
-	string szPrevExportFileName;				//ранее экспортированное имя для проекта, относительно szSourceDir
-	bool bChanged;											//изменился ли проект после загрузки / создания
-	bool bNewProjectJustCreated;				//если true, то только что создан новый проект, надо прогрузить данные из RPG stats
+	string szProjectFileName;						// open project name
+	string szPrevExportFileName;				// previously exported name for the project, relative to szSourceDir
+	bool bChanged;											// has the project changed since loading/creation
+	bool bNewProjectJustCreated;				// if true, then a new project has just been created, you need to load data from RPG stats
 
 	int m_nCompressedFormat;
 	int m_nLowFormat;
@@ -96,7 +96,7 @@ protected:
 	int m_nLowShadowFormat;
 	int m_nHighShadowFormat;
 
-	//для транзакций
+	// for transactions
 	struct STransaction
 	{
 		string szSourceName;
@@ -111,84 +111,77 @@ protected:
 
 		int operator&( IDataTree &ss );
 	};
-	string m_szOldProjectName;					//имя предыдущего файла проекта
+	string m_szOldProjectName;					// name of the previous project file
 	vector<STransaction> transactions;
 
-	//эти параметры должны инициализироваться в конструкторе для каждого композера
-	string szComposerName;							//имя composer, отображается в title
-	string szExtension;									//расширение для проектов композера
-	string szExportExtension;						//расширение для экспорта файлов проекта
-	string szComposerSaveName;					//используется при сохранении данных в XML
-	string szAddDir;										//добавочная директория, добавляется к szSourceDir
-	int nTreeRootItemID;								//ID root item для данного композера
-	bool bDefaultExportName;						//если установлен флаг, то при экспорте будет предлагаться имя файла 1.xml по умолчанию
+	// these parameters must be initialized in the constructor for each composer
+	string szComposerName;							// composer name, displayed in title
+	string szExtension;									// extension for composer projects
+	string szExportExtension;						// extension for exporting project files
+	string szComposerSaveName;					// used when saving data in XML
+	string szAddDir;										// additional directory, added to szSourceDir
+	int nTreeRootItemID;								// ID root item for this composer
+	bool bDefaultExportName;						// if the flag is set, then when exporting the file name 1.xml will be suggested by default
 	int nFrameType;
 
-	//параметры, сохраняемые в реестре
-/*
-	string szLocalSourceDir;						//директория исходников
-	string szLocalDestDir;							//директория результатов
-*/
-	DWORD m_backgroundColor;						//цвет background для GFXDraw()
+	// settings saved in the registry
+/* string szLocalSourceDir;						 */
+	DWORD m_backgroundColor;						// background color for GFXDraw()
 	float m_fBrightness;
 	float m_fContrast;
 	float m_fGamma;
 	bool bTreeExpand;
 
 protected:
-	void ComputeCaption();							//обновляет title окошка
-	void GenerateProjectName();					//генерит имя для нового проекта, используется при создании нового проекта
+	void ComputeCaption();							// updates the title of the window
+	void GenerateProjectName();					// generates a name for a new project, used when creating a new project
 
-	//считывыет инфо из конфигурационного файла (ищет рекурсивно поднимаясь вверх ближайший gamma.cfg файл)
-	//первый параметр - имя директории, относительно которой поднимаясь вверх компоновщик будет искать конфигурационный файл
-	//второй параметр - флаг, находимся ли мы в режиме batch mode, чтобы не ругаться
+	// reads information from the configuration file (looks for the nearest gamma.cfg file recursively going up)
+	// the first parameter is the name of the directory, relative to which the linker will look for the configuration file when climbing up
+	// the second parameter is a flag indicating whether we are in batch mode, so as not to swear
 	bool ReadConfigFile( const char *pszDirectory, bool bBatchMode );
-	bool WriteConfigFile( bool bAsk, bool bCurrentProjectOnly );	//записывает инфо в конфиг файл
+	bool WriteConfigFile( bool bAsk, bool bCurrentProjectOnly );	// writes information to the config file
 
-	void LoadTransactions( IDataTree *pDT );		//считывает инфу о предыдущих изменениях в проекте
-	void SaveTransactions( FILETIME *pFT, IDataTree *pDT, const char *pszDest, int nAction );	//записывает инфу о произошедших изменениях
-	bool ConvertAndSaveImage( const char *pszSrc, const char *pszDest );								//применяет преобразования и сохраняет картинку
+	void LoadTransactions( IDataTree *pDT );		// reads information about previous changes in the project
+	void SaveTransactions( FILETIME *pFT, IDataTree *pDT, const char *pszDest, int nAction );	// records information about changes that have occurred
+	bool ConvertAndSaveImage( const char *pszSrc, const char *pszDest );								// applies transformations and saves the image
 	CETreeCtrl *CreateTrees();
 	virtual string GetExportFileName();
 
-	//специфичная обработка сообщений для модуля
+	// module-specific message processing
 	virtual BOOL SpecificTranslateMessage( MSG *pMsg ) { return FALSE; }
-	virtual void SpecificInit() {}													//для инициализации внутренних данных после загрузки проекта или создании нового
-	virtual void SpecificSave( IDataTree *pDT ) {}					//вызывается при записи проекта, нужно только в GUI composer
-	virtual void SpecificClearBeforeBatchMode() {};					//для очистки перед запуском batch mode
+	virtual void SpecificInit() {}													// to initialize internal data after loading a project or creating a new one
+	virtual void SpecificSave( IDataTree *pDT ) {}					// called when writing a project, only needed in GUI composer
+	virtual void SpecificClearBeforeBatchMode() {};					// to clean before starting batch mode
 	
-	virtual void SaveFrameOwnData( IDataTree *pDT );				//для сохранения собственных данных проекта
-	virtual void LoadFrameOwnData( IDataTree *pDT );				//для загрузки
+	virtual void SaveFrameOwnData( IDataTree *pDT );				// to save your own project data
+	virtual void LoadFrameOwnData( IDataTree *pDT );				// to download
 
-	//сохраняет RPG stats композера в pDT, принимает параметр pRootItem для того чтобы функцию можно было вызывать из batch mode
+	// saves the composer's RPG stats in pDT, accepts the pRootItem parameter so that the function can be called from batch mode
 	virtual void SaveRPGStats( IDataTree *pDT, CTreeItem *pRootItem, const char *pszProjectName ) {}
-	//загружает RPG stats
+	// loads RPG stats
 	virtual void LoadRPGStats( IDataTree *pDT, CTreeItem *pRootItem ) {}
 
-/*
-	//заполняет rpgStats из дерева перед собственно записью в файл (или при создании нового проекта)
-	void FillRPGStats( SCommonRPGStats *pCommonRpgStats, CTreeItem *pRootItem );
-	//инициализирует данные в дереве при октрытии проекта
-	void GetRPGStats( const SCommonRPGStats *pCommonRpgStats, CTreeItem *pRootItem );
-*/
+/* //fills rpgStats from the tree before actually writing to the file (or when creating a new project)
+	 */
 
-	//BATCH MODE
-	//экспортирует один проект, если все ОК, возвращает 0, иначе код ошибки
+	// BATCH MODE
+	// exports one project, if everything is OK, returns 0, otherwise error code
 	int ExportSingleFile( const char *pszFileName, const char *pszDestDir, bool bForceFlag, bool bOpenSave );
-	//загружает данные перед экспортом проекта, используется в object, building, mesh фреймах
+	// loads data before exporting the project, used in object, building, mesh frames
 	virtual bool LoadFramePreExportData( const char *pszProjectFile, CTreeItem *pRootItem ) { return true; }
-	//вычисляет максимальное время изменения для исходников проекта
+	// calculates the maximum change time for project sources
 	virtual FILETIME FindMaximalSourceTime( const char *pszProjectName, CTreeItem *pRootItem ) { FILETIME time; time.dwHighDateTime = 0xffffffff; time.dwLowDateTime = 0xffffffff; return time; }
-	//вычисляет минимальное время для результатов экспорта
+	// calculates the minimum time for export results
 	virtual FILETIME FindMinimalExportFileTime( const char *pszResultFileName, CTreeItem *pRootItem ) { FILETIME time; time.dwHighDateTime = 0; time.dwLowDateTime = 0; return time; }
-	//запускает экспортер
-	//эта функция экспортирует все данные проекта, вызывается как из batch mode, так и при OnFileSave()
-	//параметры: имя исходника проекта, имя файла результата, RootItem, дополнительный флаг
+	// launches the exporter
+	// this function exports all project data, called both from batch mode and with OnFileSave()
+	// parameters: project source name, result file name, RootItem, additional flag
 	virtual bool ExportFrameData( IDataTree *pDT, const char *pszProjectName, const char *pszResultFileName, CTreeItem *pRootItem ) { return true; }
 	
-	//для локировки редактора
-	bool LockFile();				//возвращает false если не может залочить файл (уже залочен)
-	bool UnLockFile();			//возвращает false если не может разлочить (ошибка удаления файла или еще какой кал)
+	// to lock the editor
+	bool LockFile();				// returns false if it cannot lock the file (already locked)
+	bool UnLockFile();			// returns false if it cannot unlock (file deletion error or some other problem)
 	void SwitchDockerVisible( SECControlBar *pBar );
 	void UpdateShowMenu( CCmdUI* pCmdUI, SECControlBar *pBar );
 
@@ -200,21 +193,21 @@ public:
 
 	// Overrides
 	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CAnimationFrame)
+	// {{AFX_VIRTUAL(CAnimationFrame)
 protected:
-//	virtual BOOL PreTranslateMessage(MSG* pMsg);
-//	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
-//	virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
+// virtual BOOL PreTranslateMessage(MSG* pMsg);
+// virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
+// virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
 	virtual BOOL OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo);
-	virtual void OnUpdateFrameTitle( BOOL bAddToTitle ) { /* эта шняга должна быть пустой */ }
+	virtual void OnUpdateFrameTitle( BOOL bAddToTitle ) { /* this shit should be empty */ }
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
-	//}}AFX_VIRTUAL
+	// }}AFX_VIRTUAL
 	
 	// Generated message map functions
 protected:
-	//{{AFX_MSG(CAnimationFrame)
-//	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
+	// {{AFX_MSG(CAnimationFrame)
+// afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnSetFocus(CWnd* pOldWnd);
 	afx_msg void OnFileCreateNewProject();
 	afx_msg void OnFileOpen();
@@ -290,8 +283,8 @@ protected:
 	afx_msg void OnRiverEditor();	
 	afx_msg void OnUpdateRiverEditor(CCmdUI* pCmdUI);
 	afx_msg void OnSaveObjects();
-	//}}AFX_MSG
+	// }}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
 
-#endif		//__PARENT_FRAME_H__
+#endif		// __PARENT_FRAME_H__

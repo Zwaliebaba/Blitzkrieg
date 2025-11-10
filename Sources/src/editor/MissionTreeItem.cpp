@@ -98,7 +98,7 @@ void CMissionCommonPropsItem::UpdateItemValue( int nItemId, const CVariant &valu
 	
 	if ( nItemId == 1 || nItemId == 2 || nItemId == 3 )
 	{
-		//сконвертим путь к файлу в относительный без расширения
+		// convert the file path to relative without extension
 		if ( !IsRelatedPath( value ) )
 		{
 			string szValue = value;
@@ -106,7 +106,7 @@ void CMissionCommonPropsItem::UpdateItemValue( int nItemId, const CVariant &valu
 			bool bRes =	MakeSubRelativePath( g_frameManager.GetFrame( CFrameManager::E_MISSION_FRAME )->GetProjectFileName().c_str(), szValue.c_str(), szRelatedPath );
 			if ( bRes )
 			{
-				//обрежем расширение в конце
+				// cut off the extension at the end
 				szRelatedPath = szRelatedPath.substr( 0, szRelatedPath.rfind( '.' ) );
 				CVariant newVal = szRelatedPath;
 				CTreeItem::UpdateItemValue( nItemId, newVal );
@@ -258,7 +258,7 @@ void CMissionObjectivePropsItem::UpdateItemValue( int nItemId, const CVariant &v
 	
 	if ( nItemId == 1 || nItemId == 2 )
 	{
-		//сконвертим путь к файлу в относительный без расширения
+		// convert the file path to relative without extension
 		if ( !IsRelatedPath( value ) )
 		{
 			string szValue = value;
@@ -266,7 +266,7 @@ void CMissionObjectivePropsItem::UpdateItemValue( int nItemId, const CVariant &v
 			bool bRes =	MakeSubRelativePath( g_frameManager.GetFrame( CFrameManager::E_MISSION_FRAME )->GetProjectFileName().c_str(), szValue.c_str(), szRelatedPath );
 			if ( bRes )
 			{
-				//обрежем расширение в конце
+				// cut off the extension at the end
 				szRelatedPath = szRelatedPath.substr( 0, szRelatedPath.rfind( '.' ) );
 				CVariant newVal = szRelatedPath;
 				CTreeItem::UpdateItemValue( nItemId, newVal );

@@ -1,1033 +1,1004 @@
 #include "stdafx.h"
 
 #include "RailroadGraph.h"
-#include "..\Formats\fmtTerrain.h"
-#include "..\Formats\fmtMap.h"
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#include "../Formats/fmtTerrain.h"
+#include "../Formats/fmtMap.h"
+// //////////////////////////////////////////////////////////// 
 CRailroadGraph theRailRoadGraph;
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-BASIC_REGISTER_CLASS( IEdge );
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//*******************************************************************
-//*													CEdgePoint															*
-//*******************************************************************
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-BASIC_REGISTER_CLASS( CEdgePoint );
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-CEdgePoint::CEdgePoint( const CEdgePoint &edgePoint )
+// //////////////////////////////////////////////////////////// 
+BASIC_REGISTER_CLASS(IEdge);
+// //////////////////////////////////////////////////////////// 
+// **********************************************************************
+// *CEdgePoint*
+// **********************************************************************
+// //////////////////////////////////////////////////////////// 
+BASIC_REGISTER_CLASS(CEdgePoint);
+// //////////////////////////////////////////////////////////// 
+CEdgePoint::CEdgePoint(const CEdgePoint &edgePoint)
 {
-	pEdge = edgePoint.pEdge;
-	nPart = edgePoint.nPart;
-	fT = edgePoint.fT;
+  pEdge = edgePoint.pEdge;
+  nPart = edgePoint.nPart;
+  fT = edgePoint.fT;
 
-	NI_ASSERT_T( pEdge != 0, "EdgePoint with NULL edge" );
+  NI_ASSERT_T(pEdge != 0, "EdgePoint with NULL edge");
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CEdgePoint::Init( IEdge *_pEdge, const int _nPart, const float _fT )
+
+// //////////////////////////////////////////////////////////// 
+void CEdgePoint::Init(IEdge *_pEdge, const int _nPart, const float _fT)
 {
-	pEdge = _pEdge;
-	nPart =_nPart;
-	fT = _fT;
+  pEdge = _pEdge;
+  nPart = _nPart;
+  fT = _fT;
 
-	NI_ASSERT_T( pEdge != 0, "EdgePoint with NULL edge" );
+  NI_ASSERT_T(pEdge != 0, "EdgePoint with NULL edge");
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const CVec2 CEdgePoint::Get2DPoint() const 
-{ 
-	return pEdge->GetCoordinate( nPart, fT );
-}
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// //////////////////////////////////////////////////////////// 
+const CVec2 CEdgePoint::Get2DPoint() const { return pEdge->GetCoordinate(nPart, fT); }
+// //////////////////////////////////////////////////////////// 
 const CVec2 CEdgePoint::GetTangent() const
 {
-	CVec2 vResult = pEdge->GetTangent( nPart, fT );
-	Normalize( &vResult );
-	return vResult;
+  CVec2 vResult = pEdge->GetTangent(nPart, fT);
+  Normalize(&vResult);
+  return vResult;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CEdgePoint::Reverse( IEdge *pReversedEdge )
+
+// //////////////////////////////////////////////////////////// 
+void CEdgePoint::Reverse(IEdge *pReversedEdge)
 {
-	NI_ASSERT_T( pEdge->GetNParts() == pReversedEdge->GetNParts(), "Wrong edge passed" );
-	
-	nPart = pReversedEdge->GetNParts() - nPart - 1;
-	pEdge = pReversedEdge;
+  NI_ASSERT_T(pEdge->GetNParts() == pReversedEdge->GetNParts(), "Wrong edge passed");
+
+  nPart = pReversedEdge->GetNParts() - nPart - 1;
+  pEdge = pReversedEdge;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool CEdgePoint::IsLastPointOfEdge() const
-{
-	return pEdge->IsLastPoint( nPart, fT );
-}
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool CEdgePoint::IsEqual( CEdgePoint *pEdgePoint ) const
-{
-	return nPart == pEdgePoint->nPart && fabs( fT - pEdgePoint->fT ) < 0.00001f;
-}
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//*******************************************************************
-//*													CSplineEdge															*
-//*******************************************************************
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-BASIC_REGISTER_CLASS( CSplineEdge );
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// //////////////////////////////////////////////////////////// 
+bool CEdgePoint::IsLastPointOfEdge() const { return pEdge->IsLastPoint(nPart, fT); }
+// //////////////////////////////////////////////////////////// 
+bool CEdgePoint::IsEqual(CEdgePoint *pEdgePoint) const { return nPart == pEdgePoint->nPart && fabs(fT - pEdgePoint->fT) < 0.00001f; }
+// //////////////////////////////////////////////////////////// 
+// **********************************************************************
+// *CSplineEdge*
+// **********************************************************************
+// //////////////////////////////////////////////////////////// 
+BASIC_REGISTER_CLASS(CSplineEdge);
+// //////////////////////////////////////////////////////////// 
 const int CSplineEdge::N_PARTS_FOR_LENGTH_CALCULATING = 100;
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-CSplineEdge::CSplineEdge( const SVectorStripeObject &edgeDescriptor )
+// //////////////////////////////////////////////////////////// 
+CSplineEdge::CSplineEdge(const SVectorStripeObject &edgeDescriptor)
 {
-	CVec3 p0, p1, p2, p3;
-	Vis2AI( &p3, edgeDescriptor.controlpoints[0] );
-	p0 = p1 = p2 = p3;
+  CVec3 p0, p1, p2, p3;
+  Vis2AI(&p3, edgeDescriptor.controlpoints[0]);
+  p0 = p1 = p2 = p3;
 
-	const int nControlPointsSize = edgeDescriptor.controlpoints.size();
-	edgeParts.resize( nControlPointsSize + 1 );
-	for ( int i = 1; i < nControlPointsSize; ++i )
-	{
-		p0 = p1; p1 = p2; p2 = p3; Vis2AI( &p3, edgeDescriptor.controlpoints[i] );
-		edgeParts[i-1].spline.Setup( p0, p1, p2, p3 );
-		edgeParts[i-1].fTBegin = 0.0f;
-		edgeParts[i-1].fTEnd = 1.0f;
-	}
+  const int nControlPointsSize = edgeDescriptor.controlpoints.size();
+  edgeParts.resize(nControlPointsSize + 1);
+  for (int i = 1; i < nControlPointsSize; ++i)
+  {
+    p0 = p1;
+    p1 = p2;
+    p2 = p3;
+    Vis2AI(&p3, edgeDescriptor.controlpoints[i]);
+    edgeParts[i - 1].spline.Setup(p0, p1, p2, p3);
+    edgeParts[i - 1].fTBegin = 0.0f;
+    edgeParts[i - 1].fTEnd = 1.0f;
+  }
 
-	p0 = p1; p1 = p2; p2 = p3;
-	edgeParts[nControlPointsSize-1].spline.Setup( p0, p1, p2, p3 );
-	edgeParts[nControlPointsSize-1].fTBegin = 0.0f;
-	edgeParts[nControlPointsSize-1].fTEnd = 1.0f;
+  p0 = p1;
+  p1 = p2;
+  p2 = p3;
+  edgeParts[nControlPointsSize - 1].spline.Setup(p0, p1, p2, p3);
+  edgeParts[nControlPointsSize - 1].fTBegin = 0.0f;
+  edgeParts[nControlPointsSize - 1].fTEnd = 1.0f;
 
-	p0 = p1; p1 = p2; p2 = p3; 
-	edgeParts[nControlPointsSize].spline.Setup( p0, p1, p2, p3 );
-	edgeParts[nControlPointsSize].fTBegin = 0.0f;
-	edgeParts[nControlPointsSize].fTEnd = 1.0f;
+  p0 = p1;
+  p1 = p2;
+  p2 = p3;
+  edgeParts[nControlPointsSize].spline.Setup(p0, p1, p2, p3);
+  edgeParts[nControlPointsSize].fTBegin = 0.0f;
+  edgeParts[nControlPointsSize].fTEnd = 1.0f;
 
-	CalculateEdgeLength();
+  CalculateEdgeLength();
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CSplineEdge::Init( CEdgePoint *p1, CEdgePoint *p2 )
+
+// //////////////////////////////////////////////////////////// 
+void CSplineEdge::Init(CEdgePoint *p1, CEdgePoint *p2)
 {
-	if ( p1->GetEdge() != p2->GetEdge() )
-		p2->Reverse( p1->GetEdge() );
-	
-	NI_ASSERT_T( p1->GetEdge() == p2->GetEdge(), "Can't construct edge from two points of different edges" );
+  if (p1->GetEdge() != p2->GetEdge()) p2->Reverse(p1->GetEdge());
 
-	IEdge *pEdgeInterface = p1->GetEdge();
-	NI_ASSERT_T( dynamic_cast<CSplineEdge*>(pEdgeInterface) != 0, "Can't initialize spline edge by zero edge" );
-	CSplineEdge *pEdge = static_cast<CSplineEdge*>(pEdgeInterface);
+  NI_ASSERT_T(p1->GetEdge() == p2->GetEdge(), "Can't construct edge from two points of different edges");
 
-	if ( p1->nPart == p2->nPart )
-	{
-		edgeParts.resize( 1 );
-		edgeParts[0].spline = pEdge->edgeParts[p1->nPart].spline;
-		edgeParts[0].fTBegin = p1->fT;
-		edgeParts[0].fTEnd = p2->fT;
-	}
-	else if ( p1->nPart < p2->nPart )
-	{
-		edgeParts.resize( p2->nPart - p1->nPart + 1 );
+  IEdge *pEdgeInterface = p1->GetEdge();
+  NI_ASSERT_T(dynamic_cast<CSplineEdge*>(pEdgeInterface) != 0, "Can't initialize spline edge by zero edge");
+  auto pEdge = static_cast<CSplineEdge *>(pEdgeInterface);
 
-		for ( int i = p1->nPart; i <= p2->nPart; ++i )
-		{
-			edgeParts[i - p1->nPart].spline = pEdge->edgeParts[i].spline;
-			edgeParts[i - p1->nPart].fTBegin = 0.0f;
-			edgeParts[i - p1->nPart].fTEnd = 1.0f;
-		}
+  if (p1->nPart == p2->nPart)
+  {
+    edgeParts.resize(1);
+    edgeParts[0].spline = pEdge->edgeParts[p1->nPart].spline;
+    edgeParts[0].fTBegin = p1->fT;
+    edgeParts[0].fTEnd = p2->fT;
+  }
+  else if (p1->nPart < p2->nPart)
+  {
+    edgeParts.resize(p2->nPart - p1->nPart + 1);
 
-		edgeParts[0].fTBegin = p1->fT;
-		edgeParts[p2->nPart - p1->nPart].fTEnd = p2->fT;
-	}
-	else
-	{
-		edgeParts.resize( p1->nPart - p2->nPart + 1 );
-		
-		for ( int i = p1->nPart; i >= p2->nPart; --i )
-		{
-			edgeParts[p1->nPart - i].spline = pEdge->edgeParts[i].spline;
-			edgeParts[p1->nPart - i].fTBegin = 1.0f;
-			edgeParts[p1->nPart - i].fTEnd = 0.0f;
-		}
+    for (int i = p1->nPart; i <= p2->nPart; ++i)
+    {
+      edgeParts[i - p1->nPart].spline = pEdge->edgeParts[i].spline;
+      edgeParts[i - p1->nPart].fTBegin = 0.0f;
+      edgeParts[i - p1->nPart].fTEnd = 1.0f;
+    }
 
-		edgeParts[0].fTBegin = p1->fT;
-		edgeParts[p1->nPart - p2->nPart].fTEnd = p2->fT;
-	}
+    edgeParts[0].fTBegin = p1->fT;
+    edgeParts[p2->nPart - p1->nPart].fTEnd = p2->fT;
+  }
+  else
+  {
+    edgeParts.resize(p1->nPart - p2->nPart + 1);
 
-	CalculateEdgeLength();
+    for (int i = p1->nPart; i >= p2->nPart; --i)
+    {
+      edgeParts[p1->nPart - i].spline = pEdge->edgeParts[i].spline;
+      edgeParts[p1->nPart - i].fTBegin = 1.0f;
+      edgeParts[p1->nPart - i].fTEnd = 0.0f;
+    }
+
+    edgeParts[0].fTBegin = p1->fT;
+    edgeParts[p1->nPart - p2->nPart].fTEnd = p2->fT;
+  }
+
+  CalculateEdgeLength();
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-IEdge* CSplineEdge::CreateReversedEdge() const
+
+// //////////////////////////////////////////////////////////// 
+IEdge *CSplineEdge::CreateReversedEdge() const
 {
-	CSplineEdge *pReversedEdge = new CSimpleSplineEdge();
-	pReversedEdge->v1 = v2;
-	pReversedEdge->v2 = v1;
-	pReversedEdge->fEdgeLength = fEdgeLength;
+  CSplineEdge *pReversedEdge = new CSimpleSplineEdge();
+  pReversedEdge->v1 = v2;
+  pReversedEdge->v2 = v1;
+  pReversedEdge->fEdgeLength = fEdgeLength;
 
-	const int nParts = GetNParts();
-	pReversedEdge->edgeParts.resize( nParts );
-	for ( int i = 0; i < nParts; ++i )
-	{
-		pReversedEdge->edgeParts[i].spline = edgeParts[nParts - i - 1].spline;
-		pReversedEdge->edgeParts[i].fTBegin = edgeParts[nParts - i - 1].fTEnd;
-		pReversedEdge->edgeParts[i].fTEnd = edgeParts[nParts - i - 1].fTBegin;
-	}
+  const int nParts = GetNParts();
+  pReversedEdge->edgeParts.resize(nParts);
+  for (int i = 0; i < nParts; ++i)
+  {
+    pReversedEdge->edgeParts[i].spline = edgeParts[nParts - i - 1].spline;
+    pReversedEdge->edgeParts[i].fTBegin = edgeParts[nParts - i - 1].fTEnd;
+    pReversedEdge->edgeParts[i].fTEnd = edgeParts[nParts - i - 1].fTBegin;
+  }
 
-	return pReversedEdge;
+  return pReversedEdge;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-CEdgePoint* CSplineEdge::CreateFirstEdgePoint()
+
+// //////////////////////////////////////////////////////////// 
+CEdgePoint *CSplineEdge::CreateFirstEdgePoint() { return new CEdgePoint(this, 0, edgeParts[0].fTBegin); }
+// //////////////////////////////////////////////////////////// 
+CEdgePoint *CSplineEdge::CreateLastEdgePoint()
 {
-	return new CEdgePoint( this, 0, edgeParts[0].fTBegin );
+  const int nSize = edgeParts.size();
+  return
+      new CEdgePoint(this, nSize - 1, edgeParts[nSize - 1].fTEnd);
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-CEdgePoint* CSplineEdge::CreateLastEdgePoint()
-{
-	const int nSize = edgeParts.size();
-	return 
-		new CEdgePoint( this, nSize - 1, edgeParts[nSize-1].fTEnd );
-}
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const float CSplineEdge::CalculateLengthOfEdgePart( const int nPart, const float fBegin, const float fEnd )
-{
-	float fT = fBegin;
-	const float fTAdd = ( fEnd - fBegin ) / N_PARTS_FOR_LENGTH_CALCULATING;
 
-	float fEdgePartLength = 0.0f;
-	// не совпадают
-	if ( fabs( fBegin - fEnd ) >= 1.0f / ( 4.0f * N_PARTS_FOR_LENGTH_CALCULATING ) )
-	{
-		for ( int i = 0; i <= N_PARTS_FOR_LENGTH_CALCULATING; ++i )
-		{
-			fEdgePartLength += fabs( edgeParts[nPart].spline.Get( fT ) - edgeParts[nPart].spline.Get( fT + fTAdd ) );
-			fT += fTAdd;
-		}
-	}
+// //////////////////////////////////////////////////////////// 
+const float CSplineEdge::CalculateLengthOfEdgePart(const int nPart, const float fBegin, const float fEnd)
+{
+  float fT = fBegin;
+  const float fTAdd = (fEnd - fBegin) / N_PARTS_FOR_LENGTH_CALCULATING;
 
-	return fEdgePartLength;
+  float fEdgePartLength = 0.0f;
+  // don't match
+  if (fabs(fBegin - fEnd) >= 1.0f / (4.0f * N_PARTS_FOR_LENGTH_CALCULATING))
+  {
+    for (int i = 0; i <= N_PARTS_FOR_LENGTH_CALCULATING; ++i)
+    {
+      fEdgePartLength += fabs(edgeParts[nPart].spline.Get(fT) - edgeParts[nPart].spline.Get(fT + fTAdd));
+      fT += fTAdd;
+    }
+  }
+
+  return fEdgePartLength;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// //////////////////////////////////////////////////////////// 
 void CSplineEdge::CalculateEdgeLength()
 {
-	fEdgeLength = 0.0f;
+  fEdgeLength = 0.0f;
 
-	for ( int i = 0; i < edgeParts.size(); ++i )
-		fEdgeLength += CalculateLengthOfEdgePart( i, edgeParts[i].fTBegin, edgeParts[i].fTEnd );
+  for (int i = 0; i < edgeParts.size(); ++i) fEdgeLength += CalculateLengthOfEdgePart(i, edgeParts[i].fTBegin, edgeParts[i].fTEnd);
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// //////////////////////////////////////////////////////////// 
 const CVec2 CSplineEdge::GetFirst2DPoint() const
 {
-	return 
-		edgeParts[0].spline.Get( edgeParts[0].fTBegin );
+  return
+      edgeParts[0].spline.Get(edgeParts[0].fTBegin);
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// //////////////////////////////////////////////////////////// 
 const CVec2 CSplineEdge::GetLast2DPoint() const
 {
-	const int nSize = edgeParts.size();
-	return 
-		edgeParts[ nSize - 1].spline.Get( edgeParts[nSize - 1].fTEnd );
+  const int nSize = edgeParts.size();
+  return
+      edgeParts[nSize - 1].spline.Get(edgeParts[nSize - 1].fTEnd);
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CSplineEdge::GetClosestPoints( const CVec2 &vPoint, std::list< CPtr<CEdgePoint> > *pPoints, float *pfMinDist, const float fTolerance )
+
+// //////////////////////////////////////////////////////////// 
+void CSplineEdge::GetClosestPoints(const CVec2 &vPoint, std::list<CPtr<CEdgePoint>> *pPoints, float *pfMinDist, const float fTolerance)
 {
-	*pfMinDist = -1.0f;
+  *pfMinDist = -1.0f;
 
-	for ( int i = 0; i < edgeParts.size(); ++i )
-	{
-		CVec2 vLocalClosestPoint;
-		float fLocalT;
-		edgeParts[i].spline.GetClosestPoint( vPoint, &vLocalClosestPoint, &fLocalT, edgeParts[i].fTBegin, edgeParts[i].fTEnd );
+  for (int i = 0; i < edgeParts.size(); ++i)
+  {
+    CVec2 vLocalClosestPoint;
+    float fLocalT;
+    edgeParts[i].spline.GetClosestPoint(vPoint, &vLocalClosestPoint, &fLocalT, edgeParts[i].fTBegin, edgeParts[i].fTEnd);
 
-		const float fLocalDist = fabs( vPoint - vLocalClosestPoint );
+    const float fLocalDist = fabs(vPoint - vLocalClosestPoint);
 
-		// новая точка лучше, чем все старые
-		if ( *pfMinDist == -1.0f || *pfMinDist - fLocalDist >= fTolerance )
-		{
-			pPoints->clear();
-			pPoints->push_back( new CEdgePoint( this, i, fLocalT ) );
-			*pfMinDist = fLocalDist;
-		}
-		// новая точка может подойти
-		else if ( fabs( *pfMinDist - fLocalDist ) < fTolerance )
-		{
-			if ( fLocalDist >= *pfMinDist )
-				pPoints->push_back( new CEdgePoint( this, i, fLocalT ) );
-			else
-			{
-				*pfMinDist = fLocalDist;
+    // the new point is better than all the old ones
+    if (*pfMinDist == -1.0f || *pfMinDist - fLocalDist >= fTolerance)
+    {
+      pPoints->clear();
+      pPoints->push_back(new CEdgePoint(this, i, fLocalT));
+      *pfMinDist = fLocalDist;
+    }
+    // a new point may be suitable
+    else if (fabs(*pfMinDist - fLocalDist) < fTolerance)
+    {
+      if (fLocalDist >= *pfMinDist) pPoints->push_back(new CEdgePoint(this, i, fLocalT));
+      else
+      {
+        *pfMinDist = fLocalDist;
 
-				// удалить все далеко стоящие точки
-				std::list< CPtr<CEdgePoint> >::iterator iter = pPoints->begin();
-				while ( iter != pPoints->end() )
-				{
-					const CVec2 vLocalPoint = (*iter)->Get2DPoint();
-					if ( fabs( vLocalPoint - vPoint ) >= *pfMinDist )
-						iter = pPoints->erase( iter );
-					else
-						++iter;
-				}
+        // remove all distant points
+        auto iter = pPoints->begin();
+        while (iter != pPoints->end())
+        {
+          const CVec2 vLocalPoint = (*iter)->Get2DPoint();
+          if (fabs(vLocalPoint - vPoint) >= *pfMinDist) iter = pPoints->erase(iter);
+          else ++iter;
+        }
 
-				pPoints->push_back( new CEdgePoint( this, i, fLocalT ) );
-			}
-		}
-	}
+        pPoints->push_back(new CEdgePoint(this, i, fLocalT));
+      }
+    }
+  }
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const float CSplineEdge::GetLength( CEdgePoint *p1, CEdgePoint *p2 )
+
+// //////////////////////////////////////////////////////////// 
+const float CSplineEdge::GetLength(CEdgePoint *p1, CEdgePoint *p2)
 {
-	NI_ASSERT_T( p1->GetEdge() == this && p2->GetEdge() == this, "Wrong points passed" );
+  NI_ASSERT_T(p1->GetEdge() == this && p2->GetEdge() == this, "Wrong points passed");
 
-	CPtr<CEdgePoint> pGarbage1 = p1;
-	CPtr<CEdgePoint> pGarbage2 = p2;
+  CPtr<CEdgePoint> pGarbage1 = p1;
+  CPtr<CEdgePoint> pGarbage2 = p2;
 
-	if ( p1->nPart == p2->nPart )
-		return CalculateLengthOfEdgePart( p1->nPart, p1->fT, p2->fT );
-	else
-	{
-		const int nAdd = Sign( p2->nPart - p1->nPart );
-		// куски рёбер до вершин
-		float fDist = 
-			CalculateLengthOfEdgePart( p1->nPart, p1->fT, 
-																 nAdd > 0 ? edgeParts[p1->nPart].fTEnd : edgeParts[p1->nPart].fTBegin ) +
-			CalculateLengthOfEdgePart( p2->nPart, p2->fT, 
-																 nAdd > 0 ? edgeParts[p2->nPart].fTBegin : edgeParts[p2->nPart].fTEnd );
+  if (p1->nPart == p2->nPart) return CalculateLengthOfEdgePart(p1->nPart, p1->fT, p2->fT);
+  else
+  {
+    const int nAdd = Sign(p2->nPart - p1->nPart);
+    // pieces of ribs to the tops
+    float fDist =
+        CalculateLengthOfEdgePart(p1->nPart, p1->fT,
+                                  nAdd > 0 ? edgeParts[p1->nPart].fTEnd : edgeParts[p1->nPart].fTBegin) +
+        CalculateLengthOfEdgePart(p2->nPart, p2->fT,
+                                  nAdd > 0 ? edgeParts[p2->nPart].fTBegin : edgeParts[p2->nPart].fTEnd);
 
-		// целые рёбра
-		const int nStart = p1->nPart + nAdd;
-		const int nFinish = p2->nPart;
-		for ( int i = nStart; i != nFinish; i += nAdd )
-			fDist += CalculateLengthOfEdgePart( i, edgeParts[i].fTBegin, edgeParts[i].fTEnd );
+    // whole ribs
+    const int nStart = p1->nPart + nAdd;
+    const int nFinish = p2->nPart;
+    for (int i = nStart; i != nFinish; i += nAdd) fDist += CalculateLengthOfEdgePart(i, edgeParts[i].fTBegin, edgeParts[i].fTEnd);
 
-		return fDist;
-	}
+    return fDist;
+  }
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-CEdgePoint* CSplineEdge::MakeIndentOnOneSpline( const CVec2 &vPointToMeasureDist, const int nPart, const float fTBegin, const float fTEnd, float fDist )
+
+// //////////////////////////////////////////////////////////// 
+CEdgePoint *CSplineEdge::MakeIndentOnOneSpline(const CVec2 &vPointToMeasureDist, const int nPart, const float fTBegin, const float fTEnd, float fDist)
 {
-	NI_ASSERT_T( nPart < edgeParts.size(), NStr::Format( "Wrong part (%d) passed", nPart ) );
-	if ( fDist > -0.000001 && fDist < 0 )
-		fDist = 0.0f;
-	NI_ASSERT_T( fDist >= 0.0f, NStr::Format( "Negaitve distance passed (%g)", fDist ) );
+  NI_ASSERT_T(nPart < edgeParts.size(), NStr::Format( "Wrong part (%d) passed", nPart ));
+  if (fDist > -0.000001 && fDist < 0) fDist = 0.0f;
+  NI_ASSERT_T(fDist >= 0.0f, NStr::Format( "Negaitve distance passed (%g)", fDist ));
 
-	CAnalyticBSpline2 &spline = edgeParts[nPart].spline;
-	float fLeft = fTBegin;
-	float fRight = fTEnd;
-	float fMiddle = 0.0f;
-	float fMiddleLength = fabs( vPointToMeasureDist - spline.Get( fTEnd ) );
-	float fOldLength = fMiddleLength + 10.0f;
+  CAnalyticBSpline2 &spline = edgeParts[nPart].spline;
+  float fLeft = fTBegin;
+  float fRight = fTEnd;
+  float fMiddle = 0.0f;
+  float fMiddleLength = fabs(vPointToMeasureDist - spline.Get(fTEnd));
+  float fOldLength = fMiddleLength + 10.0f;
 
-	while ( fabs( fOldLength - fMiddleLength ) > 0.0001f )
-	{
-		fOldLength = fMiddleLength;
-		fMiddle = ( fRight + fLeft ) / 2;
-		fMiddleLength = fabs( vPointToMeasureDist - spline.Get( fMiddle ) );
+  while (fabs(fOldLength - fMiddleLength) > 0.0001f)
+  {
+    fOldLength = fMiddleLength;
+    fMiddle = (fRight + fLeft) / 2;
+    fMiddleLength = fabs(vPointToMeasureDist - spline.Get(fMiddle));
 
-		if ( fMiddleLength <= fDist )
-			fLeft = fMiddle;
-		else
-			fRight = fMiddle;
-	}
+    if (fMiddleLength <= fDist) fLeft = fMiddle;
+    else fRight = fMiddle;
+  }
 
-	return new CEdgePoint( this, nPart, fMiddle );
+  return new CEdgePoint(this, nPart, fMiddle);
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-CEdgePoint* CSplineEdge::MakeIndent( const CVec2 &vPointToMeasureDist, CEdgePoint *p1, CEdgePoint *p2, float fDist )
+
+// //////////////////////////////////////////////////////////// 
+CEdgePoint *CSplineEdge::MakeIndent(const CVec2 &vPointToMeasureDist, CEdgePoint *p1, CEdgePoint *p2, float fDist)
 {
-	CPtr<CEdgePoint> pGarbage1 = p1;
-	CPtr<CEdgePoint> pGarbage2 = p2;
+  CPtr<CEdgePoint> pGarbage1 = p1;
+  CPtr<CEdgePoint> pGarbage2 = p2;
 
-	// точки в обратном порядке, перевернуть
-	if ( p1->nPart > p2->nPart )
-	{
-		IEdge *pEdge = p1->GetEdge();
-		const int v1 = pEdge->GetFirstNode();
-		const int v2 = pEdge->GetLastNode();
-		
-		IEdge *pNewEdge = theRailRoadGraph.GetEdge( v2, v1 );
-		p1->Reverse( pNewEdge );
-		p2->Reverse( pNewEdge );
-		CEdgePoint *pResult = pNewEdge->MakeIndent( vPointToMeasureDist, p1, p2, fDist );
+  // points in reverse order, turn over
+  if (p1->nPart > p2->nPart)
+  {
+    IEdge *pEdge = p1->GetEdge();
+    const int v1 = pEdge->GetFirstNode();
+    const int v2 = pEdge->GetLastNode();
 
-		p1->Reverse( pEdge );
-		p2->Reverse( pEdge );
+    IEdge *pNewEdge = theRailRoadGraph.GetEdge(v2, v1);
+    p1->Reverse(pNewEdge);
+    p2->Reverse(pNewEdge);
+    CEdgePoint *pResult = pNewEdge->MakeIndent(vPointToMeasureDist, p1, p2, fDist);
 
-		return pResult;
-	}
-	else
-	{
-		if ( p1->nPart == p2->nPart )
-			return MakeIndentOnOneSpline( vPointToMeasureDist, p1->nPart, p1->fT, p2->fT, fDist );
-		else 
-		{
-			const float fDistToSplineEnd =
-				fabs( vPointToMeasureDist - edgeParts[p1->nPart].spline.Get( edgeParts[p1->nPart].fTEnd ) );
+    p1->Reverse(pEdge);
+    p2->Reverse(pEdge);
 
-			if ( fDistToSplineEnd >= fDist )
-				return MakeIndentOnOneSpline( vPointToMeasureDist, p1->nPart, p1->fT, edgeParts[p1->nPart].fTEnd, fDist );
-			else
-			{
-				int nCurPart = p1->nPart;
-				do
-				{
-					++nCurPart;
-					if ( nCurPart >= edgeParts.size() )
-						return CreateLastEdgePoint();
+    return pResult;
+  }
+  if (p1->nPart == p2->nPart) return MakeIndentOnOneSpline(vPointToMeasureDist, p1->nPart, p1->fT, p2->fT, fDist);
+  const float fDistToSplineEnd =
+      fabs(vPointToMeasureDist - edgeParts[p1->nPart].spline.Get(edgeParts[p1->nPart].fTEnd));
 
-					float fDistToSplineEnd;
-					if ( nCurPart < p2->nPart )
-						fDistToSplineEnd = fabs( vPointToMeasureDist - edgeParts[nCurPart].spline.Get( edgeParts[nCurPart].fTEnd ) );
-					else
-						fDistToSplineEnd = fabs( vPointToMeasureDist - edgeParts[nCurPart].spline.Get( p2->fT ) );
+  if (fDistToSplineEnd >= fDist) return MakeIndentOnOneSpline(vPointToMeasureDist, p1->nPart, p1->fT, edgeParts[p1->nPart].fTEnd, fDist);
+  int nCurPart = p1->nPart;
+  do
+  {
+    ++nCurPart;
+    if (nCurPart >= edgeParts.size()) return CreateLastEdgePoint();
 
-					if ( fDistToSplineEnd >= fDist )
-					{
-						if ( nCurPart < p2->nPart )
-							return MakeIndentOnOneSpline( vPointToMeasureDist, nCurPart, edgeParts[nCurPart].fTBegin, edgeParts[nCurPart].fTEnd, fDist );
-						else
-							return MakeIndentOnOneSpline( vPointToMeasureDist, nCurPart, edgeParts[nCurPart].fTBegin, p2->fT, fDist );
-					}
+    float fDistToSplineEnd;
+    if (nCurPart < p2->nPart) fDistToSplineEnd = fabs(vPointToMeasureDist - edgeParts[nCurPart].spline.Get(edgeParts[nCurPart].fTEnd));
+    else fDistToSplineEnd = fabs(vPointToMeasureDist - edgeParts[nCurPart].spline.Get(p2->fT));
 
-					if ( nCurPart == p2->nPart )
-						return p2;
-				} while ( true );
-			}
-		}
-	}
+    if (fDistToSplineEnd >= fDist)
+    {
+      if (nCurPart < p2->nPart) return MakeIndentOnOneSpline(vPointToMeasureDist, nCurPart, edgeParts[nCurPart].fTBegin, edgeParts[nCurPart].fTEnd, fDist);
+      return MakeIndentOnOneSpline(vPointToMeasureDist, nCurPart, edgeParts[nCurPart].fTBegin, p2->fT, fDist);
+    }
 
-	return 0;
+    if (nCurPart == p2->nPart) return p2;
+  } while (true);
+
+  return nullptr;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const CVec2 CSplineEdge::GetCoordinate( const int nPart, const float fT ) const
+
+// //////////////////////////////////////////////////////////// 
+const CVec2 CSplineEdge::GetCoordinate(const int nPart, const float fT) const
 {
-	NI_ASSERT_T( nPart < GetNParts(), NStr::Format( "Wrong number of nPart (%d)", nPart ) );
-	return 
-		edgeParts[nPart].spline.Get( fT );
+  NI_ASSERT_T(nPart < GetNParts(), NStr::Format( "Wrong number of nPart (%d)", nPart ));
+  return
+      edgeParts[nPart].spline.Get(fT);
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const CVec2 CSplineEdge::GetTangent( const int nPart, const float fT ) const
-{
-	NI_ASSERT_T( nPart < GetNParts(), NStr::Format( "Wrong number of nPart (%d)", nPart ) );
-	
-	CVec2 vResult;
-	// отступить от краёв сплайна, чтобы избежать нулевой производной
-	if ( fT >= 0.99f )
-		vResult = edgeParts[nPart].spline.GetDiff1( 0.99f );
-	else if ( fT <= 0.01f )
-		vResult = edgeParts[nPart].spline.GetDiff1( 0.01f );
-	else
-		vResult = edgeParts[nPart].spline.GetDiff1( fT );
 
-	if ( edgeParts[nPart].fTBegin > edgeParts[nPart].fTEnd )
-		vResult = -vResult;
-
-	Normalize( &vResult );
-	return vResult;
-}
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const CVec2 CSplineEdge::GetTangentOfBegin() const
+// //////////////////////////////////////////////////////////// 
+const CVec2 CSplineEdge::GetTangent(const int nPart, const float fT) const
 {
-	return GetTangent( 0, edgeParts[0].fTBegin );
+  NI_ASSERT_T(nPart < GetNParts(), NStr::Format( "Wrong number of nPart (%d)", nPart ));
+
+  CVec2 vResult;
+  // move away from the edges of the spline to avoid zero derivative
+  if (fT >= 0.99f) vResult = edgeParts[nPart].spline.GetDiff1(0.99f);
+  else if (fT <= 0.01f) vResult = edgeParts[nPart].spline.GetDiff1(0.01f);
+  else vResult = edgeParts[nPart].spline.GetDiff1(fT);
+
+  if (edgeParts[nPart].fTBegin > edgeParts[nPart].fTEnd) vResult = -vResult;
+
+  Normalize(&vResult);
+  return vResult;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// //////////////////////////////////////////////////////////// 
+const CVec2 CSplineEdge::GetTangentOfBegin() const { return GetTangent(0, edgeParts[0].fTBegin); }
+// //////////////////////////////////////////////////////////// 
 const CVec2 CSplineEdge::GetTangentOfEnd() const
 {
-	return
-		GetTangent( GetNParts() - 1, edgeParts[GetNParts() - 1].fTEnd );
+  return
+      GetTangent(GetNParts() - 1, edgeParts[GetNParts() - 1].fTEnd);
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool CSplineEdge::IsLastPoint( const int nPart, const float fT ) const 
-{ 
-	NI_ASSERT_T( nPart < edgeParts.size(), NStr::Format( "Wrong part of edge (%d)", nPart ) );
-	return nPart == edgeParts.size() - 1 && fabs( edgeParts[nPart-1].fTEnd - fT ) < 0.00001f; 
-}
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//*******************************************************************
-//*											CSimpleSplineEdge														*
-//*******************************************************************
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-IEdge* CSimpleSplineEdge::CreateEdge( CEdgePoint *p1, CEdgePoint *p2 )
+
+// //////////////////////////////////////////////////////////// 
+bool CSplineEdge::IsLastPoint(const int nPart, const float fT) const
 {
-	IEdge *pResult = new CSimpleSplineEdge( p1, p2 );
-	pResult->SetNodesNumbers( GetFirstNode(), GetLastNode() );
-
-	return pResult;
+  NI_ASSERT_T(nPart < edgeParts.size(), NStr::Format( "Wrong part of edge (%d)", nPart ));
+  return nPart == edgeParts.size() - 1 && fabs(edgeParts[nPart - 1].fTEnd - fT) < 0.00001f;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//*******************************************************************
-//*														CZeroEdge															*
-//*******************************************************************
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-CZeroEdge::CZeroEdge( CEdgePoint *p1, CEdgePoint *p2 )
+
+// //////////////////////////////////////////////////////////// 
+// **********************************************************************
+// *CSimpleSplineEdge*
+// **********************************************************************
+// //////////////////////////////////////////////////////////// 
+IEdge *CSimpleSplineEdge::CreateEdge(CEdgePoint *p1, CEdgePoint *p2)
 {
-	vFirstPoint = p1->Get2DPoint();
-	vDir = p2->Get2DPoint() - vFirstPoint;
-	fTBegin = 0.0f;
-	fTEnd = 1.0f;
-	fLength = fabs( vDir );
+  IEdge *pResult = new CSimpleSplineEdge(p1, p2);
+  pResult->SetNodesNumbers(GetFirstNode(), GetLastNode());
+
+  return pResult;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-IEdge* CZeroEdge::CreateReversedEdge() const
+
+// //////////////////////////////////////////////////////////// 
+// **********************************************************************
+// *CZeroEdge*
+// **********************************************************************
+// //////////////////////////////////////////////////////////// 
+CZeroEdge::CZeroEdge(CEdgePoint *p1, CEdgePoint *p2)
 {
-	CZeroEdge *pReversedEdge = new CZeroEdge();
-
-	pReversedEdge->vFirstPoint = vFirstPoint;
-	pReversedEdge->vDir = vDir;
-	pReversedEdge->fTBegin = fTEnd;
-	pReversedEdge->fTEnd = fTBegin;
-	pReversedEdge->fLength = fLength;
-
-	return pReversedEdge;
+  vFirstPoint = p1->Get2DPoint();
+  vDir = p2->Get2DPoint() - vFirstPoint;
+  fTBegin = 0.0f;
+  fTEnd = 1.0f;
+  fLength = fabs(vDir);
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const CVec2 CZeroEdge::GetCoordinate( const int nPart, const float fT ) const
+
+// //////////////////////////////////////////////////////////// 
+IEdge *CZeroEdge::CreateReversedEdge() const
 {
-	NI_ASSERT_T( nPart == 0, NStr::Format( "Wrong part of edge (%d)", nPart ) );
-	return vFirstPoint + vDir * fT;
+  auto pReversedEdge = new CZeroEdge();
+
+  pReversedEdge->vFirstPoint = vFirstPoint;
+  pReversedEdge->vDir = vDir;
+  pReversedEdge->fTBegin = fTEnd;
+  pReversedEdge->fTEnd = fTBegin;
+  pReversedEdge->fLength = fLength;
+
+  return pReversedEdge;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const CVec2 CZeroEdge::GetTangent( const int nPart, const float fT ) const
+
+// //////////////////////////////////////////////////////////// 
+const CVec2 CZeroEdge::GetCoordinate(const int nPart, const float fT) const
 {
-	CVec2 vResult = vDir;
-	Normalize( &vResult );
-	if ( fTBegin > fTEnd )
-		vResult = -vResult;
-
-	Normalize( &vResult );
-	return vResult;
+  NI_ASSERT_T(nPart == 0, NStr::Format( "Wrong part of edge (%d)", nPart ));
+  return vFirstPoint + vDir * fT;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-CEdgePoint* CZeroEdge::CreateFirstEdgePoint()
+
+// //////////////////////////////////////////////////////////// 
+const CVec2 CZeroEdge::GetTangent(const int nPart, const float fT) const
 {
-	CEdgePoint *pResult = new CEdgePoint;
-	pResult->nPart = 0;
-	pResult->fT = fTBegin;
-	pResult->pEdge = this;
+  CVec2 vResult = vDir;
+  Normalize(&vResult);
+  if (fTBegin > fTEnd) vResult = -vResult;
 
-	return pResult;
+  Normalize(&vResult);
+  return vResult;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-CEdgePoint* CZeroEdge::CreateLastEdgePoint()
+
+// //////////////////////////////////////////////////////////// 
+CEdgePoint *CZeroEdge::CreateFirstEdgePoint()
 {
-	CEdgePoint *pResult = new CEdgePoint;
-	pResult->nPart = 0;
-	pResult->fT = fTEnd;
-	pResult->pEdge = this;
+  auto pResult = new CEdgePoint;
+  pResult->nPart = 0;
+  pResult->fT = fTBegin;
+  pResult->pEdge = this;
 
-	return pResult;
+  return pResult;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CZeroEdge::GetClosestPoints( const CVec2 &vPoint, std::list< CPtr<CEdgePoint> > *pPoints, float *pfMinDist, const float fTolerance )
+
+// //////////////////////////////////////////////////////////// 
+CEdgePoint *CZeroEdge::CreateLastEdgePoint()
 {
-	const float fDistToPoint1 = fabs( GetFirst2DPoint() - vPoint );
-	const float fDistToPoint2 = fabs( GetLast2DPoint() - vPoint );
+  auto pResult = new CEdgePoint;
+  pResult->nPart = 0;
+  pResult->fT = fTEnd;
+  pResult->pEdge = this;
 
-	*pfMinDist = Min( fDistToPoint1, fDistToPoint2 );
-	if ( fabs( fDistToPoint1 - *pfMinDist ) < fTolerance + 0.00001f )
-		pPoints->push_back( CreateFirstEdgePoint() );
-	if ( fabs( fDistToPoint2 - *pfMinDist ) < fTolerance + 0.00001f )
-		pPoints->push_back( CreateLastEdgePoint() );
+  return pResult;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-CEdgePoint* CZeroEdge::MakeIndent( const CVec2 &vPointToMeasureDist, CEdgePoint *p1, CEdgePoint *p2, const float fDist )
+
+// //////////////////////////////////////////////////////////// 
+void CZeroEdge::GetClosestPoints(const CVec2 &vPoint, std::list<CPtr<CEdgePoint>> *pPoints, float *pfMinDist, const float fTolerance)
 {
-	CEdgePoint *pResult = new CEdgePoint;
-	pResult->pEdge = this;
-	pResult->nPart = p2->nPart;
-	pResult->fT = p2->fT;
+  const float fDistToPoint1 = fabs(GetFirst2DPoint() - vPoint);
+  const float fDistToPoint2 = fabs(GetLast2DPoint() - vPoint);
 
-	return pResult;
+  *pfMinDist = Min(fDistToPoint1, fDistToPoint2);
+  if (fabs(fDistToPoint1 - *pfMinDist) < fTolerance + 0.00001f) pPoints->push_back(CreateFirstEdgePoint());
+  if (fabs(fDistToPoint2 - *pfMinDist) < fTolerance + 0.00001f) pPoints->push_back(CreateLastEdgePoint());
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const CVec2 CZeroEdge::GetTangentOfBegin() const
+
+// //////////////////////////////////////////////////////////// 
+CEdgePoint *CZeroEdge::MakeIndent(const CVec2 &vPointToMeasureDist, CEdgePoint *p1, CEdgePoint *p2, const float fDist)
 {
-	return GetTangent( 0, 0 );
+  auto pResult = new CEdgePoint;
+  pResult->pEdge = this;
+  pResult->nPart = p2->nPart;
+  pResult->fT = p2->fT;
+
+  return pResult;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const CVec2 CZeroEdge::GetTangentOfEnd() const
+
+// //////////////////////////////////////////////////////////// 
+const CVec2 CZeroEdge::GetTangentOfBegin() const { return GetTangent(0, 0); }
+// //////////////////////////////////////////////////////////// 
+const CVec2 CZeroEdge::GetTangentOfEnd() const { return GetTangent(0, 0); }
+// //////////////////////////////////////////////////////////// 
+IEdge *CZeroEdge::CreateEdge(CEdgePoint *p1, CEdgePoint *p2)
 {
-	return GetTangent( 0, 0 );
+  IEdge *pResult = new CZeroEdge(p1, p2);
+  pResult->SetNodesNumbers(v1, v2);
+  return pResult;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-IEdge* CZeroEdge::CreateEdge( CEdgePoint *p1, CEdgePoint *p2 )
+
+// //////////////////////////////////////////////////////////// 
+bool CZeroEdge::IsLastPoint(const int nPart, const float fT) const
 {
-	IEdge *pResult = new CZeroEdge( p1, p2 );
-	pResult->SetNodesNumbers( v1, v2 );
-	return pResult;
+  NI_ASSERT_T(nPart == 0, NStr::Format( "Wrong part of zero edge (%d)", nPart ));
+  return fabs(fT - fTEnd) < 0.00001f;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool CZeroEdge::IsLastPoint( const int nPart, const float fT ) const
+
+// //////////////////////////////////////////////////////////// 
+// **********************************************************************
+// *CRailroad*
+// **********************************************************************
+// //////////////////////////////////////////////////////////// 
+BASIC_REGISTER_CLASS(CRailroad);
+// //////////////////////////////////////////////////////////// 
+static constexpr int N_SPLINE_POINTS = 50;
+// //////////////////////////////////////////////////////////// 
+void CRailroad::AddIntersectionPoint(CEdgePoint *pPoint)
 {
-	NI_ASSERT_T( nPart == 0, NStr::Format( "Wrong part of zero edge (%d)", nPart ) );
-	return fabs( fT - fTEnd ) < 0.00001f;
+  if (intersectionPoints.size() <= nIntersectionPoints) intersectionPoints.resize(nIntersectionPoints * 1.5);
+
+  intersectionPoints[nIntersectionPoints++] = pPoint;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//*******************************************************************
-//*														CRailroad															*
-//*******************************************************************
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-BASIC_REGISTER_CLASS( CRailroad );
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const static int N_SPLINE_POINTS = 50;
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CRailroad::AddIntersectionPoint( CEdgePoint *pPoint )
+
+// //////////////////////////////////////////////////////////// 
+void CRailroad::SetEdges(CRailroadGraph *pGraph)
 {
-	if ( intersectionPoints.size() <= nIntersectionPoints )
-		intersectionPoints.resize( nIntersectionPoints * 1.5 );
+  // std::vector< CPtr<CEdgePoint> > intersectionSave = intersectionPoints;
+  std::sort(intersectionPoints.begin(), intersectionPoints.begin() + nIntersectionPoints, SEdgeLessFunctional());
 
-	intersectionPoints[nIntersectionPoints++] = pPoint;
+  int nCurNode = pGraph->GetNNodes();
+  CPtr<CEdgePoint> point = new CEdgePoint(this, 0, 0.0f);
+
+  for (int i = 0; i < nIntersectionPoints; ++i)
+  {
+    intersectionPointToGraphNode[intersectionPoints[i]] = nCurNode + 1;
+
+    CPtr<CSplineEdge> pNewEdge = new CSimpleSplineEdge(point, intersectionPoints[i]);
+    pNewEdge->SetNodesNumbers(nCurNode, nCurNode + 1);
+    pGraph->AddEdge(pNewEdge);
+
+    ++nCurNode;
+    point = intersectionPoints[i];
+  }
+
+  CPtr<CEdgePoint> point1 = new CEdgePoint(this, GetNParts() - 1, 1.0f);
+  CPtr<CSplineEdge> pNewEdge = new CSimpleSplineEdge(point, point1);
+  pNewEdge->SetNodesNumbers(nCurNode, nCurNode + 1);
+
+  pGraph->AddEdge(pNewEdge);
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CRailroad::SetEdges( CRailroadGraph *pGraph )
+
+// //////////////////////////////////////////////////////////// 
+const int CRailroad::GetNodeByIntersectionPoint(CEdgePoint *pPoint)
 {
-//	std::vector< CPtr<CEdgePoint> > intersectionSave = intersectionPoints;
-	std::sort( intersectionPoints.begin(), intersectionPoints.begin() + nIntersectionPoints, SEdgeLessFunctional() );
-
-	int nCurNode = pGraph->GetNNodes();
-	CPtr<CEdgePoint> point = new CEdgePoint( this, 0, 0.0f );
-
-	for ( int i = 0; i < nIntersectionPoints; ++i )
-	{
-		intersectionPointToGraphNode[intersectionPoints[i]] = nCurNode + 1;
-		
-		CPtr<CSplineEdge> pNewEdge = new CSimpleSplineEdge( point, intersectionPoints[i] );
-		pNewEdge->SetNodesNumbers( nCurNode, nCurNode + 1 );
-		pGraph->AddEdge( pNewEdge );
-
-		++nCurNode;
-		point = intersectionPoints[i];
-	}
-
-	CPtr<CEdgePoint> point1 = new CEdgePoint( this, GetNParts() - 1, 1.0f );
-	CPtr<CSplineEdge> pNewEdge = new CSimpleSplineEdge( point, point1 );
-	pNewEdge->SetNodesNumbers( nCurNode, nCurNode + 1 );
-
-	pGraph->AddEdge( pNewEdge );
+  NI_ASSERT_T(intersectionPointToGraphNode.find( pPoint ) != intersectionPointToGraphNode.end(), "Can't find intersection point");
+  return intersectionPointToGraphNode[pPoint];
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const int CRailroad::GetNodeByIntersectionPoint( CEdgePoint *pPoint )
+
+// //////////////////////////////////////////////////////////// 
+// **********************************************************************
+// *CRailroadGraphConstructor*
+// **********************************************************************
+// //////////////////////////////////////////////////////////// 
+const int CRailroadGraphConstructor::F_RAILROAD_WIDTH_2 = sqr(10.0f);
+
+void CRailroadGraphConstructor::SpliceRailroad(CRailroad *pRailroad, std::vector<CPtr<CEdgePoint>> *pPoints, int *pnLen)
 {
-	NI_ASSERT_T( intersectionPointToGraphNode.find( pPoint ) != intersectionPointToGraphNode.end(), "Can't find intersection point" );
-	return intersectionPointToGraphNode[pPoint];
+  pPoints->resize((pRailroad->GetNParts() + 1) * N_SPLINE_POINTS);
+
+  *pnLen = 0;
+  for (int i = 0; i < pRailroad->GetNParts(); ++i)
+  {
+    for (float fT = 0.01f; fT < 1.0f; fT += 1.0f / N_SPLINE_POINTS)
+    {
+      (*pPoints)[*pnLen] = new CEdgePoint(pRailroad, i, fT);
+      if (*pnLen == 0 || (*pPoints)[*pnLen] != (*pPoints)[*pnLen - 1]) ++(*pnLen);
+    }
+  }
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//*******************************************************************
-//*									  CRailroadGraphConstructor											*
-//*******************************************************************
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const int CRailroadGraphConstructor::F_RAILROAD_WIDTH_2 = sqr( 10.0f );
-void CRailroadGraphConstructor::SpliceRailroad( CRailroad *pRailroad, std::vector< CPtr<CEdgePoint> > *pPoints, int *pnLen )
+
+// //////////////////////////////////////////////////////////// 
+void CRailroadGraphConstructor::FindIntersections(CRailroad *pRailroad1, CRailroad *pRailroad2)
 {
-	pPoints->resize( ( pRailroad->GetNParts() + 1 ) * N_SPLINE_POINTS );
-	
-	*pnLen = 0;
-	for ( int i = 0; i < pRailroad->GetNParts(); ++i )
-	{
-		for ( float fT = 0.01f; fT < 1.0f; fT += 1.0f / N_SPLINE_POINTS )
-		{
-			(*pPoints)[*pnLen] = new CEdgePoint( pRailroad, i, fT );
-			if ( *pnLen == 0 || (*pPoints)[*pnLen] != (*pPoints)[*pnLen - 1] )
-				++(*pnLen);
-		}
-	}
+  std::vector<CPtr<CEdgePoint>> points1;
+  std::vector<CPtr<CEdgePoint>> points2;
+
+  int nPoints1, nPoints2;
+
+  SpliceRailroad(pRailroad1, &points1, &nPoints1);
+  SpliceRailroad(pRailroad2, &points2, &nPoints2);
+
+  using CPoints = std::list<std::pair<int, int>>;
+  CPoints points;
+  bool bContinued = false;
+  for (int i = 0; i < nPoints1; ++i)
+  {
+    int nBestPoint = -1;
+    float fBestDistance = 0.0f;
+    for (int j = 0; j < nPoints2; ++j)
+    {
+      const float fDist2 = fabs2(points1[i]->Get2DPoint() - points2[j]->Get2DPoint());
+      if (fDist2 < F_RAILROAD_WIDTH_2)
+      {
+        if (nBestPoint == -1 || fDist2 < fBestDistance)
+        {
+          nBestPoint = j;
+          fBestDistance = fDist2;
+        }
+      }
+    }
+
+    if (nBestPoint != -1)
+    {
+      if (!points.empty())
+      {
+        const CVec2 vPoint1 = points1[points.back().first]->Get2DPoint();
+        const CVec2 vPoint2 = points2[points.back().second]->Get2DPoint();
+      }
+      if (!bContinued ||
+          bContinued && fBestDistance < fabs2(points1[points.back().first]->Get2DPoint() - points2[points.back().second]->Get2DPoint()))
+      {
+        if (!bContinued)
+        {
+          points.push_back(std::pair<int, int>(i, nBestPoint));
+          bContinued = true;
+        }
+        else points.back() = std::pair<int, int>(i, nBestPoint);
+      }
+    }
+    else bContinued = false;
+  }
+
+  for (CPoints::const_iterator iter = points.begin(); iter != points.end(); ++iter)
+  {
+    intersections.push_back(CRailroadsIntersection(points1[iter->first], points2[iter->second]));
+
+    pRailroad1->AddIntersectionPoint(points1[iter->first]);
+    pRailroad2->AddIntersectionPoint(points2[iter->second]);
+
+    // NStr::DebugTrace( "Added points: (%g, %g), (%g, %g)\n", points1[iter->first]->Get2DPoint().x, points1[iter->first]->Get2DPoint().y, points2[iter->second]->Get2DPoint().x, points2[iter->second]->Get2DPoint().y );
+  }
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CRailroadGraphConstructor::FindIntersections( CRailroad *pRailroad1, CRailroad *pRailroad2 )
+
+// //////////////////////////////////////////////////////////// 
+void CRailroadGraphConstructor::AddIntersectionEdge(const CRailroadsIntersection &intersection, CRailroadGraph *pGraph)
 {
-	std::vector< CPtr<CEdgePoint> > points1;
-	std::vector< CPtr<CEdgePoint> > points2;
+  IEdge *pEdge1 = intersection.GetPoint1()->GetEdge();
+  IEdge *pEdge2 = intersection.GetPoint2()->GetEdge();
 
-	int nPoints1, nPoints2;
+  NI_ASSERT_T(dynamic_cast<CRailroad*>( pEdge1 ) != 0, "Wrong railroad intersection belongs to");
+  NI_ASSERT_T(dynamic_cast<CRailroad*>( pEdge2 ) != 0, "Wrong railroad intersection belongs to");
 
-	SpliceRailroad( pRailroad1, &points1, &nPoints1 );
-	SpliceRailroad( pRailroad2, &points2, &nPoints2 );
+  auto pRailroad1 = static_cast<CRailroad *>(pEdge1);
+  auto pRailroad2 = static_cast<CRailroad *>(pEdge2);
 
-	typedef std::list< std::pair<int,int> > CPoints;
-	CPoints points;
-	bool bContinued = false;
-	for ( int i = 0; i < nPoints1; ++i )
-	{
-		int nBestPoint = -1;
-		float fBestDistance = 0.0f;
-		for ( int j = 0; j < nPoints2; ++j )
-		{
-			const float fDist2 = fabs2( points1[i]->Get2DPoint() - points2[j]->Get2DPoint() );
-			if ( fDist2 < F_RAILROAD_WIDTH_2 )
-			{
-				if ( nBestPoint == -1 || fDist2 < fBestDistance )
-				{
-					nBestPoint = j;
-					fBestDistance = fDist2;
-				}
-			}
-		}
+  const int v1 = pRailroad1->GetNodeByIntersectionPoint(intersection.GetPoint1());
+  const int v2 = pRailroad2->GetNodeByIntersectionPoint(intersection.GetPoint2());
 
-		if ( nBestPoint != -1 )
-		{
-			if ( !points.empty() )
-			{
-				const CVec2 vPoint1 = points1[points.back().first]->Get2DPoint();
-				const CVec2 vPoint2 = points2[points.back().second]->Get2DPoint();
-			}
-			if ( !bContinued ||
-				   bContinued && fBestDistance < fabs2( points1[points.back().first]->Get2DPoint() - points2[points.back().second]->Get2DPoint() ) )
-			{
-				if ( !bContinued )
-				{
-					points.push_back( std::pair<int, int>( i, nBestPoint ) );
-					bContinued = true;
-				}
-				else
-					points.back() = std::pair<int, int>( i, nBestPoint );
-			}
-		}
-		else
-			bContinued = false;
-	}
+  CPtr<IEdge> pZeroEdge = new CZeroEdge(intersection.GetPoint1(), intersection.GetPoint2());
+  pZeroEdge->SetNodesNumbers(v1, v2);
 
-	for ( CPoints::const_iterator iter = points.begin(); iter != points.end(); ++iter )
-	{
-		intersections.push_back( CRailroadsIntersection( points1[iter->first], points2[iter->second] ) );
-
-		pRailroad1->AddIntersectionPoint( points1[iter->first] );
-		pRailroad2->AddIntersectionPoint( points2[iter->second] );
-
-//		NStr::DebugTrace( "Added points: (%g, %g), (%g, %g)\n", points1[iter->first]->Get2DPoint().x, points1[iter->first]->Get2DPoint().y, points2[iter->second]->Get2DPoint().x, points2[iter->second]->Get2DPoint().y );
-	}
+  pGraph->AddEdge(pZeroEdge);
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CRailroadGraphConstructor::AddIntersectionEdge( const CRailroadsIntersection &intersection, CRailroadGraph *pGraph )
+
+// //////////////////////////////////////////////////////////// 
+void CRailroadGraphConstructor::Construct(const STerrainInfo &terrain, CRailroadGraph *pGraph)
 {
-	IEdge *pEdge1 = intersection.GetPoint1()->GetEdge();
-	IEdge *pEdge2 = intersection.GetPoint2()->GetEdge();
+  for (int i = 0; i < terrain.roads3.size(); ++i) { if (terrain.roads3[i].eType == SVectorStripeObjectDesc::TYPE_RAILROAD) railroads.push_back(new CRailroad(terrain.roads3[i])); }
 
-	NI_ASSERT_T( dynamic_cast<CRailroad*>( pEdge1 ) != 0, "Wrong railroad intersection belongs to" );
-	NI_ASSERT_T( dynamic_cast<CRailroad*>( pEdge2 ) != 0, "Wrong railroad intersection belongs to" );
+  for (auto iter = railroads.begin(); iter != railroads.end(); ++iter)
+  {
+    auto iter_inner(iter);
+    std::advance(iter_inner, 1);
+    while (iter_inner != railroads.end())
+    {
+      FindIntersections(*iter, *iter_inner);
+      ++iter_inner;
+    }
+  }
 
-	CRailroad *pRailroad1 = static_cast<CRailroad*>( pEdge1 );
-	CRailroad *pRailroad2 = static_cast<CRailroad*>( pEdge2 );
+  for (auto iter = railroads.begin(); iter != railroads.end(); ++iter)
+  {
+    // NStr::DebugTrace( "Edges of railroad\n" );
+    (*iter)->SetEdges(pGraph);
+  }
 
-	const int v1 = pRailroad1->GetNodeByIntersectionPoint( intersection.GetPoint1() );
-	const int v2 = pRailroad2->GetNodeByIntersectionPoint( intersection.GetPoint2() );
-
-	CPtr<IEdge> pZeroEdge = new CZeroEdge( intersection.GetPoint1(), intersection.GetPoint2() );
-	pZeroEdge->SetNodesNumbers( v1, v2 );
-
-	pGraph->AddEdge( pZeroEdge );
+  // NStr::DebugTrace( "Intersection points edges:\n" );
+  for (auto iter = intersections.begin(); iter != intersections.end(); ++iter) AddIntersectionEdge(*iter, pGraph);
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CRailroadGraphConstructor::Construct( const STerrainInfo &terrain, CRailroadGraph *pGraph )
+
+// //////////////////////////////////////////////////////////// 
+// **********************************************************************
+// *CRailroadGraph*
+// **********************************************************************
+// //////////////////////////////////////////////////////////// 
+const DWORD CreateEdgeKey(const int v1, const int v2) { return (static_cast<DWORD>(v1) << 16) | v2; }
+// //////////////////////////////////////////////////////////// 
+void CRailroadGraph::AddEdge(IEdge *pEdge)
 {
-	for ( int i = 0; i < terrain.roads3.size(); ++i )
-	{
-		if ( terrain.roads3[i].eType == SVectorStripeObjectDesc::TYPE_RAILROAD )
-			railroads.push_back( new CRailroad( terrain.roads3[i] ) );
-	}
+  const int v1 = pEdge->GetFirstNode();
+  const int v2 = pEdge->GetLastNode();
+  NI_ASSERT_T(v1 >= 0 && v2 >= 0, "Wrong edge to add");
+  NI_ASSERT_T(v1 < 65535 && v2 < 65535, "Number of node is too big");
 
-	for ( CRailroadsList::iterator iter = railroads.begin(); iter != railroads.end(); ++iter )
-	{
-		CRailroadsList::iterator iter_inner( iter );
-		std::advance( iter_inner, 1 );
-		while ( iter_inner != railroads.end() )
-		{
-			FindIntersections( *iter, *iter_inner );
-			++iter_inner;
-		}
-	}
+  const DWORD dwEdgeNum = CreateEdgeKey(v1, v2);
+  edges[dwEdgeNum] = pEdge;
+  pEdge->SetNodesNumbers(v1, v2);
 
-	for ( CRailroadsList::iterator iter = railroads.begin(); iter != railroads.end(); ++iter )
-	{
-//		NStr::DebugTrace( "Edges of railroad\n" );
-		(*iter)->SetEdges( pGraph );
-	}
+  CGraph::AddEdge(v1, v2);
 
-//	NStr::DebugTrace( "Intersection points edges:\n" );
-	for ( std::list<CRailroadsIntersection>::iterator iter = intersections.begin(); iter != intersections.end(); ++iter )
-		AddIntersectionEdge( *iter, pGraph );
+  const DWORD dwReversedEdgeNum = CreateEdgeKey(v2, v1);
+  IEdge *pReversedEdge = pEdge->CreateReversedEdge();
+  pReversedEdge->SetNodesNumbers(v2, v1);
+
+  edges[dwReversedEdgeNum] = pReversedEdge;
+  CGraph::AddEdge(v2, v1);
+
+  if (Max(v1, v2) >= edgeNodes.size()) edgeNodes.resize((Max(v1, v2) + 1) * 1.5);
+
+  if (edgeNodes[v1] == nullptr) edgeNodes[v1] = pEdge->CreateFirstEdgePoint();
+  if (edgeNodes[v2] == nullptr) edgeNodes[v2] = pEdge->CreateLastEdgePoint();
+
+  // NStr::DebugTrace( "Edge (%g, %g) ( %g, %g ), (%d, %d) added\n", pEdge->GetFirst2DPoint().x, pEdge->GetFirst2DPoint().y, pEdge->GetLast2DPoint().x, pEdge->GetLast2DPoint().y, 
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//*******************************************************************
-//*												CRailroadGraph														*
-//*******************************************************************
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const DWORD CreateEdgeKey( const int v1, const int v2 )
+
+// //////////////////////////////////////////////////////////// 
+const float CRailroadGraph::GetEdgeLength(const int v1, const int v2)
 {
-	return ( DWORD(v1) << 16 ) | v2;
+  NI_ASSERT_T(v1 >= 0 && v2 >= 0, "Wrong nodes");
+
+  const DWORD dwEdgeNum = CreateEdgeKey(v1, v2);
+  NI_ASSERT_T(edges.find( dwEdgeNum ) != edges.end(), NStr::Format( "The edge (%d, %d) not found", v1, v2 ));
+
+  return edges[dwEdgeNum]->GetLength();
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CRailroadGraph::AddEdge( IEdge *pEdge )
+
+// //////////////////////////////////////////////////////////// 
+void CRailroadGraph::GetClosestPoints(const CVec2 &vPoint, std::list<CPtr<CEdgePoint>> *pPoints, float *pfMinDist, const int vConnectionNode, const float fTolerance)
 {
-	const int v1 = pEdge->GetFirstNode();
-	const int v2 = pEdge->GetLastNode();
-	NI_ASSERT_T( v1 >= 0 && v2 >= 0, "Wrong edge to add" );
-	NI_ASSERT_T( v1 < 65535 && v2 < 65535, "Number of node is too big" );
+  *pfMinDist = -1.0f;
 
-	const DWORD dwEdgeNum = CreateEdgeKey( v1, v2 );
-	edges[dwEdgeNum] = pEdge;
-	pEdge->SetNodesNumbers( v1, v2 );
+  for (std::hash_map<DWORD, CObj<IEdge>>::iterator iter = edges.begin(); iter != edges.end(); ++iter)
+  {
+    const DWORD dwNodesKey = iter->first;
+    const int nV1 = dwNodesKey >> 16;
+    const int nV2 = dwNodesKey & 0xffff;
+    // the first vertex is smaller than the second, so as not to pass twice along the same edge, in the same connected component and an edge of non-zero length
+    if (nV1 < nV2 && (vConnectionNode == -1 || IsInOneGraphComponent(vConnectionNode, nV1)) &&
+        edges[dwNodesKey]->GetLength() > 0)
+    {
+      NI_ASSERT_T(vConnectionNode == -1 || IsInOneGraphComponent( vConnectionNode, nV2 ), "Wrong graph components");
 
-	CGraph::AddEdge( v1, v2 );
+      std::list<CPtr<CEdgePoint>> pointsForEdge;
+      float fLocalMinDist;
+      IEdge *pEdge = iter->second;
+      pEdge->GetClosestPoints(vPoint, &pointsForEdge, &fLocalMinDist);
 
-	const DWORD dwReversedEdgeNum = CreateEdgeKey( v2, v1 );
-	IEdge *pReversedEdge = pEdge->CreateReversedEdge();
-	pReversedEdge->SetNodesNumbers( v2, v1 );
+      // this rib is better than any of the previous ones
+      if (*pfMinDist == -1.0f || *pfMinDist - fLocalMinDist >= fTolerance)
+      {
+        *pfMinDist = fLocalMinDist;
+        pPoints->clear();
+        pPoints->splice(pPoints->end(), pointsForEdge);
+      }
+      // the distances to the ribs are approximately the same
+      else if (fabs(fLocalMinDist - *pfMinDist) <= fTolerance)
+      {
+        *pfMinDist = Min(fLocalMinDist, *pfMinDist);
 
-	edges[dwReversedEdgeNum] = pReversedEdge;
-	CGraph::AddEdge( v2, v1 );
+        // throw out all too distant points from the old ones
+        auto iter = pPoints->begin();
+        while (iter != pPoints->end())
+        {
+          const CVec2 vCurPoint = (*iter)->Get2DPoint();
+          if (fabs(vCurPoint - vPoint) - *pfMinDist >= fTolerance) iter = pPoints->erase(iter);
+          else ++iter;
+        }
 
-	if ( Max( v1, v2 ) >= edgeNodes.size() )
-		edgeNodes.resize( ( Max( v1, v2 ) + 1 ) * 1.5 );
-	
-	if ( edgeNodes[v1] == 0 )
-		edgeNodes[v1] = pEdge->CreateFirstEdgePoint();
-	if ( edgeNodes[v2] == 0 )
-		edgeNodes[v2] = pEdge->CreateLastEdgePoint();
-
-//	NStr::DebugTrace( "Edge (%g, %g) ( %g, %g ), (%d, %d) added\n", pEdge->GetFirst2DPoint().x, pEdge->GetFirst2DPoint().y, pEdge->GetLast2DPoint().x, pEdge->GetLast2DPoint().y, pEdge->GetFirstNode(), pEdge->GetLastNode() );
+        // of the new points, add only those that are close enough
+        for (iter = pointsForEdge.begin(); iter != pointsForEdge.end(); ++iter)
+        {
+          const CVec2 vCurPoint = (*iter)->Get2DPoint();
+          if (fabs(vCurPoint - vPoint) - *pfMinDist < fTolerance) pPoints->push_back(*iter);
+        }
+      }
+    }
+  }
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const float CRailroadGraph::GetEdgeLength( const int v1, const int v2 )
+
+// //////////////////////////////////////////////////////////// 
+CEdgePoint *CRailroadGraph::GetEdgePoint(const int v) const
 {
-	NI_ASSERT_T( v1 >= 0 && v2 >= 0, "Wrong nodes" );
+  NI_ASSERT_T(v < edgeNodes.size(), "Wrong number of node");
+  NI_ASSERT_T(edgeNodes[v] != 0, NStr::Format( "Edgepoint of the node (%d) hasn't been created", v ));
 
-	const DWORD dwEdgeNum = CreateEdgeKey( v1, v2 );
-	NI_ASSERT_T( edges.find( dwEdgeNum ) != edges.end(), NStr::Format( "The edge (%d, %d) not found", v1, v2 ) );
-
-	return edges[dwEdgeNum]->GetLength();
+  return edgeNodes[v];
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CRailroadGraph::GetClosestPoints( const CVec2 &vPoint, std::list< CPtr<CEdgePoint> > *pPoints, float *pfMinDist, const int vConnectionNode, const float fTolerance )
-{
-	*pfMinDist = -1.0f;
 
-	for ( std::hash_map< DWORD, CObj<IEdge> >::iterator iter = edges.begin(); iter != edges.end(); ++iter )
-	{
-		const DWORD dwNodesKey = iter->first;
-		const int nV1 = dwNodesKey >> 16;
-		const int nV2 = dwNodesKey & 0xffff;
-		// первая вершина меньше второй, чтобы не проходить дважды по одному ребру, в той же компоненте связности и ребро ненулевой длины
-		if ( nV1 < nV2 && ( vConnectionNode == -1 || IsInOneGraphComponent( vConnectionNode, nV1 ) ) && 
-				 edges[dwNodesKey]->GetLength() > 0 )
-		{
-			NI_ASSERT_T( vConnectionNode == -1 || IsInOneGraphComponent( vConnectionNode, nV2 ), "Wrong graph components" );
-			
-			std::list< CPtr<CEdgePoint> > pointsForEdge;
-			float fLocalMinDist;
-			IEdge *pEdge = iter->second;
-			pEdge->GetClosestPoints( vPoint, &pointsForEdge, &fLocalMinDist );
-
-			// это ребро лучше, чем любое из предыдущих
-			if ( *pfMinDist == -1.0f || *pfMinDist - fLocalMinDist >= fTolerance )
-			{
-				*pfMinDist = fLocalMinDist;
-				pPoints->clear();
-				pPoints->splice( pPoints->end(), pointsForEdge );
-			}
-			// расстояния до рёбер примерно одинаковы
-			else if ( fabs( fLocalMinDist - *pfMinDist ) <= fTolerance )
-			{
-				*pfMinDist = Min( fLocalMinDist, *pfMinDist );
-
-				// выбросить все слишком далёкие точки из старых
-				std::list< CPtr<CEdgePoint> >::iterator iter = pPoints->begin();
-				while ( iter != pPoints->end() )
-				{
-					const CVec2 vCurPoint = (*iter)->Get2DPoint();
-					if ( fabs( vCurPoint - vPoint ) - *pfMinDist >= fTolerance )
-						iter = pPoints->erase( iter );
-					else
-						++iter;
-				}
-
-				// из новых точек добавить только достаточно близкие
-				for ( iter = pointsForEdge.begin(); iter != pointsForEdge.end(); ++iter )
-				{
-					const CVec2 vCurPoint = (*iter)->Get2DPoint();
-					if ( fabs( vCurPoint - vPoint ) - *pfMinDist < fTolerance )
-						pPoints->push_back( *iter );
-				}
-			}
-		}
-	}
-}
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-CEdgePoint* CRailroadGraph::GetEdgePoint( const int v ) const
-{
-	NI_ASSERT_T( v < edgeNodes.size(), "Wrong number of node" );
-	NI_ASSERT_T( edgeNodes[v] != 0, NStr::Format( "Edgepoint of the node (%d) hasn't been created", v ) );
-
-	return edgeNodes[v];
-}
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////// 
 void CRailroadGraph::Clear()
 {
-	edges.clear();
-	edgeNodes.clear();
+  edges.clear();
+  edgeNodes.clear();
 
-	CGraph::Clear();
+  CGraph::Clear();
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-IEdge* CRailroadGraph::GetEdge( const int v1, const int v2 )
+
+// //////////////////////////////////////////////////////////// 
+IEdge *CRailroadGraph::GetEdge(const int v1, const int v2)
 {
-	const DWORD dwEdgeKey = CreateEdgeKey( v1, v2 );
+  const DWORD dwEdgeKey = CreateEdgeKey(v1, v2);
 
-	if ( edges.find( dwEdgeKey ) == edges.end() )
-		return 0;
-	else
-	{
-		IEdge *pEdge = edges[dwEdgeKey];
-		NI_ASSERT_T( pEdge->GetFirstNode() == v1 && pEdge->GetLastNode() == v2, "Wrong edge in the graph" );
+  if (edges.find(dwEdgeKey) == edges.end()) return nullptr;
+  else
+  {
+    IEdge *pEdge = edges[dwEdgeKey];
+    NI_ASSERT_T(pEdge->GetFirstNode() == v1 && pEdge->GetLastNode() == v2, "Wrong edge in the graph");
 
-		return pEdge;
-	}
+    return pEdge;
+  }
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CRailroadGraph::LookForPoint( const int v, const CVec2 &vDir, std::hash_set<int> *pVisitedPoints, std::list<SPointInfo> *pPointsList )
+
+// //////////////////////////////////////////////////////////// 
+void CRailroadGraph::LookForPoint(const int v, const CVec2 &vDir, std::hash_set<int> *pVisitedPoints, std::list<SPointInfo> *pPointsList)
 {
-	for ( std::list<int>::iterator iter = nodes[v].begin(); iter != nodes[v].end(); ++iter )
-	{
-		const int v1 = *iter;
+  for (auto iter = nodes[v].begin(); iter != nodes[v].end(); ++iter)
+  {
+    const int v1 = *iter;
 
-		if ( pVisitedPoints->find( v1 ) == pVisitedPoints->end() )
-		{
-			const DWORD dwEdgeKey = CreateEdgeKey( v, v1 );
-			NI_ASSERT_T( edges.find( dwEdgeKey ) != edges.end(), NStr::Format( "Edge not found (%d, %d)", v, v1 ) );
+    if (pVisitedPoints->find(v1) == pVisitedPoints->end())
+    {
+      const DWORD dwEdgeKey = CreateEdgeKey(v, v1);
+      NI_ASSERT_T(edges.find( dwEdgeKey ) != edges.end(), NStr::Format( "Edge not found (%d, %d)", v, v1 ));
 
-			IEdge *pEdge = edges[dwEdgeKey];
+      IEdge *pEdge = edges[dwEdgeKey];
 
-			if ( pEdge->GetLength() != 0 )
-			{
-				CVec2 vEdgeDir = pEdge->GetTangentOfBegin();
-				Normalize( &vEdgeDir );
-				const float fMulti = vDir * vEdgeDir;
+      if (pEdge->GetLength() != 0)
+      {
+        CVec2 vEdgeDir = pEdge->GetTangentOfBegin();
+        Normalize(&vEdgeDir);
+        const float fMulti = vDir * vEdgeDir;
 
-				if ( fMulti > 0 )
-				{
-					pVisitedPoints->insert( v1 );
-					pPointsList->push_back( SPointInfo( v1, vDir ) );
-				}
-			}
-			else
-			{
-				pVisitedPoints->insert( v1 );
-				pPointsList->push_back( SPointInfo( v1, vDir ) );
-			}
-		}
-	}
+        if (fMulti > 0)
+        {
+          pVisitedPoints->insert(v1);
+          pPointsList->push_back(SPointInfo(v1, vDir));
+        }
+      }
+      else
+      {
+        pVisitedPoints->insert(v1);
+        pPointsList->push_back(SPointInfo(v1, vDir));
+      }
+    }
+  }
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CRailroadGraph::GetMovablePoint( const int v, const CVec2 &vDir, std::hash_set<int> *pVisitedPoints, std::list<SPointInfo> *pPointsList )
+
+// //////////////////////////////////////////////////////////// 
+void CRailroadGraph::GetMovablePoint(const int v, const CVec2 &vDir, std::hash_set<int> *pVisitedPoints, std::list<SPointInfo> *pPointsList)
 {
-	NI_ASSERT_T( v < GetNNodes(), NStr::Format( "Wrong node passed (%d)", v ) );
-	LookForPoint( v, vDir, pVisitedPoints, pPointsList );
+  NI_ASSERT_T(v < GetNNodes(), NStr::Format( "Wrong node passed (%d)", v ));
+  LookForPoint(v, vDir, pVisitedPoints, pPointsList);
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-CEdgePoint* CRailroadGraph::MakeIndent( const CVec2 &vDir, CEdgePoint *pPoint, const float fDist )
+
+// //////////////////////////////////////////////////////////// 
+CEdgePoint *CRailroadGraph::MakeIndent(const CVec2 &vDir, CEdgePoint *pPoint, const float fDist)
 {
-	if ( fDist == 0.0f )
-		return pPoint;
-	CPtr<CEdgePoint> pGarbage = pPoint;
+  if (fDist == 0.0f) return pPoint;
+  CPtr<CEdgePoint> pGarbage = pPoint;
 
-	IEdge *pEdge = 0;
-	CPtr<CEdgePoint> pPointOnRightEdge;
-	// отложить вдоль ребра
-	if ( pPoint->GetTangent() * vDir >= 0 )
-	{
-		pEdge = GetEdge( pPoint->GetEdge()->GetFirstNode(), pPoint->GetEdge()->GetLastNode() );
-		pPointOnRightEdge = pPoint;
-	}
-	// против ребра
-	else
-	{
-		pEdge = GetEdge( pPoint->GetEdge()->GetLastNode(), pPoint->GetEdge()->GetFirstNode() );
-		pPointOnRightEdge = new CEdgePoint( *pPoint );
-		pPointOnRightEdge->Reverse( pEdge );
-	}
-	const CVec2 vPointToMeasureDist = pPointOnRightEdge->Get2DPoint();
+  IEdge *pEdge = nullptr;
+  CPtr<CEdgePoint> pPointOnRightEdge;
+  // put along the rib
+  if (pPoint->GetTangent() * vDir >= 0)
+  {
+    pEdge = GetEdge(pPoint->GetEdge()->GetFirstNode(), pPoint->GetEdge()->GetLastNode());
+    pPointOnRightEdge = pPoint;
+  }
+  // against the edge
+  else
+  {
+    pEdge = GetEdge(pPoint->GetEdge()->GetLastNode(), pPoint->GetEdge()->GetFirstNode());
+    pPointOnRightEdge = new CEdgePoint(*pPoint);
+    pPointOnRightEdge->Reverse(pEdge);
+  }
+  const CVec2 vPointToMeasureDist = pPointOnRightEdge->Get2DPoint();
 
-	CPtr<CEdgePoint> pLastNodePoint = pEdge->CreateLastEdgePoint();
-	const CVec2 vLastNodePoint2D = pLastNodePoint->Get2DPoint();
+  CPtr<CEdgePoint> pLastNodePoint = pEdge->CreateLastEdgePoint();
+  const CVec2 vLastNodePoint2D = pLastNodePoint->Get2DPoint();
 
-	const float fDistToFirstNodePoint2 = fabs2( vPointToMeasureDist - vLastNodePoint2D );
-	// искомая точка на ребре pEdge
-	if ( fDistToFirstNodePoint2 >= sqr(fDist) )
-	{
-		CEdgePoint *pPoint = pEdge->MakeIndent( vPointToMeasureDist, pPointOnRightEdge, pLastNodePoint, fabs( fDist ) );
-		return pPoint;
-	}
-	// нужно пройти несколько рёбер
-	else
-	{
-		std::list<int> movablePoints;
+  const float fDistToFirstNodePoint2 = fabs2(vPointToMeasureDist - vLastNodePoint2D);
+  // the required point on the edge pEdge
+  if (fDistToFirstNodePoint2 >= sqr(fDist))
+  {
+    CEdgePoint *pPoint = pEdge->MakeIndent(vPointToMeasureDist, pPointOnRightEdge, pLastNodePoint, fabs(fDist));
+    return pPoint;
+  }
+  // need to go through several edges
+  else
+  {
+    std::list<int> movablePoints;
 
-		int v1 = pEdge->GetLastNode();
-		int v2 = 0;
-		bool bFinished = false;
-		
-		std::hash_set<int> visitedPoints;
-		std::list<SPointInfo> points;
-		points.push_back( SPointInfo( v1, vDir ) );
-		visitedPoints.insert( v1 );
+    int v1 = pEdge->GetLastNode();
+    int v2 = 0;
+    bool bFinished = false;
 
-		while ( !bFinished && !points.empty() )
-		{
-			v1 = points.front().v;
-			const CVec2 vNewDir = points.front().vDir;
-			points.pop_front();
+    std::hash_set<int> visitedPoints;
+    std::list<SPointInfo> points;
+    points.push_back(SPointInfo(v1, vDir));
+    visitedPoints.insert(v1);
 
-			std::list<SPointInfo>::iterator iter = points.end();
-			--iter;
-			GetMovablePoint( v1, vNewDir, &visitedPoints, &points );
+    while (!bFinished && !points.empty())
+    {
+      v1 = points.front().v;
+      const CVec2 vNewDir = points.front().vDir;
+      points.pop_front();
 
-			// точка не найдена
-			if ( points.empty() )
-				return 0;
-			else
-			{
-				++iter;
-				while ( iter != points.end() )
-				{
-					v2 = iter->v;
-					IEdge *pEdge = GetEdge( v1, v2 );
+      auto iter = points.end();
+      --iter;
+      GetMovablePoint(v1, vNewDir, &visitedPoints, &points);
 
-					const CVec2 vV2Point2D = pEdge->GetLast2DPoint();
-					const float fLength = fabs( vPointToMeasureDist - vV2Point2D );
+      // point not found
+      if (points.empty()) return nullptr;
+      ++iter;
+      while (iter != points.end())
+      {
+        v2 = iter->v;
+        IEdge *pEdge = GetEdge(v1, v2);
 
-					if ( fLength > fDist )
-						bFinished = true;
-					else
-					{
-						if ( pEdge->GetLength() != 0 )
-							iter->vDir = pEdge->GetTangentOfEnd();
-					}
+        const CVec2 vV2Point2D = pEdge->GetLast2DPoint();
+        const float fLength = fabs(vPointToMeasureDist - vV2Point2D);
 
-					++iter;
-				}
-			}
-		}
+        if (fLength > fDist) bFinished = true;
+        else { if (pEdge->GetLength() != 0) iter->vDir = pEdge->GetTangentOfEnd(); }
 
-		IEdge* pLastEdgePretendent = GetEdge( v1, v2 );
-		CPtr<CEdgePoint> pFirstEdgePoint = pLastEdgePretendent->CreateFirstEdgePoint();
-		CPtr<CEdgePoint> pLastEdgePoint = pLastEdgePretendent->CreateLastEdgePoint();
-		CEdgePoint *pPoint = pLastEdgePretendent->MakeIndent( vPointToMeasureDist, pFirstEdgePoint, pLastEdgePoint, fDist );
+        ++iter;
+      }
+    }
 
-		return pPoint;
-	}
+    IEdge *pLastEdgePretendent = GetEdge(v1, v2);
+    CPtr<CEdgePoint> pFirstEdgePoint = pLastEdgePretendent->CreateFirstEdgePoint();
+    CPtr<CEdgePoint> pLastEdgePoint = pLastEdgePretendent->CreateLastEdgePoint();
+    CEdgePoint *pPoint = pLastEdgePretendent->MakeIndent(vPointToMeasureDist, pFirstEdgePoint, pLastEdgePoint, fDist);
+
+    return pPoint;
+  }
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// //////////////////////////////////////////////////////////// 
 //
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const float fabs( CEdgePoint *p1, CEdgePoint *p2 )
+// //////////////////////////////////////////////////////////// 
+const float fabs(CEdgePoint *p1, CEdgePoint *p2)
 {
-	// чтобы удалились
-	CPtr<CEdgePoint> pGarbageP1 = p1;
-	CPtr<CEdgePoint> pGarbageP2 = p2;
+  // to leave
+  CPtr<CEdgePoint> pGarbageP1 = p1;
+  CPtr<CEdgePoint> pGarbageP2 = p2;
 
-	CPtr<IEdge> pEdge = p1->GetEdge();
-	CPtr<IEdge> pOldP2Edge;
-	if ( pEdge != p2->GetEdge() )
-	{
-		NI_ASSERT_T( pEdge->GetFirstNode() == p2->GetEdge()->GetLastNode() && pEdge->GetLastNode() == p2->GetEdge()->GetFirstNode(), "Can't fand distance between point on different edges" );
-		pOldP2Edge = p2->GetEdge();
-		p2->Reverse( pEdge );
-	}
+  CPtr<IEdge> pEdge = p1->GetEdge();
+  CPtr<IEdge> pOldP2Edge;
+  if (pEdge != p2->GetEdge())
+  {
+    NI_ASSERT_T(pEdge->GetFirstNode() == p2->GetEdge()->GetLastNode() && pEdge->GetLastNode() == p2->GetEdge()->GetFirstNode(), "Can't fand distance between point on different edges");
+    pOldP2Edge = p2->GetEdge();
+    p2->Reverse(pEdge);
+  }
 
-	const float fResult = pEdge->GetLength( p1, p2 );
+  const float fResult = pEdge->GetLength(p1, p2);
 
-	if ( pOldP2Edge != 0 )
-		p2->Reverse( pOldP2Edge );
+  if (pOldP2Edge != nullptr) p2->Reverse(pOldP2Edge);
 
-	return fResult;
+  return fResult;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// //////////////////////////////////////////////////////////// 

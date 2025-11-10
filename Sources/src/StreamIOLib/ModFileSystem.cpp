@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 
 #include "ModFileSystem.h"
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // ************************************************************************************************************************ //
 // **
 // ** MOD file system iterator
@@ -9,14 +9,14 @@
 // **
 // **
 // ************************************************************************************************************************ //
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CModFileSystemEnumerator::Reset( const char *pszName )
 {
 	Zero( stats );
 	bReset = true;
 	itCurrFile = files.end();
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool CModFileSystemEnumerator::Next()
 {
 	// initialize after reset
@@ -39,7 +39,7 @@ bool CModFileSystemEnumerator::Next()
 
 	return true;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // ************************************************************************************************************************ //
 // **
 // ** MOD file system
@@ -47,7 +47,7 @@ bool CModFileSystemEnumerator::Next()
 // **
 // **
 // ************************************************************************************************************************ //
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 CModFileSystem::CModFileSystem( const char *pszName, DWORD dwAccessMode )
 : dwStorageAccessMode( dwAccessMode )
 {
@@ -57,15 +57,15 @@ CModFileSystem::CModFileSystem( const char *pszName, DWORD dwAccessMode )
 	IDataStorage *pStorage = OpenStorage( pszName, STREAM_ACCESS_READ, STORAGE_TYPE_COMMON );
 	AddStorage( pStorage, "MAIN_BASE_STORAGE" );
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// создать и открыть поток с указанным именем и правами доступа
+
+// create and open a stream with the specified name and access rights
 IDataStream* CModFileSystem::CreateStream( const char *pszName, DWORD dwAccessMode )
 {
 	NI_ASSERT_T( 0, "Have no write access to common file system" );
 	return 0;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// открыть существующий поток с указанным именем и правами доступа
+
+// open an existing stream with the specified name and permissions
 IDataStream* CModFileSystem::OpenStream( const char *pszName, DWORD dwAccessMode )
 {
 	for ( CFileSystemsList::iterator it = filesystems.begin(); it != filesystems.end(); ++it )
@@ -75,8 +75,8 @@ IDataStream* CModFileSystem::OpenStream( const char *pszName, DWORD dwAccessMode
 	}
 	return 0;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// получить описание stream'а
+
+// get stream description
 bool CModFileSystem::GetStreamStats( const char *pszName, SStorageElementStats *pStats )
 {
 	for ( CFileSystemsList::iterator it = filesystems.begin(); it != filesystems.end(); ++it )
@@ -86,26 +86,26 @@ bool CModFileSystem::GetStreamStats( const char *pszName, SStorageElementStats *
 	}
 	return false;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// убить элемент хранилища
+
+// kill storage element
 bool CModFileSystem::DestroyElement( const char *pszName )
 {
 	NI_ASSERT_T( 0, "Have no write access to common file system" );
 	return false;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// переименовать элемент
+
+// rename element
 bool CModFileSystem::RenameElement( const char *pszOldName, const char *pszNewName )
 {
 	NI_ASSERT_T( 0, "Have no write access to common file system" );
 	return false;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool CModFileSystem::AddStorage( IDataStorage *pStorage, const char *pszName )
 {
 	std::string szName = pszName;
 	NStr::ToLower( szName );
-	// check for existed MOD
+	// check for existing MOD
 	for ( CFileSystemsList::iterator it = filesystems.begin(); it != filesystems.end(); ++it )
 	{
 		if ( it->first == szName ) 
@@ -118,7 +118,7 @@ bool CModFileSystem::AddStorage( IDataStorage *pStorage, const char *pszName )
 	filesystems.push_front( SFileSystemDesc(szName, pStorage) );
 	return true;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool CModFileSystem::RemoveStorage( const char *pszName )
 {
 	std::string szName = pszName;
@@ -133,8 +133,8 @@ bool CModFileSystem::RemoveStorage( const char *pszName )
 	}
 	return false;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// проверить, есть ли такой поток
+
+// check if such thread exists
 const bool CModFileSystem::IsStreamExist( const char *pszName )
 {
 	for ( CFileSystemsList::const_iterator it = filesystems.begin(); it != filesystems.end(); ++it )
@@ -144,13 +144,13 @@ const bool CModFileSystem::IsStreamExist( const char *pszName )
 	}
 	return false;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 const char* CModFileSystem::GetName() const 
 { 
 	return filesystems.empty() ? ".\\" : filesystems.back().second->GetName();
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// перечисление элементов
+
+// enumeration of elements
 IStorageEnumerator* CModFileSystem::CreateEnumerator()
 {
 	if ( filesystems.size() == 0 ) 
@@ -172,4 +172,4 @@ IStorageEnumerator* CModFileSystem::CreateEnumerator()
 		return pModEnum;
 	}
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+

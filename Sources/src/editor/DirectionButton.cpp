@@ -11,7 +11,7 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // CDirectionButton
 
 CDirectionButton::CDirectionButton()
@@ -24,13 +24,13 @@ CDirectionButton::~CDirectionButton()
 }
 
 BEGIN_MESSAGE_MAP(CDirectionButton, CWnd)
-	//{{AFX_MSG_MAP(CDirectionButton)
+	// {{AFX_MSG_MAP(CDirectionButton)
 	ON_WM_CREATE()
 	ON_WM_PAINT()
 	ON_WM_LBUTTONDOWN()
 	ON_WM_MOUSEMOVE()
 	ON_WM_LBUTTONUP()
-	//}}AFX_MSG_MAP
+	// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 
@@ -85,11 +85,8 @@ void CDirectionButton::OnPaint()
 	}
 	dc.LineTo( cx + clientRC.right/2, clientRC.bottom/2 - cy );
 
-/*	dc.MoveTo( cx + clientRC.right/2, clientRC.bottom/2 - cy  );
-	dc.LineTo( p1.x + clientRC.right/2, clientRC.bottom/2 - p1.y );
-
-	dc.MoveTo( cx + clientRC.right/2, clientRC.bottom/2 - cy  );
-	dc.LineTo( p2.x + clientRC.right/2, clientRC.bottom/2 - p2.y );*/
+/* dc.MoveTo( cx + clientRC.right/2, clientRC.bottom/2 - cy );
+	 */
 	
 	
 	{
@@ -112,19 +109,11 @@ void CDirectionButton::OnPaint()
 
 
 
-/*	LOGBRUSH logBrush;
-	logBrush.lbStyle = BS_HATCHED;
-	logBrush.lbColor = RGB(255, 0, 0);
-	logBrush.lbHatch = HS_CROSS;
-	CBrush brush;
-	brush.CreateBrushIndirect( &logBrush );
-	CBrush *pOldBrush = (CBrush *) dc.SelectObject( &brush );
-	dc.SetBkColor( RGB(255, 0, 0) );
-	dc.Ellipse( cx + clientRC.right/2 - 5, clientRC.bottom/2 - cy - 5, cx + clientRC.right/2 + 5, clientRC.bottom/2 - cy + 5 );
-	dc.SelectObject( pOldBrush );*/
+/* LOGBRUSH logBrush;
+	 */
 }
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // CDirectionButton message handlers
 
 int CDirectionButton::GetQuadrant()
@@ -154,7 +143,7 @@ void CDirectionButton::OnLButtonDown(UINT nFlags, CPoint pt)
 {
 	RECT clientRC;
 	GetClientRect( &clientRC );
-	int cx, cy;		//расстояния от текущей позиции курсора до центра кнопки
+	int cx, cy;		// distance from the current cursor position to the center of the button
 	cx = pt.x - clientRC.right/2;
 	cy = clientRC.bottom/2 - pt.y;
 	
@@ -172,7 +161,7 @@ void CDirectionButton::OnMouseMove(UINT nFlags, CPoint pt)
 	{
 		RECT clientRC;
 		GetClientRect( &clientRC );
-		int cx, cy;		//расстояния от текущей позиции курсора до центра кнопки
+		int cx, cy;		// distance from the current cursor position to the center of the button
 		cx = pt.x - clientRC.right/2;
 		cy = clientRC.bottom/2 - pt.y;
 		
@@ -181,7 +170,7 @@ void CDirectionButton::OnMouseMove(UINT nFlags, CPoint pt)
 		Invalidate();
 		GetParent()->PostMessage( WM_ANGLE_CHANGED );
 	}
-	//CVec2
+	// CVec2
 	CWnd::OnMouseMove(nFlags, pt);
 }
 

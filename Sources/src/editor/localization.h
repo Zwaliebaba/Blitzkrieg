@@ -18,4 +18,4 @@ public:
 	void UpdateItemValue( int nItemId, const CVariant &value );
 };
 
-#endif		//__LOCALIZATION_H__
+#endif		// __LOCALIZATION_H__

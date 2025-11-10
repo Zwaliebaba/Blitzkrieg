@@ -1,8 +1,8 @@
 #ifndef __BUILDVERSION_H__
 #define __BUILDVERSION_H__
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #pragma ONCE
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 struct SProject
 {
 	std::string szName;										// project name
@@ -10,10 +10,10 @@ struct SProject
 	std::string szFileName;								// complete filename
 	std::string szSourceControl;					// source control entry
 	std::string szResourceFileName;				// resource file
-	std::list<std::string> depends;				// all projects, this one depend from
+	std::list<std::string> depends;				// all projects, this one depends from
 	std::list<std::string> sources;				// source files of this project
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CBuildVersion
 {
 	typedef std::hash_map<std::string, SProject> CProjectsMap;
@@ -32,5 +32,5 @@ public:
 	bool UpdateVersion( const char *pszWorkspaceName, const char *pszHeadProject );
 	bool MakeBuild( const char *pszHeadProject );
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // __BUILDVERSION_H__

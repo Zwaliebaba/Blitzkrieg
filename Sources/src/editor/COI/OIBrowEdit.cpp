@@ -4,14 +4,14 @@
 #include "OIBrowEdit.h"
 #include "..\MyOpenFileDialog.h"
 
-//#include "MapEdit.h"
+// #include "MapEdit.h"
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // COIBrowseButton
-/////////////////////////////////////////////////////////////////////////////
+// 
 BEGIN_MESSAGE_MAP(COIBrowseButton, CButton)
-//{{AFX_MSG_MAP(COIBrowseButton)
-//}}AFX_MSG_MAP
+// {{AFX_MSG_MAP(COIBrowseButton)
+// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 static std::string MakeOneSlash( std::string str )
@@ -34,8 +34,8 @@ COIBrowseButton::COIBrowseButton( COIBrowseEdit *pPrnt, CEdit* pEdtBrowse )
 {
   ASSERT( pPrnt );
   ASSERT( pEdtBrowse );
-  //{{AFX_DATA_INIT(COIBrowseButton)
-  //}}AFX_DATA_INIT
+  // {{AFX_DATA_INIT(COIBrowseButton)
+  // }}AFX_DATA_INIT
   
   m_pEdtBrowse = pEdtBrowse;
   m_pParentWnd = pPrnt;
@@ -48,7 +48,7 @@ COIBrowseButton::~COIBrowseButton()
 
 BOOL COIBrowseButton::Create()
 {
-  // Make sure we have an edit control.  
+  // Make sure we have an edit control.
   ASSERT(m_pEdtBrowse != NULL);
   
   // Get the parent edit control and shrink it by the width
@@ -87,16 +87,16 @@ BOOL COIBrowseButton::OnChildNotify( UINT uiMsg, WPARAM wParam, LPARAM lParam,
   return FALSE;
 }
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // COIBrowseButton
-/////////////////////////////////////////////////////////////////////////////
+// 
 BEGIN_MESSAGE_MAP(COIBrowseEdit, CWnd)
-//{{AFX_MSG_MAP(COIBrowseEdit)
+// {{AFX_MSG_MAP(COIBrowseEdit)
   ON_WM_ENABLE()
 	ON_WM_CREATE()
 	ON_WM_SIZE()
 	ON_WM_SHOWWINDOW()
-	//}}AFX_MSG_MAP
+	// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 COIBrowseEdit::COIBrowseEdit() : m_BrowseBtn( this, &m_Edit )

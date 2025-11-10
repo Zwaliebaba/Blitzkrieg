@@ -28,7 +28,7 @@ public:
 	~CBridgeCommonPropsItem() {};
 	
 	const char *GetBridgeName() { return values[0].value; }
-	bool GetDirection();					//if true then horizontal
+	bool GetDirection();					// if true then horizontal
 	int GetHealth() { return values[2].value; }
 	float GetRepairCost() { return values[3].value; }
 	int GetPassForInfantry() { return values[4].value; }
@@ -57,12 +57,12 @@ public:
 	CBridgeDefencePropsItem() { nItemType = E_BRIDGE_DEFENCE_PROPS_ITEM; nImageIndex = 3; InitDefaultValues(); }
 	~CBridgeDefencePropsItem() {};
 	
-	//Получение внутренних параметров
+	// Getting internal parameters
 	int GetMinArmor() { return values[0].value; }
 	int GetMaxArmor() { return values[1].value; }
 	float GetSilhouette() { return values[2].value; }
 	
-	//Установка внутренних параметров
+	// Setting internal parameters
 	void SetMinArmor( int nVal ) { values[0].value = nVal; }
 	void SetMaxArmor( int nVal ) { values[1].value = nVal; }
 	void SetSilhouette( float fVal ) { values[2].value = fVal; }
@@ -77,7 +77,7 @@ public:
 	CBridgeStagePropsItem() { bStaticElements = true; nItemType = E_BRIDGE_STAGE_PROPS_ITEM; InitDefaultValues(); nImageIndex = 2; }
 	~CBridgeStagePropsItem() {};
 	
-	//для рассчета активного состояния моста, целый, полуразрушенный или разрушенный
+	// to calculate the active state of the bridge, intact, dilapidated or destroyed
 	enum
 	{
 		E_WHOLE,
@@ -139,8 +139,8 @@ public:
 	CBridgePartsItem() : nSpanIndex( -1 ) { bStaticElements = true; nItemType = E_BRIDGE_PARTS_ITEM; InitDefaultValues(); nImageIndex = 2; }
 	~CBridgePartsItem() {};
 	
-//	int GetLength() { return values[0].value; }
-//	int GetWidth() { return values[1].value; }
+// int GetLength() { return values[0].value; 
+// int GetWidth() { return values[1].value; 
 
 	int GetActiveStage();
 	virtual void InitDefaultValues();
@@ -267,4 +267,4 @@ public:
 	virtual void MyKeyDown( int nChar );
 };
 
-#endif		//__BRIDGE_TREE_ITEM_H__
+#endif		// __BRIDGE_TREE_ITEM_H__

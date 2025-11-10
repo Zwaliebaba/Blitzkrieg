@@ -1,22 +1,23 @@
 #ifndef __AAFEEDBACKS_H__
 #define __AAFEEDBACKS_H__
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma ONCE
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#pragma once
+
 class CAAFeedBacks
 {
-	DECLARE_SERIALIZE;
-	typedef std::list<int/*Planes unique id*/> CTargetList;
-	typedef std::hash_map<int/*AA Unique ID*/,CTargetList>  CAAFeedBacksList;
+  DECLARE_SERIALIZE;
+  using CTargetList = std::list<int/* Planes unique id */>;
+  using CAAFeedBacksList = std::hash_map<int/* AA Unique ID */, CTargetList>;
 
 
-	CAAFeedBacksList feedbacks;
+  CAAFeedBacksList feedbacks;
 
-	void SendFeedBack( class CAIUnit *pAA ) const;
+  void SendFeedBack(class CAIUnit *pAA) const;
+
 public:
-	void Clear();
-	void Fired( class CAIUnit *pAA, class CAIUnit *pTarget );
-	void PlaneDeleted( class CAIUnit *pTarget );
+  void Clear();
+  void Fired(class CAIUnit *pAA, class CAIUnit *pTarget);
+  void PlaneDeleted(class CAIUnit *pTarget);
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // __AAFEEDBACKS_H__

@@ -3,7 +3,7 @@
 
 #include "Interface.h"
 #include "..\GameTT\iMission.h"
-/////////////////////////////////////////////////////////////////////////////
+// //
 // broadcast message (old fashioned), visits all windows untill some of them processed it
 struct SBUIMessage
 {
@@ -20,27 +20,27 @@ struct SBUIMessage
 	
 	int operator&( IStructureSaver &ss )
 	{
-		//CRAP{ TO DO
+		// CRAP{ TO DO
 		NI_ASSERT_T( FALSE, "NEED IMPLEMENT" );
 		return 0;
-		//CRAP}
+		// CRAP}
 	}
 };
-/////////////////////////////////////////////////////////////////////////////
+// //
 // command that may change window animation state or run message reaction
 struct SUIStateCommand
 {
 	int nCommandID;													// command ID
 
 	std::string szParam1;										// 1st string parameter
-	std::string szParam2;										// 2nd string parameter 
+	std::string szParam2;										// 2nd string parameter
 
 	CVec2 vParam;														// vector parameter
 	WORD dwParam1;													// 1st generic parameter
 
 	SUIStateCommand() {  }
 
-	//CRAP{ FOR TEST
+	// CRAP{ FOR TEST
 	SUIStateCommand( int TEST )
 	{
 		nCommandID = EUISM_RUN_REACTION_COMMAND;													// command ID
@@ -49,7 +49,7 @@ struct SUIStateCommand
 		vParam = VNULL2;														// vector parameter
 		dwParam1 = 0;													// 1st generic parameter
 	}
-	//CRAP}
+	// CRAP}
 
 	SUIStateCommand( const int _nCommandID, const std::string &_szParam1, const std::string &_szParam2, const CVec2 &_vParam, const DWORD _dwParam1 )
 		: nCommandID( _nCommandID ), szParam1( _szParam1 ), szParam2( _szParam2 ), vParam( _vParam ), dwParam1( _dwParam1 )
@@ -69,20 +69,20 @@ struct SUIStateCommand
 
 	int operator&( IStructureSaver &ss )
 	{
-		//CRAP{ TO DO
+		// CRAP{ TO DO
 		NI_ASSERT_T( FALSE, "NEED IMPLEMENT" );
 		return 0;
-		//CRAP}
+		// CRAP}
 	}
 };
-/////////////////////////////////////////////////////////////////////////////
-// for every state command we will need create manipulator.
+// //
+// for every state command we will need to create manipulator.
 struct SUIStateMoveToCommand : public SUIStateCommand 
 {
 	IManipulator * GetManipulator() { return 0; }
 };
-/////////////////////////////////////////////////////////////////////////////
-// UIScreen recieve command sequience
+// //
+// UIScreen recieve command sequence
 struct SUICommandSequence
 {
 	DECLARE_SERIALIZE;
@@ -98,7 +98,7 @@ interface IEffectorCommand : public IRefCount
 {
 	virtual interface IUIEffector * STDCALL Configure( const struct SUIStateCommand &cmd, interface IScreen *pScreen  ) = 0;
 };
-/////////////////////////////////////////////////////////////////////////////
+// //
 // effect creator
 template <class TEffector, int NInterfaceTypeID>
 class CEffectorCommandBase : public IEffectorCommand
@@ -113,6 +113,6 @@ public:
 		return pEffector;
 	}
 };
-/////////////////////////////////////////////////////////////////////////////
+// //
 
-#endif //_IBackground_h_Included_
+#endif // _IBackground_h_Included_

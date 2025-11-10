@@ -4,7 +4,7 @@
 
 #include "DeepCPtrCopy.h"
 
-//CRAP{ FOR OBSERVERS TO WORK
+// CRAP{ FOR OBSERVERS TO WORK
 // basic interface for GameMessage observer
 interface IGMObserver : public IRefCount
 {
@@ -68,7 +68,7 @@ public:
 			(*it)->Execute( msg );
 	}
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CMessageQueue : public IRefCount
 {
 	OBJECT_COMPETE_METHODS( CMessageQueue );
@@ -81,7 +81,7 @@ public:
 	{
 		messages.push_back( msg );
 	}
-	// get next message from queue. returns false if queue are empty
+	// get next message from queue. 
 	bool STDCALL GetMessage( SGameMessage *pMsg )
 	{
 		if ( messages.empty() ) 
@@ -119,8 +119,8 @@ public:
 			return pos->second;
 	}
 };
-//CRAP}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// CRAP}
+
 // generic window functionality
 interface IWindow : public IRefCount
 {
@@ -132,16 +132,16 @@ interface IWindow : public IRefCount
 	virtual void STDCALL OnMouseMove( const CVec2 &vPos, const int mouseState ) = 0;
 	// pick
 	virtual IWindow* STDCALL Pick( const CVec2 &vPos ) = 0;
-	//get manipulator for editor functionality
+	// get manipulator for editor functionality
 	virtual IManipulator* STDCALL GetManipulator() = 0;
 	// help context
 	virtual interface IText* STDCALL GetHelpContext() = 0;
 	// DRAWING
 	virtual void STDCALL Visit( interface ISceneVisitor *pVisitor ) = 0;
-	// dynamic behaviour
+	// dynamic behavior
 	virtual void STDCALL Segment( const NTimer::STime timeDiff ) {  }
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // specific to button functionality
 interface IButton 
 {
@@ -164,14 +164,14 @@ interface ITextView
 	// return true if height of window is updated
 	virtual bool STDCALL SetText( const std::wstring &szText ) = 0;
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// ISlider's owner extend this interface to be notified about slider events
+
+// ISlider's owner extends this interface to be notified about slider events
 interface ISliderNotify
 {
 	// fPosition 0..1
 	virtual void STDCALL SliderPosition( const float fPosition ) = 0;
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 interface ISlider
 {
 	virtual void STDCALL SetRange( const float fMin, const float fMax, const float fPageSize ) = 0;
@@ -181,8 +181,8 @@ interface ISlider
 	virtual void STDCALL SetNotifySink( interface ISliderNotify *pNotify ) = 0;
 };
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// specific screen funcitonality
+
+// specific screen functionality
 interface IScreen
 {
 	virtual void STDCALL Load( const std::string &szResourceName ) = 0;
@@ -197,7 +197,7 @@ interface IScreen
 	virtual void STDCALL RegisterReaction( const std::string &szReactionKey, interface IMessageReactionB2 *pReaction ) = 0;
 };
 
-//CRAP{ FOR OBSERVERS TO START WORK
+// CRAP{ FOR OBSERVERS TO START WORK
 class CScreen;
 template <typename TObj, typename TMemFun>
 class CObserverRegistrator
@@ -209,12 +209,12 @@ public:
 	CObserverRegistrator() : pScreen ( 0 ) {  }
 	void Init( IScreen *_pScreen, TObj *_pObj, TMemFun _pfnMemFun, const std::string &_szMessage )
 	{
-		//CRAP{ MUST ALLOW MULTIPLE init without registering second observer
+		// CRAP{ MUST ALLOW MULTIPLE init without registering second observer
 		szMessage = _szMessage;
 		pScreen = _pScreen;
 		pObserver = MakeGMObserver( _pObj, _pfnMemFun );
 		pScreen->RegisterObserver( pObserver, szMessage );
-		//CRAP}
+		// CRAP}
 	}
 	~CObserverRegistrator()
 	{
@@ -222,19 +222,19 @@ public:
 			pScreen->UnregisterObserver( pObserver, szMessage );
 	}
 };
-//CRAP}
+// CRAP}
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // effect on interface
 interface IUIEffector : public IRefCount
 {
-	// effect may want to calculate something 
+	// effect may want to calculate something
 	virtual void STDCALL Segment( const NTimer::STime timeDiff, interface IScreen *pScreen ) = 0;
 	// effect may want to draw somwthing
 	virtual void STDCALL Visit( interface ISceneVisitor *pVisitor ) = 0;
 	// does this effect need UI element
 	virtual bool STDCALL NeedElement() const = 0;
-	// if need element, then supplied
+	// if needed element, then supplied
 	virtual void STDCALL SetElement( class CWindow *pElement ) = 0;
 	// effect is finished
 	virtual bool STDCALL IsFinished() const = 0;
@@ -243,7 +243,7 @@ interface IUIEffector : public IRefCount
 	// reversed effect ( that effect + effect->Reverse() = NULL );
 	virtual void STDCALL Reverse() = 0;
 };
-/////////////////////////////////////////////////////////////////////////////
+// //
 // all backgrounds must instance this interface
 interface IBackground : public IRefCount
 {
@@ -255,7 +255,7 @@ interface IBackground : public IRefCount
 	// notify background about window position and size change
 	virtual void STDCALL SetPos( const CVec2 &vPos, const CVec2 &vSize ) = 0;
 };
-#endif //_interfaceBase_h_included_
+#endif // _interfaceBase_h_included_
 
 
 

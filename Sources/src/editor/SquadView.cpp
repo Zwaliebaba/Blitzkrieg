@@ -12,7 +12,7 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-/////////////////////////////////////////////////////////////////////////////
+// //
 // CSquadView
 
 CSquadView::CSquadView()
@@ -25,13 +25,13 @@ CSquadView::~CSquadView()
 
 
 BEGIN_MESSAGE_MAP(CSquadView, CWnd)
-//{{AFX_MSG_MAP(CSquadView)
+// {{AFX_MSG_MAP(CSquadView)
 ON_WM_PAINT()
-//}}AFX_MSG_MAP
+// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 
-/////////////////////////////////////////////////////////////////////////////
+// //
 // CSquadView message handlers
 
 BOOL CSquadView::PreCreateWindow(CREATESTRUCT& cs) 
@@ -57,5 +57,5 @@ void CSquadView::OnPaint()
 		CWnd::OnPaint();
 		g_frameManager.GetFrame( CFrameManager::E_SQUAD_FRAME )->GFXDraw();
 	}
-//	CWnd::OnPaint();
+// CWnd::OnPaint();
 }

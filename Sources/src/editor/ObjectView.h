@@ -4,7 +4,7 @@
 // ObjectView.h : header file
 //
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // CObjectView window
 
 class CObjectView : public CWnd
@@ -21,10 +21,10 @@ public:
 	
 	// Overrides
 	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CObjectView)
+	// {{AFX_VIRTUAL(CObjectView)
 protected:
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
-	//}}AFX_VIRTUAL
+	// }}AFX_VIRTUAL
 	
 	// Implementation
 public:
@@ -34,12 +34,12 @@ private:
 	
 	// Generated message map functions
 protected:
-	//{{AFX_MSG(CObjectView)
+	// {{AFX_MSG(CObjectView)
 	afx_msg void OnPaint();
-	//}}AFX_MSG
+	// }}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 
-#endif		//__OBJECTVIEW_H__
+#endif		// __OBJECTVIEW_H__

@@ -3,10 +3,8 @@
 #ifndef IPLANE_H
 #define IPLANE_H
 
-/**
- * самолет от этого наследуется.
- * @interface
- */
+/* *
+  */
 interface IPlane
 {
 public:
@@ -28,19 +26,19 @@ public:
 	
 	virtual void STDCALL SetB2( const CVec3 &vPos, const CVec3 &vSpeed, const CVec3 &vNormal ) = 0;
 
-	/** текущий самолет уже находится под атакой. */
+	/* * the current plane is already under attack. */
 	virtual bool STDCALL IsBeingAttackedB2() = 0;
 
-	/** когда враг уже готовится стрелять в самолет. нужно для того, чтобы за 1 самолетом не гонялось несколько. */
+	/* * when the enemy is already preparing to shoot at the plane.  */
 	virtual void STDCALL NotifyAttackedB2(IPlane & attacker, bool bAttack) = 0;
 
 	// access to plane's preferences
 	virtual const class CPlanePreferences & STDCALL GetPreferencesB2() const = 0;
 	
-	//CRAP{ B2 PLANES
+	// CRAP{ B2 PLANES
 	virtual void STDCALL SetManuver( interface IManuver *pManuver ) = 0;
 	virtual void STDCALL AdvanceB2( const NTimer::STime timeDiff ) = 0;
 	virtual bool STDCALL IsManuverFinishedB2() const = 0;
-	//CRAP}
+	// CRAP}
 };
-#endif //IPLANE_H
+#endif // IPLANE_H

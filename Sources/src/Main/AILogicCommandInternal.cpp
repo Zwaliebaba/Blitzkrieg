@@ -1,12 +1,11 @@
 #include "stdafx.h"
-
 #include "AILogicCommandInternal.h"
 #include "iMainCommands.h"
 #include "Transceiver.h"
 
-#include "..\AILogic\AILogic.h"
-#include "..\Input\Input.h"
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#include "../AILogic/AILogic.h"
+#include "../Input/Input.h"
+
 // ************************************************************************************************************************ //
 // **
 // ** register group
@@ -14,129 +13,121 @@
 // **
 // **
 // ************************************************************************************************************************ //
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-CRegisterGroupCommand::CRegisterGroupCommand( IRefCount **pUnitsBuffer, const int nLen, const WORD _wID, IAILogic *pAILogic )
-: wID( _wID )
+
+CRegisterGroupCommand::CRegisterGroupCommand(IRefCount **pUnitsBuffer, const int nLen, const WORD _wID, IAILogic *pAILogic)
+  : wID(_wID) { unitsIDs.insert(unitsIDs.begin(), ((int *) pUnitsBuffer), ((int *) pUnitsBuffer) + nLen); }
+
+void CRegisterGroupCommand::Execute(IAILogic *pAILogic)
 {
-	unitsIDs.insert( unitsIDs.begin(), ((int*)pUnitsBuffer), ((int*)pUnitsBuffer) + nLen );
+  std::vector<IRefCount *> unitsBuffer(unitsIDs.size());
+  int nLen = 0;
+  for (std::vector<int>::const_iterator it = unitsIDs.begin(); it != unitsIDs.end(); ++it)
+  {
+    unitsBuffer[nLen] = pAILogic->GetObjByUniqueID(*it);
+    if (unitsBuffer[nLen] == nullptr)
+    {
+      const std::string szMessage = NStr::Format("Wrong id (%d) passed, execute registergroup command", *it);
+      GetSingleton<IConsoleBuffer>()->WriteASCII(CONSOLE_STREAM_CONSOLE, szMessage.c_str(), 0xffff0000, true);
+    }
+
+    ++nLen;
+  }
+
+  pAILogic->RegisterGroup(&(unitsBuffer[0]), nLen, wID);
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CRegisterGroupCommand::Execute( IAILogic *pAILogic )
+
+int CRegisterGroupCommand::operator&(IStructureSaver &ss)
 {
-	std::vector<IRefCount*> unitsBuffer( unitsIDs.size() );
-	int nLen = 0;
-	for ( std::vector<int>::const_iterator it = unitsIDs.begin(); it != unitsIDs.end(); ++it )
-	{
-		unitsBuffer[nLen] = pAILogic->GetObjByUniqueID( *it );
-		if ( unitsBuffer[nLen] == 0 )
-		{
-			const std::string szMessage = NStr::Format( "Wrong id (%d) passed, execute registergroup command", *it );
-			GetSingleton<IConsoleBuffer>()->WriteASCII( CONSOLE_STREAM_CONSOLE, szMessage.c_str(), 0xffff0000, true );
-		}
+  CSaverAccessor saver = &ss;
 
-		++nLen;
-	}
+  saver.Add(1, &wID);
+  saver.Add(2, &unitsIDs);
 
-	pAILogic->RegisterGroup( &(unitsBuffer[0]), nLen, wID );
+  return 0;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-int CRegisterGroupCommand::operator&( IStructureSaver &ss )
+
+int CRegisterGroupCommand::operator&(IDataTree &ss)
 {
-	CSaverAccessor saver = &ss;
+  CTreeAccessor saver = &ss;
 
-	saver.Add( 1, &wID );
-	saver.Add( 2, &unitsIDs );
+  std::string name = "RegisterGroup";
 
-	return 0;
+  saver.Add("Name", &name);
+  saver.Add("GroupID", &wID);
+  saver.Add("Units", &unitsIDs);
+
+  return 0;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-int CRegisterGroupCommand::operator&( IDataTree &ss )
+
+void CRegisterGroupCommand::Store(IDataStream *pPacket)
 {
-	CTreeAccessor saver = &ss;
-
-	std::string name = "RegisterGroup";
-
-	saver.Add( "Name", &name );
-	saver.Add( "GroupID", &wID );
-	saver.Add( "Units", &unitsIDs );
-
-	return 0;
+  BYTE commandID = tidTypeID;
+  pPacket->Write(&commandID, sizeof(commandID));
+  //
+  pPacket->Write(&wID, sizeof(wID));
+  int nNumObjects = unitsIDs.size();
+  pPacket->Write(&nNumObjects, sizeof(nNumObjects));
+  pPacket->Write(&(unitsIDs[0]), unitsIDs.size() * sizeof(unitsIDs[0]));
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CRegisterGroupCommand::Store( IDataStream *pPacket )
+
+void CRegisterGroupCommand::Restore(IDataStream *pPacket)
 {
-	BYTE commandID = CRegisterGroupCommand::tidTypeID;
-	pPacket->Write( &commandID, sizeof(commandID) );
-	//
-	pPacket->Write( &wID, sizeof(wID) );
-	int nNumObjects = unitsIDs.size();
-	pPacket->Write( &nNumObjects, sizeof(nNumObjects) );
-	pPacket->Write( &(unitsIDs[0]), unitsIDs.size() * sizeof(unitsIDs[0]) );
+  // don't read commandID - this data already read
+  pPacket->Read(&wID, sizeof(wID));
+  int nNumObjects = 0;
+  pPacket->Read(&nNumObjects, sizeof(nNumObjects));
+  unitsIDs.resize(nNumObjects);
+  pPacket->Read(&(unitsIDs[0]), unitsIDs.size() * sizeof(unitsIDs[0]));
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CRegisterGroupCommand::Restore( IDataStream *pPacket )
-{
-	// don't read commandID - this data already read
-	pPacket->Read( &wID, sizeof(wID) );
-	int nNumObjects = 0;
-	pPacket->Read( &nNumObjects, sizeof(nNumObjects) );
-	unitsIDs.resize( nNumObjects );
-	pPacket->Read( &(unitsIDs[0]), unitsIDs.size() * sizeof(unitsIDs[0]) );
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // ************************************************************************************************************************ //
 // **
-// ** unregister group
+// **unregister group
 // **
 // **
 // **
 // ************************************************************************************************************************ //
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-CUnregisterGroupCommand::CUnregisterGroupCommand( const WORD _wGroup )
-: wGroup( _wGroup )
-{
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CUnregisterGroupCommand::Execute( IAILogic *pAILogic )
-{
-	pAILogic->UnregisterGroup( wGroup );
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-int CUnregisterGroupCommand::operator&( IStructureSaver &ss )
-{
-	CSaverAccessor saver = &ss;
 
-	saver.Add( 1, &wGroup );
+CUnregisterGroupCommand::CUnregisterGroupCommand(const WORD _wGroup)
+  : wGroup(_wGroup) {}
 
-	return 0;
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-int CUnregisterGroupCommand::operator&( IDataTree &ss )
+void CUnregisterGroupCommand::Execute(IAILogic *pAILogic) { pAILogic->UnregisterGroup(wGroup); }
+
+int CUnregisterGroupCommand::operator&(IStructureSaver &ss)
 {
-	CTreeAccessor saver = &ss;
+  CSaverAccessor saver = &ss;
 
-	std::string name = "UnregisterGroup";
+  saver.Add(1, &wGroup);
 
-	saver.Add( "Name", &name );
-	saver.Add( "GroupID", &wGroup );
-
-	return 0;
+  return 0;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CUnregisterGroupCommand::Store( IDataStream *pPacket )
+
+int CUnregisterGroupCommand::operator&(IDataTree &ss)
 {
-	BYTE commandID = CUnregisterGroupCommand::tidTypeID;
-	pPacket->Write( &commandID, sizeof(commandID) );
-	//
-	pPacket->Write( &wGroup, sizeof(wGroup) );
+  CTreeAccessor saver = &ss;
+
+  std::string name = "UnregisterGroup";
+
+  saver.Add("Name", &name);
+  saver.Add("GroupID", &wGroup);
+
+  return 0;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CUnregisterGroupCommand::Restore( IDataStream *pPacket )
+
+void CUnregisterGroupCommand::Store(IDataStream *pPacket)
 {
-	// don't read commandID - this data already read
-	pPacket->Read( &wGroup, sizeof(wGroup) );
+  BYTE commandID = tidTypeID;
+  pPacket->Write(&commandID, sizeof(commandID));
+  //
+  pPacket->Write(&wGroup, sizeof(wGroup));
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void CUnregisterGroupCommand::Restore(IDataStream *pPacket)
+{
+  // don't read commandID - this data already read
+  pPacket->Read(&wGroup, sizeof(wGroup));
+}
+
 // ************************************************************************************************************************ //
 // **
 // ** group command
@@ -144,171 +135,164 @@ void CUnregisterGroupCommand::Restore( IDataStream *pPacket )
 // **
 // **
 // ************************************************************************************************************************ //
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-CGroupCommand::CGroupCommand( const SAIUnitCmd *pCommand, const WORD _wGroup, bool _bPlaceInQueue, IAILogic *pAILogic )
-: command( *pCommand ), wGroup( _wGroup ), bPlaceInQueue( _bPlaceInQueue )
+
+CGroupCommand::CGroupCommand(const SAIUnitCmd *pCommand, const WORD _wGroup, bool _bPlaceInQueue, IAILogic *pAILogic)
+  : command(*pCommand), wGroup(_wGroup), bPlaceInQueue(_bPlaceInQueue)
 {
-	if ( pCommand->pObject != 0 )
-		nObjId = pAILogic->GetUniqueIDOfObject( pCommand->pObject );
-	else
-		nObjId = 0;
-	// reset object's ptr - we have stored object's ID
-	command.pObject = 0;
+  if (pCommand->pObject != nullptr) nObjId = pAILogic->GetUniqueIDOfObject(pCommand->pObject);
+  else nObjId = 0;
+  // reset object's ptr - we have stored object's ID
+  command.pObject = nullptr;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CGroupCommand::Execute( IAILogic *pAILogic )
+
+void CGroupCommand::Execute(IAILogic *pAILogic)
 {
-	if ( nObjId != 0 )
-	{
-		command.pObject = pAILogic->GetObjByUniqueID( nObjId );
+  if (nObjId != 0)
+  {
+    command.pObject = pAILogic->GetObjByUniqueID(nObjId);
 
-		if ( command.pObject == 0 )
-		{
-			const std::string szMessage = NStr::Format( "Wrong id (%d) passed, execute group command", nObjId );
-			GetSingleton<IConsoleBuffer>()->WriteASCII( CONSOLE_STREAM_CONSOLE, szMessage.c_str(), 0xffff0000, true );
-		}
-	}
+    if (command.pObject == nullptr)
+    {
+      const std::string szMessage = NStr::Format("Wrong id (%d) passed, execute group command", nObjId);
+      GetSingleton<IConsoleBuffer>()->WriteASCII(CONSOLE_STREAM_CONSOLE, szMessage.c_str(), 0xffff0000, true);
+    }
+  }
 
-	pAILogic->GroupCommand( &command, wGroup, bPlaceInQueue );
+  pAILogic->GroupCommand(&command, wGroup, bPlaceInQueue);
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-int CGroupCommand::operator&( IStructureSaver &ss )
+
+int CGroupCommand::operator&(IStructureSaver &ss)
 {
-	CSaverAccessor saver = &ss;
+  CSaverAccessor saver = &ss;
 
-	saver.Add( 1, &command );
-	saver.Add( 2, &wGroup );
-	saver.Add( 3, &nObjId );
-	saver.Add( 4, &bPlaceInQueue );
+  saver.Add(1, &command);
+  saver.Add(2, &wGroup);
+  saver.Add(3, &nObjId);
+  saver.Add(4, &bPlaceInQueue);
 
-	return 0;
+  return 0;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-int CGroupCommand::operator&( IDataTree &ss )
+
+int CGroupCommand::operator&(IDataTree &ss)
 {
-	CTreeAccessor saver = &ss;
+  CTreeAccessor saver = &ss;
 
-	std::string name = "GroupCommand";
+  std::string name = "GroupCommand";
 
-	saver.Add( "Name", &name );
-	saver.Add( "Command", &command );
-	saver.Add( "TargetObjectID", &nObjId );
-	saver.Add( "GroupID", &wGroup );
-	saver.Add( "PlaceToQueueFlag", &bPlaceInQueue );
+  saver.Add("Name", &name);
+  saver.Add("Command", &command);
+  saver.Add("TargetObjectID", &nObjId);
+  saver.Add("GroupID", &wGroup);
+  saver.Add("PlaceToQueueFlag", &bPlaceInQueue);
 
-	return 0;
+  return 0;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CGroupCommand::Store( IDataStream *pPacket )
+
+void CGroupCommand::Store(IDataStream *pPacket)
 {
-	CStreamAccessor packet = pPacket;
+  CStreamAccessor packet = pPacket;
 
-	// save command id
-	const BYTE commandID = CGroupCommand::tidTypeID;	
-	packet << commandID;
-	//
-	// save command
-	const BYTE packedBoolCommandInfo = ((BYTE)command.fromExplosion << 1) | (BYTE)command.bFromAI;
-	packet << WORD(command.cmdType) << command.vPos.x << command.vPos.y << command.fNumber << packedBoolCommandInfo;
-	//
+  // save command id
+  constexpr BYTE commandID = tidTypeID;
+  packet << commandID;
+  //
+  // save command
+  const BYTE packedBoolCommandInfo = (static_cast<BYTE>(command.fromExplosion) << 1) | static_cast<BYTE>(command.bFromAI);
+  packet << static_cast<WORD>(command.cmdType) << command.vPos.x << command.vPos.y << command.fNumber << packedBoolCommandInfo;
+  //
 
-	packet << wGroup << nObjId << BYTE( bPlaceInQueue ) << nObjId;
+  packet << wGroup << nObjId << static_cast<BYTE>(bPlaceInQueue) << nObjId;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CGroupCommand::Restore( IDataStream *pPacket )
+
+void CGroupCommand::Restore(IDataStream *pPacket)
 {
-	// don't read commandID - this data already read
-	//
-	CStreamAccessor packet = pPacket;
-	//
-	// read command
-	BYTE packedBoolCommandInfo;
-	WORD cmdType;
-	packet >> cmdType >> command.vPos.x >> command.vPos.y >> command.fNumber >> packedBoolCommandInfo;
-	command.cmdType = EActionCommand( cmdType );
-	command.fromExplosion = packedBoolCommandInfo >> 1;
-	command.bFromAI = packedBoolCommandInfo & 2;
+  // don't read commandID - this data already read
+  //
+  CStreamAccessor packet = pPacket;
+  //
+  // read command
+  BYTE packedBoolCommandInfo;
+  WORD cmdType;
+  packet >> cmdType >> command.vPos.x >> command.vPos.y >> command.fNumber >> packedBoolCommandInfo;
+  command.cmdType = static_cast<EActionCommand>(cmdType);
+  command.fromExplosion = packedBoolCommandInfo >> 1;
+  command.bFromAI = packedBoolCommandInfo & 2;
 
-	//
-	BYTE cPlaceInQueue;
-	packet >> wGroup >> nObjId >> cPlaceInQueue >> nObjId;
-	bPlaceInQueue = cPlaceInQueue;
+  //
+  BYTE cPlaceInQueue;
+  packet >> wGroup >> nObjId >> cPlaceInQueue >> nObjId;
+  bPlaceInQueue = cPlaceInQueue;
 
-	//
-	command.pObject = 0;
+  //
+  command.pObject = nullptr;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // ************************************************************************************************************************ //
 // **
-// ** unit command
+// **unit command
 // **
 // **
 // **
 // ************************************************************************************************************************ //
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-CUnitCommand::CUnitCommand( const struct SAIUnitCmd *pCommand, const WORD _wID, const int _nPlayer )
-: command( *pCommand ), wID( _wID ), nPlayer( _nPlayer )
-{
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CUnitCommand::Execute( IAILogic *pAILogic )
-{
-	pAILogic->UnitCommand( &command, wID, nPlayer );
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-int CUnitCommand::operator&( IStructureSaver &ss )
-{
-	CSaverAccessor saver = &ss;
 
-	saver.Add( 1, &command );
-	saver.Add( 2, &wID );
-	saver.Add( 3, &nPlayer );
+CUnitCommand::CUnitCommand(const struct SAIUnitCmd *pCommand, const WORD _wID, const int _nPlayer)
+  : command(*pCommand), wID(_wID), nPlayer(_nPlayer) {}
 
-	return 0;
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-int CUnitCommand::operator&( IDataTree &ss )
+void CUnitCommand::Execute(IAILogic *pAILogic) { pAILogic->UnitCommand(&command, wID, nPlayer); }
+
+int CUnitCommand::operator&(IStructureSaver &ss)
 {
-	CTreeAccessor saver = &ss;
+  CSaverAccessor saver = &ss;
 
-	std::string name = "UnitCommand";
+  saver.Add(1, &command);
+  saver.Add(2, &wID);
+  saver.Add(3, &nPlayer);
 
-	saver.Add( "Name", &name );
-	saver.Add( "Command", &command );
-	saver.Add( "GroupID", &wID );
-	saver.Add( "Player", &nPlayer );
-
-	return 0;
+  return 0;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CUnitCommand::Store( IDataStream *pPacket )
+
+int CUnitCommand::operator&(IDataTree &ss)
 {
-	CStreamAccessor packet = pPacket;
-	
-	// save command id 
-	const BYTE commandID = CUnitCommand::tidTypeID;
-	packet << commandID;
-	//
-	packet << WORD(command.cmdType) << command.vPos.x << command.vPos.y << command.fNumber << BYTE(command.bFromAI);
-	packet << wID << nPlayer;
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CUnitCommand::Restore( IDataStream *pPacket )
-{
-	// don't read commandID - this data already read
-	CStreamAccessor packet = pPacket;
+  CTreeAccessor saver = &ss;
 
-	// read command
-	WORD cmdType;
-	BYTE cFromAI;
-	packet >> cmdType >> command.vPos.x >> command.vPos.y >> command.fNumber >> cFromAI;
-	command.cmdType = EActionCommand( cmdType );
-	command.bFromAI = cFromAI;
-	
-	//
-	packet >> wID >> nPlayer;
+  std::string name = "UnitCommand";
+
+  saver.Add("Name", &name);
+  saver.Add("Command", &command);
+  saver.Add("GroupID", &wID);
+  saver.Add("Player", &nPlayer);
+
+  return 0;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void CUnitCommand::Store(IDataStream *pPacket)
+{
+  CStreamAccessor packet = pPacket;
+
+  // save command id
+  constexpr BYTE commandID = tidTypeID;
+  packet << commandID;
+  //
+  packet << static_cast<WORD>(command.cmdType) << command.vPos.x << command.vPos.y << command.fNumber << static_cast<BYTE>(command.bFromAI);
+  packet << wID << nPlayer;
+}
+
+void CUnitCommand::Restore(IDataStream *pPacket)
+{
+  // don't read commandID - this data already read
+  CStreamAccessor packet = pPacket;
+
+  // read command
+  WORD cmdType;
+  BYTE cFromAI;
+  packet >> cmdType >> command.vPos.x >> command.vPos.y >> command.fNumber >> cFromAI;
+  command.cmdType = static_cast<EActionCommand>(cmdType);
+  command.bFromAI = cFromAI;
+
+  //
+  packet >> wID >> nPlayer;
+}
+
 // ************************************************************************************************************************ //
 // **
 // ** show area command
@@ -316,215 +300,194 @@ void CUnitCommand::Restore( IDataStream *pPacket )
 // **
 // **
 // ************************************************************************************************************************ //
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CShowAreasCommand::Execute( IAILogic *pAILogic )
+
+void CShowAreasCommand::Execute(IAILogic *pAILogic) { pAILogic->ShowAreas(wGroupID, static_cast<EActionNotify>(nAreaType), bShow); }
+
+int CShowAreasCommand::operator&(IStructureSaver &ss)
 {
-	pAILogic->ShowAreas( wGroupID, EActionNotify(nAreaType), bShow );
+  CSaverAccessor saver = &ss;
+
+  saver.Add(1, &wGroupID);
+  saver.Add(2, &nAreaType);
+  saver.Add(3, &bShow);
+
+  return 0;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-int CShowAreasCommand::operator&( IStructureSaver &ss )
+
+int CShowAreasCommand::operator&(IDataTree &ss)
 {
-	CSaverAccessor saver = &ss;
-	
-	saver.Add( 1, &wGroupID );
-	saver.Add( 2, &nAreaType );
-	saver.Add( 3, &bShow );
+  CTreeAccessor saver = &ss;
 
-	return 0;
+  std::string name = "CShowAreasCommand";
+
+  saver.Add("Name", &name);
+  saver.Add("GroupID", &wGroupID);
+  saver.Add("AreaType", &nAreaType);
+  saver.Add("ShowFlag", &bShow);
+
+  return 0;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-int CShowAreasCommand::operator&( IDataTree &ss )
-{
-	CTreeAccessor saver = &ss;
 
-	std::string name = "CShowAreasCommand";
-
-	saver.Add( "Name", &name );
-	saver.Add( "GroupID", &wGroupID );
-	saver.Add( "AreaType", &nAreaType );
-	saver.Add( "ShowFlag", &bShow );
-
-	return 0;
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // ************************************************************************************************************************ //
 // **
-// ** CControlSumCheckCommand
+// **CControlSumCheckCommand
 // **
 // **
 // **
 // ************************************************************************************************************************ //
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-std::vector< std::list<uLong> > CControlSumCheckCommand::checkSums;
+
+std::vector<std::list<uLong>> CControlSumCheckCommand::checkSums;
 WORD CControlSumCheckCommand::wMask;
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CControlSumCheckCommand::Init( const WORD _wMask )
+
+void CControlSumCheckCommand::Init(const WORD _wMask)
 {
-	checkSums.clear();
-	checkSums.resize( 16 );
-	wMask = _wMask;
+  checkSums.clear();
+  checkSums.resize(16);
+  wMask = _wMask;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CControlSumCheckCommand::Execute( IAILogic *pAILogic )
+
+void CControlSumCheckCommand::Execute(IAILogic *pAILogic) { checkSums[nPlayer].push_back(ulCheckSum); }
+
+void CControlSumCheckCommand::Store(IDataStream *pStream)
 {
-	checkSums[nPlayer].push_back( ulCheckSum );
+  BYTE commandID = tidTypeID;
+  pStream->Write(&commandID, sizeof(commandID));
+
+  pStream->Write(&nPlayer, sizeof(nPlayer));
+  pStream->Write(&ulCheckSum, sizeof(ulCheckSum));
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CControlSumCheckCommand::Store( IDataStream *pStream )
+
+void CControlSumCheckCommand::Restore(IDataStream *pStream)
 {
-	BYTE commandID = CControlSumCheckCommand::tidTypeID;
-	pStream->Write( &commandID, sizeof(commandID) );
-	
-	pStream->Write( &nPlayer, sizeof( nPlayer ) );
-	pStream->Write( &ulCheckSum, sizeof( ulCheckSum ) );
+  // don't read commandID - this data already read
+  pStream->Read(&nPlayer, sizeof(nPlayer));
+  pStream->Read(&ulCheckSum, sizeof(ulCheckSum));
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CControlSumCheckCommand::Restore( IDataStream *pStream )
+
+void CControlSumCheckCommand::Check(const int nOurNumber)
 {
-	// don't read commandID - this data already read	
-	pStream->Read( &nPlayer, sizeof( nPlayer ) );
-	pStream->Read( &ulCheckSum, sizeof( ulCheckSum ) );
+  bool bFinished = false;
+  while (!bFinished)
+  {
+    uLong checkSum;
+
+    if (checkSums[nOurNumber].empty()) return;
+    checkSum = checkSums[nOurNumber].front();
+
+    int nChecks = 0;
+    int nOutOfSyncs = 0;
+    for (int i = 0; i < checkSums.size() && !bFinished; ++i)
+    {
+      if (wMask & (1UL << i))
+      {
+        if (checkSums[i].empty()) bFinished = true;
+        else
+        {
+          ++nChecks;
+          if (checkSums[i].front() != checkSum)
+          {
+            GetSingleton<IInput>()->AddMessage(SGameMessage(CMD_MP_PLAYER_STATE_CHANGED, (i << 8) | 1));
+            ++nOutOfSyncs;
+          }
+        }
+      }
+    }
+
+    if (nOutOfSyncs > 0)
+    {
+      // our player is async, if number of players is more than 2, we don't have to play with others
+      if (nChecks == 2 || nOutOfSyncs == nChecks - 1)
+      {
+        GetSingleton<ITransceiver>()->SetTotalOutOfSync();
+        GetSingleton<IInput>()->AddMessage(SGameMessage(CMD_MP_PLAYER_STATE_CHANGED, 6));
+        GetSingleton<IAILogic>()->NoWin();
+      }
+      else if (nChecks > 2 && nOutOfSyncs > 1 && nOutOfSyncs < nChecks - 1)
+      {
+        GetSingleton<ITransceiver>()->SetTotalOutOfSync();
+        GetSingleton<IInput>()->AddMessage(SGameMessage(CMD_MP_PLAYER_STATE_CHANGED, 7));
+        GetSingleton<IAILogic>()->NoWin();
+      }
+
+      return;
+    }
+
+    if (!bFinished) { for (int j = 0; j < checkSums.size(); ++j) { if (!checkSums[j].empty()) checkSums[j].pop_front(); } }
+  }
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CControlSumCheckCommand::Check( const int nOurNumber )
+
+int CControlSumCheckCommand::operator&(IStructureSaver &ss)
 {
-	bool bFinished = false;
-	while ( !bFinished )
-	{
-		uLong checkSum;
+  CSaverAccessor saver = &ss;
 
-		if ( checkSums[nOurNumber].empty() )
-			return;
-		else
-			checkSum = checkSums[nOurNumber].front();
-		
-		int nChecks = 0;
-		int nOutOfSyncs = 0;
-		for ( int i = 0; i < checkSums.size() && !bFinished; ++i )
-		{
-			if ( wMask & ( 1UL << i ) )
-			{
-				if ( checkSums[i].empty() )
-					bFinished = true;
-				else
-				{
-					++nChecks;
-					if ( checkSums[i].front() != checkSum )
-					{
-						GetSingleton<IInput>()->AddMessage( SGameMessage( CMD_MP_PLAYER_STATE_CHANGED, (i << 8) | 1 ) );
-						++nOutOfSyncs;
-					}
-				}
-			}
-		}
+  saver.Add(1, &nPlayer);
+  saver.Add(2, &ulCheckSum);
 
-		if ( nOutOfSyncs > 0 )
-		{
-			// our player is async, if number of players is more than 2, we don't have to play with others
-			if ( nChecks == 2 || nOutOfSyncs == nChecks - 1 )
-			{
-				GetSingleton<ITransceiver>()->SetTotalOutOfSync();
-				GetSingleton<IInput>()->AddMessage( SGameMessage( CMD_MP_PLAYER_STATE_CHANGED, 6 ) );
-				GetSingleton<IAILogic>()->NoWin();
-			}
-			else if ( nChecks > 2 && nOutOfSyncs > 1 && nOutOfSyncs < nChecks - 1 )
-			{
-				GetSingleton<ITransceiver>()->SetTotalOutOfSync();
-				GetSingleton<IInput>()->AddMessage( SGameMessage( CMD_MP_PLAYER_STATE_CHANGED, 7 ) );
-				GetSingleton<IAILogic>()->NoWin();
-			}
+  int nCheckSumsSize;
+  if (!saver.IsReading()) nCheckSumsSize = checkSums.size();
+  saver.Add(3, &nCheckSumsSize);
 
-			return;
-		}
+  if (saver.IsReading())
+  {
+    checkSums.clear();
+    checkSums.resize(nCheckSumsSize);
+  }
 
-		if ( !bFinished )
-		{
-			for ( int j = 0; j < checkSums.size(); ++j )
-			{
-				if ( !checkSums[j].empty() )
-					checkSums[j].pop_front();
-			}
-		}
-	}
+  return 0;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-int CControlSumCheckCommand::operator&( IStructureSaver &ss )
+
+int CControlSumCheckCommand::operator&(IDataTree &ss)
 {
-	CSaverAccessor saver = &ss;
-	
-	saver.Add( 1, &nPlayer );
-	saver.Add( 2, &ulCheckSum );
+  CTreeAccessor saver = &ss;
 
-	int nCheckSumsSize;
-	if ( !saver.IsReading() )
-		nCheckSumsSize = checkSums.size();
-	saver.Add( 3, &nCheckSumsSize );
+  std::string name = "CControlSumCheckCommand";
 
-	if ( saver.IsReading() )
-	{
-		checkSums.clear();
-		checkSums.resize( nCheckSumsSize );
-	}
+  saver.Add("Name", &name);
+  saver.Add("Player", &nPlayer);
+  saver.Add("CheckSum", &ulCheckSum);
 
-	return 0;
+  return 0;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-int CControlSumCheckCommand::operator&( IDataTree &ss )
-{
-	CTreeAccessor saver = &ss;
 
-	std::string name = "CControlSumCheckCommand";
-
-	saver.Add( "Name", &name );
-	saver.Add( "Player", &nPlayer );
-	saver.Add( "CheckSum", &ulCheckSum );
-
-	return 0;
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // ************************************************************************************************************************ //
 // **
-// ** CDropPlayerCommand
+// **CDropPlayerCommand
 // **
 // **
 // **
 // ************************************************************************************************************************ //
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CDropPlayerCommand::Execute( IAILogic *pAILogic )
-{
-	pAILogic->NeutralizePlayer( nPlayerToDrop );
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CDropPlayerCommand::Store( IDataStream *pStream )
-{
-	CStreamAccessor stream = pStream;
-	
-	BYTE commandID = CDropPlayerCommand::tidTypeID;
-	stream << commandID << nPlayerToDrop;
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CDropPlayerCommand::Restore( IDataStream *pStream )
-{
-	// don't read commandID - this data already read
-	CStreamAccessor stream = pStream;
-	stream >> nPlayerToDrop;
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-int CDropPlayerCommand::operator&( IDataTree &ss )
-{
-	CTreeAccessor saver = &ss;
 
-	saver.Add( "PlayerID", &nPlayerToDrop );
+void CDropPlayerCommand::Execute(IAILogic *pAILogic) { pAILogic->NeutralizePlayer(nPlayerToDrop); }
 
-	return 0;
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-int CDropPlayerCommand::operator&( IStructureSaver &ss )
+void CDropPlayerCommand::Store(IDataStream *pStream)
 {
-	CSaverAccessor saver = &ss;
+  CStreamAccessor stream = pStream;
 
-	saver.Add( 1, &nPlayerToDrop );
-
-	return 0;
+  BYTE commandID = tidTypeID;
+  stream << commandID << nPlayerToDrop;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void CDropPlayerCommand::Restore(IDataStream *pStream)
+{
+  // don't read commandID - this data already read
+  CStreamAccessor stream = pStream;
+  stream >> nPlayerToDrop;
+}
+
+int CDropPlayerCommand::operator&(IDataTree &ss)
+{
+  CTreeAccessor saver = &ss;
+
+  saver.Add("PlayerID", &nPlayerToDrop);
+
+  return 0;
+}
+
+int CDropPlayerCommand::operator&(IStructureSaver &ss)
+{
+  CSaverAccessor saver = &ss;
+
+  saver.Add(1, &nPlayerToDrop);
+
+  return 0;
+}

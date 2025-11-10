@@ -48,13 +48,13 @@ float SumAngle( float f1, float f2 )
 	return fTemp;
 }
 
-/////////////////////////////////////////////////////////////////////////////
+// //
 // CSquadFrame
 
 IMPLEMENT_DYNCREATE(CSquadFrame, CGridFrame)
 
 BEGIN_MESSAGE_MAP(CSquadFrame, CGridFrame)
-	//{{AFX_MSG_MAP(CSquadFrame)
+	// {{AFX_MSG_MAP(CSquadFrame)
 	ON_WM_CREATE()
 	ON_WM_LBUTTONDOWN()
 	ON_WM_LBUTTONUP()
@@ -63,10 +63,10 @@ BEGIN_MESSAGE_MAP(CSquadFrame, CGridFrame)
 	ON_UPDATE_COMMAND_UI(ID_SET_ZERO_BUTTON, OnUpdateSetZeroButton)
 	ON_COMMAND(ID_SHOW_DIRECTION_BUTTON, OnShowDirectionButton)
 	ON_UPDATE_COMMAND_UI(ID_SHOW_DIRECTION_BUTTON, OnUpdateShowDirectionButton)
-	//}}AFX_MSG_MAP
+	// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-/////////////////////////////////////////////////////////////////////////////
+// //
 // CSquadFrame construction/destruction
 
 CSquadFrame::CSquadFrame()
@@ -115,7 +115,7 @@ int CSquadFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;
 	g_frameManager.AddFrame( this );
 	
-	// create a view to occupy the client area of the frame
+	// create a view to occupy the client area of ​​the frame
 	if (!pWndView->Create(NULL, NULL,  WS_CHILD | WS_VISIBLE, 
 		CRect(0, 0, 0, 0), this, AFX_IDW_PANE_FIRST, NULL))
 	{
@@ -126,7 +126,7 @@ int CSquadFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	return 0;
 }
 
-/////////////////////////////////////////////////////////////////////////////
+// //
 // CSquadFrame message handlers
 
 void CSquadFrame::ShowFrameWindows( int nCommand )
@@ -208,7 +208,7 @@ std::string MakeName( const std::string &szName, const std::vector<SUnitsGDBStat
 {
 	if ( szName.find('\\') != std::string::npos )
 	{
-		// добавим к имени объекта units\\humans
+		// add units\\humans to the object name
 		std::string szNewName = "units\\humans\\" + szName;
 		NStr::ToLower( szNewName );
 		for ( std::vector<SUnitsGDBStats>::const_iterator it = descs.begin(); it != descs.end(); ++it )
@@ -257,7 +257,7 @@ void CSquadFrame::SaveRPGStats( IDataTree *pDT, CTreeItem *pRootItem, const char
 	}
 
 	IScene *pSG = GetSingleton<IScene>();
-	//заполним формации
+	// let's fill out the formations
 	CTreeItem *pFormations = pRootItem->GetChildItem( E_SQUAD_FORMATIONS_ITEM );
 	for ( CTreeItem::CTreeItemList::const_iterator ext=pFormations->GetBegin(); ext!=pFormations->GetEnd(); ++ext )
 	{
@@ -273,7 +273,7 @@ void CSquadFrame::SaveRPGStats( IDataTree *pDT, CTreeItem *pRootItem, const char
 		form.fRelaxTimeBonus = pFormProps->GetRelaxTimeBonus();
 		form.fCoverBonus = pFormProps->GetCoverBonus();
 
-		//3D точна¤ координата нул¤ формации
+		// 3D exact coordinate zero of the formation
 		CVec3 vRealZero3;
 		CVec2 vRealZero2;
 		pSG->GetPos2( &vRealZero2, pFormProps->vZeroPos );
@@ -299,19 +299,13 @@ void CSquadFrame::SaveRPGStats( IDataTree *pDT, CTreeItem *pRootItem, const char
 
 void CSquadFrame::LoadRPGStats( IDataTree *pDT, CTreeItem *pRootItem )
 {
-	/*	
-	SSquadRPGStats rpgStats;
-	FillRPGStats( rpgStats, pRootItem );			//перед загрузкой инициализирую значени¤ми по умолчанию
-	
-		CTreeAccessor tree = pDT;
-		tree.Add( "RPG", &rpgStats );
-		GetRPGStats( rpgStats, pRootItem );
-	*/
+	/* SSquadRPGStats rpgStats;
+	 */
 }
 
 bool CSquadFrame::ExportFrameData( IDataTree *pDT, const char *pszProjectName, const char *pszResultFileName, CTreeItem *pRootItem )
 {
-	//—охран¤ем RPG stats
+	// —protect RPG stats
 	SaveRPGStats( pDT, pRootItem, pszProjectName );
 	CSquadCommonPropsItem *pCommonPropsItem = static_cast<CSquadCommonPropsItem *>( pRootItem->GetChildItem( E_SQUAD_COMMON_PROPS_ITEM ) );
 	std::string szTemp = pCommonPropsItem->GetSquadPicture();
@@ -337,7 +331,7 @@ bool CSquadFrame::ExportFrameData( IDataTree *pDT, const char *pszProjectName, c
 void CSquadFrame::SetActiveFormation( CSquadFormationPropsItem *pFormProps )
 {
 	if ( pActiveFormation == pFormProps )
-		return;			//x3
+		return;			// x3
 
 	IVisObjBuilder *pVOB = GetSingleton<IVisObjBuilder>();
 	IScene *pSG = GetSingleton<IScene>();
@@ -375,7 +369,7 @@ void CSquadFrame::SetActiveFormation( CSquadFormationPropsItem *pFormProps )
 		it->pSprite->SetDirection( GetIntAngle( SumAngle(it->fDir, pActiveFormation->fFormationDir) ) );
 		it->pSprite->SetAnimation( 0 );
 		pSG->AddObject( it->pSprite, SGVOGT_UNIT );
-		//		pSprite->SetOpacity( 140 );
+		// pSprite->SetOpacity( 140 );
 	}
 
 	UpdateFormationDirection();
@@ -406,7 +400,7 @@ void CSquadFrame::DeleteUnitFromScene( CTreeItem *pUnit, CSquadFormationPropsIte
 		}
 	}
 	
-	NI_ASSERT( 0 );			//не нашла, что за фигн¤?
+	NI_ASSERT( 0 );			// I didn’t find it, what the hell?
 }
 
 void CSquadFrame::SelectActiveUnit( CTreeItem *pUnit )
@@ -466,14 +460,14 @@ void CSquadFrame::OnLButtonDown(UINT nFlags, CPoint point)
 	
 	if ( m_mode == E_FREE && pActiveFormation != 0 )
 	{
-		//если мышка над одним из members в сцене, то надо передвинуть его на новое место
+		// if the mouse is over one of the members in the scene, then you need to move it to a new place
 		for ( CSquadFormationPropsItem::CUnitsList::iterator it=pActiveFormation->units.begin(); it!=pActiveFormation->units.end(); ++it )
 		{
 			if ( IsSpriteHit( it->pSprite, pt, &objShift ) )
 			{
 				m_mode = E_DRAG;
-				//			pDraggingUnit = &(*it);
-				//			pDraggingUnit->pSprite->Select( SGVOSS_SELECTED );
+				// pDraggingUnit = &(*it);
+				// pDraggingUnit->pSprite->Select( SGVOSS_SELECTED );
 				SelectActiveUnit( it->pMemberProps );
 				g_frameManager.GetGameWnd()->SetCapture();
 				break;
@@ -494,8 +488,8 @@ void CSquadFrame::OnLButtonUp(UINT nFlags, CPoint point)
 	if ( m_mode == E_DRAG )
 	{
 		m_mode = E_FREE;
-		//		pDraggingUnit->pSprite->Select( SGVOSS_UNSELECTED );
-		//		pDraggingUnit = 0;
+		// pDraggingUnit->pSprite->Select( SGVOSS_UNSELECTED );
+		// pDraggingUnit = 0;
 		ReleaseCapture();
 		GFXDraw();
 	}
@@ -564,7 +558,7 @@ void CSquadFrame::OnUpdateSetZeroButton(CCmdUI* pCmdUI)
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
 	if ( pTree != 0 )
 	{
-		//≈сли уже был создан проект
+		// ≈if a project has already been created
 		pCmdUI->Enable( true );
 	}
 	else
@@ -604,7 +598,7 @@ void CSquadFrame::UpdateFormationDirection()
 	vPos2.y += zeroShiftY;
 
 	float fAlpha = pActiveFormation->fFormationDir;
-	//	fAlpha += PI / 4;
+	// fAlpha += PI / 4;
 	CVec3 vEnd3;
 	vEnd3.x = pActiveFormation->vZeroPos.x - LINE_LENGTH * sin( fAlpha );
 	vEnd3.y = pActiveFormation->vZeroPos.y + LINE_LENGTH * cos( fAlpha );
@@ -614,7 +608,7 @@ void CSquadFrame::UpdateFormationDirection()
 	vEnd2.x += zeroShiftX;
 	vEnd2.y += zeroShiftY;
 	
-	//обновим линию направлени¤
+	// update the direction line¤
 	{
 		CVerticesLock<SGFXTLVertex> vertices( pFormationDirVertices );
 		vertices[0].Setup( vPos2.x, vPos2.y, 1, 1, 0xffff0000, 0xff000000, 0, 0 );
@@ -644,14 +638,14 @@ void CSquadFrame::CalculateNewPositions( float fAlpha )
 		it->pSprite->SetDirection( GetIntAngle( SumAngle(pActiveFormation->fFormationDir, it->fDir) ) );
 	}
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////
 void CSquadFrame::OnShowDirectionButton()
 {
 	SwitchDockerVisible( pDirectionButtonDockBar );
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////
 void CSquadFrame::OnUpdateShowDirectionButton(CCmdUI* pCmdUI) 
 {
 	UpdateShowMenu( pCmdUI, pDirectionButtonDockBar );
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////

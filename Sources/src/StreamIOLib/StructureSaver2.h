@@ -1,8 +1,8 @@
 #ifndef __BASICCHUNK1_H_
 #define __BASICCHUNK1_H_
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #pragma ONCE
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #include "Streams.h"
 #include "StructureSaver.h"
 #include "..\Misc\CheckSums.h"
@@ -12,10 +12,10 @@
 // final save file structure
 // -header section list of object types with pointers
 // -object data separated in chunks one chunk per object
-// c) can replace CMemoryStream with specialized objects to increase perfomance
+// c) can replace CMemoryStream with specialized objects to increase performance
 
 // chunk with index 0 is used for system and should not be used in user code
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #ifndef _FINALRELEASE
 struct SObjectInfo
 {
@@ -23,7 +23,7 @@ struct SObjectInfo
 	int nUID;															// object's unique ID
 	uLong uCheckSum;											// checksum (CRC32)
 	int nSize;														// object's size
-	std::list<IRefCount*> referedObjects;	// refered objects
+	std::list<IRefCount*> referedObjects;	// referred objects
 	std::list<int> referedUIDs;
 	//
 	SObjectInfo() : nUID( 0 ) {  }
@@ -45,7 +45,7 @@ public:
 	bool operator()( const SObjectInfo &info ) const { return info.pObj == pObj; }
 };
 #endif // _FINALRELEASE
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CStructureSaver2 : public IStructureSaver
 {
 	OBJECT_MINIMAL_METHODS( CStructureSaver2 );
@@ -54,7 +54,7 @@ class CStructureSaver2 : public IStructureSaver
 	{
 		SSChunkID idChunk, idLastChunk;
 		int nStart, nLength;
-		int nChunkNumber; // номер чанка по порядку для считывания - используется при записи/считывании vector/list
+		int nChunkNumber; // chunk number in order for reading - used when writing/reading vector/list
 		int nLastPos, nLastNumber;
 
 		void ClearCache();
@@ -74,7 +74,7 @@ class CStructureSaver2 : public IStructureSaver
 	typedef std::list<CChunkLevel>::reverse_iterator CChunkLevelReverseIterator;
 	bool bIsReading;
 	// maps objects addresses during save(first) to addresses during load(second) - during loading
-	// or serves as a sign that some object has been already stored - during storing
+	// or serves as a sign that some object has already been stored - during storing
 	typedef std::hash_map<void*, CPtr<IRefCount>, SDefaultPtrHash> CObjectsHash;
 	CObjectsHash objects;
 	typedef std::hash_set<IRefCount*, SDefaultPtrHash> CPObjectsHashSet;
@@ -123,12 +123,12 @@ public:
 	virtual void STDCALL SetChunkCounter( int nCount ) { chunks.back().nChunkNumber = nCount; }
 	// is structure saver opened in the READ mode?
 	virtual bool STDCALL IsReading() const { return bIsReading; }
-	// загрузка объекта с воссозданием его
+	// loading an object and recreating it
 	virtual IRefCount* STDCALL LoadObject();
-	// запись объекта и данных, необходимых для его воссоздания при загрузке
+	// recording the object and data needed to recreate it when loaded
 	virtual void STDCALL StoreObject( IRefCount *pObj );
-	// получить указатель на игровую базу данных
+	// get a pointer to the game database
 	virtual interface IGDB* STDCALL GetGDB() { return pGDB; }
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif

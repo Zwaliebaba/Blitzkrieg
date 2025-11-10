@@ -6,18 +6,18 @@
 #include <stack>
 #include <math.h>
 #include <stdlib.h>
-////////////////////////////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////////////////////
 namespace NStr
 {
-	static std::hash_map<char, char> brackets;   // map with open bracket <=> close bracket respection
+	static std::hash_map<char, char> brackets;   // map with open bracket <=> close bracket respect
 	static char cBracketTypes[8] = "({[\" ";     // all available brackets (open)
 	static const int NUM_BRACKET_TYPES = 4;      // number of available brackets
 	static int nCodePage = 1252;
 	//
 	void InitStringProcessor();
 };
-////////////////////////////////////////////////////////////////////////////////////////////////////
-// проинициализировать внутренние структуры string processor'а
+// /////////////////////////////////////////////////////////////////////////////////////////////
+// initialize the internal structures of the string processor
 void NStr::InitStringProcessor()
 {
 	brackets['('] = ')';
@@ -25,36 +25,36 @@ void NStr::InitStringProcessor()
 	brackets['{'] = '}';
 	brackets['\"'] = '\"';
 }
-// это вспомогательная структура для автоматической инициализации string processor'а
+// this is a helper structure for automatic initialization of the string processor
 struct SStrProcInit
 {
 	SStrProcInit() { NStr::InitStringProcessor(); }
 };
 static SStrProcInit spInit;
-////////////////////////////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////////////////////
 bool NStr::IsOpenBracket( const char cSymbol )
 {
 	return brackets.find( cSymbol ) != brackets.end();
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
-// добавить новую пару скобок
+// /////////////////////////////////////////////////////////////////////////////////////////////
+// add a new pair of parentheses
 void NStr::AddBrackets( const char cOpenBracket, const char cCloseBracket )
 {
 	brackets[cOpenBracket] = cCloseBracket;
 }
-// удалить пару скобок
+// remove a couple of parentheses
 void NStr::RemoveBrackets( const char cOpenBracket, const char cCloseBracket )
 {
 	brackets.erase( cOpenBracket );
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
-// получить закрывающую скобку по открывающей
+// /////////////////////////////////////////////////////////////////////////////////////////////
+// get a closing parenthesis from an opening one
 const char NStr::GetCloseBracket( const char cOpenBracket )
 {
 	return brackets[cOpenBracket];
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
-// разделить строку на массив строк по заданному разделителю
+// /////////////////////////////////////////////////////////////////////////////////////////////
+// split a string into an array of strings using a given delimiter
 void NStr::SplitString( const std::string &szString, std::vector<std::string> &szVector, const char cSeparator )
 {
 	int nPos = 0, nLastPos = 0;
@@ -64,12 +64,12 @@ void NStr::SplitString( const std::string &szString, std::vector<std::string> &s
 		nPos = szString.find( cSeparator, nLastPos );
 		// add string
 		szVector.push_back( szString.substr( nLastPos, nPos - nLastPos ) );
-		nLastPos = nPos + 1;//szString.find_first_not_of( cSeparator, nPos );
+		nLastPos = nPos + 1;// szString.find_first_not_of( cSeparator, nPos );
 		//
 	} while( nPos != std::string::npos );
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
-// разделить строку на массив строк по заданному разделителю с учётом скобок одной вложенности
+// /////////////////////////////////////////////////////////////////////////////////////////////
+// divide a string into an array of strings using a given delimiter, taking into account parentheses of the same nesting
 void NStr::SplitStringWithBrackets( const std::string &szString, std::vector<std::string> &szVector, const char cSeparator )
 {
 	int nPos = 0, nLastPos = 0;
@@ -89,12 +89,12 @@ void NStr::SplitStringWithBrackets( const std::string &szString, std::vector<std
 		}
 		// add string
 		szVector.push_back( szString.substr( nLastPos, nPos - nLastPos ) );
-		nLastPos = nPos + 1;//szString.find_first_not_of( cSeparator, nPos );
+		nLastPos = nPos + 1;// szString.find_first_not_of( cSeparator, nPos );
 		//
 	} while( nPos != std::string::npos );
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
-// разделить строку на массив строк по заданному разделителю с учётом скобок любой вложенности
+// /////////////////////////////////////////////////////////////////////////////////////////////
+// divide a string into an array of strings using a given delimiter, taking into account parentheses of any nesting
 void NStr::SplitStringWithMultipleBrackets( const std::string &szString, std::vector<std::string> &szVector, const char cSeparator )
 {
 	std::stack<char> stackBrackets;
@@ -124,14 +124,14 @@ void NStr::SplitStringWithMultipleBrackets( const std::string &szString, std::ve
 	if ( nLastPos + 1 <= int( i ) )
 		szVector.push_back( szString.substr( nLastPos ) );
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
-// найти закрывающую скобку без учёта внутренних скобок
+// /////////////////////////////////////////////////////////////////////////////////////////////
+// find the closing parenthesis without taking into account the inner parentheses
 int NStr::FindCloseBracket( const std::string &szString, int nPos, const char cOpenBracket )
 {
 	return szString.find( brackets[cOpenBracket], nPos );
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
-// найти закрывающую скобку с учётом внутренних скобок
+// /////////////////////////////////////////////////////////////////////////////////////////////
+// find the closing parenthesis taking into account the inner parentheses
 int NStr::FindMultipleCloseBracket( const std::string &szString, int nPos, const char cOpenBracket )
 {
 	std::stack<char> stackBrackets;
@@ -152,8 +152,8 @@ int NStr::FindMultipleCloseBracket( const std::string &szString, int nPos, const
 	}
 	return std::string::npos;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
-// отрезать все символы 'cTrim' справа
+// /////////////////////////////////////////////////////////////////////////////////////////////
+// trim all 'cTrim' characters from the right
 void NStr::TrimRight( std::string &szString, const char cTrim )
 {
 	int nPos = szString.find_last_not_of( cTrim );
@@ -176,8 +176,8 @@ void NStr::TrimRight( std::string &szString, const char *pszTrim )
 	else
 		szString.erase( nPos + 1, std::string::npos );
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
-// вырезать все символы 'cTrim' из строки
+// /////////////////////////////////////////////////////////////////////////////////////////////
+// strip all 'cTrim' characters from a string
 class CSymbolCheckFunctional
 {
 private:
@@ -198,8 +198,8 @@ void NStr::TrimInside( std::string &szString, const char *pszTrim )
 {
   szString.erase( std::remove_if(szString.begin(), szString.end(), CSymbolCheckFunctional(pszTrim)), szString.end() );
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
-// преобразовать целое в строку, разделяя каждые три знака (три порядка) специальным разделителем (.)
+// /////////////////////////////////////////////////////////////////////////////////////////////
+// convert an integer to a string, separating every three characters (three orders of magnitude) with a special delimiter (.)
 void NStr::ToDotString( std::string *pDst, int nVal, const char cSeparator )
 {
 	char buff[32], buff2[32];
@@ -217,8 +217,8 @@ void NStr::ToDotString( std::string *pDst, int nVal, const char cSeparator )
 	strcat( buff, _itoa(nVal, buff2, 10) );
   *pDst = buff;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
-// форматирование строки
+// /////////////////////////////////////////////////////////////////////////////////////////////
+// string formatting
 const char* __cdecl NStr::Format( const char *pszFormat, ... )
 {
   static char buff[2048];
@@ -241,7 +241,7 @@ void __cdecl NStr::DebugTrace( const char *pszFormat, ... )
 	//
 	OutputDebugString( buff );
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////////////////////
 const char* NStr::BinToString( const void *pData, int nSize, char *pszBuffer )
 {
 	for ( int i=0; i<nSize; ++i )
@@ -267,7 +267,7 @@ void* NStr::StringToBin( const char *pszData, void *pBuffer, int *pnSize )
 		*pnSize = nStrSize / 2;
 	return pBuffer;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////////////////////
 bool NStr::CBracketCharSeparator::operator()( const char cSymbol )
 {
 	if ( IsOpenBracket(cSymbol) )
@@ -278,7 +278,7 @@ bool NStr::CBracketCharSeparator::operator()( const char cSymbol )
 		stackBrackets.pop();
 	return false;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////////////////////
 // <[+/-]>[dec digit]*
 bool NStr::IsDecNumber( const std::string &szString )
 {
@@ -324,7 +324,7 @@ bool NStr::IsHexNumber( const std::string &szString )
 	for ( i=nFirstDigit + 2; (i < szString.size()) && IsHexDigit(szString[i]); ++i ) { ; }
 	return ( (i > nFirstDigit) && (i == szString.size()) );
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////////////////////
 int NStr::ToInt( const char *pszString )
 {
 	int nNumber = 0;
@@ -343,12 +343,12 @@ double NStr::ToDouble( const char *pszString )
 	sscanf( pszString, "%lf", &fNumber );
 	return fNumber;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////////////////////
 void NStr::SetCodePage( int _nCodePage )
 {
 	nCodePage = _nCodePage;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////////////////////
 void NStr::ToAscii( std::string *pRes, const std::wstring &szSrc )
 {
 	const int N_STACK_BUFF_SIZE = 1024;
@@ -365,7 +365,7 @@ void NStr::ToAscii( std::string *pRes, const std::wstring &szSrc )
 	if ( nBufLeng >= N_STACK_BUFF_SIZE )
 		delete[] pszBuf;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////////////////////
 void NStr::ToUnicode( std::wstring *pRes, const std::string &szSrc )
 {
 	const int N_STACK_BUFF_SIZE = 1024;
@@ -382,8 +382,8 @@ void NStr::ToUnicode( std::wstring *pRes, const std::string &szSrc )
 	if ( nBufLeng >= N_STACK_BUFF_SIZE )
 		delete[] pszBuf;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
-// привести к верхнему или нижнему регистру
+// /////////////////////////////////////////////////////////////////////////////////////////////
+// convert to upper or lower case
 // MSVCMustDie_* are required to keep compiler happy when default calling conversion is __fastcall
 inline int MSVCMustDie_tolower( int a ) { return tolower(a); } 
 inline int MSVCMustDie_toupper( int a ) { return toupper(a); }
@@ -395,4 +395,4 @@ void NStr::ToUpper( std::string &szString )
 { 
 	std::transform( szString.begin(), szString.end(), szString.begin(), std::ptr_fun(MSVCMustDie_toupper) ); 
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////////////////////

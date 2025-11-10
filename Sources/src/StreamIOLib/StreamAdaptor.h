@@ -1,8 +1,8 @@
 #ifndef __STREAM_ADAPTOR_H__
 #define __STREAM_ADAPTOR_H__
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #pragma ONCE
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CStreamRangeAdaptor : public IDataStream
 {
 	OBJECT_NORMAL_METHODS( CStreamRangeAdaptor );
@@ -28,7 +28,7 @@ public:
 		}
 		bHasOwnStats = pStats != 0;
 	}
-	// чтение/запись данных
+	// read/write data
 	virtual int STDCALL Read( void *pBuffer, int nLength )
 	{
 		const int nLastPos = pStream->GetPos();
@@ -48,16 +48,16 @@ public:
 		pStream->Seek( nLastPos, STREAM_SEEK_SET );
 		return nWrittenLength;
 	}
-	// объ¤вить текущую позицию в потоке за начало потока
+	// declare the current position in the stream as the beginning of the stream
 	virtual int STDCALL LockBegin() { return -1; }
-	// вернуть начало потока в нулевую позицию
+	// return the start of the stream to the zero position
 	virtual int STDCALL UnlockBegin() { return -1; }
-	// текуща¤ позици¤ в потоке
+	// current position in the stream
 	virtual int STDCALL GetPos() const
 	{
 		return pStream->GetPos() - nBeginPos;
 	}
-	// выставить текущую позицию в потоке
+	// set the current position in the stream
 	virtual int STDCALL Seek( int offset, STREAM_SEEK from )
 	{
 		switch ( from )
@@ -74,14 +74,14 @@ public:
 		}
 		return nSeekPos;
 	}
-	// получить размер потока
+	// get stream size
 	virtual int STDCALL GetSize() const
 	{
 		return nEndPos - nBeginPos;
 	}
-	// изменить размер потока
+	// change stream size
 	virtual bool STDCALL SetSize( int nSize ) { return false; }
-	// скопировать 'nLength' байт из текущей позиции потока в текущю позицию 'pDstStream' потока
+	// copy 'nLength' byte from current stream position to current 'pDstStream' stream position
 	virtual int STDCALL CopyTo( IDataStream *pDstStream, int nLength )
 	{
 		if ( nLength == 0 )
@@ -91,9 +91,9 @@ public:
 		nLength = Read( &(buffer[0]), nLength );
 		return pDstStream->Write( &(buffer[0]), nLength );
 	}
-	// сбросить все закешированные данные
+	// reset all cached data
 	virtual void STDCALL Flush() {  }
-	// получить информацию о потоке
+	// get information about the stream
 	virtual void STDCALL GetStats( SStorageElementStats *pStats )
 	{
 		if ( bHasOwnStats ) 
@@ -106,7 +106,7 @@ public:
 		}
 	}
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CStreamCOMAdaptor : public IStream
 {
 	int nRefCount;
@@ -196,5 +196,5 @@ public:
 		return S_OK;
 	}
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // __STREAM_ADAPTOR_H__

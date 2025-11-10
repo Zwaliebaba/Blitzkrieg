@@ -23,18 +23,18 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-/////////////////////////////////////////////////////////////////////////////
+// //
 // CWeaponFrame
 
 IMPLEMENT_DYNCREATE(CWeaponFrame, CParentFrame)
 
 BEGIN_MESSAGE_MAP(CWeaponFrame, CParentFrame)
-	//{{AFX_MSG_MAP(CWeaponFrame)
+	// {{AFX_MSG_MAP(CWeaponFrame)
 	ON_WM_CREATE()
-	//}}AFX_MSG_MAP
+	// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-/////////////////////////////////////////////////////////////////////////////
+// //
 // CWeaponFrame construction/destruction
 
 CWeaponFrame::CWeaponFrame()
@@ -58,7 +58,7 @@ int CWeaponFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;
 	g_frameManager.AddFrame( this );
 	
-	// create a view to occupy the client area of the frame
+	// create a view to occupy the client area of ​​the frame
 	if (!pWndView->Create(NULL, NULL,  WS_CHILD | WS_VISIBLE, 
 		CRect(0, 0, 0, 0), this, AFX_IDW_PANE_FIRST, NULL))
 	{
@@ -69,14 +69,14 @@ int CWeaponFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	return 0;
 }
 
-/////////////////////////////////////////////////////////////////////////////
+// //
 // CWeaponFrame message handlers
 
 bool CWeaponFrame::ExportFrameData( IDataTree *pDT, const char *pszProjectName, const char *pszResultFileName, CTreeItem *pRootItem )
 {
 	NI_ASSERT( pRootItem != 0 );
 	NI_ASSERT( pRootItem->GetItemType() == E_WEAPON_ROOT_ITEM );
-	//Сохраняем RPG stats
+	// Save RPG stats
 	SaveRPGStats( pDT, pRootItem, pszProjectName );
 
 	return true;
@@ -148,7 +148,7 @@ void CWeaponFrame::FillRPGStats( SWeaponRPGStats &rpgStats, CTreeItem *pRootItem
 		else
 			damage.specials.RemoveData( 0 );
 
-		//effects
+		// effects
 		CWeaponEffectsItem *pEffects = static_cast<CWeaponEffectsItem *> ( pDamageItem->GetChildItem( E_WEAPON_EFFECTS_ITEM ) );
 		NI_ASSERT( pEffects != 0 );
 		damage.szFireSound = pEffects->GetHumanFireSound();
@@ -161,7 +161,7 @@ void CWeaponFrame::FillRPGStats( SWeaponRPGStats &rpgStats, CTreeItem *pRootItem
 		damage.szEffectHitWater = pEffects->GetEffectHitWater();
 		damage.szEffectHitAir = pEffects->GetEffectHitAir();
 
-		//flares
+		// flares
 		for ( int i=0; i<2; i++ )
 		{
 			SFlashEffect *pEffect = 0;
@@ -246,7 +246,7 @@ void CWeaponFrame::GetRPGStats( const SWeaponRPGStats &rpgStats, CTreeItem *pRoo
 			pCratersItem->AddChild( pProps );
 		}
 		
-		//effects
+		// effects
 		CWeaponEffectsItem *pEffects = static_cast<CWeaponEffectsItem *> ( pDamageItem->GetChildItem( E_WEAPON_EFFECTS_ITEM ) );
 		NI_ASSERT( pEffects != 0 );
 		pEffects->SetHumanFireSound( damage.szFireSound.c_str() );
@@ -259,7 +259,7 @@ void CWeaponFrame::GetRPGStats( const SWeaponRPGStats &rpgStats, CTreeItem *pRoo
 		pEffects->SetEffectHitWater( damage.szEffectHitWater.c_str() );
 		pEffects->SetEffectHitAir( damage.szEffectHitAir.c_str() );
 
-		//flares
+		// flares
 		for ( int i=0; i<2; i++ )
 		{
 			const SFlashEffect *pEffect = 0;
@@ -281,7 +281,7 @@ void CWeaponFrame::LoadRPGStats( IDataTree *pDT, CTreeItem *pRootItem )
 {
 	NI_ASSERT( pRootItem != 0 );
 	SWeaponRPGStats rpgStats;
-	//	FillRPGStats( rpgStats, pRootItem );			//перед загрузкой инициализирую значениями по умолчанию
+	// FillRPGStats( rpgStats, pRootItem );			
 	
 	CTreeAccessor tree = pDT;
 	tree.Add( "RPG", &rpgStats );

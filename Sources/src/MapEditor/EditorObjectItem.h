@@ -18,7 +18,7 @@ struct SEditorObjectItem
 	bool						bScenarioUnit;
 	int							frameIndex;	
 	SMapObject			*pObj;
-	//std::string     szBehavior;	
+	// std::string szBehavior;
 	CPtr<SMapObject> pLink;
 
 	int							nLogicGroupId;

@@ -1,186 +1,191 @@
 #ifndef __UI_LIST_H__
 #define __UI_LIST_H__
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #include "UIBasic.h"
 #include "UISlider.h"
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 struct SColumnProperties
 {
-	DECLARE_SERIALIZE;
-public:
-	int nWidth;									//ширина столбца
-	std::string szFileName;			//XML файл из которого создаются внутренние элементы
-	int nSorterType;
-	SColumnProperties() : nWidth( 0 ), nSorterType( 0 ) {}
-	
-	// serializing...
-	virtual int STDCALL operator&( IDataTree &ss );
-};
-typedef std::vector<SColumnProperties> CVectorOfColumnProperties;
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-struct SUIListRow : public IUIListRow
-{
-	OBJECT_NORMAL_METHODS( SUIListRow );
-	DECLARE_SERIALIZE;
-public:
-	typedef std::vector< CPtr<IUIElement> > CUIListSubItems;
-	CUIListSubItems subItems;
-	int nUserData;
-	
-	SUIListRow() : nUserData( 0 ) {}
-	virtual int STDCALL GetNumberOfElements() const { return subItems.size(); }
-	virtual IUIElement* STDCALL GetElement( int nIndex ) const;
-	virtual void STDCALL SetUserData( int nData ) { nUserData = nData; }
-	virtual int  STDCALL GetUserData() const { return nUserData; }
-	
-	// serializing...
-	//	virtual int STDCALL operator&( IDataTree &ss );
-};
-typedef std::vector< CPtr<SUIListRow> > CUIListItems;
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-struct SUIListHeader : public IUIListRow
-{
-	OBJECT_NORMAL_METHODS( SUIListHeader );
-	DECLARE_SERIALIZE;
-public:
-	struct SColumn
-	{
-		CPtr<IUIElement> pElement;
-		CPtr<IUIListSorter> pSorter;
-		int operator&( IStructureSaver &ss )
-		{
-			CSaverAccessor saver = &ss;
-			saver.Add( 1, &pElement );
-			saver.Add( 2, &pSorter );
-			return 0;
-		}
-	};
-	typedef std::vector< SColumn > CUIListHeaderItems;
-	CUIListHeaderItems subItems;
-	int nUserData;
+  DECLARE_SERIALIZE;
 
-	SUIListHeader() : nUserData( 0 ) {}
-	virtual int STDCALL GetNumberOfElements() const { return subItems.size(); }
-	virtual IUIElement* STDCALL GetElement( int nIndex ) const;
-	virtual void STDCALL SetUserData( int nData ) { nUserData = nData; }
-	virtual int  STDCALL GetUserData() const { return nUserData; }
+public:
+  int nWidth;// column width
+  std::string szFileName;// XML file from which internal elements are created
+  int nSorterType;
+  SColumnProperties() : nWidth(0), nSorterType(0) {}
+
+  // serializing...
+  virtual int STDCALL operator&(IDataTree &ss);
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//Окошко ведет себя как MultipleWindow в плане обработки сообщений (просто передает их childs)
-//Но по другому Serialize, не сохраняет список childs, левая, правая кнопки и элеватор хранятся отдельно
+
+using CVectorOfColumnProperties = std::vector<SColumnProperties>;
+
+struct SUIListRow : IUIListRow
+{
+  OBJECT_NORMAL_METHODS(SUIListRow);
+  DECLARE_SERIALIZE;
+
+public:
+  using CUIListSubItems = std::vector<CPtr<IUIElement>>;
+  CUIListSubItems subItems;
+  int nUserData;
+
+  SUIListRow() : nUserData(0) {}
+  int STDCALL GetNumberOfElements() const override { return subItems.size(); }
+  IUIElement * STDCALL GetElement(int nIndex) const override;
+  void STDCALL SetUserData(int nData) override { nUserData = nData; }
+  int STDCALL GetUserData() const override { return nUserData; }
+
+  // serializing...
+  // virtual int STDCALL operator&( IDataTree &ss );
+};
+
+using CUIListItems = std::vector<CPtr<SUIListRow>>;
+
+struct SUIListHeader : IUIListRow
+{
+  OBJECT_NORMAL_METHODS(SUIListHeader);
+  DECLARE_SERIALIZE;
+
+public:
+  struct SColumn
+  {
+    CPtr<IUIElement> pElement;
+    CPtr<IUIListSorter> pSorter;
+
+    int operator&(IStructureSaver &ss)
+    {
+      CSaverAccessor saver = &ss;
+      saver.Add(1, &pElement);
+      saver.Add(2, &pSorter);
+      return 0;
+    }
+  };
+
+  using CUIListHeaderItems = std::vector<SColumn>;
+  CUIListHeaderItems subItems;
+  int nUserData;
+
+  SUIListHeader() : nUserData(0) {}
+  int STDCALL GetNumberOfElements() const override { return subItems.size(); }
+  IUIElement * STDCALL GetElement(int nIndex) const override;
+  void STDCALL SetUserData(int nData) override { nUserData = nData; }
+  int STDCALL GetUserData() const override { return nUserData; }
+};
+
+// The window behaves like MultipleWindow in terms of processing messages (it simply passes them to childs)
+// But Serialize is different, it does not save the childs list, the left, right buttons and elevator are stored separately
 class CUIList : public CMultipleWindow
 {
-	DECLARE_SERIALIZE;
-	//
-	CObj<IUIScrollBar> pScrollBar;				//инициализируется во время загрузки и используется для ускорения доступа к компонентам
+  DECLARE_SERIALIZE;
+  //
+  CObj<IUIScrollBar> pScrollBar;// initialized at boot time and used to speed up access to components
 
-	int nLeftSpace;												//отступ item слева и справа от края контрола
-	int nTopSpace;												//отступ item от низа header сверху и от низа контрола снизу
-	int nHeaderTopSpace;									//отступ header от верха контрола
-	int nItemHeight;											//высота одного item
-	int nHSubSpace;												//расстояние между двумя subitems по горизонтали
-	int nVSubSpace;												//расстояние между двумя items по вертикали
-	bool bLeftScrollBar;
-	bool bScrollBarAlwaysVisible;
-	int nHeaderSize;											//размер header по вертикали, если > 0 то есть заголовок
-	int nScrollBarWidth;
-	int nSelection;
-	int nSortedHeaderIndex;
-	bool bSortAscending;
+  int nLeftSpace;// item indentation to the left and right of the control edge
+  int nTopSpace;// item indent from the bottom of the header at the top and from the bottom of the control at the bottom
+  int nHeaderTopSpace;// header indent from the top of the control
+  int nItemHeight;// height of one item
+  int nHSubSpace;// horizontal distance between two subitems
+  int nVSubSpace;// vertical distance between two items
+  bool bLeftScrollBar;
+  bool bScrollBarAlwaysVisible;
+  int nHeaderSize;// vertical size of header, if > 0 that is the title
+  int nScrollBarWidth;
+  int nSelection;
+  int nSortedHeaderIndex;
+  bool bSortAscending;
 
-	SUIListHeader headers;
-	CUIListItems listItems;
-	CVectorOfColumnProperties columnProperties;
+  SUIListHeader headers;
+  CUIListItems listItems;
+  CVectorOfColumnProperties columnProperties;
 
-	//Для отрисовки Selection
-	std::vector<SWindowSubRect> selSubRects;
-	CPtr<IGFXTexture> pSelectionTexture;				// внешний вид - текстура
+  // To draw Selection
+  std::vector<SWindowSubRect> selSubRects;
+  CPtr<IGFXTexture> pSelectionTexture;// appearance - texture
 
-	void UpdateItemsCoordinates();				//Обновляет координаты всех внутренних item
-	void UpdateScrollBarStatus();					//Вызывается чтобы проверить, нужно ли отображать ScrollBar и обновления его состояния
-	void EnsureSelectionVisible();				//Чтобы selection стал полностью видимым, перемещает позицию скроллбара.
+  void UpdateItemsCoordinates();// Updates the coordinates of all internal items
+  void UpdateScrollBarStatus();// Called to check whether the ScrollBar should be displayed and its state updates
+  void EnsureSelectionVisible();// To make the selection fully visible, moves the position of the scrollbar.
 
-	IUIElement* CreateComponent( const char *pszFileName );
-	CVec2 GetComponentSize( const char *pszFileName );		//возвращает размер элемента
-	void InitItemHeight();								//Вызывается из сериализации, чтобы рассчитать высоту строчки
+  IUIElement *CreateComponent(const char *pszFileName);
+  CVec2 GetComponentSize(const char *pszFileName);// returns the element's size
+  void InitItemHeight();// Called from serialization to calculate line height
 
-	//посылка сообщения наверх об изменении текущей позиции
-	void NotifySelectionChanged();
-	void NotifyDoubleClick( int nItem );
-	void RemoveFocusFromItem( int nIndex );
-	void MoveSelectionItemUp();
+  // sending a message to the top about a change in the current position
+  void NotifySelectionChanged();
+  void NotifyDoubleClick(int nItem);
+  void RemoveFocusFromItem(int nIndex);
+  void MoveSelectionItemUp();
 
-	//инициализация функторов сортировки
-	void InitSortFunctors();
+  // initializing sorting functors
+  void InitSortFunctors();
+
 public:
-	CUIList();
-	virtual ~CUIList();
+  CUIList();
+  ~CUIList() override;
 
-	//mouse wheel
-	virtual bool STDCALL OnMouseWheel( const CVec2 &vPos, EMouseState mouseState, float fDelta ) = 0;
+  // mouse wheel
+  bool STDCALL OnMouseWheel(const CVec2 &vPos, EMouseState mouseState, float fDelta) override = 0;
 
-	virtual void STDCALL Reposition( const CTRect<float> &rcParent );
+  void STDCALL Reposition(const CTRect<float> &rcParent) override;
 
-	virtual bool STDCALL OnChar( int nAsciiCode, int nVirtualKey, bool bPressed, DWORD keyState );
-	virtual bool STDCALL ProcessMessage( const SUIMessage &msg );
+  bool STDCALL OnChar(int nAsciiCode, int nVirtualKey, bool bPressed, DWORD keyState) override;
+  bool STDCALL ProcessMessage(const SUIMessage &msg) override;
 
-	// serializing...
-	virtual int STDCALL operator&( IDataTree &ss );
+  // serializing...
+  int STDCALL operator&(IDataTree &ss) override;
 
-	// drawing
-	virtual void STDCALL Draw( IGFX *pGFX );
-	virtual void STDCALL Visit( interface ISceneVisitor *pVisitor );
+  // drawing
+  void STDCALL Draw(IGFX *pGFX) override;
+  void STDCALL Visit(interface ISceneVisitor *pVisitor) override;
 
-	virtual bool STDCALL OnLButtonDblClk( const CVec2 &vPos );
-	virtual bool STDCALL OnLButtonDown( const CVec2 &vPos, EMouseState mouseState );
-	
-	//Public interface
-	//Get number of items
-	virtual int STDCALL GetNumberOfItems() { return listItems.size(); }
-	//Add new line of items
-	virtual void STDCALL AddItem( int nData = 0 );			//добавляет новую строчку VectorElements в конец списка
-	//Remove last line of items
-	virtual void STDCALL RemoveItem( int nIndex );			//удаляет строчку из конца списка
-	//Get line
-	virtual IUIListRow* STDCALL GetItem( int nIndex );
-	//Get index of item by user data, if no such nID then returns -1
-	virtual int STDCALL GetItemByID( int nID );
-	//selection operations
-	virtual void STDCALL SetSelectionItem( int nSel );
-	virtual int STDCALL GetSelectionItem() { return nSelection; }
-	virtual void STDCALL InitialUpdate();
-	virtual void STDCALL SetSortFunctor( int nColumn, IUIListSorter *pSorter );
-	virtual bool STDCALL Sort( int nColumn, const int nSortType = 0 );
-	virtual bool STDCALL ReSort();
-	
-	/*
-	int GetNumberOfItems() { return listItems.size(); }
-	void SetNumberOfItems( int n );
-	*/
+  bool STDCALL OnLButtonDblClk(const CVec2 &vPos) override;
+  bool STDCALL OnLButtonDown(const CVec2 &vPos, EMouseState mouseState) override;
+
+  // Public interface
+  // Get number of items
+  virtual int STDCALL GetNumberOfItems() { return listItems.size(); }
+  // Add new line of items
+  virtual void STDCALL AddItem(int nData = 0);// adds a new line VectorElements to the end of the list
+  // Remove last line of items
+  virtual void STDCALL RemoveItem(int nIndex);// removes a line from the end of the list
+  // Get line
+  virtual IUIListRow * STDCALL GetItem(int nIndex);
+  // Get index of item by user data, if no such nID then returns -1
+  virtual int STDCALL GetItemByID(int nID);
+  // selection operations
+  virtual void STDCALL SetSelectionItem(int nSel);
+  virtual int STDCALL GetSelectionItem() { return nSelection; }
+  virtual void STDCALL InitialUpdate();
+  virtual void STDCALL SetSortFunctor(int nColumn, IUIListSorter *pSorter);
+  virtual bool STDCALL Sort(int nColumn, int nSortType = 0);
+  virtual bool STDCALL ReSort();
+
+  /* int GetNumberOfItems() { return listItems.size();  */
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CUIListBridge : public IUIListControl, public CUIList
 {
-	OBJECT_NORMAL_METHODS( CUIListBridge );
-	DECLARE_SUPER( CUIList );
-	DEFINE_UICONTAINER_BRIDGE;
-	//Get number of items
-	virtual int STDCALL GetNumberOfItems() { return CSuper::GetNumberOfItems(); }
-	//Add new line of items
-	virtual void STDCALL AddItem( int nData = 0 ) { CSuper::AddItem( nData ); }
-	//Remove last line of items
-	virtual void STDCALL RemoveItem( int nIndex ) { CSuper::RemoveItem( nIndex ); }
-	//Get line
-	virtual IUIListRow* STDCALL GetItem( int nIndex ) { return CSuper::GetItem( nIndex ); }
-	//Get index of item by user data, if no such nID then returns -1
-	virtual int STDCALL GetItemByID( int nID ) { return CSuper::GetItemByID( nID ); }
-	//selection operations
-	virtual void STDCALL SetSelectionItem( int nSel ) { CSuper::SetSelectionItem( nSel ); }
-	virtual int STDCALL GetSelectionItem() { return CSuper::GetSelectionItem(); }
-	virtual void STDCALL InitialUpdate() { CSuper::InitialUpdate(); }
-	virtual void STDCALL SetSortFunctor( int nColumn, IUIListSorter *pSorter ) { CSuper::SetSortFunctor( nColumn, pSorter ); }
-	virtual bool STDCALL Sort( int nColumn, const int nSortType ) { return CSuper::Sort( nColumn, nSortType ); }
-	virtual bool STDCALL ReSort() { return CSuper::ReSort(); }
+  OBJECT_NORMAL_METHODS(CUIListBridge);
+  DECLARE_SUPER(CUIList);
+  DEFINE_UICONTAINER_BRIDGE;
+  // Get number of items
+  int STDCALL GetNumberOfItems() override { return CSuper::GetNumberOfItems(); }
+  // Add new line of items
+  void STDCALL AddItem(int nData = 0) override { CSuper::AddItem(nData); }
+  // Remove last line of items
+  void STDCALL RemoveItem(int nIndex) override { CSuper::RemoveItem(nIndex); }
+  // Get line
+  IUIListRow * STDCALL GetItem(int nIndex) override { return CSuper::GetItem(nIndex); }
+  // Get index of item by user data, if no such nID then returns -1
+  int STDCALL GetItemByID(int nID) override { return CSuper::GetItemByID(nID); }
+  // selection operations
+  void STDCALL SetSelectionItem(int nSel) override { CSuper::SetSelectionItem(nSel); }
+  int STDCALL GetSelectionItem() override { return CSuper::GetSelectionItem(); }
+  void STDCALL InitialUpdate() override { CSuper::InitialUpdate(); }
+  void STDCALL SetSortFunctor(int nColumn, IUIListSorter *pSorter) override { CSuper::SetSortFunctor(nColumn, pSorter); }
+  bool STDCALL Sort(int nColumn, const int nSortType) override { return CSuper::Sort(nColumn, nSortType); }
+  bool STDCALL ReSort() override { return CSuper::ReSort(); }
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#endif //__UI_LIST_H__
+
+#endif // __UI_LIST_H__

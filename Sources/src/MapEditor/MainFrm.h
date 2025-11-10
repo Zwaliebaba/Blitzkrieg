@@ -23,7 +23,7 @@
 extern int GAME_SIZE_X;
 extern int GAME_SIZE_Y;
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 class CMainFrame : public SECWorkbook
 {
 	DECLARE_DYNAMIC(CMainFrame)
@@ -32,8 +32,8 @@ public:
 	CMainFrame();
 	~CMainFrame();
 
-	//{{AFX_VIRTUAL(CMainFrame)
-	//}}AFX_VIRTUAL
+	// {{AFX_VIRTUAL(CMainFrame)
+	// }}AFX_VIRTUAL
 
 
 	bool bFixedDimensions;
@@ -53,8 +53,8 @@ public:
 
 	afx_msg void OnHelp();
 
-	//void SetMainWindowTitle( const char *pszTitle ) { SetTitle( pszTitle ); }
-	//void SetMainWindowText( const char *pszText ) { SetWindowText( pszText ); }
+	// void SetMainWindowTitle( const char *pszTitle ) { SetTitle( pszTitle ); 
+	// void SetMainWindowText( const char *pszText ) { SetWindowText( pszText ); 
 
 	int InitGameWindow();
 	int CreateTemplateEditorFrame();
@@ -64,7 +64,7 @@ public:
 	SECToolBarManager* GetControlBarManager() { return static_cast<SECToolBarManager*>( m_pControlBarManager ); }
 	void ShowSECControlBar( SECControlBar *pControlBar, int nCommand );
 
-	//{{AFX_MSG(CMainFrame)
+	// {{AFX_MSG(CMainFrame)
 	afx_msg void OnToolsCustomize();
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnCreateCombo(UINT wParam, LONG lParam);
@@ -93,7 +93,7 @@ public:
 	afx_msg void OnTool4();
 	afx_msg void OnDropFiles( HDROP hDropInfo );
 	afx_msg BOOL OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCopyDataStruct);
-	//}}AFX_MSG
+	// }}AFX_MSG
 
 	DECLARE_MESSAGE_MAP()
 
@@ -107,6 +107,6 @@ public:
 	void RemoveFromRecentList( const std::string &rszMapFileName );
 	void UpdateRecentList();
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//{{AFX_INSERT_LOCATION}}
+// ////////////////////////////////////////////////
+// {{AFX_INSERT_LOCATION}}
 #endif // !defined(__EDITOR_MAIN_FRAME__)

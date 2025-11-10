@@ -1,4 +1,4 @@
-//{{NO_DEPENDENCIES}}
+// {{NO_DEPENDENCIES}}
 // Microsoft Developer Studio generated include file.
 // Used by AutoRun.rc
 //
@@ -6,7 +6,7 @@
 #define IDR_MAINFRAME                   128
 #define IDI_AUTORUN_ICON                130
 
-// Next default values for new objects
+// Next default values ​​for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS

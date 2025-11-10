@@ -4,7 +4,7 @@
 // MeshView.h : header file
 //
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // CMeshView window
 
 class CMeshView : public CWnd
@@ -21,10 +21,10 @@ public:
 	
 	// Overrides
 	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CMeshView)
+	// {{AFX_VIRTUAL(CMeshView)
 protected:
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
-	//}}AFX_VIRTUAL
+	// }}AFX_VIRTUAL
 	
 	// Implementation
 public:
@@ -34,12 +34,12 @@ private:
 	
 	// Generated message map functions
 protected:
-	//{{AFX_MSG(CMeshView)
+	// {{AFX_MSG(CMeshView)
 	afx_msg void OnPaint();
-	//}}AFX_MSG
+	// }}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 
-#endif		//__MESHVIEW_H__
+#endif		// __MESHVIEW_H__

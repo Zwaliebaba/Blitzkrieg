@@ -1,353 +1,387 @@
 #ifndef __ARTILLERY_STATES_H__
 #define __ARTILLERY_STATES_H__
 
-#pragma ONCE
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma once
+// //////////////////////////////////////////////////////////// 
 #include "StatesFactory.h"
 #include "UnitStates.h"
 #include "Behaviour.h"
 #include "FreeFireManager.h"
 #include "SoldierStates.h"
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////// 
 class CAIUnit;
 class CStaticObject;
 class CAITransportUnit;
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// //////////////////////////////////////////////////////////// 
 class CArtilleryStatesFactory : public IStatesFactory
 {
-	OBJECT_COMPLETE_METHODS( CArtilleryStatesFactory );
+  OBJECT_COMPLETE_METHODS(CArtilleryStatesFactory);
 
-	static CPtr<CArtilleryStatesFactory> pFactory;
+  static CPtr<CArtilleryStatesFactory> pFactory;
+
 public:
-	static IStatesFactory* Instance();
+  static IStatesFactory *Instance();
 
-	virtual interface IUnitState* ProduceState( class CQueueUnit *pUnit, class CAICommand *pCommand );
-	virtual interface IUnitState* ProduceRestState( class CQueueUnit *pUnit );
+  interface IUnitState *ProduceState(class CQueueUnit *pUnit, class CAICommand *pCommand) override;
+  interface IUnitState *ProduceRestState(class CQueueUnit *pUnit) override;
 
-	virtual bool CanCommandBeExecuted( class CAICommand *pCommand );
-	// for Saving/Loading of static members
-	friend class CStaticMembers;
+  bool CanCommandBeExecuted(class CAICommand *pCommand) override;
+  // for Saving/Loading of static members
+  friend class CStaticMembers;
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// //////////////////////////////////////////////////////////// 
 class CArtilleryMoveToState : public IUnitState
 {
-	OBJECT_COMPLETE_METHODS( CArtilleryMoveToState );
-	DECLARE_SERIALIZE;
+  OBJECT_COMPLETE_METHODS(CArtilleryMoveToState);
+  DECLARE_SERIALIZE;
 
-	enum { TIME_OF_WAITING = 200 };
-	enum EArtilleryMoveToState { EAMTS_UNINSTALLING, EAMTS_START_MOVING, EAMTS_MOVING, EAMTS_WAIT_FOR_PATH };
-	EArtilleryMoveToState eState;
+  enum { TIME_OF_WAITING = 200 };
 
-	bool bToFinish;
-	class CArtillery *pArtillery;
+  enum EArtilleryMoveToState { EAMTS_UNINSTALLING, EAMTS_START_MOVING, EAMTS_MOVING, EAMTS_WAIT_FOR_PATH };
 
-	NTimer::STime startTime;
-	CPtr<IStaticPath> pStaticPath;
+  EArtilleryMoveToState eState;
+
+  bool bToFinish;
+  class CArtillery *pArtillery;
+
+  NTimer::STime startTime;
+  CPtr<IStaticPath> pStaticPath;
+
 public:
-	static IUnitState* Instance( class CArtillery *pArtillery, const CVec2 &point );
+  static IUnitState *Instance(class CArtillery *pArtillery, const CVec2 &point);
 
-	CArtilleryMoveToState() : pArtillery( 0 ) { }
-	CArtilleryMoveToState( class CArtillery *pArtillery, const CVec2 &point );
+  CArtilleryMoveToState() : pArtillery(nullptr) {}
+  CArtilleryMoveToState(class CArtillery *pArtillery, const CVec2 &point);
 
-	virtual void Segment();
-	virtual ETryStateInterruptResult TryInterruptState(class CAICommand *pCommand);
-	
-	virtual bool IsAttackingState() const { return false; }
-	virtual const CVec2 GetPurposePoint() const { return CVec2( -1.0f, -1.0f ); }
+  void Segment() override;
+  ETryStateInterruptResult TryInterruptState(class CAICommand *pCommand) override;
+
+  bool IsAttackingState() const override { return false; }
+  const CVec2 GetPurposePoint() const override { return CVec2(-1.0f, -1.0f); }
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// //////////////////////////////////////////////////////////// 
 class CArtilleryTurnToPointState : public IUnitState
 {
-	OBJECT_COMPLETE_METHODS( CArtilleryTurnToPointState );
-	DECLARE_SERIALIZE;
+  OBJECT_COMPLETE_METHODS(CArtilleryTurnToPointState);
+  DECLARE_SERIALIZE;
 
-	enum EArtilleryTurnToPointStates { EATRS_ESTIMATING, EATPS_UNINSTALLING, EATPS_TURNING };
-	EArtilleryTurnToPointStates eState;
+  enum EArtilleryTurnToPointStates { EATRS_ESTIMATING, EATPS_UNINSTALLING, EATPS_TURNING };
 
-	class CArtillery *pArtillery;
+  EArtilleryTurnToPointStates eState;
 
-	NTimer::STime lastCheck;
-	CVec2 targCenter;
+  class CArtillery *pArtillery;
+
+  NTimer::STime lastCheck;
+  CVec2 targCenter;
+
 public:
-	static IUnitState* Instance( class CArtillery *pArtillery, const CVec2 &targCenter );
+  static IUnitState *Instance(class CArtillery *pArtillery, const CVec2 &targCenter);
 
-	CArtilleryTurnToPointState() : pArtillery( 0 ) { }
-	CArtilleryTurnToPointState( class CArtillery *pArtillery, const CVec2 &targCenter );
+  CArtilleryTurnToPointState() : pArtillery(nullptr) {}
+  CArtilleryTurnToPointState(class CArtillery *pArtillery, const CVec2 &targCenter);
 
-	virtual void Segment();
-	virtual ETryStateInterruptResult TryInterruptState(class CAICommand *pCommand);
+  void Segment() override;
+  ETryStateInterruptResult TryInterruptState(class CAICommand *pCommand) override;
 
-	virtual bool IsAttackingState() const { return false; }
-	virtual const CVec2 GetPurposePoint() const;
-	
-	virtual EUnitStateNames GetName() { return EUSN_TURN_TO_POINT; }
+  bool IsAttackingState() const override { return false; }
+  const CVec2 GetPurposePoint() const override;
+
+  EUnitStateNames GetName() override { return EUSN_TURN_TO_POINT; }
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// //////////////////////////////////////////////////////////// 
 class CArtilleryBombardmentState : public IUnitAttackingState
 {
-	OBJECT_COMPLETE_METHODS( CArtilleryBombardmentState );
-	DECLARE_SERIALIZE;
+  OBJECT_COMPLETE_METHODS(CArtilleryBombardmentState);
+  DECLARE_SERIALIZE;
 
-	enum EArtilleryBombarmentStates { EABS_START, EABS_TURNING, EABS_FIRING };
-	EArtilleryBombarmentStates eState;
+  enum EArtilleryBombarmentStates { EABS_START, EABS_TURNING, EABS_FIRING };
 
-	class CAIUnit *pUnit;
+  EArtilleryBombarmentStates eState;
 
-	CVec2 point;
-	bool bStop;
+  class CAIUnit *pUnit;
+
+  CVec2 point;
+  bool bStop;
+
 public:
-	static IUnitState* Instance( class CAIUnit *pUnit, const CVec2 &point );
+  static IUnitState *Instance(class CAIUnit *pUnit, const CVec2 &point);
 
-	CArtilleryBombardmentState() : pUnit( 0 ) { }
-	CArtilleryBombardmentState( class CAIUnit *pUnit, const CVec2 &point );
+  CArtilleryBombardmentState() : pUnit(nullptr) {}
+  CArtilleryBombardmentState(class CAIUnit *pUnit, const CVec2 &point);
 
-	virtual void Segment();
-	virtual ETryStateInterruptResult TryInterruptState( class CAICommand *pCommand );
+  void Segment() override;
+  ETryStateInterruptResult TryInterruptState(class CAICommand *pCommand) override;
 
-	virtual bool IsAttackingState() const { return true; }
-	virtual const CVec2 GetPurposePoint() const { return point; }
+  bool IsAttackingState() const override { return true; }
+  const CVec2 GetPurposePoint() const override { return point; }
 
-	virtual bool IsAttacksUnit() const { return false; }
-	virtual class CAIUnit* GetTargetUnit() const { return 0; }
-	
-	virtual EUnitStateNames GetName() { return EUSN_BOMBARDMANET; }
+  bool IsAttacksUnit() const override { return false; }
+  class CAIUnit *GetTargetUnit() const override { return nullptr; }
+
+  EUnitStateNames GetName() override { return EUSN_BOMBARDMANET; }
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// //////////////////////////////////////////////////////////// 
 class CArtilleryRangeAreaState : public IUnitAttackingState
 {
-	OBJECT_COMPLETE_METHODS( CArtilleryRangeAreaState );
-	DECLARE_SERIALIZE;
+  OBJECT_COMPLETE_METHODS(CArtilleryRangeAreaState);
+  DECLARE_SERIALIZE;
 
-	enum ERangeAreaStates { ERAS_TURNING, ERAS_RANGING, ERAS_WAITING, ERAS_SHOOT_UNIT, ERAS_SHOOT_OBJECT };
-	ERangeAreaStates eState;
-	enum { CHECK_TIME = 2000 };
+  enum ERangeAreaStates { ERAS_TURNING, ERAS_RANGING, ERAS_WAITING, ERAS_SHOOT_UNIT, ERAS_SHOOT_OBJECT };
 
-	class CAIUnit *pUnit;
+  ERangeAreaStates eState;
 
-	CPtr<CAIUnit> pEnemy;
-	CPtr<CStaticObject> pObj;
-	CPtr<CBasicGun> pGun;
+  enum { CHECK_TIME = 2000 };
 
-	CVec2 point;
-	int nShootsLast;
-	NTimer::STime lastCheck;
-	bool bFinish;
-	bool bFired;
+  class CAIUnit *pUnit;
 
-	//
-	void CheckArea();
-	void FinishCommand();
+  CPtr<CAIUnit> pEnemy;
+  CPtr<CStaticObject> pObj;
+  CPtr<CBasicGun> pGun;
+
+  CVec2 point;
+  int nShootsLast;
+  NTimer::STime lastCheck;
+  bool bFinish;
+  bool bFired;
+
+  //
+  void CheckArea();
+  void FinishCommand();
 
 public:
-	static IUnitState* Instance( class CAIUnit *pUnit, const CVec2 &point );
+  static IUnitState *Instance(class CAIUnit *pUnit, const CVec2 &point);
 
-	CArtilleryRangeAreaState() : pUnit( 0 ) { }
-	CArtilleryRangeAreaState( class CAIUnit *pUnit, const CVec2 &point );
+  CArtilleryRangeAreaState() : pUnit(nullptr) {}
+  CArtilleryRangeAreaState(class CAIUnit *pUnit, const CVec2 &point);
 
-	virtual void Segment();
-	virtual ETryStateInterruptResult TryInterruptState(class CAICommand *pCommand);
-	
-	virtual EUnitStateNames GetName() { return EUSN_RANGING; }
-	void GetRangeCircle( CCircle *pCircle ) const;
+  void Segment() override;
+  ETryStateInterruptResult TryInterruptState(class CAICommand *pCommand) override;
 
-	virtual bool IsAttackingState() const { return true; }
-	virtual const CVec2 GetPurposePoint() const { return point; }
+  EUnitStateNames GetName() override { return EUSN_RANGING; }
+  void GetRangeCircle(CCircle *pCircle) const;
 
-	virtual bool IsAttacksUnit() const;
-	virtual class CAIUnit* GetTargetUnit() const;
+  bool IsAttackingState() const override { return true; }
+  const CVec2 GetPurposePoint() const override { return point; }
+
+  bool IsAttacksUnit() const override;
+  class CAIUnit *GetTargetUnit() const override;
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// //////////////////////////////////////////////////////////// 
 class CArtilleryInstallTransportState : public IUnitState
 {
-	OBJECT_COMPLETE_METHODS( CArtilleryInstallTransportState );
-	DECLARE_SERIALIZE;
+  OBJECT_COMPLETE_METHODS(CArtilleryInstallTransportState);
+  DECLARE_SERIALIZE;
 
-	enum EArtilleryInstallTransportState 
-	{
-		AITS_WAITING_FOR_CREW,
-		AITS_INSTALLING,
-	};
-	EArtilleryInstallTransportState eState;
+  enum EArtilleryInstallTransportState
+  {
+    AITS_WAITING_FOR_CREW,
+    AITS_INSTALLING,
+  };
 
-	class CArtillery *pArtillery;
+  EArtilleryInstallTransportState eState;
+
+  class CArtillery *pArtillery;
+
 public:
-	static IUnitState* Instance( class CArtillery *pArtillery );
+  static IUnitState *Instance(class CArtillery *pArtillery);
 
-	CArtilleryInstallTransportState() : pArtillery( 0 ) { }
-	CArtilleryInstallTransportState( class CArtillery *pArtillery );
+  CArtilleryInstallTransportState() : pArtillery(nullptr) {}
+  CArtilleryInstallTransportState(class CArtillery *pArtillery);
 
-	virtual void Segment();
-	virtual ETryStateInterruptResult TryInterruptState(class CAICommand *pCommand);
+  void Segment() override;
+  ETryStateInterruptResult TryInterruptState(class CAICommand *pCommand) override;
 
-	virtual bool IsAttackingState() const { return false; }
-	virtual const CVec2 GetPurposePoint() const;
+  bool IsAttackingState() const override { return false; }
+  const CVec2 GetPurposePoint() const override;
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// //////////////////////////////////////////////////////////// 
 class CArtilleryUninstallTransportState : public IUnitState
 {
-	OBJECT_COMPLETE_METHODS( CArtilleryUninstallTransportState );
-	DECLARE_SERIALIZE;
-	
-	enum EArtilleryUninstallTransportState 
-	{
-		AUTS_WAIT_FOR_UNINSTALL,
-		AUTS_INSTALLING,
+  OBJECT_COMPLETE_METHODS(CArtilleryUninstallTransportState);
+  DECLARE_SERIALIZE;
 
-		AUTS_WAIT_FOR_UNINSTALL_TRANSPORT,
-	};
+  enum EArtilleryUninstallTransportState
+  {
+    AUTS_WAIT_FOR_UNINSTALL,
+    AUTS_INSTALLING,
 
-	EArtilleryUninstallTransportState eState;
+    AUTS_WAIT_FOR_UNINSTALL_TRANSPORT,
+  };
 
-	class CArtillery *pArtillery;
+  EArtilleryUninstallTransportState eState;
+
+  class CArtillery *pArtillery;
+
 public:
-	static IUnitState* Instance( class CArtillery *pArtillery );
+  static IUnitState *Instance(class CArtillery *pArtillery);
 
-	CArtilleryUninstallTransportState() : pArtillery( 0 ) { }
-	CArtilleryUninstallTransportState( class CArtillery *pArtillery );
+  CArtilleryUninstallTransportState() : pArtillery(nullptr) {}
+  CArtilleryUninstallTransportState(class CArtillery *pArtillery);
 
-	virtual void Segment();
-	virtual ETryStateInterruptResult TryInterruptState( class CAICommand *pCommand );
+  void Segment() override;
+  ETryStateInterruptResult TryInterruptState(class CAICommand *pCommand) override;
 
-	virtual bool IsAttackingState() const { return false; }
-	virtual const CVec2 GetPurposePoint() const;
+  bool IsAttackingState() const override { return false; }
+  const CVec2 GetPurposePoint() const override;
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// пушка болтается за грузовиком
+
+// //////////////////////////////////////////////////////////// 
+// the gun dangles behind the truck
 class CArtilleryBeingTowedPath;
-class CArtilleryBeingTowedState: public IUnitState
+
+class CArtilleryBeingTowedState : public IUnitState
 {
-	OBJECT_COMPLETE_METHODS( CArtilleryBeingTowedState );
-	DECLARE_SERIALIZE;
+  OBJECT_COMPLETE_METHODS(CArtilleryBeingTowedState);
+  DECLARE_SERIALIZE;
 
-	class CArtillery *pArtillery;
+  class CArtillery *pArtillery;
 
-	CPtr<CAITransportUnit> pTransport;
-	// буксировка
-	WORD wLastTagDir;
-	CVec2 vLastTagCenter;
+  CPtr<CAITransportUnit> pTransport;
+  // towing
+  WORD wLastTagDir;
+  CVec2 vLastTagCenter;
 
-	bool bInterrupted;
-	CPtr<CArtilleryBeingTowedPath> pPath;
-	NTimer::STime timeLastUpdate;
+  bool bInterrupted;
+  CPtr<CArtilleryBeingTowedPath> pPath;
+  NTimer::STime timeLastUpdate;
+
 public:
-	static IUnitState* Instance( class CArtillery *pArtillery, class CAITransportUnit * pTransport );
+  static IUnitState *Instance(class CArtillery *pArtillery, class CAITransportUnit *pTransport);
 
-	CArtilleryBeingTowedState() : pArtillery( 0 ) { }
-	CArtilleryBeingTowedState( class CArtillery *pArtillery, class CAITransportUnit * pTransport );
-	virtual void Segment();
-	virtual ETryStateInterruptResult TryInterruptState( class CAICommand *pCommand );
-	virtual EUnitStateNames GetName() { return EUSN_BEING_TOWED; }
+  CArtilleryBeingTowedState() : pArtillery(nullptr) {}
+  CArtilleryBeingTowedState(class CArtillery *pArtillery, class CAITransportUnit *pTransport);
+  void Segment() override;
+  ETryStateInterruptResult TryInterruptState(class CAICommand *pCommand) override;
+  EUnitStateNames GetName() override { return EUSN_BEING_TOWED; }
 
-	virtual bool IsAttackingState() const { return false; }
-	virtual const CVec2 GetPurposePoint() const;
-	
-	class CAITransportUnit* GetTowingTransport() const;
+  bool IsAttackingState() const override { return false; }
+  const CVec2 GetPurposePoint() const override;
+
+  class CAITransportUnit *GetTowingTransport() const;
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// //////////////////////////////////////////////////////////// 
 class CArtilleryAttackState : public IUnitAttackingState, public CFreeFireManager
 {
-	OBJECT_COMPLETE_METHODS( CArtilleryAttackState );
-	DECLARE_SERIALIZE;
+  OBJECT_COMPLETE_METHODS(CArtilleryAttackState);
+  DECLARE_SERIALIZE;
 
-	enum EAttackStates { EAS_NONE, EAS_ROTATING, EAS_FIRING };
-	EAttackStates eState;
-	WORD wDirToRotate;
-	
-	class CArtillery *pArtillery;
-	CPtr<CAIUnit> pEnemy;
-	bool bAim;
-	bool bFinish;
+  enum EAttackStates { EAS_NONE, EAS_ROTATING, EAS_FIRING };
 
-	CPtr<CBasicGun> pGun;
-	bool bSwarmAttack;
+  EAttackStates eState;
+  WORD wDirToRotate;
 
-	CDamageToEnemyUpdater damageToEnemyUpdater;
-	int nEnemyParty;
+  class CArtillery *pArtillery;
+  CPtr<CAIUnit> pEnemy;
+  bool bAim;
+  bool bFinish;
 
-	//
-	void FinishState();
+  CPtr<CBasicGun> pGun;
+  bool bSwarmAttack;
+
+  CDamageToEnemyUpdater damageToEnemyUpdater;
+  int nEnemyParty;
+
+  //
+  void FinishState();
+
 public:
-	static IUnitState* Instance( class CArtillery *pArtillery, class CAIUnit *pEnemy, bool bAim, const bool bSwarmAttack );
+  static IUnitState *Instance(class CArtillery *pArtillery, class CAIUnit *pEnemy, bool bAim, bool bSwarmAttack);
 
-	CArtilleryAttackState() : pArtillery( 0 ) { }
-	CArtilleryAttackState( class CArtillery *pArtillery, class CAIUnit *pEnemy, bool bAim, const bool bSwarmAttack );
+  CArtilleryAttackState() : pArtillery(nullptr) {}
+  CArtilleryAttackState(class CArtillery *pArtillery, class CAIUnit *pEnemy, bool bAim, bool bSwarmAttack);
 
-	virtual void Segment();
+  void Segment() override;
 
-	virtual ETryStateInterruptResult TryInterruptState( class CAICommand *pCommand );
+  ETryStateInterruptResult TryInterruptState(class CAICommand *pCommand) override;
 
-	virtual EUnitStateNames GetName() { return EUSN_ATTACK_UNIT; }
-	virtual bool IsAttackingState() const { return true; }
-	virtual const CVec2 GetPurposePoint() const;
+  EUnitStateNames GetName() override { return EUSN_ATTACK_UNIT; }
+  bool IsAttackingState() const override { return true; }
+  const CVec2 GetPurposePoint() const override;
 
-	virtual bool IsAttacksUnit() const { return true; }
-	virtual class CAIUnit* GetTargetUnit() const;
+  bool IsAttacksUnit() const override { return true; }
+  class CAIUnit *GetTargetUnit() const override;
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// //////////////////////////////////////////////////////////// 
 class CArtilleryAttackCommonStatObjState : public IUnitAttackingState, public CFreeFireManager
 {
-	OBJECT_COMPLETE_METHODS( CArtilleryAttackCommonStatObjState );
-	DECLARE_SERIALIZE;
+  OBJECT_COMPLETE_METHODS(CArtilleryAttackCommonStatObjState);
+  DECLARE_SERIALIZE;
 
-	class CArtillery *pArtillery;
-	CPtr<CStaticObject> pObj;
-	CPtr<CBasicGun> pGun;
+  class CArtillery *pArtillery;
+  CPtr<CStaticObject> pObj;
+  CPtr<CBasicGun> pGun;
 
-	enum EAttackStates { EAS_NONE, EAS_ROTATING, EAS_FIRING };
-	EAttackStates eState;
-	WORD wDirToRotate;
+  enum EAttackStates { EAS_NONE, EAS_ROTATING, EAS_FIRING };
 
-	bool bAim;
-	bool bFinish;
+  EAttackStates eState;
+  WORD wDirToRotate;
 
-	//
-	void FinishState();
+  bool bAim;
+  bool bFinish;
+
+  //
+  void FinishState();
+
 public:
-	static IUnitState* Instance( class CArtillery *pArtillery, class CStaticObject *pObj );
+  static IUnitState *Instance(class CArtillery *pArtillery, class CStaticObject *pObj);
 
-	CArtilleryAttackCommonStatObjState() : pArtillery( 0 ) { }
-	CArtilleryAttackCommonStatObjState( class CArtillery *pArtillery, class CStaticObject *pObj );
+  CArtilleryAttackCommonStatObjState() : pArtillery(nullptr) {}
+  CArtilleryAttackCommonStatObjState(class CArtillery *pArtillery, class CStaticObject *pObj);
 
-	virtual void Segment();
+  void Segment() override;
 
-	virtual ETryStateInterruptResult TryInterruptState( class CAICommand *pCommand );
+  ETryStateInterruptResult TryInterruptState(class CAICommand *pCommand) override;
 
-	virtual EUnitStateNames GetName() { return EUSN_ATTACK_STAT_OBJECT; }
-	virtual bool IsAttackingState() const { return true; }
-	virtual const CVec2 GetPurposePoint() const;
+  EUnitStateNames GetName() override { return EUSN_ATTACK_STAT_OBJECT; }
+  bool IsAttackingState() const override { return true; }
+  const CVec2 GetPurposePoint() const override;
 
-	virtual bool IsAttacksUnit() const { return false; }
-	virtual class CAIUnit* GetTargetUnit() const { return 0; }
+  bool IsAttacksUnit() const override { return false; }
+  class CAIUnit *GetTargetUnit() const override { return nullptr; }
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// //////////////////////////////////////////////////////////// 
 class CArtilleryRestState : public CMechUnitRestState
 {
-	OBJECT_COMPLETE_METHODS( CArtilleryRestState );
-	DECLARE_SERIALIZE;
+  OBJECT_COMPLETE_METHODS(CArtilleryRestState);
+  DECLARE_SERIALIZE;
 
-	CArtillery *pArtillery;
+  CArtillery *pArtillery;
+
 public:
-	static IUnitState* Instance( class CArtillery *pArtillery, const CVec2 &guardPoint, const WORD wDir );
-	
-	CArtilleryRestState() : pArtillery( 0 ) { }
-	CArtilleryRestState( class CArtillery *pArtillery, const CVec2 &guardPoint, const WORD wDir );
+  static IUnitState *Instance(class CArtillery *pArtillery, const CVec2 &guardPoint, WORD wDir);
 
-	virtual void Segment();
+  CArtilleryRestState() : pArtillery(nullptr) {}
+  CArtilleryRestState(class CArtillery *pArtillery, const CVec2 &guardPoint, WORD wDir);
+
+  void Segment() override;
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// //////////////////////////////////////////////////////////// 
 class CArtilleryAttackAviationState : public CSoldierAttackAviationState
 {
-	OBJECT_COMPLETE_METHODS( CArtilleryAttackAviationState );
-	DECLARE_SERIALIZE;
+  OBJECT_COMPLETE_METHODS(CArtilleryAttackAviationState);
+  DECLARE_SERIALIZE;
 
-	CArtillery *pArtillery;
+  CArtillery *pArtillery;
+
 public:
-	static IUnitState* Instance( class CArtillery *pArtillery, class CAviation *pPlane );
-	
-	CArtilleryAttackAviationState() : pArtillery( 0 ) { }
-	CArtilleryAttackAviationState( class CArtillery *pArtillery, class CAviation *pPlane );
+  static IUnitState *Instance(class CArtillery *pArtillery, class CAviation *pPlane);
 
-	virtual void Segment();
+  CArtilleryAttackAviationState() : pArtillery(nullptr) {}
+  CArtilleryAttackAviationState(class CArtillery *pArtillery, class CAviation *pPlane);
+
+  void Segment() override;
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// //////////////////////////////////////////////////////////// 
 #endif // __ARTILLERY_STATES_H__

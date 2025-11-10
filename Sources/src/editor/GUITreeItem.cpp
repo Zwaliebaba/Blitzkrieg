@@ -91,29 +91,8 @@ int CTemplatesTreeItem::operator&( IDataTree &ss )
 	saver.AddTypedSuper( static_cast<CTreeItem*>(this) );
 	return 0;
 
-/*
-	CTreeAccessor saver = pFile;
-	if ( saver.IsReading() )
-	{
-		if ( GetParentTreeItem()->GetItemType() != E_GUI_ROOT_ITEM )
-			return;
-
-		string szMask = "*.xml";
-		vector<string> files;
-		string szFullDirectory = theApp.GetEditorDataDir();
-		szFullDirectory += "editor\\UI\\";
-		szFullDirectory += szDirectory;
-		
-		//—перва составл¤ю полный список XML файлов
-		NFile::EnumerateFiles( szFullDirectory.c_str(), szMask.c_str(), CGetAllFiles( &files ), false );
-		for ( int i=0; i<files.size(); i++ )
-		{
-			string szName = files[i];
-			if ( szName == "1.xml" )
-				continue;
-		}
-	}
-*/
+/* CTreeAccessor saver = pFile;
+	 */
 }
 
 void CTemplatesTreeItem::InsertChildItems()
@@ -124,17 +103,15 @@ void CTemplatesTreeItem::InsertChildItems()
 	szFullDirectory += "editor\\UI\\";
 	szFullDirectory += szDirectory;
 	
-	//—перва составл¤ю полный список XML файлов
+	// — first I make a complete list of XML files
 	NFile::EnumerateFiles( szFullDirectory.c_str(), szMask.c_str(), NFile::CGetAllFiles( &files ), false );
 	IObjectFactory *pFactory = GetCommonFactory();
 	for ( int i=0; i<files.size(); i++ )
 	{
 		string szName = files[i];
-/*
-		if ( szName == "1.xml" )
-			continue;
-*/
-		//прогружаю все items
+/* if ( szName == "1.xml" )
+			 */
+		// loading all items
 		CPtr<IDataStream> pStream = CreateFileStream( szName.c_str(), STREAM_ACCESS_READ );
 		CPtr<IDataTree> pDT = CreateDataTreeSaver( pStream, IDataTree::READ );
 		CTreeAccessor saver = pDT;
@@ -143,7 +120,7 @@ void CTemplatesTreeItem::InsertChildItems()
 		NI_ASSERT_T( nClassTypeID == nWindowType, NStr::Format( "Invalid %s XML file: %s", szDirectory.c_str(), szName.c_str() ) );
 		
 		int nTreeItemType = GetTreeItemTypeByWindowType( nClassTypeID );
-		if ( nTreeItemType == -1 )				//ERROR
+		if ( nTreeItemType == -1 )				// ERROR
 			continue;
 		
 		CTemplatePropsTreeItem *pTemplatePropsItem = ( CTemplatePropsTreeItem *) pFactory->CreateObject( nTreeItemType );
@@ -183,7 +160,7 @@ void CTemplatePropsTreeItem::MyKeyDown( int nChar )
 			int nRes = AfxMessageBox( "Do you want to delete template item?", MB_YESNO );
 			if ( nRes == IDYES )
 			{
-				//удал¤ем template с диска
+				// remove the template from the disk
 				remove( szXMLFile.c_str() );
 				DeleteMeInParentTreeItem();
 			}

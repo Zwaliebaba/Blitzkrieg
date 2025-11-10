@@ -1,11 +1,5 @@
-/*----------------------------------------------------------------------
-       John Robbins - Microsoft Systems Journal Bugslayer Column
-------------------------------------------------------------------------
-FILE        :   WarningsOff.h
-DISCUSSION  :
-    Turns off warnings so standard headers will compile.  Any warning
-turned off, must be turned back in in WarningsOn.h
-----------------------------------------------------------------------*/
+/* ----------------------------------------------------------------------
+        */
 
 #ifndef _WARNINGSOFF_H
 #define _WARNINGSOFF_H
@@ -23,5 +17,3 @@ turned off, must be turned back in in WarningsOn.h
 #pragma warning ( disable : 4510 )
 
 #endif  /* _WARNINGSOFF_H */
-
-

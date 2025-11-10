@@ -22,7 +22,7 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 const int   CFO_SHELLS_COLUMN_START = 0;
 const int   CFO_SHELLS_COLUMN_COUNT = 5;
 const char *CFO_SHELLS_COLUMN_NAME  [CFO_SHELLS_COLUMN_COUNT] = { "N", "Objects Count", "Size", "Step", "Probability %" };
@@ -36,7 +36,7 @@ const float CRMGFieldObjectsDialog::DEFAULT_SHELL_RATIO = 0.3f;
 const char CRMGFieldObjectsDialog::UNKNOWN_OBJECT[] = "Unknown";
 const char CRMGFieldObjectsDialog::MULTIPLE_SELECTION[] = "Multiple selection...";
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 int CALLBACK CFO_ShellsCompareFunc( LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort )
 {
 	CRMGFieldObjectsDialog* pFieldObjectsDialog = reinterpret_cast<CRMGFieldObjectsDialog*>( lParamSort );
@@ -54,12 +54,12 @@ int CALLBACK CFO_ShellsCompareFunc( LPARAM lParam1, LPARAM lParam2, LPARAM lPara
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 CRMGFieldObjectsDialog::CRMGFieldObjectsDialog( CWnd* pParent )
 	: CResizeDialog( CRMGFieldObjectsDialog::IDD, pParent ), nSortColumn( -1 ), pRMGCreateFieldDialog( 0 ), bCreateControls( true ), pRMFieldSet( 0 ), nCurrentShell( CB_ERR ), bInitialPictures( true )
 {
-	//{{AFX_DATA_INIT(CRMGFieldObjectsDialog)
-	//}}AFX_DATA_INIT
+	// {{AFX_DATA_INIT(CRMGFieldObjectsDialog)
+	// }}AFX_DATA_INIT
 
 	SetControlStyle( IDC_CF_OS_OBJECTS_FILTER_LABEL, ANCHORE_LEFT_TOP );
 	SetControlStyle( IDC_CF_OS_OBJECTS_FILTER_COMBO, ANCHORE_LEFT_TOP | RESIZE_HOR, 0.5f, 0.5f, 0.5f, 1.0f );
@@ -85,21 +85,21 @@ CRMGFieldObjectsDialog::CRMGFieldObjectsDialog( CWnd* pParent )
 	SetControlStyle( IDCANCEL, ANCHORE_LEFT_TOP, ANCHORE_LEFT_TOP );
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGFieldObjectsDialog::DoDataExchange(CDataExchange* pDX)
 {
 	CResizeDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(CRMGFieldObjectsDialog)
+	// {{AFX_DATA_MAP(CRMGFieldObjectsDialog)
 	DDX_Control(pDX, IDC_CF_OS_OBJECTS_FILTER_COMBO, m_FilterComboBox);
 	DDX_Control(pDX, IDC_CF_OS_SHELLS_LIST, m_ShellsList);
 	DDX_Control(pDX, IDC_CF_OS_OBJECTS_LIST, m_ObjectsList);
 	DDX_Control(pDX, IDC_CF_OS_AVAILABLE_OBJECTS_LIST, m_AvailableObjectsList);
-	//}}AFX_DATA_MAP
+	// }}AFX_DATA_MAP
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 BEGIN_MESSAGE_MAP(CRMGFieldObjectsDialog, CResizeDialog)
-	//{{AFX_MSG_MAP(CRMGFieldObjectsDialog)
+	// {{AFX_MSG_MAP(CRMGFieldObjectsDialog)
 	ON_BN_CLICKED(IDC_CF_OS_LIST_RADIO, OnListRadio)
 	ON_BN_CLICKED(IDC_CF_OS_THUMBNAILS_RADIO, OnThumbnailsRadio)
 	ON_CBN_SELCHANGE(IDC_CF_OS_OBJECTS_FILTER_COMBO, OnSelchangeObjectsFilterCombo)
@@ -130,10 +130,10 @@ BEGIN_MESSAGE_MAP(CRMGFieldObjectsDialog, CResizeDialog)
 	ON_NOTIFY(LVN_KEYDOWN, IDC_CF_OS_OBJECTS_LIST, OnKeydownObjectsList)
 	ON_NOTIFY(NM_RCLICK, IDC_CF_OS_AVAILABLE_OBJECTS_LIST, OnRclickAvailableObjectsList)
 	ON_NOTIFY(LVN_KEYDOWN, IDC_CF_OS_AVAILABLE_OBJECTS_LIST, OnKeydownAvailableObjectsList)
-	//}}AFX_MSG_MAP
+	// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 BOOL CRMGFieldObjectsDialog::OnInitDialog()
 {
   CResizeDialog::OnInitDialog();
@@ -147,7 +147,7 @@ BOOL CRMGFieldObjectsDialog::OnInitDialog()
 	return true;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CRMGFieldObjectsDialog::SetObjectsListsStyle( bool bPictures )
 {
 	if ( ::IsWindow( m_AvailableObjectsList.m_hWnd ) )
@@ -186,7 +186,7 @@ void CRMGFieldObjectsDialog::SetObjectsListsStyle( bool bPictures )
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGFieldObjectsDialog::UpdateObjectsListsStyle()
 {
 	bCreateControls = true;
@@ -200,7 +200,7 @@ void CRMGFieldObjectsDialog::UpdateObjectsListsStyle()
 	bCreateControls = false;
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGFieldObjectsDialog::CreateControls()
 {
 	bCreateControls = true;
@@ -249,14 +249,14 @@ void CRMGFieldObjectsDialog::CreateControls()
 	bCreateControls = false;
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGFieldObjectsDialog::OnSize(UINT nType, int cx, int cy) 
 {
 	CResizeDialog::OnSize( nType, cx, cy );
 	UpdateObjectsListsStyle();
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGFieldObjectsDialog::FillAvailableObjects( const std::string &rszFilter )
 {
 	CTabSimpleObjectsDialog *pTabSimpleObjectsDialog = g_frameManager.GetTemplateEditorFrame()->m_mapEditorBarPtr->GetObjectWnd();
@@ -303,7 +303,7 @@ void CRMGFieldObjectsDialog::FillAvailableObjects( const std::string &rszFilter 
 	UpdateObjectsListsStyle();
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGFieldObjectsDialog::LoadFieldToControls()
 {
 	bCreateControls = true;
@@ -350,7 +350,7 @@ void CRMGFieldObjectsDialog::LoadFieldToControls()
 	bCreateControls = false;
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGFieldObjectsDialog::UpdateControls()
 {
 	if ( CWnd *pWnd = GetDlgItem( IDC_CF_OS_SHELLS_LIST ) )
@@ -387,7 +387,7 @@ void CRMGFieldObjectsDialog::UpdateControls()
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGFieldObjectsDialog::SetShellItem( int nItem, const SRMObjectSetShell &rObjectSetShell )
 {
 	m_ShellsList.SetItem( nItem, 1, LVIF_TEXT, NStr::Format( "%2d", rObjectSetShell.objects.size() ), 0, 0, 0, 0 );
@@ -396,7 +396,7 @@ void CRMGFieldObjectsDialog::SetShellItem( int nItem, const SRMObjectSetShell &r
 	m_ShellsList.SetItem( nItem, 4, LVIF_TEXT, NStr::Format( "%.2f%", rObjectSetShell.fRatio * 100.0f ), 0, 0, 0, 0 );
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGFieldObjectsDialog::FillShellObjectsList( int nSelectedShell )
 {
 	if ( pRMFieldSet )
@@ -410,7 +410,7 @@ void CRMGFieldObjectsDialog::FillShellObjectsList( int nSelectedShell )
 		{
 			const SRMObjectSetShell &rObjectSetShell = pRMFieldSet->objectsShells[nSelectedShell];
 
-			//по объектам пробегаем
+			// we go through the objects
 			for ( int nObjectIndex = 0; nObjectIndex < rObjectSetShell.objects.size(); ++nObjectIndex )
 			{
 				const std::string szSelectedObjectName = rObjectSetShell.objects[nObjectIndex];
@@ -429,7 +429,7 @@ void CRMGFieldObjectsDialog::FillShellObjectsList( int nSelectedShell )
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGFieldObjectsDialog::OnDestroy() 
 {
 	for ( int nColumnIndex = 0; nColumnIndex < CFO_SHELLS_COLUMN_COUNT; ++nColumnIndex )
@@ -440,7 +440,7 @@ void CRMGFieldObjectsDialog::OnDestroy()
 	CResizeDialog ::OnDestroy();
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGFieldObjectsDialog::OnOK() 
 {
 	if ( pRMGCreateFieldDialog )
@@ -449,7 +449,7 @@ void CRMGFieldObjectsDialog::OnOK()
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGFieldObjectsDialog::OnCancel() 
 {
 	if ( pRMGCreateFieldDialog )
@@ -458,19 +458,19 @@ void CRMGFieldObjectsDialog::OnCancel()
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGFieldObjectsDialog::OnListRadio() 
 {
 	UpdateObjectsListsStyle();
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGFieldObjectsDialog::OnThumbnailsRadio() 
 {
 	UpdateObjectsListsStyle();
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGFieldObjectsDialog::OnItemchangedShellsList(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
@@ -499,7 +499,7 @@ void CRMGFieldObjectsDialog::OnItemchangedShellsList(NMHDR* pNMHDR, LRESULT* pRe
 	*pResult = 0;
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGFieldObjectsDialog::OnSelchangeObjectsFilterCombo() 
 {
 	if ( !bCreateControls )
@@ -527,7 +527,7 @@ void CRMGFieldObjectsDialog::OnSelchangeObjectsFilterCombo()
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGFieldObjectsDialog::OnItemchangedAvailableObjectsList(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
@@ -542,7 +542,7 @@ void CRMGFieldObjectsDialog::OnItemchangedAvailableObjectsList(NMHDR* pNMHDR, LR
 	*pResult = 0;
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGFieldObjectsDialog::OnItemchangedObjectsList(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
@@ -557,7 +557,7 @@ void CRMGFieldObjectsDialog::OnItemchangedObjectsList(NMHDR* pNMHDR, LRESULT* pR
 	*pResult = 0;
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGFieldObjectsDialog::OnColumnclickShellsList(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
@@ -578,7 +578,7 @@ void CRMGFieldObjectsDialog::OnColumnclickShellsList(NMHDR* pNMHDR, LRESULT* pRe
 	*pResult = 0;
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGFieldObjectsDialog::OnObjectProperties() 
 {
 	if ( pRMFieldSet && ( fieldSets.size() < 2 ) )
@@ -700,7 +700,7 @@ void CRMGFieldObjectsDialog::OnObjectProperties()
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGFieldObjectsDialog::OnAvailableObjectProperties()
 {
 	int nSelectedItem = m_AvailableObjectsList.GetNextItem( CB_ERR, LVNI_SELECTED );
@@ -790,7 +790,7 @@ void CRMGFieldObjectsDialog::OnAvailableObjectProperties()
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGFieldObjectsDialog::OnRemoveObject() 
 {
 	if ( pRMFieldSet && ( fieldSets.size() < 2 ) )
@@ -834,7 +834,7 @@ void CRMGFieldObjectsDialog::OnRemoveObject()
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGFieldObjectsDialog::OnAddObject() 
 {
 	if ( pRMFieldSet && ( fieldSets.size() < 2 ) )
@@ -883,7 +883,7 @@ void CRMGFieldObjectsDialog::OnAddObject()
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGFieldObjectsDialog::OnShellProperties() 
 {
 	if ( pRMFieldSet && ( fieldSets.size() < 2 ) )
@@ -953,7 +953,7 @@ void CRMGFieldObjectsDialog::OnShellProperties()
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGFieldObjectsDialog::OnRemoveShell() 
 {
 	if ( pRMFieldSet && ( fieldSets.size() < 2 ) )
@@ -997,7 +997,7 @@ void CRMGFieldObjectsDialog::OnRemoveShell()
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGFieldObjectsDialog::OnAddShell() 
 {
 	if ( pRMFieldSet && ( fieldSets.size() < 2 ) )
@@ -1013,32 +1013,32 @@ void CRMGFieldObjectsDialog::OnAddShell()
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGFieldObjectsDialog::OnAddShellMenu() 
 {
 	OnAddShell();
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGFieldObjectsDialog::OnRemoveShellMenu() 
 {
 	OnRemoveShell();
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGFieldObjectsDialog::OnShellPropertiesMenu() 
 {
 	OnShellProperties();
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGFieldObjectsDialog::OnDblclkShellsList(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	OnShellProperties();
 	*pResult = 0;
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGFieldObjectsDialog::OnRclickShellsList(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	CMenu composersMenu;
@@ -1066,7 +1066,7 @@ void CRMGFieldObjectsDialog::OnRclickShellsList(NMHDR* pNMHDR, LRESULT* pResult)
 	*pResult = 0;
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGFieldObjectsDialog::OnKeydownShellsList(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	LV_KEYDOWN* pLVKeyDown = (LV_KEYDOWN*)pNMHDR;
@@ -1103,45 +1103,45 @@ void CRMGFieldObjectsDialog::OnKeydownShellsList(NMHDR* pNMHDR, LRESULT* pResult
 	*pResult = 0;
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGFieldObjectsDialog::OnAddObjectMenu() 
 {
 	OnAddObject();
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGFieldObjectsDialog::OnRemoveObjectMenu() 
 {
 	OnRemoveObject();
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGFieldObjectsDialog::OnObjectPropertiesMenu() 
 {
 	OnObjectProperties();
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGFieldObjectsDialog::OnAvailableObjectPropertiesMenu() 
 {
 	OnAvailableObjectProperties();
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGFieldObjectsDialog::OnDblclkObjectsList(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	OnObjectProperties();
 	*pResult = 0;
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGFieldObjectsDialog::OnDblclkAvailableObjectsList(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	OnAddObject();
 	*pResult = 0;
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGFieldObjectsDialog::OnRclickObjectsList(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	CMenu composersMenu;
@@ -1165,7 +1165,7 @@ void CRMGFieldObjectsDialog::OnRclickObjectsList(NMHDR* pNMHDR, LRESULT* pResult
 	*pResult = 0;
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGFieldObjectsDialog::OnRclickAvailableObjectsList(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	CMenu composersMenu;
@@ -1189,7 +1189,7 @@ void CRMGFieldObjectsDialog::OnRclickAvailableObjectsList(NMHDR* pNMHDR, LRESULT
 	*pResult = 0;
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGFieldObjectsDialog::OnKeydownObjectsList(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	LV_KEYDOWN* pLVKeyDown = (LV_KEYDOWN*)pNMHDR;
@@ -1216,7 +1216,7 @@ void CRMGFieldObjectsDialog::OnKeydownObjectsList(NMHDR* pNMHDR, LRESULT* pResul
 	*pResult = 0;
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGFieldObjectsDialog::OnKeydownAvailableObjectsList(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	LV_KEYDOWN* pLVKeyDown = (LV_KEYDOWN*)pNMHDR;
@@ -1242,4 +1242,4 @@ void CRMGFieldObjectsDialog::OnKeydownAvailableObjectsList(NMHDR* pNMHDR, LRESUL
 	}
 	*pResult = 0;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+

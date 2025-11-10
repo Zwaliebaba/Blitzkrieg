@@ -8,41 +8,40 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 const float RMGC_MINIMAL_VIS_POINT_DISTANCE = 2.0f;
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 const EClassifyEdge NEGATIVE_CLASSIFY_EDGE[CE_COUNT + 1] =
 {
-	CE_UNKNOWN,
-	CE_RIGHT,
-	CE_LEFT,
-	CE_BEHIND,
-	CE_BEYONG,
-	CE_BETWEEN,
-	CE_END,
-	CE_BEGIN,
-	CE_UNKNOWN,
+    CE_UNKNOWN,
+    CE_RIGHT,
+    CE_LEFT,
+    CE_BEHIND,
+    CE_BEYONG,
+    CE_BETWEEN,
+    CE_END,
+    CE_BEGIN,
+    CE_UNKNOWN,
 };
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 const EClassifyPolygon NEGATIVE_CLASSIFY_POLYGON[CP_COUNT + 1] =
 {
-	CP_UNKNOWN,
-	CP_OUTSIDE,
-	CP_INSIDE,
-	CP_BOUNDARY,
-	CP_VERTEX,
-	CP_UNKNOWN,
+    CP_UNKNOWN,
+    CP_OUTSIDE,
+    CP_INSIDE,
+    CP_BOUNDARY,
+    CP_VERTEX,
+    CP_UNKNOWN,
 };
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 const EClassifyRotation NEGATIVE_CLASSIFY_ROTATION[CR_COUNT + 1] =
 {
-	CR_UNKNOWN,
-	CR_COUNTERCLOCKWISE,
-	CR_CLOCKWISE,
-	CR_LINE,
-	CR_UNKNOWN,
+    CR_UNKNOWN,
+    CR_COUNTERCLOCKWISE,
+    CR_CLOCKWISE,
+    CR_LINE,
+    CR_UNKNOWN,
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

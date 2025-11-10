@@ -8,7 +8,7 @@
 #include <fstream>
 #include <algorithm>
 #include <functional>
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // ************************************************************************************************************************ //
 // **
 // ** helper functions
@@ -16,13 +16,13 @@
 // **
 // **
 // ************************************************************************************************************************ //
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 static std::string szSS;
 static std::string szCheckOut;
 static std::string szCheckIn;
 static std::string szGetVersion;
 static std::string szNMake;
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 const std::string GetSourceControlName( const SProject *pProject, const std::string &szFilePath )
 {
 	std::string szSourceName;
@@ -33,7 +33,7 @@ const std::string GetSourceControlName( const SProject *pProject, const std::str
 	std::replace_if( szSourceName.begin(), szSourceName.end(), std::bind2nd( std::equal_to<char>(), '\\' ), '/' );
 	return szSourceName;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool ExecuteCommand( const std::string &szCommand, const std::string &szCmdLine, const std::string &szDirectory )
 {
 	char pszCommandLine[2048];
@@ -50,7 +50,7 @@ bool ExecuteCommand( const std::string &szCommand, const std::string &szCmdLine,
 	WaitForSingleObject( procinfo.hProcess, INFINITE );
 	return true;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool ExecuteSourceCommand( const std::string &szCommand, const std::string &szSourceName, const std::string &szDirectory, const char *pszOptions )
 {
 	char pszCommandLine[2048];
@@ -62,7 +62,7 @@ bool ExecuteSourceCommand( const std::string &szCommand, const std::string &szSo
 	//
 	return ExecuteCommand( szSS, pszCommandLine, szDirectory );
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool CheckOut( const SProject *pProject, const std::string &szFilePath )
 {
 	if ( pProject->szSourceControl.empty() ) 
@@ -76,7 +76,7 @@ bool CheckOut( const SProject *pProject, const std::string &szFilePath )
 	const std::string szSourceName = GetSourceControlName( pProject, szFilePath );
 	return ExecuteSourceCommand( szCheckOut, szSourceName, szDirectory, " -I-" );
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool CheckIn( const SProject *pProject, const std::string &szFilePath )
 {
 	if ( pProject->szSourceControl.empty() ) 
@@ -85,7 +85,7 @@ bool CheckIn( const SProject *pProject, const std::string &szFilePath )
 	const std::string szSourceName = GetSourceControlName( pProject, szFilePath );
 	return ExecuteSourceCommand( szCheckIn, szSourceName, szDirectory, " -I-" );
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 inline std::string GetFullName( const std::string &szPath )
 {
 	const DWORD BUFFER_SIZE = 1024;
@@ -94,13 +94,13 @@ inline std::string GetFullName( const std::string &szPath )
 	GetFullPathName( szPath.c_str(), 1024, buffer, &pszBufferFileName );
 	return buffer;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 inline std::string ExtractPath( const SProject *pProject )
 {
 	const int nPos = pProject->szFileName.rfind( '\\' );
 	return nPos != std::string::npos ? pProject->szFileName.substr( 0, nPos + 1 ) : ".\\";
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 static const char *pszVersionTag[] = 
 {
 	"FILEVERSION ",
@@ -113,7 +113,7 @@ static const char *pszVersion2Tag[] =
 	"VALUE \"ProductVersion\", ",
 	0
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool ReplaceVersion( std::string *pString, const std::string &szVersion, const char *pszTags[] )
 {
 	for ( int i = 0; pszTags[i] != 0; ++i )
@@ -128,7 +128,7 @@ bool ReplaceVersion( std::string *pString, const std::string &szVersion, const c
 	}
 	return false;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool GetFileTime( HANDLE hFile, FILETIME *pTime )
 {
 	FILETIME ctime, atime, wtime;
@@ -148,7 +148,7 @@ bool GetFileTime( const std::string &szFileName, FILETIME *pTime )
 	CloseHandle( hFile );
 	return bRetVal;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 const bool IsBeginSourceFile( const std::list<std::string> &history )
 {
 	std::list<std::string>::const_iterator pos = history.begin();
@@ -165,12 +165,12 @@ const bool IsBeginSourceFile( const std::list<std::string> &history )
 		return false;
 	return true;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 const bool IsResourceFile( const std::string &szFileName )
 {
 	return szFileName.compare( szFileName.rfind('.'), std::string::npos, ".rc" ) == 0;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool IsModified( const SProject *pProject, const FILETIME &timeVersion )
 {
 	for ( std::list<std::string>::const_iterator it = pProject->sources.begin(); it != pProject->sources.end(); ++it )
@@ -191,7 +191,7 @@ bool IsModified( const std::list<SProject*> &projects, const FILETIME &timeVersi
 	}
 	return false;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 const bool IsSourceCodeControl( const std::list<std::string> &history )
 {
 	if ( history.size() != 4 ) 
@@ -210,7 +210,7 @@ const bool IsSourceCodeControl( const std::list<std::string> &history )
 		return false;
 	return true;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CHandle
 {
 	HANDLE handle;
@@ -228,20 +228,20 @@ public:
 	operator HANDLE() const { return handle; }
 	CHandle& operator=( HANDLE _handle ) { Close(); handle = _handle; return *this; }
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // ************************************************************************************************************************ //
 // **
-// ** BuildVersion
+// **BuildVersion
 // **
 // **
 // **
 // ************************************************************************************************************************ //
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 CBuildVersion::CBuildVersion( const char *pszConfigFileName )
 {
 	char buffer[2048];
 	GetPrivateProfileString( "VersionControl", "SS", "", buffer, 2048, pszConfigFileName );
-	//szSS = NStr::Format( "\"%s\"", buffer );
+	// szSS = NStr::Format( "\"%s\"", buffer );
 	szSS = buffer;
 	GetPrivateProfileString( "VersionControl", "CheckOut", "", buffer, 2048, pszConfigFileName );
 	szCheckOut = buffer;
@@ -253,7 +253,7 @@ CBuildVersion::CBuildVersion( const char *pszConfigFileName )
 	GetPrivateProfileString( "NMake", "NMake", "", buffer, 2048, pszConfigFileName );
 	szNMake = buffer;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool CBuildVersion::LoadDSW( const char *pszWorkspaceName, bool bGetLatestVersion )
 {
 	std::list<std::string> history;
@@ -330,7 +330,7 @@ bool CBuildVersion::LoadDSW( const char *pszWorkspaceName, bool bGetLatestVersio
 	//
 	return true;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool CBuildVersion::LoadDSP( SProject *pProject )
 {
 	std::list<std::string> history;
@@ -373,7 +373,7 @@ bool CBuildVersion::LoadDSP( SProject *pProject )
 	}
 	return true;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CProjectFindFunctional
 {
 	std::string szName;
@@ -411,7 +411,7 @@ bool CBuildVersion::LoadProjects( const char *pszWorkspaceName, const char *pszH
 
 	return true;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool CBuildVersion::CheckProjects( const std::list<SProject*> &projects, const SProject *pHeadProject, std::string *pVersion ) const
 {
 	const std::string szVersionName = pHeadProject->szFileName.substr( 0, pHeadProject->szFileName.rfind('.') ) + ".ver";
@@ -457,7 +457,7 @@ bool CBuildVersion::CheckProjects( const std::list<SProject*> &projects, const S
 	//
 	return true;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool CBuildVersion::UpdateVersion( const SProject *pProject, const std::string &szVersion ) const
 {
 	if ( pProject->szResourceFileName.empty() ) 
@@ -498,7 +498,7 @@ bool CBuildVersion::UpdateVersion( const SProject *pProject, const std::string &
 		CheckIn( pProject, pProject->szResourceFileName ); 
 	return true;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool CBuildVersion::UpdateVersion( const char *pszWorkspaceName, const char *pszHeadProject )
 {
 	std::list<SProject*> projects;
@@ -515,7 +515,7 @@ bool CBuildVersion::UpdateVersion( const char *pszWorkspaceName, const char *psz
 	//
 	return true;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool CBuildVersion::MakeBuild( const char *pszHeadProject )
 {
 	CProjectsMap::const_iterator pos = mapProjects.find( pszHeadProject );
@@ -531,4 +531,4 @@ bool CBuildVersion::MakeBuild( const char *pszHeadProject )
 
 	return ExecuteCommand( szNMake, pszCommandLine, pos->second.szPathName );
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+

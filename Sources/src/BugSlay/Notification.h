@@ -1,61 +1,64 @@
 #ifndef __NOTIFICATION_H__
 #define __NOTIFICATION_H__
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// базовый класс дл¤ exceptions
+// //////////////////////////////////////////////////////////// 
+// base class for exceptions
 struct IGenericException
 {
-	virtual ~IGenericException() {  }
+  virtual ~IGenericException() {}
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// exception, содержащий строку и код ошибки
-struct ICommonException : public IGenericException
+
+// //////////////////////////////////////////////////////////// 
+// exception containing a string and an error code
+struct ICommonException : IGenericException
 {
-	virtual const char* GetString() const = 0;
+  virtual const char *GetString() const = 0;
   virtual DWORD GetCode() const { return 0; }
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-struct IGuardException : public ICommonException
+
+// //////////////////////////////////////////////////////////// 
+struct IGuardException : ICommonException
 {
-	virtual const char* GetString() const = 0;
-  virtual void Append( const char *pszFormat, ... ) = 0;
+  const char *GetString() const override = 0;
+  virtual void Append(const char *pszFormat, ...) = 0;
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const char* DXErrorToString( HRESULT hErrorCode );
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// бросить exception с соответствующим форматированием и HRESULT-to-string convertion
-void ThrowExceptionHR( HRESULT dxrval, const char *pszFormat, ... ) throw ( ICommonException* );
-void ThrowException( const char *pszFormat, ... ) throw ( ICommonException* );
-void ThrowGuardException( const char *pszFormat, ... ) throw ( IGuardException* );
+
+// //////////////////////////////////////////////////////////// 
+const char *DXErrorToString(HRESULT hErrorCode);
+// //////////////////////////////////////////////////////////// 
+// throw exception with appropriate formatting and HRESULT-to-string conversion
+void ThrowExceptionHR(HRESULT dxrval, const char *pszFormat, ...) throw ( ICommonException *);
+void ThrowException(const char *pszFormat, ...) throw ( ICommonException *);
+void ThrowGuardException(const char *pszFormat, ...) throw ( IGuardException *);
 // error notification
-bool ReportErrorHR( HRESULT dxrval, const char *pszFormat, ... );
-bool ReportError( const char *pszFormat, ... );
+bool ReportErrorHR(HRESULT dxrval, const char *pszFormat, ...);
+bool ReportError(const char *pszFormat, ...);
 // warning notification
-bool ReportWarningHR( HRESULT dxrval, const char *pszFormat, ... );
-bool ReportWarning( const char *pszFormat, ... );
+bool ReportWarningHR(HRESULT dxrval, const char *pszFormat, ...);
+bool ReportWarning(const char *pszFormat, ...);
 // just plain notification
-bool ReportInfoHR( HRESULT dxrval, const char *pszFormat, ... );
-bool ReportInfo( const char *pszFormat, ... );
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+bool ReportInfoHR(HRESULT dxrval, const char *pszFormat, ...);
+bool ReportInfo(const char *pszFormat, ...);
+// //////////////////////////////////////////////////////////// 
 // program debug break
 void BreakHere();
-// выдача сообщени¤ в соответствующем формате
-int ShowError( const char *pszString );
-int ShowWarning( const char *pszString );
-int ShowReport( const char *pszString );
-// функции 'Show...()' работают через ShowMBox() callbacks, которые добавл¤ютс¤ и удал¤ютс¤ следующими функци¤ми
-typedef int (*NotificationShowMBox)( const char *pszTitle, const char *pszString, UINT uType );
-// дл¤ ShowError(), котора¤ используетс¤ в ReportError()
-void AddNotifyErrorShowMBoxFunction( NotificationShowMBox funct );
-void RemoveNotifyErrorShowMBoxFunction( NotificationShowMBox funct );
-// дл¤ ShowWarning(), котора¤ используетс¤ в ReportWarning()
-void AddNotifyWarningShowMBoxFunction( NotificationShowMBox funct );
-void RemoveNotifyWarningShowMBoxFunction( NotificationShowMBox funct );
-// дл¤ ShowReport(), котора¤ используетс¤ в ReportReport()
-void AddNotifyReportShowMBoxFunction( NotificationShowMBox funct );
-void RemoveNotifyReportShowMBoxFunction( NotificationShowMBox funct );
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// issuing a message in the appropriate format
+int ShowError(const char *pszString);
+int ShowWarning(const char *pszString);
+int ShowReport(const char *pszString);
+// 'Show...()' functions work through ShowMBox() callbacks, which are added and removed by the following functions
+using NotificationShowMBox = int(*)(const char *pszTitle, const char *pszString, UINT uType);
+// for¤ ShowError(), which¤ is used¤ in ReportError()
+void AddNotifyErrorShowMBoxFunction(NotificationShowMBox funct);
+void RemoveNotifyErrorShowMBoxFunction(NotificationShowMBox funct);
+// for¤ ShowWarning(), which¤ is used¤ in ReportWarning()
+void AddNotifyWarningShowMBoxFunction(NotificationShowMBox funct);
+void RemoveNotifyWarningShowMBoxFunction(NotificationShowMBox funct);
+// for¤ ShowReport(), which¤ is used¤ in ReportReport()
+void AddNotifyReportShowMBoxFunction(NotificationShowMBox funct);
+void RemoveNotifyReportShowMBoxFunction(NotificationShowMBox funct);
+// //////////////////////////////////////////////////////////// 
 // ************************************************************************************************************************ //
-// **                               Guard macros for call stack display.
+// ** Guard macros for call stack display.
 // ************************************************************************************************************************ //
 // GUARD/UNGUARD macros.
 // For showing calling stack when errors occur in major functions.
@@ -81,7 +84,7 @@ catch ( ... )                                                                   
   ThrowGuardException( __FUNC_NAME__ );                                                           \
 }                                                                                                 \
 }
-#endif // defined( _DEBUG ) || !defined( _DO_GUARD )
+#endif // defined( _DEBUG ) || 
 // GUARD_SLOW/UNGUARD_SLOW macros.
 // For showing calling stack when errors occur in performance-critical functions.
 // Meant to be disabled in release builds.
@@ -91,6 +94,6 @@ catch ( ... )                                                                   
 #else
 #define GUARD_SLOW( func )   GUARD( func )
 #define UNGUARD_SLOW         UNGUARD
-#endif // defined( _DEBUG ) || !defined( _DO_GUARD ) || !defined( _DO_GUARD_SLOW )
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#endif // defined( _DEBUG ) || 
+// //////////////////////////////////////////////////////////// 
 #endif // __NOTIFICATION_H__

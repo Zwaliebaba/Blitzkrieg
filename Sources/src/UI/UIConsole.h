@@ -1,86 +1,89 @@
 #ifndef __UI_CONSOLE_H__
 #define __UI_CONSOLE_H__
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #include "UIBasic.h"
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CUIConsole : public CSimpleWindow
 {
-	DECLARE_SERIALIZE;
+  DECLARE_SERIALIZE;
+
 public:
-	struct SColorString
-	{
-		DECLARE_SERIALIZE;
-	public:
-		std::wstring szString;
-		DWORD dwColor;
-		
-		SColorString() : dwColor( 0xffffffff ) {  }
-		SColorString( const wchar_t *pszStr, DWORD col ) : szString( pszStr ), dwColor( col ) {  }
-		SColorString( const std::wstring &szStr, DWORD col ) : szString( szStr ), dwColor( col ) {  }
-		int operator&( IDataTree &ss );
-	};
+  struct SColorString
+  {
+    DECLARE_SERIALIZE;
+
+  public:
+    std::wstring szString;
+    DWORD dwColor;
+
+    SColorString() : dwColor(0xffffffff) {}
+    SColorString(const wchar_t *pszStr, DWORD col) : szString(pszStr), dwColor(col) {}
+    SColorString(const std::wstring &szStr, DWORD col) : szString(szStr), dwColor(col) {}
+    int operator&(IDataTree &ss);
+  };
+
 private:
-	typedef std::vector<std::wstring> CVectorOfStrings;
-	typedef std::vector<SColorString> CVectorOfColorStrings;
-	CVectorOfColorStrings vectorOfStrings;		//все строчки в консоли
-	CVectorOfStrings vectorOfCommands;				//выполненные команды в консоли, для выбора предыдущих команд по стрелочкам вверх/вниз
-	
-	DWORD dwLastOpenTime;				//время когда началась анимация открытия консоли
-	DWORD dwLastCloseTime;			//время когда началась анимация закрытия консоли
-	bool bAnimation;						//флаг того, что происходит анимация, полезен для скорости
-	int nCursorPos;							//позиция курсора в текущей редактируемой строке
-	int nBeginString;						//начальная отображаемая строка из списка строк
-															//0 считается самой свежей строчкой
-	int nBeginCommand;					//текущая команда из лога команд
-	DWORD m_dwColor;
-	bool bShowCursor;						//видимый ли курсор в текущий момент
-	DWORD dwLastCursorAnimatedTime;	//для анимации курсора
-	
-	std::wstring szEditString;	//текущая редактируемая строка
-	//для обработки команд
-	typedef std::list< CPtr<IConsoleCommandHandler> > CCommandsList;
-	CCommandsList commandsChain;
-	Script consoleScript;				// console script
+  using CVectorOfStrings = std::vector<std::wstring>;
+  using CVectorOfColorStrings = std::vector<SColorString>;
+  CVectorOfColorStrings vectorOfStrings;// all lines in the console
+  CVectorOfStrings vectorOfCommands;// executed commands in the console, to select previous commands using the up/down arrows
 
-	//это дело вызывается после считывания новой комманды из буфера
-	void ParseCommand( const std::wstring &szCommand );
-	void InitConsoleScript();
-	bool RunScriptFile( const std::string &szScriptFileName );
-	typedef std::hash_map< std::string, int > CConsoleFunctions;
-	CConsoleFunctions consoleFunctions;
+  DWORD dwLastOpenTime;// time when the console opening animation started
+  DWORD dwLastCloseTime;// time when the console closing animation started
+  bool bAnimation;// flag that animation is happening, useful for speed
+  int nCursorPos;// cursor position in the currently edited line
+  int nBeginString;// initial display string from a list of strings
+  // 0 is considered the most recent line
+  int nBeginCommand;// current command from the command log
+  DWORD m_dwColor;
+  bool bShowCursor;// Is the cursor currently visible?
+  DWORD dwLastCursorAnimatedTime;// for cursor animation
+
+  std::wstring szEditString;// current edited line
+  // to process commands
+  using CCommandsList = std::list<CPtr<IConsoleCommandHandler>>;
+  CCommandsList commandsChain;
+  Script consoleScript;// console script
+
+  // this case is called after reading a new command from the buffer
+  void ParseCommand(const std::wstring &szCommand);
+  void InitConsoleScript();
+  bool RunScriptFile(const std::string &szScriptFileName);
+  using CConsoleFunctions = std::hash_map<std::string, int>;
+  CConsoleFunctions consoleFunctions;
 
 public:
-	CUIConsole();
-	~CUIConsole() {}
+  CUIConsole();
+  ~CUIConsole() override {}
 
-	// serializing...
-	virtual int STDCALL operator&( IDataTree &ss );
+  // serializing...
+  int STDCALL operator&(IDataTree &ss) override;
 
-	virtual bool STDCALL IsVisible();
-	virtual void STDCALL ShowWindow( int _nCmdShow );
-	virtual bool STDCALL IsAnimationStage() { return bAnimation; }
-	
-	//консоля всегда занимает всю ширину экрана
-	virtual void STDCALL Reposition( const CTRect<float> &rcParent );
-	//это нужно для анимации консоли, свертывания и развертывания
-	virtual bool STDCALL Update( const NTimer::STime &currTime );
-	//кроме рисования окошка, здесь должны отображаться строчки
-	virtual void STDCALL Draw( interface IGFX *pGFX );
-	virtual void STDCALL Visit( interface ISceneVisitor *pVisitor );
+  bool STDCALL IsVisible() override;
+  void STDCALL ShowWindow(int _nCmdShow) override;
+  virtual bool STDCALL IsAnimationStage() { return bAnimation; }
 
-	virtual bool STDCALL OnChar( int nAsciiCode, int nVirtualKey, bool bPressed, DWORD keyState );
-	
-	virtual void STDCALL RegisterCommand( IConsoleCommandHandler *pHandler );
+  // the console always takes up the entire width of the screen
+  void STDCALL Reposition(const CTRect<float> &rcParent) override;
+  // this is needed for console animation, collapsing and expanding
+  bool STDCALL Update(const NTimer::STime &currTime) override;
+  // in addition to drawing a window, lines should be displayed here
+  void STDCALL Draw(interface IGFX *pGFX) override;
+  void STDCALL Visit(interface ISceneVisitor *pVisitor) override;
+
+  bool STDCALL OnChar(int nAsciiCode, int nVirtualKey, bool bPressed, DWORD keyState) override;
+
+  virtual void STDCALL RegisterCommand(IConsoleCommandHandler *pHandler);
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CUIConsoleBridge : public IUIConsole, public CUIConsole
 {
-	OBJECT_NORMAL_METHODS( CUIConsoleBridge );
-	DECLARE_SUPER( CUIConsole );
-	DEFINE_UIELEMENT_BRIDGE;
-	
-	virtual void STDCALL RegisterCommand( IConsoleCommandHandler *pHandler ) { CSuper::RegisterCommand( pHandler ); }
-	virtual bool STDCALL IsAnimationStage() { return CSuper::IsAnimationStage(); }
+  OBJECT_NORMAL_METHODS(CUIConsoleBridge);
+  DECLARE_SUPER(CUIConsole);
+  DEFINE_UIELEMENT_BRIDGE;
+
+  void STDCALL RegisterCommand(IConsoleCommandHandler *pHandler) override { CSuper::RegisterCommand(pHandler); }
+  bool STDCALL IsAnimationStage() override { return CSuper::IsAnimationStage(); }
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#endif		//__UI_CONSOLE_H__
+
+#endif		// __UI_CONSOLE_H__

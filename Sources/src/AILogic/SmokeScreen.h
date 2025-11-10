@@ -1,66 +1,70 @@
 #ifndef __SMOKE_SCREEN_H__
 #define __SMOKE_SCREEN_H__
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma ONCE
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ///////////////////////////////////////////////////////////// 
+#pragma once
+// ///////////////////////////////////////////////////////////// 
 #include "StaticObject.h"
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// ///////////////////////////////////////////////////////////// 
 class CSmokeScreen : public CExistingObject
 {
-	OBJECT_COMPLETE_METHODS( CSmokeScreen );
-	DECLARE_SERIALIZE;
+  OBJECT_COMPLETE_METHODS(CSmokeScreen);
+  DECLARE_SERIALIZE;
 
-	CVec2 vCenter;
-	SVector tileCenter;
-	float fRadius;
-	int nTransparency;
-	NTimer::STime timeOfDissapear;
+  CVec2 vCenter;
+  SVector tileCenter;
+  float fRadius;
+  int nTransparency;
+  NTimer::STime timeOfDissapear;
 
-	NTimer::STime nextSegmTime;
-	bool bTransparencySet;
+  NTimer::STime nextSegmTime;
+  bool bTransparencySet;
 
-	//
-	void OctupleTrace( const int x, const int y, const bool bAdd );
-	void TraceToPoint( const int x, const int y, const bool bAdd );
-	void Trace( const bool bAdd );
+  //
+  void OctupleTrace(int x, int y, bool bAdd);
+  void TraceToPoint(int x, int y, bool bAdd);
+  void Trace(bool bAdd);
+
 protected:
-	virtual void SetNewPlaceWithoutMapUpdate( const CVec2 &center, const WORD dir = 0 ) { }
+  void SetNewPlaceWithoutMapUpdate(const CVec2 &center, const WORD dir = 0) override {}
+
 public:
-	CSmokeScreen() : bTransparencySet( false ) { }
-	CSmokeScreen( const CVec2 &vCenter, const float fRadius, const int nTransparency, const int nTime );
-	virtual void Init();
+  CSmokeScreen() : bTransparencySet(false) {}
+  CSmokeScreen(const CVec2 &vCenter, float fRadius, int nTransparency, int nTime);
+  virtual void Init();
 
-	virtual const SHPObjectRPGStats* GetStats() const { return 0; }
+  const SHPObjectRPGStats *GetStats() const override { return nullptr; }
 
-	virtual void Segment();
-	virtual const NTimer::STime GetNextSegmentTime() const { return nextSegmTime; }
+  void Segment() override;
+  const NTimer::STime GetNextSegmentTime() const override { return nextSegmTime; }
 
-	// сдетонировать, если при наезде данного юнита мина взрывается; true - если сдетонировала
-	virtual void TakeDamage( const float fDamage, const bool bFromExplosion, const int nPlayerOfShoot, CAIUnit *pShotUnit ) { }
-	virtual void Die( const float fDamage ) { }
-	virtual EStaticObjType GetObjectType() const { return ESOT_SMOKE_SCREEN; }
+  // detonate if the mine explodes when this unit collides; 
+  void TakeDamage(const float fDamage, const bool bFromExplosion, const int nPlayerOfShoot, CAIUnit *pShotUnit) override {}
+  void Die(const float fDamage) override {}
+  EStaticObjType GetObjectType() const override { return ESOT_SMOKE_SCREEN; }
 
-	virtual bool IsContainer() const { return false; }
-	virtual const int GetNDefenders() const { return 0; }
-	virtual class CSoldier* GetUnit( const int n ) const { return 0; }
-	
-	virtual bool CanUnitGoThrough( const EAIClass &eClass ) const { return true; }
+  bool IsContainer() const override { return false; }
+  const int GetNDefenders() const override { return 0; }
+  class CSoldier *GetUnit(const int n) const override { return nullptr; }
 
-	virtual void LockTiles( bool bInitialization = false ) { }
-	virtual void UnlockTiles( bool bInitialization = false )  { }
-	virtual void SetTransparencies();
-	virtual void RemoveTransparencies();
-	virtual void RestoreTransparencies();
+  bool CanUnitGoThrough(const EAIClass &eClass) const override { return true; }
 
-	virtual void GetCoveredTiles( CTilesSet *pTiles ) const;
+  void LockTiles(bool bInitialization = false) override {}
+  void UnlockTiles(bool bInitialization = false) override {}
+  void SetTransparencies() override;
+  void RemoveTransparencies() override;
+  void RestoreTransparencies() override;
 
-	virtual void GetRPGStats( struct SAINotifyRPGStats *pStats ) {}
-	virtual const CVec2& GetCenter() const { return vCenter; }
-	virtual const CVec2 GetAttackCenter( const CVec2 &vPoint ) const { return vCenter; }
-	virtual void GetBoundRect( SRect *pRect ) const { pRect->InitRect( GetCenter(), CVec2( 1.0f, 1.0f ), 0.0f, 0.0f ); }
-	virtual bool IsPointInside( const CVec2 &point ) const { return false; }
-	virtual const WORD GetDir() const { return 0; }
-	virtual bool CanBeMovedTo( const CVec2 &newCenter ) const { return false; }
+  void GetCoveredTiles(CTilesSet *pTiles) const override;
+
+  void GetRPGStats(struct SAINotifyRPGStats *pStats) override {}
+  const CVec2 &GetCenter() const override { return vCenter; }
+  const CVec2 GetAttackCenter(const CVec2 &vPoint) const override { return vCenter; }
+  void GetBoundRect(SRect *pRect) const override { pRect->InitRect(GetCenter(), CVec2(1.0f, 1.0f), 0.0f, 0.0f); }
+  bool IsPointInside(const CVec2 &point) const override { return false; }
+  const WORD GetDir() const override { return 0; }
+  bool CanBeMovedTo(const CVec2 &newCenter) const override { return false; }
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// ///////////////////////////////////////////////////////////// 
 #endif // __SMOKE_SCREEN_H__

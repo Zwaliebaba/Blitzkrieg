@@ -13,20 +13,20 @@ class CPEPointPropertiesDialog : public CResizeDialog
 public:
 	CPEPointPropertiesDialog( CWnd* pParent = NULL );
 
-	//{{AFX_DATA(CPEPointPropertiesDialog)
+	// {{AFX_DATA(CPEPointPropertiesDialog)
 	enum { IDD = IDD_PE_POINT_PROPERTIES };
 	CString	m_strXCoord;
 	CString	m_strYCoord;
-	//}}AFX_DATA
+	// }}AFX_DATA
 
-	//{{AFX_VIRTUAL(CPEPointPropertiesDialog)
+	// {{AFX_VIRTUAL(CPEPointPropertiesDialog)
 	protected:
 	virtual void DoDataExchange( CDataExchange* pDX );
-	//}}AFX_VIRTUAL
+	// }}AFX_VIRTUAL
 
 protected:
-	//{{AFX_MSG(CPEPointPropertiesDialog)
-	//}}AFX_MSG
+	// {{AFX_MSG(CPEPointPropertiesDialog)
+	// }}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 
 protected:
@@ -40,5 +40,5 @@ protected:
 public:
 };
 
-//{{AFX_INSERT_LOCATION}}
+// {{AFX_INSERT_LOCATION}}
 #endif // !defined(__Property_Editor_PointPropertiesDialog__)

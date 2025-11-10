@@ -1,45 +1,46 @@
 #ifndef __COMBATESTIMATOR_H__
 #define __COMBATESTIMATOR_H__
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#include "..\Misc\HashFuncs.h"
+// //////////////////////////////////////////////////////////// 
+#include "../Misc/HashFuncs.h"
 #include "AIHashFuncs.h"
 class CAIUnit;
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// для определения комбатной стуации
+// //////////////////////////////////////////////////////////// 
+// to determine the combat situation
 class CCombatEstimator
 {
-	DECLARE_SERIALIZE;
-	float fDamage;
-	struct SShellInfo
-	{
-		NTimer::STime time;
-		float fDamage;
-		//
-		SShellInfo() {}
-		SShellInfo( NTimer::STime time, float fDamage )
-			:time( time ), fDamage( fDamage ) { }
-	};
+  DECLARE_SERIALIZE;
+  float fDamage;
 
-	typedef std::hash_set<int> CRegisteredUnits;
-	CRegisteredUnits registeredMechUnits;			// вражескте юниты (не пехота)с ненулевой текущей скоростью
-	CRegisteredUnits registeredInfantry;			// вражескте юниты (пехота)с ненулевой текущей скоростью
+  struct SShellInfo
+  {
+    NTimer::STime time;
+    float fDamage;
+    //
+    SShellInfo() {}
 
-	typedef std::list<SShellInfo> CShellTimes;
-	CShellTimes shellTimes;								// время выстрела
+    SShellInfo(NTimer::STime time, float fDamage)
+      : time(time), fDamage(fDamage) {}
+  };
+
+  using CRegisteredUnits = std::hash_set<int>;
+  CRegisteredUnits registeredMechUnits;// enemy units (not infantry) with a non-zero current speed
+  CRegisteredUnits registeredInfantry;// enemy units (infantry) with non-zero current speed
+
+  using CShellTimes = std::list<SShellInfo>;
+  CShellTimes shellTimes;// shot time
 
 public:
-	CCombatEstimator();
+  CCombatEstimator();
 
-	void Clear();
-	void Segment();
+  void Clear();
+  void Segment();
 
-	bool IsCombatSituation() const ;
+  bool IsCombatSituation() const;
 
-	void AddShell( NTimer::STime time, float fDamage );
-	
-	void AddUnit( CAIUnit *pUnit );
-	void DelUnit( CAIUnit *pUnit );
-	                                                                                                                          
+  void AddShell(NTimer::STime time, float fDamage);
+
+  void AddUnit(CAIUnit *pUnit);
+  void DelUnit(CAIUnit *pUnit);
+
 };
 #endif // __COMBATESTIMATOR_H__
-

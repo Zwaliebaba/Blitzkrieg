@@ -1,16 +1,18 @@
 #ifndef __HPTIMER_H_
 #define __HPTIMER_H_
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// /////////////////////////
 namespace NHPTimer
 {
-	typedef int64 STime;
-	double GetSeconds( const STime &a );
-	// получить текущее время
-	void GetTime( STime *pTime );
-	// получить время, прошедшее с момента, записанного в *pTime, при этом в *pTime будет записано текущее время
-	double GetTimePassed( STime *pTime );
-	// получить частоту процессора
-	double GetClockRate();
+  using STime = int64;
+  double GetSeconds(const STime &a);
+  // get current time
+  void GetTime(STime *pTime);
+  // get the time elapsed since the moment recorded in *pTime, while the current time will be written in *pTime
+  double GetTimePassed(STime *pTime);
+  // get processor frequency
+  double GetClockRate();
 };
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// /////////////////////////
 #endif

@@ -65,11 +65,13 @@
     <ClCompile>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <InlineFunctionExpansion>Default</InlineFunctionExpansion>
-      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <FunctionLevelLinking>
+      </FunctionLevelLinking>
       <Optimization>Disabled</Optimization>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <WarningLevel>Level3</WarningLevel>
-      <MinimalRebuild>true</MinimalRebuild>
+      <MinimalRebuild>
+      </MinimalRebuild>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <PreprocessorDefinitions>_DEBUG;WIN32;_CONSOLE;_DO_BETA_CHECK;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -139,7 +141,6 @@
   <ItemGroup>
     <ClInclude Include="Specific.h" />
     <ClInclude Include="StdAfx.h" />
-    <ClInclude Include="stl_user_config.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BetaKey.cpp" />
@@ -154,10 +155,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Misc\Misc.vcxproj">
       <Project>{9d515202-b1a9-434b-803c-da39f6a54ec4}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="..\zlib\zlib.vcxproj">
-      <Project>{9bfb8b73-7063-44e5-a55b-40b34767e84d}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>

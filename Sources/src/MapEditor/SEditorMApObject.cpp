@@ -16,7 +16,7 @@ static char THIS_FILE[]=__FILE__;
 #endif
 
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 IManipulator*		SUnitEditorObjectItem::GetManipulator()
 {
 	CUnitManipulator  *pTmp = new CUnitManipulator;  	
@@ -38,10 +38,10 @@ IManipulator*		SBuildingEditorObjectItem::GetManipulator()
 	return pTmp; 
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // ************************************************************************************************************************ //
 // **
-// ** Манипуляторы для различных объектов
+// ** Manipulators for various objects
 // **
 // **
 // **
@@ -49,13 +49,13 @@ IManipulator*		SBuildingEditorObjectItem::GetManipulator()
 
 
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 CPropertiesRegister thePropertiesRegisterForInitObj;
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 // ************************************************************************************************************************ //
 // **
-// ** Манипулятор для домиков 
+// ** Manipulator for houses
 // **
 // ************************************************************************************************************************ //
 
@@ -66,7 +66,7 @@ CBuildingManipulator::CBuildingManipulator()
 	typedef SProperty<CBuildingManipulator> CBuildingProperty;
 	if ( DoWeNeedFillProps() )							
 	{																				
-		//BEGIN_PROPERTIES_MAP( CBuilding );
+		// BEGIN_PROPERTIES_MAP( CBuilding );
 		//
 		AddNewProperty( this, "Units", &CBuildingManipulator::SetUnitNumber, &CBuildingManipulator::GetUnitNumber, SPropertyDesc::VAL_UNITS, SBaseProperty::LEAF );
 		AddNewProperty( this, "Script ID", &CBuildingManipulator::SetScriptID, &CBuildingManipulator::GetScriptID, SPropertyDesc::VAL_INT, SBaseProperty::LEAF );
@@ -82,7 +82,7 @@ CBuildingManipulator::CBuildingManipulator()
 		}
 		AddNewProperty( this, "Health", &CBuildingManipulator::SetHealth, &CBuildingManipulator::GetHealth, SPropertyDesc::VAL_FLOAT, SBaseProperty::LEAF );
 		//
-		//END_PROPERTIES_MAP;
+		// END_PROPERTIES_MAP;
 	}
 	else
 	{
@@ -101,7 +101,7 @@ CBuildingManipulator::CBuildingManipulator()
 }
 
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CBuildingManipulator::SetUnitNumber( const variant_t &value )		
 {
 	NI_ASSERT_T( m_obj->pObj != 0, "object is empty" );
@@ -111,7 +111,7 @@ void CBuildingManipulator::SetUnitNumber( const variant_t &value )
 		ptr->PopFromBuilding( m_obj );
 	}
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CBuildingManipulator::GetUnitNumber( variant_t *pValue, int )		
 {
 	pValue->vt = VT_BSTR;
@@ -139,7 +139,7 @@ void CBuildingManipulator::GetUnitNumber( variant_t *pValue, int )
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 void CBuildingManipulator::SetScriptID( const variant_t &value )		
 {
@@ -150,7 +150,7 @@ void CBuildingManipulator::SetScriptID( const variant_t &value )
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CBuildingManipulator::GetScriptID( variant_t *pValue, int )		
 {
 	pValue->vt = VT_INT;
@@ -161,7 +161,7 @@ void CBuildingManipulator::GetScriptID( variant_t *pValue, int )
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CBuildingManipulator::SetPlayer( const variant_t &value )		
 {
 	if ( CTemplateEditorFrame *pFrame = g_frameManager.GetTemplateEditorFrame() )
@@ -200,7 +200,7 @@ void CBuildingManipulator::SetPlayer( const variant_t &value )
 		m_obj->nPlayer = 0;
 	}
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CBuildingManipulator::GetPlayer( variant_t *pValue, int )		
 {
 	NI_ASSERT_T( m_obj->pObj != 0, "object is empty" );
@@ -213,7 +213,7 @@ void CBuildingManipulator::GetPlayer( variant_t *pValue, int )
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CBuildingManipulator::SetHealth( const variant_t &value )
 {
 	NI_ASSERT_T( m_obj->pObj != 0, "object is empty" );
@@ -244,10 +244,10 @@ void CBuildingManipulator::GetHealth( variant_t *pValue, int nIndex )
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // ************************************************************************************************************************ //
 // **
-// ** Манипулятор для окопов 
+// ** Manipulator for trenches
 // **
 // ************************************************************************************************************************ //
 CTrenchManipulator::CTrenchManipulator() 
@@ -256,16 +256,16 @@ CTrenchManipulator::CTrenchManipulator()
 	typedef SProperty<CTrenchManipulator> CTrenchProperty;
 	if ( DoWeNeedFillProps() )							
 	{																				
-		//BEGIN_PROPERTIES_MAP( CTrench );
+		// BEGIN_PROPERTIES_MAP( CTrench );
 		//
 		AddNewProperty( this, "Units", &CTrenchManipulator::SetUnitNumber, &CTrenchManipulator::GetUnitNumber, SPropertyDesc::VAL_UNITS, SBaseProperty::LEAF );
 		AddNewProperty( this, "Script ID", &CTrenchManipulator::SetScriptID, &CTrenchManipulator::GetScriptID, SPropertyDesc::VAL_INT, SBaseProperty::LEAF );
 		//
-		//END_PROPERTIES_MAP;
+		// END_PROPERTIES_MAP;
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTrenchManipulator::SetUnitNumber( const variant_t &value )		
 {
 	NI_ASSERT_T( m_obj->pObj != 0, "object is empty" );
@@ -275,7 +275,7 @@ void CTrenchManipulator::SetUnitNumber( const variant_t &value )
 		ptr->PopFromBuilding( m_obj );
 	}
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTrenchManipulator::GetUnitNumber( variant_t *pValue, int )		
 {
 	pValue->vt = VT_BSTR;
@@ -302,7 +302,7 @@ void CTrenchManipulator::GetUnitNumber( variant_t *pValue, int )
 		pValue->bstrVal = tmpVal; 												
 	}
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTrenchManipulator::SetScriptID( const variant_t &value )		
 {
 	NI_ASSERT_T( m_obj->pObj != 0, "object is empty" );
@@ -311,7 +311,7 @@ void CTrenchManipulator::SetScriptID( const variant_t &value )
 		 m_obj->nScriptID = value.intVal;
 	}
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTrenchManipulator::GetScriptID( variant_t *pValue, int )		
 {
 	pValue->vt = VT_INT;
@@ -322,11 +322,11 @@ void CTrenchManipulator::GetScriptID( variant_t *pValue, int )
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 // ************************************************************************************************************************ //
 // **
-// ** Манипулятор для cолдатиков 
+// ** Manipulator for soldiers
 // **
 // ************************************************************************************************************************ //
 
@@ -345,7 +345,7 @@ CUnitManipulator::CUnitManipulator()
 		typedef SProperty<CUnitManipulator> CUnitProperty;
 	if ( DoWeNeedFillProps() )							
 	{																				
-		//BEGIN_PROPERTIES_MAP( CUnit );
+		// BEGIN_PROPERTIES_MAP( CUnit );
 		//
 		AddNewProperty( this, "Units", &CUnitManipulator::SetUnitNumber, &CUnitManipulator::GetUnitNumber, SPropertyDesc::VAL_UNITS, SBaseProperty::LEAF );
 		AddNewProperty( this, "Angle", &CUnitManipulator::SetAngle, &CUnitManipulator::GetAngle, SPropertyDesc::VAL_INT, SBaseProperty::LEAF );
@@ -375,7 +375,7 @@ CUnitManipulator::CUnitManipulator()
 			}
 		}
 		//
-		//END_PROPERTIES_MAP;
+		// END_PROPERTIES_MAP;
 	}
 	else
 	{
@@ -392,7 +392,7 @@ CUnitManipulator::CUnitManipulator()
 		}
 	}
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CUnitManipulator::SetUnitNumber( const variant_t &value )
 {
 	NI_ASSERT_T( m_obj->pObj != 0, "object is empty" );
@@ -430,7 +430,7 @@ void CUnitManipulator::GetUnitNumber( variant_t *pValue, int nIndex )
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CUnitManipulator::SetAngle( const variant_t &value )		
 {
 	NI_ASSERT_T( m_obj->pObj != 0, "object is empty" );
@@ -440,10 +440,10 @@ void CUnitManipulator::SetAngle( const variant_t &value )
 		GetSingleton<IAIEditor>()->TurnObject( m_obj->pObj->pAIObj, newVal );
 		IGameTimer *pTimer = GetSingleton<IGameTimer>();
 		pTimer->Update( timeGetTime() );
-		//frame->Update( pTimer->GetGameTime() );
+		// frame->Update( pTimer->GetGameTime() );
 	}
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CUnitManipulator::GetAngle( variant_t *pValue, int )		
 {
 	pValue->vt = VT_INT;
@@ -454,7 +454,7 @@ void CUnitManipulator::GetAngle( variant_t *pValue, int )
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CUnitManipulator::SetPlayer( const variant_t &value )		
 {
 	if ( CTemplateEditorFrame *pFrame = g_frameManager.GetTemplateEditorFrame() )
@@ -515,7 +515,7 @@ void CUnitManipulator::SetPlayer( const variant_t &value )
 
 						SMapObject *pOldObj = m_obj->pObj;
 						SMapObject *pNewObj = pFrame->AddObjectByAI( mapObjectInfo );
-						//обновить selection ( если есть, а он есть )
+						// update selection (if there is one, and there is one)
 						if ( pFrame->m_currentMovingObjectPtrAI == pOldObj )
 						{
 							pFrame->m_currentMovingObjectPtrAI = pNewObj;
@@ -546,7 +546,7 @@ void CUnitManipulator::SetPlayer( const variant_t &value )
 		m_obj->nPlayer = 0;
 	}
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CUnitManipulator::GetPlayer( variant_t *pValue, int )		
 {
 	NI_ASSERT_T( m_obj->pObj != 0, "object is empty" );
@@ -558,7 +558,7 @@ void CUnitManipulator::GetPlayer( variant_t *pValue, int )
 		}
 	}
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CUnitManipulator::SetScriptID( const variant_t &value )		
 {
 	NI_ASSERT_T( m_obj->pObj != 0, "object is empty" );
@@ -567,7 +567,7 @@ void CUnitManipulator::SetScriptID( const variant_t &value )
 		 m_obj->nScriptID = value.intVal;
 	}
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CUnitManipulator::GetScriptID( variant_t *pValue, int )		
 {
 	pValue->vt = VT_INT;
@@ -579,7 +579,7 @@ void CUnitManipulator::GetScriptID( variant_t *pValue, int )
 
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CUnitManipulator::SetFrameIndex( const variant_t &value )
 {
 	NI_ASSERT_T( m_obj->pObj != 0, "object is empty" );
@@ -611,7 +611,7 @@ void CUnitManipulator::SetFrameIndex( const variant_t &value )
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CUnitManipulator::GetFrameIndex( variant_t *pValue, int nIndex )
 {
 	NI_ASSERT_T( m_obj->pObj != 0, "object is empty" );
@@ -659,7 +659,7 @@ void CUnitManipulator::SetScenarioUnit( const variant_t &value )
 		}
 	}
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CUnitManipulator::GetScenarioUnit( variant_t *pValue, int )		
 {
 	NI_ASSERT_T( m_obj->pObj != 0, "object is empty" );
@@ -676,19 +676,19 @@ void CUnitManipulator::GetScenarioUnit( variant_t *pValue, int )
 	}
 }
 /**/
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CUnitManipulator::SetTestString( const variant_t &value )		
 {
 	testString = CString( value.bstrVal );
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CUnitManipulator::GetTestString( variant_t *pValue, int )		
 {    
 	pValue->vt = VT_BSTR;
 	_bstr_t tmpVal = testString.c_str();
 	pValue->bstrVal = tmpVal;
-//	CVariant v =  CString( testString.c_str() );
-//	pValue->pbstrVal = v.;
+// CVariant v = CString( testString.c_str() );
+// pValue->pbstrVal = v.;
 }
 
 void CUnitManipulator::SetHealth( const variant_t &value )
@@ -721,7 +721,7 @@ void CUnitManipulator::GetHealth( variant_t *pValue, int nIndex )
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // ************************************************************************************************************************ //
 // **
 // ** multi-unit manipulator
@@ -729,188 +729,9 @@ void CUnitManipulator::GetHealth( variant_t *pValue, int nIndex )
 // **
 // **
 // ************************************************************************************************************************ //
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/**
-CMultiUnitManipulator::CMultiUnitManipulator() 
-: CManipulator( &thePropertiesRegisterForInitObj, "MultiUnitObject" )
-{
-	BEGIN_PROPERTIES_MAP( CMultiUnit );
-	//
-	AddNewProperty( this, "Angle", &CMultiUnitManipulator::SetAngle, &CMultiUnitManipulator::GetAngle, SPropertyDesc::VAL_INT, SBaseProperty::LEAF );
-	AddNewProperty( this, "Script ID", &CMultiUnitManipulator::SetScriptID, &CMultiUnitManipulator::GetScriptID, SPropertyDesc::VAL_INT, SBaseProperty::LEAF );
-	CMultiUnitProperty *pProp = AddNewProperty( this, "Player", &CMultiUnitManipulator::SetPlayer, &CMultiUnitManipulator::GetPlayer, SPropertyDesc::VAL_COMBO, SBaseProperty::LEAF );
-	{
-		VARIANT v;
-		v.intVal = 0;
-		v.vt = VT_INT;
-		pProp->values.push_back( v ) ;
-		v.intVal = 1;
-		v.vt = VT_INT;
-		pProp->values.push_back( v ) ;
-		v.intVal = 2;
-		v.vt = VT_INT;
-		pProp->values.push_back( v ) ;
-	}
-		//SUnitsLogics logic;
-	CMultiUnitProperty *pProp2 = AddNewProperty( this, "Behavior", &CMultiUnitManipulator::SetBehavior, &CMultiUnitManipulator::GetBehavior, SPropertyDesc::VAL_COMBO, SBaseProperty::LEAF );
-	{
-		for(	std::hash_map<std::string, EActionCommand>::iterator it = logic.logics.begin(); it !=  logic.logics.end(); ++it )
-			pProp2->values.push_back( it->first.c_str() ) ;
-		pProp2->values.push_back( "normal" ); 
-	}
-	//
-	END_PROPERTIES_MAP;
-}
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CMultiUnitManipulator::SetAngle( const variant_t &value )		
-{
-	for ( std::vector<SEditorObjectItem*>::iterator it = m_objects.begin(); it != m_objects.end(); ++it )
-	{
-		NI_ASSERT_T( (*it)->pObj != 0, "object is empty" );
-		if ( (*it)->pObj->pAIObj )
-		{
-			int  newVal = ( value.intVal * 65536 ) / 360.0f ;
-			GetSingleton<IAIEditor>()->TurnObject
-			( (*it)->pObj->pAIObj, newVal );
-			IGameTimer *pTimer = GetSingleton<IGameTimer>();
-			pTimer->Update( timeGetTime() );
-			//frame->Update( pTimer->GetGameTime() );
-		}
-	}
-}
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CMultiUnitManipulator::GetAngle( variant_t *pValue, int )		
-{
-	std::set<int> vals;
-	for ( std::vector<SEditorObjectItem*>::iterator it = m_objects.begin(); it != m_objects.end(); ++it )
-	{
-		vals.insert( (*it)->pObj->pVisObj->GetDirection() );
-	}
-	if ( vals.size() == 1 )
-	{
-		pValue->vt = VT_INT;
-		pValue->intVal = ( m_objects[0]->pObj->pVisObj->GetDirection() * 360 ) / 65536.0f; 												
-	}
-	else
-	{
-		pValue->vt = VT_BSTR;
-		_bstr_t tmpVal = "...";
-		pValue->bstrVal = tmpVal;
-	}
-}
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CMultiUnitManipulator::SetPlayer( const variant_t &value )		
-{
-	for ( std::vector<SEditorObjectItem*>::iterator it = m_objects.begin(); it != m_objects.end(); ++it )
-	{
-		NI_ASSERT_T( (*it)->pObj != 0, "object is empty" );
-		if ( (*it)->pObj->pAIObj )
-		{
-		 (*it)->nPlayer = value.intVal;
-		}
-	}
-}
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CMultiUnitManipulator::GetPlayer( variant_t *pValue, int )		
-{
-	std::set<int> vals;
-	for ( std::vector<SEditorObjectItem*>::iterator it = m_objects.begin(); it != m_objects.end(); ++it )
-	{
-		vals.insert( (*it)->nPlayer );
-	}
-	if ( vals.size() == 1 )
-	{
-		pValue->vt = VT_INT;
-		pValue->intVal = m_objects[0]->nPlayer; 												
-	}
-	else
-	{
-		pValue->vt = VT_BSTR;
-		_bstr_t tmpVal = "...";
-		pValue->bstrVal = tmpVal;
-	}
-}
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CMultiUnitManipulator::SetScriptID( const variant_t &value )		
-{
-	for ( std::vector<SEditorObjectItem*>::iterator it = m_objects.begin(); it != m_objects.end(); ++it )
-	{
-		NI_ASSERT_T( (*it)->pObj != 0, "object is empty" );
-		if ( (*it)->pObj->pAIObj )
-		{
-			 (*it)->nScriptID = value.intVal;
-		}
-	}
-}
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CMultiUnitManipulator::GetScriptID( variant_t *pValue, int )		
-{
-	std::set<int> vals;
-	for ( std::vector<SEditorObjectItem*>::iterator it = m_objects.begin(); it != m_objects.end(); ++it )
-	{
-		vals.insert( (*it)->nScriptID );
-	}
-	if ( vals.size() == 1 )
-	{
-		pValue->vt = VT_INT;
-		pValue->intVal = m_objects[0]->nScriptID; 												
-	}
-	else
-	{
-		pValue->vt = VT_BSTR;
-		_bstr_t tmpVal = "...";
-		pValue->bstrVal = tmpVal;
-	}
-}
+
+/* *
+ */
 
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CMultiUnitManipulator::SetBehavior( const variant_t &value )		
-{
-	for ( std::vector<SEditorObjectItem*>::iterator it = m_objects.begin(); it != m_objects.end(); ++it )
-	{
-		NI_ASSERT_T( (*it)->pObj != 0, "object is empty" );
-		if ( (*it)->pObj->pAIObj )
-		{
-			CString tmp = CString ( value.bstrVal );
-			if( tmp == "normal" )
-				(*it)->szBehavior = "";
-			else
-				 (*it)->szBehavior =tmp;
-		}
-	}
-}
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CMultiUnitManipulator::GetBehavior( variant_t *pValue, int )		
-{
-	std::set<std::string> vals;
-	for ( std::vector<SEditorObjectItem*>::iterator it = m_objects.begin(); it != m_objects.end(); ++it )
-	{
-		vals.insert( (*it)->szBehavior );
-	}
-	if ( vals.size() == 1 )
-	{
-			if( m_objects[0]->szBehavior == "" )	
-		{
-			_bstr_t tmpVal = "normal";
-			pValue->vt = VT_BSTR;
-			pValue->bstrVal = tmpVal ; 										
-		}
-		else
-		{
-			_bstr_t tmpVal =  m_objects[0]->szBehavior.c_str();
-			pValue->vt = VT_BSTR;
-			pValue->bstrVal = tmpVal ; 										
-		}
-	}
-	else
-	{
-		pValue->vt = VT_BSTR;
-		_bstr_t tmpVal = "...";
-		pValue->bstrVal = tmpVal;
-	}
-}
-/**/
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -3,7 +3,7 @@
 #include "DataBase.h"
 
 #include "IniFile.h"
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // ************************************************************************************************************************ //
 // **
 // ** ini-file database
@@ -11,7 +11,7 @@
 // **
 // **
 // ************************************************************************************************************************ //
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 CIniFileDataBase::CIniFileDataBase( const char *pszName, DWORD dwAccessMode )
 : dwStorageAccessMode( dwAccessMode )
 {
@@ -32,8 +32,8 @@ CIniFileDataBase::CIniFileDataBase( const char *pszName, DWORD dwAccessMode )
 		szBase += '\\';
 	}
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// создать и открыть таблицу с указанным именем и правами доступа
+
+// create and open a table with the specified name and access rights
 IDataTable* CIniFileDataBase::CreateTable( const char *pszName, DWORD dwAccessMode )
 {
 	NI_ASSERT_TF( (dwStorageAccessMode & dwAccessMode) == dwAccessMode, "incompatible access mode", return 0 );
@@ -41,8 +41,8 @@ IDataTable* CIniFileDataBase::CreateTable( const char *pszName, DWORD dwAccessMo
 	pTable->Open( (szBase + pszName).c_str(), dwAccessMode );
 	return pTable;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// открыть существующую таблицу с указанным именем и правами доступа
+
+// open an existing table with the specified name and access rights
 IDataTable* CIniFileDataBase::OpenTable( const char *pszName, DWORD dwAccessMode )
 {
 	NI_ASSERT_TF( (dwStorageAccessMode & dwAccessMode) == dwAccessMode, "incompatible access mode", return 0 );
@@ -68,18 +68,18 @@ IDataTable* CIniFileDataBase::OpenTable( const char *pszName, DWORD dwAccessMode
 	}
 	return pTable;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// убить элемент хранилища
+
+// kill storage element
 bool CIniFileDataBase::DestroyElement( const char *pszName )
 {
 	NI_ASSERT_TF( 0, "not realized yet", return false );
 	return false;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// переименовать элемент
+
+// rename element
 bool CIniFileDataBase::RenameElement( const char *pszOldName, const char *pszNewName )
 {
 	NI_ASSERT_TF( 0, "not realized yet", return false );
 	return false;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+

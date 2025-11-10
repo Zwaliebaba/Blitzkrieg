@@ -7,7 +7,7 @@
 // FrameTree.h : header file
 //
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // CFrameTree window
 #include "MultiTree.h"
 
@@ -35,13 +35,13 @@ public:
 	HTREEITEM InsertItem(UINT nMask, LPCTSTR lpszItem, int nImage, int nSelectedImage, UINT nState, UINT nStateMask, LPARAM lParam, HTREEITEM hParent, HTREEITEM hInsertAfter );
 
 	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CFrameTree)
+	// {{AFX_VIRTUAL(CFrameTree)
 	public:
 	virtual BOOL Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID, CCreateContext* pContext = NULL);
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
 	protected:
 	virtual BOOL OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult);
-	//}}AFX_VIRTUAL
+	// }}AFX_VIRTUAL
 
 // Implementation
 public:
@@ -53,18 +53,18 @@ protected:
 
 	CBrush* m_pEditBkBrush;
 
-	//{{AFX_MSG(CFrameTree)
+	// {{AFX_MSG(CFrameTree)
 	afx_msg void OnPaint();
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg HBRUSH OnCtlColor( CDC* pDC, CWnd* pWnd, UINT nCtlColor );
 
-	//}}AFX_MSG
+	// }}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 
-//{{AFX_INSERT_LOCATION}}
+// {{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
 
 #endif // !defined(AFX_FRAMETREE_H__C3164C06_6784_4F26_A565_BCA2A98A0600__INCLUDED_)

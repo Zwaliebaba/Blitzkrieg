@@ -1,78 +1,81 @@
 #ifndef __TechnicsStates_h__
 #define __TechnicsStates_h__
 
-#pragma ONCE
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma once
+// //////////////////////////////////////////////////////////// 
 #include "UnitStates.h"
 #include "CLockWithUnlockPossibilities.h"
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// выход из танк-пита. 
+// //////////////////////////////////////////////////////////// 
+// exit from the tank pit.
 class CTankPitLeaveState : public IUnitState
 {
-	OBJECT_COMPLETE_METHODS( CTankPitLeaveState );
-	DECLARE_SERIALIZE;
+  OBJECT_COMPLETE_METHODS(CTankPitLeaveState);
+  DECLARE_SERIALIZE;
 
-	enum ETankLeaveTankPitState 
-	{
-		TLTPS_ESTIMATING,
-		TLTPS_MOVING,
-	};
-	ETankLeaveTankPitState eState;
-	class CAIUnit * pUnit;
-	NTimer::STime timeStartLeave;
+  enum ETankLeaveTankPitState
+  {
+    TLTPS_ESTIMATING,
+    TLTPS_MOVING,
+  };
+
+  ETankLeaveTankPitState eState;
+  class CAIUnit *pUnit;
+  NTimer::STime timeStartLeave;
+
 public:
-	static IUnitState* Instance( class CAIUnit *pTank );
+  static IUnitState *Instance(class CAIUnit *pTank);
 
-	CTankPitLeaveState() { }
-	CTankPitLeaveState( class CAIUnit  *pTank );
+  CTankPitLeaveState() {}
+  CTankPitLeaveState(class CAIUnit *pTank);
 
-	virtual void Segment();
-	virtual ETryStateInterruptResult TryInterruptState( class CAICommand *pCommand );
-	
-	virtual bool IsAttackingState() const { return false; }
-	virtual const CVec2 GetPurposePoint() const { return CVec2( -1.0f, -1.0f ); }
+  void Segment() override;
+  ETryStateInterruptResult TryInterruptState(class CAICommand *pCommand) override;
+
+  bool IsAttackingState() const override { return false; }
+  const CVec2 GetPurposePoint() const override { return CVec2(-1.0f, -1.0f); }
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// зарыться в землю ( самостоятельно окопаться )
+
+// //////////////////////////////////////////////////////////// 
+// bury yourself in the ground (dig yourself in)
 class CSoldierEntrenchSelfState : public IUnitState
 {
-	DECLARE_SERIALIZE;
-	OBJECT_COMPLETE_METHODS( CSoldierEntrenchSelfState );
+  DECLARE_SERIALIZE;
+  OBJECT_COMPLETE_METHODS(CSoldierEntrenchSelfState);
 
-	enum ESoldierHullDownState 
-	{
-		ESHD_ESTIMATE,
-		ESHD_START_BUILD,
-		ESHD_BUILD_PIT,
-	};
+  enum ESoldierHullDownState
+  {
+    ESHD_ESTIMATE,
+    ESHD_START_BUILD,
+    ESHD_BUILD_PIT,
+  };
 
-	CTilesSet tiles;											// locked tiles under tank pit that being built
-	CVec2 vHalfSize;											// half size of tank pit
-	CGDBPtr<SMechUnitRPGStats> pStats;		// stats of tank pit
-	int nDBIndex;													// db index of tank pit
+  CTilesSet tiles;// locked tiles under tank pit that being built
+  CVec2 vHalfSize;// half size of tank pit
+  CGDBPtr<SMechUnitRPGStats> pStats;// stats of tank pit
+  int nDBIndex;// db index of tank pit
 
-	ESoldierHullDownState eState;
-	class CAIUnit * pUnit;
-	NTimer::STime timeStartBuild;
-	CVec2 vTankPitCenter;
+  ESoldierHullDownState eState;
+  class CAIUnit *pUnit;
+  NTimer::STime timeStartBuild;
+  CVec2 vTankPitCenter;
 
-	bool CheckTrenches( const CAIUnit * pUnit, const SRect &rectToTest ) const;
-	bool CheckInfantry( const CAIUnit * pUnit, const SRect &rect ) const;
+  bool CheckTrenches(const CAIUnit *pUnit, const SRect &rectToTest) const;
+  bool CheckInfantry(const CAIUnit *pUnit, const SRect &rect) const;
+
 public:
-	static IUnitState* Instance( class CAIUnit * pUnit );
-	
-	CSoldierEntrenchSelfState() : pUnit( 0 ) {  }
-	CSoldierEntrenchSelfState( class CAIUnit * pUnit );
-	
-	
+  static IUnitState *Instance(class CAIUnit *pUnit);
+
+  CSoldierEntrenchSelfState() : pUnit(nullptr) {}
+  CSoldierEntrenchSelfState(class CAIUnit *pUnit);
 
 
-	virtual void Segment();
+  void Segment() override;
 
-	virtual ETryStateInterruptResult TryInterruptState( class CAICommand *pCommand );
-	virtual bool IsAttackingState() const { return false; }
-	virtual const CVec2 GetPurposePoint() const { return CVec2( -1.0f, -1.0f ); }
-	
+  ETryStateInterruptResult TryInterruptState(class CAICommand *pCommand) override;
+  bool IsAttackingState() const override { return false; }
+  const CVec2 GetPurposePoint() const override { return CVec2(-1.0f, -1.0f); }
+
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// //////////////////////////////////////////////////////////// 
 #endif // __TechnicsStates_h__

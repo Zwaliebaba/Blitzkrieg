@@ -5,7 +5,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CResizeDialog : public CDialog
 {
 	struct SControlStyle
@@ -35,10 +35,10 @@ class CResizeDialog : public CDialog
 
 	public:
 	SOptions resizeDialogOptions;
-	//ANCHORE_LEFT				resize - относительно левого края ( центральная линия - 0.0f )
-	//ANCHORE_RIGHT				resize - относительно правого края ( центральная линия - 1.0f )
-	//ANCHORE_HOR_CENTER	resize - относительно центральной линии ( центральная линия - fHorCenterAnchorRatio)
-	//RESIZE_HOR					дополнительно меняем размер на fHorResizeRatio
+	// ANCHORE_LEFT resize - relative to the left edge (center line - 0.0f)
+	// ANCHORE_RIGHT resize - relative to the right edge (center line - 1.0f)
+	// ANCHORE_HOR_CENTER resize - relative to the center line (center line - fHorCenterAnchorRatio)
+	// RESIZE_HOR additionally change the size to fHorResizeRatio
 	
 	static const DWORD ANCHORE_LEFT;
 	static const DWORD ANCHORE_TOP;
@@ -61,46 +61,46 @@ class CResizeDialog : public CDialog
 
 	CResizeDialog( UINT nIDTemplate, CWnd* pParent = 0 );
 	
-	//{{AFX_DATA(CResizeDialog)
-	//}}AFX_DATA
-	void SetControlStyle( UINT nControlID, DWORD dwStyle = DEFAULT_STYLE, float fHorCenterAnchorRatio = 0.5f, float fVerCenterAnchorRatio = 0.5f, float fHorResizeRatio = 1.0f, float fVerResizeRatio = 1.0f ); //Add and style control to inner structure
+	// {{AFX_DATA(CResizeDialog)
+	// }}AFX_DATA
+	void SetControlStyle( UINT nControlID, DWORD dwStyle = DEFAULT_STYLE, float fHorCenterAnchorRatio = 0.5f, float fVerCenterAnchorRatio = 0.5f, float fHorResizeRatio = 1.0f, float fVerResizeRatio = 1.0f ); // Add and style control to inner structure
 	void LoadResizeDialogOptions();
 	void SaveResizeDialogOptions();
 	
 	void UpdateControlPositions();
 
 protected:
-	//минимальные размеры клиентской части диалога
+	// minimum sizes of the client part of the dialog
 	virtual int GetMinimumXDimension() { return 0; }
 	virtual int GetMinimumYDimension() { return 0; }
 
-	//способ сохранения
+	// saving method
 	virtual bool SerializeToRegistry() { return false; }
 	
-	//файл XML относительно текущего IDataStorage
+	// XML file relative to current IDataStorage
 	virtual std::string GetXMLOptionsLabel() { return ""; }
-	virtual int GetXMLOptionsNumber() { return 0; }					//not used
+	virtual int GetXMLOptionsNumber() { return 0; }					// not used
 	
-	//ключ REGISTRY относительно HKEY_CURRENT_USER
+	// key REGISTRY relative to HKEY_CURRENT_USER
 	virtual std::string GetRegistryKey() { return ""; }
 
-	//Рисовать или не рисовать гриппер
+	// To draw or not to draw a gripper
 	virtual bool GetDrawGripper() { return false; }
 	
-	//{{AFX_VIRTUAL(CResizeDialog)
+	// {{AFX_VIRTUAL(CResizeDialog)
 	virtual void DoDataExchange( CDataExchange* pDX );
-	//}}AFX_VIRTUAL
+	// }}AFX_VIRTUAL
 
-	//{{AFX_MSG(CResizeDialog)
+	// {{AFX_MSG(CResizeDialog)
 	virtual BOOL OnInitDialog();
 	virtual void OnOK();
 	virtual void OnCancel();
 	afx_msg void OnSize( UINT nType, int cx, int cy );
 	afx_msg void OnSizing( UINT fwSide, LPRECT pRect );
 	afx_msg void OnPaint();
-	//}}AFX_MSG
+	// }}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//{{AFX_INSERT_LOCATION}}
-#endif // !defined(__CommonControls__Resizee_Dialog__)
+
+// {{AFX_INSERT_LOCATION}}
+#endif // !defined(__CommonControls__Resize_Dialog__)

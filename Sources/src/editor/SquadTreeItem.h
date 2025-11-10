@@ -24,13 +24,13 @@ public:
 	CSquadCommonPropsItem() { nItemType = E_SQUAD_COMMON_PROPS_ITEM; InitDefaultValues(); nImageIndex = 0; }
 	~CSquadCommonPropsItem() {};
 	
-	//ѕолучение внутренних параметров
+	// Getting internal parameters
 	const char* GetSquadName() { return values[0].value; }
 	const char* GetSquadPicture() { return values[1].value; }
 	int GetSquadType();
 	
-	//”становка внутренних параметров
-//	void SetSquadName( const char *pszName ) { values[0].value = pszName; }
+	// ”setting internal parameters
+// void SetSquadName( const char *pszName ) { values[0].value = pszName; 
 
 	virtual void InitDefaultValues();
 };
@@ -54,9 +54,9 @@ public:
 	CSquadMemberPropsItem() { bStaticElements = true; nItemType = E_SQUAD_MEMBER_PROPS_ITEM; InitDefaultValues(); nImageIndex = 3; }
 	~CSquadMemberPropsItem() {};
 	
-	//ѕолучение внутренних параметров
+	// Getting internal parameters
 	
-	//”становка внутренних параметров
+	// ”setting internal parameters
 	
 	virtual void InitDefaultValues();
 	virtual void UpdateItemValue( int nItemId, const CVariant &value );
@@ -84,7 +84,7 @@ class CSquadFormationPropsItem : public CTreeItem
 public:
 	struct SUnit
 	{
-		CVec3 vPos;			// 3d позици¤ отдельного юнита
+		CVec3 vPos;			// 3d position of an individual unit
 		float fDir;
 		CTreeItem *pMemberProps;
 		IObjVisObj *pSprite;
@@ -95,8 +95,8 @@ public:
 	typedef list<SUnit> CUnitsList;
 	CUnitsList units;
 
-	CVec3 vZeroPos;					//координата центра формации, вернее координата левого верхнего кра¤ текстуры креста, отстой
-	float fFormationDir;		//направление формации
+	CVec3 vZeroPos;					// coordinate of the center of the formation, or rather the coordinate of the upper left edge of the cross texture, sucks
+	float fFormationDir;		// formation direction
 
 public:
 	CSquadFormationPropsItem() : fFormationDir( 0 ), vZeroPos( CVec3(16*fWorldCellSize, 8*fWorldCellSize, 0) ) { bStaticElements = true; nItemType = E_SQUAD_FORMATION_PROPS_ITEM; InitDefaultValues(); nImageIndex = 0; }
@@ -106,7 +106,7 @@ public:
 	void DeleteUnit( CTreeItem *pUnit );
 	void SetUnitPointer( int nIndex, CTreeItem *pUnit );
 	
-	//ѕолучение внутренних параметров
+	// Getting internal parameters
 	int GetFormationType();
 	int GetHitSwitchFormation() { return values[1].value; }
 	int GetLieState();
@@ -117,7 +117,7 @@ public:
 	float GetCoverBonus() { return values[7].value; }
 	float GetVisibleBonus() { return values[8].value; }
 	
-	//”становка внутренних параметров
+	// ”setting internal parameters
 	
 	virtual int operator&( IDataTree &ss );
 	virtual void InitDefaultValues();
@@ -127,4 +127,4 @@ public:
 	virtual void MyRButtonClick();
 };
 
-#endif		//__SQUAD_TREE_ITEM_H__
+#endif		// __SQUAD_TREE_ITEM_H__

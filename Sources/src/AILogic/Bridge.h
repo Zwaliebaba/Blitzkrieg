@@ -1,128 +1,132 @@
 #ifndef __BRIDGE_H__
 #define __BRIDGE_H__
 
-#pragma ONCE
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma once
+
 #include "StaticObject.h"
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CFullBridge;
 
 class CBridgeSpan : public CGivenPassabilityStObject
 {
-	OBJECT_COMPLETE_METHODS( CBridgeSpan );
-	DECLARE_SERIALIZE;
+  OBJECT_COMPLETE_METHODS(CBridgeSpan);
+  DECLARE_SERIALIZE;
 
-	CGDBPtr<SBridgeRPGStats> pStats;
+  CGDBPtr<SBridgeRPGStats> pStats;
 
-	CArray2D<BYTE> unlockTypes;	// разлоканные типы террэйна, 0 - если нечего было разлокивать
-	CObj<CFullBridge> pFullBridge;
-	bool bNewBuilt;												// этот мост построили во время тгры
-	bool bLocked;													// залочены ли тайл
+  CArray2D<BYTE> unlockTypes;// unlocked terrain types, 0 - if there was nothing to unlock
+  CObj<CFullBridge> pFullBridge;
+  bool bNewBuilt;// this bridge was built during the tgra
+  bool bLocked;// are the tiles locked?
 
-	// умирает данный сегмент, начинает удалять все вокруг.
-	bool bDeletingAround;
+  // When a given segment dies, it begins to delete everything around it.
+  bool bDeletingAround;
 
-	int nScriptID;
+  int nScriptID;
 
-	void GetTilesForVisibilityInternal( CTilesSet *pTiles ) const;
+  void GetTilesForVisibilityInternal(CTilesSet *pTiles) const;
 
-	virtual const int GetDownX() const;
-	virtual const int GetUpX() const;
-	virtual const int GetDownY() const;
-	virtual const int GetUpY() const;
+  const int GetDownX() const override;
+  const int GetUpX() const override;
+  const int GetDownY() const override;
+  const int GetUpY() const override;
+
 public:
-	CBridgeSpan() : nScriptID( -1 ) { }
-	CBridgeSpan( const SBridgeRPGStats *pStats, const CVec2 &center, const int dbID, const float fHP, const int nFrameIndex );
-	
-	void Build();													// построить сегмент моста, залокать как положено, послать в мир.
+  CBridgeSpan() : nScriptID(-1) {}
+  CBridgeSpan(const SBridgeRPGStats *pStats, const CVec2 &center, int dbID, float fHP, int nFrameIndex);
 
-	const SBridgeRPGStats * GetBridgeStats() const { return pStats; }
-	virtual const SHPObjectRPGStats* GetStats() const { return pStats; }
+  void Build();// build a bridge segment, lock it as expected, send it into the world.
 
-	virtual void LockTiles( bool bInitialization = false );
-	virtual void UnlockTiles( bool bInitialization = false ) ;
+  const SBridgeRPGStats *GetBridgeStats() const { return pStats; }
+  const SHPObjectRPGStats *GetStats() const override { return pStats; }
 
-	virtual void TakeDamage( const float fDamage, const bool bFromExplosion, const int nPlayerOfShoot, CAIUnit *pShotUnit );
-	virtual void TakeEditorDamage( const float fDamage );
-	virtual bool IsPointInside( const CVec2 &point ) const;
-	virtual void Die( const float fDamage );
-	virtual void SetHitPoints( const float fNewHP );
+  void LockTiles(bool bInitialization = false) override;
+  void UnlockTiles(bool bInitialization = false) override;
 
-	
-	virtual void Segment() { }
+  void TakeDamage(float fDamage, bool bFromExplosion, int nPlayerOfShoot, CAIUnit *pShotUnit) override;
+  void TakeEditorDamage(float fDamage) override;
+  bool IsPointInside(const CVec2 &point) const override;
+  void Die(float fDamage) override;
+  void SetHitPoints(float fNewHP) override;
 
-	virtual EStaticObjType GetObjectType() const { return ESOT_BRIDGE_SPAN; }
-	
-	virtual bool IsContainer() const { return false; }
-	virtual const int GetNDefenders() const { return 0; }
-	virtual class CSoldier* GetUnit( const int n ) const { return 0; }
 
-	void SetFullBrige( CFullBridge *pFullBridge );
-	CFullBridge * GetFullBridge() { return pFullBridge; }
-	
-	virtual bool CanUnitGoThrough( const EAIClass &eClass ) const { return true; }
-	virtual void GetTilesForVisibility( CTilesSet *pTiles ) const;
-	virtual bool ShouldSuspendAction( const EActionNotify &eAction ) const;
-	virtual void GetCoveredTiles( CTilesSet *pTiles ) const;
-	
-	virtual void SetScriptID( const int _nScriptID ) { nScriptID = _nScriptID; }
+  void Segment() override {}
 
-	friend class CFullBridge;
+  EStaticObjType GetObjectType() const override { return ESOT_BRIDGE_SPAN; }
+
+  bool IsContainer() const override { return false; }
+  const int GetNDefenders() const override { return 0; }
+  class CSoldier *GetUnit(const int n) const override { return nullptr; }
+
+  void SetFullBrige(CFullBridge *pFullBridge);
+  CFullBridge *GetFullBridge() { return pFullBridge; }
+
+  bool CanUnitGoThrough(const EAIClass &eClass) const override { return true; }
+  void GetTilesForVisibility(CTilesSet *pTiles) const override;
+  bool ShouldSuspendAction(const EActionNotify &eAction) const override;
+  void GetCoveredTiles(CTilesSet *pTiles) const override;
+
+  void SetScriptID(const int _nScriptID) override { nScriptID = _nScriptID; }
+
+  friend class CFullBridge;
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CFullBridge : public IRefCount
 {
-	OBJECT_COMPLETE_METHODS( CFullBridge );
-	DECLARE_SERIALIZE;
-	
-	std::list<CBridgeSpan*> spans;					// построенные части моста
-	std::list<CBridgeSpan*> projectedSpans;	// части моста, которые находятся в проекте
+  OBJECT_COMPLETE_METHODS(CFullBridge);
+  DECLARE_SERIALIZE;
 
-	bool bGivingDamage;
+  std::list<CBridgeSpan *> spans;// constructed parts of the bridge
+  std::list<CBridgeSpan *> projectedSpans;// parts of the bridge that are in the project
+
+  bool bGivingDamage;
+
 public:
-	struct SSpanLock : public IRefCount
-	{
-		OBJECT_COMPLETE_METHODS( SSpanLock );
-		DECLARE_SERIALIZE;
+  struct SSpanLock : IRefCount
+  {
+    OBJECT_COMPLETE_METHODS(SSpanLock);
+    DECLARE_SERIALIZE;
 
-		CTilesSet tiles;
-		std::list<BYTE> formerTiles;
-		CBridgeSpan * pSpan;
-	public:
-		//
-		SSpanLock(): pSpan( 0 ) {  }
-		SSpanLock( CBridgeSpan * pSpan, const WORD wDir );
-		void Unlock();
-		const CBridgeSpan * GetSpan() const { return pSpan; }
-	};
+    CTilesSet tiles;
+    std::list<BYTE> formerTiles;
+    CBridgeSpan *pSpan;
+
+  public:
+    //
+    SSpanLock() : pSpan(nullptr) {}
+    SSpanLock(CBridgeSpan *pSpan, WORD wDir);
+    void Unlock();
+    const CBridgeSpan *GetSpan() const { return pSpan; }
+  };
+
 private:
-	typedef std::list< CPtr<SSpanLock> > LockedSpans;
-	LockedSpans lockedSpans;
-	int nSpans;														//full number of bridge spans
+  using LockedSpans = std::list<CPtr<SSpanLock>>;
+  LockedSpans lockedSpans;
+  int nSpans;// full number of bridge spans
 
 public:
-	CFullBridge() : bGivingDamage( false ), nSpans( 0 ) {  }
+  CFullBridge() : bGivingDamage(false), nSpans(0) {}
 
-	const float GetHPPercent() const;
+  const float GetHPPercent() const;
 
-	// when span was built
-	void SpanBuilt( CBridgeSpan * pSpan );
+  // when span was built
+  void SpanBuilt(CBridgeSpan *pSpan);
 
-	void AddSpan( CBridgeSpan *pSpan );
-	void DamageTaken( CBridgeSpan *pDamagedSpan, const float fDamage, const bool bFromExplosion, const int nPlayerOfShoot, CAIUnit *pShotUnit );
+  void AddSpan(CBridgeSpan *pSpan);
+  void DamageTaken(CBridgeSpan *pDamagedSpan, float fDamage, bool bFromExplosion, int nPlayerOfShoot, CAIUnit *pShotUnit);
 
-	void EnumSpans( std::vector< CObj<CBridgeSpan> > *pSpans );
-	virtual void GetTilesForVisibility( CTilesSet *pTiles ) const;
-	const bool IsVisible( const BYTE cParty ) const;
+  void EnumSpans(std::vector<CObj<CBridgeSpan>> *pSpans);
+  virtual void GetTilesForVisibility(CTilesSet *pTiles) const;
+  const bool IsVisible(BYTE cParty) const;
 
-	void LockSpan( CBridgeSpan * pSpan, const WORD wDir );
-	void UnlockSpan( CBridgeSpan * pSpan );
-	void UnlockAllSpans();
+  void LockSpan(CBridgeSpan *pSpan, WORD wDir);
+  void UnlockSpan(CBridgeSpan *pSpan);
+  void UnlockAllSpans();
 
-	bool CanTakeDamage() const;
-	const int GetNSpans() const;
+  bool CanTakeDamage() const;
+  const int GetNSpans() const;
 
-	friend class CBridgeCreation;
+  friend class CBridgeCreation;
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // __BRIDGE_H__

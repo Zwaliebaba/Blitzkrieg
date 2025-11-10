@@ -8,7 +8,7 @@
 #include "..\Main\rpgstats.h"
 
 #include "editor.h"
-#include "BuildCompose.h"			//для компоновки картинки в текстуру
+#include "BuildCompose.h"			// for composing a picture into a texture
 #include "TreeDockWnd.h"
 #include "PropView.h"
 #include "TreeItem.h"
@@ -25,18 +25,18 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // CMedalFrame
 
 IMPLEMENT_DYNCREATE(CMedalFrame, CImageFrame)
 
 BEGIN_MESSAGE_MAP(CMedalFrame, CImageFrame)
-	//{{AFX_MSG_MAP(CMedalFrame)
+	// {{AFX_MSG_MAP(CMedalFrame)
 	ON_WM_CREATE()
-	//}}AFX_MSG_MAP
+	// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // CMedalFrame construction/destruction
 
 CMedalFrame::CMedalFrame()
@@ -63,18 +63,14 @@ int CMedalFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;
 	g_frameManager.AddFrame( this );
 
-	// create a view to occupy the client area of the frame
-	/*if (!pWndView->Create(NULL, NULL,  WS_CHILD | WS_VISIBLE, 
-		CRect(0, 0, 0, 0), this, AFX_IDW_PANE_FIRST, NULL))
-	{
-		TRACE0("Failed to create view window\n");
-		return -1;
-	}*/
+	// create a view to occupy the client area of ​​the frame
+	/* if (!pWndView->Create(NULL, NULL, WS_CHILD | WS_VISIBLE, 
+		 */
 
 	return 0;
 }
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // CMedalFrame message handlers
 
 void CMedalFrame::FillRPGStats( SMedalStats &rpgStats, CTreeItem *pRootItem, const char *pszProjectName )
@@ -106,15 +102,9 @@ void CMedalFrame::SaveRPGStats( IDataTree *pDT, CTreeItem *pRootItem, const char
 
 void CMedalFrame::GetRPGStats( const SMedalStats &rpgStats, CTreeItem *pRootItem )
 {
-/*
-CMedalCommonPropsItem *pCommonProps = static_cast<CMedalCommonPropsItem *> ( pRootItem->GetChildItem( E_MEDAL_COMMON_PROPS_ITEM ) );
-rpgStats.szHeaderText = szPrefix + pCommonProps->GetName();
-rpgStats.szDescriptionText = szPrefix + pCommonProps->GetDescText();
-rpgStats.szTexture = szPrefix + pCommonProps->GetTexture();
-	*/
-	/*
-	CMedalCommonPropsItem *pCommonProps = static_cast<CMedalCommonPropsItem *> ( pRootItem->GetChildItem( E_MEDAL_COMMON_PROPS_ITEM ) );
-	*/
+/* CMedalCommonPropsItem *pCommonProps = static_cast<CMedalCommonPropsItem *> ( pRootItem->GetChildItem( E_MEDAL_COMMON_PROPS_ITEM ) );
+ */
+	/* CMedalCommonPropsItem *pCommonProps = static_cast<CMedalCommonPropsItem *> ( pRootItem->GetChildItem( E_MEDAL_COMMON_PROPS_ITEM ) ); */
 }
 
 void CMedalFrame::LoadRPGStats( IDataTree *pDT, CTreeItem *pRootItem )
@@ -137,19 +127,11 @@ bool CMedalFrame::ExportFrameData( IDataTree *pDT, const char *pszProjectName, c
 	NI_ASSERT( pRootItem != 0 );
 	NI_ASSERT( pRootItem->GetItemType() == E_MEDAL_ROOT_ITEM );
 
-/*
-	std::string szData = theApp.GetEditorDataDir();
-	MakeSubRelativePath( szData.c_str(), pszResultFileName, szPrefix );
-	if ( szPrefix.size() == 0 )
-	{
-		AfxMessageBox( "Error: The medal frame project should be exported to the game DATA directory" );
-		return false;
-	}
-	szPrefix = szPrefix.substr( 0, szPrefix.rfind('\\') + 1 );
-*/
+/* std::string szData = theApp.GetEditorDataDir();
+	 */
 
 	szPrefix = szAddDir + szPrevExportFileName.substr( 0, szPrevExportFileName.rfind('\\') + 1 );
-	//Сохраняем RPG stats
+	// Save RPG stats
 	SaveRPGStats( pDT, pRootItem, pszProjectName );
 	szPrefix = "";
 
@@ -197,23 +179,8 @@ FILETIME CMedalFrame::FindMinimalExportFileTime( const char *pszResultFileName, 
 	FILETIME minTime;
 	minTime.dwHighDateTime = 0;
 	minTime.dwLowDateTime = 0;
-/*
-	minTime.dwHighDateTime = -1;
-	minTime.dwLowDateTime = -1;
-	minTime = GetFileChangeTime( pszResultFileName );
-
-	FILETIME current;
-	std::string szDir = GetDirectory( pszResultFileName ).c_str();
-	std::string szTemp = szDir + "desc.txt";
-	current = GetFileChangeTime( szTemp.c_str() );
-	if ( current < minTime )
-		minTime = current;
-	
-	szTemp = szDir + "1.tga";
-	current = GetFileChangeTime( szTemp.c_str() );
-	if ( current < minTime )
-		minTime = current;
-*/
+/* minTime.dwHighDateTime = -1;
+	 */
 
 	return minTime;
 }
@@ -226,30 +193,8 @@ FILETIME CMedalFrame::FindMaximalSourceTime( const char *pszProjectName, CTreeIt
 	FILETIME maxTime;
 	maxTime.dwHighDateTime = -1;
 	maxTime.dwLowDateTime = -1;
-/*
-	maxTime.dwHighDateTime = 0;
-	maxTime.dwLowDateTime = 0;
-	FILETIME currentTime;
-	CMedalCommonPropsItem *pCommonProps = static_cast<CMedalCommonPropsItem *> ( pRootItem->GetChildItem( E_MEDAL_COMMON_PROPS_ITEM ) );
-	std::string szTemp, szSource, szDir;
-	szDir = GetDirectory( pszProjectName );
-
-	CMedalTextPropsItem *pTextProps = static_cast<CMedalTextPropsItem *> ( pRootItem->GetChildItem( E_MEDAL_TEXT_PROPS_ITEM ) );
-	szTemp = pTextProps->GetDescText();
-	szTemp += ".txt";
-	MakeFullPath( szDir.c_str(), szTemp.c_str(), szSource );
-	currentTime = GetFileChangeTime( szSource.c_str() );
-	if ( currentTime > maxTime )
-		maxTime = currentTime;
-	
-	CMedalPicturePropsItem *pPictureProps = static_cast<CMedalPicturePropsItem *> ( pRootItem->GetChildItem( E_MEDAL_PICTURE_PROPS_ITEM ) );
-	szTemp = pPictureProps->GetTexture();
-	szTemp += ".tga";
-	MakeFullPath( szDir.c_str(), szTemp.c_str(), szSource );
-	currentTime = GetFileChangeTime( szSource.c_str() );
-	if ( currentTime > maxTime )
-		maxTime = currentTime;
-*/
+/* maxTime.dwHighDateTime = 0;
+	 */
 	return maxTime;
 }
 

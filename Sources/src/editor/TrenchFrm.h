@@ -30,21 +30,21 @@ public:
 	
 // Overrides
 	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CTrenchFrame)
+	// {{AFX_VIRTUAL(CTrenchFrame)
 protected:
-	//}}AFX_VIRTUAL
+	// }}AFX_VIRTUAL
 
 // Implementation
 private:
-	std::list<int> freeIndexes;			//дл¤ хранени¤ незаполненных индексов
+	std::list<int> freeIndexes;			// for storing unfilled indexes
 
 protected:
-	virtual void SpecificInit();														//дл¤ инициализации внутренних данных после загрузки проекта или создании нового
+	virtual void SpecificInit();														// to initialize internal data after loading a project or creating a new one
 	virtual void SpecificClearBeforeBatchMode();
 	void SaveRPGStats( IDataTree *pDT, CTreeItem *pRootItem, const char *pszProjectName );
 	void LoadRPGStats( IDataTree *pDT, CTreeItem *pRootItem );
 	
-	//экспортирует один проект, если все ќ , возвращает 0, иначе код ошибки
+	// exports one project, if all ќ, returns 0, otherwise error code
 	virtual bool ExportFrameData( IDataTree *pDT, const char *pszProjectName, const char *pszResultFileName, CTreeItem *pRootItem );
 	
 	virtual FILETIME FindMaximalSourceTime( const char *pszProjectName, CTreeItem *pRootItem );
@@ -52,15 +52,15 @@ protected:
 
 // Generated message map functions
 protected:
-	//{{AFX_MSG(CTrenchFrame)
+	// {{AFX_MSG(CTrenchFrame)
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
-	//}}AFX_MSG
+	// }}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
 
-/////////////////////////////////////////////////////////////////////////////
+// //
 
-//{{AFX_INSERT_LOCATION}}
+// {{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
 
-#endif		//__TRENCHFRM_H__
+#endif		// __TRENCHFRM_H__

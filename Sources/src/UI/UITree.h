@@ -1,99 +1,101 @@
 #ifndef __UI_TREE_H__
 #define __UI_TREE_H__
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #include "UIBasic.h"
 #include "UISlider.h"
 
 #ifdef OLD
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 struct SUITreeItem : public IUITreeItem
 {
-	OBJECT_NORMAL_METHODS( SUITreeItem );
-	DECLARE_SERIALIZE;
+  OBJECT_NORMAL_METHODS(SUITreeItem);
+  DECLARE_SERIALIZE;
 
-	CPtr<IUIContainer> pTreeCtrl;
-	CPtr<IUIElement> pIcon;
-	CPtr<IUIElement> pInfo;
-	CPtr<SUITreeItem> pParent;
-	int nData;
+  CPtr<IUIContainer> pTreeCtrl;
+  CPtr<IUIElement> pIcon;
+  CPtr<IUIElement> pInfo;
+  CPtr<SUITreeItem> pParent;
+  int nData;
 
 public:
-	typedef std::list< CObj<SUITreeItem> > CItemList;
+  typedef std::list<CObj<SUITreeItem>> CItemList;
+
 private:
-	CItemList treeItems;
-	
+  CItemList treeItems;
+
 public:
-	SUITreeItem() : nData( 0 ) {}
+  SUITreeItem() : nData(0) {}
 
-	virtual IUITreeItem* STDCALL AddTreeItem( IUIElement *_pIcon, IUIElement *_pInfo, int nUserData );
-	virtual IUITreeItem* STDCALL GetParentTreeItem() { return pParent; }
+  virtual IUITreeItem * STDCALL AddTreeItem(IUIElement *_pIcon, IUIElement *_pInfo, int nUserData);
+  virtual IUITreeItem * STDCALL GetParentTreeItem() { return pParent; }
 
-	virtual IUITreeIterator STDCALL GetBegin() { return treeItems.begin(); }
-	virtual IUITreeIterator STDCALL GetEnd() { return treeItems.end(); }
-	virtual int STDCALL GetUserData() { return nData; }
-	
-	// serializing...
-	virtual int STDCALL operator&( IDataTree &ss );
+  virtual IUITreeIterator STDCALL GetBegin() { return treeItems.begin(); }
+  virtual IUITreeIterator STDCALL GetEnd() { return treeItems.end(); }
+  virtual int STDCALL GetUserData() { return nData; }
+
+  // serializing...
+  virtual int STDCALL operator&(IDataTree &ss);
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CUITree : public CMultipleWindow
 {
-	DECLARE_SERIALIZE;
-	//
-	CUIScrollBar *pScrollBar;				//инициализируется во время загрузки и используется для ускорения доступа к компонентам
+  DECLARE_SERIALIZE;
+  //
+  CUIScrollBar *pScrollBar;// initialized at boot time and used to speed up access to components
 
-	int nLeftSpace;
-	int nTopSpace;
-	int nItemHeight;
-	int nHSubSpace;
-	int nVSubSpace;
-	bool bScrollBarAlwaysVisible;
-	int nScrollBarWidth;
+  int nLeftSpace;
+  int nTopSpace;
+  int nItemHeight;
+  int nHSubSpace;
+  int nVSubSpace;
+  bool bScrollBarAlwaysVisible;
+  int nScrollBarWidth;
 
-	CPtr<SUITreeItem> pRoot;
-	CPtr<SUITreeItem> pSelection;
+  CPtr<SUITreeItem> pRoot;
+  CPtr<SUITreeItem> pSelection;
 
-	//Для отрисовки Selection
-	std::vector<SWindowSubRect> selSubRects;
-	CPtr<IGFXTexture> pSelectionTexture;				// внешний вид - текстура
+  // To draw Selection
+  std::vector<SWindowSubRect> selSubRects;
+  CPtr<IGFXTexture> pSelectionTexture;// appearance - texture
 
-	void UpdateAll();
-	void UpdateItemsCoordinates();				//Обновляет координаты всех внутренних item
-	void UpdateScrollBarStatus();					//Вызывается чтобы проверить, нужно ли отображать ScrollBar и обновления его состояния
-	void OnUserChangeScrollBarPosition();	//Вызывается для пересчета в ответ на изменения в статусе ScrollBar
+  void UpdateAll();
+  void UpdateItemsCoordinates();// Updates the coordinates of all internal items
+  void UpdateScrollBarStatus();// Called to check whether the ScrollBar should be displayed and its state updates
+  void OnUserChangeScrollBarPosition();// Called to recalculate in response to changes in the ScrollBar's status
 
 public:
-	CUITree() : pScrollBar( 0 ), nLeftSpace( 10 ), nTopSpace( 5 ), nItemHeight( 30 ),
-		nHSubSpace( 2 ), nVSubSpace( 2 ), nScrollBarWidth( 30 ), bScrollBarAlwaysVisible( true ) {}
-	virtual ~CUITree();
+  CUITree() : pScrollBar(0), nLeftSpace(10), nTopSpace(5), nItemHeight(30),
+              nHSubSpace(2), nVSubSpace(2), nScrollBarWidth(30), bScrollBarAlwaysVisible(true) {}
 
-	virtual void STDCALL Reposition( const CTRect<float> &rcParent );
+  virtual ~CUITree();
 
-	virtual bool STDCALL ProcessMessage( const SUIMessage &msg );
+  virtual void STDCALL Reposition(const CTRect<float> &rcParent);
 
-	// serializing...
-	virtual int STDCALL operator&( IDataTree &ss );
+  virtual bool STDCALL ProcessMessage(const SUIMessage &msg);
 
-	// drawing
-	virtual void STDCALL Draw( IGFX *pGFX );
-	virtual void STDCALL Visit( interface ISceneVisitor *pVisitor );
-	
-	virtual bool STDCALL OnLButtonDown( const CVec2 &vPos, EMouseState mouseState );
-	
-	//Public interface
-	virtual SUITreeItem* STDCALL GetRootTreeItem() { return pRoot; }
-//	virtual SUITreeItem* STDCALL Get
-	//selection operations
-	virtual void STDCALL SetSelectionItem( SUITreeItem *pTreeItem );
-	virtual SUITreeItem* STDCALL GetSelectionItem() { return pSelection; }
+  // serializing...
+  virtual int STDCALL operator&(IDataTree &ss);
+
+  // drawing
+  virtual void STDCALL Draw(IGFX *pGFX);
+  virtual void STDCALL Visit(interface ISceneVisitor *pVisitor);
+
+  virtual bool STDCALL OnLButtonDown(const CVec2 &vPos, EMouseState mouseState);
+
+  // Public interface
+  virtual SUITreeItem * STDCALL GetRootTreeItem() { return pRoot; }
+  // virtual SUITreeItem* STDCALL Get
+  // selection operations
+  virtual void STDCALL SetSelectionItem(SUITreeItem *pTreeItem);
+  virtual SUITreeItem * STDCALL GetSelectionItem() { return pSelection; }
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CUITreeBridge : public IUITreeControl, public CUITree
 {
-	OBJECT_NORMAL_METHODS( CUITreeBridge );
-	DECLARE_SUPER( CUITree );
-	DEFINE_UICONTAINER_BRIDGE;
+  OBJECT_NORMAL_METHODS(CUITreeBridge);
+  DECLARE_SUPER(CUITree);
+  DEFINE_UICONTAINER_BRIDGE;
 };
-#endif	//OLD
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#endif //__UI_TREE_H__
+#endif	// OLD
+
+#endif // __UI_TREE_H__

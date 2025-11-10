@@ -11,18 +11,18 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-/////////////////////////////////////////////////////////////////////////////
+// //
 // CPlanePathTestApp
 
 BEGIN_MESSAGE_MAP(CPlanePathTestApp, CWinApp)
-	//{{AFX_MSG_MAP(CPlanePathTestApp)
+	// {{AFX_MSG_MAP(CPlanePathTestApp)
 		// NOTE - the ClassWizard will add and remove mapping macros here.
-		//    DO NOT EDIT what you see in these blocks of generated code!
-	//}}AFX_MSG
+		// DO NOT EDIT what you see in these blocks of generated code!
+	// }}AFX_MSG
 	ON_COMMAND(ID_HELP, CWinApp::OnHelp)
 END_MESSAGE_MAP()
 
-/////////////////////////////////////////////////////////////////////////////
+// //
 // CPlanePathTestApp construction
 
 CPlanePathTestApp::CPlanePathTestApp()
@@ -31,12 +31,12 @@ CPlanePathTestApp::CPlanePathTestApp()
 	// Place all significant initialization in InitInstance
 }
 
-/////////////////////////////////////////////////////////////////////////////
+// //
 // The one and only CPlanePathTestApp object
 
 CPlanePathTestApp theApp;
 
-/////////////////////////////////////////////////////////////////////////////
+// //
 // CPlanePathTestApp initialization
 
 BOOL CPlanePathTestApp::InitInstance()
@@ -45,8 +45,8 @@ BOOL CPlanePathTestApp::InitInstance()
 
 	// Standard initialization
 	// If you are not using these features and wish to reduce the size
-	//  of your final executable, you should remove from the following
-	//  the specific initialization routines you do not need.
+	// of your final executable, you should remove from the following
+	// the specific initialization routines you do not need.
 
 #ifdef _AFXDLL
 	Enable3dControls();			// Call this when using MFC in a shared DLL
@@ -60,15 +60,15 @@ BOOL CPlanePathTestApp::InitInstance()
 	if (nResponse == IDOK)
 	{
 		// TODO: Place code here to handle when the dialog is
-		//  dismissed with OK
+		// dismissed with OK
 	}
 	else if (nResponse == IDCANCEL)
 	{
 		// TODO: Place code here to handle when the dialog is
-		//  dismissed with Cancel
+		// dismissed with Cancel
 	}
 
 	// Since the dialog has been closed, return FALSE so that we exit the
-	//  application, rather than start the application's message pump.
+	// application, rather than start the application's message pump.
 	return FALSE;
 }

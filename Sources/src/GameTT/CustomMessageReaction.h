@@ -1,31 +1,30 @@
 #ifndef __CUSTOMMESSAGEREACTION_H__
 #define __CUSTOMMESSAGEREACTION_H__
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma ONCE
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#pragma once
+
 class CCustomMessageReaction
 {
-	DECLARE_SERIALIZE;
+  DECLARE_SERIALIZE;
 
-	typedef void (*MESSAGE_REACTION)( class CInterfaceScreenBase *_pInterface );
+  using MESSAGE_REACTION = void(*)(class CInterfaceScreenBase *_pInterface);
 
-	struct SReactionDescriptor
-	{
-		MESSAGE_REACTION pfnReaction;
-		SReactionDescriptor() {  }
-		SReactionDescriptor( MESSAGE_REACTION _pfnReaction )
-			: pfnReaction( _pfnReaction )
-		{
-		}
-	};
+  struct SReactionDescriptor
+  {
+    MESSAGE_REACTION pfnReaction;
+    SReactionDescriptor() {}
 
-	typedef std::hash_map<std::string, SReactionDescriptor> CReactions;
-	CReactions reactions;
+    SReactionDescriptor(MESSAGE_REACTION _pfnReaction)
+      : pfnReaction(_pfnReaction) {}
+  };
+
+  using CReactions = std::hash_map<std::string, SReactionDescriptor>;
+  CReactions reactions;
+
 public:
-
-	void Init();
-	void Clear();
-	void LaunchReaction( const std::string &szCutomReactionName, class CInterfaceScreenBase *_pInterface);
+  void Init();
+  void Clear();
+  void LaunchReaction(const std::string &szCutomReactionName, class CInterfaceScreenBase *_pInterface);
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // __CUSTOMMESSAGEREACTION_H__

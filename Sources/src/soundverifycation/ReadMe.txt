@@ -17,7 +17,7 @@ SoundVerifycation.cpp
     This is the main application source file.
 
 
-/////////////////////////////////////////////////////////////////////////////
+////
 Other standard files:
 
 StdAfx.h, StdAfx.cpp
@@ -25,10 +25,10 @@ StdAfx.h, StdAfx.cpp
     named SoundVerifycation.pch and a precompiled types file named StdAfx.obj.
 
 
-/////////////////////////////////////////////////////////////////////////////
+////
 Other notes:
 
 AppWizard uses "TODO:" to indicate parts of the source code you
 should add to or customize.
 
-/////////////////////////////////////////////////////////////////////////////
+////

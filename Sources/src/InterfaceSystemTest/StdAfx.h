@@ -1,6 +1,6 @@
 // stdafx.h : include file for standard system include files,
-//  or project specific include files that are used frequently, but
-//      are changed infrequently
+// or project specific include files that are used frequently, but
+// are changed infrequently
 //
 
 #if !defined(AFX_STDAFX_H__35445E9A_4A0A_4143_8364_A56C7AF079D3__INCLUDED_)
@@ -12,8 +12,8 @@
 
 #define VC_EXTRALEAN		// Exclude rarely-used stuff from Windows headers
 #define _STLP_USE_MFC 1
-#include "stl_user_config.h"
-#include <stl/_config.h>
+
+
 
 
 #include <assert.h>
@@ -42,7 +42,7 @@
 typedef UINT FAR *LPUINT;
 typedef __int64 int64;									// due to lack of 'long long' type support
 typedef unsigned __int64 QWORD;					// quadra word
-#define for if(false); else for					// to achive standard variable scope resolving, declared inside 'for'
+#define for if(false); else for					// to achieve standard variable scope resolving, declared inside 'for'
 #define STDCALL __stdcall								// to use with interface function calls
 // define 'interface' keyword
 #ifndef interface
@@ -66,8 +66,8 @@ typedef unsigned __int64 QWORD;					// quadra word
 #include "..\StreamIO\Globals.h"				// globals - singleton, global var system, temp buffers, console, etc.
 #include "..\StreamIO\StreamIO.h"				// stream I/O base interfaces
 #include "..\StreamIO\DBIO.h"						// database I/O base interfaces
-#include "..\StreamIO\StructureSaver.h"	// strucutre saver base interfaces
-#include "..\StreamIO\SSHelper.h"				// strucutre saver helper classes
+#include "..\StreamIO\StructureSaver.h"	// structure saver base interfaces
+#include "..\StreamIO\SSHelper.h"				// structure saver helper classes
 #include "..\StreamIO\DTHelper.h"				// data tree helper classes
 
 #include "..\Main\GameTimer.h"
@@ -75,7 +75,7 @@ typedef unsigned __int64 QWORD;					// quadra word
 
 // in the file 'Specific.h' one can define own project-specific includes
 #include "Specific.h"
-//{{AFX_INSERT_LOCATION}}
+// {{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
 
 #endif // !defined(AFX_STDAFX_H__35445E9A_4A0A_4143_8364_A56C7AF079D3__INCLUDED_)

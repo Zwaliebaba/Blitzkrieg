@@ -23,7 +23,7 @@ public:
 	CMeshCommonPropsItem() { bStaticElements = true; nItemType = E_MESH_COMMON_PROPS_ITEM; nImageIndex = 5; InitDefaultValues(); }
 	~CMeshCommonPropsItem() {};
 
-	//Получение внутренних параметров
+	// Getting internal parameters
 	const char *GetMeshName() { return values[0].value; }
 	EUnitRPGType GetMeshType();
 	int GetAIClass();
@@ -48,18 +48,9 @@ public:
 	float GetSight() { return values[21].value; }
 	float GetSightPower() { return values[22].value; }
 	
-/*
-	const char* GetEffectFatalitySmokeName() { return values[23].value; }
-	const char* GetEffectFatalitySoundName() { return values[24].value; }
-	float GetEffectFatalitySoundMinDist() { return values[25].value; }
-	float GetEffectFatalitySoundMaxDist() { return values[26].value; }
-	int GetMoveCycleSoundStart() { return values[27].value; }
-	int GetMoveCycleSoundStop() { return values[28].value; }
-	const char* GetMoveSound() { return values[29].value; }
-	const char* GetStopSound() { return values[30].value; }
-*/
+/* const char* GetEffectFatalitySmokeName() { return values[23].value;  */
 	
-	//Установка внутренних параметров
+	// Setting internal parameters
 	void SetMeshName( const char *pszName ) { values[0].value = pszName; }
 	void SetMeshType( int nType );
 	void SetAIClass( int nVal );
@@ -84,16 +75,7 @@ public:
 	void SetSight( float fVal ) { values[21].value = fVal; }
 	void SetSightPower( float fVal ) { values[22].value = fVal; }
 		
-/*
-	void SetEffectFatalitySmokeName( const char *pszName ) { values[23].value = pszName; }
-	void SetEffectFatalitySoundName( const char *pszName ) { values[24].value = pszName; }
-	void SetEffectFatalitySoundMinDist( float fVal ) { values[25].value = fVal; }
-	void SetEffectFatalitySoundMaxDist( float fVal ) { values[26].value = fVal; }
-	void SetMoveCycleSoundStart( int nVal ) { values[27].value = nVal; }
-	void SetMoveCycleSoundStop( int nVal ) { values[28].value = nVal; }
-	void SetMoveSound( const char *pszName ) { values[29].value = pszName; }
-	void SetStopSound( const char *pszName ) { values[30].value = pszName; }
-*/
+/* void SetEffectFatalitySmokeName( const char *pszName ) { values[23].value = pszName;  */
 
 	virtual void InitDefaultValues();
 };
@@ -215,11 +197,11 @@ public:
 	CMeshDefencePropsItem() { nItemType = E_MESH_DEFENCE_PROPS_ITEM; nImageIndex = 3; InitDefaultValues(); }
 	~CMeshDefencePropsItem() {};
 	
-	//Получение внутренних параметров
+	// Getting internal parameters
 	int GetMinArmor() { return values[0].value; }
 	int GetMaxArmor() { return values[1].value; }
 	
-	//Установка внутренних параметров
+	// Setting internal parameters
 	void SetMinArmor( int nVal ) { values[0].value = nVal; }
 	void SetMaxArmor( int nVal ) { values[1].value = nVal; }
 	
@@ -243,7 +225,7 @@ public:
 	CMeshJoggingPropsItem() { nItemType = E_MESH_JOGGING_PROPS_ITEM; nImageIndex = 0; InitDefaultValues(); }
 	~CMeshJoggingPropsItem() {};
 	
-	//Получение внутренних параметров
+	// Getting internal parameters
 	float GetPeriod1() { return values[0].value; }
 	float GetPeriod2() { return values[1].value; }
 	float GetAmplitude1() { return values[2].value; }
@@ -251,7 +233,7 @@ public:
 	float GetPhase1() { return values[4].value; }
 	float GetPhase2() { return values[5].value; }
 	
-	//Установка внутренних параметров
+	// Setting internal parameters
 	void SetPeriod1( float fVal ) { values[0].value = fVal; }
 	void SetPeriod2( float fVal ) { values[1].value = fVal; }
 	void SetAmplitude1( float fVal ) { values[2].value = fVal; }
@@ -281,7 +263,7 @@ public:
 	CMeshPlatformPropsItem() { bStaticElements = true; nItemType = E_MESH_PLATFORM_PROPS_ITEM; nImageIndex = 5; InitDefaultValues(); }
 	~CMeshPlatformPropsItem() {};
 	
-	//Получение внутренних параметров
+	// Getting internal parameters
 	const char *GetPlatformPartName() { return values[0].value; }
 	const char *GetGunCarriageName1() { return values[1].value; }
 	const char *GetGunCarriageName2() { return values[2].value; }
@@ -289,7 +271,7 @@ public:
 	float GetHorizontalRotationSpeed() { return values[4].value; }
 	const char *GetRotationSound() { return values[5].value; }
 	
-	//Установка внутренних параметров
+	// Setting internal parameters
 	void SetVerticalRotationSpeed( float val ) { values[3].value = val; }
 	void SetHorizontalRotationSpeed( float val ) { values[4].value = val; }
 	void SetRotationSound( const char *pszVal ) { values[5].value = pszVal; }
@@ -320,7 +302,7 @@ public:
 	CMeshGunPropsItem() { nItemType = E_MESH_GUN_PROPS_ITEM; nImageIndex = 0; InitDefaultValues(); }
 	~CMeshGunPropsItem() {};
 	
-	//Получение внутренних параметров
+	// Getting internal parameters
 	const char *GetShootPointName() { return values[0].value; }
 	const char *GetShootPartName() { return values[1].value; }
 	const char *GetWeaponName() { return values[2].value; }
@@ -332,7 +314,7 @@ public:
 	int GetAmmoCount() { return values[8].value; }
 	float GetReloadCost() { return values[9].value; }
 	
-	//Установка внутренних параметров
+	// Setting internal parameters
 	void SetWeaponName( const char *pszName ) { values[2].value = pszName; }
 	void SetPriority( int nVal ) { values[3].value = nVal; }
 	void SetRecoilFlag( bool bFlag ) { values[4].value = bFlag; }
@@ -355,7 +337,7 @@ public:
 	CMeshGraphicsItem() { bStaticElements = true; nItemType = E_MESH_GRAPHICS_ITEM; nImageIndex = 5; InitDefaultValues(); }
 	~CMeshGraphicsItem() {};
 
-	//Получение внутренних параметров
+	// Getting internal parameters
 	const char *GetCombatMeshName() { return values[0].value; }
 	const char *GetInstallMeshName() { return values[1].value; }
 	const char *GetTransMeshName() { return values[2].value; }
@@ -400,10 +382,10 @@ public:
 	CMeshDeathCraterPropsItem() { nItemType = E_MESH_DEATH_CRATER_PROPS_ITEM; nImageIndex = 3; InitDefaultValues(); }
 	~CMeshDeathCraterPropsItem() {};
 	
-	//Получение внутренних параметров
+	// Getting internal parameters
 	const char *GetCraterFileName() { return values[0].value; }
 	
-	//Установка внутренних параметров
+	// Setting internal parameters
 	void SetCraterFileName( const char *pszName ) { values[0].value = pszName; }
 	
 	virtual void InitDefaultValues();
@@ -440,4 +422,4 @@ public:
 	virtual void MyLButtonClick();
 };
 
-#endif		//__MESH_TREE_ITEM_H__
+#endif		// __MESH_TREE_ITEM_H__

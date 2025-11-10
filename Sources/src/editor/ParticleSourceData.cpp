@@ -2,7 +2,7 @@
 
 #include "..\Scene\ParticleSourceData.h"
 #include "..\Misc\Win32Helper.h"
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool SParticleSourceData::Load( const bool bPreLoad )
 {
 	const std::string szStreamName = GetSharedResourceFullName();
@@ -14,17 +14,17 @@ bool SParticleSourceData::Load( const bool bPreLoad )
 	saver.Add( "KeyData", this );
 	return true;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 SParticleSourceData::SParticleSourceData() 
 : bComplexParticleSource( false )
 {
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 int SParticleSourceData::operator&( IStructureSaver &ss )
 {
 	return 0;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 int SParticleSourceData::operator&( IDataTree &ss )
 {
 	CTreeAccessor saver = &ss;
@@ -67,7 +67,7 @@ int SParticleSourceData::operator&( IDataTree &ss )
 	}
 	return 0;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void SParticleSourceData::SwapData( ISharedResource *pResource )
 {
 	SParticleSourceData *pRes = dynamic_cast<SParticleSourceData*>( pResource );
@@ -103,11 +103,11 @@ void SParticleSourceData::SwapData( ISharedResource *pResource )
 	std::swap( fDensityCoeff, pRes->fDensityCoeff );
 	std::swap( bComplexParticleSource, pRes->bComplexParticleSource );
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void SParticleSourceData::Init()
 {
 	// for compartability with old version
-	//{
+	// {
 	if ( trackBeginSpeedRandomizer.IsEmpty() )
 	{
 		trackBeginSpeedRandomizer.AddKey( 0, 0 );
@@ -139,11 +139,11 @@ void SParticleSourceData::Init()
 	trackSpeed.AddKey( 0, 1 );
 	// CRAP}
 	Normalize( &vDirection );
-	//}
+	// }
 	// optimization
 	InitIntegrals();
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void SParticleSourceData::InitIntegrals()
 {	
 	CTrack trackIndIntegral;
@@ -188,4 +188,4 @@ void SParticleSourceData::InitIntegrals()
 	}
 	trackIntegralMass.Normalize( 1 );
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+

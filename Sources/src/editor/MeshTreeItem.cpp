@@ -91,7 +91,7 @@ void CMeshCommonPropsItem::InitDefaultValues()
 	prop.szDisplayName = "Type";
 	prop.value = "armor light";
 
-	//transports
+	// transports
 	prop.szStrings.push_back( "transport carrier" );
 	prop.szStrings.push_back( "transport support" );
 	prop.szStrings.push_back( "transport medicine" );
@@ -99,7 +99,7 @@ void CMeshCommonPropsItem::InitDefaultValues()
 	prop.szStrings.push_back( "transport military auto" );
 	prop.szStrings.push_back( "transport civilian auto" );
 
-	//artillery
+	// artillery
 	prop.szStrings.push_back( "artillery gun" );
 	prop.szStrings.push_back( "artillery howitzer" );
 	prop.szStrings.push_back( "artillery heavy gun" );
@@ -109,19 +109,19 @@ void CMeshCommonPropsItem::InitDefaultValues()
 	prop.szStrings.push_back( "artillery super" );
 	prop.szStrings.push_back( "artillery mortar" );
 
-	//SPG
+	// SPG
 	prop.szStrings.push_back( "SPG assault" );
 	prop.szStrings.push_back( "SPG antitank" );
 	prop.szStrings.push_back( "SPG super" );
 	prop.szStrings.push_back( "SPG antiair" );
 	
-	//armor
+	// armor
 	prop.szStrings.push_back( "armor light" );
 	prop.szStrings.push_back( "armor medium" );
 	prop.szStrings.push_back( "armor super" );
 	prop.szStrings.push_back( "armor heavy" );
 	
-	//avia
+	// avia
 	prop.szStrings.push_back( "avia scout" );
 	prop.szStrings.push_back( "avia bomber" );
 	prop.szStrings.push_back( "avia attack" );
@@ -129,7 +129,7 @@ void CMeshCommonPropsItem::InitDefaultValues()
 	prop.szStrings.push_back( "avia super" );
 	prop.szStrings.push_back( "avia lander" );
 	
-	//train
+	// train
 	prop.szStrings.push_back( "train locomotive" );
 	prop.szStrings.push_back( "train cargo" );
 	prop.szStrings.push_back( "train carrier" );
@@ -313,7 +313,7 @@ EUnitRPGType CMeshCommonPropsItem::GetMeshType()
 {
 	string szName = values[1].value;
 
-	//transports
+	// transports
 	if ( szName == "transport carrier" )
 		return RPG_TYPE_TRN_CARRIER;
 	if ( szName == "transport support" )
@@ -327,7 +327,7 @@ EUnitRPGType CMeshCommonPropsItem::GetMeshType()
 	if ( szName == "transport civilian auto" )
 		return RPG_TYPE_TRN_CIVILIAN_AUTO;
 
-	//artillery
+	// artillery
 	if ( szName == "artillery gun" )
 		return RPG_TYPE_ART_GUN;
 	if ( szName == "artillery howitzer" )
@@ -345,7 +345,7 @@ EUnitRPGType CMeshCommonPropsItem::GetMeshType()
 	if ( szName == "artillery mortar" )
 		return RPG_TYPE_ART_MORTAR;
 
-	//SPG
+	// SPG
 	if ( szName == "SPG assault" )
 		return RPG_TYPE_SPG_ASSAULT;
 	if ( szName == "SPG antitank" )
@@ -355,7 +355,7 @@ EUnitRPGType CMeshCommonPropsItem::GetMeshType()
 	if ( szName == "SPG antiair" )
 		return RPG_TYPE_SPG_AAGUN;
 
-	//armor
+	// armor
 	if ( szName == "armor light" )
 		return RPG_TYPE_ARM_LIGHT;
 	if ( szName == "armor medium" )
@@ -365,7 +365,7 @@ EUnitRPGType CMeshCommonPropsItem::GetMeshType()
 	if ( szName == "armor heavy" )
 		return RPG_TYPE_ARM_HEAVY;
 
-	//avia
+	// avia
 	if ( szName == "avia scout" )
 		return RPG_TYPE_AVIA_SCOUT;
 	if ( szName == "avia bomber" )
@@ -379,7 +379,7 @@ EUnitRPGType CMeshCommonPropsItem::GetMeshType()
 	if ( szName == "avia lander" )
 		return RPG_TYPE_AVIA_LANDER;
 
-	//train
+	// train
 	if ( szName == "train locomotive" )
 		return RPG_TYPE_TRAIN_LOCOMOTIVE;
 	if ( szName == "train cargo" )
@@ -399,7 +399,7 @@ void CMeshCommonPropsItem::SetMeshType( int nType )
 {
 	switch ( nType )
 	{
-		//transports
+		// transports
 		case RPG_TYPE_TRN_CARRIER:
 			values[1].value = "transport carrier";
 			return;
@@ -419,7 +419,7 @@ void CMeshCommonPropsItem::SetMeshType( int nType )
 			values[1].value = "transport civilian auto";
 			return;
 			
-		//artillery
+		// artillery
 		case RPG_TYPE_ART_GUN:
 			values[1].value = "artillery gun";
 			return;
@@ -445,7 +445,7 @@ void CMeshCommonPropsItem::SetMeshType( int nType )
 			values[1].value = "artillery mortar";
 			return;
 
-		//SPG
+		// SPG
 		case RPG_TYPE_SPG_ASSAULT:
 			values[1].value = "SPG assault";
 			return;
@@ -459,7 +459,7 @@ void CMeshCommonPropsItem::SetMeshType( int nType )
 			values[1].value = "SPG antiair";
 			return;
 
-		//armor
+		// armor
 		case RPG_TYPE_ARM_LIGHT:
 			values[1].value = "armor light";
 			return;
@@ -473,7 +473,7 @@ void CMeshCommonPropsItem::SetMeshType( int nType )
 			values[1].value = "armor heavy";
 			return;
 			
-		//avia
+		// avia
 		case RPG_TYPE_AVIA_SCOUT:
 			values[1].value = "avia scout";
 			return;
@@ -493,7 +493,7 @@ void CMeshCommonPropsItem::SetMeshType( int nType )
 			values[1].value = "avia lander";
 			return;
 			
-			//train
+			// train
 		case RPG_TYPE_TRAIN_LOCOMOTIVE:
 			values[1].value = "train locomotive";
 			return;
@@ -561,7 +561,7 @@ void CMeshSoundPropsItem::UpdateItemValue( int nItemId, const CVariant &value )
 
 	if ( nItemId == 1 )
 	{
-		//сконвертим путь к звуковому файлу в относительный без расширени¤
+		// convert the path to the sound file to relative without extension¤
 		if ( !IsRelatedPath( value ) )
 		{
 			string szValue = value;
@@ -569,7 +569,7 @@ void CMeshSoundPropsItem::UpdateItemValue( int nItemId, const CVariant &value )
 			bool bRes =	MakeSubRelativePath( theApp.GetEditorDataDir().c_str(), szValue.c_str(), szRelatedPath );
 			if ( bRes )
 			{
-				//обрежем расширение в конце
+				// cut off the extension at the end
 				szRelatedPath = szRelatedPath.substr( 0, szRelatedPath.rfind( '.' ) );
 				CVariant newVal = szRelatedPath;
 				CTreeItem::UpdateItemValue( nItemId, newVal );
@@ -1000,7 +1000,7 @@ void CMeshPlatformPropsItem::UpdateItemValue( int nItemId, const CVariant &value
 	
 	if ( nItemId == 4 )
 	{
-		//сконвертим путь к звуковому файлу в относительный без расширени¤
+		// convert the path to the sound file to relative without extension¤
 		if ( !IsRelatedPath( value ) )
 		{
 			string szValue = value;
@@ -1008,7 +1008,7 @@ void CMeshPlatformPropsItem::UpdateItemValue( int nItemId, const CVariant &value
 			bool bRes =	MakeSubRelativePath( theApp.GetEditorDataDir().c_str(), szValue.c_str(), szRelatedPath );
 			if ( bRes )
 			{
-				//обрежем расширение в конце
+				// cut off the extension at the end
 				szRelatedPath = szRelatedPath.substr( 0, szRelatedPath.rfind( '.' ) );
 				CVariant newVal = szRelatedPath;
 				CTreeItem::UpdateItemValue( nItemId, newVal );
@@ -1319,7 +1319,7 @@ void CMeshGraphicsItem::UpdateItemValue( int nItemId, const CVariant &value )
 		string szProjectName = g_frameManager.GetFrame( CFrameManager::E_MESH_FRAME )->GetProjectFileName();
 		if ( !IsRelatedPath(szFull.c_str()) )
 		{
-			//“ут вычисл¤етс¤ относительный путь, относительно файла с проектом
+			// “ut is calculated” as a relative path relative to the project file
 			string szRelatedPath;
 			MakeRelativePath( szProjectName.c_str(), szFull.c_str(), szRelatedPath );
 
@@ -1347,13 +1347,13 @@ void CMeshGraphicsItem::UpdateItemValue( int nItemId, const CVariant &value )
 		return;
 	}
 
-	//все остальные случаи, считаю что в Graphics хран¤тс¤ имена текстур, конвертирую эти имена
+	// all other cases, I think that Graphics stores texture names, I convert these names
 	{
 		string szFull = value;
 		string szProjectName = g_frameManager.GetFrame( CFrameManager::E_MESH_FRAME )->GetProjectFileName();
 		if ( !IsRelatedPath(szFull.c_str()) )
 		{
-			//“ут вычисл¤етс¤ относительный путь, относительно файла с проектом
+			// “ut is calculated” as a relative path relative to the project file
 			string szRelatedPath;
 			if ( !MakeRelativePath( szProjectName.c_str(), szFull.c_str(), szRelatedPath ) )
 			{
@@ -1437,15 +1437,15 @@ void CMeshDeathCratersItem::UpdateItemValue( int nItemId, const CVariant &value 
 	
 	if ( nItemId == 1 )
 	{
-		//изменилась директори¤, считываю все *.san файлы из поддиректорий
+		// directories have changed¤, I read all *.san files from subdirectories
 		std::string szVal = value;
 		string szMask = "*.san";
 		vector<string> files;
 		
-		//—перва составл¤ю полный список san файлов
+		// — first I make a complete list of san files
 		std::string szBaseDir = theApp.GetEditorDataDir();
 		
-		//обновим им¤ директории
+		// update the directory with it
 		std::string szShortDirName;
 		bool bRes = MakeSubRelativePath( szBaseDir.c_str(), szVal.c_str(), szShortDirName );
 		if ( !bRes )
@@ -1476,7 +1476,7 @@ void CMeshDeathCratersItem::UpdateItemValue( int nItemId, const CVariant &value 
 			NI_ASSERT( szName.size() > 0 );
 			int nLast = szName[szName.size() - 1];
 			if ( nLast == 'a' || nLast == 'w' || nLast == 'A' || nLast == 'W' )
-				continue;		//считаетс¤ что это африканские или зимние картинки
+				continue;		// It is believed that these are African or winter pictures
 
 			CMeshDeathCraterPropsItem *pProps = new CMeshDeathCraterPropsItem;
 			pProps->SetItemName( szName.c_str() );

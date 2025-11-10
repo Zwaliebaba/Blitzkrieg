@@ -5,22 +5,22 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CProgressDialog : public CDialog
 {
 public:
 	CProgressDialog( CWnd* pParent = NULL );
 
-	//{{AFX_DATA(CProgressDialog)
+	// {{AFX_DATA(CProgressDialog)
 	enum { IDD = IDD_PROGRESS };
 	CStatic	m_ProgressLabel;
 	CProgressCtrl	m_ProgressBar;
-	//}}AFX_DATA
+	// }}AFX_DATA
 
-	//{{AFX_VIRTUAL(CProgressDialog)
+	// {{AFX_VIRTUAL(CProgressDialog)
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);
-	//}}AFX_VIRTUAL
+	// }}AFX_VIRTUAL
 
 protected:
 	static const DWORD START_TIMER_ID;
@@ -32,10 +32,10 @@ protected:
   void KillStartTimer();
   void OnStartTimer();
 	
-	//{{AFX_MSG(CProgressDialog)
+	// {{AFX_MSG(CProgressDialog)
 	virtual BOOL OnInitDialog();
 	afx_msg void OnTimer(UINT nIDEvent);
-	//}}AFX_MSG
+	// }}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 
 public:
@@ -44,7 +44,7 @@ public:
 	void SetProgressPosition( int nPosition );
 	void IterateProgressPosition();
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//{{AFX_INSERT_LOCATION}}
+
+// {{AFX_INSERT_LOCATION}}
 #endif // !defined(__ELK_PROGRESS_DIALOG__)
 

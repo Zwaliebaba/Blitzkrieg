@@ -27,15 +27,15 @@ public:
 // Attributes
 public:
 
-	//для редактирования fire points
+	// to edit fire points
 	struct SFirePoint
 	{
 		CBridgeFirePointPropsItem *pFirePoint;
 		CPtr<IObjVisObj> pSprite;
 		CPtr<IObjVisObj> pHLine;
 		
-		float fDirection;		//угол направления конуса стрельбы
-		//		float fAngle;				//полный угол конуса стрельбы
+		float fDirection;		// firing cone direction angle
+		// float fAngle;				
 	};
 	
 	enum EActiveMode
@@ -72,9 +72,9 @@ public:
 
 // Overrides
 	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CBridgeFrame)
+	// {{AFX_VIRTUAL(CBridgeFrame)
 protected:
-	//}}AFX_VIRTUAL
+	// }}AFX_VIRTUAL
 
 // Implementation
 private:
@@ -95,31 +95,31 @@ private:
 		E_DRAW_SPAN_PROPS = 1,
 	};
 	int m_drawMode;
-	CVec3 vSpriteCommonPos;					//все спрайты имеют одну координату
+	CVec3 vSpriteCommonPos;					// all sprites have the same coordinate
 	
 	string szSourceDir;
 	string szDestDir;
 	CComboBox *m_pTransparenceCombo;
 	int m_transValue;
 	
-	std::list<int> freeSpanIndexes[3];			//для хранения незаполненных индексов span'ов
+	std::list<int> freeSpanIndexes[3];			// for storing empty span indexes
 	
-	//линия выравнивания
+	// alignment line
 	CPtr<IGFXIndices> pLineIndices;
 	CPtr<IGFXVertices> pLineVertices;
 	float m_fx1, m_fx2, m_fy1, m_fy2;
-	CVec3 vBeginPos, vEndPos;				//позиция начальных и конечных частей моста
-	float m_fBack, m_fFront;		//расстояния от центральной линии до боковых частей моста
+	CVec3 vBeginPos, vEndPos;				// position of the starting and ending parts of the bridge
+	float m_fBack, m_fFront;		// distances from the center line to the sides of the bridge
 	
 	EActiveMode eActiveMode;
 	EActiveSubMode eActiveSubMode;
 	
-	//для костров
+	// for fires
 	typedef list<SFirePoint> CListOfFirePoints;
 	CListOfFirePoints firePoints;
-	SFirePoint *pActiveFirePoint;				//к этой переменной плохо ссылаться напрямую, лучше использовать SetActiveFirePoint()
+	SFirePoint *pActiveFirePoint;				// It is bad to refer to this variable directly, it is better to use SetActiveFirePoint()
 	
-	//для дымов при разрушении
+	// for fumes during destruction
 	CBridgeSmokePropsItem *pActiveSmokePoint;
 	
 	CPtr<IGFXVertices> pConeVertices;
@@ -133,7 +133,7 @@ private:
 	
 public:
 	void SetActiveMode( EActiveMode mode );
-	//для редактирования fire point
+	// to edit fire point
 	void DeleteFirePoint( CTreeItem *pFire );
 	void SelectFirePoint( CTreeItem *pFire );
 	void SetActiveFirePoint( SFirePoint *pFirePoint );
@@ -145,7 +145,7 @@ public:
 	void MoveFirePoint( const POINT &point );
 	void GenerateFirePoints();
 	
-	//для редактирования smoke effects
+	// for editing smoke effects
 	void AddOrSelectSmokePoint( const POINT &point );
 	void DeleteSmokePoint();
 	void SelectSmokePoint( CBridgeSmokePropsItem *pSmokePoint );
@@ -162,16 +162,16 @@ protected:
 	void LoadSpriteItem( CBridgePartPropsItem *pItem, const char *pszName, const char *pszProjectFileName );
 	void SetZeroCoordinate( POINT point );
 	void CreateKrest();
-	virtual void SpecificInit();														//для инициализации внутренних данных после загрузки проекта или создании нового
+	virtual void SpecificInit();														// to initialize internal data after loading a project or creating a new one
 	virtual void SpecificClearBeforeBatchMode();
 	virtual BOOL SpecificTranslateMessage( MSG *pMsg );
 	
-	virtual void SaveFrameOwnData( IDataTree *pDT );				//для сохранения собственных данных проекта
-	virtual void LoadFrameOwnData( IDataTree *pDT );				//для загрузки
+	virtual void SaveFrameOwnData( IDataTree *pDT );				// to save your own project data
+	virtual void LoadFrameOwnData( IDataTree *pDT );				// to download
 	virtual void SaveRPGStats( IDataTree *pDT, CTreeItem *pRootItem, const char *pszProjectName );
 	virtual void LoadRPGStats( IDataTree *pDT, CTreeItem *pRootItem );
 
-	//сохраняет инфо об fire, smoke points
+	// saves information about fire, smoke points
 	void SavePointsInformation( SBridgeRPGStats &rpgStats, CTreeItem *pRootItem, const char *pszProjectName );
 	void FillRPGStats( SBridgeRPGStats &rpgStats, CTreeItem *pRootItem, const char *pszProjectName );
 	void GetRPGStats( const SBridgeRPGStats &rpgStats, CTreeItem *pRootItem );
@@ -193,7 +193,7 @@ protected:
 		
 	// Generated message map functions
 protected:
-	//{{AFX_MSG(CBridgeFrame)
+	// {{AFX_MSG(CBridgeFrame)
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnDrawGrid();
 	afx_msg void OnUpdateDrawGrid(CCmdUI* pCmdUI);
@@ -221,13 +221,13 @@ protected:
 	afx_msg void OnUpdateSetSmokePoint(CCmdUI* pCmdUI);
 	afx_msg void OnGeneratePoints();
 	afx_msg void OnUpdateGeneratePoints(CCmdUI* pCmdUI);
-	//}}AFX_MSG
+	// }}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 
-//{{AFX_INSERT_LOCATION}}
+// {{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
 
-#endif		//__BRIDGEFRM_H__
+#endif		// __BRIDGEFRM_H__

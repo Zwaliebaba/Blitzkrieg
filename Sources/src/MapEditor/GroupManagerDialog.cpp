@@ -13,24 +13,24 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 const int CGroupManagerDialog::vID[] = 
 {
-	IDC_GROUPS_LABEL,										//0
-	IDC_GROUPS_LIST,										//1
-	IDC_GROUPS_DELETE_BUTTON,						//2
-	IDC_GROUPS_ADD_BUTTON,							//3
-	IDC_GROUPS_PROPERTY_LABEL,					//4
-	IDC_GROUPS_PROPERTY_LIST,						//5
-	IDC_GROUPS_DELETE_PROPERTY_BUTTON,	//6
-	IDC_GROUPS_ADD_PROPERTY_BUTTON,			//7
+	IDC_GROUPS_LABEL,										// 0
+	IDC_GROUPS_LIST,										// 1
+	IDC_GROUPS_DELETE_BUTTON,						// 2
+	IDC_GROUPS_ADD_BUTTON,							// 3
+	IDC_GROUPS_PROPERTY_LABEL,					// 4
+	IDC_GROUPS_PROPERTY_LIST,						// 5
+	IDC_GROUPS_DELETE_PROPERTY_BUTTON,	// 6
+	IDC_GROUPS_ADD_PROPERTY_BUTTON,			// 7
 };
 
 CGroupManagerDialog::CGroupManagerDialog( CWnd* pParent )
 	: CResizeDialog( CGroupManagerDialog::IDD, pParent )
 {
-	//{{AFX_DATA_INIT(CGroupManagerDialog)
-	//}}AFX_DATA_INIT
+	// {{AFX_DATA_INIT(CGroupManagerDialog)
+	// }}AFX_DATA_INIT
 
 	SetControlStyle( IDC_GROUPS_LABEL, ANCHORE_LEFT_TOP | RESIZE_HOR );
 	SetControlStyle( IDC_GROUPS_LIST, ANCHORE_LEFT_TOP | RESIZE_HOR_VER, 0.5f, 0.5f, 1.0f, 0.5f );
@@ -45,15 +45,15 @@ CGroupManagerDialog::CGroupManagerDialog( CWnd* pParent )
 void CGroupManagerDialog::DoDataExchange(CDataExchange* pDX)
 {
 	CResizeDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(CGroupManagerDialog)
+	// {{AFX_DATA_MAP(CGroupManagerDialog)
 	DDX_Control(pDX, IDC_GROUPS_PROPERTY_LIST, m_groupInfo);
 	DDX_Control(pDX, IDC_GROUPS_LIST, m_groupList);
-	//}}AFX_DATA_MAP
+	// }}AFX_DATA_MAP
 }
 
 
 BEGIN_MESSAGE_MAP(CGroupManagerDialog, CResizeDialog)
-	//{{AFX_MSG_MAP(CGroupManagerDialog)
+	// {{AFX_MSG_MAP(CGroupManagerDialog)
 	ON_LBN_SELCHANGE(IDC_GROUPS_LIST, OnSelchangeList1)
 	ON_BN_CLICKED(IDC_GROUPS_ADD_BUTTON, OnNewGroup)
 	ON_BN_CLICKED(IDC_GROUPS_DELETE_BUTTON, OnDeleteGroup)
@@ -61,10 +61,10 @@ BEGIN_MESSAGE_MAP(CGroupManagerDialog, CResizeDialog)
 	ON_BN_CLICKED(IDC_GROUPS_DELETE_PROPERTY_BUTTON, OnDeleteScirptIDItem)
 	ON_WM_TIMER()
 	ON_LBN_SELCHANGE(IDC_GROUPS_PROPERTY_LIST, OnSelchangeGroupsPropertyList)
-	//}}AFX_MSG_MAP
+	// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CGroupManagerDialog::OnSelchangeList1() 
 {
 	reinterpret_cast<CWnd *>( g_frameManager.GetTemplateEditorFrame())->SendMessage( WM_USER + 7 );
@@ -72,13 +72,13 @@ void CGroupManagerDialog::OnSelchangeList1()
 	UpdateControls();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CGroupManagerDialog::OnSelchangeGroupsPropertyList() 
 {
 	UpdateControls();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool CGroupManagerDialog::IfIDChecked(int id)
 {
 	bool retVal = false;
@@ -90,7 +90,7 @@ bool CGroupManagerDialog::IfIDChecked(int id)
 	return retVal;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CGroupManagerDialog::OnNewGroup() 
 {
 	if ( CTemplateEditorFrame *pFrame = g_frameManager.GetTemplateEditorFrame() )
@@ -119,7 +119,7 @@ void CGroupManagerDialog::OnNewGroup()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CGroupManagerDialog::OnDeleteGroup() 
 {
 	if ( CTemplateEditorFrame *pFrame = g_frameManager.GetTemplateEditorFrame() )
@@ -138,7 +138,7 @@ void CGroupManagerDialog::OnDeleteGroup()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CGroupManagerDialog::OnAddIDGroupForCurrentRefGroup() 
 {
 	if ( CTemplateEditorFrame *pFrame = g_frameManager.GetTemplateEditorFrame() )
@@ -176,7 +176,7 @@ void CGroupManagerDialog::OnAddIDGroupForCurrentRefGroup()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CGroupManagerDialog::RedrawGroup()
 {
 	if ( CTemplateEditorFrame *pFrame = g_frameManager.GetTemplateEditorFrame() )
@@ -201,7 +201,7 @@ void CGroupManagerDialog::RedrawGroup()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CGroupManagerDialog::OnDeleteScirptIDItem() 
 {
 	if ( CTemplateEditorFrame *pFrame = g_frameManager.GetTemplateEditorFrame() )
@@ -228,7 +228,7 @@ void CGroupManagerDialog::OnDeleteScirptIDItem()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CGroupManagerDialog::UpdateControls()
 {
 	bool bEnabled = false;
@@ -269,7 +269,7 @@ void CGroupManagerDialog::UpdateControls()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 BOOL CGroupManagerDialog::OnInitDialog() 
 {
 	CResizeDialog::OnInitDialog();

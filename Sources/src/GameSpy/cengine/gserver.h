@@ -1,21 +1,5 @@
-/******
-gserver.h
-GameSpy C Engine SDK
-  
-Copyright 1999-2001 GameSpy Industries, Inc
-
-18002 Skypark Circle
-Irvine, California 92614
-949.798.4200 (Tel)
-949.798.4299 (Fax)
-devsupport@gamespy.com
-
-******
-
- Please see the GameSpy C Engine SDK documentation for more 
- information
-
-******/
+/* *****
+ */
 
 #include "goaceng.h"
 
@@ -23,44 +7,43 @@ devsupport@gamespy.com
 #define _GSERVER_H_
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
+
 #endif
 
 #if defined(applec) || defined(THINK_C) || defined(__MWERKS__) && !defined(__KATANA__) && !defined(__mips64)
-	#include "::hashtable.h"
-	#include "::nonport.h"
+#include "::hashtable.h"
+#include "::nonport.h"
 #else
-	#include "../hashtable.h"
-	#include "../nonport.h"
+#include "../hashtable.h"
+#include "../nonport.h"
 #endif
 
 struct GServerImplementation
 {
-	goa_uint32 ip;
-	unsigned short port;
-	short ping;
-	GQueryType querytype;
-	HashTable keyvals;
-	HashTable keylist;
+  goa_uint32 ip;
+  unsigned short port;
+  short ping;
+  GQueryType querytype;
+  HashTable keyvals;
+  HashTable keylist;
 
 };
 
 typedef struct
 {
-	char *key;
-	char *value;
+  char *key;
+  char *value;
 } GKeyValuePair;
-/*
+
+/* typedef struct
+ */
 typedef struct
 {
-	char *key, *value;
-} GKeyValuePair;
-*/
-typedef struct 
-{
-	KeyEnumFn EnumFn;
-	void *instance;
-	HashTable keylist;
+  KeyEnumFn EnumFn;
+  void *instance;
+  HashTable keylist;
 } GEnumData;
 
 void ServerFree(void *elem);

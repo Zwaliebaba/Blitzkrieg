@@ -1,83 +1,83 @@
 #ifndef __STANDART_SMOOTH_MECH_PATH__
 #define __STANDART_SMOOTH_MECH_PATH__
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma ONCE
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#pragma once
+
 #include "Path.h"
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 //*******************************************************************
 //*										CStandartSmoothMechPath												*
 //*******************************************************************
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CStandartSmoothMechPath : public ISmoothPath
 {
-	OBJECT_COMPLETE_METHODS( CStandartSmoothMechPath );
-	DECLARE_SERIALIZE;
-	
-	CPtr<IPath> pPath;
-	// владелец пути
-	interface IBasePathUnit *pUnit;
+  OBJECT_COMPLETE_METHODS(CStandartSmoothMechPath);
+  DECLARE_SERIALIZE;
 
-	CBSpline spline;
+  CPtr<IPath> pPath;
+  // владелец пути
+  interface IBasePathUnit *pUnit;
 
-	float speed;
+  CBSpline spline;
 
-	bool bFinished, bNotified, bMinSlowed, bMaxSlowed, bStopped, bSmoothTurn;
+  float speed;
 
-	CVec2 p0, p1, p2, p3;
-	CVec2 predPoint;
-	float nIter;
-	float fRemain;
-	int nPoints;
-	CVec2 vLastValidatedPoint;
+  bool bFinished, bNotified, bMinSlowed, bMaxSlowed, bStopped, bSmoothTurn;
 
-	bool bCanGoForward, bCanGoBackward;
-	NTimer::STime lastCheckToRightTurn;
+  CVec2 p0, p1, p2, p3;
+  CVec2 predPoint;
+  float nIter;
+  float fRemain;
+  int nPoints;
+  CVec2 vLastValidatedPoint;
 
-	//
-	void AddSmoothTurn();
-	int InitSpline();
-	// проверить на наличие впереди залоканных тайлов. ≈сли есть, то пересчитать путь
-	// true - if Ok, false - if path had to be recalculated
-	bool ValidateCurPath( const CVec2 &center, const CVec2 &newPoint );
+  bool bCanGoForward, bCanGoBackward;
+  NTimer::STime lastCheckToRightTurn;
 
-	const CVec2 GetPointWithoutFormation( NTimer::STime timeDiff );
-	bool CheckTurn( const WORD wNewDir );
+  //
+  void AddSmoothTurn();
+  int InitSpline();
+  // проверить на наличие впереди залоканных тайлов. ≈сли есть, то пересчитать путь
+  // true - if Ok, false - if path had to be recalculated
+  bool ValidateCurPath(const CVec2 &center, const CVec2 &newPoint);
+
+  const CVec2 GetPointWithoutFormation(NTimer::STime timeDiff);
+  bool CheckTurn(WORD wNewDir);
+
 public:
-	CStandartSmoothMechPath();
-	virtual bool Init( interface IBasePathUnit *pUnit, IPath *pPath, bool bSmoothTurn, bool bCheckTurn = true );
-	virtual bool InitByFormationPath( class CFormation *pFormation, interface IBasePathUnit *pUnit ) { return true; }
-	virtual bool Init( interface IMemento *pMemento, interface IBasePathUnit *pUnit );
-	
-	virtual void SetOwner( interface IBasePathUnit *pUnit );
-	virtual IBasePathUnit* GetOwner() const;
+  CStandartSmoothMechPath();
+  bool Init(interface IBasePathUnit *pUnit, IPath *pPath, bool bSmoothTurn, bool bCheckTurn = true) override;
+  bool InitByFormationPath(class CFormation *pFormation, interface IBasePathUnit *pUnit) override { return true; }
+  bool Init(interface IMemento *pMemento, interface IBasePathUnit *pUnit) override;
 
-	virtual const CVec2& GetFinishPoint() const
-	{
-		if ( pPath.IsValid() )
-			return pPath->GetFinishPoint();
-		return VNULL2;
-	}
+  void SetOwner(interface IBasePathUnit *pUnit) override;
+  IBasePathUnit *GetOwner() const override;
 
- 	virtual bool IsFinished() const;
-	
-	virtual void Stop();
+  const CVec2 &GetFinishPoint() const override
+  {
+    if (pPath.IsValid()) return pPath->GetFinishPoint();
+    return VNULL2;
+  }
 
-	virtual const CVec3 GetPoint( NTimer::STime timeDiff );
-	virtual float& GetSpeedLen() { return speed; }
+  bool IsFinished() const override;
 
-	virtual void NotifyAboutClosestThreat( interface IBasePathUnit *pUnit, const float fDist );
-	virtual void SlowDown();
+  void Stop() override;
 
-	virtual bool CanGoBackward() const;
-	virtual bool CanGoForward() const { return bCanGoForward; }
+  const CVec3 GetPoint(NTimer::STime timeDiff) override;
+  float &GetSpeedLen() override { return speed; }
 
-	virtual void GetNextTiles( std::list<SVector> *pTiles );
-	virtual CVec2 GetShift( const int nToShift ) const;
-	
-	virtual IMemento* GetMemento() const;
-	
-	virtual bool IsWithFormation() const { return false; }
+  void NotifyAboutClosestThreat(interface IBasePathUnit *pUnit, float fDist) override;
+  void SlowDown() override;
+
+  bool CanGoBackward() const override;
+  bool CanGoForward() const override { return bCanGoForward; }
+
+  void GetNextTiles(std::list<SVector> *pTiles) override;
+  CVec2 GetShift(int nToShift) const override;
+
+  IMemento *GetMemento() const override;
+
+  bool IsWithFormation() const override { return false; }
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif //__STANDART_SMOOTH_MECH_PATH__

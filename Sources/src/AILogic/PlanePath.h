@@ -1,307 +1,367 @@
 #ifndef __PLANE_PATH_H__
 #define __PLANE_PATH_H__
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma ONCE
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#pragma once
+
 #include "Path.h"
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//*******************************************************************
-//*													CPlanePath															*
-//*******************************************************************
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// **********************************************************************
+// *CPlanePath*
+// **********************************************************************
+
 class CPlanePath : public IPath
 {
-	OBJECT_COMPLETE_METHODS( CPlanePath );
-	DECLARE_SERIALIZE;
+  OBJECT_COMPLETE_METHODS(CPlanePath);
+  DECLARE_SERIALIZE;
 
-	CVec2 startPoint, finishPoint;
-	float fStartZ;
-	float fFinishZ;
+  CVec2 startPoint, finishPoint;
+  float fStartZ;
+  float fFinishZ;
+
 public:
-	CPlanePath() { }
-	CPlanePath( const CVec3 &_startPoint, const CVec2 &_finishPoint ) 
-		: startPoint( _startPoint.x,_startPoint.y ), finishPoint( _finishPoint.x, _finishPoint.y ),
-			fStartZ( _startPoint.z ), fFinishZ( _startPoint.z ) { }
+  CPlanePath() {}
 
-	CPlanePath( const CVec3 &_startPoint, const CVec3 &_finishPoint ) 
-		: startPoint( _startPoint.x,_startPoint.y ), finishPoint( _finishPoint.x, _finishPoint.y ),
-			fStartZ( _startPoint.z ), fFinishZ( _finishPoint.z ) { }
+  CPlanePath(const CVec3 &_startPoint, const CVec2 &_finishPoint)
+    : startPoint(_startPoint.x, _startPoint.y), finishPoint(_finishPoint.x, _finishPoint.y),
+      fStartZ(_startPoint.z), fFinishZ(_startPoint.z) {}
 
-	virtual bool IsFinished() const { return false; }
+  CPlanePath(const CVec3 &_startPoint, const CVec3 &_finishPoint)
+    : startPoint(_startPoint.x, _startPoint.y), finishPoint(_finishPoint.x, _finishPoint.y),
+      fStartZ(_startPoint.z), fFinishZ(_finishPoint.z) {}
 
-	virtual const CVec2 PeekPoint( int nShift ) { return VNULL2; }
-	virtual void Shift( int nShift ) { }
+  bool IsFinished() const override { return false; }
 
-	virtual const CVec2& GetFinishPoint() const { return finishPoint; }
-	virtual const CVec2& GetStartPoint() const { return startPoint; }
+  const CVec2 PeekPoint(int nShift) override { return VNULL2; }
+  void Shift(int nShift) override {}
 
-	virtual void SetFinishZ( const float _fFinishZ ) { fFinishZ = _fFinishZ; }
-	virtual void SetStartPoint( const CVec2 &_startPoint ){startPoint = _startPoint;}
-	virtual float GetFinishZ() const { return fFinishZ; }
-	virtual float GetStartZ() const { return fStartZ; }
+  const CVec2 &GetFinishPoint() const override { return finishPoint; }
+  const CVec2 &GetStartPoint() const override { return startPoint; }
 
-	virtual void RecoverState( const CVec2 &point, const SVector &lastKnownGoodTile ) { startPoint = point; }
-	virtual void Recalculate( const CVec2 &point, const SVector &lastKnownGoodTile ) { }
+  virtual void SetFinishZ(const float _fFinishZ) { fFinishZ = _fFinishZ; }
+  virtual void SetStartPoint(const CVec2 &_startPoint) { startPoint = _startPoint; }
+  virtual float GetFinishZ() const { return fFinishZ; }
+  virtual float GetStartZ() const { return fStartZ; }
 
-	virtual bool CanGoBackward( interface IBasePathUnit *pUnit ) { return false; }
-	virtual bool ShouldCheckTurn() const { return false; }
-	virtual bool IsWithFormation() const { return false; }
+  void RecoverState(const CVec2 &point, const SVector &lastKnownGoodTile) override { startPoint = point; }
+  void Recalculate(const CVec2 &point, const SVector &lastKnownGoodTile) override {}
+
+  bool CanGoBackward(interface IBasePathUnit *pUnit) override { return false; }
+  bool ShouldCheckTurn() const override { return false; }
+  virtual bool IsWithFormation() const { return false; }
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CBasePlaneSmoothPath : public ISmoothPath
 {
 public:
-	virtual void SetAviationUnit( IAviationUnit *_pPlane ) {  }
+  virtual void SetAviationUnit(IAviationUnit *_pPlane) {}
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//*******************************************************************
-//*													CPlaneSmoothPath												*
-//*******************************************************************
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// **********************************************************************
+// *CPlaneSmoothPath*
+// **********************************************************************
+
 class CPlaneSmoothPath : public CBasePlaneSmoothPath
 {
-	OBJECT_COMPLETE_METHODS( CPlaneSmoothPath );
-	DECLARE_SERIALIZE;
+  OBJECT_COMPLETE_METHODS(CPlaneSmoothPath);
+  DECLARE_SERIALIZE;
 
 public:
+  struct SMemberInfo
+  {
+    DECLARE_SERIALIZE;
 
-	struct SMemberInfo
-	{
-		DECLARE_SERIALIZE;
-	public:
+  public:
+    CVec2 vWorldPosition;
+    WORD wDirection;
+    float fCurvatureRadius;
+    CVec2 vSpeed;
 
-		CVec2 vWorldPosition;
-		WORD wDirection;
-		float fCurvatureRadius;
-		CVec2 vSpeed;
-
-		NTimer::STime lastMoveTime;
-		SMemberInfo() : lastMoveTime( -1 ) {  }
-	};
+    NTimer::STime lastMoveTime;
+    SMemberInfo() : lastMoveTime(-1) {}
+  };
 
 
-	struct SPathVisitor
-	{
-		WORD wCurAngle;
-		CVec2 vCurPoint;
-		SPathVisitor( const CVec2 &vPoint ) : vCurPoint( vPoint ) {  }
-		SPathVisitor( const WORD wAngle ) : wCurAngle( wAngle ) {  }
-	};
-	//
-	class CPathFraction : public IRefCount
-	{
-		DECLARE_SERIALIZE;
-		bool bActive;
-	public:
-		CPathFraction () : bActive( true ) { }
-		// return true if the formation offset corresponds this path fraction; in this case vPosition is filled with 
-		// world coordinates
-		// offset - when it is not first fraction.
-		virtual bool CalcPoint( const CVec2 &vFormationOffset/*path coordinates*/, CVec2 * vPosition /*world coordinates*/, WORD *wUnitDir, float *pfCurvatureRadius, CVec2 *pvSpeed, const float fOffset ) const = 0;
-		// length in world coordinates, 
-		virtual float GetLength() const = 0;
-		// if this fraction is being moved by
-		bool IsCurrent() const;
-		// sets current position
-		virtual void SetCurPos( const SPathVisitor &rVisitor ) = 0;
-		// mark path as finished
-		virtual void SetFinished( const SPathVisitor &rVisitor ) = 0;
-		// last segment did'n use this fraction
-		void SetActive( const bool _bActive ) { bActive = _bActive; }
-		bool IsActive() const { return bActive; }
-	};
+  struct SPathVisitor
+  {
+    WORD wCurAngle;
+    CVec2 vCurPoint;
+    SPathVisitor(const CVec2 &vPoint) : vCurPoint(vPoint) {}
+    SPathVisitor(const WORD wAngle) : wCurAngle(wAngle) {}
+  };
 
-	// arc path fraction, from angle to angle, 
-	class CArcPathFraction : public CPathFraction
-	{
-		OBJECT_COMPLETE_METHODS( CArcPathFraction );
-		DECLARE_SERIALIZE;
-		
-		CCircle flyCircle;
-		WORD wFrom;
-		int nAngleSingn;
-		float fLenght;
+  //
+  class CPathFraction : public IRefCount
+  {
+    DECLARE_SERIALIZE;
+    bool bActive;
 
-		WORD wCurAngle;
-		void CalcLenght();
-	public:
-		CArcPathFraction() {  }
-		// angles - from center
-		CArcPathFraction( const CCircle &_flyCircle, const WORD wDirFrom, const int _nAngleSingn );
-		
-		virtual bool CalcPoint( const CVec2 &vFormationOffset/*path coordinates*/, CVec2 * vPosition /*world coordinates*/, WORD *wUnitDir, float *pfCurvatureRadius, CVec2 *pvSpeed, const float fOffset ) const;
-		virtual float GetLength() const { return fLenght; }
+  public:
+    CPathFraction() : bActive(true) {}
+    // return true if the formation offset corresponds to this path fraction; 
+    // world coordinates
+    // offset - when it is not first fraction.
+    virtual bool CalcPoint(const CVec2 &vFormationOffset/* path coordinates */, CVec2 *vPosition /* world coordinates */, WORD *wUnitDir, float *pfCurvatureRadius, CVec2 *pvSpeed, float fOffset) const = 0;
+    // length in world coordinates,
+    virtual float GetLength() const = 0;
+    // if this fraction is being moved by
+    bool IsCurrent() const;
+    // sets current position
+    virtual void SetCurPos(const SPathVisitor &rVisitor) = 0;
+    // mark path as finished
+    virtual void SetFinished(const SPathVisitor &rVisitor) = 0;
+    // last segment did'n use this fraction
+    void SetActive(const bool _bActive) { bActive = _bActive; }
+    bool IsActive() const { return bActive; }
+  };
 
-		virtual void SetCurPos( const SPathVisitor &rVisitor );
-		virtual void SetFinished( const SPathVisitor &rVisitor );
-	};
+  // arc path fraction, from angle to angle,
+  class CArcPathFraction : public CPathFraction
+  {
+    OBJECT_COMPLETE_METHODS(CArcPathFraction);
+    DECLARE_SERIALIZE;
 
-	// line path fraction, from point to point
-	class CLinePathFraction : public CPathFraction
-	{
-		OBJECT_COMPLETE_METHODS( CLinePathFraction );
-		DECLARE_SERIALIZE;
-		CVec2 vStart;
-		CVec2 vCurPoint;
+    CCircle flyCircle;
+    WORD wFrom;
+    int nAngleSingn;
+    float fLenght;
 
-		float fLength;
+    WORD wCurAngle;
+    void CalcLenght();
 
-		void CalcLenght() { fLength = fabs(vCurPoint - vStart); }
-	public:
-		CLinePathFraction() {  }
-		CLinePathFraction( const CVec2 &_vStart )
-			: vStart( _vStart ), vCurPoint( _vStart ), fLength( 0 ) {  }
+  public:
+    CArcPathFraction() {}
+    // angles - from center
+    CArcPathFraction(const CCircle &_flyCircle, WORD wDirFrom, int _nAngleSingn);
 
-		virtual bool CalcPoint( const CVec2 &vFormationOffset/*path coordinates*/, CVec2 * vPosition /*world coordinates*/, WORD *wUnitDir, float *pfCurvatureRadius, CVec2 *pvSpeed, const float fOffset ) const;
-		virtual float GetLength() const { return fLength; }
+    bool CalcPoint(const CVec2 &vFormationOffset/* path coordinates */, CVec2 *vPosition /* world coordinates */, WORD *wUnitDir, float *pfCurvatureRadius, CVec2 *pvSpeed, float fOffset) const override;
+    float GetLength() const override { return fLenght; }
 
-		virtual void SetCurPos( const SPathVisitor &rVisitor ) { vCurPoint = rVisitor.vCurPoint; CalcLenght(); }
-		virtual void SetFinished( const SPathVisitor &rVisitor ) { vCurPoint = rVisitor.vCurPoint; CalcLenght(); }
-	};
+    void SetCurPos(const SPathVisitor &rVisitor) override;
+    void SetFinished(const SPathVisitor &rVisitor) override;
+  };
+
+  // line path fraction, from point to point
+  class CLinePathFraction : public CPathFraction
+  {
+    OBJECT_COMPLETE_METHODS(CLinePathFraction);
+    DECLARE_SERIALIZE;
+    CVec2 vStart;
+    CVec2 vCurPoint;
+
+    float fLength;
+
+    void CalcLenght() { fLength = fabs(vCurPoint - vStart); }
+
+  public:
+    CLinePathFraction() {}
+
+    CLinePathFraction(const CVec2 &_vStart)
+      : vStart(_vStart), vCurPoint(_vStart), fLength(0) {}
+
+    bool CalcPoint(const CVec2 &vFormationOffset/* path coordinates */, CVec2 *vPosition /* world coordinates */, WORD *wUnitDir, float *pfCurvatureRadius, CVec2 *pvSpeed, float fOffset) const override;
+    float GetLength() const override { return fLength; }
+
+    void SetCurPos(const SPathVisitor &rVisitor) override
+    {
+      vCurPoint = rVisitor.vCurPoint;
+      CalcLenght();
+    }
+
+    void SetFinished(const SPathVisitor &rVisitor) override
+    {
+      vCurPoint = rVisitor.vCurPoint;
+      CalcLenght();
+    }
+  };
+
 private:
-	bool bTrackHistory;										// true if path history is ti be recorded.
-	typedef std::list< CPtr<CPathFraction> > CPathHistory;
-	CPathHistory pathHistory;
+  bool bTrackHistory;// true if path history is ti be recorded.
+  using CPathHistory = std::list<CPtr<CPathFraction>>;
+  CPathHistory pathHistory;
 
-	enum EHeightState
-	{
-		HS_HEIGHT_OK,												// horisontal flight
+  enum EHeightState
+  {
+    HS_HEIGHT_OK,// horizontal flight
 
-		HS_GAIN_STRAIGHT,										// gain height with constant angle
-		HS_GAIN_ESCAPE,											// finishing of gain height
-		HS_GAIN_ENTER,											// starting of gain height
+    HS_GAIN_STRAIGHT,// gain height with constant angle
+    HS_GAIN_ESCAPE,// finishing of gain height
+    HS_GAIN_ENTER,// starting of gain height
 
-		HS_DIVE_STRAIGHT,										// same ...
-		HS_DIVE_ENTER,
-		HS_DIVE_ESCAPE,
-	};
-	EHeightState eState;
-	NTimer::STime segmentTime;
+    HS_DIVE_STRAIGHT,// same...
+    HS_DIVE_ENTER,
+    HS_DIVE_ESCAPE,
+  };
 
-	CPtr<CPlanePath> pPath;
-	interface IBasePathUnit *pUnit;
-	interface IAviationUnit *pPlane;
+  EHeightState eState;
+  NTimer::STime segmentTime;
 
-	float fTurnRadiusMax;
-	float fTurnRadiusMin;
-	
-	float fTurnR;
-	float fSpeed;
-	float fAngleSpeed;
-	CVec2 vAngleSpeed;
-	CVec2 vCurAngleSpeed;
-	bool bGainHeight;											// период изменения высоты
-	bool bToHorisontal;										// выходи из пикирования/кабрирования
-	float fDistanceToChangeHeight;					// дистанция для начала изменения высоты
+  CPtr<CPlanePath> pPath;
+  interface IBasePathUnit *pUnit;
+  interface IAviationUnit *pPlane;
 
-	CCircle flyCircle;
-	CVec2 circePoint;
-	short int angleSign;
-	WORD startAngle, finishAngle;
-	CVec2 dirByLine;
+  float fTurnRadiusMax;
+  float fTurnRadiusMin;
 
-	bool bFinished;
-	bool bByCircle;
-	
-	bool bSmoothTurn; // if true значит самолет не в боевом режиме
-	float fVerTurnRatio;
-	
-	//
-	void CompareWithBest( const CVec2 &p, CVec2 *bestPoint, WORD *wBestAngle, const CCircle &circle, const short int sign );
-	// новый радиус поворота
-	void SetTurnRadius( float fTurnRadius );
-	float Calc2DDistanceToGo() const;			// дистанция, которая осталась до конечной точки (по проекции на горизонтальную плоскость)
-	static bool IsHeightOK( const IBasePathUnit *pUnit, const IAviationUnit *pPlane, const float fZ, const float fAngleSpeed );
-	void FinishPath();
+  float fTurnR;
+  float fSpeed;
+  float fAngleSpeed;
+  CVec2 vAngleSpeed;
+  CVec2 vCurAngleSpeed;
+  bool bGainHeight;// height change period
+  bool bToHorisontal;// come out of a dive/pitch
+  float fDistanceToChangeHeight;// distance to start altitude change
+
+  CCircle flyCircle;
+  CVec2 circePoint;
+  short int angleSign;
+  WORD startAngle, finishAngle;
+  CVec2 dirByLine;
+
+  bool bFinished;
+  bool bByCircle;
+
+  bool bSmoothTurn;// if true means the plane is not in combat mode
+  float fVerTurnRatio;
+
+  //
+  void CompareWithBest(const CVec2 &p, CVec2 *bestPoint, WORD *wBestAngle, const CCircle &circle, short int sign);
+  // new turning radius
+  void SetTurnRadius(float fTurnRadius);
+  float Calc2DDistanceToGo() const;// the distance remaining to the end point (as projected onto the horizontal plane)
+  static bool IsHeightOK(const IBasePathUnit *pUnit, const IAviationUnit *pPlane, float fZ, float fAngleSpeed);
+  void FinishPath();
+
 public:
+  bool IsInitialized() const { return pPath && pUnit && pPlane; }
+  static bool IsHeightOK(const IBasePathUnit *pUnit, float fZ, float fAngleSpeed = 0.0f);
+  static float CalcCriticalDistance(const CVec2 &vSpeedHorVer, float _fVerTurnRatio, float _fTurnRadius);
 
-	bool IsInitialized() const { return pPath && pUnit && pPlane; }
-	static bool IsHeightOK( const IBasePathUnit *pUnit, const float fZ, const float fAngleSpeed = 0.0f );
-	static float CalcCriticalDistance( const CVec2 &vSpeedHorVer, const float _fVerTurnRatio, const float _fTurnRadius );
+  virtual void SetAviationUnit(IAviationUnit *_pPlane, IBasePathUnit *_pPathUnit);
 
-	virtual void SetAviationUnit( IAviationUnit *_pPlane, IBasePathUnit *_pPathUnit );
+  CPlaneSmoothPath() : bTrackHistory(false), pUnit(nullptr), pPlane(nullptr) {}
+  CPlaneSmoothPath(float fTurnRadiusMin, float fTurnRadiusMax, float fSpeed, float fVerTurnRatio, bool _bTrackHistory = false);
 
-	CPlaneSmoothPath() : pUnit( 0 ), pPlane( 0 ), bTrackHistory( false ) { }
-	CPlaneSmoothPath( const float fTurnRadiusMin, const float fTurnRadiusMax, const float fSpeed, const float fVerTurnRatio, const bool _bTrackHistory = false );
+  bool Init(interface IBasePathUnit *pPathUnit, interface IAviationUnit *pAviationUnit, IPath *pPath, bool bSmoothTurn, bool bCheckTurn = true) override;
+  bool Init(interface IBasePathUnit *pUnit, interface IPath *pPath, bool bSmoothTurn = true, bool bCheckTurn = true) override;
+  bool InitByFormationPath(class CFormation *pFormation, interface IBasePathUnit *pUnit) override;
+  bool Init(interface IMemento *pMemento, interface IBasePathUnit *pUnit) override;
 
-	virtual bool Init( interface IBasePathUnit *pPathUnit, interface IAviationUnit *pAviationUnit, IPath *pPath, bool bSmoothTurn, bool bCheckTurn = true );
-	virtual bool Init( interface IBasePathUnit *pUnit, interface IPath * pPath, bool bSmoothTurn = true, bool bCheckTurn = true );
-	virtual bool InitByFormationPath( class CFormation *pFormation, interface IBasePathUnit *pUnit );
-	virtual bool Init( interface IMemento *pMemento, interface IBasePathUnit *pUnit );
+  const CVec2 &GetFinishPoint() const override { return pPath->GetFinishPoint(); }
 
-	virtual const CVec2& GetFinishPoint() const { return pPath->GetFinishPoint(); }
+  bool IsFinished() const override;
 
-	virtual bool IsFinished() const;
-	
-	virtual void Stop() { bFinished = true; }
+  void Stop() override { bFinished = true; }
 
-	virtual const CVec3 GetPoint( NTimer::STime timeDiff );
-	virtual float& GetSpeedLen() { return fSpeed; }
+  const CVec3 GetPoint(NTimer::STime timeDiff) override;
+  float &GetSpeedLen() override { return fSpeed; }
 
-	virtual void NotifyAboutClosestThreat( interface IBasePathUnit *pUnit, const float fDist ) { }
-	virtual void SlowDown() { }
+  void NotifyAboutClosestThreat(interface IBasePathUnit *pUnit, const float fDist) override {}
+  void SlowDown() override {}
 
-	//
-	virtual bool TurnToDir( const WORD &newDir ) { return true; }
-	
-	virtual bool CanGoBackward() const { return false; }
-	virtual bool CanGoForward() const { return true; }
-	virtual void GetNextTiles( std::list<SVector> *pTiles ) { }
-	virtual CVec2 GetShift( const int nToShift ) const { NI_ASSERT_T( false, "Wrong call" ); return VNULL2; }
+  //
+  virtual bool TurnToDir(const WORD &newDir) { return true; }
 
-	virtual IMemento* GetMemento() const;
-	virtual float GetCurvatureRadius() const;
-	virtual CVec2 GetCurvatureCenter() const;
+  bool CanGoBackward() const override { return false; }
+  bool CanGoForward() const override { return true; }
+  void GetNextTiles(std::list<SVector> *pTiles) override {}
 
-	virtual bool IsWithFormation() const { return false; }
-	virtual void SetOwner( interface IBasePathUnit *pUnit );
-	virtual IBasePathUnit* GetOwner() const;	
+  CVec2 GetShift(const int nToShift) const override
+  {
+    NI_ASSERT_T(false, "Wrong call");
+    return VNULL2;
+  }
 
-		// calsulates world coordinates form formation coordinates
-	void CalculateMemberInfo( const CVec2 &vFormationOffset, SMemberInfo *pMemberInfo ) const;
-	void ClearUnisedHistory();
+  IMemento *GetMemento() const override;
+  float GetCurvatureRadius() const override;
+  CVec2 GetCurvatureCenter() const override;
+
+  bool IsWithFormation() const override { return false; }
+  void SetOwner(interface IBasePathUnit *pUnit) override;
+  IBasePathUnit *GetOwner() const override;
+
+  // calsulates world coordinates form formation coordinates
+  void CalculateMemberInfo(const CVec2 &vFormationOffset, SMemberInfo *pMemberInfo) const;
+  void ClearUnisedHistory();
 };
+
 class CPlanesFormation;
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// path for planes, that formation with horisontal shift.
+
+// path for planes, that formation with horizontal shift.
 class CPlaneInFormationSmoothPath : public CBasePlaneSmoothPath
 {
-	OBJECT_COMPLETE_METHODS( CPlaneInFormationSmoothPath );
-	DECLARE_SERIALIZE;
+  OBJECT_COMPLETE_METHODS(CPlaneInFormationSmoothPath);
+  DECLARE_SERIALIZE;
 
-	CPlanesFormation * pFormation;
-	class CAviation *pOwner;
-	
+  CPlanesFormation *pFormation;
+  class CAviation *pOwner;
+
 public:
-	CPlaneInFormationSmoothPath() : pOwner( 0 ) {  }
-	void Init( class CAviation *_pOwner ) ;
+  CPlaneInFormationSmoothPath() : pOwner(nullptr) {}
+  void Init(class CAviation *_pOwner);
 
-	// forward to formation path
-	virtual const CVec2& GetFinishPoint() const;
-	virtual bool IsFinished() const;
-	virtual const CVec3 GetPoint( NTimer::STime timeDiff );
-	virtual float& GetSpeedLen();
-	virtual float GetCurvatureRadius() const;
-	virtual CVec2 GetCurvatureCenter() const;
+  // forward to formation path
+  const CVec2 &GetFinishPoint() const override;
+  bool IsFinished() const override;
+  const CVec3 GetPoint(NTimer::STime timeDiff) override;
+  float &GetSpeedLen() override;
+  float GetCurvatureRadius() const override;
+  CVec2 GetCurvatureCenter() const override;
 
 
-	// need to correct work of CBasePathUnit
-	virtual bool CanGoBackward() const;
-	virtual void SetOwner( interface IBasePathUnit *pUnit );
-	virtual IBasePathUnit* GetOwner() const;
+  // need to correct work of CBasePathUnit
+  bool CanGoBackward() const override;
+  void SetOwner(interface IBasePathUnit *pUnit) override;
+  IBasePathUnit *GetOwner() const override;
 
-	// empty functions
-	virtual bool Init( interface IBasePathUnit *pUnit, IPath *pPath, bool bSmoothTurn, bool bCheckTurn = true ) { NI_ASSERT_T(false, "wrong call" ); return false; }
-	virtual bool Init( interface IMemento *pMemento, interface IBasePathUnit *pUnit ) { NI_ASSERT_T(false, "wrong call" ); return false; }
-	virtual bool InitByFormationPath( class CFormation *pFormation, interface IBasePathUnit *pUnit ) { NI_ASSERT_T(false, "wrong call" ); return false; }
-	virtual void NotifyAboutClosestThreat( interface IBasePathUnit *pCollUnit, const float fDist ) { NI_ASSERT_T(false, "wrong call" ); }
-	virtual void SlowDown() { NI_ASSERT_T(false, "wrong call" ); }
-	virtual bool CanGoForward() const { NI_ASSERT_T(false, "wrong call" ); return true; }
-	virtual void GetNextTiles( std::list<SVector> *pTiles ) { NI_ASSERT_T(false, "wrong call" ); }
-	virtual CVec2 GetShift( const int nToShift ) const { NI_ASSERT_T(false, "wrong call" ); return VNULL2; }
-	virtual IMemento* GetMemento() const { NI_ASSERT_T(false, "wrong call" ); return 0; }
-	virtual bool IsWithFormation() const { NI_ASSERT_T(false, "wrong call" ); return true; }
-	virtual void Stop() { NI_ASSERT_T(false, "wrong call" ); }
+  // empty functions
+  bool Init(interface IBasePathUnit *pUnit, IPath *pPath, bool bSmoothTurn, bool bCheckTurn = true) override
+  {
+    NI_ASSERT_T(false, "wrong call");
+    return false;
+  }
+
+  bool Init(interface IMemento *pMemento, interface IBasePathUnit *pUnit) override
+  {
+    NI_ASSERT_T(false, "wrong call");
+    return false;
+  }
+
+  bool InitByFormationPath(class CFormation *pFormation, interface IBasePathUnit *pUnit) override
+  {
+    NI_ASSERT_T(false, "wrong call");
+    return false;
+  }
+
+  void NotifyAboutClosestThreat(interface IBasePathUnit *pCollUnit, const float fDist) override { NI_ASSERT_T(false, "wrong call"); }
+  void SlowDown() override { NI_ASSERT_T(false, "wrong call"); }
+
+  bool CanGoForward() const override
+  {
+    NI_ASSERT_T(false, "wrong call");
+    return true;
+  }
+
+  void GetNextTiles(std::list<SVector> *pTiles) override { NI_ASSERT_T(false, "wrong call"); }
+
+  CVec2 GetShift(const int nToShift) const override
+  {
+    NI_ASSERT_T(false, "wrong call");
+    return VNULL2;
+  }
+
+  IMemento *GetMemento() const override
+  {
+    NI_ASSERT_T(false, "wrong call");
+    return nullptr;
+  }
+
+  bool IsWithFormation() const override
+  {
+    NI_ASSERT_T(false, "wrong call");
+    return true;
+  }
+
+  void Stop() override { NI_ASSERT_T(false, "wrong call"); }
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // __PLANE_PATH_H__

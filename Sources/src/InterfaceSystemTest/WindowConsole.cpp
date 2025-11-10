@@ -1,6 +1,6 @@
 // WindowConsole.cpp: implementation of the CWindowConsole class.
 //
-//////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
 #include "WindowConsole.h"
@@ -10,19 +10,19 @@
 #include "WindowEditLine.h"
 #include "MessageReaction.h"
 
-//////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////
 // Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-static const int CONSOLE_HEIGHT = 240;			//Высота консоли в пикселах
-static const int TEXT_LEFT_SPACE = 20;			//Отступ от левого края экрана до текста в консоли
-static const int TEXT_VERTICAL_SIZE = 20;		//Размер шрифта по вертикали
-static const int MINUS_PAGE_SIZE = 5;				//Специальная константа отступа для PgUp PgDown,
-static const int CURSOR_ANIMATION_TIME = 400;		//период переключения курсора
+// /////////////////////////////////////////////////////////////////
+
+static const int CONSOLE_HEIGHT = 240;			// Console height in pixels
+static const int TEXT_LEFT_SPACE = 20;			// Indent from the left edge of the screen to the text in the console
+static const int TEXT_VERTICAL_SIZE = 20;		// Vertical font size
+static const int MINUS_PAGE_SIZE = 5;				// Special indentation constant for PgUp PgDown,
+static const int CURSOR_ANIMATION_TIME = 400;		// cursor switching period
 static const WCHAR szPrefix[] = L">>";
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 IMPLEMENT_CLONABLE(CWindowConsole);
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 int CWindowConsole::SColorString::operator&( IStructureSaver &ss )
 {
 	CSaverAccessor saver = &ss;
@@ -31,14 +31,14 @@ int CWindowConsole::SColorString::operator&( IStructureSaver &ss )
 	return 0;
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 int CWindowConsole::operator&( IStructureSaver &ss )
 {
 	CSaverAccessor saver = &ss;
 	NI_ASSERT_T( FALSE, "NEED IMPLEMENT" );
 	return 0;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 int CWindowConsole::operator&( IDataTree &ss )
 {
 	CTreeAccessor saver = &ss;
@@ -46,14 +46,14 @@ int CWindowConsole::operator&( IDataTree &ss )
 	saver.Add( "TextColor", &dwColor );
 	return 0;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CWindowConsole::RegisterEffects( interface IScreen *pScreen )
 {
-	//CRAP{ maybe I should ALLOW TO specify this effect sequence?
+	// CRAP{ maybe I should ALLOW TO specify this effect sequence?
 	SUICommandSequence cmdShow;
 	cmdShow.cmds.push_back( SUIStateCommand(EUISM_PS_MOVETO_COMMAND, "Console", "", CVec2( 0, CONSOLE_HEIGHT ), MAKELONG(1000,0)) );
 	cmdShow.cmds.push_back( SUIStateCommand(EUISM_RUN_REACTION_COMMAND, "MakeConsoleVisible", "MakeConsoleInvisible", VNULL2, 0) );
-	//CRAP}
+	// CRAP}
 	pScreen->RegisterEffect( "ShowConsole", cmdShow );
 
 	CMessageReactionB2 * pReaction = new CMessageReactionB2;
@@ -64,10 +64,10 @@ void CWindowConsole::RegisterEffects( interface IScreen *pScreen )
 	pReaction->AddCommonBefore( new CARSendMessage("UI_SHOW_WINDOW",GetName(), false) );
 	pScreen->RegisterReaction( "MakeConsoleInvisible", pReaction );
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CWindowConsole::OnShowConsole( const struct SGameMessage &msg )
 {
-	//CRAP{ to disapear SIMPLE undo appear effect
+	// CRAP{ to disapear SIMPLE undo appear effect
 	if ( bCanLaunchEffect )
 	{
 		if ( !IsVisible() )
@@ -75,18 +75,18 @@ void CWindowConsole::OnShowConsole( const struct SGameMessage &msg )
 		else 
 			GetScreen()->RunStateCommandSequience( "ShowConsole", this, false );
 	}
-	//CRAP}
+	// CRAP}
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CWindowConsole::NotifyStateSequenceFinished()
 {
 	bCanLaunchEffect = true;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CWindowConsole::Reposition( const CTRect<float> &rcParent )
 {
 
-	//TO DO : SET CONSOLE TO SCREEN WIDTH
+	// TO DO : SET CONSOLE TO SCREEN WIDTH
 	SetPlacement( 0, -CONSOLE_HEIGHT, rcParent.Width(), CONSOLE_HEIGHT, EWPF_ALL );
 
 	pEditLine = dynamic_cast<CWindowEditLine*>( GetChild( "ConsoleEditLine" ) );
@@ -97,7 +97,7 @@ void CWindowConsole::Reposition( const CTRect<float> &rcParent )
 
 	CWindow::Reposition( rcParent );
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CWindowConsole::Segment( const NTimer::STime timeDiff )
 {
 	// retrieve and parse commands from console buffer
@@ -119,12 +119,12 @@ void CWindowConsole::Segment( const NTimer::STime timeDiff )
 			vectorOfStrings.push_back( SColorString(pszString, color) );
 	}
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CWindowConsole::Visit( interface ISceneVisitor *pVisitor )
 {
 	CWindow::Visit( pVisitor );
 
-	//CRAP{ redo with visitors
+	// CRAP{ redo with visitors
 	if ( IsVisible() )
 	{
 		CTRect<float> wndRect;
@@ -139,7 +139,7 @@ void CWindowConsole::Visit( interface ISceneVisitor *pVisitor )
 		}
 		nCurrentY -= TEXT_VERTICAL_SIZE;
 
-		// отобразим строчки в консоли
+		// display the lines in the console
 		int nSize = vectorOfStrings.size();
 		for ( int i = nBeginString; i < nSize; ++i )
 		{
@@ -150,17 +150,17 @@ void CWindowConsole::Visit( interface ISceneVisitor *pVisitor )
 				break;
 		}
 	}
-	//CRAP}
+	// CRAP}
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CWindowConsole::RegisteMessageSinks()
 {
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CWindowConsole::UnRegisteMessageSinks()
 {
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CWindowConsole::OnKeyUp( const struct SGameMessage &msg )
 {
 	if ( nBeginCommand == -1 && !vectorOfCommands.empty() )
@@ -171,18 +171,18 @@ void CWindowConsole::OnKeyUp( const struct SGameMessage &msg )
 
 	if ( nBeginCommand > 0 )
 	{
-		//сдвинем позицию на единицу вниз
+		// move the position down by one
 		nBeginCommand--;
 		pEditLine->SetText( vectorOfCommands[nBeginCommand].c_str() );
 	}
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CWindowConsole::OnKeyDown( const struct SGameMessage &msg )
 {
 	if ( nBeginCommand == vectorOfCommands.size() || nBeginCommand == -1 )
 			return;
 		
-	//отобразим предыдущую команду
+	// display the previous command
 	nBeginCommand++;
 	if ( nBeginCommand == vectorOfCommands.size() )
 	{
@@ -194,24 +194,24 @@ void CWindowConsole::OnKeyDown( const struct SGameMessage &msg )
 		pEditLine->SetText( vectorOfCommands[nBeginCommand].c_str() );
 	}
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CWindowConsole::OnCtrlHome( const struct SGameMessage &msg )
 {
 	if ( vectorOfStrings.size() > CONSOLE_HEIGHT / TEXT_VERTICAL_SIZE )
 		nBeginString = vectorOfStrings.size() - CONSOLE_HEIGHT / TEXT_VERTICAL_SIZE + MINUS_PAGE_SIZE;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CWindowConsole::OnCtrlEnd( const struct SGameMessage &msg )
 {
 	nBeginString = 0;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CWindowConsole::OnPgUp( const struct SGameMessage &msg )
 {
 	if ( nBeginString + CONSOLE_HEIGHT / TEXT_VERTICAL_SIZE < vectorOfStrings.size() )
 		nBeginString += CONSOLE_HEIGHT / TEXT_VERTICAL_SIZE - MINUS_PAGE_SIZE;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CWindowConsole::OnPgDn( const struct SGameMessage &msg )
 {
 	if ( nBeginString - CONSOLE_HEIGHT / TEXT_VERTICAL_SIZE > 0 )
@@ -219,7 +219,7 @@ void CWindowConsole::OnPgDn( const struct SGameMessage &msg )
 	else
 		nBeginString = 0;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CWindowConsole::OnReturn( const struct SGameMessage &msg )
 {
 	// 
@@ -229,7 +229,7 @@ void CWindowConsole::OnReturn( const struct SGameMessage &msg )
 		nBeginString++;
 
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CWindowConsole::ParseCommand( const std::wstring &szExtCommand )
 {
 	std::string szCommandString;
@@ -253,4 +253,4 @@ void CWindowConsole::ParseCommand( const std::wstring &szExtCommand )
 	const std::string szError = std::string( "Unknown command: " ) + szCommandString;
 	GetSingleton<IConsoleBuffer>()->WriteASCII( CONSOLE_STREAM_CONSOLE, szError.c_str(), 0xffff0000 );
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+

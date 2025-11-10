@@ -46,7 +46,7 @@ public:
 	virtual void Init( IGFX *_pGFX );
 	
 private:
-	//Для отображения сетки
+	// To display the grid
 	CPtr<IGFXVertices> pGridVertices;
 	
 protected:
@@ -91,4 +91,4 @@ protected:
 	bool SaveIconFile( const char *pszSrc, const char *pszRes );
 };
 
-#endif		//__GRIDFRM_H__
+#endif		// __GRIDFRM_H__

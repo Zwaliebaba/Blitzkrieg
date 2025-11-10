@@ -20,4 +20,4 @@ public:
 	void ConvertExcelToXMLFiles( const char *pszExcelFileName, const char *pszNodeName );
 };
 
-#endif		//__EXCEL_EXPORTER_H__
+#endif		// __EXCEL_EXPORTER_H__

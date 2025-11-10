@@ -24,13 +24,13 @@
 static const int THUMB_LIST_WIDTH = 145;
 static char BASED_CODE szEffectComposeFilter[] = "Effect Compose Project Files (*.eff)|*.eff||";
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // CEffectFrame
 
 IMPLEMENT_DYNCREATE(CEffectFrame, CParentFrame)
 
 BEGIN_MESSAGE_MAP(CEffectFrame, CParentFrame)
-	//{{AFX_MSG_MAP(CEffectFrame)
+	// {{AFX_MSG_MAP(CEffectFrame)
 	ON_WM_CREATE()
 	ON_COMMAND(ID_RUN_BUTTON, OnRunButton)
 	ON_COMMAND(ID_STOP_BUTTON, OnStopButton)
@@ -43,10 +43,10 @@ BEGIN_MESSAGE_MAP(CEffectFrame, CParentFrame)
 	ON_UPDATE_COMMAND_UI(ID_BUTTON_CAMERA, OnUpdateButtonCamera)
 	ON_COMMAND(ID_SHOW_DIRECTION_BUTTON, OnShowDirectionButton)
 	ON_UPDATE_COMMAND_UI(ID_SHOW_DIRECTION_BUTTON, OnUpdateShowDirectionButton)
-	//}}AFX_MSG_MAP
+	// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // CEffectFrame construction/destruction
 
 CEffectFrame::CEffectFrame()
@@ -74,7 +74,7 @@ int CEffectFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;
 	g_frameManager.AddFrame( this );
 	
-	// create a view to occupy the client area of the frame
+	// create a view to occupy the client area of ​​the frame
 	if (!pWndView->Create(NULL, NULL,  WS_CHILD | WS_VISIBLE, 
 		CRect(0, 0, 0, 0), this, AFX_IDW_PANE_FIRST, NULL))
 	{
@@ -82,12 +82,12 @@ int CEffectFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;
 	}
 	
-	//инициализируем уникальное имя для проекта
+	// initialize a unique name for the project
 	GenerateProjectName();
 	return 0;
 }
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // CEffectFrame message handlers
 void CEffectFrame::ShowFrameWindows( int nCommand )
 {
@@ -127,9 +127,9 @@ void CEffectFrame::UpdateEffectAngle()
 	if ( !bRunning )
 		return;
 
-	//эффект уже запущен на проигрывание
+	// the effect has already been started for playback
 	float fAlpha = -pDirectionButtonDockBar->GetAngle();
-	fAlpha += ToRadian( 45.0f );			//вычитаем 45 градусов
+	fAlpha += ToRadian( 45.0f );			// subtract 45 degrees
 	if ( fAlpha >= FP_2PI )
 		fAlpha -= FP_2PI;
 	float fTemp = 1.0/sqrt(2);
@@ -141,7 +141,7 @@ void CEffectFrame::UpdateEffectAngle()
 
 BOOL CEffectFrame::Run()
 {
-	//	OutputDebugString( NStr::Format("%s\n", IsActive() ? "active" : "inactive") );
+	// OutputDebugString( NStr::Format("%s\n", IsActive() ? "active" : "inactive") );
 	if ( !bRunning )
 		return FALSE;
 	
@@ -169,23 +169,17 @@ void CEffectFrame::GFXDraw()
 
 struct SSourceType
 {
-	bool bComplexParticleSource;			//тип источника, если true, то сложный particle source
+	bool bComplexParticleSource;			// source type, if true, then complex particle source
 	//
 	SSourceType() : bComplexParticleSource( false ) {}
 	virtual int STDCALL operator&( IDataTree &ss );
 };
-/*
-int SSourceType::operator&( IDataTree &ss )
-{
-	CTreeAccessor saver = &ss;
-	saver.Add( "ComplexParticleSource", &bComplexParticleSource );
-	return 0;
-}
-*/
+/* int SSourceType::operator&( IDataTree &ss )
+ */
 void CEffectFrame::SaveRPGStats( IDataTree *pDT, CTreeItem *pRootItem, const char *pszProjectName )
 {
 	ASSERT( !pDT->IsReading() );
-	//Получаем имена для всех спрайт эффектов
+	// Getting names for all sprite effects
 	NI_ASSERT( pRootItem != 0 );
 	NI_ASSERT( pRootItem->GetItemType() == E_EFFECT_ROOT_ITEM );
 	
@@ -198,18 +192,16 @@ void CEffectFrame::SaveRPGStats( IDataTree *pDT, CTreeItem *pRootItem, const cha
 	NI_ASSERT( pTreeItem != 0 );
 	pFuncParticles = pTreeItem;
 
-/*
-	if ( pAnimsItem->GetChildsCount() + pFuncParticles->GetChildsCount() == 0 )			//временно, ничего нету в спрайт и func эффектах
-		return;			//x3
-*/
+/* if ( pAnimsItem->GetChildsCount() + pFuncParticles->GetChildsCount() == 0 ) //temporarily, there is nothing in the sprite and func effects
+		 */
 
-	//Создаем описание эффекта
+	// Creating a description of the effect
 	SEffectDesc effDesc;
 	CEffectCommonPropsItem *pCommonTreeItem = static_cast<CEffectCommonPropsItem *> ( pRootItem->GetChildItem( E_EFFECT_COMMON_PROPS_ITEM ) );
 	effDesc.szSound = pCommonTreeItem->GetSoundName();
 	CTreeItem::CTreeItemList::const_iterator it;
 	
-	//Пропихиваем все спрайт эффекты
+	// We push through all the sprite effects
 	for ( it=pAnimsItem->GetBegin(); it!=pAnimsItem->GetEnd(); ++it )
 	{
 		CEffectAnimationPropsItem *pAnimProps = (CEffectAnimationPropsItem *) it->GetPtr();
@@ -225,7 +217,7 @@ void CEffectFrame::SaveRPGStats( IDataTree *pDT, CTreeItem *pRootItem, const cha
 		effDesc.sprites.push_back( spriteEffect );
 	}
 	
-	//Пропихиваем все func particles эффекты
+	// We push through all the func particles effects
 	for ( it=pFuncParticles->GetBegin(); it!=pFuncParticles->GetEnd(); ++it )
 	{
 		CEffectFuncPropsItem *pFuncProps = (CEffectFuncPropsItem *) it->GetPtr();
@@ -245,7 +237,7 @@ void CEffectFrame::SaveRPGStats( IDataTree *pDT, CTreeItem *pRootItem, const cha
 		CPtr<IDataTree> pDT = CreateDataTreeSaver( pXMLStream, IDataTree::READ );
 		CTreeAccessor tree = pDT;
 		
-		//надо определить тип эффекта, это complex particle source, или обычный эффект
+		// you need to determine the type of effect, is it a complex particle source, or a regular effect
 		SSourceType sourceType;
 		tree.Add( "KeyData", &sourceType );
 		
@@ -277,7 +269,7 @@ void CEffectFrame::SaveRPGStats( IDataTree *pDT, CTreeItem *pRootItem, const cha
 
 bool CEffectFrame::ExportFrameData( IDataTree *pDT, const char *pszProjectName, const char *pszResultFileName, CTreeItem *pRootItem )
 {
-	//Сохраняем RPG stats
+	// Save RPG stats
 	SaveRPGStats( pDT, pRootItem, pszProjectName );
 	return true;
 }
@@ -288,19 +280,19 @@ void CEffectFrame::OnRunButton()
 		return;
 	bRunning = !bRunning;
 
-	//показываем Game окно
+	// show the Game window
 	g_frameManager.GetGameWnd()->ShowWindow( SW_SHOW );
 
 	IVisObjBuilder *pVOB = GetSingleton<IVisObjBuilder>();
 	IScene *pSG = GetSingleton<IScene>();
-//	IParticleManager *pPM = GetSingleton<IParticleManager>();
+// IParticleManager *pPM = GetSingleton<IParticleManager>();
 	pSG->Clear();
 	pVOB->Clear();
-//	pPM->Clear();
+// pPM->Clear();
 
 	string szDir = theApp.GetEditorTempDir();
 	{
-		//Сохраняем RPG stats
+		// Save RPG stats
 		CPtr<IDataStorage> pStorage = CreateStorage( szDir.c_str(), STREAM_ACCESS_WRITE, STORAGE_TYPE_FILE );
 		CPtr<IDataStream> pXMLStream = pStorage->CreateStream( "test.xml", STREAM_ACCESS_WRITE );
 		ASSERT( pXMLStream != 0 );
@@ -331,10 +323,10 @@ void CEffectFrame::OnStopButton()
 	bRunning = !bRunning;
 	pRunningEffect = 0;
 
-	//Скрываем Game окно
+	// Hide the Game window
 	g_frameManager.GetGameWnd()->ShowWindow( SW_HIDE );
 
-	// Удаляем объекты созданные в OnRunButton() из SceneGraph
+	// Removing objects created in OnRunButton() from SceneGraph
 	IScene *pSG = GetSingleton<IScene>();
 	pSG->Clear();
 }
@@ -342,7 +334,7 @@ void CEffectFrame::OnStopButton()
 void CEffectFrame::OnUpdateRunButton(CCmdUI* pCmdUI) 
 {
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
-	if ( pTree == 0 )			//Если проект не был создан
+	if ( pTree == 0 )			// If the project has not been created
 	{
 		pCmdUI->Enable( false );
 		return;
@@ -383,7 +375,7 @@ BOOL CEffectFrame::SpecificTranslateMessage( MSG *pMsg )
 	switch ( pMsg->message )
 	{
 		case WM_ANGLE_CHANGED:
-			//надо пересчитать положение effect
+			// it is necessary to recalculate the position of effect
 			UpdateEffectAngle();
 			return true;
 	}
@@ -399,7 +391,7 @@ int CEffectFrame::GetLastParticleEffectLifeTime()
 	
 	string szDir = theApp.GetEditorTempDir();
 	{
-		//Сохраняем RPG stats
+		// Save RPG stats
 		CPtr<IDataStorage> pStorage = CreateStorage( szDir.c_str(), STREAM_ACCESS_WRITE, STORAGE_TYPE_FILE );
 		CPtr<IDataStream> pXMLStream = pStorage->CreateStream( "test.xml", STREAM_ACCESS_WRITE );
 		NI_ASSERT( pXMLStream != 0 );
@@ -468,14 +460,14 @@ void CEffectFrame::OnUpdateButtonCamera(CCmdUI* pCmdUI)
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
 	pCmdUI->Enable( pTree != 0 );
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////
 void CEffectFrame::OnShowDirectionButton()
 {
 	SwitchDockerVisible( pDirectionButtonDockBar );
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////
 void CEffectFrame::OnUpdateShowDirectionButton(CCmdUI* pCmdUI) 
 {
 	UpdateShowMenu( pCmdUI, pDirectionButtonDockBar );
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////

@@ -16,9 +16,9 @@ class CTerrainState : public CInputMultiState
 public:
 	CTerrainState()
 	{
-		AddInputState( static_cast<CTileDrawState*>( 0 ) );		// STATE_TERRAIN_TILES				= 0
-		AddInputState( static_cast<CDrawShadeState*>( 0 ) );	// STATE_TERRAIN_ALTITUDES		= 1
-		AddInputState( static_cast<CFieldsState*>( 0 ) );			// STATE_TERRAIN_FIELDS				= 2
+		AddInputState( static_cast<CTileDrawState*>( 0 ) );		// STATE_TERRAIN_TILES = 0
+		AddInputState( static_cast<CDrawShadeState*>( 0 ) );	// STATE_TERRAIN_ALTITUDES = 1
+		AddInputState( static_cast<CFieldsState*>( 0 ) );			// STATE_TERRAIN_FIELDS = 2
 		
 		SetActiveState( CTemplateEditorFrame::STATE_TERRAIN_TILES );
 	}

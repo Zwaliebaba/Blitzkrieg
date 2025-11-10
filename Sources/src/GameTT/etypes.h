@@ -3,8 +3,8 @@
 
 enum EncyclopediaType
 {
-	E_MEDAL,
-	E_UNIT,
+  E_MEDAL,
+  E_UNIT,
 };
 
-#endif		//__ENCYCLOPEDIA_TYPES_H__
+#endif		// __ENCYCLOPEDIA_TYPES_H__

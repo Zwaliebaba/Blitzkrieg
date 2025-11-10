@@ -2,33 +2,33 @@
 
 #include "ZipFile.h"
 
-#include "..\zlib\zlib.h"
+#include <zlib.h>
 #include "StreamAdaptor.h"
 #include "MemFileSystem.h"
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // ************************************************************************************************************************ //
 // **
-// ** single zip file
+// **single zip file
 // **
 // ** format:
-// **		//files data
-// **		[local file header 1]
-// **		[file data 1]
-// **		[data descriptor 1]
-// **		...
-// **		[local file header N]
-// **		[file data N]
-// **		[data descriptor N]
-// **		// central directory
-// **		[file header 1]
-// **		...
-// **		[file header N]
-// **		[digital signature]
-// **		[central dir header]
+// ** //files data
+// ** [local file header 1]
+// ** [file data 1]
+// ** [data descriptor 1]
+// **...
+// ** [local file header N]
+// ** [file data N]
+// ** [data descriptor N]
+// ** // central directory
+// ** [file header 1]
+// **...
+// ** [file header N]
+// **[digital signature]
+// ** [central dir header]
 // **
 // **
 // ************************************************************************************************************************ //
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #pragma pack( 1 )
 struct CZipFile::SZipLocalFileHeader
 {
@@ -48,7 +48,7 @@ struct CZipFile::SZipLocalFileHeader
 	// here extra field follows (wExtraLen bytes)
 	bool IsDataDescriptorExist() const { return (flag & 4) != 0; }
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // NOTE: data descriptor exist only, if bit 3 of general purpose flag of the corresponding local file header is set
 // one can call IsDataDescriptorExist() to check this fact
 // if data descriptor exist, then one must get CRC32, CSize and USize from the data descriptor instead of from local file header
@@ -58,7 +58,7 @@ struct CZipFile::SZipDataDescriptor
 	DWORD dwCSize;												// compressed size
 	DWORD dwUSize;												// uncompressed size
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 struct CZipFile::SZipCentralDirHeader
 {
 	enum { SIGNATURE = 0x06054b50 };
@@ -72,7 +72,7 @@ struct CZipFile::SZipCentralDirHeader
 	WORD  wCommentLen;										// zipfile comment length
 	// comment follows here (wCommentLen bytes)
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 struct CZipFile::SZipFileHeader
 {
 	enum { SIGNATURE = 0x02014b50, COMP_STORE = 0, COMP_DEFLAT = 8 };
@@ -80,7 +80,7 @@ struct CZipFile::SZipFileHeader
 	BYTE  verMade;												// version made by
 	BYTE  os;															// host operating system
 	BYTE  verNeeded;											// version needed to extract
-	BYTE  osNeeded;												// OS of version needed for extraction
+	BYTE  osNeeded;												// OS version needed for extraction
 	WORD  flag;														// general purpose bit flag
 	WORD  wCompression;										// compression method: COMP_xxxx
 	WORD  wModTime;												// last mode file time (MS-DOS)
@@ -103,36 +103,36 @@ struct CZipFile::SZipFileHeader
 	const char* GetComment() const { return GetExtra() + wExtraLen; }
 };
 // host operating system codes
-// 0  - MS-DOS and OS/2 (FAT / VFAT / FAT32 file systems) 
-// 1  - Amiga 
-// 2  - OpenVMS 
-// 3  - Unix 
-// 4  - VM/CMS 
-// 5  - Atari ST 
-// 6  - OS/2 H.P.F.S. 
-// 7  - Macintosh 
-// 8  - Z-System 
-// 9  - CP/M 
-// 10 - Windows NTFS 
-// 11 - MVS 
-// 12 - VSE 
+// 0 - MS-DOS and OS/2 (FAT / VFAT / FAT32 file systems)
+// 1 - Amiga
+// 2 - OpenVMS
+// 3 - Unix
+// 4 - VM/CMS
+// 5 - Atari ST
+// 6 - OS/2 H.P.F.S.
+// 7 - Macintosh
+// 8 - Z-System
+// 9 - CP/M
+// 10 - Windows NTFS
+// 11 - MVS
+// 12 - VSE
 // 13 thru 255 - unused
 
 // compression methods
-// 0  - The file is stored (no compression) 
-// 1  - The file is Shrunk 
-// 2  - The file is Reduced with compression factor 1 
-// 3  - The file is Reduced with compression factor 2 
-// 4  - The file is Reduced with compression factor 3 
-// 5  - The file is Reduced with compression factor 4 
-// 6  - The file is Imploded  
-// 7  - Reserved for Tokenizing compression algorithm  
-// 8  - The file is Deflated  
-// 9  - Enhanced Deflating using Deflate64(tm) 
-// 10 - PKWARE Date Compression Library Imploding 
+// 0 - The file is stored (no compression)
+// 1 - The file is Shrunk
+// 2 - The file is Reduced with compression factor 1
+// 3 - The file is Reduced with compression factor 2
+// 4 - The file is Reduced with compression factor 3
+// 5 - The file is Reduced with compression factor 4
+// 6 - The file is Imploded
+// 7 - Reserved for Tokenizing compression algorithm
+// 8 - The file is Deflated
+// 9 - Enhanced Deflating using Deflate64(tm)
+// 10 - PKWARE Date Compression Library Imploding
 
 #pragma pack()
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool CZipFile::Init( IDataStream *pZipStream )
 {
 	NI_ASSERT_TF( pZipStream != 0, "NULL stream passed to zip file", return false );
@@ -186,7 +186,7 @@ bool CZipFile::Init( IDataStream *pZipStream )
 
 	return bRet;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CZipFile::Fini()
 {
 	if ( IsOk() )
@@ -195,45 +195,45 @@ void CZipFile::Fini()
 		m_nEntries = 0;
 	}
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 int CZipFile::GetCompressionMethod( int nIndex ) const
 {
 	NI_ASSERT_SLOW_TF( (nIndex >= 0) && (nIndex < m_nEntries), NStr::Format("index %d out of range", nIndex), return 0 );
 	return m_papDir[nIndex]->wCompression;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CZipFile::GetFileName( int nIndex, std::string *pString ) const
 {
 	NI_ASSERT_SLOW_TF( pString != 0, "NULL pointer to get file name", return );
 	NI_ASSERT_SLOW_TF( (nIndex >= 0) && (nIndex < m_nEntries), NStr::Format("index %d out of range", nIndex), pString->clear(); return );
 	pString->resize( m_papDir[nIndex]->wFileNameLen );
 	memcpy( &((*pString)[0]), m_papDir[nIndex]->GetName(), m_papDir[nIndex]->wFileNameLen );
-	//(*pString)[ m_papDir[nIndex]->wFileNameLen ] = '\0';
+	// (*pString)[ m_papDir[nIndex]->wFileNameLen ] = '\0';
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 int CZipFile::GetFileLen( int nIndex ) const
 {
 	NI_ASSERT_SLOW_TF( (nIndex >= 0) && (nIndex < m_nEntries), NStr::Format("index %d out of range", nIndex), return 0 );
 	return m_papDir[nIndex]->dwUSize;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 DWORD CZipFile::GetFileAttribs( int nIndex ) const
 {
 	NI_ASSERT_SLOW_TF( (nIndex >= 0) && (nIndex < m_nEntries), NStr::Format("index %d out of range", nIndex), return 0 );
 	return m_papDir[nIndex]->wExtAttr;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 DWORD CZipFile::GetModDateTime( int nIndex ) const
 {
 	NI_ASSERT_SLOW_TF( (nIndex >= 0) && (nIndex < m_nEntries), NStr::Format("index %d out of range", nIndex), return 0 );
 	return DWORD( (m_papDir[nIndex]->wModDate) << 16 ) | DWORD( m_papDir[nIndex]->wModTime );
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool CZipFile::IsDirectory( int nIndex ) const 
 { 
 	return (m_papDir[nIndex]->wExtAttr & 0x00000010) == 0x00000010; 
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool CZipFile::ReadFile( IDataStream *pStream, int nIndex, void *pBuf )
 {
 	NI_ASSERT_SLOW_TF( (nIndex >= 0) && (nIndex < m_nEntries), NStr::Format("index %d out of range", nIndex), return false );
@@ -262,7 +262,7 @@ bool CZipFile::ReadFile( IDataStream *pStream, int nIndex, void *pBuf )
 	char *pcData = new char[hdr.dwCSize];
 	pStream->Read( pcData, hdr.dwCSize );
 
-	// Setup the inflate stream.
+	// Set up the inflate stream.
 	z_stream stream;
 	stream.next_in = (Bytef*)pcData;
 	stream.avail_in = (uInt)hdr.dwCSize;
@@ -271,13 +271,13 @@ bool CZipFile::ReadFile( IDataStream *pStream, int nIndex, void *pBuf )
 	stream.zalloc = (alloc_func)0;
 	stream.zfree = (free_func)0;
 
-	// Perform inflation. wbits < 0 indicates no zlib header inside the data.
+	// Perform inflation. 
 	int err = inflateInit2( &stream, -MAX_WBITS );
 	if ( err == Z_OK )
 	{
 		err = inflate( &stream, Z_FINISH );
 		inflateEnd( &stream );
-		// CRAP{ почему-то иногда при распаковке возвращается "buffer error" всесто "stream end"...
+		// CRAP{ for some reason sometimes when unpacking it returns "buffer error" just "stream end"...
 		if ( (err == Z_STREAM_END) || (err == Z_BUF_ERROR) )
 			err = Z_OK;
 		// CRAP}
@@ -288,7 +288,7 @@ bool CZipFile::ReadFile( IDataStream *pStream, int nIndex, void *pBuf )
 
 	return err == Z_OK;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 IDataStream* CZipFile::ReadFile( IDataStream *pStream, int nIndex )
 {
 	NI_ASSERT_SLOW_TF( (nIndex >= 0) && (nIndex < m_nEntries), NStr::Format("index %d out of range", nIndex), return false );
@@ -341,7 +341,7 @@ IDataStream* CZipFile::ReadFile( IDataStream *pStream, int nIndex )
 	char *pcData = new char[hdr.dwCSize];
 	pStream->Read( pcData, hdr.dwCSize );
 
-	// Setup the inflate stream.
+	// Set up the inflate stream.
 	z_stream stream;
 	stream.next_in = (Bytef*)pcData;
 	stream.avail_in = (uInt)hdr.dwCSize;
@@ -350,13 +350,13 @@ IDataStream* CZipFile::ReadFile( IDataStream *pStream, int nIndex )
 	stream.zalloc = (alloc_func)0;
 	stream.zfree = (free_func)0;
 
-	// Perform inflation. wbits < 0 indicates no zlib header inside the data.
+	// Perform inflation. 
 	int err = inflateInit2( &stream, -MAX_WBITS );
 	if ( err == Z_OK )
 	{
 		err = inflate( &stream, Z_FINISH );
 		inflateEnd( &stream );
-		// CRAP{ почему-то иногда при распаковке возвращается "buffer error" всесто "stream end"...
+		// CRAP{ for some reason sometimes when unpacking it returns "buffer error" just "stream end"...
 		if ( (err == Z_STREAM_END) || (err == Z_BUF_ERROR) )
 			err = Z_OK;
 		// CRAP}
@@ -372,4 +372,4 @@ IDataStream* CZipFile::ReadFile( IDataStream *pStream, int nIndex )
 	pDstStream->Release();
 	return 0;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+

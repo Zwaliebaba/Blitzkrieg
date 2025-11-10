@@ -15,14 +15,14 @@ CTemplateTreeDockBar::~CTemplateTreeDockBar()
 
 
 BEGIN_MESSAGE_MAP(CTemplateTreeDockBar, SECControlBar)
-	//{{AFX_MSG_MAP(CTemplateTreeDockBar)
+	// {{AFX_MSG_MAP(CTemplateTreeDockBar)
 	ON_WM_SIZE()
 	ON_WM_CREATE()
-	//}}AFX_MSG_MAP
+	// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 
-/////////////////////////////////////////////////////////////////////////////
+// //
 // CTemplateTreeDockBar message handlers
 
 int CTemplateTreeDockBar::OnCreate(LPCREATESTRUCT lpCreateStruct) 
@@ -46,42 +46,8 @@ void CTemplateTreeDockBar::OnSize(UINT nType, int cx, int cy)
 
 BOOL CTemplateTreeDockBar::PreTranslateMessage(MSG* pMsg) 
 {
-/*
-	CTreeItem *pItem = 0;
-	switch ( pMsg->message )
-	{
-	case WM_USERTREESEL:
-		//Отображаем свойства выделенного компонента в ObjectInspector
-		pItem = (CTreeItem *) pMsg->lParam;
-		NI_ASSERT ( pItem != 0 );
-		NI_ASSERT( pPropView != 0 );
-		pItem->MyLButtonClick();
-		pPropView->SetItemProperty( pItem->GetItemName(), pItem );
-		
-		if ( pKeyFrameDockWnd )
-		{
-			CKeyFrameTreeItem *pKeyFrameTreeItem = dynamic_cast<CKeyFrameTreeItem *> ( pItem );
-			if ( pKeyFrameTreeItem )
-				pKeyFrameDockWnd->SetActiveKeyFrameTreeItem( pKeyFrameTreeItem );
-			else
-				pKeyFrameDockWnd->ClearControl();
-		}
-
-		return true;
-
-	case WM_USERKEYDOWN:
-		pItem = (CTreeItem *) pMsg->lParam;
-		NI_ASSERT ( pItem != 0 );
-		pItem->MyKeyDown( pMsg->wParam );
-		return true;
-
-	case WM_USERRBUTTONCLICK:
-		pItem = (CTreeItem *) pMsg->lParam;
-		NI_ASSERT ( pItem != 0 );
-		pItem->MyRButtonClick();
-		return true;
-	}
-*/
+/* CTreeItem *pItem = 0;
+	 */
 	return SECControlBar::PreTranslateMessage( pMsg );
 }
 

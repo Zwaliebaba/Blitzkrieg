@@ -1,6 +1,6 @@
 // EffectorMoveTo.cpp: implementation of the CEffectorMoveTo class.
 //
-//////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
 #include "EffectorMoveTo.h"
@@ -8,16 +8,16 @@
 #include "Window.h"
 #include "UISCreen.h"
 #include "..\GFX\GFX.h"
-//////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////
 // Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////
 int CEffectorMoveTo::operator&( IStructureSaver &ss )
 {
-	//CRAP{ TO DO
+	// CRAP{ TO DO
 	NI_ASSERT_T( FALSE, "NEED IMPLEMENT" );
 	return 0;
-	//CRAP}
+	// CRAP}
 }
 
 void CEffectorMoveTo::SetElement( CWindow *_pElement )
@@ -43,18 +43,10 @@ void CEffectorMoveTo::SetElement( CWindow *_pElement )
 	vSpeed *= fSpeed;
 	fElapsedTime = 0;
 	
-	//CRAP{ CLONE TEST
-	/*static int a = 0;
-	if ( a == 0 )
-	{
-		CScreen *pScreen = pElement->GetScreen();
-		CWindow *pNew = (CWindow*)pElement->Clone();
-		pNew->SetName( "Child2" );
-		pScreen->AddChild( pNew );
-		a = 1;
-		pScreen->Init( GetSingleton<IGFX>()->GetScreenRect() );
-	}*/
-	//CRAP}
+	// CRAP{ CLONE TEST
+	/* static int a = 0;
+	 */
+	// CRAP}
 }
 const CVec2 CEffectorMoveTo::GetCur() const
 {
@@ -65,7 +57,7 @@ const CVec2 CEffectorMoveTo::GetCur() const
 		vCur = vMoveFrom + vSpeed * fElapsedTime;
 	return vCur;
 }
-//////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////
 void CEffectorMoveTo::Segment( const NTimer::STime timeDiff, interface IScreen *pScreen )
 {
 	fElapsedTime += timeDiff;

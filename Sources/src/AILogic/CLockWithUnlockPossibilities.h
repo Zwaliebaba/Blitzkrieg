@@ -1,53 +1,53 @@
 #ifndef __CLockWithUnlockPossibilities_h__
 #define __CLockWithUnlockPossibilities_h__
 
-#pragma ONCE
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma once
+// //////////////////////////////////////////////////////////// 
 #include "RectTiles.h"
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// в заданном тайл сете запоминает состояние залоченности
-// и сохраняет его. 
-// после этого есть возможность восстановить начальное состояние залоченности
+// //////////////////////////////////////////////////////////// 
+// in a given tile set remembers the locked state
+// and saves it.
+// after this it is possible to restore the initial locked state
 class CAIUnit;
+
 class CLockWithUnlockPossibilities
 {
-	DECLARE_SERIALIZE;
-	
-	void Unlock();
-	void Lock();
+  DECLARE_SERIALIZE;
 
-	std::vector<BYTE> formerTilesType;
-	CTilesSet pathTiles;
+  void Unlock();
+  void Lock();
 
-	bool bLocked;
-	BYTE bAIClass; //
+  std::vector<BYTE> formerTilesType;
+  CTilesSet pathTiles;
+
+  bool bLocked;
+  BYTE bAIClass;//
 protected:
-	SRect bigRect; // весь этот Rect будет пройден танком.
-	bool TryLockAlongTheWay( const bool bLock, const BYTE _bAIClass ) ;
+  SRect bigRect;// this entire Rect will be covered by the tank.
+  bool TryLockAlongTheWay(bool bLock, BYTE _bAIClass);
 
 public:
-	CLockWithUnlockPossibilities()
-		: bLocked(false){}
+  CLockWithUnlockPossibilities()
+    : bLocked(false) {}
 
-	bool LockRect( const SRect &rect, const BYTE _bAIClass )
-	{
-		if ( bLocked )	
-		{
-			TryLockAlongTheWay(false, bAIClass );
-		}
-		bigRect = rect;
-		bLocked = TryLockAlongTheWay( true, _bAIClass );
-		return bLocked ;
-	}
-	void UnlockIfLocked()
-	{
-		if ( bLocked )
-		{
-			bLocked = false;
-			TryLockAlongTheWay(false, bAIClass);
-		}
-	}
+  bool LockRect(const SRect &rect, const BYTE _bAIClass)
+  {
+    if (bLocked) { TryLockAlongTheWay(false, bAIClass); }
+    bigRect = rect;
+    bLocked = TryLockAlongTheWay(true, _bAIClass);
+    return bLocked;
+  }
+
+  void UnlockIfLocked()
+  {
+    if (bLocked)
+    {
+      bLocked = false;
+      TryLockAlongTheWay(false, bAIClass);
+    }
+  }
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// //////////////////////////////////////////////////////////// 
 #endif // __CLockWithUnlockPossibilities_h__

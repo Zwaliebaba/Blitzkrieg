@@ -1,33 +1,34 @@
 #ifndef __IM_CUSTOM_MISSION_H__
 #define __IM_CUSTOM_MISSION_H__
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma ONCE
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#pragma once
+
 #include "CustomList.h"
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CInterfaceCustomMission : public CInterfaceCustomList
 {
-	OBJECT_NORMAL_METHODS( CInterfaceCustomMission );
-	// disable explicit destruction
-	virtual ~CInterfaceCustomMission();
+  OBJECT_NORMAL_METHODS(CInterfaceCustomMission);
+  // disable explicit destruction
+  ~CInterfaceCustomMission() override;
+
 protected:
-	CInterfaceCustomMission() {}
-	
-	//перегружаемые мной функции
-	virtual bool FillListItem( IUIListRow *pRow, const std::string &szFullFileName, bool *pSelectedItem = 0 );		//заполняем текущую строчку в списке
-	virtual bool OnOk( const std::string &szFullFileName );															//пользователь выбрал файл, обработаем выбор
+  CInterfaceCustomMission() {}
+
+  // functions I overload
+  bool FillListItem(IUIListRow *pRow, const std::string &szFullFileName, bool *pSelectedItem = nullptr) override;// fill the current line in the list
+  bool OnOk(const std::string &szFullFileName) override;// the user has selected a file, let's process the selection
 public:
-	virtual bool STDCALL Init();
+  bool STDCALL Init() override;
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CICCustomMission : public CInterfaceCommandBase<CInterfaceCustomMission, MISSION_INTERFACE_CUSTOM_MISSION>
 {
-	OBJECT_NORMAL_METHODS( CICCustomMission );
-	
-	//	virtual void PreCreate( IMainLoop *pML ) { pML->ResetStack(); }
-	virtual void PostCreate( IMainLoop *pML, CInterfaceCustomMission *pInterface ) { pML->PushInterface( pInterface ); }
-	//
-	CICCustomMission() {  }
+  OBJECT_NORMAL_METHODS(CICCustomMission);
+
+  // virtual void PreCreate( IMainLoop *pML ) { pML->ResetStack(); 
+  void PostCreate(IMainLoop *pML, CInterfaceCustomMission *pInterface) override { pML->PushInterface(pInterface); }
+  //
+  CICCustomMission() {}
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#endif		//__IM_CUSTOM_MISSION_H__
+
+#endif		// __IM_CUSTOM_MISSION_H__

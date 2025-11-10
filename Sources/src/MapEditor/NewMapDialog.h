@@ -8,28 +8,28 @@
 #include "Resource.h"
 #include "ResizeDialog.h"
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CNewMapDialog : public CResizeDialog
 {
 public:
 	CNewMapDialog( CWnd* pParent = NULL );
 
-	//{{AFX_DATA(CNewMapDialog)
+	// {{AFX_DATA(CNewMapDialog)
 	enum { IDD = IDD_NEW_MAP };
 	CComboBox	wndSizeXComboBox;
 	CComboBox	wndSizeYComboBox;
 	CComboBox	wndSeasonComboBox;
 	CComboBox	wndMODComboBox;
 	CEdit wndFileName;
-	//}}AFX_DATA
+	// }}AFX_DATA
 
-	//{{AFX_VIRTUAL(CNewMapDialog)
+	// {{AFX_VIRTUAL(CNewMapDialog)
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);
-	//}}AFX_VIRTUAL
+	// }}AFX_VIRTUAL
 
 protected:
-	//{{AFX_MSG(CNewMapDialog)
+	// {{AFX_MSG(CNewMapDialog)
 	virtual BOOL OnInitDialog();
 	virtual void OnOK();
 	afx_msg void OnChangeNewMapNameEdit();
@@ -37,7 +37,7 @@ protected:
 	virtual void OnCancel();
 	afx_msg void OnNewMapSquareCheckBox();
 	afx_msg void OnSelchangeNewMapSizeXComboBox();
-	//}}AFX_MSG
+	// }}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 
 protected:
@@ -62,7 +62,7 @@ public:
 	std::string GetMapName() { return resizeDialogOptions.szParameters[0]; }
 	std::string GetMODKey();
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//{{AFX_INSERT_LOCATION}}
+
+// {{AFX_INSERT_LOCATION}}
 #endif // !defined(__NEW_MAP_DIALOG__)

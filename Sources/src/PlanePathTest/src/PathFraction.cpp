@@ -2,13 +2,13 @@
 
 #include "PathFraction.h"
 
-/////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////
-//	CPathFractionBSPline3D 
-/////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////
+// //
+// //
+// CPathFractionBSPline3D
+// //
+// //
 const int CPathFractionBSPline3D::nPresizion = 30;
-/////////////////////////////////////////////////////////////////////////////
+// //
 const CPathFractionBSPline3D::CSplineLength & CPathFractionBSPline3D::GetCur( const float fDist, float * const fNewDist ) const
 {
 	float fDistSoFar= 0;
@@ -25,7 +25,7 @@ const CPathFractionBSPline3D::CSplineLength & CPathFractionBSPline3D::GetCur( co
 	*fNewDist = (fDist - fDistSoFar - splines.back().second) / splines.back().second; // 0..1
 	return splines.back();
 }
-/////////////////////////////////////////////////////////////////////////////
+// //
 void CPathFractionBSPline3D::Init( const CVec3 &x0, const CVec3 &x1, const CVec3 &_v0, const CVec3 &_v1, const float _fLength )
 {
 	CVec3 v0 = _v0;
@@ -51,31 +51,31 @@ void CPathFractionBSPline3D::Init( const CVec3 &x0, const CVec3 &x1, const CVec3
 		splines[i].second = fLen;
 	}
 
-	// adjust lenght
+	// adjust length
 	fLength = _fLength;
 	const float fCoeff = fLength / fSumLengh;
 	for ( int i = 0; i < 5; ++i )
 			splines[i].second *= fCoeff;
 }
-/////////////////////////////////////////////////////////////////////////////
+// //
 CVec3 CPathFractionBSPline3D::GetPoint( const float fDist ) const 
 {
 	float fNewDist;
 	const CSplineLength &sp =  GetCur( fDist, &fNewDist );
-	//CRAP{ 
+	// CRAP{
 	if ( fNewDist > 1.0f )
 
 		int a = 0;
-	//CRAP}
+	// CRAP}
 	return sp.first.Get( fNewDist ); 
 }
-/////////////////////////////////////////////////////////////////////////////
+// //
 CVec3 CPathFractionBSPline3D::GetTangent( const float fDist ) const 
 { 
 	float fNewDist;
 	const CSplineLength &sp =  GetCur( fDist, &fNewDist );
-	// if tangent is zero, then 
-	// it is border points. check near border.
+	// if tangent is zero, then
+	// it is border points. 
 	const CVec3 vDiff( sp.first.GetDiff1( fNewDist ) ); 
 	
 	if ( fabs2(vDiff) < 0.000001 )

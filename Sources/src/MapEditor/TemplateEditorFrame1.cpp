@@ -33,12 +33,12 @@
 #include "..\Main\GameStats.h"
 #include "..\Main\TextSystem.h"
 
-//*****************************************************
+// ********************************************************
 #include "AIStartCommandsDialog.h"
 #include "ProgressDialog.h"
-//*****************************************************
+// ********************************************************
 
-//*****************************************************
+// ********************************************************
 #include "TerrainState.h"
 #include "TileDrawState.h"
 #include "StateTerrainFields.h"
@@ -51,24 +51,24 @@
 #include "StateAIGeneral.h"
 #include "StateGroups.h"
 #include "SetupFilterDialog.h"
-//*****************************************************
+// ********************************************************
 
-//*****************************************************
+// ********************************************************
 #include "..\RandomMapGen\RMG_Types.h"
 #include "..\RandomMapGen\IB_Types.h"
-//*****************************************************
+// ********************************************************
 
-//*****************************************************
+// ********************************************************
 #include "RMG_CreateContainerDialog.h"
 #include "RMG_CreateGraphDialog.h"
 #include "RMG_CreateFieldDialog.h"
 #include "RMG_CreateTemplateDialog.h"
-//*****************************************************
+// ********************************************************
 
-//*****************************************************
+// ********************************************************
 #include "CreateRandomMapDialog.h"
 #include "MapEditorOptions.h"
-//*****************************************************
+// ********************************************************
 
 #include "SetAnim.h"
 
@@ -80,42 +80,25 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-/**
-		pPartyColors[0] = 0xF0F0;
-		pPartyColors[1] = 0xFF00;
-		pPartyColors[2] = 0xF00F;
-		pPartyColors[3] = 0xFFF0;
-		pPartyColors[4] = 0xF0FF;
-		pPartyColors[5] = 0xFF0F;
-		pPartyColors[6] = 0xFFFF;
-		pPartyColors[7] = 0xFF80;
-		pPartyColors[8] = 0xFF08;
-		pPartyColors[9] = 0xF8F0;
-		pPartyColors[10] = 0xF0F8;
-		pPartyColors[11] = 0xF80F;
-		pPartyColors[12] = 0xF08F;
-		pPartyColors[13] = 0xFF88;
-		pPartyColors[14] = 0xF8F8;
-		pPartyColors[15] = 0xF88F;
-		pPartyColors[16] = 0x0000;
-/**/
+/* *
+		 */
 const BYTE _xHC = 0x30;
-const SColor PLAYER_COLORS[16] = { SColor( 0xFF, 0x00, 0xFF, 0x00 ),	//0
-																	 SColor( 0xFF, 0xFF, 0x00, 0x00 ),	//1
-																	 SColor( 0xFF, 0x00, 0x00, 0xFF ),	//2
-																	 SColor( 0xFF, 0xFF, 0xFF, 0x00 ),	//3
-																	 SColor( 0xFF, 0x00, 0xFF, 0xFF ),	//4
-																	 SColor( 0xFF, 0xFF, 0x00, 0xFF ),	//5
-																	 SColor( 0xFF, 0xFF, 0xFF, 0xFF ),	//6
-																	 SColor( 0xFF, 0xFF, _xHC, 0x00 ),	//7
-																	 SColor( 0xFF, 0xFF, 0x00, _xHC ),	//8
-																	 SColor( 0xFF, _xHC, 0xFF, 0x00 ),	//9
-																	 SColor( 0xFF, 0x00, 0xFF, _xHC ),	//10
-																	 SColor( 0xFF, _xHC, 0x00, 0xFF ),	//11
-																	 SColor( 0xFF, 0x00, _xHC, 0xFF ),	//12
-																	 SColor( 0xFF, 0x00, _xHC, _xHC ),	//13
-																	 SColor( 0xFF, _xHC, 0x00, _xHC ),	//14
-																	 SColor( 0xFF, _xHC, _xHC, 0x00 ) };//15
+const SColor PLAYER_COLORS[16] = { SColor( 0xFF, 0x00, 0xFF, 0x00 ),	// 0
+																	 SColor( 0xFF, 0xFF, 0x00, 0x00 ),	// 1
+																	 SColor( 0xFF, 0x00, 0x00, 0xFF ),	// 2
+																	 SColor( 0xFF, 0xFF, 0xFF, 0x00 ),	// 3
+																	 SColor( 0xFF, 0x00, 0xFF, 0xFF ),	// 4
+																	 SColor( 0xFF, 0xFF, 0x00, 0xFF ),	// 5
+																	 SColor( 0xFF, 0xFF, 0xFF, 0xFF ),	// 6
+																	 SColor( 0xFF, 0xFF, _xHC, 0x00 ),	// 7
+																	 SColor( 0xFF, 0xFF, 0x00, _xHC ),	// 8
+																	 SColor( 0xFF, _xHC, 0xFF, 0x00 ),	// 9
+																	 SColor( 0xFF, 0x00, 0xFF, _xHC ),	// 10
+																	 SColor( 0xFF, _xHC, 0x00, 0xFF ),	// 11
+																	 SColor( 0xFF, 0x00, _xHC, 0xFF ),	// 12
+																	 SColor( 0xFF, 0x00, _xHC, _xHC ),	// 13
+																	 SColor( 0xFF, _xHC, 0x00, _xHC ),	// 14
+																	 SColor( 0xFF, _xHC, _xHC, 0x00 ) };// 15
 
 const int TEFConsts::THUMBNAILTILE_WIDTH  = 64;
 const int TEFConsts::THUMBNAILTILE_HEIGHT = 64;
@@ -126,10 +109,10 @@ const int TEFConsts::THUMBNAILTILEWITHTEXT_SPACE_Y  = 35;
 int TEFConsts::THUMBNAILTILE_SPACE_X  = 10;
 int TEFConsts::THUMBNAILTILE_SPACE_Y  = 25;
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 IMPLEMENT_DYNCREATE(CTemplateEditorFrame, SECWorksheet)
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 const char* CTemplateEditorFrame::STATE_TAB_LABELS[STATE_COUNT] =
 {
 	"Terrain",
@@ -161,11 +144,11 @@ const char* CTemplateEditorFrame::STATE_VO_TAB_LABELS[STATE_VO_COUNT] =
 	"Rivers",
 };
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 const char CTemplateEditorFrame::RIVERS_3D_MAP_NAME[] = _T( "maps\\river3d.xml" ); 
 const char CTemplateEditorFrame::ROADS_3D_MAP_NAME[] = _T( "maps\\road3d.xml" );
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::SetMapModified( bool bModified )
 {
 	bMapModified = bModified;
@@ -220,7 +203,7 @@ void CTemplateEditorFrame::SetMapModified( bool bModified )
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::OnFileCreateRandomMission() 
 {
 	const std::string szTemplatesFolder( "Scenarios\\Templates\\" );
@@ -314,7 +297,7 @@ void CTemplateEditorFrame::OnFileCreateRandomMission()
 	}		
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::CreateMiniMap()
 {
 	if ( IAIEditor* pAIEditor = GetSingleton<IAIEditor>() )
@@ -388,7 +371,7 @@ void CTemplateEditorFrame::CreateMiniMap()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////
+// //
 CTemplateEditorFrame::CTemplateEditorFrame() : isReservePositionActive( false ), isStartCommandPropertyActive( false ), m_pTabTileEditDialog( 0 ) , m_tileY( 0 ) , m_tileX( 0 ),
 	m_brushDY( 2 ) , m_brushDX( 2 ), 
 	m_lastMouseTileY( -1 ), m_lastMouseTileX( -1 ) , m_mapEditorBarPtr( 0 ),
@@ -397,39 +380,37 @@ CTemplateEditorFrame::CTemplateEditorFrame() : isReservePositionActive( false ),
 	m_ifCanMovingMultiGroup( false ), ifFitToAI( true ), m_minimapDialogRect( 0, 0, 0, 0 ),
 	bFireRangePressed( false ), m_bNeedUpdateUnitHeights( false ), bShowScene6( true ), bShowScene7( false ), bWireframe( false ), bShowScene11( true ), bShowScene1( true ), bShowScene2( true ), bShowScene3( false ), bShowScene4( true ), bShowScene8( false ), bShowScene0( true ), bShowScene9( false ),  bShowAIPassability( false ), 	bShowStorageCoverage( false ), bNeedDrawUnitsSelection( true ), bMapModified( false ), bShowScene13( true ), vScreenCenter( VNULL3 )
 {
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // ************************************************************************************************************************ //
-// новые поля
-	inputStates.AddInputState( static_cast<CTerrainState*>( 0 ) );								//STATE_TERRAN								= 0
-	inputStates.AddInputState( static_cast<CSimpleObjectsState*>( 0 ) );					//STATE_SIMPLE_OBJECTS				= 1
-	inputStates.AddInputState( static_cast<CVectorObjectsState*>( 0 ) );					//STATE_VECTOR_OBJECTS				= 2
-	inputStates.AddInputState( static_cast<CMapToolState*>( 0 ) );								//STATE_TOOLS									= 3
-	inputStates.AddInputState( static_cast<CGroupsState*>( 0 ) );									//STATE_GROUPS								= 4
-	inputStates.AddInputState( static_cast<CAIGState*>( 0 ) );										//STATE_AI_GENERAL						= 5
+// new fields
+	inputStates.AddInputState( static_cast<CTerrainState*>( 0 ) );								// STATE_TERRAN = 0
+	inputStates.AddInputState( static_cast<CSimpleObjectsState*>( 0 ) );					// STATE_SIMPLE_OBJECTS = 1
+	inputStates.AddInputState( static_cast<CVectorObjectsState*>( 0 ) );					// STATE_VECTOR_OBJECTS = 2
+	inputStates.AddInputState( static_cast<CMapToolState*>( 0 ) );								// STATE_TOOLS = 3
+	inputStates.AddInputState( static_cast<CGroupsState*>( 0 ) );									// STATE_GROUPS = 4
+	inputStates.AddInputState( static_cast<CAIGState*>( 0 ) );										// STATE_AI_GENERAL = 5
 	inputStates.SetActiveState( STATE_TERRAIN_TILES );
 
 // ************************************************************************************************************************ //
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 	char pBuffer[0xFFF];
 	GetCurrentDirectory( 0xFFF, pBuffer );
 	szStartDirectory = pBuffer + std::string( "\\" );
 	
-	m_cursorName = MAKEINTRESOURCE( IDC_APPSTARTING );		//RR
+	m_cursorName = MAKEINTRESOURCE( IDC_APPSTARTING );		// R.R.
 } 
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 CTemplateEditorFrame::~CTemplateEditorFrame()
 {
 }
-/*
-	ON_COMMAND(ID_FILE_LOADMAP, OnFileLoadMap)
-	ON_COMMAND(ID_FILE_NEWMAP, OnFileNewMap)
-*/
+/* ON_COMMAND(ID_FILE_LOADMAP, OnFileLoadMap)
+	 */
 
 BEGIN_MESSAGE_MAP(CTemplateEditorFrame, SECWorksheet)
-	//{{AFX_MSG_MAP(CTemplateEditorFrame)
+	// {{AFX_MSG_MAP(CTemplateEditorFrame)
 	ON_WM_MOUSEMOVE()
 	ON_WM_LBUTTONDOWN()
 	ON_WM_LBUTTONUP()
@@ -539,11 +520,11 @@ BEGIN_MESSAGE_MAP(CTemplateEditorFrame, SECWorksheet)
 	ON_UPDATE_COMMAND_UI(ID_FILE_SAVE_BZM, OnUpdateFileSaveBzm)
 	ON_COMMAND(ID_FILE_SAVE_XML, OnFileSaveXml)
 	ON_UPDATE_COMMAND_UI(ID_FILE_SAVE_XML, OnUpdateFileSaveXml)
-	//}}AFX_MSG_MAP
+	// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 
-/////////////////////////////////////////////////////////////////////////////
+// //
 // CTemplateEditorFrame message handlers
 
 void CTemplateEditorFrame::OnSetFocus(CWnd* pOldWnd) 
@@ -557,11 +538,11 @@ void CTemplateEditorFrame::OnSetFocus(CWnd* pOldWnd)
 	SECWorksheet::OnSetFocus(pOldWnd);
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 void CTemplateEditorFrame::ShowFrameWindows(int nCommand)
 {
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 	if ( m_mapEditorBarPtr )
 		theApp.ShowSECControlBar( m_mapEditorBarPtr, nCommand );
@@ -582,7 +563,7 @@ void CTemplateEditorFrame::ShowFrameWindows(int nCommand)
 
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 int CTemplateEditorFrame::OnCreate(LPCREATESTRUCT lpCreateStruct) 
 {
@@ -615,7 +596,7 @@ int CTemplateEditorFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	return 0;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::OnPaint() 
 {
 	IScene *pScene = GetSingleton<IScene>();
@@ -658,7 +639,7 @@ void CTemplateEditorFrame::OnPaint()
 			inputStates.Draw( this );
 		}
 
-		//------------------ рисуем области--------------------------------
+		// ------------------ draw areas--------------------------------
 		if ( ITerrainEditor *pTerrainEditor = dynamic_cast<ITerrainEditor*>( pTerrain ) )
 		{
 			STerrainInfo &rTerrainInfo = const_cast<STerrainInfo&>( pTerrainEditor->GetTerrainInfo() );
@@ -696,18 +677,8 @@ void CTemplateEditorFrame::OnPaint()
 	pGFX->Clear( 0, 0, GFXCLEAR_TARGET | GFXCLEAR_ZBUFFER | GFXCLEAR_STENCIL );
 	pGFX->BeginScene();
 
-	/**
-	if ( m_bGrid )
-	{
-		if ( ITerrain *pTerrain = GetSingleton<IScene>()->GetTerrain() )
-			pTerrain->EnableGrid( m_bGrid ) ;
-	}
-	else
-	{
-		if ( ITerrain *pTerrain = GetSingleton<IScene>()->GetTerrain() )
-			pTerrain->EnableGrid( m_bGrid ) ;
-	}
-/**/
+	/* *
+	 */
 
 	ICamera	*pCamera = GetSingleton<ICamera>();
 	IGameTimer *pTimer = GetSingleton<IGameTimer>();
@@ -723,7 +694,7 @@ void CTemplateEditorFrame::OnPaint()
 		dc.FrameRect( &r2, &brA );
 	}
 
-	//------------------ рисуем области--------------------------------
+	// ------------------ draw areas--------------------------------
 	if ( ITerrain *pTerrain = pScene->GetTerrain() )
 	{
 		if ( ITerrainEditor *pTerrainEditor = dynamic_cast<ITerrainEditor*>( pTerrain ) )
@@ -752,15 +723,15 @@ void CTemplateEditorFrame::OnPaint()
 	pGFX->EndScene();
 	pGFX->Flip();
 
-	//--------------- для minimap'a-----------------------------
+	// --------------- for minimap----------------------------
 	if ( g_frameManager.GetMiniMapWindow() && ::IsWindow( g_frameManager.GetMiniMapWindow()->GetSafeHwnd() ) ) 
 	{
 		g_frameManager.GetMiniMapWindow()->UpdateScreenFrame();
 	}
-	//----------------------------------------------------------
+	// ------------------------------------------------------------
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void NormalizeRange( std::vector<SMainTileDesc> *pTiles )
 {
 	float absLength = 0;
@@ -789,7 +760,7 @@ int GetRandomTile( const std::vector<SMainTileDesc> &tiles )
 	return tiles[0].nIndex;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 void CTemplateEditorFrame::OnSize(UINT nType, int cx, int cy) 
 {
@@ -832,7 +803,7 @@ void CTemplateEditorFrame::OnSize(UINT nType, int cx, int cy)
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::OnKeyDown( UINT nChar, UINT nRepCnt, UINT nFlags )
 {
 	if ( IScene* pScene = GetSingleton<IScene>() )
@@ -877,7 +848,7 @@ void CTemplateEditorFrame::OnKeyDown( UINT nChar, UINT nRepCnt, UINT nFlags )
 	SECWorksheet::OnKeyDown(nChar, nRepCnt, nFlags);
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::NormalizeCamera( CVec3 *pvCamera )
 {
 	if ( IScene* pScene = GetSingleton<IScene>() )
@@ -906,44 +877,13 @@ void CTemplateEditorFrame::NormalizeCamera( CVec3 *pvCamera )
 			}
 			pCamera->SetAnchor( *pvCamera );
 
-			/**
-			IGameTimer *pTimer = GetSingleton<IGameTimer>();
-			pCamera->SetAnchor( *pvCamera );
-			pTimer->Update( timeGetTime() );
-			Update( pTimer->GetGameTime() );
-			bool bCameraChanged = false;
-			CVec3 vCenter = GetScreenCenter();
-			if ( vCenter.x < 0.0f )
-			{
-				pvCamera->x -= vCenter.x;
-				bCameraChanged = true;
-			}
-			else if ( vCenter.x > (  rTerrainInfo.tiles.GetSizeX() * fWorldCellSize ) )
-			{
-				pvCamera->x += (  rTerrainInfo.tiles.GetSizeX() * fWorldCellSize ) - vCenter.x;
-				bCameraChanged = true;
-			}
-
-			if ( vCenter.y < 0.0f )
-			{
-				pvCamera->y -= vCenter.y;
-				bCameraChanged = true;
-			}
-			else if ( vCenter.y > (  rTerrainInfo.tiles.GetSizeY() * fWorldCellSize ) )
-			{
-				pvCamera->y += (  rTerrainInfo.tiles.GetSizeY() * fWorldCellSize ) - vCenter.y;
-				bCameraChanged = true;
-			}
-			if ( bCameraChanged )
-			{
-				pCamera->SetAnchor( *pvCamera );
-			}
-			/**/
+			/* *
+			 */
 		}
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 BOOL CTemplateEditorFrame::OnEraseBkgnd(CDC* pDC) 
 {
 	// TODO: Add your message handler code here and/or call default
@@ -959,7 +899,7 @@ BOOL CTemplateEditorFrame::OnEraseBkgnd(CDC* pDC)
 	return 0;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::OnKillFocus(CWnd* pNewWnd) 
 {
 	SECWorksheet::OnKillFocus(pNewWnd);
@@ -967,10 +907,10 @@ void CTemplateEditorFrame::OnKillFocus(CWnd* pNewWnd)
 	RedrawWindow();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 LRESULT CTemplateEditorFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lParam) 
 {
-	if ( message == UM_CHANGE_SHORTCUT_BAR_PAGE ) //поменяли режим работы
+	if ( message == UM_CHANGE_SHORTCUT_BAR_PAGE ) // changed the operating mode
 	{
 	
 		ITerrain *terra = GetSingleton<IScene>()->GetTerrain();
@@ -979,23 +919,22 @@ LRESULT CTemplateEditorFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lPa
 			dynamic_cast<ITerrainEditor*>(terra)->SetMarker( NULL, 0 );
 		}
 
-	//	if ( m_currentMovingObjectPtr ) { m_currentMovingObjectPtr = 0; }	
+	// if (m_currentMovingObjectPtr) { m_currentMovingObjectPtr = 0; 
 	
 		static_cast<CObjectPlacerState*>( inputStates.GetInputState( STATE_SIMPLE_OBJECTS ) )->ClearAllSelection( this );
 		/* for delete 
-		if ( m_currentMovingObjectPtrAI ) { m_currentMovingObjectPtrAI = 0; }	
-		*/
-		//if ( m_currentObjectForPastePtrAI ) { m_currentObjectForPastePtrAI = 0; }	
-		if ( m_currentMovingObjectForPlacementPtr != 0 ) //вырубим полупрозрачную картинку
+		 */
+		// if ( m_currentObjectForPastePtrAI ) { m_currentObjectForPastePtrAI = 0; 
+		if ( m_currentMovingObjectForPlacementPtr != 0 ) // cut out the translucent picture
 		{
 			RemoveObject( m_currentMovingObjectForPlacementPtr );
 			m_currentMovingObjectForPlacementPtr = 0;
 		}	
 		
-		//============== сброс объектов при advanced clipboard=====
+		// =============reset objects with advanced clipboard=====
 		if ( m_currentMovingPasteGroupName != "" )
 		{
-			// вначале замочим предыдущие картинки
+			// First, let's soak the previous pictures
 			for( std:: vector<CPtr<IVisObj> >::iterator it = m_currentMovingObjectsForPlacementPtr.begin();
 			it != m_currentMovingObjectsForPlacementPtr.end(); ++it )
 			{
@@ -1005,7 +944,7 @@ LRESULT CTemplateEditorFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lPa
 			m_currentMovingObjectsForPlacementPtr.clear();
 		}
 
-		//=========================================================
+		// =====================================================================================
 		SendMessage(  WM_USER + 5 );
 		inputStates.SetActiveState( wParam );
 		if ( ( wParam == STATE_VECTOR_OBJECTS ) && ( lParam != CInputStateParameter::INVALID_STATE ) )
@@ -1031,7 +970,7 @@ LRESULT CTemplateEditorFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lPa
 		}
 		return 0;
 	}
-	if ( message == WM_USER + 2 ) //изменили фильтр 
+	if ( message == WM_USER + 2 ) // changed the filter
 	{
 		CPtr<IObjectsDB> pODB = GetSingleton<IObjectsDB>();
 	
@@ -1074,14 +1013,14 @@ LRESULT CTemplateEditorFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lPa
 		}
 		return 0;
 	}
-	if ( message == WM_USER + 3 ) //изменили текущего выбранного юнита  
+	if ( message == WM_USER + 3 ) // changed the currently selected unit
 	{
 		static_cast<CObjectPlacerState*>( inputStates.GetInputState( STATE_SIMPLE_OBJECTS ) )->ClearAllSelection( this ); 		
 
-		//================ сброс объектов при advanced clipboard =====================
+		// ================ Resetting objects with advanced clipboard =====================
 		if ( m_currentMovingPasteGroupName != "" )
 		{
-			// вначале замочим предыдущие картинки
+			// First, let's soak the previous pictures
 			for( std:: vector<CPtr<IVisObj> >::iterator it = m_currentMovingObjectsForPlacementPtr.begin();
 			it != m_currentMovingObjectsForPlacementPtr.end(); ++it )
 			{
@@ -1091,24 +1030,19 @@ LRESULT CTemplateEditorFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lPa
 			
 			m_currentMovingObjectsForPlacementPtr.clear();
 		}
-		//=============================================================================
-/*	for delete
-		if ( m_currentMovingObjectPtrAI ) // отменим выделение
-		{
-			m_currentMovingObjectPtrAI->pVisObj->Select( SGVOSS_UNSELECTED );
-			m_currentMovingObjectPtrAI = 0;
-		}
-		*/
+		// ================================================================================
+/* for delete
+		 */
 
-		if ( m_currentMovingObjectForPlacementPtr != 0 ) //вырубим полупрозрачную картинку
+		if ( m_currentMovingObjectForPlacementPtr != 0 ) // cut out the translucent picture
 		{
-			//static_cast<IScene*>( GetSingleton()->Get( SCNGRPH_SCENE_GRAPH ) )->RemoveObject( m_currentMovingObjectForPlacementPtr );
+			// static_cast<IScene*>( GetSingleton()->Get( SCNGRPH_SCENE_GRAPH ) )->RemoveObject( m_currentMovingObjectForPlacementPtr );
 			RemoveObject( m_currentMovingObjectForPlacementPtr );
 			m_currentMovingObjectForPlacementPtr = 0;
 		}
 	}
 
-	if ( message == WM_USER + 4 ) //изменили угол у  текущего выбранного юнита  
+	if ( message == WM_USER + 4 ) // changed the angle of the currently selected unit
 	{
 		if ( m_currentMovingObjectForPlacementPtr != 0 ) 
 		{
@@ -1129,7 +1063,7 @@ LRESULT CTemplateEditorFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lPa
 			SetMapModified();
 			RedrawWindow();
 		}
-		//если мультиселект
+		// if multiselect
 		if ( m_currentMovingObjectsAI.size() )
 		{
 			for ( std::vector<SMapObject*>::iterator it = m_currentMovingObjectsAI.begin(); it != m_currentMovingObjectsAI.end(); ++it )
@@ -1138,7 +1072,7 @@ LRESULT CTemplateEditorFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lPa
 				{			
 					if ( (*it)->pAIObj && GetSingleton<IAIEditor>()->GetFormationOfUnit( (*it)->pAIObj ) )
 					{
-						// поворачиваем формацию 
+						// rotate the formation
 						IRefCount* obj = GetSingleton<IAIEditor>()->GetFormationOfUnit( (*it)->pAIObj ) ;
 						GetSingleton<IAIEditor>()->TurnObject( obj, m_mapEditorBarPtr->GetObjectWnd()->GetDefaultDirAngel() * 182.04f );					
 					}
@@ -1155,7 +1089,7 @@ LRESULT CTemplateEditorFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lPa
 			RedrawWindow();
 		}
 	}
-	if ( message == WM_USER + 5 ) //надо замочить окно свойств
+	if ( message == WM_USER + 5 ) // you need to soak the properties window
 	{
 		if ( dlg ) 
 		{
@@ -1164,22 +1098,11 @@ LRESULT CTemplateEditorFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lPa
 			dlg = 0;
 			isStartCommandPropertyActive = false;
 			SetMapModified();
-			/**
-			for ( std::vector<CMutableUnitCreation>::iterator mutableUnitCreationIterator = m_unitCreationInfo.mutableUnits.begin(); mutableUnitCreationIterator != m_unitCreationInfo.mutableUnits.end(); ++mutableUnitCreationIterator )
-			{
-				if ( mutableUnitCreationIterator->mutableAviation.vAppearPoints.empty() )
-				{
-					mutableUnitCreationIterator->mutableAviation.vAppearPoints.push_back( VNULL3 );
-				}
-			}
-			if ( inputStates.GetActiveState() == STATE_SOUNDS )
-			{
-				inputStates.Update();
-			}
-			/**/
+			/* *
+			 */
 		}
 	}
-	if ( message == WM_USER + 6 ) //надо попробовать взять свойства
+	if ( message == WM_USER + 6 ) // you should try to take the properties
 	{
 		if ( isStartCommandPropertyActive )
 		{
@@ -1194,39 +1117,25 @@ LRESULT CTemplateEditorFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lPa
 				v.y = float( value ) * 2 * SAIConsts::TILE_SIZE; 
 				RecalculateStartCommandRedLines( v );
 				SetMapModified();
-				//DrawAIStartCommandRedLines();
+				// DrawAIStartCommandRedLines();
 			}
 		}
 
-		//DrawReservePositionRedLines();
-		//DrawUnitsSelection();
-		//!!!!
-		/**
-		if ( inputStates.GetActiveState() == STATE_SOUNDS )
-		{
-			inputStates.Update();
-		}
-		else
-		/**/
+		// DrawReservePositionRedLines();
+		// DrawUnitsSelection();
+		// !!!!
+		/* *
+		 */
 		{ 
 			RedrawWindow();
 		}
 	}
-	if ( message == WM_USER + 7 ) //изменили состояние check box'ов в менеджере группы
+	if ( message == WM_USER + 7 ) // changed the state of check boxes in the group manager
 	{
-		//если что-то было заселектированно то надо сбросить
+		// if something was selected then it needs to be reset
 		
 		/* for delete
-		if ( m_currentMovingObjectPtrAI ) 
-				m_currentMovingObjectPtrAI->pVisObj->Select( SGVOSS_UNSELECTED );
-		for ( std::vector<SMapObject*>::iterator it = m_currentMovingObjectsAI.begin(); it != m_currentMovingObjectsAI.end(); ++it )
-		{
-			(*it)->pVisObj->Select( SGVOSS_UNSELECTED );		
-		}
-		m_currentMovingObjectsAI.clear();	
-		m_shiftsForMovingObjectsAI.clear();	
-
-		*/
+		 */
 		for ( std::hash_map< SMapObject *, SEditorObjectItem*, SDefaultPtrHash >::iterator it = m_objectsAI.begin(); it != m_objectsAI.end(); ++it )
 		{ 
 			
@@ -1247,7 +1156,7 @@ LRESULT CTemplateEditorFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lPa
 	return SECWorksheet::WindowProc(message, wParam, lParam);
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::OnUpdateTileCoord(CCmdUI* pCmdUI) 
 {
 	if ( IScene *pScene = GetSingleton<IScene>() )
@@ -1257,23 +1166,14 @@ void CTemplateEditorFrame::OnUpdateTileCoord(CCmdUI* pCmdUI)
 			if ( inputStates.GetActiveState() != STATE_AI_GENERAL )
 			{
 				int nControlIndex = -1;
-				//здесь же напишем имя объекта и его  номер и координаты  для Виталика
+				// here we will write the name of the object and its number and coordinates for Vitalik
 				if ( m_currentMovingObjectPtrAI && g_frameManager.GetActiveFrameType() == CFrameManager::E_TEMPLATE_FRAME )
 				{
 					nControlIndex = theApp.GetMainFrame()->m_wndStatusBar.CommandToIndex( ID_INDICATOR_OBJECTTYPE );
 					CString text;
-					// для Виталика
-					/**
-					int numObj = GetSingleton<IScene>()->GetNumSceneObjects();
-					vector< std::pair<const SGDBObjectDesc*, CVec3> > vecTmp( numObj );
-					GetSingleton<IScene>()->GetAllSceneObjects( &vecTmp[0] );		
-					int pos = 0;
-					for ( int i = 0; i != vecTmp.size(); ++i )
-					{
-						if ( vecTmp[i].second == m_currentMovingObjectPtrAI->pVisObj->GetPosition() )
-							pos = i;	
-					}
-					/**/
+					// for Vitalik
+					/* *
+					 */
 					CVec3 vPos = m_currentMovingObjectPtrAI->pVisObj->GetPosition();
 					Vis2AI( &vPos );
 
@@ -1351,36 +1251,16 @@ void CTemplateEditorFrame::OnUpdateTileCoord(CCmdUI* pCmdUI)
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool FindSpaneHlp( int num, SMapObjectInfo obj )
 {
 	return obj.link.nLinkID == num;
 }
 
-/**
-std::pair< std::string, int > FindGroupIdForObject( SLoadMapInfo::TLogicsMap &logics, int linkId )
-{
-	std::pair< std::string, int > retVal;
-	retVal.second = 0;
-	// 	typedef std::hash_multimap<std::string, std::vector<int> > TLogicsMap;
-  int num = 0;
-	for( std::hash_multimap<std::string, std::vector<int> >::iterator it = logics.begin(); it != logics.end(); ++it )
-	{
-		num++;
-		for( int i = 0; i != it->second.size(); ++i )
-		{
-			if( it->second[i] == linkId )
-			{
-				retVal.second = num;
-				retVal.first = it->first;			
-			}
-		}
-	}
-	return retVal;
-}
-/**/
+/* *
+ */
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void NormalizeMapName( std::string &szSelectedFileMap, bool bTruncate )
 {
 	IDataStorage *pStorage = GetSingleton<IDataStorage>();
@@ -1425,7 +1305,7 @@ void NormalizeMapName( std::string &szSelectedFileMap, bool bTruncate )
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::OnFileLoadMap( const std::string &rszFileName ) 
 {
 	{
@@ -1446,10 +1326,10 @@ void CTemplateEditorFrame::OnFileLoadMap( const std::string &rszFileName )
 		return;
 	}
 	
-	//находим все зарегистрированные моды
+	// find all registered mods
 	modCollector.Collect();
 	COpenMapDialog openMapDialog;
-	//находим все зарегистрированные карты
+	// find all registered cards
 	{
 		const std::string szMapsFolder( "Maps\\" );
 		GetEnumFilesInDataStorage( szMapsFolder, &( openMapDialog.mapNames ) );
@@ -1471,7 +1351,7 @@ void CTemplateEditorFrame::OnFileLoadMap( const std::string &rszFileName )
 		NStr::ToLower( szSelectedFileMap );
 		const std::string szSelectedFileMapFullName = szSelectedFileMap;
 		
-		//открываем карту
+		// open the map
 		CPtr<IDataStream> pStream = 0;
 		{
 			IDataStorage *pDataStorage = GetSingleton<IDataStorage>();
@@ -1507,7 +1387,7 @@ void CTemplateEditorFrame::OnFileLoadMap( const std::string &rszFileName )
 					}
 				}
 			}
-			//NI_ASSERT_T( pStream != 0, NStr::Format("Can't open stream \"%s\" to read map", szSelectedFileMapFullName.c_str() ) );
+			// NI_ASSERT_T( pStream != 0, NStr::Format("Can't open stream \"%s\" to read map", szSelectedFileMapFullName.c_str() ) );
 		}
 		
 		bool bMapLoaded = false;
@@ -1639,7 +1519,7 @@ void CTemplateEditorFrame::OnFileLoadMap( const std::string &rszFileName )
 		NStr::ToLower( m_currentMapName );
 		theApp.GetMainFrame()->AddToRecentList( m_currentMapName + ( mapEditorOptions.bSaveAsBZM ? ".bzm" : ".xml" ) );
 
-		//грузим мод:
+		// loading the mod:
 		if ( szOldMODKey != szNewMODKey )
 		{
 			if ( progressDialog.GetSafeHwnd() != 0 )
@@ -1726,7 +1606,7 @@ void CTemplateEditorFrame::OnFileLoadMap( const std::string &rszFileName )
 			{
 				szShortOutputString += NStr::Format( "\nSome objects was deleted.\nFor further information see %s%s file.", pDataStorage->GetName(), szOutputFile.c_str() );
 			}
-			//изменяется мод - требуем сохранения
+			// the mod changes - we need to save it
 			bSomeRemoved = true;
 		}
 
@@ -1776,7 +1656,7 @@ void CTemplateEditorFrame::OnFileLoadMap( const std::string &rszFileName )
 
 		progressDialog.IterateProgressPosition();
 
-		//Загрузим в  AI terrain
+		// Upload to AI terrain
 		pAIEditor->SetDiplomacies( currentMapInfo.diplomacies );
 		pAIEditor->Init( currentMapInfo.terrain );
 		pAIEditor->ToggleShow( 0 );
@@ -1820,20 +1700,20 @@ void CTemplateEditorFrame::OnFileLoadMap( const std::string &rszFileName )
 		}		
 
 		std::vector<SMapObjectInfo> tmpSpans;
-		std::map<SMapObject*,SMapObjectInfo > m_objectsTmpMap; // запомним для всех объектов SMapObjectInfo
+		std::map<SMapObject*,SMapObjectInfo > m_objectsTmpMap; // remember for all objects SMapObjectInfo
  
 		for ( std::vector<SMapObjectInfo>::iterator it = currentMapInfo.objects.begin(); it != currentMapInfo.objects.end(); ++it )
 		{			
-			//SMapObjectInfo testVar = *it;
+			// SMapObjectInfo testVar = *it;
 			CVec3 vPos;
 			AI2Vis( &vPos, it->vPos );
 			if( pAIEditor->IsObjectInsideOfMap( *it ) )
 			{
-				if( pObjectsDB->GetDesc( it->szName.c_str() )->eGameType != SGVOGT_BRIDGE ) // мосты надо ставить по особому
+				if( pObjectsDB->GetDesc( it->szName.c_str() )->eGameType != SGVOGT_BRIDGE ) // bridges must be installed in a special way
 				{
 					if ( terrainRect.contains( vPos.x, vPos.y ) )				
 					{
-						//SMapObjectInfo tmpInfo = *it;
+						// SMapObjectInfo tmpInfo = *it;
 						SMapObject *ptr = AddObjectByAI( *it, it->nPlayer ,true );		
 						m_objectsTmpMap.insert( std::make_pair( ptr, *it ) );
 					}
@@ -1841,12 +1721,8 @@ void CTemplateEditorFrame::OnFileLoadMap( const std::string &rszFileName )
 				else
 				{
 					tmpSpans.push_back( *it );
-					/*IRefCount *pAiObject = 0;
-					GetSingleton<IAIEditor>()->AddNewObject( info, &pAiObject );
-					IGameTimer *pTimer = GetSingleton<IGameTimer>();
-					int time = pTimer->GetGameTime( );
-					Update( time );
-					tmpBridgeForAdd.push_back( FindSpanByAI( pAiObject ) );*/
+					/* IRefCount *pAiObject = 0;
+					 */
 				}
 			}
 		}
@@ -1855,16 +1731,16 @@ void CTemplateEditorFrame::OnFileLoadMap( const std::string &rszFileName )
 
 		for ( std::vector<SMapObjectInfo>::iterator it = currentMapInfo.scenarioObjects.begin(); it != currentMapInfo.scenarioObjects.end(); ++it )
 		{			
-			//SMapObjectInfo testVar = *it;
+			// SMapObjectInfo testVar = *it;
 			CVec3 vPos;
 			AI2Vis( &vPos, it->vPos );
 			if( pAIEditor->IsObjectInsideOfMap( *it ) )
 			{
-				if( pObjectsDB->GetDesc( it->szName.c_str() )->eGameType != SGVOGT_BRIDGE ) // мосты надо ставить по особому
+				if( pObjectsDB->GetDesc( it->szName.c_str() )->eGameType != SGVOGT_BRIDGE ) // bridges must be installed in a special way
 				{
 					if ( terrainRect.contains( vPos.x, vPos.y ) )				
 					{
-						//SMapObjectInfo tmpInfo = *it;
+						// SMapObjectInfo tmpInfo = *it;
 						SMapObject *ptr = AddObjectByAI( *it, it->nPlayer ,true, true );		
 						m_objectsTmpMap.insert( std::make_pair( ptr, *it ) );
 					}
@@ -1872,44 +1748,40 @@ void CTemplateEditorFrame::OnFileLoadMap( const std::string &rszFileName )
 				else
 				{
 					tmpSpans.push_back( *it );
-					/*IRefCount *pAiObject = 0;
-					GetSingleton<IAIEditor>()->AddNewObject( info, &pAiObject );
-					IGameTimer *pTimer = GetSingleton<IGameTimer>();
-					int time = pTimer->GetGameTime( );
-					Update( time );
-					tmpBridgeForAdd.push_back( FindSpanByAI( pAiObject ) );*/
+					/* IRefCount *pAiObject = 0;
+					 */
 				}
 			}
 		}
 
 		progressDialog.IterateProgressPosition();
-		//----------------------------------------------------------------------------------------------------------
-		// расставляем линки ( тепрь уже для каждого SMapObject есть SMapObjectInfo) т.е известен его link 
+		// ----------------------------------------------------------------------------------------------
+		// we arrange links (now for each SMapObject there is SMapObjectInfo) i.e. its link is known
 		for ( std::map<SMapObject*,SMapObjectInfo >::iterator it = m_objectsTmpMap.begin(); it != m_objectsTmpMap.end(); ++it )
 		{			
 			SMapObjectInfo tmpInfo = it->second;
 
-			if( it->second.link.nLinkWith != 0 )  // это означает что есть link 
+			if( it->second.link.nLinkWith != 0 )  // this means there is a link
 			{
-				// найдем SMapObject с таким linkId 
+				// find a SMapObject with this linkId
 				for ( std::map<SMapObject*,SMapObjectInfo >::iterator it2 = m_objectsTmpMap.begin(); it2 != m_objectsTmpMap.end(); ++it2 )
 				{
 					if( it2->second.link.nLinkID == it->second.link.nLinkWith &&  it2->first != it->first )
 					{
-						//нашли хороший SMapObject присвоим ему link 
+						// found a good SMapObject and assign it a link
 						GetEditorObjectItem( it->first )->pLink =  it2->first;
 	
 						IRefCount* pFormation = pAIEditor->GetFormationOfUnit( it->first->pAIObj  );
 						if( pFormation )
 						{
-							// значит надо посадить не одного солдатика а целый взвод
+							// this means that it is necessary to imprison not just one soldier, but a whole platoon
 							IRefCount **pUnits;
 							int nLength;
 							pAIEditor->GetUnitsInFormation( pFormation, &pUnits, &nLength);	
 							for( int i = 0; i != nLength; ++i )
 							{
 								GetEditorObjectItem( FindByAI( pUnits[i] ) )->pLink = it2->first;
-								// посадили а теперь подвинем его ( просто у Виталика они при постановке на карту встают в 0- ую  формацию )
+								// we planted it and now let’s move it (it’s just that when Vitalik puts it on the map, they get into the 0th formation)
 								CVec2 vTmp = pAIEditor->GetCenter( it2->first->pAIObj );
 								pAIEditor->MoveObject(  FindByAI( pUnits[i] )->pAIObj, vTmp.x - 30 , vTmp.y + 30 );
 							}
@@ -1922,20 +1794,20 @@ void CTemplateEditorFrame::OnFileLoadMap( const std::string &rszFileName )
 		
 		progressDialog.IterateProgressPosition();
 	
-		//----------------------------------------------------------------------------------------------------------
-		//обновляем ReservePositions:
-		//для каждой резервной позиции
+		// ----------------------------------------------------------------------------------------------
+		// update ReservePositions:
+		// for each reserve position
 		for ( TMutableReservePositionList::iterator reservePositionIterator = m_reservePositions.begin(); reservePositionIterator != m_reservePositions.end(); )
 		{
 			reservePositionIterator->pArtilleryObject = 0;
 			reservePositionIterator->pTruckObject = 0;
 			if ( reservePositionIterator->nArtilleryLinkID != 0 ) 
-					 //( reservePositionIterator->nTruckLinkID != 0 ) )
+					 // ( reservePositionIterator->nTruckLinkID != 0 ) )
 			{
-				//для каждого зарегистрированного обьекта
-				//находим linkID
-				//если не squad
-				// найдем SMapObject с таким linkId 
+				// for each registered object
+				// find linkID
+				// if not squad
+				// find a SMapObject with this linkId
 				for ( std::map<SMapObject*,SMapObjectInfo>::iterator it2 = m_objectsTmpMap.begin(); it2 != m_objectsTmpMap.end(); ++it2 )
 				{
 					if ( it2->second.link.nLinkID == reservePositionIterator->nArtilleryLinkID )
@@ -1961,7 +1833,7 @@ void CTemplateEditorFrame::OnFileLoadMap( const std::string &rszFileName )
 					}
 				}
 			}
-			//если нет ни одного обьекта, то удаляем стартовую команду
+			// if there are no objects, then delete the starting command
 			if ( ( reservePositionIterator->pArtilleryObject == 0 ) && 
 				   ( reservePositionIterator->pTruckObject == 0 ) )
 			{
@@ -1974,20 +1846,20 @@ void CTemplateEditorFrame::OnFileLoadMap( const std::string &rszFileName )
 		}
 		
 		progressDialog.IterateProgressPosition();
-		//----------------------------------------------------------------------------------------------------------
-		//обновляем StartCommands:
-		//для каждой стартовой команды
+		// ----------------------------------------------------------------------------------------------
+		// update StartCommands:
+		// for each starting team
 		for ( TMutableAIStartCommandList::iterator startCommandIterator = m_startCommands.begin(); startCommandIterator != m_startCommands.end(); )
 		{
-			//для каждого зарегистрированного обьекта
-			//bool isAllPresent = true;
+			// for each registered object
+			// bool isAllPresent = true;
 			startCommandIterator->pMapObjects.clear();
 			for ( std::vector<int>::iterator mapObjectIterator = startCommandIterator->unitLinkIDs.begin(); mapObjectIterator	!= startCommandIterator->unitLinkIDs.end(); ++mapObjectIterator )
 			{
-				//если его не удалили
+				// if it hasn't been removed
 				if ( (*mapObjectIterator) != 0 )
 				{
-					// найдем SMapObject с таким linkId 
+					// find a SMapObject with this linkId
 					for ( std::map<SMapObject*,SMapObjectInfo>::iterator it2 = m_objectsTmpMap.begin(); it2 != m_objectsTmpMap.end(); ++it2 )
 					{
 						if( it2->second.link.nLinkID == (*mapObjectIterator) )
@@ -2013,7 +1885,7 @@ void CTemplateEditorFrame::OnFileLoadMap( const std::string &rszFileName )
 				}
 			}
 			startCommandIterator->unitLinkIDs.clear();
-			//если нет ни одного обьекта, то удаляем стартовую команду
+			// if there are no objects, then delete the starting command
 			if ( !startCommandIterator->pMapObjects.empty() )
 			{
 				 ++startCommandIterator;		
@@ -2024,40 +1896,12 @@ void CTemplateEditorFrame::OnFileLoadMap( const std::string &rszFileName )
 			}
 		}
 		progressDialog.IterateProgressPosition();
-		//----------------------------------------------------------------------------------------------------------
-		//-----------------Расставим групповые логики -------------------------------------------------------------- 
-		//					std::pair< std::string, int > FindGroupIdForObject( SLoadMapInfo::TLogicsMap &logics, int linkId )
-		/**
-		for ( std::map<SMapObject*,SMapObjectInfo >::iterator it = m_objectsTmpMap.begin(); it != m_objectsTmpMap.end(); ++it )
-		{
-				// не взводы 
-				SMapObject* pMapObject = it->first;
-				if ( pMapObject )
-				{
-					if( !GetSingleton<IAIEditor>()->GetFormationOfUnit( it->first->pAIObj ) )
-					{
-						GetEditorObjectItem( it->first )->nLogicGroupId = FindGroupIdForObject( logics, m_objectsTmpMap[ it->first ].link.nLinkID ).second;
-						GetEditorObjectItem( it->first )->szBehavior = FindGroupIdForObject( logics, m_objectsTmpMap[ it->first ].link.nLinkID ).first;				
-					}
-					else
-					{
-						// для них чуть сложнее 
-						// m_objectsTmpMap -  там содержится только один солдатик из каждого взвода ( по построению )
-						//
-						IRefCount* pFormation = GetSingleton<IAIEditor>()->GetFormationOfUnit( it->first->pAIObj  );					
-						IRefCount **pUnits;
-						int nLength;
-						GetSingleton<IAIEditor>()->GetUnitsInFormation( pFormation, &pUnits, &nLength);	
-						for( int i = 0; i != nLength; ++i )
-						{
-							GetEditorObjectItem( FindByAI( pUnits[i] ) )->nLogicGroupId = FindGroupIdForObject( logics, m_objectsTmpMap[ it->first ].link.nLinkID ).second;
-							GetEditorObjectItem( FindByAI( pUnits[i] ) )->szBehavior = FindGroupIdForObject( logics, m_objectsTmpMap[ it->first ].link.nLinkID ).first;
-						}
-					}
-				}
-		}
-		/**/
-		//----------------------------------------------------------------------------------------------------------
+		// ----------------------------------------------------------------------------------------------
+		// -----------------Let's arrange group logics ---------------------------------------------------------------
+		// std::pair< std::string, int > FindGroupIdForObject( SLoadMapInfo::TLogicsMap &logics, int linkId )
+		/* *
+		 */
+		// ----------------------------------------------------------------------------------------------
 
 		m_Spans.clear();
 		IGameTimer *pTimer = GetSingleton<IGameTimer>();
@@ -2096,7 +1940,7 @@ void CTemplateEditorFrame::OnFileLoadMap( const std::string &rszFileName )
 		// turn warfog off
 		while ( pScene->ToggleShow( SCENE_SHOW_WARFOG ) == true ){}
 
-		//-------------Нарисуем модельку камеры------------
+		// -------------Let's draw a camera model------------
 		m_mapEditorBarPtr->GetObjectWnd()->FillPlayers();
 		MakeCamera();
 		CVec3 vCamera( VNULL3 );
@@ -2120,7 +1964,7 @@ void CTemplateEditorFrame::OnFileLoadMap( const std::string &rszFileName )
 		}
 
 		NormalizeCamera( &vCamera );
-		//---------------------------------------------------
+		// ---------------------------------------------------
 
 		{
 			IVisObjBuilder* pVisObjBuilder = GetSingleton<IVisObjBuilder>();
@@ -2138,7 +1982,7 @@ void CTemplateEditorFrame::OnFileLoadMap( const std::string &rszFileName )
 		CalculateReinforcementGroups();	
 		SendMessage( WM_USER + 7 );
 
-		// почитаем окопы
+		// we honor the trenches
 		CalculateTrenchToAI();
 
 		if ( isReservePositionActive )
@@ -2146,21 +1990,11 @@ void CTemplateEditorFrame::OnFileLoadMap( const std::string &rszFileName )
 			m_CurentReservePosition.vPos = VNULL2;
 			m_CurentReservePosition.pArtilleryObject = 0;
 			m_CurentReservePosition.pTruckObject = 0;
-			//DrawReservePositionRedLines();
+			// DrawReservePositionRedLines();
 		}
 
-		/**
-		if ( CTabSoundsDialog *pTabSoundsDialog = m_mapEditorBarPtr->GetSoundsTab() )
-		{
-			pTabSoundsDialog->SetCircleSound( currentMapInfo.szForestCircleSounds );
-			pTabSoundsDialog->SetAmbientSound( currentMapInfo.szForestAmbientSounds );
-
-			//if ( m_mapEditorBarPtr->GetSoundsTab()->IsDlgButtonChecked( m_mapEditorBarPtr->GetSoundsTab()->vID[3] ) )
-			//{
-			//	FillCreatedSounds();
-			//}
-		}
-		/**/
+		/* *
+		 */
 
 		progressDialog.IterateProgressPosition();
 
@@ -2177,13 +2011,13 @@ void CTemplateEditorFrame::OnFileLoadMap( const std::string &rszFileName )
 		}
 		FillAddedMapSoundInfo();
 
-		//UpdateObjectsZ( CTRect<int>( 0, 0, rTerrainInfo.altitudes.GetSizeX(), rTerrainInfo.altitudes.GetSizeY() ) );
+		// UpdateObjectsZ( CTRect<int>( 0, 0, rTerrainInfo.altitudes.GetSizeX(), rTerrainInfo.altitudes.GetSizeY() ) );
 
 		currentMapInfo.terrain.patches.Clear();
 		currentMapInfo.terrain.tiles.Clear();
 		currentMapInfo.terrain.altitudes.Clear();
 		//
-		//currentMapInfo.terrain.roads.clear();
+		// currentMapInfo.terrain.roads.clear();
 		currentMapInfo.terrain.roads3.clear();
 		currentMapInfo.terrain.rivers.clear();
 		//
@@ -2238,7 +2072,7 @@ void CTemplateEditorFrame::OnFileLoadMap( const std::string &rszFileName )
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::ShowFireRange( bool isShow )
 {
 	if ( CMainFrame* pMainFrame = theApp.GetMainFrame() )
@@ -2307,7 +2141,7 @@ void CTemplateEditorFrame::ShowFireRange( bool isShow )
 					}
 					if ( pMainFrame->nFireRangeRegisterGroup != ( -1 ) )
 					{
-						//ShowFireRange( false );
+						// ShowFireRange( false );
 						pAILogic->ShowAreas( pMainFrame->nFireRangeRegisterGroup, ACTION_NOTIFY_RANGE_AREA, false );
 						pAILogic->UnregisterGroup( pMainFrame->nFireRangeRegisterGroup );
 						pMainFrame->nFireRangeRegisterGroup = -1;
@@ -2325,7 +2159,7 @@ void CTemplateEditorFrame::ShowFireRange( bool isShow )
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::OnDestroy() 
 {
 	SaveMapEditorOptions();
@@ -2333,23 +2167,23 @@ void CTemplateEditorFrame::OnDestroy()
 	SECWorksheet::OnDestroy();
 } 
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 int CTemplateEditorFrame::GetCurrentDirection()
 {
 	
 		ITerrain *terra = GetSingleton<IScene>()->GetTerrain();
 		if ( terra )
 		{	
-	//		int x1,x2,y1,y2;		
-	//		(dynamic_cast< ITerrainEditor* >(terra))->GetTileIndex( CVec3( m_firstPoint.x, m_firstPoint.y, 0 ), &x1, &y1 );
-	//		(dynamic_cast< ITerrainEditor* >(terra))->GetTileIndex( CVec3( m_lastPoint.x, m_lastPoint.y, 0 ), &x2, &y2 );
+	// int x1,x2,y1,y2;
+	// (dynamic_cast< ITerrainEditor* >(terra))->GetTileIndex( CVec3( m_firstPoint.x, m_firstPoint.y, 0 ), &x1, &y1 );
+	// (dynamic_cast< ITerrainEditor* >(terra))->GetTileIndex( CVec3( m_lastPoint.x, m_lastPoint.y, 0 ), &x2, &y2 );
 			
 			return ( abs( m_firstPoint.x - m_lastPoint.x ) < abs( m_firstPoint.y -  m_lastPoint.y ) )?0:1;
 		}
 		return 0;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::OnItemchangedList1(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
@@ -2361,7 +2195,7 @@ void CTemplateEditorFrame::OnItemchangedList1(NMHDR* pNMHDR, LRESULT* pResult)
 	*pResult = 0;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 void CTemplateEditorFrame::OnObjectPaste() 
 {
@@ -2369,34 +2203,15 @@ void CTemplateEditorFrame::OnObjectPaste()
 	RedrawWindow();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 void CTemplateEditorFrame::OnEditCopy() 
 {
-/**
-		m_currentObjectForPastePtrAI = m_currentMovingObjectPtrAI;
-		m_currentForPasteObjectsAI.clear();
-		m_shiftsForPasteObjectsAI.clear();
-
-	// если мультиселект
-	if ( m_currentMovingObjectsAI.size() )
-	{
-			//запомним объекты и смещение между ними
-			CVec3 v = m_currentMovingObjectsAI[0]->pVisObj->GetPosition();
-			for ( std::vector<SMapObject*>::iterator it = m_currentMovingObjectsAI.begin(); it != m_currentMovingObjectsAI.end(); ++it )
-			{
-				if ( (*it)->pAIObj && ! GetSingleton<IAIEditor>()->GetFormationOfUnit( (*it)->pAIObj  ) )
-				{
-					CVec3 tmpVec = (*it)->pVisObj->GetPosition();
-					m_shiftsForPasteObjectsAI.insert( std::make_pair( *it, tmpVec - v ) );
-					m_currentForPasteObjectsAI.push_back( *it );
-				}
-			}	
-	}
-/**/
+/* *
+		 */
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 IVisObj* CTemplateEditorFrame::AddObject( const SGDBObjectDesc &desc, int p, bool temp )
 {
 	IVisObj *pVisObj = 0;
@@ -2437,15 +2252,15 @@ IVisObj* CTemplateEditorFrame::AddObject( const SGDBObjectDesc &desc, int p, boo
 	return pVisObj;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// удаление по IVisObj надо для временных каринок ( AI о них не знает ) 
+
+// removal by IVisObj is necessary for temporary pictures (AI does not know about them)
 void CTemplateEditorFrame::RemoveObject(IVisObj *object)
 {
 	GetSingleton<IScene>()->RemoveObject( object );
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 void CTemplateEditorFrame::RemoveObject(SMapObject *object)
 {
@@ -2468,8 +2283,8 @@ void CTemplateEditorFrame::RemoveObject(SMapObject *object)
 					}
 				}		
 
-				// может возникнуть ситуация когда при undo надо замочить 
-				// поселекченного unit'aы
+				// a situation may arise when you need to soak during undo
+				// selected units
 				if ( object == m_currentMovingObjectPtrAI )
 				{
 					m_currentMovingObjectPtrAI = 0;
@@ -2498,7 +2313,7 @@ void CTemplateEditorFrame::RemoveObject(SMapObject *object)
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::OnButtonFog() 
 {
 	// TODO: Add your command handler code here
@@ -2506,7 +2321,7 @@ void CTemplateEditorFrame::OnButtonFog()
 	RedrawWindow();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::OnFileNewMap() 
 {
 	{
@@ -2569,7 +2384,7 @@ void CTemplateEditorFrame::OnFileNewMap()
 
 		ClearAllDataBeforeNewMap();
 		
-		//грузим мод:
+		// loading the mod:
 		if ( szOldMODKey != szNewMODKey )
 		{
 			if ( progressDialog.GetSafeHwnd() != 0 )
@@ -2656,9 +2471,9 @@ void CTemplateEditorFrame::OnFileNewMap()
 		progressDialog.IterateProgressPosition();
 
 		m_unitCreationInfo = currentMapInfo.unitCreation;
-		//currentMapInfo.UpdateTerrain( CTRect<int>( 0, 0, nSelectedSizeX, nSelectedSizeY ) );
+		// currentMapInfo.UpdateTerrain( CTRect<int>( 0, 0, nSelectedSizeX, nSelectedSizeY ) );
 		
-		//init AI
+		// init AI
 		pAIEditor->SetDiplomacies( currentMapInfo.diplomacies );
 		pAIEditor->Init( currentMapInfo.terrain );
 		pAIEditor->ToggleShow( 0 );
@@ -2706,7 +2521,7 @@ void CTemplateEditorFrame::OnFileNewMap()
 
 		progressDialog.IterateProgressPosition();
 
-		//-------------Нарисуем миодельку камеры------------
+		// -------------Let's draw a model of the camera------------
 		m_mapEditorBarPtr->GetObjectWnd()->FillPlayers();
 		MakeCamera();
 		CVec3 vCamera( VNULL3 );
@@ -2730,14 +2545,14 @@ void CTemplateEditorFrame::OnFileNewMap()
 		}
 		
 		NormalizeCamera( &vCamera );
-		//---------------------------------------------------
+		// ---------------------------------------------------
 
 		if ( isReservePositionActive )
 		{
 			m_CurentReservePosition.vPos = VNULL2;
 			m_CurentReservePosition.pArtilleryObject = 0;
 			m_CurentReservePosition.pTruckObject = 0;
-			//DrawReservePositionRedLines();
+			// DrawReservePositionRedLines();
 		}
 
 		m_reinforcementGroup = currentMapInfo.reinforcements;
@@ -2770,21 +2585,15 @@ void CTemplateEditorFrame::OnFileNewMap()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::AddTileCmd( std::vector<STileRedoCmdInfo> &inf, bool cmd)
 {
-	//cmd - поставить и запомнить команду, !cmd - сделать откат
+	// cmd - put and remember the command, !cmd - rollback
 	ITerrain *terra = GetSingleton<IScene>()->GetTerrain();
 	if ( terra )
 	{
-		/**
-		if ( cmd )
-		{
-			CTileRedoCmd* tmpPtr = new CTileRedoCmd;
-			tmpPtr->Init( this, inf );
-			m_undoStack.push( tmpPtr );
-		}
-		/**/
+		/* *
+		 */
 
 		int x,y;
 
@@ -2801,7 +2610,7 @@ void CTemplateEditorFrame::AddTileCmd( std::vector<STileRedoCmdInfo> &inf, bool 
 			x = it->posX;
 			y = it->posY;
 		}
-		if ( !cmd )//если AddTileCmd пришел из undo то update
+		if ( !cmd )// if AddTileCmd came from undo then update
 		{
 			const STerrainInfo &terrainInfo =  (dynamic_cast< ITerrainEditor* >(terra))->GetTerrainInfo();
 			GRect gr( (x - 2 )  >> 4 ,(y - 2 )>> 4 , ( x + 3 ) >> 4 , ( y + 3 )>> 4  ) ;
@@ -2812,24 +2621,16 @@ void CTemplateEditorFrame::AddTileCmd( std::vector<STileRedoCmdInfo> &inf, bool 
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 void CTemplateEditorFrame::OnEditUndo() 
 {
-/**
-	// TODO: Add your command handler code here
-	if ( !m_undoStack.empty() )
-	{
-		m_undoStack.top()->Undo();
-		delete m_undoStack.top();
-		m_undoStack.pop();
-	}
-	RedrawWindow();
-/**/
+/* *
+	 */
 }
 
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 void CTemplateEditorFrame::MoveObject(IVisObj *obj, CVec3 &pos, bool isFormation )
 {
@@ -2842,35 +2643,21 @@ void CTemplateEditorFrame::MoveObject(IVisObj *obj, CVec3 &pos, bool isFormation
 		}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/**
-void CTemplateEditorFrame::DeleteRoad( SRoadItem &road)
-{
-	if ( std::find( m_roads.begin(), m_roads.end(), road ) != m_roads.end() )
-	{
-		m_roads.erase( std::find( m_roads.begin(), m_roads.end(), road ) );
-	}
-}
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/* *
+ */
 
-void CTemplateEditorFrame::AddRoad(SRoadItem &s)
-{
-			m_roads.push_back( s );
-}
-/**/
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool CTemplateEditorFrame::IfCashedFile( std::string name)
 {
 
 	std::string szFileName1 = std::string( GetSingleton<IDataStorage>()->GetName() ) +  std::string("editor\\cache\\") + name;
 	std::string szFileName2 = std::string( GetSingleton<IDataStorage>()->GetName() ) + name;
 	
-	HANDLE handle1 = CreateFile(szFileName1.c_str(), GENERIC_READ, 0, NULL, OPEN_EXISTING, 0, NULL); // tmp картинка
-	HANDLE handle2 = CreateFile(szFileName2.c_str(), GENERIC_READ, 0, NULL, OPEN_EXISTING, 0, NULL); // - эту еще надо уменьшать
+	HANDLE handle1 = CreateFile(szFileName1.c_str(), GENERIC_READ, 0, NULL, OPEN_EXISTING, 0, NULL); // tmp picture
+	HANDLE handle2 = CreateFile(szFileName2.c_str(), GENERIC_READ, 0, NULL, OPEN_EXISTING, 0, NULL); // - this still needs to be reduced
 	
 	bool ifShouldScaleAndLoad = false;
 	if ( handle1 != INVALID_HANDLE_VALUE ) 
@@ -2893,7 +2680,7 @@ bool CTemplateEditorFrame::IfCashedFile( std::string name)
 	return ifShouldScaleAndLoad;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 void CTemplateEditorFrame::OnToolsClearCash() 
 {
@@ -2902,13 +2689,13 @@ void CTemplateEditorFrame::OnToolsClearCash()
 	NFile::DeleteDirectory( szFileName1.c_str() );
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 BOOL CTemplateEditorFrame::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message) 
 {
 	if( m_cursorName != "" )
 	{
-		SetCursor( LoadCursor(0, m_cursorName ) );			//RR
+		SetCursor( LoadCursor(0, m_cursorName ) );			// R.R.
 		return 0;
 	}
 	else
@@ -2917,7 +2704,7 @@ BOOL CTemplateEditorFrame::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 void CTemplateEditorFrame::GetTileIndexBy2DPoint(int x, int y, int &xtile, int &ytile)
 {
@@ -2931,9 +2718,9 @@ void CTemplateEditorFrame::GetTileIndexBy2DPoint(int x, int y, int &xtile, int &
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//просто заполняет прямоугольник точками
+
+// just fills the rectangle with dots
 void CTemplateEditorFrame::FillGRect( GRect &r, std::vector< CTPoint<int> > &points  )
 {
 	for ( int i = r.top(); i != r.bottom(); ++i )
@@ -2945,7 +2732,7 @@ void CTemplateEditorFrame::FillGRect( GRect &r, std::vector< CTPoint<int> > &poi
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 SMapObject* CTemplateEditorFrame::AddObjectByAI(SMapObjectInfo &info, int p ,bool temp, bool bScenarioUnit )
 {
 	IRefCount *pAiObject = 0;
@@ -2954,7 +2741,7 @@ SMapObject* CTemplateEditorFrame::AddObjectByAI(SMapObjectInfo &info, int p ,boo
 	{
 		info.fHP = 1.0f; 
 	}
-	// у вызводов надо nFrameIndex == -1
+	// invocations need nFrameIndex == -1
 	const SGDBObjectDesc* descTmp = GetSingleton<IObjectsDB>()->GetDesc( info.szName.c_str() ); 
 	if ( !descTmp )
 		return 0;
@@ -2983,7 +2770,7 @@ SMapObject* CTemplateEditorFrame::AddObjectByAI(SMapObjectInfo &info, int p ,boo
 
 	if ( pAiObject )
 	{
-		if( !GetSingleton<IAIEditor>()->IsFormation( pAiObject ) )  // просто солдатики 
+		if( !GetSingleton<IAIEditor>()->IsFormation( pAiObject ) )  // just soldiers
 		{
 			IGameTimer *pTimer = GetSingleton<IGameTimer>();
 			int time = pTimer->GetGameTime( );
@@ -3003,17 +2790,15 @@ SMapObject* CTemplateEditorFrame::AddObjectByAI(SMapObjectInfo &info, int p ,boo
 					tmpItem = new SUnitEditorObjectItem;
 			};
 
-	/*if( descTmp->eGameType  != SGVOGT_ENTRENCHMENT )
-				tmpItem = new SUnitEditorObjectItem;
-			else
-				tmpItem = new STrenchEditorObjectItem;*/
+	/* if( descTmp->eGameType != SGVOGT_ENTRENCHMENT )
+				 */
 				
 			if( pMapObj ) 
 			{
 				tmpItem->sDesc = *( pMapObj->pDesc );
 				tmpItem->nPlayer = info.nPlayer;
 				
-				//tmpItem->szBehavior = info.szLogic;
+				// tmpItem->szBehavior = info.szLogic;
 				tmpItem->nScriptID = info.nScriptID;
 				tmpItem->bScenarioUnit = bScenarioUnit;
 				if ( info.nFrameIndex != -1 )
@@ -3024,14 +2809,8 @@ SMapObject* CTemplateEditorFrame::AddObjectByAI(SMapObjectInfo &info, int p ,boo
 				SetAnim( pMapObj->pVisObj, pMapObj->pDesc, 0 );
 
 				m_objectsAI.insert( std::make_pair( pMapObj, tmpItem ) );
-				/**
-				if ( !temp )
-				{
-					CAddObjRedoCmd* tmpPtr = new CAddObjRedoCmd();
-					tmpPtr->Init( this, pMapObj );
-					m_undoStack.push( tmpPtr );
-				}
-				/**/
+				/* *
+				 */
 
 				if ( bScenarioUnit )
 				{
@@ -3058,7 +2837,7 @@ SMapObject* CTemplateEditorFrame::AddObjectByAI(SMapObjectInfo &info, int p ,boo
 				SEditorObjectItem *tmpItem = new SUnitEditorObjectItem;
 				tmpItem->sDesc = *( pMapObj->pDesc );
 				tmpItem->nPlayer = info.nPlayer;
-				//tmpItem->szBehavior = info.szLogic;
+				// tmpItem->szBehavior = info.szLogic;
 				tmpItem->nScriptID = info.nScriptID;
 				tmpItem->bScenarioUnit = bScenarioUnit;
 				if ( nActiveFrameIndex >= 0 )
@@ -3077,21 +2856,15 @@ SMapObject* CTemplateEditorFrame::AddObjectByAI(SMapObjectInfo &info, int p ,boo
 
 				m_objectsAI.insert( std::make_pair( pMapObj, tmpItem ) );
 
-				/**
-				if ( !temp )
-				{
-					CAddObjRedoCmd* tmpPtr = new CAddObjRedoCmd();
-					tmpPtr->Init( this, pMapObj );
-					m_undoStack.push( tmpPtr );
-				}
-				/**/
+				/* *
+				 */
 			}
 		}
 	}
 	return pMapObj;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void AddMapObjectInfo( std::vector<SMapObjectInfo> &objects, SMapObjectInfo &info )
 {
 	CVec2 vPos( info.vPos.x, info.vPos.y );
@@ -3102,12 +2875,12 @@ void AddMapObjectInfo( std::vector<SMapObjectInfo> &objects, SMapObjectInfo &inf
 
 	info.vPos.z = fZ;
 	AI2Vis( &info.vPos );
-	//if ( fabs(info.vPos.z) < 10 ) 
+	// if ( fabs(info.vPos.z) < 10 )
 		info.vPos.z = 0;
 	objects.push_back( info );
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::SaveMap( std::string &name, bool isBinary )
 {
 	theApp.GetMainFrame()->AddToRecentList( name );
@@ -3130,25 +2903,25 @@ void CTemplateEditorFrame::SaveMap( std::string &name, bool isBinary )
 	{
 		CheckMap( false );
 
-		//перераспределяем линки
+		// redistributing links
 		GetSingleton<IAIEditor>()->HandOutLinks();
 
-		//обновляем nLinkID у ReservePositions:
-		//для каждой резервной позиции
+		// update nLinkID of ReservePositions:
+		// for each reserve position
 		for ( TMutableReservePositionList::iterator reservePositionIterator = m_reservePositions.begin(); reservePositionIterator != m_reservePositions.end(); )
 		{
 			reservePositionIterator->nArtilleryLinkID = 0;
 			reservePositionIterator->nTruckLinkID = 0;
-			if ( reservePositionIterator->pArtilleryObject ) //&& reservePositionIterator->pTruckObject )
+			if ( reservePositionIterator->pArtilleryObject ) // && reservePositionIterator->pTruckObject )
 			{
-				//для каждого зарегистрированного обьекта
-				//находим linkID
-				//если не squad
+				// for each registered object
+				// find linkID
+				// if not squad
 				if ( !GetSingleton<IAIEditor>()->GetFormationOfUnit( reservePositionIterator->pArtilleryObject->pAIObj ) )
 				{
 					reservePositionIterator->nArtilleryLinkID  = GetSingleton<IAIEditor>()->AIToLink( reservePositionIterator->pArtilleryObject->pAIObj );
 				}
-				//если не squad
+				// if not squad
 				if ( reservePositionIterator->pTruckObject )
 				{
 					if ( !GetSingleton<IAIEditor>()->GetFormationOfUnit( reservePositionIterator->pTruckObject->pAIObj ) )
@@ -3161,7 +2934,7 @@ void CTemplateEditorFrame::SaveMap( std::string &name, bool isBinary )
 					reservePositionIterator->nTruckLinkID = RMGC_INVALID_LINK_ID_VALUE;
 				}
 			}
-			//если нет ни одного обьекта, то удаляем стартовую команду
+			// if there are no objects, then delete the starting command
 			if ( ( reservePositionIterator->nArtilleryLinkID == RMGC_INVALID_LINK_ID_VALUE ) && 
 					 ( reservePositionIterator->nTruckLinkID == RMGC_INVALID_LINK_ID_VALUE ) )
 			{
@@ -3176,31 +2949,31 @@ void CTemplateEditorFrame::SaveMap( std::string &name, bool isBinary )
 			
 		progressDialog.IterateProgressPosition();
 
-		//обновляем nLinkID у StartCommands:
-		//для каждой стартовой команды
+		// update nLinkID for StartCommands:
+		// for each starting team
 		for ( TMutableAIStartCommandList::iterator startCommandIterator = m_startCommands.begin(); startCommandIterator != m_startCommands.end(); )
 		{
-			//для каждого зарегистрированного обьекта
-			//bool isAllPresent = true;
+			// for each registered object
+			// bool isAllPresent = true;
 			startCommandIterator->unitLinkIDs.clear();
 			for ( std::list<SMapObject*>::iterator mapObjectIterator = startCommandIterator->pMapObjects.begin(); mapObjectIterator	!= startCommandIterator->pMapObjects.end(); ++mapObjectIterator )
 			{
-				//если его не удалили
+				// if it hasn't been removed
 				if ( m_objectsAI.find(*mapObjectIterator) != m_objectsAI.end() )
 				{
-					//находим linkID
+					// find linkID
 					int linkID = 0;
-					//в случае если это squad
+					// in case it's a squad
 					if ( GetSingleton<IAIEditor>()->GetFormationOfUnit( (*mapObjectIterator)->pAIObj ) )
 					{
 						linkID = GetSingleton<IAIEditor>()->AIToLink( GetSingleton<IAIEditor>()->GetFormationOfUnit( (*mapObjectIterator)->pAIObj ) );
 					}
-					//если не squad
+					// if not squad
 					else
 					{
 						linkID = GetSingleton<IAIEditor>()->AIToLink( (*mapObjectIterator)->pAIObj );
 					}
-					//если linkID найден
+					// if linkID is found
 					if ( linkID != 0 )
 					{
 						bool isNotPresent = true;
@@ -3212,22 +2985,22 @@ void CTemplateEditorFrame::SaveMap( std::string &name, bool isBinary )
 								break;
 							}
 						}
-						//и он не присутствует больше
+						// and he is no longer present
 						if ( isNotPresent )
 						{
-							//добавляем его
+							// add it
 							startCommandIterator->unitLinkIDs.push_back( linkID );
 						}
 					}
 				}
-				//else
-				//{
-				//	isAllPresent = false;
-				//	break;
-				//}
+				// else
+				// {
+				// isAllPresent = false;
+				// break;
+				// }
 			}
 				
-			//если нет ни одного обьекта, то удаляем стартовую команду
+			// if there are no objects, then delete the starting command
 			if ( startCommandIterator->unitLinkIDs.empty() )
 			{
 				 startCommandIterator = m_startCommands.erase( startCommandIterator );		
@@ -3252,9 +3025,9 @@ void CTemplateEditorFrame::SaveMap( std::string &name, bool isBinary )
 
 		progressDialog.IterateProgressPosition();
 			
-		//---------------------------------------------------------------------
-		//		пишем объекты которые не взводы
-		//---------------------------------------------------------------------
+		// -----------------------------------------------------------------------
+		// we write objects that are not platoons
+		// -----------------------------------------------------------------------
 		CPtr<IObjectsDB> pODB = GetSingleton<IObjectsDB>();
 		for ( std::hash_map< SMapObject*, SEditorObjectItem*, SDefaultPtrHash >::iterator it = m_objectsAI.begin(); it != m_objectsAI.end(); ++it )
 		{
@@ -3263,7 +3036,7 @@ void CTemplateEditorFrame::SaveMap( std::string &name, bool isBinary )
 				SMapObjectInfo tmpObj;
 				SEditorObjectItem *pTmp = it->second;
 				tmpObj.nScriptID = it->second->nScriptID;
-				//tmpObj.szLogic = it->second->szBehavior;
+				// tmpObj.szLogic = it->second->szBehavior;
 				tmpObj.nDir = it->first->pVisObj->GetDirection();
 				tmpObj.nPlayer = it->second->nPlayer;
 				tmpObj.vPos = it->first->pVisObj->GetPosition();
@@ -3274,7 +3047,7 @@ void CTemplateEditorFrame::SaveMap( std::string &name, bool isBinary )
 				SMapObjectInfo::SLinkInfo link;
 				link.nLinkID = GetSingleton<IAIEditor>()->AIToLink( it->first->pAIObj ); 
 
-				// к моменту записи уже может и не существовать объекта на который ссылаемся 
+				// by the time of recording, the object to which we refer may no longer exist
 				if( it->second->pLink )
 				{
 					if( it->second->pLink->IsValid() )
@@ -3292,19 +3065,19 @@ void CTemplateEditorFrame::SaveMap( std::string &name, bool isBinary )
 				{
 					AddMapObjectInfo( currentMapInfo.objects, tmpObj );
 				}
-				//currentMapInfo.objects.push_back( tmpObj );
+				// currentMapInfo.objects.push_back( tmpObj );
 			}
 		}
 
 		progressDialog.IterateProgressPosition();
 		
-		//---------------------------------------------------------------------
-		//			 теперь взводы 
-		//---------------------------------------------------------------------
-		//CPtr<IObjectsDB> pODB = GetSingleton<IObjectsDB>();
+		// -----------------------------------------------------------------------
+		// now platoons
+		// -----------------------------------------------------------------------
+		// CPtr<IObjectsDB> pODB = GetSingleton<IObjectsDB>();
 		for( std::hash_map<IRefCount*, int, SDefaultPtrHash>::iterator it = squads.begin(); it != squads.end(); ++it )
 		{
-			// возьмем хотя бы одного солдатика из взвода 
+			// let's take at least one soldier from the platoon
 			IRefCount **pUnits;
 			int nLength;
 			GetSingleton<IAIEditor>()->GetUnitsInFormation( it->first, &pUnits, &nLength);	
@@ -3314,14 +3087,14 @@ void CTemplateEditorFrame::SaveMap( std::string &name, bool isBinary )
 			tmpObj.nScriptID = tmpEditiorObj->nScriptID ; 
 			tmpObj.nDir = GetSingleton<IAIEditor>()->GetDir( it->first );
 			tmpObj.nPlayer = tmpEditiorObj->nPlayer;
-			//tmpObj.szLogic = tmpEditiorObj->szBehavior;
+			// tmpObj.szLogic = tmpEditiorObj->szBehavior;
 
 
 			tmpObj.vPos = CVec3( GetSingleton<IAIEditor>()->GetCenter( it->first ), 0.0f );
 			tmpObj.nFrameIndex = 0;
 
 			int numId = GetSingleton<IAIEditor>()->GetUnitDBID( it->first);
-			tmpObj.szName = pODB->GetDesc( numId )->szKey;//FindByAI( it->first )->pDesc->szKey;//tmpEditiorObj->sDesc.szKey;
+			tmpObj.szName = pODB->GetDesc( numId )->szKey;// FindByAI( it->first )->pDesc->szKey;//tmpEditiorObj->sDesc.szKey;
 			tmpObj.fHP = FindByAI( pUnits[0] )->fHP;
 			SMapObjectInfo::SLinkInfo link;
 			tmpObj.nFrameIndex = it->second;
@@ -3331,7 +3104,7 @@ void CTemplateEditorFrame::SaveMap( std::string &name, bool isBinary )
 			}
 			link.nLinkID = GetSingleton<IAIEditor>()->AIToLink( it->first );
 
-			// к моменту записи уже может и не существовать объекта на который ссылаемся 
+			// by the time of recording, the object to which we refer may no longer exist
 			if( tmpEditiorObj->pLink )
 			{
 				if( tmpEditiorObj->pLink->IsValid() )
@@ -3349,11 +3122,11 @@ void CTemplateEditorFrame::SaveMap( std::string &name, bool isBinary )
 			{
 				AddMapObjectInfo( currentMapInfo.objects, tmpObj );
 			}
-			//currentMapInfo.objects.push_back( tmpObj );	
+			// currentMapInfo.objects.push_back( tmpObj );
 		}
-		//---------------------------------------------------------------------
-		//		мосты
-		//---------------------------------------------------------------------
+		// -----------------------------------------------------------------------
+		// bridges
+		// -----------------------------------------------------------------------
 		for( int i = 0; i != m_Spans.size(); ++i )
 		{
 			std::vector<int> tmpBridge;
@@ -3366,7 +3139,7 @@ void CTemplateEditorFrame::SaveMap( std::string &name, bool isBinary )
 				WORD wDir;
 				m_Spans[i][j]->GetPlacement( &tmpObj.vPos, &wDir );
 				Vis2AI( &tmpObj.vPos );
-				tmpObj.szName = m_Spans[i][j]->GetDesc()->szKey;//FindByAI( *it )->pDesc->szKey;//tmpEditiorObj->sDesc.szKey;
+				tmpObj.szName = m_Spans[i][j]->GetDesc()->szKey;// FindByAI( *it )->pDesc->szKey;//tmpEditiorObj->sDesc.szKey;
 				tmpObj.nFrameIndex = m_Spans[i][j]->nIndex;
 
 				if ( m_Spans[i][j]->GetHP() > 0 )
@@ -3423,7 +3196,7 @@ void CTemplateEditorFrame::SaveMap( std::string &name, bool isBinary )
 		currentMapInfo.scriptAreas = m_scriptAreas;
 		CalculateAreasFromAI();
 		
-		//currentMapInfo.nSeason = GetSeason();
+		// currentMapInfo.nSeason = GetSeason();
 		currentMapInfo.unitCreation = m_unitCreationInfo.Mutate();
 
 		currentMapInfo.soundsList.clear();
@@ -3434,26 +3207,8 @@ void CTemplateEditorFrame::SaveMap( std::string &name, bool isBinary )
 
 		progressDialog.IterateProgressPosition();
 
-		/**
-		if ( CTabSoundsDialog *pTabSoundsDialog = m_mapEditorBarPtr->GetSoundsTab() )
-		{
-			currentMapInfo.szForestCircleSounds = pTabSoundsDialog->GetCircleSound();
-			currentMapInfo.szForestAmbientSounds = pTabSoundsDialog->GetAmbientSound();
-
-			RemoveAddedMapSoundInfo();
-			for ( int nIndex = 0; nIndex < 3; ++nIndex )
-			{
-				addedMapSoundInfo[nIndex].clear();
-				TMapSoundInfoList soundsList;
-				currentMapInfo.AddSounds( &soundsList, 1 << nIndex );
-				for( TMapSoundInfoList::const_iterator mapSoundInfoIterator = soundsList.begin(); mapSoundInfoIterator != soundsList.end(); ++mapSoundInfoIterator )
-				{
-					addedMapSoundInfo[nIndex].push_back( CMutableMapSoundInfo( *mapSoundInfoIterator ) );
-				}
-			}
-			FillAddedMapSoundInfo();
-		}
-		/**/
+		/* *
+		 */
 
 		currentMapInfo.PackFrameIndices();
 
@@ -3488,7 +3243,7 @@ void CTemplateEditorFrame::SaveMap( std::string &name, bool isBinary )
 		currentMapInfo.terrain.tiles.Clear();
 		currentMapInfo.terrain.altitudes.Clear();
 		//
-		//currentMapInfo.terrain.roads.clear();
+		// currentMapInfo.terrain.roads.clear();
 		currentMapInfo.terrain.roads3.clear();
 		currentMapInfo.terrain.rivers.clear();
 		//
@@ -3513,14 +3268,14 @@ void CTemplateEditorFrame::SaveMap( std::string &name, bool isBinary )
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool SetIDGroup(  int id , SMapObject *obj )
 {
 	obj->nSelectionGroupID  = id;
 	return true;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 void CTemplateEditorFrame::OnButtonShowLayers() 
 {
@@ -3533,27 +3288,12 @@ void CTemplateEditorFrame::OnButtonShowLayers()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 void CTemplateEditorFrame::CalculateReinforcementGroups( bool update )
 {
-/*	m_reinforcementGroups.clear();
-	for ( std::hash_map< SMapObject *, SEditorObjectItem*, SDefaultPtrHash >::iterator it = m_objectsAI.begin(); it != m_objectsAI.end(); ++it )
-	{ 
-		if ( m_reinforcementGroups.find( it->first->nSelectionGroupID ) == m_reinforcementGroups.end() )
-		{
-			std::vector< SMapObject * > vec;
-			m_reinforcementGroups.insert( std::make_pair( it->first->nSelectionGroupID, vec ) );
-		}
-		m_reinforcementGroups[ it->first->nSelectionGroupID ].push_back( it->first );						
-	}		
-	m_mapEditorBarPtr->GetGroupMngWnd()->m_groupList.ResetContent( );
-	for ( std::map< int, std::vector< SMapObject * > >::iterator it = m_reinforcementGroups.begin(); it != m_reinforcementGroups.end(); ++it )
-	{ 
-		int num = m_mapEditorBarPtr->GetGroupMngWnd()->m_groupList.AddString( NStr::Format( "Group N:%d", it->first ) );	
-		m_mapEditorBarPtr->GetGroupMngWnd()->m_groupList.SetItemData ( num , it->first );	
-	}
-*/
+/* m_reinforcementGroups.clear();
+	 */
 	if ( update )
 	{
 		m_mapEditorBarPtr->GetGroupMngWnd()->m_groupList.ResetContent();
@@ -3571,7 +3311,7 @@ void CTemplateEditorFrame::CalculateReinforcementGroups( bool update )
 	}
 	else
 	{
-		//запишем состояние
+		// let's write down the state
 		m_reinforcementGroupCheckBoxes.groupsCheckBoxes.clear();
 		for ( std::hash_map< int, SReinforcementGroupInfo::SGroupsVector >::iterator it = m_reinforcementGroup.groups.begin(); it != m_reinforcementGroup.groups.end(); ++it )
 		{ 
@@ -3587,14 +3327,14 @@ void CTemplateEditorFrame::CalculateReinforcementGroups( bool update )
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::OnFileOpen() 
 {
 	// TODO: Add your command handler code here
 	OnFileLoadMap( "" );
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 void CTemplateEditorFrame::OnFileCreateNewProject() 
 {
@@ -3602,7 +3342,7 @@ void CTemplateEditorFrame::OnFileCreateNewProject()
 	OnFileNewMap();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 void CTemplateEditorFrame::OnButtonshowBoxes() 
 {
@@ -3615,13 +3355,13 @@ void CTemplateEditorFrame::OnButtonshowBoxes()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::Pick( CVec2 &point, std::pair<IVisObj*, CVec2> **ppObjects, int *pnNumObjects, EObjGameType type, bool bVisible, bool IsMoving )
 {
 	GetSingleton<IScene>()->Pick( point, ppObjects, pnNumObjects, type );
 	int nRealPos = 0;
 
-	//NStr::DebugTrace( "CTemplateEditorFrame::Pick0: %d\n", *pnNumObjects );
+	// NStr::DebugTrace( "CTemplateEditorFrame::Pick0: %d\n", *pnNumObjects );
 	
 	for ( int i = 0; i != *pnNumObjects; ++i )
 	{
@@ -3635,20 +3375,20 @@ void CTemplateEditorFrame::Pick( CVec2 &point, std::pair<IVisObj*, CVec2> **ppOb
 	*pnNumObjects = nRealPos;
 } 
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::Pick( const CTRect<float> &rcRect, std::pair<IVisObj*, CVec2> **ppObjects, int *pnNumObjects, EObjGameType type, bool bVisible, bool IsMoving )
 {
 	GetSingleton<IScene>()->Pick( rcRect, ppObjects, pnNumObjects, type );
 	int nRealPos = 0;
 
-	//NStr::DebugTrace( "CTemplateEditorFrame::Pick1: %d\n", *pnNumObjects );
+	// NStr::DebugTrace( "CTemplateEditorFrame::Pick1: %d\n", *pnNumObjects );
 
 	for ( int i = 0; i != *pnNumObjects; ++i )
 	{
 		if ( IsExistByVis( (*ppObjects)[i].first ) && ( IsMoving || FindByVis( (*ppObjects)[i].first )->pDesc->eGameType != SGVOGT_ENTRENCHMENT )
 			&& FindByVis( (*ppObjects)[i].first )->pDesc->eGameType != SGVOGT_BRIDGE  
 			&&  GetEditorObjectItem( FindByVis( (*ppObjects)[i].first ) )->pLink == 0 )
-			// тех кто в домике не выделяем 
+			// We don’t single out those in the house
 		{
 			(*ppObjects)[nRealPos] = (*ppObjects)[i];
 			++nRealPos;
@@ -3657,7 +3397,7 @@ void CTemplateEditorFrame::Pick( const CTRect<float> &rcRect, std::pair<IVisObj*
 	*pnNumObjects = nRealPos;
 } 
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::MakeCamera()
 {
 	if ( IScene *pScene = GetSingleton<IScene>() )
@@ -3692,18 +3432,18 @@ void CTemplateEditorFrame::MakeCamera()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::CalculateTrenchFromAI()
 {
 	m_entrenchments.clear();
 	for( int i = 0; i != m_entrenchmentsAI.size() ; ++i )
 	{
 			SEntrenchmentInfo tmpTrench;
-			// проходимся по i - ому окопу ( т.е по его сегментам  )
+			// we walk through the i-th trench (i.e. along its segments)
 			for( int i2 = 0; i2 != m_entrenchmentsAI[i].size(); ++i2 )
 			{
 				std::vector< int >  tmpSegment;
-				// теперь идем по сегменту т.е по частичкам 
+				// Now we go by segment, i.e. by particles
 				for( int i3 = 0; i3 != m_entrenchmentsAI[i][i2].size(); ++i3 )
 				{
 					tmpSegment.push_back(  GetSingleton<IAIEditor>()->AIToLink( m_entrenchmentsAI[i][i2][i3] ) );
@@ -3715,18 +3455,18 @@ void CTemplateEditorFrame::CalculateTrenchFromAI()
 
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::CalculateTrenchToAI()
 {
 	m_entrenchmentsAI.clear();
 	for( int i = 0; i != m_entrenchments.size() ; ++i )
 	{
 		std::vector< std::vector< IRefCount* > >  tmpTrench;
-			// проходимся по i - ому окопу ( т.е по его сегментам  )
+			// we walk through the i-th trench (i.e. along its segments)
 			for( int i2 = 0; i2 != m_entrenchments[i].sections.size(); ++i2 )
 			{
 				std::vector< IRefCount* >  tmpSegment;
-				// теперь идем по сегменту т.е по частичкам 
+				// Now we go by segment, i.e. by particles
 				for( int i3 = 0; i3 != m_entrenchments[i].sections[i2].size(); ++i3 )
 				{
 					tmpSegment.push_back(  GetSingleton<IAIEditor>()->LinkToAI( m_entrenchments[i].sections[i2][i3] ) );
@@ -3737,7 +3477,7 @@ void CTemplateEditorFrame::CalculateTrenchToAI()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::CalculateAreas()
 {
 	m_mapEditorBarPtr->GetToolsTab()->m_areas.ResetContent();
@@ -3753,14 +3493,14 @@ void CTemplateEditorFrame::CalculateAreas()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 void CTemplateEditorFrame::OnButtonDeleteArea() 
 {
 	// TODO: Add your control notification handler code here
 
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::CalculateAreasFromAI()
 {
 	for( std::vector<SScriptArea>::iterator it = m_scriptAreas.begin(); it != m_scriptAreas.end(); ++it )
@@ -3782,7 +3522,7 @@ void CTemplateEditorFrame::CalculateAreasFromAI()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::CalculateAreasToAI()
 {
 	for( std::vector<SScriptArea>::iterator it = m_scriptAreas.begin(); it != m_scriptAreas.end(); ++it )
@@ -3804,21 +3544,21 @@ void CTemplateEditorFrame::CalculateAreasToAI()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void  CTemplateEditorFrame::FillMapInfoParamForObject( SMapObjectInfo &info, SMapObject* obj  )
 {
-	// !!Важно - в AdvancedClipboarde все хранится в экранных координатах 
+	// !!Important - in AdvancedClipboarde everything is stored in screen coordinates
 	info.szName =obj->pDesc->szKey;
 	info.vPos = obj->pVisObj->GetPosition( );
 	info.nDir = GetSingleton<IAIEditor>()->GetDir( obj->pAIObj );
-	info.nPlayer = GetEditorObjectItem( obj )->nPlayer;//obj->diplomacy;
+	info.nPlayer = GetEditorObjectItem( obj )->nPlayer;// obj->diplomacy;
 	info.nFrameIndex = GetEditorObjectItem( obj )->frameIndex;
 	info.nScriptID = GetEditorObjectItem( obj )->nScriptID;
 	info.fHP = obj->fHP;
-	//info.szLogic =  GetEditorObjectItem( obj )->szBehavior;
+	// info.szLogic = GetEditorObjectItem( obj )->szBehavior;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::LoadMapEditorOptions()
 {
 	if ( CPtr<IDataStream> pStreamOption = GetSingleton<IDataStorage>()->OpenStream( "editor\\options.xml", STREAM_ACCESS_READ ) )
@@ -3832,7 +3572,7 @@ void CTemplateEditorFrame::LoadMapEditorOptions()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::SaveMapEditorOptions()
 {
 	std::string szOptionsFileName = std::string( GetSingleton<IDataStorage>()->GetName() ) + "editor\\options.xml";
@@ -3854,13 +3594,8 @@ void CTemplateEditorFrame::ClearAllDataBeforeNewMap()
 
 	inputStates.Leave();
 
-	/**
-	while( !m_undoStack.empty() )
-	{
-		delete m_undoStack.top();
-		m_undoStack.pop();
-	}
-	/**/
+	/* *
+	 */
 
 	if ( dlg )
 	{
@@ -3896,7 +3631,7 @@ void CTemplateEditorFrame::ClearAllDataBeforeNewMap()
 	m_squadsShiftsForMovingObjectsAI.clear();
 	m_currentForPasteObjectsAI.clear();
 	m_shiftsForPasteObjectsAI.clear();
-	//m_currentObjectForPastePtrAI = 0;
+	// m_currentObjectForPastePtrAI = 0;
 	m_currentFences.clear();
 	m_startCommands.clear();
 	m_reservePositions.clear();
@@ -3921,18 +3656,18 @@ void CTemplateEditorFrame::ClearAllDataBeforeNewMap()
 	m_unitCreationInfo.units.clear();
 	m_unitCreationInfo.mutableUnits.clear();
 	currentMapInfo.Clear();
-	//bShowScene6 = true;
+	// bShowScene6 = true;
 	bShowScene7 = false;
-	//bWireframe = false;
+	// bWireframe = false;
 	bShowScene11 = true;
-	//bShowScene13 = true;
-	//bShowScene1 = true;
-	//bShowScene2 = true;
-	//bShowScene3 = false;
-	//bShowScene4 = true;
+	// bShowScene13 = true;
+	// bShowScene1 = true;
+	// bShowScene2 = true;
+	// bShowScene3 = false;
+	// bShowScene4 = true;
 	bShowScene8 = false;
-	//bShowScene0 = true;
-	//bShowScene9 = false;
+	// bShowScene0 = true;
+	// bShowScene9 = false;
 	bShowAIPassability = false;
 	bShowStorageCoverage = false;
 	bFireRangePressed = false;
@@ -4069,7 +3804,7 @@ void CTemplateEditorFrame::MoveObject( IRefCount *pAiObject, short x, short y, b
 		CVec2 oldPos = GetSingleton<IAIEditor>()->GetCenter( pAiObject );
 		oldPos.x = x - oldPos.x;
 		oldPos.y = y - oldPos.y;
-		// теперь oldPos - приращение 
+		// now oldPos - increment
 
 		GetSingleton<IAIEditor>()->MoveObject( pAiObject, x, y );
 		SMapObject *pObject = FindByAI( pAiObject );
@@ -4088,28 +3823,28 @@ void CTemplateEditorFrame::MoveObject( IRefCount *pAiObject, short x, short y, b
 		}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::OnNewContainer() 
 {
 	CRMGCreateContainerDialog createContainerDialog;
 	createContainerDialog.DoModal();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::OnNewGraph() 
 {
 	CRMGCreateGraphDialog createGraphDialog;
 	createGraphDialog.DoModal();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::OnNewField() 
 {
 	CRMGCreateFieldDialog createFieldDialog;
 	createFieldDialog.DoModal();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::OnNewTemplate() 
 {
 	modCollector.Collect();
@@ -4117,7 +3852,7 @@ void CTemplateEditorFrame::OnNewTemplate()
 	createTemplateDialog.DoModal();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::NewObjectAdded( SMapObject *pMO )
 {
 	bool bShowHPs = TRUE;
@@ -4137,9 +3872,9 @@ void CTemplateEditorFrame::NewObjectAdded( SMapObject *pMO )
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//Работа со стартовыми командами
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// Working with start commands
+
 void CTemplateEditorFrame::OnAddStartCommand()
 {
 	ITerrain *pTerrain = GetSingleton<IScene>()->GetTerrain();
@@ -4199,13 +3934,13 @@ void CTemplateEditorFrame::OnAddStartCommand()
 
 		m_PointForAIStartCommand.clear();
 		AddStartCommandRedLines( --m_startCommands.end() );
-		//DrawAIStartCommandRedLines();
+		// DrawAIStartCommandRedLines();
 		SetMapModified();
 		RedrawWindow();
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::AddStartCommandRedLines( TMutableAIStartCommandList::iterator startCommandIterator )
 {
 	if ( !startCommandIterator->pMapObjects.empty() )
@@ -4238,7 +3973,7 @@ void CTemplateEditorFrame::RecalculateStartCommandRedLines( const CVec3& rPos )
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::AddObjectToAIStartCommand( SMapObject *object, bool isRemove )
 {
 	for ( TMutableAIStartCommandList::iterator startCommandIterator = m_startCommands.begin(); startCommandIterator != m_startCommands.end(); )
@@ -4272,18 +4007,18 @@ void CTemplateEditorFrame::AddObjectToAIStartCommand( SMapObject *object, bool i
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::ClearAIStartCommandFlags()
 {
-	//обновляем StartCommands:
-	//для каждой стартовой команды
+	// update StartCommands:
+	// for each starting team
 	for ( TMutableAIStartCommandList::iterator startCommandIterator = m_startCommands.begin(); startCommandIterator != m_startCommands.end(); ++startCommandIterator )
 	{
 		startCommandIterator->flag = false;
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::CreateSelectedAIStartCommandList( bool isRemove )
 {
 	m_SelectedStartCommands.clear();
@@ -4302,14 +4037,14 @@ void CTemplateEditorFrame::CreateSelectedAIStartCommandList( bool isRemove )
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::RemoveObjectFromAIStartCommand( SMapObject *object )
 {
-	//обновляем StartCommands:
-	//для каждой стартовой команды
+	// update StartCommands:
+	// for each starting team
 	for ( TMutableAIStartCommandList::iterator startCommandIterator = m_startCommands.begin(); startCommandIterator != m_startCommands.end(); )
 	{
-		//для каждого зарегистрированного обьекта
+		// for each registered object
 		for ( std::list<SMapObject*>::iterator mapObjectIterator = startCommandIterator->pMapObjects.begin(); mapObjectIterator	!= startCommandIterator->pMapObjects.end(); )
 		{
 			if ( (*mapObjectIterator) == object )
@@ -4318,11 +4053,11 @@ void CTemplateEditorFrame::RemoveObjectFromAIStartCommand( SMapObject *object )
 			}
 			else
 			{
-				//если его не удалили
+				// if it hasn't been removed
 				++mapObjectIterator;
 			}
 		}
-		//если нет ни одного обьекта, то удаляем стартовую команду
+		// if there are no objects, then delete the starting command
 		if ( !startCommandIterator->pMapObjects.empty() )
 		{
 			 ++startCommandIterator;		
@@ -4334,7 +4069,7 @@ void CTemplateEditorFrame::RemoveObjectFromAIStartCommand( SMapObject *object )
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::OnStartCommandsList()
 {
 	CreateSelectedAIStartCommandList( true );
@@ -4353,7 +4088,7 @@ void CTemplateEditorFrame::OnStartCommandsList()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::OnUpdateAddStartCommand(CCmdUI* pCmdUI)
 {
 	bool bEnable = false;
@@ -4390,7 +4125,7 @@ void CTemplateEditorFrame::OnUpdateAddStartCommand(CCmdUI* pCmdUI)
 	pCmdUI->Enable( bEnable );
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::OnUpdateStartCommandList(CCmdUI* pCmdUI)
 {
 	bool bEnable = false;
@@ -4408,9 +4143,9 @@ void CTemplateEditorFrame::OnUpdateStartCommandList(CCmdUI* pCmdUI)
 	pCmdUI->Enable( bEnable );
 }
 
-//	TMutableReservePositionList m_reservePositions;
-//	CMutableReservePosition m_CurentReservePosition;
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// TMutableReservePositionList m_reservePositions;
+// CMutableReservePosition m_CurentReservePosition;
+
 void CTemplateEditorFrame::OnReservePositions()
 {
 	isReservePositionActive = !isReservePositionActive;
@@ -4419,12 +4154,12 @@ void CTemplateEditorFrame::OnReservePositions()
 		m_CurentReservePosition.vPos = VNULL2;
 		m_CurentReservePosition.pArtilleryObject = 0;
 		m_CurentReservePosition.pTruckObject = 0;
-		//DrawReservePositionRedLines();
+		// DrawReservePositionRedLines();
 	}
 	else
 	{
 		if ( m_CurentReservePosition.pArtilleryObject && 
-			   //m_CurentReservePosition.pTruckObject && 
+			   // m_CurentReservePosition.pTruckObject &&
 				 ( m_CurentReservePosition.vPos != VNULL2 ) )
 		{
 			m_reservePositions.push_front( m_CurentReservePosition );
@@ -4434,7 +4169,7 @@ void CTemplateEditorFrame::OnReservePositions()
 	RedrawWindow();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::SaveReservePosition()
 {
 	if ( isReservePositionActive )
@@ -4469,7 +4204,7 @@ void CTemplateEditorFrame::SaveReservePosition()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::OnUpdateReservePositions(CCmdUI* pCmdUI)
 {
 	bool bEnable = false;
@@ -4487,15 +4222,15 @@ void CTemplateEditorFrame::OnUpdateReservePositions(CCmdUI* pCmdUI)
 	pCmdUI->SetCheck( isReservePositionActive );
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::RemoveObjectFromReservePositions( SMapObject *object )
 {
-	//обновляем StartCommands:
-	//для каждой стартовой команды
+	// update StartCommands:
+	// for each starting team
 	for ( TMutableReservePositionList::iterator reservePositionIterator = m_reservePositions.begin();
 				reservePositionIterator != m_reservePositions.end(); )
 	{
-		//если нет ни одного обьекта, то удаляем стартовую команду
+		// if there are no objects, then delete the starting command
 		if ( ( reservePositionIterator->pArtilleryObject == object ) || 
 			   ( reservePositionIterator->pTruckObject == object ) )
 		{
@@ -4515,10 +4250,10 @@ void CTemplateEditorFrame::RemoveObjectFromReservePositions( SMapObject *object 
 		m_CurentReservePosition.pTruckObject = 0;
 	}
 	
-	//DrawReservePositionRedLines();
+	// DrawReservePositionRedLines();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::OnMouseMove( UINT nFlags, CPoint point ) 
 {
 	bool ifAnyPopWindows = false; 
@@ -4545,7 +4280,7 @@ void CTemplateEditorFrame::OnMouseMove( UINT nFlags, CPoint point )
 	SECWorksheet::OnMouseMove(nFlags, point);
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::OnLButtonDown( UINT nFlags, CPoint point ) 
 {
 	if ( IScene* pScene = GetSingleton<IScene>() )
@@ -4559,7 +4294,7 @@ void CTemplateEditorFrame::OnLButtonDown( UINT nFlags, CPoint point )
 	SECWorksheet::OnLButtonDown( nFlags, point );
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::OnLButtonUp( UINT nFlags, CPoint point ) 
 {
 	if ( GetFocus( ) != this )
@@ -4579,7 +4314,7 @@ void CTemplateEditorFrame::OnLButtonUp( UINT nFlags, CPoint point )
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::OnLButtonDblClk( UINT nFlags, CPoint point ) 
 {
 	if ( IScene* pScene = GetSingleton<IScene>() )
@@ -4592,7 +4327,7 @@ void CTemplateEditorFrame::OnLButtonDblClk( UINT nFlags, CPoint point )
 	SECWorksheet::OnLButtonDblClk( nFlags, point );
 } 
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::OnRButtonDown( UINT nFlags, CPoint point ) 
 {
 	if ( IScene* pScene = GetSingleton<IScene>() )
@@ -4606,7 +4341,7 @@ void CTemplateEditorFrame::OnRButtonDown( UINT nFlags, CPoint point )
 	SECWorksheet::OnRButtonDown( nFlags, point );
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::OnRButtonUp( UINT nFlags, CPoint point ) 
 {
 	if ( GetFocus( ) != this )
@@ -4626,7 +4361,7 @@ void CTemplateEditorFrame::OnRButtonUp( UINT nFlags, CPoint point )
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::OnRButtonDblClk( UINT nFlags, CPoint point ) 
 {
 	if ( IScene* pScene = GetSingleton<IScene>() )
@@ -4639,7 +4374,7 @@ void CTemplateEditorFrame::OnRButtonDblClk( UINT nFlags, CPoint point )
 	SECWorksheet::OnRButtonDblClk( nFlags, point );
 } 
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::OnMButtonDown( UINT nFlags, CPoint point ) 
 {
 	if ( IScene* pScene = GetSingleton<IScene>() )
@@ -4653,7 +4388,7 @@ void CTemplateEditorFrame::OnMButtonDown( UINT nFlags, CPoint point )
 	SECWorksheet::OnMButtonDown( nFlags, point );
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::OnMButtonUp( UINT nFlags, CPoint point ) 
 {
 	if ( GetFocus( ) != this )
@@ -4673,7 +4408,7 @@ void CTemplateEditorFrame::OnMButtonUp( UINT nFlags, CPoint point )
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::OnMButtonDblClk( UINT nFlags, CPoint point ) 
 {
 	if ( IScene* pScene = GetSingleton<IScene>() )
@@ -4686,7 +4421,7 @@ void CTemplateEditorFrame::OnMButtonDblClk( UINT nFlags, CPoint point )
 	SECWorksheet::OnMButtonDblClk( nFlags, point );
 } 
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::OnFileSave() 
 {
 	if ( IAIEditor* pAIEditor = GetSingleton<IAIEditor>() )
@@ -4715,7 +4450,7 @@ void CTemplateEditorFrame::OnFileSave()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnFileSaveXml() 
 {
 	mapEditorOptions.bSaveAsBZM = false;
@@ -4723,14 +4458,14 @@ void CTemplateEditorFrame::OnFileSaveXml()
 }
 
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnFileSaveBzm() 
 {
 	mapEditorOptions.bSaveAsBZM = true;
 	OnFileSave();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnUpdateFileSaveBzm(CCmdUI* pCmdUI) 
 {
 	bool bEnable = false;
@@ -4747,7 +4482,7 @@ void CTemplateEditorFrame::OnUpdateFileSaveBzm(CCmdUI* pCmdUI)
 	pCmdUI->Enable( bEnable );
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnUpdateFileSaveXml(CCmdUI* pCmdUI) 
 {
 	bool bEnable = false;
@@ -4763,10 +4498,10 @@ void CTemplateEditorFrame::OnUpdateFileSaveXml(CCmdUI* pCmdUI)
 	}
 	pCmdUI->Enable( bEnable );
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::OnFileSaveMap() 
 {
 	if ( IAIEditor* pAIEditor = GetSingleton<IAIEditor>() )
@@ -4818,7 +4553,7 @@ void CTemplateEditorFrame::OnFileSaveMap()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::DrawAIStartCommandRedLines()
 {
 	if ( dlg && isStartCommandPropertyActive )
@@ -4865,7 +4600,7 @@ void CTemplateEditorFrame::DrawAIStartCommandRedLines()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::DrawReservePositionRedLines()
 {
 	if ( isReservePositionActive )
@@ -4965,7 +4700,7 @@ void CTemplateEditorFrame::DrawReservePositionRedLines()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::DrawUnitsSelection()
 {
 	if ( bNeedDrawUnitsSelection )
@@ -5006,7 +4741,7 @@ void CTemplateEditorFrame::DrawUnitsSelection()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 int CTemplateEditorFrame::GetAnimationFrameIndex( struct IVisObj *pVisObj)
 {
 	ISpriteVisObj *pSprite = dynamic_cast<ISpriteVisObj*>( pVisObj );
@@ -5023,7 +4758,7 @@ int CTemplateEditorFrame::GetAnimationFrameIndex( struct IVisObj *pVisObj)
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::UpdateObjectsZ( const CTRect<int> &rUpdateRect )
 {
 	if ( IScene *pScene = GetSingleton<IScene>() )
@@ -5075,25 +4810,8 @@ void  CTemplateEditorFrame::FillAddedMapSoundInfo()
 				STerrainInfo &rTerrainInfo = const_cast<STerrainInfo&>( pTerrainEditor->GetTerrainInfo() );
 
 				IVisObjBuilder* pVisObjBuilder = GetSingleton<IVisObjBuilder>();
-				/**
-				if ( CTabSoundsDialog *pTabSoundsDialog = m_mapEditorBarPtr->GetSoundsTab() )
-				{
-					for ( int nIndex = 0; nIndex < 3; ++nIndex )
-					{
-						if ( pTabSoundsDialog->GetSoundsState( nIndex ) )
-						{
-							for ( TMutableMapSoundInfoVector::iterator mutabeMapSoundInfoIterator = addedMapSoundInfo[nIndex].begin(); mutabeMapSoundInfoIterator != addedMapSoundInfo[nIndex].end(); ++mutabeMapSoundInfoIterator )
-							{
-								mutabeMapSoundInfoIterator->pVisObj = pVisObjBuilder->BuildObject( "editor\\service\\Sound\\1", 0, SGVOT_MESH );
-								pScene->AddObject( mutabeMapSoundInfoIterator->pVisObj, SGVOGT_UNIT );
-								pScene->MoveObject( mutabeMapSoundInfoIterator->pVisObj, mutabeMapSoundInfoIterator->vPos );
-
-								CVSOBuilder::UpdateZ( rTerrainInfo.altitudes, &( mutabeMapSoundInfoIterator->vPos ) );
-							}
-						}
-					}
-				}
-				/**/
+				/* *
+				 */
 			}
 		}
 	}
@@ -5119,7 +4837,7 @@ void  CTemplateEditorFrame::RemoveAddedMapSoundInfo()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTemplateEditorFrame::GetFilesInDataStorage()
 {
 	if ( enumFilesInDataStorageParameter.empty() )
@@ -5206,20 +4924,14 @@ void CTemplateEditorFrame::GetFilesInDataStorage()
 
 		enumFolderStructureParameter.nIgnoreFolderCount = 1;
 		EnumFilesInDataStorage( &enumFilesInDataStorageParameter, GetSingleton<IDataStorage>(), &enumFolderStructureParameter );
-/**
-		for ( TEnumFolders::const_iterator enumFolderIterator = enumFolderStructureParameter.folders.begin();
-					enumFolderIterator != enumFolderStructureParameter.folders.end();
-					++enumFolderIterator )
-		{
-			NStr::DebugTrace( "%s\n", enumFolderIterator->first.c_str() );
-		}
-/**/
+/* *
+		 */
 		dwTime = GetTickCount() - dwTime;
 		NStr::DebugTrace( "CTemplateEditorFrame::GetFilesInDataStorage() %d ms\n", dwTime );
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool CTemplateEditorFrame::GetEnumFilesInDataStorage( const std::string &rszFolder, std::list<std::string> *pList )
 {
 	if ( pList )
@@ -5243,7 +4955,7 @@ bool CTemplateEditorFrame::GetEnumFilesInDataStorage( const std::string &rszFold
 	return false;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnFillArea() 
 {
 	if ( IAIEditor* pAIEditor = GetSingleton<IAIEditor>() )
@@ -5293,7 +5005,7 @@ void CTemplateEditorFrame::OnFillArea()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnUpdateButtonfillarea(CCmdUI* pCmdUI) 
 {
 	bool bEnable = false;
@@ -5315,7 +5027,7 @@ void CTemplateEditorFrame::OnUpdateButtonfillarea(CCmdUI* pCmdUI)
 	pCmdUI->Enable( bEnable );
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnShowFireRange()
 {
 	if ( IAIEditor* pAIEditor = GetSingleton<IAIEditor>() )
@@ -5331,7 +5043,7 @@ void CTemplateEditorFrame::OnShowFireRange()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 CVec3 CTemplateEditorFrame::GetScreenCenter()
 {
 	CRect r;
@@ -5361,7 +5073,7 @@ CVec3 CTemplateEditorFrame::GetScreenCenter()
 	return newPos;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnButtonSetCameraPos() 
 {
 
@@ -5381,7 +5093,7 @@ void CTemplateEditorFrame::OnButtonSetCameraPos()
 	RedrawWindow();	
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnUpdateButtonsetcamera( CCmdUI* pCmdUI ) 
 {
 	bool bEnable = false;
@@ -5398,9 +5110,9 @@ void CTemplateEditorFrame::OnUpdateButtonsetcamera( CCmdUI* pCmdUI )
 	pCmdUI->Enable( bEnable );
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//Задание авиации
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
+// Aviation mission
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnEditUnitCreationInfo()
 {
 	ITerrain *pTerrain = GetSingleton<IScene>()->GetTerrain();
@@ -5417,7 +5129,7 @@ void CTemplateEditorFrame::OnEditUnitCreationInfo()
 	SetMapModified();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnUpdateEditUnitCreationInfo(CCmdUI* pCmdUI)
 {
 	bool bEnable = false;
@@ -5434,7 +5146,7 @@ void CTemplateEditorFrame::OnUpdateEditUnitCreationInfo(CCmdUI* pCmdUI)
 	pCmdUI->Enable( bEnable );
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnOptions() 
 {
 	if ( IAIEditor* pAIEditor = GetSingleton<IAIEditor>() )
@@ -5455,7 +5167,7 @@ void CTemplateEditorFrame::OnOptions()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnUpdateOptions( CCmdUI* pCmdUI ) 
 {
 	bool bEnable = false;
@@ -5472,7 +5184,7 @@ void CTemplateEditorFrame::OnUpdateOptions( CCmdUI* pCmdUI )
 	pCmdUI->Enable( bEnable );
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnButtonUpdate() 
 {
 	if ( IAIEditor* pAIEditor = GetSingleton<IAIEditor>() )
@@ -5521,7 +5233,7 @@ void CTemplateEditorFrame::OnButtonUpdate()
 				
 				progressDialog.IterateProgressPosition();
 				progressDialog.SetProgressMessage( "Updating objects..." );
-				//приведем все коодинаты к AI тайлам
+				// Let's convert all coordinates to AI tiles
 				if ( ifFitToAI )
 				{
 					for ( std::hash_map< SMapObject *, SEditorObjectItem*, SDefaultPtrHash >::iterator it = m_objectsAI.begin(); it != m_objectsAI.end(); ++it )
@@ -5537,7 +5249,7 @@ void CTemplateEditorFrame::OnButtonUpdate()
 							ISpriteVisObj *pSprite = static_cast<ISpriteVisObj*>( pMO->pVisObj.GetPtr() );
 							const int nFrameIndex = static_cast<ISpriteAnimation*>( pSprite->GetAnimation() )->GetFrameIndex();
 							const CArray2D<BYTE> &passability = pRPG->GetPassability( nFrameIndex );
-							// fit применяется только к объектам, которые имеют ненулевой массив проходимости
+							// fit only applies to objects that have a non-zero passability array
 							if ( !passability.IsEmpty() )
 							{
 								CVec3 vPos = pMO->pVisObj->GetPosition();
@@ -5547,7 +5259,7 @@ void CTemplateEditorFrame::OnButtonUpdate()
 								Vis2AI( &vAI, vPos );
 								if ( pMO->pAIObj )
 								{
-									//GetSingleton<IAIEditor>()->MoveObject( pMO->pAIObj, vAI.x, vAI.y );
+									// GetSingleton<IAIEditor>()->MoveObject( pMO->pAIObj, vAI.x, vAI.y );
 										MoveObject( pMO->pAIObj, vAI.x, vAI.y );
 								}
 							}
@@ -5572,7 +5284,7 @@ void CTemplateEditorFrame::OnButtonUpdate()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnUpdateButtonupdate(CCmdUI* pCmdUI) 
 {
 	bool bEnable = false;
@@ -5588,9 +5300,9 @@ void CTemplateEditorFrame::OnUpdateButtonupdate(CCmdUI* pCmdUI)
 	}
 	pCmdUI->Enable( bEnable );
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnShowScene14()
 {
 	if ( IAIEditor* pAIEditor = GetSingleton<IAIEditor>() )
@@ -5601,18 +5313,14 @@ void CTemplateEditorFrame::OnShowScene14()
 			{
 				m_bNeedUpdateUnitHeights = !m_bNeedUpdateUnitHeights;
 
-				/**
-				if ( m_bNeedUpdateUnitHeights )
-				{
-					OnButtonUpdate();
-				}
-				/**/
+				/* *
+				 */
 			}
 		}
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnUpdateShowScene14( CCmdUI* pCmdUI ) 
 {
 	bool bEnable = false;
@@ -5630,7 +5338,7 @@ void CTemplateEditorFrame::OnUpdateShowScene14( CCmdUI* pCmdUI )
 	pCmdUI->SetCheck( m_bNeedUpdateUnitHeights );	
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnButtonfit() 
 {
 	if ( IAIEditor* pAIEditor = GetSingleton<IAIEditor>() )
@@ -5645,7 +5353,7 @@ void CTemplateEditorFrame::OnButtonfit()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnUpdateButtonFit( CCmdUI* pCmdUI )
 {
 	bool bEnable = false;
@@ -5663,7 +5371,7 @@ void CTemplateEditorFrame::OnUpdateButtonFit( CCmdUI* pCmdUI )
 	pCmdUI->SetCheck( ifFitToAI );	
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnShowScene6()
 {
 	if ( IScene* pScene = GetSingleton<IScene>() )
@@ -5674,7 +5382,7 @@ void CTemplateEditorFrame::OnShowScene6()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnUpdateShowScene6(CCmdUI* pCmdUI) 
 {
 	bool bEnable = false;
@@ -5692,7 +5400,7 @@ void CTemplateEditorFrame::OnUpdateShowScene6(CCmdUI* pCmdUI)
 	pCmdUI->SetCheck( bShowScene6 );	
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnShowScene7()
 {
 	if ( IScene* pScene = GetSingleton<IScene>() )
@@ -5703,7 +5411,7 @@ void CTemplateEditorFrame::OnShowScene7()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnUpdateShowScene7(CCmdUI* pCmdUI) 
 {
 	bool bEnable = false;
@@ -5721,7 +5429,7 @@ void CTemplateEditorFrame::OnUpdateShowScene7(CCmdUI* pCmdUI)
 	pCmdUI->SetCheck( bShowScene7 );	
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnShowScene10()
 {
 	if ( IGFX* pGFX = GetSingleton<IGFX>() )
@@ -5732,7 +5440,7 @@ void CTemplateEditorFrame::OnShowScene10()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnUpdateShowScene10(CCmdUI* pCmdUI) 
 {
 	bool bEnable = false;
@@ -5753,7 +5461,7 @@ void CTemplateEditorFrame::OnUpdateShowScene10(CCmdUI* pCmdUI)
 	pCmdUI->SetCheck( bWireframe );	
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnShowScene11()
 {
 	if ( IScene* pScene = GetSingleton<IScene>() )
@@ -5764,7 +5472,7 @@ void CTemplateEditorFrame::OnShowScene11()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnShowScene13()
 {
 	if ( IScene* pScene = GetSingleton<IScene>() )
@@ -5775,7 +5483,7 @@ void CTemplateEditorFrame::OnShowScene13()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnUpdateShowScene11(CCmdUI* pCmdUI) 
 {
 	bool bEnable = false;
@@ -5793,7 +5501,7 @@ void CTemplateEditorFrame::OnUpdateShowScene11(CCmdUI* pCmdUI)
 	pCmdUI->SetCheck( bShowScene11 );	
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnUpdateShowScene13(CCmdUI* pCmdUI) 
 {
 	bool bEnable = false;
@@ -5811,7 +5519,7 @@ void CTemplateEditorFrame::OnUpdateShowScene13(CCmdUI* pCmdUI)
 	pCmdUI->SetCheck( bShowScene13 );	
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnShowScene1()
 {
 	if ( IScene* pScene = GetSingleton<IScene>() )
@@ -5822,7 +5530,7 @@ void CTemplateEditorFrame::OnShowScene1()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnUpdateShowScene1(CCmdUI* pCmdUI) 
 {
 	bool bEnable = false;
@@ -5840,7 +5548,7 @@ void CTemplateEditorFrame::OnUpdateShowScene1(CCmdUI* pCmdUI)
 	pCmdUI->SetCheck( bShowScene1 );	
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnShowScene2()
 {
 	if ( IScene* pScene = GetSingleton<IScene>() )
@@ -5851,7 +5559,7 @@ void CTemplateEditorFrame::OnShowScene2()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnUpdateShowScene2(CCmdUI* pCmdUI) 
 {
 	bool bEnable = false;
@@ -5869,7 +5577,7 @@ void CTemplateEditorFrame::OnUpdateShowScene2(CCmdUI* pCmdUI)
 	pCmdUI->SetCheck( bShowScene2 );	
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnShowScene3()
 {
 	if ( IScene* pScene = GetSingleton<IScene>() )
@@ -5880,7 +5588,7 @@ void CTemplateEditorFrame::OnShowScene3()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnUpdateShowScene3(CCmdUI* pCmdUI) 
 {
 	bool bEnable = false;
@@ -5898,7 +5606,7 @@ void CTemplateEditorFrame::OnUpdateShowScene3(CCmdUI* pCmdUI)
 	pCmdUI->SetCheck( bShowScene3 );	
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnShowScene4()
 {
 	if ( IScene* pScene = GetSingleton<IScene>() )
@@ -5909,7 +5617,7 @@ void CTemplateEditorFrame::OnShowScene4()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnUpdateShowScene4(CCmdUI* pCmdUI) 
 {
 	bool bEnable = false;
@@ -5927,7 +5635,7 @@ void CTemplateEditorFrame::OnUpdateShowScene4(CCmdUI* pCmdUI)
 	pCmdUI->SetCheck( bShowScene4 );	
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnShowScene8()
 {
 	if ( IScene* pScene = GetSingleton<IScene>() )
@@ -5938,7 +5646,7 @@ void CTemplateEditorFrame::OnShowScene8()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnUpdateShowScene8(CCmdUI* pCmdUI) 
 {
 	bool bEnable = false;
@@ -5956,7 +5664,7 @@ void CTemplateEditorFrame::OnUpdateShowScene8(CCmdUI* pCmdUI)
 	pCmdUI->SetCheck( bShowScene8 );	
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnShowScene0()
 {
 	if ( IScene* pScene = GetSingleton<IScene>() )
@@ -5967,7 +5675,7 @@ void CTemplateEditorFrame::OnShowScene0()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnUpdateShowScene0(CCmdUI* pCmdUI) 
 {
 	bool bEnable = false;
@@ -5985,7 +5693,7 @@ void CTemplateEditorFrame::OnUpdateShowScene0(CCmdUI* pCmdUI)
 	pCmdUI->SetCheck( bShowScene0 );	
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnShowScene9()
 {
 	if ( IScene* pScene = GetSingleton<IScene>() )
@@ -5996,7 +5704,7 @@ void CTemplateEditorFrame::OnShowScene9()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnUpdateShowScene9(CCmdUI* pCmdUI) 
 {
 	bool bEnable = false;
@@ -6014,7 +5722,7 @@ void CTemplateEditorFrame::OnUpdateShowScene9(CCmdUI* pCmdUI)
 	pCmdUI->SetCheck( bShowScene9 );	
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnButtonAI() 
 {
 	if ( IAIEditor* pAIEditor = GetSingleton<IAIEditor>() )
@@ -6035,7 +5743,7 @@ void CTemplateEditorFrame::OnButtonAI()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnUpdateButtonai(CCmdUI* pCmdUI) 
 {
 	bool bEnable = false;
@@ -6053,7 +5761,7 @@ void CTemplateEditorFrame::OnUpdateButtonai(CCmdUI* pCmdUI)
 	pCmdUI->SetCheck( bShowAIPassability );	
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnShowStorageCoverage() 
 {
 	if ( IAIEditor* pAIEditor = GetSingleton<IAIEditor>() )
@@ -6075,7 +5783,7 @@ void CTemplateEditorFrame::OnShowStorageCoverage()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::ShowStorageCoverage() 
 {
 	if ( IAIEditor* pAIEditor = GetSingleton<IAIEditor>() )
@@ -6086,40 +5794,8 @@ void CTemplateEditorFrame::ShowStorageCoverage()
 			{
 				if ( m_mapEditorBarPtr )
 				{					
-					/**
-					storageCoverageTileArray.SetZero();
-					
-					if ( bShowStorageCoverage )
-					{
-						if ( CTabSimpleObjectsDialog *pTabSimpleObjectsDialog = m_mapEditorBarPtr->GetObjectWnd() )
-						{
-							if ( bShowAIPassability )
-							{
-								OnButtonAI();
-							}
-					
-							ITerrainEditor *pTerrainEditor = dynamic_cast<ITerrainEditor*>( pTerrain );
-							STerrainInfo &rTerrainInfo = const_cast<STerrainInfo&>( pTerrainEditor->GetTerrainInfo() );
-
-							BeginWaitCursor();
-							if ( bShowStorageCoverage )
-							{
-								if ( ( storageCoverageTileArray.GetSizeX() == 0 ) || ( storageCoverageTileArray.GetSizeY() == 0 ) )
-								{
-									storageCoverageTileArray.SetSizes( rTerrainInfo.tiles.GetSizeX() * 2, rTerrainInfo.tiles.GetSizeY() * 2 );
-								}
-								int nPlayer = pTabSimpleObjectsDialog->GetPlayer();
-								if ( nPlayer >= 0 && nPlayer < ( currentMapInfo.diplomacies.size() - 1 ) )
-								{
-									nPlayer = currentMapInfo.diplomacies[nPlayer];
-									pAIEditor->SetDiplomacies( currentMapInfo.diplomacies );
-									pAIEditor->RecalcPassabilityForPlayer( &storageCoverageTileArray, nPlayer );
-								}
-							}
-
-						}
-					}
-					/**/
+					/* *
+					 */
 					if ( g_frameManager.GetMiniMapWindow() )
 					{
 						g_frameManager.GetMiniMapWindow()->UpdateMinimap( true );
@@ -6133,7 +5809,7 @@ void CTemplateEditorFrame::ShowStorageCoverage()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnUpdateShowStorageCoverage(CCmdUI* pCmdUI) 
 {
 	bool bEnable = false;
@@ -6151,7 +5827,7 @@ void CTemplateEditorFrame::OnUpdateShowStorageCoverage(CCmdUI* pCmdUI)
 	pCmdUI->SetCheck( bShowStorageCoverage );	
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnShowScene12()
 {
 	if ( IAIEditor* pAIEditor = GetSingleton<IAIEditor>() )
@@ -6161,14 +5837,14 @@ void CTemplateEditorFrame::OnShowScene12()
 			if ( ITerrain *pTerrain = pScene->GetTerrain() )
 			{
 				bNeedDrawUnitsSelection = !bNeedDrawUnitsSelection;
-				//DrawUnitsSelection();
+				// DrawUnitsSelection();
 				RedrawWindow();
 			}
 		}
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnUpdateShowScene12(CCmdUI* pCmdUI) 
 {
 	bool bEnable = false;
@@ -6186,7 +5862,7 @@ void CTemplateEditorFrame::OnUpdateShowScene12(CCmdUI* pCmdUI)
 	pCmdUI->SetCheck( bNeedDrawUnitsSelection );	
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnUpdateShowFireRange( CCmdUI* pCmdUI )
 {
 	bool bEnable = false;
@@ -6204,7 +5880,7 @@ void CTemplateEditorFrame::OnUpdateShowFireRange( CCmdUI* pCmdUI )
 	pCmdUI->SetCheck( g_frameManager.GetTemplateEditorFrame()->bFireRangePressed );
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnUpdateFileSave(CCmdUI* pCmdUI) 
 {
 	bool bEnable = false;
@@ -6221,7 +5897,7 @@ void CTemplateEditorFrame::OnUpdateFileSave(CCmdUI* pCmdUI)
 	pCmdUI->Enable( bEnable );
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 bool CTemplateEditorFrame::NeedSaveChanges()
 {
 	if ( !bMapModified )
@@ -6258,7 +5934,7 @@ bool CTemplateEditorFrame::NeedSaveChanges()
 	return bNeedSaveChanges;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnDiplomacy() 
 {
 	if ( IAIEditor* pAIEditor = GetSingleton<IAIEditor>() )
@@ -6276,7 +5952,7 @@ void CTemplateEditorFrame::OnDiplomacy()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnUpdateDiplomacy(CCmdUI* pCmdUI) 
 {
 	bool bEnable = false;
@@ -6293,20 +5969,20 @@ void CTemplateEditorFrame::OnUpdateDiplomacy(CCmdUI* pCmdUI)
 	pCmdUI->Enable( bEnable );
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnFilterComposer() 
 {
 	m_mapEditorBarPtr->GetObjectWnd()->OnButtonNewFilter();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnUpdateFilterComposer(CCmdUI* pCmdUI) 
 {
 	bool bEnable = true;
 	pCmdUI->Enable( bEnable );
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnUpdateToolsDelr(CCmdUI* pCmdUI) 
 {
 	bool bEnable = false;
@@ -6323,7 +5999,7 @@ void CTemplateEditorFrame::OnUpdateToolsDelr(CCmdUI* pCmdUI)
 	pCmdUI->Enable( bEnable );
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnCheckMap() 
 {
 	if ( IAIEditor* pAIEditor = GetSingleton<IAIEditor>() )
@@ -6338,7 +6014,7 @@ void CTemplateEditorFrame::OnCheckMap()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::CheckMap( bool bProgressIsVisible ) 
 {
 	CPtr<IDataStorage> pStorage = GetSingleton<IDataStorage>();
@@ -6384,7 +6060,7 @@ void CTemplateEditorFrame::CheckMap( bool bProgressIsVisible )
 					int nCount2 = 0;
 					int nMaxCount = 8;
 
-					//убираем объекты с одинаковыми коодинатами
+					// removing objects with the same coordinates
 					if ( bProgressIsVisible )
 					{
 						progressDialog.SetProgressMessage( "Deleting double objects..." );
@@ -6466,9 +6142,9 @@ void CTemplateEditorFrame::CheckMap( bool bProgressIsVisible )
 						progressDialog.SetProgressMessage( "Fixing invalid object links..." );
 					}
 					
-					//фиксим юнитов ссылающихся на несуществующие обьекты + на один обьект ссылаются два обьекта ( вагоны и грузовики )
+					// fix units referencing non-existent objects + two objects refer to one object (wagons and trucks)
 					bool bSomeDeleted = true;
-					//while ( bSomeDeleted )
+					// while(bSomeDeleted)
 					{
 						if ( bProgressIsVisible )
 						{
@@ -6605,7 +6281,7 @@ void CTemplateEditorFrame::CheckMap( bool bProgressIsVisible )
 						progressDialog.SetProgressMessage( "Fixing invalid player numbers..." );
 					}
 					
-					//Исправляем номер игрока у юнитов
+					// Correcting the player number for units
 					if ( !mapForChangePalyer.empty() )
 					{
 						std::map<IRefCount*, int> squadsMapForChangePalyer;
@@ -6783,7 +6459,7 @@ void CTemplateEditorFrame::CheckMap( bool bProgressIsVisible )
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::ClearAllBeforeNewMOD()
 {
 	if ( GetSingleton<IGFX>() )
@@ -6821,7 +6497,7 @@ void CTemplateEditorFrame::ClearAllBeforeNewMOD()
 	enumFilesInDataStorageParameter.clear();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::LoadNewMOD( const std::string &rszNewMODFolder )
 {
 	if ( CPtr<IDataStorage> pDataStorage = GetSingleton<IDataStorage>() )
@@ -6844,7 +6520,7 @@ void CTemplateEditorFrame::LoadNewMOD( const std::string &rszNewMODFolder )
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::LoadAllAfterNewMOD()
 {
 	GetSingleton<IObjectsDB>()->LoadDB();
@@ -6858,19 +6534,19 @@ void CTemplateEditorFrame::LoadAllAfterNewMOD()
 	m_mapEditorBarPtr->GetFenceWnd()->CreateImageList();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnToolsOptions() 
 {
 	mapEditorOptions.Modify();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnUpdateToolsOptions(CCmdUI* pCmdUI) 
 {
 	pCmdUI->Enable( true );
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CMapEditorOptions::Modify()
 {
 	CMapEditorOptionsDialog mapEditorOptionsDialog;
@@ -6890,7 +6566,7 @@ void CMapEditorOptions::Modify()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnUpdateToolsRunGame(CCmdUI* pCmdUI) 
 {
 	OSVERSIONINFO osVersionInfo;
@@ -6906,7 +6582,7 @@ void CTemplateEditorFrame::OnUpdateToolsRunGame(CCmdUI* pCmdUI)
 	pCmdUI->Enable( bEnable );
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 std::string CTemplateEditorFrame::SetNameForFlag( SMapObjectInfo *pFlagObjectInfo )
 {
 	const std::string szFlagPrefix = "Flag_";
@@ -6945,7 +6621,7 @@ std::string CTemplateEditorFrame::SetNameForFlag( SMapObjectInfo *pFlagObjectInf
 	return pFlagObjectInfo->szName;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 int CTemplateEditorFrame::SetPlayerForFlag( SMapObjectInfo *pFlagObjectInfo )
 {
 	const std::string szFlagPrefix = "Flag_";
@@ -7005,7 +6681,7 @@ int CTemplateEditorFrame::SetPlayerForFlag( SMapObjectInfo *pFlagObjectInfo )
 	return nPlayerIndexFound;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::ResetPlayersForFlags()
 {
 	std::set<SMapObject*> flags;
@@ -7050,7 +6726,7 @@ void CTemplateEditorFrame::ResetPlayersForFlags()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTemplateEditorFrame::OnToolsRunGame() 
 {
 	std::string szGamePath = szStartDirectory + "game.exe";
@@ -7146,7 +6822,7 @@ void CTemplateEditorFrame::OnToolsRunGame()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 bool CTemplateEditorFrame::NeedUpdateStorages()
 {
 	CPtr<IObjectsDB> pIDB = GetSingleton<IObjectsDB>();
@@ -7183,147 +6859,8 @@ bool CTemplateEditorFrame::NeedUpdateStorages()
 	}
 	return bNeedUpdateStorages;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/**
-	CWeightVector<int> testVector;
-	testVector.push_back( 0, 2 );
-	testVector.push_back( 1, 1 );
-	testVector.push_back( 2, 1 );
-
-	{
-		std::vector<int> values;
-		values.resize( testVector.size(), 0 );
-
-		DWORD dwTime = GetTickCount();
-		for ( int nIndex = 0; nIndex < 10000; ++nIndex )
-		{
-			const int nValue = testVector.GetRandom( true );
-			values[nValue] += 1;
-		}
-		dwTime = GetTickCount() - dwTime;
-
-		NStr::DebugTrace( "Binary Search: %d %d %d, time: %d\n", values[0], values[1], values[2], dwTime );
-	}
-
-	{
-		std::vector<int> values;
-		values.resize( testVector.size(), 0 );
-	
-		DWORD dwTime = GetTickCount();
-		for ( int nIndex = 0; nIndex < 10000; ++nIndex )
-		{
-			const int nValue = testVector.GetRandom( false );
-			values[nValue] += 1;
-		}
-		dwTime = GetTickCount() - dwTime;
-		
-		NStr::DebugTrace( "Binary Search: %d %d %d, time: %d\n", values[0], values[1], values[2], dwTime );
-	}
-/**/
-/**
-		std::set< IRefCount* > squads;
-		for ( std::hash_map< SMapObject*, SEditorObjectItem*, SDefaultPtrHash >::iterator it = m_objectsAI.begin(); it != m_objectsAI.end(); ++it )
-		{
-			if ( GetSingleton<IAIEditor>()->GetFormationOfUnit( it->first->pAIObj ) )
-			{	
-				squads.insert( GetSingleton<IAIEditor>()->GetFormationOfUnit( it->first->pAIObj ) );
-			}
-		}
-
-		progressDialog.IterateProgressPosition();
-			
-		//---------------------------------------------------------------------
-		//		пишем объекты которые не взводы
-		//---------------------------------------------------------------------
-		CPtr<IObjectsDB> pODB = GetSingleton<IObjectsDB>();
-		for ( std::hash_map< SMapObject*, SEditorObjectItem*, SDefaultPtrHash >::iterator it = m_objectsAI.begin(); it != m_objectsAI.end(); ++it )
-		{
-			if ( !GetSingleton<IAIEditor>()->GetFormationOfUnit( it->first->pAIObj ) )
-			{
-				SMapObjectInfo tmpObj;
-				SEditorObjectItem *pTmp = it->second;
-				tmpObj.nScriptID = it->second->nScriptID;
-				//tmpObj.szLogic = it->second->szBehavior;
-				tmpObj.nDir = it->first->pVisObj->GetDirection();
-				tmpObj.nPlayer = it->second->nPlayer;
-				tmpObj.vPos = it->first->pVisObj->GetPosition();
-				tmpObj.nFrameIndex = GetAnimationFrameIndex( it->first->pVisObj );
-				Vis2AI( &tmpObj.vPos );
-				tmpObj.szName = it->second->sDesc.szKey;
-				tmpObj.fHP = it->first->fHP;
-				SMapObjectInfo::SLinkInfo link;
-				link.nLinkID = GetSingleton<IAIEditor>()->AIToLink( it->first->pAIObj ); 
-
-				// к моменту записи уже может и не существовать объекта на который ссылаемся 
-				if( it->second->pLink )
-				{
-					if( it->second->pLink->IsValid() )
-					{
-						link.nLinkWith = GetSingleton<IAIEditor>()->AIToLink( it->second->pLink->pAIObj );
-					}
-				}
-				
-				tmpObj.link = link;		
-				if ( pTmp->bScenarioUnit )
-				{
-					AddMapObjectInfo( currentMapInfo.scenarioObjects, tmpObj );
-				}
-				else
-				{
-					AddMapObjectInfo( currentMapInfo.objects, tmpObj );
-				}
-				//currentMapInfo.objects.push_back( tmpObj );
-			}
-		}
-
-		progressDialog.IterateProgressPosition();
-		
-		//---------------------------------------------------------------------
-		//			 теперь взводы 
-		//---------------------------------------------------------------------
-		//CPtr<IObjectsDB> pODB = GetSingleton<IObjectsDB>();
-		for( std::set< IRefCount* >::iterator it = squads.begin(); it != squads.end(); ++it )
-		{
-			// возьмем хотя бы одного солдатика из взвода 
-			IRefCount **pUnits;
-			int nLength;
-			GetSingleton<IAIEditor>()->GetUnitsInFormation( (*it), &pUnits, &nLength);	
-			SEditorObjectItem *tmpEditiorObj =	m_objectsAI[ FindByAI( pUnits[0] ) ];
-
-			SMapObjectInfo tmpObj;
-			tmpObj.nScriptID = tmpEditiorObj->nScriptID ; 
-			tmpObj.nDir = GetSingleton<IAIEditor>()->GetDir( *it );
-			tmpObj.nPlayer = tmpEditiorObj->nPlayer;
-			//tmpObj.szLogic = tmpEditiorObj->szBehavior;
-
-
-			tmpObj.vPos = CVec3( GetSingleton<IAIEditor>()->GetCenter( *it ).x, GetSingleton<IAIEditor>()->GetCenter( *it ).y, 0) ;
-			tmpObj.nFrameIndex = 0;
-
-			int numId = GetSingleton<IAIEditor>()->GetUnitDBID( *it );
-			tmpObj.szName = pODB->GetDesc( numId )->szKey;//FindByAI( *it )->pDesc->szKey;//tmpEditiorObj->sDesc.szKey;
-			tmpObj.fHP = FindByAI( pUnits[0] )->fHP;
-			SMapObjectInfo::SLinkInfo link;
-			link.nLinkID = GetSingleton<IAIEditor>()->AIToLink( *it );
-
-			// к моменту записи уже может и не существовать объекта на который ссылаемся 
-			if( tmpEditiorObj->pLink )
-			{
-				if( tmpEditiorObj->pLink->IsValid() )
-				{
-					link.nLinkWith = GetSingleton<IAIEditor>()->AIToLink( tmpEditiorObj->pLink->pAIObj );
-				}
-			}
-			
-			tmpObj.link = link;
-			if ( tmpEditiorObj->bScenarioUnit )
-			{
-				AddMapObjectInfo( currentMapInfo.scenarioObjects, tmpObj );
-			}
-			else
-			{
-				AddMapObjectInfo( currentMapInfo.objects, tmpObj );
-			}
-			//currentMapInfo.objects.push_back( tmpObj );	
-		}
-/**/
+// ////////////////////////////////////////////////
+/* *
+	 */
+/* *
+		 */

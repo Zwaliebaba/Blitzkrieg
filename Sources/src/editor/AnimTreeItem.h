@@ -4,7 +4,7 @@
 #include "TreeItem.h"
 #include "ThumbList.h"
 
-/////////////////////////////////////// UNIT editor tree //////////////////////////////////////
+// /////////////////////////////////// UNIT editor tree /////////////////////////////////////
 
 class CAnimationTreeRootItem : public CTreeItem
 {
@@ -25,7 +25,7 @@ public:
 	CUnitCommonPropsItem() { nItemType = E_UNIT_COMMON_PROPS_ITEM; InitDefaultValues(); }
 	~CUnitCommonPropsItem() {};
 
-	//Получение внутренних параметров
+	// Getting internal parameters
 	const char *GetUnitName() { return values[0].value; }
 	int GetUnitType();
 	const char *GetPictureFileName() { return values[2].value; }
@@ -40,7 +40,7 @@ public:
 	float GetSight() { return values[11].value; }
 	float GetSightPower() { return values[12].value; }
 	
-	//Установка внутренних параметров
+	// Setting internal parameters
 	void SetUnitName( const char *pszName ) { values[0].value = pszName; }
 	void SetUnitType( int nVal );
 	void SetPictureFileName( const char *pszName ) { values[2].value = pszName; }
@@ -91,12 +91,10 @@ class CUnitActionPropsItem : public CTreeItem
 public:
 	CUnitActionPropsItem() { nItemType = E_UNIT_ACTION_PROPS_ITEM; InitDefaultValues(); nImageIndex = 1; }
 	~CUnitActionPropsItem() {};
-/*
-	const char *GetActionValue() { return values[0].value; }
-*/
+/* const char *GetActionValue() { return values[0].value;  */
 	virtual void InitDefaultValues();
-//	virtual void MyKeyDown( int nChar );
-//	virtual void UpdateItemValue( int nItemId, const CVariant &value );
+// virtual void MyKeyDown( int nChar );
+// virtual void UpdateItemValue( int nItemId, const CVariant &value );
 };
 
 class CUnitAIPropsItem : public CTreeItem
@@ -149,9 +147,9 @@ class CDirectoryPropsItem : public CTreeItem
 {
 private:
 	int nSelImage;
-	SThumbItems m_thumbItems;			//эти items отображаются в AllDirThumbList
+	SThumbItems m_thumbItems;			// these items are displayed in AllDirThumbList
 	CImageList imageList;
-	bool bLoaded;									//этот флаг для подкачки items только в момент когда пользователь выбирает папку с анимациями или тыкает во frame
+	bool bLoaded;									// this flag is for paging items only when the user selects a folder with animations or clicks on frame
 	
 	OBJECT_NORMAL_METHODS( CDirectoryPropsItem );
 public:
@@ -213,7 +211,7 @@ public:
 	~CUnitAnimationsItem() {};
 	
 	virtual void InitDefaultValues();
-//	virtual void MyKeyDown( int nChar );
+// virtual void MyKeyDown( int nChar );
 };
 
 class CUnitFramePropsItem : public CTreeItem
@@ -236,8 +234,8 @@ public:
 	OBJECT_NORMAL_METHODS( CUnitAnimationPropsItem );
 
 private:
-	SThumbItems m_thumbItems;			//эти items отображаются в SelectedThumbList
-	bool bLoaded;									//этот флаг для подкачки items только в момент когда пользователь выбирает папку с анимациями или тыкает во frame
+	SThumbItems m_thumbItems;			// these items are displayed in SelectedThumbList
+	bool bLoaded;									// this flag is for paging items only when the user selects a folder with animations or clicks on frame
 
 public:
 	CUnitAnimationPropsItem() { nItemType = E_UNIT_ANIMATION_PROPS_ITEM; InitDefaultValues(); bComplexItem = true; nImageIndex = 7; bLoaded = false; }
@@ -247,7 +245,7 @@ public:
 
 	virtual bool CopyItemTo( CTreeItem *pTo );
 
-	//Получение внутренних параметров
+	// Getting internal parameters
 	int GetFrameTime();
 	float GetAnimationSpeed();
 	bool GetCycledFlag();
@@ -258,7 +256,7 @@ public:
 	void SetLoadedFlag( bool bState ) { bLoaded = bState; }
 	bool GetLoadedFlag() { return bLoaded; }
 	void SetAnimationSpeed( float fVal );
-	virtual void InsertChildItems();					//Вызывается после создания всех компонентов для занесения их в дерево
+	virtual void InsertChildItems();					// Called after all components have been created to add them to the tree
 	
 	virtual void InitDefaultValues();
 	virtual void MyLButtonClick();
@@ -273,11 +271,11 @@ public:
 	CUnitAcksItem() { bStaticElements = true; nItemType = E_UNIT_ACKS_ITEM; nImageIndex = 1; InitDefaultValues(); }
 	~CUnitAcksItem() {};
 	
-	//Получение внутренних параметров
+	// Getting internal parameters
 	const char *GetAckName() { return values[0].value; }
 	const char *GetAckName2() { return values[1].value; }
 	
-	//Установка
+	// Installation
 	void SetAckName( const char *pszVal ) { values[0].value = pszVal; }
 	void SetAckName2( const char *pszVal ) { values[1].value = pszVal; }
 	
@@ -300,55 +298,7 @@ public:
 	~CUnitAckTypePropsItem() {};
 };
 
-/*
-class CUnitAcksItem : public CTreeItem
-{
-	OBJECT_NORMAL_METHODS( CUnitAcksItem );
-	const char* GetAckName( int nID );
+/* class CUnitAcksItem : public CTreeItem
+ */
 
-public:
-	CUnitAcksItem() { bStaticElements = true; nItemType = E_UNIT_ACKS_ITEM; nImageIndex = 1; InitDefaultValues(); }
-	~CUnitAcksItem() {};
-
-	typedef std::vector< std::vector< std::pair< float,std::string > > > CAcks;
-	void FillAcks( CAcks &acks );		//acks will be changed here
-	void GetAcks( const CAcks &acks );
-
-	virtual void InitDefaultValues();
-	virtual void MyRButtonClick();
-};
-
-class CUnitAckTypesItem : public CTreeItem
-{
-	OBJECT_NORMAL_METHODS( CUnitAckTypesItem );
-public:
-	CUnitAckTypesItem() { nItemType = E_UNIT_ACK_TYPES_ITEM; nImageIndex = 2; InitDefaultValues(); }
-	~CUnitAckTypesItem() {};
-	
-	int GetAckType();
-
-	virtual void InitDefaultValues();
-	virtual void MyKeyDown( int nChar );
-};
-
-class CUnitAckTypePropsItem : public CTreeItem
-{
-	OBJECT_NORMAL_METHODS( CUnitAckTypePropsItem );
-public:
-	CUnitAckTypePropsItem() { nItemType = E_UNIT_ACK_TYPE_PROPS_ITEM; nImageIndex = 3; InitDefaultValues(); }
-	~CUnitAckTypePropsItem() {};
-	
-	//Получение внутренних параметров
-	const char* GetSoundName() { return values[0].value; }
-	float GetProbability() { return values[1].value; }
-	
-	//Установка внутренних параметров
-	void SetSoundName( const char *pszVal ) { values[0].value = pszVal; }
-	void SetProbability( float fVal ) { values[1].value = fVal; }
-	
-	virtual void InitDefaultValues();
-	virtual void MyKeyDown( int nChar );
-};
-*/
-
-#endif		//__ANIM_TREE_ITEM_H__
+#endif		// __ANIM_TREE_ITEM_H__

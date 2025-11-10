@@ -10,27 +10,27 @@
 #include "..\RandomMapGen\Resource_Types.h"
 
 int CALLBACK FiltersCompareFunc( LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort );
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CCreateFilterDialog : public CResizeDialog
 {
 	friend int CALLBACK FiltersCompareFunc( LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort );
 public:
 	CCreateFilterDialog( CWnd* pParent = NULL );
 
-	//{{AFX_DATA(CCreateFilterDialog)
+	// {{AFX_DATA(CCreateFilterDialog)
 	enum { IDD = IDD_CREATE_FILTER };
 	CListBox	m_ConditionsList;
 	CCheckListBox	m_FoldersList;
 	CListCtrl	m_FiltersList;
-	//}}AFX_DATA
+	// }}AFX_DATA
 
-	//{{AFX_VIRTUAL(CCreateFilterDialog)
+	// {{AFX_VIRTUAL(CCreateFilterDialog)
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);
-	//}}AFX_VIRTUAL
+	// }}AFX_VIRTUAL
 
 protected:
-	//{{AFX_MSG(CCreateFilterDialog)
+	// {{AFX_MSG(CCreateFilterDialog)
 	virtual BOOL OnInitDialog();
 	virtual void OnOK();
 	virtual void OnCancel();
@@ -54,7 +54,7 @@ protected:
 	afx_msg void OnState1();
 	afx_msg void OnState2();
 	afx_msg void OnState3();
-	//}}AFX_MSG
+	// }}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 
 protected:
@@ -86,6 +86,6 @@ public:
 	TFilterHashMap filters;
 	std::string szCurrentFilter;
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//{{AFX_INSERT_LOCATION}}
+
+// {{AFX_INSERT_LOCATION}}
 #endif // !defined(__CREATE_FILTER_DIALOG__)

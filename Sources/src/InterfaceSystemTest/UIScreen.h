@@ -1,6 +1,6 @@
 // UIScreen.h: interface for the CScreen class.
 //
-//////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////
 
 #if !defined(AFX_UISCREEN_H__B9599715_34A7_477E_9D09_8DE9B2953C08__INCLUDED_)
 #define AFX_UISCREEN_H__B9599715_34A7_477E_9D09_8DE9B2953C08__INCLUDED_
@@ -12,28 +12,28 @@
 #include "Window.h"
 #include "IUIInternal.h"
 #include "MessageReactions.h"
-//////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////
 class CScreen : public CWindow, public IScreen  
 {
 	DECLARE_SERIALIZE;
 	OBJECT_COMPLETE_METHODS(CScreen);
 	
 	// UIScreen recieve command sequience, produce states sequience
-	// and track execution of states. when Effect is finished or
-	// no effect was produced by command, state sequience moves to next state
+	// and track execution of states. 
+	// no effect was produced by command, state sequence moves to next state
 	struct SUIState
 	{
 		SUIStateCommand cmd;										// cmd that creates this state
 		CPtr<IUIEffector> pEffect;							// effect that was created by the command
 																						// null if no effect.
-		CPtr<CWindow> pCommandParent;						// window that must be notified after 
+		CPtr<CWindow> pCommandParent;						// window that must be notified after
 		SUIState( const SUIStateCommand &_cmd ) : cmd( _cmd ) {  }
 		int operator&( IStructureSaver &ss )
 		{
-			//CRAP{ TO DO
+			// CRAP{ TO DO
 			NI_ASSERT_T( FALSE, "NEED IMPLEMENT" );
 			return 0;
-			//CRAP}
+			// CRAP}
 		}
 	};
 	class CStates 
@@ -41,7 +41,7 @@ class CScreen : public CWindow, public IScreen
 		DECLARE_SERIALIZE;
 		std::vector<SUIState> states;
 		int nCurIndex;												// currently running effect
-		bool bForward;												// effect direction 
+		bool bForward;												// effect direction
 		bool bEnd;														// all effects are finished
 		CPtr<CWindow> pNotifySink;						// window that must be notified after
 		bool bReversable;												// effect can be undone
@@ -78,14 +78,14 @@ class CScreen : public CWindow, public IScreen
 	// message reactions
 	CMessageReactions messageReactions;
 
-	//CRAP{ for observers to start work
+	// CRAP{ for observers to start work
 	typedef std::list< CPtr<IGMObserver> > CObserversList;
 	typedef std::hash_map<std::string, CObserversList> CObservers;
 	CObservers observers;
-	//CRAP}
+	// CRAP}
 	
-	// all possible command sequiences possible on this screen
-	// when some window generates command sequience it only 
+	// all possible command sequences possible on this screen
+	// when some window generates command sequence it only
 	// sends it's id
 	typedef std::hash_map<std::string, SUICommandSequence> CCommandSequiences;
 	CCommandSequiences commandSequiences;
@@ -96,13 +96,13 @@ class CScreen : public CWindow, public IScreen
 public:
 	CScreen() {  }
 
-	//CRAP{ FOR TEST
+	// CRAP{ FOR TEST
 	CScreen( int TEST );
-	//CRAP}
+	// CRAP}
 	virtual int STDCALL operator&( IDataTree &ss );
 	void RegisterToSegment( interface IWindow *pWnd, const bool bRegister );
 	
-	// run state (animation) sequience.
+	// run state (animation) sequence.
 	virtual void STDCALL RunStateCommandSequience( const std::string &szCmdSeq, CWindow *pNotifySink, const bool bForward );
 	virtual void STDCALL RunReaction( const std::string &szReactionName );
 	virtual void STDCALL Load( const std::string &szResourceName );
@@ -124,5 +124,5 @@ public:
 
 	
 };
-//////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////
 #endif // !defined(AFX_UISCREEN_H__B9599715_34A7_477E_9D09_8DE9B2953C08__INCLUDED_)

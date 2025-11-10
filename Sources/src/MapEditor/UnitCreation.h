@@ -10,9 +10,9 @@
 
 #include "..\AILogic\UnitCreation.h"
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//коллекционер обьектов
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// object collector
+
 class CUCHelper
 {
 	static const char DEFAULT_AVIATION_NAME[];
@@ -33,36 +33,36 @@ public:
 	void Initialize();
 };
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//обьекты с возможностью манипуляции
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// objects that can be manipulated
+
 class CMutableUCAircraft : public SUCAircraft
 {
-	//Перевод из предка в потомок и обратно
+	// Transfer from ancestor to descendant and back
 	void MutateTo() {}
 	void MutateFrom() {}
 
 public:
 	friend class CUCAircraftManipulator;
 
-	//Конструкторы и операторы преобразования
+	// Constructors and Conversion Operators
 	CMutableUCAircraft() { MutateTo(); }
 	CMutableUCAircraft( const SUCAircraft &rUCAircraft )
 		:	SUCAircraft( rUCAircraft ) { MutateTo(); }
 	SUCAircraft& Mutate() { MutateFrom(); return *this; }
 	
-	//Манипулятор
+	// Manipulator
 	virtual IManipulator* GetManipulator();
 };
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CMutableUCAviation : public SUCAviation
 {
-	//Внутренние константы
+	// Internal constants
 	static const char* AIRCRAFT_TYPE_NAMES[SUCAviation::AT_COUNT];
-	//Внутренние переменные
+	// Internal Variables
 	std::vector<CMutableUCAircraft> mutableAircrafts;
-	//Перевод из предка в потомок и обратно
+	// Transfer from ancestor to descendant and back
 	void MutateTo()
 	{
 		mutableAircrafts.clear();
@@ -83,20 +83,20 @@ class CMutableUCAviation : public SUCAviation
 public:	
 	friend class CUCAviationManipulator;
 
-	//Конструкторы и операторы преобразования
+	// Constructors and Conversion Operators
 	CMutableUCAviation() { MutateTo(); }
 	CMutableUCAviation( const SUCAviation &rUCAviation )
 		:	SUCAviation( rUCAviation ) { MutateTo(); }
 	SUCAviation& Mutate() { MutateFrom(); return *this; }
 
-	//Манипулятор
+	// Manipulator
 	virtual IManipulator* GetManipulator();
 };
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CMutableUnitCreation : public SUnitCreation
 {
-	//Внутренние переменные
+	// Internal Variables
 	CMutableUCAviation mutableAviation;
 	void MutateTo()
 	{
@@ -111,25 +111,25 @@ public:
 	friend class CUnitCreationManipulator;
 	friend class CTemplateEditorFrame;
 
-	//Конструкторы и операторы преобразования
+	// Constructors and Conversion Operators
 	CMutableUnitCreation() { MutateTo(); }
 	CMutableUnitCreation( const SUnitCreation &rUnitCreation )
 		:	SUnitCreation( rUnitCreation ) { MutateTo(); }
 	SUnitCreation& Mutate() { MutateFrom(); return *this; }
 	
-	//Манипулятор
+	// Manipulator
 	virtual IManipulator* GetManipulator();
 };
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CMutableUnitCreationInfo : public SUnitCreationInfo
 {
-	//Внутренние константы
+	// Internal constants
 	static const char* UNIT_TYPE_NAMES[3];
-	//Внутренние переменные
+	// Internal Variables
 	std::vector<CMutableUnitCreation> mutableUnits;
 
-	//Перевод из предка в потомок и обратно
+	// Transfer from ancestor to descendant and back
 	void MutateTo()
 	{
 		mutableUnits.clear();
@@ -152,13 +152,13 @@ public:
 	friend class CUnitCreationInfoManipulator;
 	friend class CTemplateEditorFrame;
 
-	//Конструкторы и операторы преобразования
+	// Constructors and Conversion Operators
 	CMutableUnitCreationInfo() { MutateTo(); }
 	CMutableUnitCreationInfo( const SUnitCreationInfo &rUnitCreationInfo )
 		:	SUnitCreationInfo( rUnitCreationInfo ) { MutateTo(); }
 	SUnitCreationInfo& Mutate() { MutateFrom(); return *this; }
 
-	//Манипулятор
+	// Manipulator
 	virtual IManipulator* GetManipulator();
 	void Resize( int nNewSize )
 	{
@@ -175,9 +175,9 @@ public:
 	void MutableValidate();
 };
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//манипуляторы
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// manipulators
+
 class CUCAircraftManipulator : public CManipulator
 {
 	OBJECT_MINIMAL_METHODS( CUCAircraftManipulator );
@@ -198,7 +198,7 @@ public:
 	inline void SetObject( CMutableUCAircraft *_pMutableObject ) { pMutableObject = _pMutableObject; }
 };
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CUCAviationManipulator : public CManipulator
 {
 	OBJECT_MINIMAL_METHODS( CUCAviationManipulator );
@@ -228,7 +228,7 @@ public:
 	inline void SetObject( CMutableUCAviation *_pMutableObject ) { pMutableObject = _pMutableObject; }
 };
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CUnitCreationManipulator : public CManipulator
 {
 	OBJECT_MINIMAL_METHODS( CUnitCreationManipulator );
@@ -244,7 +244,7 @@ public:
 	inline void SetObject( CMutableUnitCreation *_pMutableObject ) { pMutableObject = _pMutableObject; }
 };
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CUnitCreationInfoManipulator : public CManipulator
 {
 	OBJECT_MINIMAL_METHODS( CUnitCreationInfoManipulator );
@@ -255,5 +255,5 @@ public:
 	void GetUnits( variant_t *pValue, int nIndex = -1 );	
 	inline void SetObject( CMutableUnitCreationInfo *_pMutableObject ) { pMutableObject = _pMutableObject; }
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // !defined(__UnitCreationInfo__MANIPULATOR__)

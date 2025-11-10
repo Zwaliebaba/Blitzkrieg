@@ -3,12 +3,12 @@
 #include <comdef.h>
 
 #include "Parser.h"
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 CParser::CParser()
 : parser( "GOLDParserEngine.GOLDParser" )
 {
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool CParser::Init( const char *pszGrammarFileName )
 {
 	// load grammar
@@ -25,7 +25,7 @@ bool CParser::Init( const char *pszGrammarFileName )
 	//
 	return bResult != 0;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool CParser::Parse( const char *pszFileName )
 {
 	// open file to parse
@@ -46,15 +46,15 @@ bool CParser::Parse( const char *pszFileName )
 		switch ( response ) 
 		{
 			case gpMsgLexicalError:
-				// Place code here to handle a illegal or unrecognized token 
+				// Place code here to handle a illegal or unrecognized token
 				// To recover, pop the token from the stack: Parser.PopInputToken
 				if ( ErrorLexical(parser->CurrentLineNumber()) == false )
 					return false;
 				break;
 			case gpMsgSyntaxError:
 				// This is a syntax error: the source has produced a token that was
-				// not expected by the LALR State Machine. The expected tokens are stored
-				// into the Tokens() list. To recover, push one of the
+				// not expected by the LALR State Machine. 
+				// into the Tokens() list. 
 				// expected tokens onto the parser's input queue (the first in this case):
 				// You should limit the number of times this type of recovery can take place.
 				if ( ErrorSyntax(parser->CurrentLineNumber()) == false )
@@ -64,13 +64,13 @@ bool CParser::Parse( const char *pszFileName )
 			case gpMsgReduction: 
 				// This message is returned when a rule was reduced by the parse engine.
 				// The CurrentReduction property is assigned a Reduction object
-				// containing the rule and its related tokens. You can reassign this
-				// property to your own customized class. If this is not the case,
+				// containing the rule and its related tokens. 
+				// property to your own customized class. 
 				// this message can be ignored and the Reduction object will be used
 				// to store the parse tree.
 				parser->GetCurrentReduction()->PutTag( &nReductionCount );
 				++nReductionCount;
-				//parser.CurrentReduction = //Object you created to store the rule
+				// parser.CurrentReduction = //Object you created to store the rule
 				break;
 			case gpMsgAccept:
 				// The program was accepted by the parsing engine
@@ -82,11 +82,11 @@ bool CParser::Parse( const char *pszFileName )
 				ErrorComment( parser->CurrentLineNumber() );
 				return false;
 			case gpMsgTokenRead:
-				// A token was read by the parser. The Token Object can be accessed through
-				// the CurrentToken() property:  Parser.CurrentToken
+				// A token was read by the parser. 
+				// the CurrentToken() property: Parser.CurrentToken
 				break;
 			case gpMsgInternalError:
-				// Something horrid happened inside the parser. You cannot recover
+				// Something horrid happened inside the parser. 
 				ErrorInternal( parser->CurrentLineNumber() );
 				return false;
 			case gpMsgNotLoadedError:
@@ -95,8 +95,8 @@ bool CParser::Parse( const char *pszFileName )
 				return false;
 		}
 
-	}  //while
+	}  // while
 	
 	return DoneParsing( parser->GetCurrentReduction() );
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+

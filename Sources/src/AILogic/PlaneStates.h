@@ -1,490 +1,517 @@
 #ifndef __PLANE_STATES_H__
 #define __PLANE_STATES_H__
 
-#pragma ONCE
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma once
+
 #include "StatesFactory.h"
 #include "UnitStates.h"
 #include "DamageToEnemyUpdater.h"
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CAviation;
 class CFormation;
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CPlaneStatesFactory : public IStatesFactory
 {
-	OBJECT_COMPLETE_METHODS( CPlaneStatesFactory );
-	
-	static CPtr<CPlaneStatesFactory> pFactory;
+  OBJECT_COMPLETE_METHODS(CPlaneStatesFactory);
+
+  static CPtr<CPlaneStatesFactory> pFactory;
+
 public:
-	static IStatesFactory* Instance();
+  static IStatesFactory *Instance();
 
-	virtual bool CanCommandBeExecuted( class CAICommand *pCommand );
+  bool CanCommandBeExecuted(class CAICommand *pCommand) override;
 
-	virtual interface IUnitState* ProduceState( class CQueueUnit *pUnit, class CAICommand *pCommand );
-	virtual interface IUnitState* ProduceRestState( class CQueueUnit *pUnit );
-	
-	// for Saving/Loading of static members
-	friend class CStaticMembers;
+  interface IUnitState *ProduceState(class CQueueUnit *pUnit, class CAICommand *pCommand) override;
+  interface IUnitState *ProduceRestState(class CQueueUnit *pUnit) override;
+
+  // for Saving/Loading of static members
+  friend class CStaticMembers;
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CPlaneRestState : public IUnitState
 {
-	OBJECT_COMPLETE_METHODS( CPlaneRestState );
-	DECLARE_SERIALIZE;
+  OBJECT_COMPLETE_METHODS(CPlaneRestState);
+  DECLARE_SERIALIZE;
 
-	class CAviation *pPlane;
+  class CAviation *pPlane;
 
-	CVec3 vertices[3];
-	int curVertex;
-	float fHeight;
+  CVec3 vertices[3];
+  int curVertex;
+  float fHeight;
 
-	void InitTriangle( class CAviation *pPlane, const CVec3 &startVertex );
+  void InitTriangle(class CAviation *pPlane, const CVec3 &startVertex);
+
 public:
-	static IUnitState* Instance( class CAviation *pPlane, float fHeight=-1 );
+  static IUnitState *Instance(class CAviation *pPlane, float fHeight = -1);
 
-	CPlaneRestState() : pPlane( 0 ) { }
-	CPlaneRestState( class CAviation *_pPlane, float fHeight );
+  CPlaneRestState() : pPlane(nullptr) {}
+  CPlaneRestState(class CAviation *_pPlane, float fHeight);
 
-	virtual void Segment();
-	
-	ETryStateInterruptResult TryInterruptState( class CAICommand *pCommand );
+  void Segment() override;
 
-	virtual EUnitStateNames GetName() { return EUSN_REST; }
-	virtual bool IsAttackingState() const { return false; }
-	virtual const CVec2 GetPurposePoint() const;
+  ETryStateInterruptResult TryInterruptState(class CAICommand *pCommand) override;
+
+  EUnitStateNames GetName() override { return EUSN_REST; }
+  bool IsAttackingState() const override { return false; }
+  const CVec2 GetPurposePoint() const override;
 };
+
 class CPlaneDeffensiveFireShootEstimator;
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// стрельба из бортовых стрелковых установок
+
+// firing from airborne gun mounts
 class CPlaneDeffensiveFire
 {
-	DECLARE_SERIALIZE;
-	
-	class CAviation *pOwner;
-	NTimer::STime timeLastBSUUpdate;			// для поведения бортовых стрелковых установок
+  DECLARE_SERIALIZE;
 
-	CPtr<CPlaneDeffensiveFireShootEstimator> pShootEstimator;
-	CDamageToEnemyUpdater damageUpdater;
+  class CAviation *pOwner;
+  NTimer::STime timeLastBSUUpdate;// for the behavior of airborne gun systems
+
+  CPtr<CPlaneDeffensiveFireShootEstimator> pShootEstimator;
+  CDamageToEnemyUpdater damageUpdater;
+
 protected:
-		// проверить врагов и начать отстреливаться
-	void AnalyzeBSU();
-	CPlaneDeffensiveFire() : pOwner( 0 ), timeLastBSUUpdate( 0 ) {}
-	CPlaneDeffensiveFire( class CAviation *pPlane );
+  // check the enemies and start shooting back
+  void AnalyzeBSU();
+  CPlaneDeffensiveFire() : pOwner(nullptr), timeLastBSUUpdate(0) {}
+  CPlaneDeffensiveFire(class CAviation *pPlane);
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// переход из точти в точку
+
+// moving from point to point
 class CPlanePatrolState : public IUnitAttackingState
 {
-	DECLARE_SERIALIZE;
-	
+  DECLARE_SERIALIZE;
+
 protected:
-  std::vector<CVec2> vPatrolPoints;			// набор точек патрулирования
-	int								 nCurPointIndex;		// текущая точка патрулирования
-	class CAviation *pPlane;
+  std::vector<CVec2> vPatrolPoints;// set of patrol points
+  int nCurPointIndex;// current patrol point
+  class CAviation *pPlane;
 
-	const CVec2 &GetPoint() const { return vPatrolPoints[nCurPointIndex%vPatrolPoints.size()]; }
-	const void ToNextPoint() { ++nCurPointIndex; }
+  const CVec2 &GetPoint() const { return vPatrolPoints[nCurPointIndex % vPatrolPoints.size()]; }
+  const void ToNextPoint() { ++nCurPointIndex; }
 
-	void InitPathByCurDir( const float fDesiredHeight );
+  void InitPathByCurDir(float fDesiredHeight);
 
-	virtual void ToTakeOffState() = 0;
+  virtual void ToTakeOffState() = 0;
 
-	CAviation* FindBetterEnemiyPlane( CAviation * pEnemie, const float fRadius ) const;
-	CAviation* FindNewEnemyPlane( const float fRadius ) const;
+  CAviation *FindBetterEnemiyPlane(CAviation *pEnemie, float fRadius) const;
+  CAviation *FindNewEnemyPlane(float fRadius) const;
+
 public:
-	CPlanePatrolState() : nCurPointIndex( 0 ), pPlane( 0 ) {  }
-	CPlanePatrolState( CAviation *pPlane, const CVec2 &point );
-	int GetNPoints() const { return vPatrolPoints.size(); }
-	// для добавления точек патрулирования
-	void AddPoint( const CVec2 &vAddPoint );
-	void TakeOff() { ToTakeOffState(); } 
-	void Escape( const int /*SUCAviation::AIRCRAFT_TYPE*/ nAviaType );
+  CPlanePatrolState() : nCurPointIndex(0), pPlane(nullptr) {}
+  CPlanePatrolState(CAviation *pPlane, const CVec2 &point);
+  int GetNPoints() const { return vPatrolPoints.size(); }
+  // to add patrol points
+  void AddPoint(const CVec2 &vAddPoint);
+  void TakeOff() { ToTakeOffState(); }
+  void Escape(int /* SUCAviation::AIRCRAFT_TYPE */ nAviaType);
 
-	virtual bool IsAttacksUnit() const { return false; }
-	virtual class CAIUnit* GetTargetUnit() const { return 0; }
-	void RegisterPoints( const int /*SUCAviation::AIRCRAFT_TYPE*/ nPlaneType );
-	void UnRegisterPoints();
+  bool IsAttacksUnit() const override { return false; }
+  class CAIUnit *GetTargetUnit() const override { return nullptr; }
+  void RegisterPoints(int /* SUCAviation::AIRCRAFT_TYPE */ nPlaneType);
+  void UnRegisterPoints();
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CPlaneBombState : public CPlanePatrolState, public CPlaneDeffensiveFire
 {
-	OBJECT_COMPLETE_METHODS( CPlaneBombState );
-	DECLARE_SERIALIZE;
+  OBJECT_COMPLETE_METHODS(CPlaneBombState);
+  DECLARE_SERIALIZE;
 
-	enum ECurBombState
-	{
-		_WAIT_FOR_TAKEOFF,
-		ECBS_ESTIMATE,
+  enum ECurBombState
+  {
+    _WAIT_FOR_TAKEOFF,
+    ECBS_ESTIMATE,
 
-		ECBS_GAIN_HEIGHT,
-		ECBS_GAIN_DISTANCE,
+    ECBS_GAIN_HEIGHT,
+    ECBS_GAIN_DISTANCE,
 
-		ECBS_APPROACH,
-		ECBS_WAIT_BOMBPOINT_REACH,
-		ECBS_ATTACK_DIVE,
-		ECBS_ATTACK_HORISONTAL,
+    ECBS_APPROACH,
+    ECBS_WAIT_BOMBPOINT_REACH,
+    ECBS_ATTACK_DIVE,
+    ECBS_ATTACK_HORISONTAL,
 
-		ECBS_AIM_TO_NEXT_POINT,
-		ECBS_AIM_TO_NEXT_POINT_2,
-		ECBS_START_ESACPE,
-	};
-	ECurBombState eState;
-	bool bDive;														//dive bomber or not
-	bool bDiveInProgress;
+    ECBS_AIM_TO_NEXT_POINT,
+    ECBS_AIM_TO_NEXT_POINT_2,
+    ECBS_START_ESACPE,
+  };
 
-	float fInitialHeight ;
-	float fStartAttackDist;
+  ECurBombState eState;
+  bool bDive;// dive bomber or not
+  bool bDiveInProgress;
 
-	float fFormerVerticalSpeed;						//to determine exit from diving
-	bool bExitDive;
-	NTimer::STime timeOfStart;						// time of start patrolling
+  float fInitialHeight;
+  float fStartAttackDist;
+
+  float fFormerVerticalSpeed;// to determine exit from diving
+  bool bExitDive;
+  NTimer::STime timeOfStart;// time of start patrolling
 protected:
-	virtual void ToTakeOffState();
+  void ToTakeOffState() override;
+
 public:
-	static IUnitState* Instance( CAviation *pPlane, const CVec2 &point );
+  static IUnitState *Instance(CAviation *pPlane, const CVec2 &point);
 
-	CPlaneBombState() { }
-	CPlaneBombState( CAviation *pUnit, const CVec2 &point );
+  CPlaneBombState() {}
+  CPlaneBombState(CAviation *pUnit, const CVec2 &point);
 
-	virtual void Segment();
+  void Segment() override;
 
-	ETryStateInterruptResult TryInterruptState( class CAICommand *pCommand );
-	virtual bool IsAttackingState() const { return true; }
-	virtual const CVec2 GetPurposePoint() const { return GetPoint(); }
-	virtual bool IsDiving() const { return bDiveInProgress; }
-	virtual EUnitStateNames GetName() { return EUSN_DIVE_BOMBING; }
+  ETryStateInterruptResult TryInterruptState(class CAICommand *pCommand) override;
+  bool IsAttackingState() const override { return true; }
+  const CVec2 GetPurposePoint() const override { return GetPoint(); }
+  virtual bool IsDiving() const { return bDiveInProgress; }
+  EUnitStateNames GetName() override { return EUSN_DIVE_BOMBING; }
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // for drop paratroopers in specific point
 class CPlaneParaDropState : public CPlanePatrolState, public CPlaneDeffensiveFire
 {
-	OBJECT_COMPLETE_METHODS( CPlaneParaDropState );
-	DECLARE_SERIALIZE;	
-	enum EPlaneParaDropState
-	{
-		_WAIT_FOR_TAKEOFF,
-		PPDS_ESTIMATE,
-		PPDS_APPROACHNIG,
-		PPDS_PREPARE_TO_DROP,
-		PPDS_DROPPING,
-		PPDS_TO_NEXT_POINT,
-	};
-	EPlaneParaDropState eState;
+  OBJECT_COMPLETE_METHODS(CPlaneParaDropState);
+  DECLARE_SERIALIZE;
 
-	int nSquadNumber;
-	CPtr<CFormation> pSquad; // взвод паращютистов
-	int nDroppingSoldier;									// current soldier to drop
+  enum EPlaneParaDropState
+  {
+    _WAIT_FOR_TAKEOFF,
+    PPDS_ESTIMATE,
+    PPDS_APPROACHNIG,
+    PPDS_PREPARE_TO_DROP,
+    PPDS_DROPPING,
+    PPDS_TO_NEXT_POINT,
+  };
 
-	CVec2 vLastDrop;// точка, в которой выброшен последний парашютист
-	//true if some tiles around drop site are unlocked.
-	bool CanDrop( const CVec2 & point );
+  EPlaneParaDropState eState;
+
+  int nSquadNumber;
+  CPtr<CFormation> pSquad;// parachutist platoon
+  int nDroppingSoldier;// current soldier to drop
+
+  CVec2 vLastDrop;// the point at which the last parachutist is ejected
+  // true if some tiles around drop site are unlocked.
+  bool CanDrop(const CVec2 &point);
+
 protected:
-	virtual void ToTakeOffState();
-	
+  void ToTakeOffState() override;
+
 public:
-	static IUnitState* Instance( CAviation *pPlane, const CVec2 &vDestPoint );
+  static IUnitState *Instance(CAviation *pPlane, const CVec2 &vDestPoint);
 
-	CPlaneParaDropState () { }
-	CPlaneParaDropState ( CAviation *pPlane, const CVec2 &vDestPoint );
+  CPlaneParaDropState() {}
+  CPlaneParaDropState(CAviation *pPlane, const CVec2 &vDestPoint);
 
-	virtual void Segment();
+  void Segment() override;
 
-	ETryStateInterruptResult TryInterruptState( class CAICommand *pCommand );
-	virtual bool IsAttackingState() const { return false; }
-	virtual const CVec2 GetPurposePoint() const;
+  ETryStateInterruptResult TryInterruptState(class CAICommand *pCommand) override;
+  bool IsAttackingState() const override { return false; }
+  const CVec2 GetPurposePoint() const override;
 
-	// for Saving/Loading of static members
-	friend class CStaticMembers;
+  // for Saving/Loading of static members
+  friend class CStaticMembers;
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// state for fighters. Duties:
+
+// state for fighters. 
 // 1) fight incoming enemie bombers
 class CPlaneFighterPatrolState : public CPlanePatrolState, public CPlaneDeffensiveFire
 {
-	OBJECT_COMPLETE_METHODS( CPlaneFighterPatrolState );
-	DECLARE_SERIALIZE;	
+  OBJECT_COMPLETE_METHODS(CPlaneFighterPatrolState);
+  DECLARE_SERIALIZE;
 
   enum ECurFighterOnEnemieState
-	{
-		_WAIT_FOR_TAKEOFF,
-		ECFS_ESCAPE,
-		ECFS_GOTO_GUARDPOINT,
-		ECFS_GOING_TO_GUARDPOINT,
-		ECFS_ENGAGE_TARGET,
-		ECFS_AIM_TO_NEXT_POINT,
-		ECFS_FIND_ENEMY_OR_NEXT_POINT,
-	};
-	ECurFighterOnEnemieState eState;
+  {
+    _WAIT_FOR_TAKEOFF,
+    ECFS_ESCAPE,
+    ECFS_GOTO_GUARDPOINT,
+    ECFS_GOING_TO_GUARDPOINT,
+    ECFS_ENGAGE_TARGET,
+    ECFS_AIM_TO_NEXT_POINT,
+    ECFS_FIND_ENEMY_OR_NEXT_POINT,
+  };
 
-	float fPartolRadius;									// patrol radius of this state
-	float fPatrolHeight;									// height of patrolling
-	CPtr<CAviation> pEnemie;							//enemie that we attack (plane)
+  ECurFighterOnEnemieState eState;
 
-	NTimer::STime timeOfStart;						//time of start patrolling
-	NTimer::STime timeOfLastPathUpdate;		//last update of path
-	NTimer::STime timeLastCheck;					// последняя проверка на наличие патронов
+  float fPartolRadius;// patrol radius of this state
+  float fPatrolHeight;// height of patrolling
+  CPtr<CAviation> pEnemie;// enemie that we attack (plane)
 
-	void TryInitPathToEnemie( bool isEnemieNew = false );
-	void TryInitPathToPoint( const CVec3 & v, bool isNewPoint=false );
+  NTimer::STime timeOfStart;// time of start patrolling
+  NTimer::STime timeOfLastPathUpdate;// last update of path
+  NTimer::STime timeLastCheck;// last check for ammo availability
+
+  void TryInitPathToEnemie(bool isEnemieNew = false);
+  void TryInitPathToPoint(const CVec3 &v, bool isNewPoint = false);
+
 protected:
-	virtual void ToTakeOffState();
-	bool IsEnemyAlive( const class CAviation * pEnemie ) const;
+  void ToTakeOffState() override;
+  bool IsEnemyAlive(const class CAviation *pEnemie) const;
+
 public:
-	static IUnitState* Instance( CAviation *pPlane, const CVec2 &point );
+  static IUnitState *Instance(CAviation *pPlane, const CVec2 &point);
 
-	CPlaneFighterPatrolState () { }
-	CPlaneFighterPatrolState ( CAviation *_pPlane, const CVec2 &point ) ;
+  CPlaneFighterPatrolState() {}
+  CPlaneFighterPatrolState(CAviation *_pPlane, const CVec2 &point);
 
-	virtual void Segment();
+  void Segment() override;
 
-	ETryStateInterruptResult TryInterruptState( class CAICommand *pCommand );
-	virtual bool IsAttackingState() const { return true; }
-	virtual const CVec2 GetPurposePoint() const { return CVec2( -1,-1 ); }
+  ETryStateInterruptResult TryInterruptState(class CAICommand *pCommand) override;
+  bool IsAttackingState() const override { return true; }
+  const CVec2 GetPurposePoint() const override { return CVec2(-1, -1); }
 
-	virtual bool IsAttacksUnit() const ;
-	virtual class CAIUnit* GetTargetUnit() const ;
+  bool IsAttacksUnit() const override;
+  class CAIUnit *GetTargetUnit() const override;
 
-	// for Saving/Loading of static members
-	friend class CStaticMembers;
+  // for Saving/Loading of static members
+  friend class CStaticMembers;
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CAIUnit;
 class CBuilding;
 class CPlaneShturmovikShootEstimator;
+
 class CPlaneShturmovikPatrolState : public CPlanePatrolState, public CPlaneDeffensiveFire
 {
-	OBJECT_COMPLETE_METHODS( CPlaneShturmovikPatrolState );
-	DECLARE_SERIALIZE;	
+  OBJECT_COMPLETE_METHODS(CPlaneShturmovikPatrolState);
+  DECLARE_SERIALIZE;
 
-	// для определения нужно ли кидать бомбы
-	class CBombEstimator
-	{
-		bool bFire;
-		int nMechUnits, nInfantry;
-		float fDamage;											// повреждения от одной бомбы
-		float fDisp;												// круг в котором должны оказаться юниты
-		const CVec2 vCenter;								
-		const float fFlyTime;
-	public:
-		CBombEstimator( class CAviation *pAttacker, 
-										const float fDamage,
-										const CVec2 &vCenter,
-										const float fDisp,
-										const float fFlyTime );
+  // to determine whether to throw bombs
+  class CBombEstimator
+  {
+    bool bFire;
+    int nMechUnits, nInfantry;
+    float fDamage;// damage from one bomb
+    float fDisp;// the circle in which the units should be
+    const CVec2 vCenter;
+    const float fFlyTime;
 
-		bool Collect( class CAIUnit *pTry );
-		bool NeedDrop() const { return bFire;	}
-	};
+  public:
+    CBombEstimator(class CAviation *pAttacker,
+                   float fDamage,
+                   const CVec2 &vCenter,
+                   float fDisp,
+                   float fFlyTime);
+
+    bool Collect(class CAIUnit *pTry);
+    bool NeedDrop() const { return bFire; }
+  };
+
   enum EPlaneShturmovikPatrolState
-	{
-		_WAIT_FOR_TAKEOFF,
-		PSPS_ESCAPE,
-		PSPS_GOTO_GUARDPOINT,
-		PSPS_GOING_TO_GUARDPOINT,
-		PSPS_AIM_TO_NEXT_POINT,
-		PSPS_FIND_ENEMY_OR_NEXT_POINT,
+  {
+    _WAIT_FOR_TAKEOFF,
+    PSPS_ESCAPE,
+    PSPS_GOTO_GUARDPOINT,
+    PSPS_GOING_TO_GUARDPOINT,
+    PSPS_AIM_TO_NEXT_POINT,
+    PSPS_FIND_ENEMY_OR_NEXT_POINT,
 
-		PSPS_APPROACH_TARGET,
-		PSPS_APPROACHING_TARGET,
-		PSPS_ENGAGING_TARGET,
-		PSPS_APPROACHING_TARGET_TOWARS_IT,
-		PSPS_FIRE_TO_WORLD,
-		PSPS_GAIN_HEIGHT,
-	};
+    PSPS_APPROACH_TARGET,
+    PSPS_APPROACHING_TARGET,
+    PSPS_ENGAGING_TARGET,
+    PSPS_APPROACHING_TARGET_TOWARS_IT,
+    PSPS_FIRE_TO_WORLD,
+    PSPS_GAIN_HEIGHT,
+  };
 
-	class CEnemyContainer
-	{
-		DECLARE_SERIALIZE;
-		CAIUnit *pOwner;
-		
-		float fTakenDamage;
-		CPtr<CAIUnit> pEnemy;
-		CPtr<CBuilding> pBuilding;
-		
-		CEnemyContainer( const CEnemyContainer & r );
-		CEnemyContainer operator=( const CEnemyContainer &r );
-	public:
-		CEnemyContainer() : pOwner( 0 ), fTakenDamage( 0.0f ) { }
-		CEnemyContainer( CAIUnit *pOwner ) : pOwner( pOwner ), fTakenDamage( 0.0f ) { }
+  class CEnemyContainer
+  {
+    DECLARE_SERIALIZE;
+    CAIUnit *pOwner;
 
-		CVec2 GetCenter() const;
-		float GetZ() const;
-		bool CanShootToTarget( class CBasicGun * pGun ) const;
-		void StartBurst( class CBasicGun *pGun );
+    float fTakenDamage;
+    CPtr<CAIUnit> pEnemy;
+    CPtr<CBuilding> pBuilding;
 
-		void SetEnemy( CAIUnit * pNewEnemy );
-		void SetEnemy( CBuilding * pBuilding );
+    CEnemyContainer(const CEnemyContainer &r);
+    CEnemyContainer operator=(const CEnemyContainer &r);
 
-		bool IsValidBuilding() const;
-		bool IsValidUnit() const;
-		bool IsValid() const ; // is alive and is valid
-		
-		CAIUnit *GetEnemy();
-		CBuilding *GetBuilding();
-	};
+  public:
+    CEnemyContainer() : pOwner(nullptr), fTakenDamage(0.0f) {}
+    CEnemyContainer(CAIUnit *pOwner) : pOwner(pOwner), fTakenDamage(0.0f) {}
 
-	EPlaneShturmovikPatrolState eState;
-	CVec3 vCurTargetPoint;								// точка, куда направляется самолет
+    CVec2 GetCenter() const;
+    float GetZ() const;
+    bool CanShootToTarget(class CBasicGun *pGun) const;
+    void StartBurst(class CBasicGun *pGun);
 
-	CPtr<CPlaneShturmovikShootEstimator> pShootEstimator;
+    void SetEnemy(CAIUnit *pNewEnemy);
+    void SetEnemy(CBuilding *pBuilding);
 
-	class CAviation *pPlane;
+    bool IsValidBuilding() const;
+    bool IsValidUnit() const;
+    bool IsValid() const;// is alive and is valid
 
-	CEnemyContainer enemie;								// enemie that we attack (ground target)
-	
-	float fPatrolHeight;
-	
-	NTimer::STime timeOfStart;						// time of start patrolling
-	NTimer::STime timeOfLastPathUpdate;		// last update of path
-	NTimer::STime timeLastCheck ;					// проверка на наличие патронов
+    CAIUnit *GetEnemy();
+    CBuilding *GetBuilding();
+  };
 
-	float fStartAttackDist;								// дистанция для начала пикирования
-	float fFinishAttckDist;								// дистанция выхода из атаки
-	float fTurnRadius;										// радиус поворота штурмовика
-	enum EGunplaneCalledAs eCalledAs;					// 
+  EPlaneShturmovikPatrolState eState;
+  CVec3 vCurTargetPoint;// the point where the plane is heading
 
-	void TryInitPathToEnemie();
-	void TryInitPathToPoint( const CVec3 & v, bool isNewPoint = false );
-	bool FindNewEnemie();
+  CPtr<CPlaneShturmovikShootEstimator> pShootEstimator;
 
-	// выбери лучшее
-	CAIUnit* FindEnemyInPossibleDiveSector();
-	CAIUnit* FindEnemyInFiringSector();
+  class CAviation *pPlane;
 
-	void TryBurstAllGuns();
-	void TryDropBombs();
-	void TryBurstAllGunsToPoints();
-	bool IsTargetBehind( const CVec2 &vTarget ) const;
+  CEnemyContainer enemie;// enemie that we attack (ground target)
+
+  float fPatrolHeight;
+
+  NTimer::STime timeOfStart;// time of start patrolling
+  NTimer::STime timeOfLastPathUpdate;// last update of path
+  NTimer::STime timeLastCheck;// checking for cartridges
+
+  float fStartAttackDist;// dive start distance
+  float fFinishAttckDist;// attack release distance
+  float fTurnRadius;// attack aircraft turning radius
+  enum EGunplaneCalledAs eCalledAs;// 
+
+  void TryInitPathToEnemie();
+  void TryInitPathToPoint(const CVec3 &v, bool isNewPoint = false);
+  bool FindNewEnemie();
+
+  // choose the best
+  CAIUnit *FindEnemyInPossibleDiveSector();
+  CAIUnit *FindEnemyInFiringSector();
+
+  void TryBurstAllGuns();
+  void TryDropBombs();
+  void TryBurstAllGunsToPoints();
+  bool IsTargetBehind(const CVec2 &vTarget) const;
+
 protected:
-	virtual void ToTakeOffState();
+  void ToTakeOffState() override;
+
 public:
-	static IUnitState* Instance( CAviation *pPlane, const CVec2 &point, const int eCalledAs );
+  static IUnitState *Instance(CAviation *pPlane, const CVec2 &point, int eCalledAs);
 
-	CPlaneShturmovikPatrolState () : pPlane( 0 ) { }
-	CPlaneShturmovikPatrolState ( CAviation *_pPlane, const CVec2 &point, const int eCalledAs );
+  CPlaneShturmovikPatrolState() : pPlane(nullptr) {}
+  CPlaneShturmovikPatrolState(CAviation *_pPlane, const CVec2 &point, int eCalledAs);
 
-	virtual void Segment();
+  void Segment() override;
 
-	ETryStateInterruptResult TryInterruptState( class CAICommand *pCommand );
-	virtual bool IsAttackingState() const { return false; }
-	virtual const CVec2 GetPurposePoint() const { return GetPoint(); }
+  ETryStateInterruptResult TryInterruptState(class CAICommand *pCommand) override;
+  bool IsAttackingState() const override { return false; }
+  const CVec2 GetPurposePoint() const override { return GetPoint(); }
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CPlaneScoutState : public CPlanePatrolState, public CPlaneDeffensiveFire
 {
-	OBJECT_COMPLETE_METHODS( CPlaneScoutState );
-	DECLARE_SERIALIZE;	
+  OBJECT_COMPLETE_METHODS(CPlaneScoutState);
+  DECLARE_SERIALIZE;
 
-  enum EPlaneScoutState 
-	{
-		_WAIT_FOR_TAKEOFF,
-		EPSS_GOTO_GUARDPOINT,
-		EPSS_GOING_TO_GUARDPOINT,
-		EPSS_AIM_TO_NEXT_POINT,
-		EPSS_ESCAPE,
-	};
-	EPlaneScoutState eState;
+  enum EPlaneScoutState
+  {
+    _WAIT_FOR_TAKEOFF,
+    EPSS_GOTO_GUARDPOINT,
+    EPSS_GOING_TO_GUARDPOINT,
+    EPSS_AIM_TO_NEXT_POINT,
+    EPSS_ESCAPE,
+  };
 
-	float fPatrolHeight;									// height of patrolling
-	NTimer::STime timeOfStart;
+  EPlaneScoutState eState;
+
+  float fPatrolHeight;// height of patrolling
+  NTimer::STime timeOfStart;
 
 protected:
-	virtual void ToTakeOffState();
+  void ToTakeOffState() override;
+
 public:
+  static IUnitState *Instance(CAviation *pPlane, const CVec2 &point);
 
-	static IUnitState* Instance( CAviation *pPlane, const CVec2 &point );
+  CPlaneScoutState() {}
+  CPlaneScoutState(CAviation *_pPlane, const CVec2 &point);
 
-	CPlaneScoutState () { }
-	CPlaneScoutState ( CAviation *_pPlane, const CVec2 &point ) ;
+  void Segment() override;
 
-	virtual void Segment();
-
-	ETryStateInterruptResult TryInterruptState( class CAICommand *pCommand );
-	virtual bool IsAttackingState() const { return false; }
-	virtual const CVec2 GetPurposePoint() const { return GetPoint(); }
+  ETryStateInterruptResult TryInterruptState(class CAICommand *pCommand) override;
+  bool IsAttackingState() const override { return false; }
+  const CVec2 GetPurposePoint() const override { return GetPoint(); }
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//ACTION_MOVE_PLANE_LEAVE
-//plane must leave the map trough the some point
+
+// ACTION_MOVE_PLANE_LEAVE
+// plane must leave the map through the some point
 class CPlaneLeaveState : public IUnitState, public CPlaneDeffensiveFire
 {
-	
-	OBJECT_COMPLETE_METHODS( CPlaneLeaveState );
-	DECLARE_SERIALIZE;	
 
-	class CAviation *pPlane;
-	CPtr<IUnitState> pMoveToExitPoint; 
-	int nAviaType;
+  OBJECT_COMPLETE_METHODS(CPlaneLeaveState);
+  DECLARE_SERIALIZE;
 
-	enum EPlaneLeaveState
-	{
-		EPLS_STARTING,
-		EPLS_IN_ROUTE,
-	};
-	EPlaneLeaveState eState;
+  class CAviation *pPlane;
+  CPtr<IUnitState> pMoveToExitPoint;
+  int nAviaType;
+
+  enum EPlaneLeaveState
+  {
+    EPLS_STARTING,
+    EPLS_IN_ROUTE,
+  };
+
+  EPlaneLeaveState eState;
+
 public:
-	static IUnitState* Instance( CAviation *pPlane, const int nAviaType );
+  static IUnitState *Instance(CAviation *pPlane, int nAviaType);
 
-	CPlaneLeaveState() : pPlane( 0 ){ }
-	CPlaneLeaveState( CAviation *pPlane, const int nAviaType );
+  CPlaneLeaveState() : pPlane(nullptr) {}
+  CPlaneLeaveState(CAviation *pPlane, int nAviaType);
 
-	virtual void Segment();
+  void Segment() override;
 
-	ETryStateInterruptResult TryInterruptState( class CAICommand *pCommand );
-	virtual bool IsAttackingState() const { return false; }
-	virtual const CVec2 GetPurposePoint() const;
-	virtual EUnitStateNames GetName() { return EUSN_REST; }
+  ETryStateInterruptResult TryInterruptState(class CAICommand *pCommand) override;
+  bool IsAttackingState() const override { return false; }
+  const CVec2 GetPurposePoint() const override;
+  EUnitStateNames GetName() override { return EUSN_REST; }
 
-	// for Saving/Loading of static members
-	friend class CStaticMembers;
+  // for Saving/Loading of static members
+  friend class CStaticMembers;
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// смерть самолета.
+
+// death of the plane.
 class CPlaneFlyDeadState : public IUnitState
 {
-	OBJECT_COMPLETE_METHODS( CPlaneFlyDeadState );
-	DECLARE_SERIALIZE;	
-	enum EPlaneDeadState 
-	{
-		EPDS_START_DIVE,
-		EPDS_DIVE,
-		EPDS_ESTIMATE,
-		EPDS_WAIT_FINISH_PATH,
-	};
-	EPlaneDeadState eState;
+  OBJECT_COMPLETE_METHODS(CPlaneFlyDeadState);
+  DECLARE_SERIALIZE;
 
-	class CDeadZone
-	{
-		float fMaxX, fMinX;
-		float fMinY, fMaxY;
-	public:
-		CDeadZone() : fMaxX( 0.0f ), fMinX( 0.0f ), fMaxY( 0.0f ), fMinY( 0.0f ) { }
-		void Init();
-		bool IsInZone( const CVec2 &vPoint );
-		void AdjustEscapePoint( CVec2 * pPoint );
-	};
-	CDeadZone deadZone;											// вне зтого rect умирают самолеты
+  enum EPlaneDeadState
+  {
+    EPDS_START_DIVE,
+    EPDS_DIVE,
+    EPDS_ESTIMATE,
+    EPDS_WAIT_FINISH_PATH,
+  };
 
-	class CAviation *pPlane;
-	float fHeight;
-	bool bFatality;
-	bool bExplodeInstantly;									// if false plane will explode after finish dive.
-	NTimer::STime timeStart;								// start death time
+  EPlaneDeadState eState;
 
-	void InitPathToNearestPoint();
-	float CalcPath( const WORD wCurDir, const byte nDesiredDir, const bool bRight, const float fTurnRadius, CVec2 *vDestPoint );
+  class CDeadZone
+  {
+    float fMaxX, fMinX;
+    float fMinY, fMaxY;
+
+  public:
+    CDeadZone() : fMaxX(0.0f), fMinX(0.0f), fMinY(0.0f), fMaxY(0.0f) {}
+    void Init();
+    bool IsInZone(const CVec2 &vPoint);
+    void AdjustEscapePoint(CVec2 *pPoint);
+  };
+
+  CDeadZone deadZone;// out of this rect planes die
+
+  class CAviation *pPlane;
+  float fHeight;
+  bool bFatality;
+  bool bExplodeInstantly;// if false plane will explode after finish dive.
+  NTimer::STime timeStart;// start death time
+
+  void InitPathToNearestPoint();
+  float CalcPath(WORD wCurDir, byte nDesiredDir, bool bRight, float fTurnRadius, CVec2 *vDestPoint);
+
 public:
-	static IUnitState* Instance( CAviation *pPlane );
+  static IUnitState *Instance(CAviation *pPlane);
 
-	CPlaneFlyDeadState () : pPlane( 0 ){ }
-	CPlaneFlyDeadState ( CAviation *_pPlane );
+  CPlaneFlyDeadState() : pPlane(nullptr) {}
+  CPlaneFlyDeadState(CAviation *_pPlane);
 
-	virtual void Segment();
+  void Segment() override;
 
-	ETryStateInterruptResult TryInterruptState( class CAICommand *pCommand );
-	virtual bool IsAttackingState() const { return false; }
-	virtual const CVec2 GetPurposePoint() const ;
-	virtual EUnitStateNames GetName() { return EUSN_FLY_DEAD; }
+  ETryStateInterruptResult TryInterruptState(class CAICommand *pCommand) override;
+  bool IsAttackingState() const override { return false; }
+  const CVec2 GetPurposePoint() const override;
+  EUnitStateNames GetName() override { return EUSN_FLY_DEAD; }
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // __PLANE_STATES_H__

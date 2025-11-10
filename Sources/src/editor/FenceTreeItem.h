@@ -24,7 +24,7 @@ private:
 class CFenceCommonPropsItem : public CTreeItem
 {
 private:
-	SThumbItems m_thumbItems;			//эти items отображаются в AllDirThumbList
+	SThumbItems m_thumbItems;			// these items are displayed in AllDirThumbList
 	CImageList imageList;
 	
 	OBJECT_NORMAL_METHODS( CFenceCommonPropsItem );
@@ -35,7 +35,7 @@ public:
 	SThumbItems* GetThumbItems() { return &m_thumbItems; }
 	CImageList*  GetImageList() { return &imageList; }
 	
-	//Получение внутренних параметров
+	// Getting internal parameters
 	const char *GetFenceName() { return values[0].value; }
 	const char *GetDirName() { return values[1].value; }
 	int GetFenceHealth() { return values[2].value; }
@@ -61,8 +61,8 @@ public:
 
 class CFenceInsertItem : public CTreeItem
 {
-	SThumbItems m_thumbItems;			//эти items отображаются в SelectedThumbList
-	bool bLoaded;									//этот флаг для подкачки items только в момент когда пользователь выбирает папку c roads
+	SThumbItems m_thumbItems;			// these items are displayed in SelectedThumbList
+	bool bLoaded;									// this flag is for paging items only when the user selects the folder c roads
 	OBJECT_NORMAL_METHODS( CFenceInsertItem );
 public:
 	CFenceInsertItem() { nItemType = E_FENCE_INSERT_ITEM; bLoaded = false; InitDefaultValues(); nImageIndex = 7; }
@@ -72,7 +72,7 @@ public:
 	bool GetLoadedFlag() { return bLoaded; }
 	SThumbItems* GetThumbItems() { return &m_thumbItems; }
 	
-	virtual void InsertChildItems();					//Вызывается после создания всех компонентов для занесения их в дерево
+	virtual void InsertChildItems();					// Called after all components have been created to add them to the tree
 	virtual void InitDefaultValues();
 	virtual void MyLButtonClick();
 };
@@ -82,7 +82,7 @@ class CFencePropsItem : public CTreeItem
 	OBJECT_NORMAL_METHODS( CFencePropsItem );
 	
 public:
-	CVec3 vSpritePos;		//не хочу кучу функций таскать, TT
+	CVec3 vSpritePos;		// I don’t want to carry a bunch of functions, TT
 	CListOfTiles lockedTiles;
 	CListOfTiles transeparences;
 	bool bLoaded;
@@ -98,7 +98,7 @@ public:
 	}
 	~CFencePropsItem() {};
 
-//	void FillRPGStruct( SFenceRPGStats::SSegmentRPGStats &rpgStats );
+// void FillRPGStruct( SFenceRPGStats::SSegmentRPGStats &rpgStats );
 	
 	virtual void InitDefaultValues();
 	virtual int operator&( IDataTree &ss );
@@ -106,4 +106,4 @@ public:
 	virtual void MyLButtonClick();
 };
 
-#endif		//__FENCE_TREE_ITEM_H__
+#endif		// __FENCE_TREE_ITEM_H__

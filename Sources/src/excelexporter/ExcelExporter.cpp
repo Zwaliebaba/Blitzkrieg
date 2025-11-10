@@ -30,7 +30,7 @@ CString CExcelExporter::GetExcelDriverName()
 	{
 		if( strstr( pszBuf, "Excel" ) != 0 )
 		{
-			// Found !
+			// Found!
 			szDriver = CString( pszBuf );
 			break;
 		}
@@ -52,7 +52,7 @@ void CExcelExporter::ConvertFilesToExcel( const vector<string> &files, const cha
 	if ( files.empty() )
 		return;
 	
-	//считываем поля из crap файла
+	// read fields from crap file
 	std::vector< std::string > crapFields;
 	if ( strlen(pszCrapFile) > 0 )
 	{
@@ -78,7 +78,7 @@ void CExcelExporter::ConvertFilesToExcel( const vector<string> &files, const cha
 	if ( !bIgnoreFields && crapFields.empty() )
 		bIgnoreFields = true;
 
-	//считываем RPG информацию сразу из всех файлов
+	// we read RPG information from all files at once
 	vector<CXMLReadVector> filesValuesVector( files.size() );
 	for ( int i=0; i<files.size(); i++ )
 	{
@@ -92,13 +92,8 @@ void CExcelExporter::ConvertFilesToExcel( const vector<string> &files, const cha
 	{
 		for ( int k=0; k<filesValuesVector[i].size(); k++ )
 		{
-/*
-			vector<string>::iterator findIt = find( crapFields.begin(), crapFields.end(), filesValuesVector[i][k].szName );
-			if ( findIt == crapFields.end() )
-			{
-				mySet.insert( filesValuesVector[i][k] );
-			}
-*/
+/* vector<string>::iterator findIt = find( crapFields.begin(), crapFields.end(), filesValuesVector[i][k].szName );
+			 */
 
 			mySet.insert( filesValuesVector[i][k] );
 		}
@@ -130,7 +125,7 @@ void CExcelExporter::ConvertFilesToExcel( const vector<string> &files, const cha
 	pStream->Write( szStrToSave.c_str(), szStrToSave.size() );
 
 
-	//formatting output
+	// formatting output
 	for ( int i=0; i<filesValuesVector.size(); i++ )
 	{
 		std::cout << files[i].c_str() << std::flush;
@@ -205,7 +200,7 @@ void CExcelExporter::ConvertExcelToXMLFiles( const char *pszExcelFileName, const
 	}
 	szCur[ strlen( szCur ) - 1 ] = '\0';
 
-	std::string szBaseNodeName = pszNodeName;		//"RPG"
+	std::string szBaseNodeName = pszNodeName;		// "RPG"
 	{
 		NStr::CStringIterator<> it( szCur, NStr::CCharSeparator('\t') );
 		for ( ; !it.IsEnd(); ++it )
@@ -225,10 +220,10 @@ void CExcelExporter::ConvertExcelToXMLFiles( const char *pszExcelFileName, const
 		szCur[ strlen( szCur ) - 1 ] = '\0';
 		NStr::CStringIterator<> it( szCur, NStr::CCharSeparator('\t') );
 		NI_ASSERT_T( !it.IsEnd(), "The line is empty?" );
-		//read the file name
+		// read the file name
 		std::string szFileName = *it;
 
-		//узнаем имя ноды с информацией. По умолчанию - "RPG"
+		// We find out the name of the node with the information. 
 		{
 			std::string szExtension = szFileName.substr( szFileName.rfind( '.' ) );
 			for ( int i=0; i<extensions.size(); i++ )
@@ -271,57 +266,9 @@ void CExcelExporter::ConvertExcelToXMLFiles( const char *pszExcelFileName, const
 			cout << (const char *) szFileName.c_str() << "    -FAILED" << endl;
 	}
 
-/*
-	while ( pStream->)
+/* while (pStream->)
 	
-		vector<CString> fieldNames;
-		for ( int i=0; i<nCount; i++ )
-		{
-			CODBCFieldInfo fieldinfo;
-			recset.GetODBCFieldInfo( i, fieldinfo );
-			if ( fieldinfo.m_strName != "FileName" )
-				fieldNames.push_back( fieldinfo.m_strName );
-		}
-		
-		// Browse the result
-		while( !recset.IsEOF() )
-		{
-			CString szFileName;
-			recset.GetFieldValue( "FileName", szFileName );
-			CXMLValuesVector valuesVector;
-
-			for ( int i=0; i<fieldNames.size(); i++ )
-			{
-				CXMLValue val;
-				CString szString;
-				recset.GetFieldValue( fieldNames[i], szString );
-				val.first = fieldNames[i];
-				val.second = szString;
-				if ( szString != '_' )				//CRAP ибо строчки в excel пишутся херово
-					valuesVector.push_back( val );
-			}
-
-			CXMLWriter xmlWriter;
-			if ( xmlWriter.SaveRPGInformationToXML( szFileName, valuesVector ) )
-				cout << (const char *) szFileName << "    -done" << endl;
-			else
-				cout << (const char *) szFileName << "    -FAILED" << endl;
-
-			// Skip to the next resultline
-			recset.MoveNext();
-		}
-		
-		// Close the database
-		database.Close();
-		
-	}
-	CATCH(CDBException, e)
-	{
-		// A database exception occured. Pop out the details...
-		AfxMessageBox("Database error: "+e->m_strError);
-	}
-	END_CATCH;
-*/
+		 */
 }
 
 
@@ -334,14 +281,14 @@ void ReadExcelFile( const char *pszFileName )
 	CString szDriver;
 	CString szDsn;
 	
-	// Retrieve the name of the Excel driver. This is 
+	// Retrieve the name of the Excel driver. 
 	// necessary because Microsoft tends to use language
 	// specific names like "Microsoft Excel Driver (*.xls)" versus
 	// "Microsoft Excel Treiber (*.xls)"
 	szDriver = GetExcelDriver();
 	if( szDriver.IsEmpty() )
 	{
-		// Blast! We didnґt find that driver!
+		// Blast! 
 		AfxMessageBox("No Excel ODBC driver found");
 		return;
 	}
@@ -361,7 +308,7 @@ void ReadExcelFile( const char *pszFileName )
 		
 		// Build the SQL string
 		// Remember to name a section of data in the Excel sheet using "Insert->Names" to be
-		// able to work with the data like you would with a table in a "real" database. There
+		// able to work with the data like you would with a table in a "real" database. 
 		// may be more than one table contained in a worksheet.
 		szSql = "SELECT * "
 			"FROM demo ";
@@ -386,13 +333,10 @@ void ReadExcelFile( const char *pszFileName )
 			{
 				recset.GetFieldValue(strings[i], szItem1);
 			}
-/*
-			// Read the result line
-			recset.GetFieldValue("field_1",szItem1);
-			recset.GetFieldValue("field_2",szItem2);
-*/		
+/* // Read the result line
+			 */		
 			// Insert result into the list
-//			m_ctrlList.AddString( szItem1 + " --> "+szItem2 );
+// m_ctrlList.AddString( szItem1 + " --> "+szItem2 );
 			
 			// Skip to the next resultline
 			recset.MoveNext();
@@ -404,7 +348,7 @@ void ReadExcelFile( const char *pszFileName )
 	}
 	CATCH(CDBException, e)
 	{
-		// A database exception occured. Pop out the details...
+		// A database exception occurs. 
 		AfxMessageBox("Database error: "+e->m_strError);
 	}
 	END_CATCH;
@@ -454,4 +398,4 @@ void SaveExcelFile()
 	}
 }
 
-#endif		//OLD
+#endif		// OLD

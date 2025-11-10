@@ -1,88 +1,95 @@
 #ifndef __IN_ENTRENCHMENT_STATES_H__
 #define __IN_ENTRENCHMENT_STATES_H__
 
-#pragma ONCE
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma once
+// //////////////////////////////////////////////////////////// 
 #include "UnitStates.h"
 #include "StatesFactory.h"
 #include "Behaviour.h"
 #include "CommonStates.h"
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////// 
 class CAIUnit;
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// //////////////////////////////////////////////////////////// 
 class CInEntrenchmentStatesFactory : public IStatesFactory
 {
-	OBJECT_COMPLETE_METHODS( CInEntrenchmentStatesFactory );
-	
-	static CPtr<CInEntrenchmentStatesFactory> pFactory;
+  OBJECT_COMPLETE_METHODS(CInEntrenchmentStatesFactory);
+
+  static CPtr<CInEntrenchmentStatesFactory> pFactory;
+
 public:
-	static IStatesFactory* Instance();
-	virtual interface IUnitState* ProduceState( class CQueueUnit *pUnit, class CAICommand *pCommand );
-	virtual interface IUnitState* ProduceRestState( class CQueueUnit *pUnit );
-	virtual bool CanCommandBeExecuted( class CAICommand *pCommand );
-	
-	// for Saving/Loading of static members
-	friend class CStaticMembers;
+  static IStatesFactory *Instance();
+  interface IUnitState *ProduceState(class CQueueUnit *pUnit, class CAICommand *pCommand) override;
+  interface IUnitState *ProduceRestState(class CQueueUnit *pUnit) override;
+  bool CanCommandBeExecuted(class CAICommand *pCommand) override;
+
+  // for Saving/Loading of static members
+  friend class CStaticMembers;
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// //////////////////////////////////////////////////////////// 
 class CSoldierRestInEntrenchmentState : public IUnitState, public CStandartBehaviour
 {
-	OBJECT_COMPLETE_METHODS( CSoldierRestInEntrenchmentState );
-	DECLARE_SERIALIZE;
+  OBJECT_COMPLETE_METHODS(CSoldierRestInEntrenchmentState);
+  DECLARE_SERIALIZE;
 
-	class CSoldier *pSoldier;	
-	NTimer::STime startTime;
+  class CSoldier *pSoldier;
+  NTimer::STime startTime;
+
 public:
-	static IUnitState* Instance( class CSoldier *pSoldier, class CEntrenchment *pEntrenchment );
+  static IUnitState *Instance(class CSoldier *pSoldier, class CEntrenchment *pEntrenchment);
 
-	CSoldierRestInEntrenchmentState() : pSoldier( 0 ) { }
-	CSoldierRestInEntrenchmentState( class CSoldier *pSoldier );
+  CSoldierRestInEntrenchmentState() : pSoldier(nullptr) {}
+  CSoldierRestInEntrenchmentState(class CSoldier *pSoldier);
 
-	void SetUnitTo( class CEntrenchment *pEntrenchment );
+  void SetUnitTo(class CEntrenchment *pEntrenchment);
 
-	virtual void Segment();
-	virtual ETryStateInterruptResult TryInterruptState( class CAICommand *pCommand );
+  void Segment() override;
+  ETryStateInterruptResult TryInterruptState(class CAICommand *pCommand) override;
 
-	virtual EUnitStateNames GetName() { return EUSN_REST_ENTRENCHMENT; }
-	virtual bool IsAttackingState() const { return false; }
-	virtual const CVec2 GetPurposePoint() const;
+  EUnitStateNames GetName() override { return EUSN_REST_ENTRENCHMENT; }
+  bool IsAttackingState() const override { return false; }
+  const CVec2 GetPurposePoint() const override;
 
-	// for Saving/Loading of static members
-	friend class CStaticMembers;
+  // for Saving/Loading of static members
+  friend class CStaticMembers;
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// //////////////////////////////////////////////////////////// 
 class CSoldierAttackInEtrenchState : public IUnitAttackingState
 {
-	OBJECT_COMPLETE_METHODS( CSoldierAttackInEtrenchState );
-	DECLARE_SERIALIZE;
-	
-	class CSoldier *pSoldier;
-	CPtr<CAIUnit> pEnemy;
+  OBJECT_COMPLETE_METHODS(CSoldierAttackInEtrenchState);
+  DECLARE_SERIALIZE;
 
-	CPtr<CBasicGun> pGun;
-	bool bFinish;
-	bool bAim;
-	bool bSwarmAttack;
-	int nEnemyParty;
+  class CSoldier *pSoldier;
+  CPtr<CAIUnit> pEnemy;
 
-	CDamageToEnemyUpdater damageToEnemyUpdater;
+  CPtr<CBasicGun> pGun;
+  bool bFinish;
+  bool bAim;
+  bool bSwarmAttack;
+  int nEnemyParty;
 
-	//
-	void AnalyzeCurrentState();
-	void FinishState();
+  CDamageToEnemyUpdater damageToEnemyUpdater;
+
+  //
+  void AnalyzeCurrentState();
+  void FinishState();
+
 public:
-	static IUnitState* Instance( class CSoldier *pSoldier, class CAIUnit *pEnemy, const bool bSwarmAttack );
+  static IUnitState *Instance(class CSoldier *pSoldier, class CAIUnit *pEnemy, bool bSwarmAttack);
 
-	CSoldierAttackInEtrenchState() : pSoldier( 0 ) { }
-	CSoldierAttackInEtrenchState( class CSoldier *pSoldier, class CAIUnit *pEnemy, const bool bSwarmAttack );
-	virtual void Segment();
+  CSoldierAttackInEtrenchState() : pSoldier(nullptr) {}
+  CSoldierAttackInEtrenchState(class CSoldier *pSoldier, class CAIUnit *pEnemy, bool bSwarmAttack);
+  void Segment() override;
 
-	virtual ETryStateInterruptResult TryInterruptState( class CAICommand *pCommand );
-	virtual bool IsAttackingState() const { return true; }
-	virtual const CVec2 GetPurposePoint() const;
+  ETryStateInterruptResult TryInterruptState(class CAICommand *pCommand) override;
+  bool IsAttackingState() const override { return true; }
+  const CVec2 GetPurposePoint() const override;
 
-	virtual bool IsAttacksUnit() const { return true; }
-	virtual class CAIUnit* GetTargetUnit() const;
+  bool IsAttacksUnit() const override { return true; }
+  class CAIUnit *GetTargetUnit() const override;
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// //////////////////////////////////////////////////////////// 
 #endif // __IN_ENTRENCHMENT_STATES_H__

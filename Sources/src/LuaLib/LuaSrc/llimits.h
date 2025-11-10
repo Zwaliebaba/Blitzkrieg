@@ -1,8 +1,5 @@
-/*
-** $Id: llimits.h,v 1.19 2000/10/26 12:47:05 roberto Exp $
-** Limits, basic types, and some other "installation-dependent" definitions
-** See Copyright Notice in lua.h
-*/
+/* ** $Id: llimits.h,v 1.19 2000/10/26 12:47:05 roberto Exp $
+ */
 
 #ifndef llimits_h
 #define llimits_h
@@ -12,10 +9,7 @@
 #include <stddef.h>
 
 
-
-/*
-** try to find number of bits in an integer
-*/
+/* ** try to find number of bits in an integer */
 #ifndef BITS_INT
 /* avoid overflows in comparison */
 #if INT_MAX-20 < 32760
@@ -31,10 +25,8 @@
 #endif
 
 
-/*
-** Define the type `number' of Lua
-** GREP LUA_NUMBER to change that
-*/
+/* ** Define the type `number' of Lua
+ */
 #ifndef LUA_NUM_TYPE
 #define LUA_NUM_TYPE double
 #endif
@@ -49,8 +41,7 @@ typedef LUA_NUM_TYPE Number;
 #define lua_str2number(s,p)	strtod((s), (p))
 
 
-
-typedef unsigned long lint32;  /* unsigned int with at least 32 bits */
+typedef unsigned long lint32;/* unsigned int with at least 32 bits */
 
 
 #define MAX_SIZET	((size_t)(~(size_t)0)-2)
@@ -58,16 +49,12 @@ typedef unsigned long lint32;  /* unsigned int with at least 32 bits */
 
 #define MAX_INT (INT_MAX-2)  /* maximum value of an int (-2 for safety) */
 
-/*
-** conversion of pointer to int (for hashing only)
-** (the shift removes bits that are usually 0 because of alignment)
-*/
+/* ** conversion of pointer to int (for hashing only)
+ */
 #define IntPoint(p)  (((unsigned long)(p)) >> 3)
 
 
-
 #define MINPOWER2       4       /* minimum size for "growing" vectors */
-
 
 
 #ifndef DEFAULT_STACK_SIZE
@@ -75,26 +62,22 @@ typedef unsigned long lint32;  /* unsigned int with at least 32 bits */
 #endif
 
 
-
 /* type to ensure maximum alignment */
-union L_Umaxalign { double d; char *s; long l; };
+union L_Umaxalign
+{
+  double d;
+  char *s;
+  long l;
+};
 
 
-
-/*
-** type for virtual-machine instructions
-** must be an unsigned with (at least) 4 bytes (see details in lopcodes.h)
-** For a very small machine, you may change that to 2 bytes (and adjust
-** the following limits accordingly)
-*/
+/* ** type for virtual-machine instructions
+ */
 typedef unsigned long Instruction;
 
 
-/*
-** size and position of opcode arguments.
-** For an instruction with 2 bytes, size is 16, and size_b can be 5
-** (accordingly, size_u will be 10, and size_a will be 5)
-*/
+/* ** size and position of opcode arguments.
+ */
 #define SIZE_INSTRUCTION        32
 #define SIZE_B          9
 
@@ -106,11 +89,8 @@ typedef unsigned long Instruction;
 #define POS_A           (SIZE_OP+SIZE_B)
 
 
-/*
-** limits for opcode arguments.
-** we use (signed) int to manipulate most arguments,
-** so they must fit in BITS_INT-1 bits (-1 for sign)
-*/
+/* ** limits for opcode arguments.
+ */
 #if SIZE_U < BITS_INT-1
 #define MAXARG_U        ((1<<SIZE_U)-1)
 #define MAXARG_S        (MAXARG_U>>1)		/* `S' is signed */

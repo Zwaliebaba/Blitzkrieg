@@ -1,7 +1,7 @@
 #ifndef __MEDALVIEW_H__
 #define __MEDALVIEW_H__
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // CMedalView window
 
 class CMedalView : public CWnd
@@ -18,10 +18,10 @@ public:
 	
 	// Overrides
 	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CMedalView)
+	// {{AFX_VIRTUAL(CMedalView)
 protected:
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
-	//}}AFX_VIRTUAL
+	// }}AFX_VIRTUAL
 	
 	// Implementation
 public:
@@ -31,12 +31,12 @@ private:
 	
 	// Generated message map functions
 protected:
-	//{{AFX_MSG(CMedalView)
+	// {{AFX_MSG(CMedalView)
 	afx_msg void OnPaint();
-	//}}AFX_MSG
+	// }}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 
-#endif		//__MEDALVIEW_H__
+#endif		// __MEDALVIEW_H__

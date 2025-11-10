@@ -6,15 +6,15 @@
 #include "InterfaceSystemTestDlg.h"
 
 
-/////////////////////////////////////////////////////////////////////////////
+// //
 // CInterfaceSystemTestDlg dialog
 
-CInterfaceSystemTestDlg::CInterfaceSystemTestDlg(CWnd* pParent /*=NULL*/)
+CInterfaceSystemTestDlg::CInterfaceSystemTestDlg(CWnd* pParent /* =NULL */)
 	: CDialog(CInterfaceSystemTestDlg::IDD, pParent)
 {
-	//{{AFX_DATA_INIT(CInterfaceSystemTestDlg)
+	// {{AFX_DATA_INIT(CInterfaceSystemTestDlg)
 		// NOTE: the ClassWizard will add member initialization here
-	//}}AFX_DATA_INIT
+	// }}AFX_DATA_INIT
 	// Note that LoadIcon does not require a subsequent DestroyIcon in Win32
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
@@ -22,39 +22,39 @@ CInterfaceSystemTestDlg::CInterfaceSystemTestDlg(CWnd* pParent /*=NULL*/)
 void CInterfaceSystemTestDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(CInterfaceSystemTestDlg)
+	// {{AFX_DATA_MAP(CInterfaceSystemTestDlg)
 		// NOTE: the ClassWizard will add DDX and DDV calls here
-	//}}AFX_DATA_MAP
+	// }}AFX_DATA_MAP
 }
 
 BEGIN_MESSAGE_MAP(CInterfaceSystemTestDlg, CDialog)
-	//{{AFX_MSG_MAP(CInterfaceSystemTestDlg)
+	// {{AFX_MSG_MAP(CInterfaceSystemTestDlg)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
-	//}}AFX_MSG_MAP
+	// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-/////////////////////////////////////////////////////////////////////////////
+// //
 // CInterfaceSystemTestDlg message handlers
 
 BOOL CInterfaceSystemTestDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 
-	// Set the icon for this dialog.  The framework does this automatically
-	//  when the application's main window is not a dialog
+	// Set the icon for this dialog.  
+	// when the application's main window is not a dialog
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 	
 	// TODO: Add extra initialization here
 	pScreen = new CScreen;
 	
-	return TRUE;  // return TRUE  unless you set the focus to a control
+	return TRUE;  // return TRUE unless you set the focus to a control
 }
 
 // If you add a minimize button to your dialog, you will need the code below
-//  to draw the icon.  For MFC applications using the document/view model,
-//  this is automatically done for you by the framework.
+// to draw the icon.  
+// this is automatically done for you by the framework.
 
 void CInterfaceSystemTestDlg::OnPaint() 
 {
@@ -94,7 +94,7 @@ void CInterfaceSystemTestDlg::OnPaint()
 }
 
 // The system calls this to obtain the cursor to display while the user drags
-//  the minimized window.
+// the minimized window.
 HCURSOR CInterfaceSystemTestDlg::OnQueryDragIcon()
 {
 	return (HCURSOR) m_hIcon;

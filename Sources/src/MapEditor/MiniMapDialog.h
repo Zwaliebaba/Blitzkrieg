@@ -16,31 +16,31 @@
 #include "MiniMapTypes.h"
 #include "resource.h"
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CMiniMapDialog : public CDialog
 {
-///////////////////////////////////
-//автоматическиая генерация методов
+// ////////////////////////////////
+// automatic generation of methods
 	// Construction
 public:
 	CMiniMapDialog(CWnd* pParent = NULL);   // standard constructor
 
 	// Dialog Data
-	//{{AFX_DATA(CMiniMapDialog)
+	// {{AFX_DATA(CMiniMapDialog)
 	enum { IDD = IDD_MINIMAP };
 		// NOTE: the ClassWizard will add data members here
-	//}}AFX_DATA
+	// }}AFX_DATA
 	// Overrides
 	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CMiniMapDialog)
+	// {{AFX_VIRTUAL(CMiniMapDialog)
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	//}}AFX_VIRTUAL
+	// }}AFX_VIRTUAL
 
 	// Implementation
 protected:
 	// Generated message map functions
-	//{{AFX_MSG(CMiniMapDialog)
+	// {{AFX_MSG(CMiniMapDialog)
 	afx_msg void OnMinimapClose();
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg void OnSizing(UINT fwSide, LPRECT pRect);
@@ -50,7 +50,7 @@ protected:
 	virtual BOOL OnInitDialog();
 	afx_msg void OnPaint();
 	afx_msg void OnMove(int x, int y);
-	//}}AFX_MSG
+	// }}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnMinimapGame();
@@ -59,8 +59,8 @@ public:
 	void UpdateMinimap( bool bUpdateUnits );
 	void UpdateMinimapEditor( bool bUpdateUnits );
 
-///////////////////////////////////
-//специфика
+// ////////////////////////////////
+// specificity
 protected:
 	const static int vID[];
 	
@@ -87,11 +87,11 @@ public:
 	class CTemplateEditorFrame* m_frame;
 	bool m_isCreating;
 
-	// зовется из недр редактора
+	// called from the depths of the editor
 	void UpdateScreenFrame();
 	void UpdateControls();
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//{{AFX_INSERT_LOCATION}}
+
+// {{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
 #endif // !defined(AFX_MINIMAPDIALOG_H__05E80CC8_2205_405F_95B2_5E364B62161E__INCLUDED_)

@@ -23,7 +23,7 @@ public:
 	CTileSetCommonPropsItem() { nItemType = E_TILESET_COMMON_PROPS_ITEM; InitDefaultValues(); nImageIndex = 0; }
 	~CTileSetCommonPropsItem() {};
 
-	//Получение внутренних параметров
+	// Getting internal parameters
 	const char *GetTileSetName() { return values[0].value; }
 	
 	void SetTileSetName( const char *pszVal ) { values[0].value = pszVal; }
@@ -33,7 +33,7 @@ public:
 
 class CTileSetTerrainsItem : public CTreeItem
 {
-	SThumbItems m_thumbItems;			//эти items отображаются в AllDirThumbList
+	SThumbItems m_thumbItems;			// these items are displayed in AllDirThumbList
 	CImageList imageList;
 
 	OBJECT_NORMAL_METHODS( CTileSetTerrainsItem );
@@ -61,7 +61,7 @@ public:
 	CTileSetTerrainPropsItem() { bStaticElements = true; nItemType = E_TILESET_TERRAIN_PROPS_ITEM; InitDefaultValues(); nImageIndex = 5; }
 	~CTileSetTerrainPropsItem() {};
 
-	//Получение внутренних параметров
+	// Getting internal parameters
 	const char *GetTerrainName() { return values[0].value; }
 	int GetCrossetNumber() { return values[1].value; }
 	int GetMaskPriority() { return values[2].value; }
@@ -106,8 +106,8 @@ public:
 class CTileSetTilesItem : public CTreeItem
 {
 private:
-	SThumbItems m_thumbItems;			//эти items отображаются в SelectedThumbList
-	bool bLoaded;									//этот флаг для подкачки items только в момент когда пользователь выбирает папку c этим terrain или тыкает во frame
+	SThumbItems m_thumbItems;			// these items are displayed in SelectedThumbList
+	bool bLoaded;									// this flag is for swapping items only at the moment when the user selects a folder with this terrain or pokes into frame
 	
 	OBJECT_NORMAL_METHODS( CTileSetTilesItem );
 public:
@@ -119,7 +119,7 @@ public:
 	SThumbItems* GetThumbItems() { return &m_thumbItems; }
 	
 	virtual void InitDefaultValues();
-	virtual void InsertChildItems();					//Вызывается после создания всех компонентов для занесения их в дерево
+	virtual void InsertChildItems();					// Called after all components have been created to add them to the tree
 	virtual void MyLButtonClick();
 };
 
@@ -218,7 +218,7 @@ public:
 
 class CCrossetsItem : public CTreeItem
 {
-	SThumbItems m_thumbItems;			//эти items отображаются в AllDirThumbList
+	SThumbItems m_thumbItems;			// these items are displayed in AllDirThumbList
 	CImageList imageList;
 	bool bLoaded;
 	
@@ -237,7 +237,7 @@ public:
 	void SetCrossetsDirName( const char *pszVal ) { values[0].value = pszVal; }
 	
 	virtual void InitDefaultValues();
-	virtual void MyKeyDown( int nChar );		//insert new crosset
+	virtual void MyKeyDown( int nChar );		// insert new crosset
 	virtual void UpdateItemValue( int nItemId, const CVariant &value );
 	virtual void MyLButtonClick();
 	virtual void MyRButtonClick();
@@ -250,14 +250,14 @@ public:
 	CCrossetPropsItem() { bStaticElements = true; nItemType = E_CROSSET_PROPS_ITEM; InitDefaultValues(); nImageIndex = 2; }
 	~CCrossetPropsItem() {};
 	
-	//Получение внутренних параметров
+	// Getting internal parameters
 	const char *GetCrossetName() { return values[0].value; }
 	
 	void SetCrossetName( const char *pszVal ) { values[0].value = pszVal; }
 	
 	virtual void UpdateItemValue( int nItemId, const CVariant &value );
 	virtual void InitDefaultValues();
-	virtual void MyKeyDown( int nChar );			//delete this crosset
+	virtual void MyKeyDown( int nChar );			// delete this crosset
 	virtual void MyLButtonClick();
 	virtual void MyRButtonClick();
 };
@@ -265,8 +265,8 @@ public:
 class CCrossetTilesItem : public CTreeItem
 {
 private:
-	SThumbItems m_thumbItems;			//эти items отображаются в SelectedThumbList
-	bool bLoaded;									//этот флаг для подкачки items только в момент когда пользователь выбирает папку c этим crosset
+	SThumbItems m_thumbItems;			// these items are displayed in SelectedThumbList
+	bool bLoaded;									// this flag is for swapping items only when the user selects a folder with this crosset
 	
 	OBJECT_NORMAL_METHODS( CCrossetTilesItem );
 public:
@@ -277,7 +277,7 @@ public:
 	bool GetLoadedFlag() { return bLoaded; }
 	SThumbItems* GetThumbItems() { return &m_thumbItems; }
 
-	virtual void InsertChildItems();					//Вызывается после создания всех компонентов для занесения их в дерево
+	virtual void InsertChildItems();					// Called after all components have been created to add them to the tree
 	virtual void InitDefaultValues();
 	virtual void MyLButtonClick();
 };
@@ -301,4 +301,4 @@ public:
 	virtual int operator&( IDataTree &ss );
 };
 
-#endif		//__TILE_SET_TREE_ITEM_H__
+#endif		// __TILE_SET_TREE_ITEM_H__

@@ -14,23 +14,23 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 BEGIN_MESSAGE_MAP(CELKApp, CWinApp)
-	//{{AFX_MSG_MAP(CELKApp)
+	// {{AFX_MSG_MAP(CELKApp)
 	ON_COMMAND(ID_APP_ABOUT, OnAppAbout)
 	ON_COMMAND(ID_HELP_CONTENTS, OnHelpContents)
-	//}}AFX_MSG_MAP
+	// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 CELKApp::CELKApp()
 {
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 CELKApp theApp;
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 BOOL CELKApp::InitInstance()
 {
 	{
@@ -51,7 +51,7 @@ BOOL CELKApp::InitInstance()
 			return false;
 		}
 
-		//регистрируем IImageProcessor
+		// register IImageProcessor
 		HMODULE hImage = LoadLibrary( ( std::string( pBuffer ) + _T( "\\image.dll" ) ).c_str() );
 		if ( hImage )
 		{
@@ -77,12 +77,8 @@ BOOL CELKApp::InitInstance()
 	Enable3dControlsStatic();	// Call this when linking to MFC statically
 #endif
 
-/**
-#if defined( _DO_SEH ) && !defined( _DEBUG )
-	// set StructuredExceptionHandler 
-	SetCrashHandlerFilter( CrashHandlerFilter );
-#endif // defined( _DO_SEH ) && !defined( _DEBUG )
-/**/
+/* *
+ */
 
 	CString strRegistryPathName;
 	strRegistryPathName.LoadString( IDS_REGISTRY_PATH );
@@ -93,13 +89,13 @@ BOOL CELKApp::InitInstance()
 	{
 		return false;
 	}
-	//если введен ключ, включаем расширенную функциональность	
+	// if the key is entered, enable extended functionality
 	{
 		std::string szCommandLine( m_lpCmdLine );
 		NStr::ToLower( szCommandLine );
 		pFrame->bShortApperence = ( szCommandLine != std::string( _T( "-developer") ) );
 	}
-	//если проинсталлирована игра, включаем поддержку игры
+	// if the game is installed, enable game support
 	{
 		std::string szGameFolder;
 		CRegistrySection registrySection( HKEY_LOCAL_MACHINE, KEY_READ, CELK::GAME_REGISTRY_FOLDER );
@@ -138,20 +134,20 @@ BOOL CELKApp::InitInstance()
 	return true;
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CELKApp::OnAppAbout()
 {
 	CAboutDialog wndAboutDialog;
 	wndAboutDialog.DoModal();
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 int CELKApp::ExitInstance() 
 {
 	return CWinApp::ExitInstance();
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CELKApp::OnHelpContents() 
 {
 	if ( m_pMainWnd != 0 )
@@ -163,4 +159,4 @@ void CELKApp::OnHelpContents()
 		}
   }
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+

@@ -11,29 +11,29 @@ static char THIS_FILE[] = __FILE__;
 
 #include "..\misc\FileUtils.h"
 #include "..\RandomMapGen\MapInfo_Types.h"
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 const int CNewMapDialog::vID[] = 
 {
-	IDC_NEW_MAP_SIZE_X_LABEL,				//0
-	IDC_NEW_MAP_SIZE_Y_LABEL,				//1
-	IDC_NEW_MAP_SIZE_X_COMBO_BOX,		//2
-	IDC_NEW_MAP_SIZE_Y_COMBO_BOX,		//3
-	IDC_NEW_MAP_SQUARE_CHECK_BOX,		//4
-	IDC_NEW_MAP_NAME_LABEL,					//5
-	IDC_NEW_MAP_NAME_EDIT,					//6
-	IDC_NEW_MAP_NAME_BROWSE_BUTTON,	//7
-	IDC_NEW_MAP_SEASON_LABEL,				//8
-	IDC_NEW_MAP_SEASON_COMBO_BOX,		//9
-	IDOK,														//10
-	IDCANCEL,												//11
+	IDC_NEW_MAP_SIZE_X_LABEL,				// 0
+	IDC_NEW_MAP_SIZE_Y_LABEL,				// 1
+	IDC_NEW_MAP_SIZE_X_COMBO_BOX,		// 2
+	IDC_NEW_MAP_SIZE_Y_COMBO_BOX,		// 3
+	IDC_NEW_MAP_SQUARE_CHECK_BOX,		// 4
+	IDC_NEW_MAP_NAME_LABEL,					// 5
+	IDC_NEW_MAP_NAME_EDIT,					// 6
+	IDC_NEW_MAP_NAME_BROWSE_BUTTON,	// 7
+	IDC_NEW_MAP_SEASON_LABEL,				// 8
+	IDC_NEW_MAP_SEASON_COMBO_BOX,		// 9
+	IDOK,														// 10
+	IDCANCEL,												// 11
 };
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 CNewMapDialog::CNewMapDialog( CWnd* pParent )
 	: CResizeDialog( CNewMapDialog::IDD, pParent )
 {
-	//{{AFX_DATA_INIT(CNewMapDialog)
-	//}}AFX_DATA_INIT
+	// {{AFX_DATA_INIT(CNewMapDialog)
+	// }}AFX_DATA_INIT
 
 	SetControlStyle( IDC_NEW_MAP_SIZE_X_LABEL, ANCHORE_LEFT_TOP );
 	SetControlStyle( IDC_NEW_MAP_SIZE_Y_LABEL, ANCHORE_TOP | ANCHORE_HOR_CENTER );
@@ -56,30 +56,30 @@ CNewMapDialog::CNewMapDialog( CWnd* pParent )
 
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CNewMapDialog::DoDataExchange(CDataExchange* pDX)
 {
 	CResizeDialog::DoDataExchange( pDX );
-	//{{AFX_DATA_MAP(CNewMapDialog)
+	// {{AFX_DATA_MAP(CNewMapDialog)
 	DDX_Control(pDX, IDC_NEW_MAP_SIZE_X_COMBO_BOX, wndSizeXComboBox);
 	DDX_Control(pDX, IDC_NEW_MAP_SIZE_Y_COMBO_BOX, wndSizeYComboBox);
 	DDX_Control(pDX, IDC_NEW_MAP_NAME_EDIT, wndFileName);
 	DDX_Control(pDX, IDC_NEW_MAP_SEASON_COMBO_BOX, wndSeasonComboBox);
 	DDX_Control(pDX, IDC_NEW_MAP_MOD_COMBO_BOX, wndMODComboBox);
-	//}}AFX_DATA_MAP
+	// }}AFX_DATA_MAP
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 BEGIN_MESSAGE_MAP(CNewMapDialog, CResizeDialog)
-	//{{AFX_MSG_MAP(CNewMapDialog)
+	// {{AFX_MSG_MAP(CNewMapDialog)
 	ON_EN_CHANGE(IDC_NEW_MAP_NAME_EDIT, OnChangeNewMapNameEdit)
 	ON_BN_CLICKED(IDC_NEW_MAP_NAME_BROWSE_BUTTON, OnNewMapNameBrowseButton)
 	ON_BN_CLICKED(IDC_NEW_MAP_SQUARE_CHECK_BOX, OnNewMapSquareCheckBox)
 	ON_CBN_SELCHANGE(IDC_NEW_MAP_SIZE_X_COMBO_BOX, OnSelchangeNewMapSizeXComboBox)
-	//}}AFX_MSG_MAP
+	// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CNewMapDialog::GetAllMODs( std::vector<std::string> *pMODsList )
 {
 	if ( pMODsList )
@@ -94,7 +94,7 @@ void CNewMapDialog::GetAllMODs( std::vector<std::string> *pMODsList )
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 std::string CNewMapDialog::GetMODKey()
 { 
 	if ( ( resizeDialogOptions.szParameters[2].empty() ) || ( resizeDialogOptions.szParameters[2] == RMGC_NO_MOD_FOLDER ) )
@@ -104,7 +104,7 @@ std::string CNewMapDialog::GetMODKey()
 	return resizeDialogOptions.szParameters[2];
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CNewMapDialog::LoadControls()
 {
 	for ( int nSize = 1; nSize <= 32; ++nSize )
@@ -154,7 +154,7 @@ void CNewMapDialog::LoadControls()
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CNewMapDialog::SaveControls()
 {
 	int nStringNumber = wndSizeXComboBox.GetCurSel();
@@ -186,7 +186,7 @@ void CNewMapDialog::SaveControls()
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 BOOL CNewMapDialog::OnInitDialog() 
 {
 	CResizeDialog::OnInitDialog();
@@ -212,21 +212,21 @@ BOOL CNewMapDialog::OnInitDialog()
 	return TRUE;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CNewMapDialog::OnOK() 
 {
 	SaveControls();
 	CResizeDialog::OnOK();
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CNewMapDialog::OnCancel() 
 {
 	SaveControls();
 	CResizeDialog::OnCancel();
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CNewMapDialog::UpdateControls()
 {
 	CString strText;
@@ -242,13 +242,13 @@ void CNewMapDialog::UpdateControls()
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CNewMapDialog::OnChangeNewMapNameEdit() 
 {
 	UpdateControls();
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CNewMapDialog::OnNewMapNameBrowseButton() 
 {
 	std::string szInitialDir;
@@ -261,7 +261,7 @@ void CNewMapDialog::OnNewMapNameBrowseButton()
 	CFileDialog fileDialog( true, ".xml", "", OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, "All supported Files (*.bzm; *.xml)|*.bzm; *.xml|XML files (*.xml)|*.xml|BZM files (*.bzm)|*.bzm|All Files (*.*)|*.*||" );
 	fileDialog.m_ofn.lpstrFile = new char[0xFFFF];
 	fileDialog.m_ofn.lpstrFile[0] = 0;			
-	fileDialog.m_ofn.nMaxFile = 0xFFFF - 1; //на всякий пожарный
+	fileDialog.m_ofn.nMaxFile = 0xFFFF - 1; // just in case, fireman
 	fileDialog.m_ofn.lpstrInitialDir = szInitialDir.c_str();
 
 	if ( fileDialog.DoModal() == IDOK )
@@ -273,7 +273,7 @@ void CNewMapDialog::OnNewMapNameBrowseButton()
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CNewMapDialog::OnSelchangeNewMapSizeXComboBox() 
 {
 	int nStringNumber = wndSizeXComboBox.GetCurSel();
@@ -288,7 +288,7 @@ void CNewMapDialog::OnSelchangeNewMapSizeXComboBox()
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CNewMapDialog::OnNewMapSquareCheckBox() 
 {
 	if ( IsDlgButtonChecked( IDC_NEW_MAP_SQUARE_CHECK_BOX ) )
@@ -298,4 +298,4 @@ void CNewMapDialog::OnNewMapSquareCheckBox()
 	}
 	UpdateControls();
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+

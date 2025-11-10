@@ -1,13 +1,4 @@
-// TileSetFrm.h : interface of the CTileSetFrame class
-//
-/////////////////////////////////////////////////////////////////////////////
-
-#ifndef __TILESETFRM_H__
-#define __TILESETFRM_H__
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "ParentFrame.h"
 #include "TreeDockWnd.h"
@@ -52,10 +43,10 @@ public:
 
 // Overrides
 	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CTileSetFrame)
+	// {{AFX_VIRTUAL(CTileSetFrame)
 protected:
 	virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
-	//}}AFX_VIRTUAL
+	// }}AFX_VIRTUAL
 
 // Implementation
 private:
@@ -69,21 +60,21 @@ private:
 
 	bool bEditCrossets;
 
-	std::list<int> freeTerrainIndexes;			//для хранения незаполненных индексов terrain
-	std::list<int> freeCrossetIndexes;			//для хранения незаполненных индексов crosset
+	std::list<int> freeTerrainIndexes;			// to store unpopulated terrain indexes
+	std::list<int> freeCrossetIndexes;			// to store empty crosset indexes
 
 protected:
 	void ClickOnThumbList( int nID );
 	void DoubleClickOnThumbList( int nID );
 	void DeleteFrameInTree( int nID );
 
-	virtual void SpecificInit();														//для инициализации внутренних данных после загрузки проекта или создании нового
+	virtual void SpecificInit();														// to initialize internal data after loading a project or creating a new one
 	virtual void SpecificClearBeforeBatchMode();
 	virtual BOOL SpecificTranslateMessage( MSG *pMsg );
 
 	virtual bool ExportFrameData( IDataTree *pDT, const char *pszProjectName, const char *pszResultFileName, CTreeItem *pRootItem );
 
-	//загружает RPG stats
+	// loads RPG stats
 	virtual void LoadRPGStats( IDataTree *pDT, CTreeItem *pRootItem );
 
 	//
@@ -92,19 +83,19 @@ protected:
 	
 // Generated message map functions
 protected:
-	//{{AFX_MSG(CTileSetFrame)
+	// {{AFX_MSG(CTileSetFrame)
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnImportTerrains();
 	afx_msg void OnUpdateImportTerrains(CCmdUI* pCmdUI);
 	afx_msg void OnImportCrossets();
 	afx_msg void OnUpdateImportCrossets(CCmdUI* pCmdUI);
-	//}}AFX_MSG
+	// }}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
 
-/////////////////////////////////////////////////////////////////////////////
+// //
 
-//{{AFX_INSERT_LOCATION}}
+// {{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
 
-#endif		//__TILESETFRM_H__
+#endif		// __TILESETFRM_H__

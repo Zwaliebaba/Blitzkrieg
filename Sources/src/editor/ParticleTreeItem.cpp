@@ -66,14 +66,8 @@ void CParticleCommonPropsItem::InitDefaultValues()
 	prop.value = 1.0f;
 	defaultValues.push_back( prop );	
 	
-/*
-	prop.nId = 3;
-	prop.nDomenType = DT_DEC;
-	prop.szDefaultName = "Generate angle";
-	prop.szDisplayName = "Generate angle";
-	prop.value = 15000;
-	defaultValues.push_back( prop );
-*/
+/* prop.nId = 3;
+	 */
 
 	prop.nId = 4;
 	prop.nDomenType = DT_FLOAT;

@@ -5,7 +5,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #include "ResizeDialog.h"
 class CBridgeSetupDialog : public CResizeDialog
 {
@@ -13,19 +13,19 @@ public:
 	CBridgeSetupDialog( CWnd* pParent = NULL );
 	std::string GetBridgeName();
 
-	//{{AFX_DATA(CBridgeSetupDialog)
+	// {{AFX_DATA(CBridgeSetupDialog)
 	enum { IDD = IDD_BRIDGESETUP };
 	CListCtrl	bridgesList;
-	//}}AFX_DATA
+	// }}AFX_DATA
 
 
-	//{{AFX_VIRTUAL(CBridgeSetupDialog)
+	// {{AFX_VIRTUAL(CBridgeSetupDialog)
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);
-	//}}AFX_VIRTUAL
+	// }}AFX_VIRTUAL
 
 public:
-	//MODs support
+	// MODs support
 	void DeleteImageList();
 	void CreateImageList();
 
@@ -35,14 +35,14 @@ protected:
 
 	void CreateBridgesList();
 
-	//{{AFX_MSG(CBridgeSetupDialog)
+	// {{AFX_MSG(CBridgeSetupDialog)
 	afx_msg void OnSize( UINT nType, int cx, int cy );
 	virtual BOOL OnInitDialog();
 	afx_msg void OnDestroy();
-	//}}AFX_MSG
+	// }}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//{{AFX_INSERT_LOCATION}}
+
+// {{AFX_INSERT_LOCATION}}
 #endif // !defined(__Tabs__VO_Bridges_Dialog__)

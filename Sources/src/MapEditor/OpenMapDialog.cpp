@@ -12,24 +12,24 @@ static char THIS_FILE[] = __FILE__;
 
 #include "..\misc\FileUtils.h"
 #include "..\RandomMapGen\MapInfo_Types.h"
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 const int COpenMapDialog::vID[] = 
 {
-	IDC_OPEN_MAP_NAME_LABEL,					//0
-	IDC_OPEN_MAP_NAME_COMBO_BOX,			//1
-	IDC_OPEN_MAP_NAME_BROWSE_BUTTON,	//2
-	IDC_OPEN_MAP_MOD_LABEL,						//3
-	IDC_OPEN_MAP_MOD_COMBO_BOX,				//4
-	IDOK,															//5
-	IDCANCEL,													//6
+	IDC_OPEN_MAP_NAME_LABEL,					// 0
+	IDC_OPEN_MAP_NAME_COMBO_BOX,			// 1
+	IDC_OPEN_MAP_NAME_BROWSE_BUTTON,	// 2
+	IDC_OPEN_MAP_MOD_LABEL,						// 3
+	IDC_OPEN_MAP_MOD_COMBO_BOX,				// 4
+	IDOK,															// 5
+	IDCANCEL,													// 6
 };
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 COpenMapDialog::COpenMapDialog( CWnd* pParent )
 	: CResizeDialog( COpenMapDialog::IDD, pParent )
 {
-	//{{AFX_DATA_INIT(COpenMapDialog)
-	//}}AFX_DATA_INIT
+	// {{AFX_DATA_INIT(COpenMapDialog)
+	// }}AFX_DATA_INIT
 
 
 	SetControlStyle( IDC_OPEN_MAP_NAME_LABEL, ANCHORE_LEFT_TOP );
@@ -44,26 +44,26 @@ COpenMapDialog::COpenMapDialog( CWnd* pParent )
 
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void COpenMapDialog::DoDataExchange(CDataExchange* pDX)
 {
 	CResizeDialog::DoDataExchange( pDX );
-	//{{AFX_DATA_MAP(COpenMapDialog)
+	// {{AFX_DATA_MAP(COpenMapDialog)
 	DDX_Control(pDX, IDC_OPEN_MAP_NAME_COMBO_BOX, wndFileName);
 	DDX_Control(pDX, IDC_OPEN_MAP_MOD_COMBO_BOX, wndMODComboBox);
-	//}}AFX_DATA_MAP
+	// }}AFX_DATA_MAP
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 BEGIN_MESSAGE_MAP(COpenMapDialog, CResizeDialog)
-	//{{AFX_MSG_MAP(COpenMapDialog)
+	// {{AFX_MSG_MAP(COpenMapDialog)
 	ON_BN_CLICKED(IDC_OPEN_MAP_NAME_BROWSE_BUTTON, OnOpenMapNameBrowseButton)
 	ON_CBN_EDITCHANGE(IDC_OPEN_MAP_NAME_COMBO_BOX, OnEditChangeOpenMapNameComboBox)
 	ON_CBN_SELCHANGE(IDC_OPEN_MAP_NAME_COMBO_BOX, OnSelChangeOpenMapNameComboBox)
-	//}}AFX_MSG_MAP
+	// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void COpenMapDialog::GetAllMODs( std::vector<std::string> *pMODsList )
 {
 	if ( pMODsList )
@@ -78,7 +78,7 @@ void COpenMapDialog::GetAllMODs( std::vector<std::string> *pMODsList )
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 std::string COpenMapDialog::GetMODKey()
 { 
 	if ( ( resizeDialogOptions.szParameters[1].empty() ) || ( resizeDialogOptions.szParameters[1] == RMGC_NO_MOD_FOLDER ) )
@@ -88,7 +88,7 @@ std::string COpenMapDialog::GetMODKey()
 	return resizeDialogOptions.szParameters[1];
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void COpenMapDialog::LoadControls()
 {
 	const std::string szRivers3DName( CTemplateEditorFrame::RIVERS_3D_MAP_NAME );
@@ -129,7 +129,7 @@ void COpenMapDialog::LoadControls()
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void COpenMapDialog::SaveControls()
 {
 	CString strString;
@@ -144,7 +144,7 @@ void COpenMapDialog::SaveControls()
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 BOOL COpenMapDialog::OnInitDialog() 
 {
 	CResizeDialog::OnInitDialog();
@@ -161,21 +161,21 @@ BOOL COpenMapDialog::OnInitDialog()
 	return TRUE;
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void COpenMapDialog::OnOK() 
 {
 	SaveControls();
 	CResizeDialog::OnOK();
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void COpenMapDialog::OnCancel() 
 {
 	SaveControls();
 	CResizeDialog::OnCancel();
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void COpenMapDialog::UpdateControls()
 {
 	CString strText;
@@ -187,7 +187,7 @@ void COpenMapDialog::UpdateControls()
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void COpenMapDialog::OnOpenMapNameBrowseButton() 
 {
 	std::string szInitialDir;
@@ -200,7 +200,7 @@ void COpenMapDialog::OnOpenMapNameBrowseButton()
 	CFileDialog fileDialog( true, ".xml", "", OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, "All supported Files (*.bzm; *.xml)|*.bzm; *.xml|XML files (*.xml)|*.xml|BZM files (*.bzm)|*.bzm|All Files (*.*)|*.*||" );
 	fileDialog.m_ofn.lpstrFile = new char[0xFFFF];
 	fileDialog.m_ofn.lpstrFile[0] = 0;			
-	fileDialog.m_ofn.nMaxFile = 0xFFFF - 1; //на всякий пожарный
+	fileDialog.m_ofn.nMaxFile = 0xFFFF - 1; // just in case, fireman
 	fileDialog.m_ofn.lpstrInitialDir = szInitialDir.c_str();
 
 	if ( fileDialog.DoModal() == IDOK )
@@ -211,13 +211,13 @@ void COpenMapDialog::OnOpenMapNameBrowseButton()
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void COpenMapDialog::OnEditChangeOpenMapNameComboBox() 
 {
 	UpdateControls();
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void COpenMapDialog::OnSelChangeOpenMapNameComboBox() 
 {
 	int nStringNumber = wndFileName.GetCurSel();
@@ -230,4 +230,4 @@ void COpenMapDialog::OnSelChangeOpenMapNameComboBox()
 
 	UpdateControls();
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+

@@ -1,8 +1,8 @@
 #ifndef __MODFILESYSTEM_H__
 #define __MODFILESYSTEM_H__
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #pragma ONCE
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CModFileSystemEnumerator : public IStorageEnumerator
 {
 	OBJECT_MINIMAL_METHODS( CModFileSystemEnumerator );
@@ -19,7 +19,7 @@ public:
 	virtual bool STDCALL Next();
 	virtual const SStorageElementStats* STDCALL GetStats() const { return &stats; }
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CModFileSystem : public IDataStorage
 {
 	OBJECT_MINIMAL_METHODS( CModFileSystem );
@@ -30,26 +30,26 @@ class CModFileSystem : public IDataStorage
 	DWORD dwStorageAccessMode;						// access mode - READ-ONLY for this storage
 public:
 	CModFileSystem( const char *pszName, DWORD dwAccessMode );
-	// проверить, есть ли такой поток
+	// check if such thread exists
 	virtual const bool STDCALL IsStreamExist( const char *pszName );
-	// создать и открыть поток с указанным именем и правами доступа
+	// create and open a stream with the specified name and access rights
 	virtual IDataStream* STDCALL CreateStream( const char *pszName, DWORD dwAccessMode );
-	// открыть существующий поток с указанным именем и правами доступа
+	// open an existing stream with the specified name and permissions
 	virtual IDataStream* STDCALL OpenStream( const char *pszName, DWORD dwAccessMode );
-	// получить описание stream'а
+	// get stream description
 	virtual bool STDCALL GetStreamStats( const char *pszName, SStorageElementStats *pStats );
-	// убить элемент хранилища
+	// kill storage element
 	virtual bool STDCALL DestroyElement( const char *pszName );
-	// переименовать элемент
+	// rename element
 	virtual bool STDCALL RenameElement( const char *pszOldName, const char *pszNewName );
-	// перечисление элементов
+	// enumeration of elements
 	virtual IStorageEnumerator* STDCALL CreateEnumerator();
-	// получить имя этого storage
+	// get the name of this storage
 	virtual const char* STDCALL GetName() const;
-	// добавить новый MOD
+	// add new MOD
 	virtual bool STDCALL AddStorage( IDataStorage *pStorage, const char *pszName );
-	// убрать MOD
+	// remove MOD
 	virtual bool STDCALL RemoveStorage( const char *pszName );
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // __MODFILESYSTEM_H__

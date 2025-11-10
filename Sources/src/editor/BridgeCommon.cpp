@@ -18,8 +18,8 @@
 static const int MIN_OPACITY = 120;
 static const int MAX_OPACITY = 255;
 
-static const int LINE_LENGTH = 100;			//длина линии, используемой для задания конуса стрельбы
-static const int EDGE_LENGTH = 200;			//длина ребра конуса
+static const int LINE_LENGTH = 100;			// length of line used to define the cone of fire
+static const int EDGE_LENGTH = 200;			// cone edge length
 static const int SHOOT_PICTURE_SIZE = 8;
 
 bool CBridgeFrame::IsTileLocked( const POINT &pt )
@@ -42,11 +42,11 @@ bool CBridgeFrame::ComputeMaxAndMinPositions( const CVec3 &vPos3 )
 	CVec2 vPos2;
 	pSG->GetPos2( &vPos2, vPos3 );
 	
-	//найдем минимальную и максимальную координаты движка, для задания горизонтального положения точки стрельбы
+	// find the minimum and maximum coordinates of the engine to set the horizontal position of the shooting point
 	if ( pActiveSpansItem->lockedTiles.empty() )
 		return false;
 	
-	//Сперва найдем минимальные и максимальные координаты тайлов в pActiveSpansItem->lockedTiles
+	// First, let's find the minimum and maximum coordinates of the tiles in pActiveSpansItem->lockedTiles
 	int nTileMinX = pActiveSpansItem->lockedTiles.front().nTileX, nTileMaxX = pActiveSpansItem->lockedTiles.front().nTileX;
 	int nTileMinY = pActiveSpansItem->lockedTiles.front().nTileY, nTileMaxY = pActiveSpansItem->lockedTiles.front().nTileY;
 	CListOfTiles::iterator it=pActiveSpansItem->lockedTiles.begin();
@@ -67,20 +67,13 @@ bool CBridgeFrame::ComputeMaxAndMinPositions( const CVec3 &vPos3 )
 	float x1, x2, y1, y2, yMin, yMax, y;
 	bool bRes = 0;
 	bool bFound = false;
-/*
-       1
-      /\
-    /    \ 4
-2 /      /
-  \    /
-    \/
-    3
-*/
+/* 1
+       */
 
-	//линия 21 это OY
-	//линия 23 это OX
+	// line 21 is OY
+	// line 23 is OX
 
-	// найдем пересечение с линией 21
+	// find the intersection with line 21
 	CGridFrame::GetGameTileCoordinates( nTileMinX, nTileMinY, fx1, fy1, fx2, fy2, fx3, fy3, fx4, fy4 );
 	x1 = fx2;
 	y1 = fy2;
@@ -97,7 +90,7 @@ bool CBridgeFrame::ComputeMaxAndMinPositions( const CVec3 &vPos3 )
 	}
 	else
 	{
-		// найдем пересечение с линией 14
+		// find the intersection with line 14
 		x1 = x2;
 		y1 = y2;
 		
@@ -113,18 +106,18 @@ bool CBridgeFrame::ComputeMaxAndMinPositions( const CVec3 &vPos3 )
 		}
 		else
 		{
-//			AfxMessageBox( "Error: The shoot point should be inside horizontal locked tile position, it need be deleted" );
-//			pTreeDockBar->SetFocus();
+// AfxMessageBox( "Error: The shoot point should be inside horizontal locked tile position, it needs to be deleted" );
+// pTreeDockBar->SetFocus();
 		}
 	}
 
 	if ( !bFound )
 	{
-		//Значит точка нигде не пересекает залоченные тайлы
+		// This means that the point does not intersect the locked tiles anywhere
 		return false;
 	}
 
-	// найдем пересечение с линией 23
+	// find the intersection with line 23
 	CGridFrame::GetGameTileCoordinates( nTileMinX, nTileMinY, fx1, fy1, fx2, fy2, fx3, fy3, fx4, fy4 );
 	x1 = fx2;
 	y1 = fy2;
@@ -138,7 +131,7 @@ bool CBridgeFrame::ComputeMaxAndMinPositions( const CVec3 &vPos3 )
 		yMax = y;
 	else
 	{
-		// найдем пересечение с линией 34
+		// find the intersection with line 34
 		x1 = x2;
 		y1 = y2;
 		

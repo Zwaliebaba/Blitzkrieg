@@ -1,85 +1,90 @@
 #ifndef __UNITS_SEGMENTS_H__
 #define __UNITS_SEGMENTS_H__
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma ONCE
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#pragma once
+
 class CCommonUnit;
 class CAIUnit;
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CFreezeSegments
 {
-	class CCommonUnit *pUnit;
+  class CCommonUnit *pUnit;
+
 public:
-	typedef CCommonUnit* TObjType;
+  using TObjType = CCommonUnit *;
 
-	CFreezeSegments() : pUnit( 0 ) { }
+  CFreezeSegments() : pUnit(nullptr) {}
 
-	bool ShouldBeUnregistered() const { return false; }
+  bool ShouldBeUnregistered() const { return false; }
 
-	void SetSegmentObject( CCommonUnit *pUnit );
-	bool Check();
-	const NTimer::STime ProcessSegment();
+  void SetSegmentObject(CCommonUnit *pUnit);
+  bool Check();
+  const NTimer::STime ProcessSegment();
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CStateSegments
 {
-	class CCommonUnit *pUnit;
+  class CCommonUnit *pUnit;
 
-	bool bCheck;
-	bool bIsValid;
+  bool bCheck;
+  bool bIsValid;
+
 public:
-	typedef CCommonUnit* TObjType;
+  using TObjType = CCommonUnit *;
 
-	CStateSegments() : pUnit( 0 ), bCheck( false ) { }
+  CStateSegments() : pUnit(nullptr), bCheck(false) {}
 
-	bool ShouldBeUnregistered() const;
+  bool ShouldBeUnregistered() const;
 
-	void SetSegmentObject( CCommonUnit *pUnit );
-	bool Check();
-	const NTimer::STime ProcessSegment();
+  void SetSegmentObject(CCommonUnit *pUnit);
+  bool Check();
+  const NTimer::STime ProcessSegment();
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CFirstPathSegments
 {
-	class CAIUnit *pUnit;
+  class CAIUnit *pUnit;
+
 public:
-	typedef CAIUnit* TObjType;
+  using TObjType = CAIUnit *;
 
-	CFirstPathSegments() : pUnit( 0 ) { }
+  CFirstPathSegments() : pUnit(nullptr) {}
 
-	bool ShouldBeUnregistered() const { return false; }
+  bool ShouldBeUnregistered() const { return false; }
 
-	void SetSegmentObject( CAIUnit *pUnit );
-	bool Check();
-	const NTimer::STime ProcessSegment();
+  void SetSegmentObject(CAIUnit *pUnit);
+  bool Check();
+  const NTimer::STime ProcessSegment();
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CSecondPathSegments
 {
-	class CAIUnit *pUnit;
+  class CAIUnit *pUnit;
+
 public:
-	typedef CAIUnit* TObjType;
+  using TObjType = CAIUnit *;
 
-	CSecondPathSegments() : pUnit( 0 ) { }
+  CSecondPathSegments() : pUnit(nullptr) {}
 
-	bool ShouldBeUnregistered() const { return false; }
+  bool ShouldBeUnregistered() const { return false; }
 
-	void SetSegmentObject( CAIUnit *pUnit );
-	bool Check();
-	const NTimer::STime ProcessSegment();
+  void SetSegmentObject(CAIUnit *pUnit);
+  bool Check();
+  const NTimer::STime ProcessSegment();
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CStayTimeSegments
 {
-	class CAIUnit *pUnit;
+  class CAIUnit *pUnit;
+
 public:
-	typedef CAIUnit* TObjType;
+  using TObjType = CAIUnit *;
 
-	CStayTimeSegments() : pUnit( 0 ) { }
+  CStayTimeSegments() : pUnit(nullptr) {}
 
-	void SetSegmentObject( CAIUnit *pUnit );
-	bool Check();
-	void ProcessSegment();
+  void SetSegmentObject(CAIUnit *pUnit);
+  bool Check();
+  void ProcessSegment();
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // __UNITS_SEGMENTS_H__

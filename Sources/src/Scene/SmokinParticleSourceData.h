@@ -1,48 +1,49 @@
 #ifndef __SMOKIN_PARTICLESOURCEDATA_H__
 #define __SMIKIN_PARTICLESOURCEDATA_H__
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma ONCE
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#pragma once
+
 #include "Track.h"
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-struct SSmokinParticleSourceData : public CTRefCount<ISharedResource>
+
+struct SSmokinParticleSourceData : CTRefCount<ISharedResource>
 {
-	OBJECT_SERVICE_METHODS( SSmokinParticleSourceData );
-	SHARED_RESOURCE_METHODS( nRefData, "ComplexParticleSource.Data" );
+  OBJECT_SERVICE_METHODS(SSmokinParticleSourceData);
+  SHARED_RESOURCE_METHODS(nRefData, "ComplexParticleSource.Data");
+
 public:
-	SSmokinParticleSourceData();
+  SSmokinParticleSourceData();
 
-	bool bComplexParticleSource;					//тип источника, если true, complex particle source
-	// параметры генератора
-	int nLifeTime;												// время жизни всего источника
-	float fGravity;												// параметр гравитации (никакого отношения к физике не имеет)
-	CVec3 vWind;                          // ветер
-	CVec3 vDirection;                     // направление источника
-	CTrack trackGenerateArea;							// размер области из которой вылетают партиклы 
-	CTrack trackDensity;									// к-во партиклов рожденных в ед. времени 
-	CTrack trackBeginSpeed;								// начальная скорость частицы при  вылете 
-	CTrack trackBeginSpeedRandomizer;     // ее рандомизатор
-	CTrack trackBeginAngleRandomizer;     // рандомизатор угла вылета
-	// параметры одной частицы
-	CTrack trackSpeed;                    // коэфф. скорости
-	CTrack trackSpeedRnd;                 // рандомизатор коэфф. скорости
-	CTrack trackWeight;										// масса партикла (никакого отношения к физической массе не имеет)
-	int nAreaType;                        // тип области для генерации партиклов
-	float fRadialWind;                    // сила радиального ветра
-	std::string szParticleEffectName;     // название разбрасываемого эффекта
-	CTrack trackIntegralMass;             // первообразная от g*m(t), умноженная на коэффициент скорости (без его рандома)
-	float fDensityCoeff;                  // коэффициент на плотность, берется из сеттингов
-	int nUpdateStep;                      // количество миллисекунд между update'ами
-	//
+  bool bComplexParticleSource;// source type, if true, complex particle source
+  // generator parameters
+  int nLifeTime;// lifetime of the entire source
+  float fGravity;// gravity parameter (has nothing to do with physics)
+  CVec3 vWind;// wind
+  CVec3 vDirection;// source direction
+  CTrack trackGenerateArea;// size of the area from which particles fly out
+  CTrack trackDensity;// number of particles born per unit. 
+  CTrack trackBeginSpeed;// initial velocity of the particle upon departure
+  CTrack trackBeginSpeedRandomizer;// her randomizer
+  CTrack trackBeginAngleRandomizer;// Departure angle randomizer
+  // parameters of one particle
+  CTrack trackSpeed;// coefficient 
+  CTrack trackSpeedRnd;// coefficient randomizer 
+  CTrack trackWeight;// particle mass (has nothing to do with physical mass)
+  int nAreaType;// type of area for particle generation
+  float fRadialWind;// radial wind force
+  std::string szParticleEffectName;// name of the scatter effect
+  CTrack trackIntegralMass;// antiderivative of g*m(t), multiplied by the speed coefficient (without its randomness)
+  float fDensityCoeff;// coefficient for density, taken from the setting
+  int nUpdateStep;// number of milliseconds between updates
+  //
 
-	virtual void STDCALL SwapData( ISharedResource *pResource );
-	// internal container clearing
-	virtual void STDCALL ClearInternalContainer() {  }
-	virtual bool STDCALL Load( const bool bPreLoad = false );
-	//
-	virtual int STDCALL operator&( IStructureSaver &ss );
-	virtual int STDCALL operator&( IDataTree &ss );
-	virtual void STDCALL InitIntegrals();
+  void STDCALL SwapData(ISharedResource *pResource) override;
+  // internal container clearing
+  void STDCALL ClearInternalContainer() override {}
+  bool STDCALL Load(bool bPreLoad = false) override;
+  //
+  int STDCALL operator&(IStructureSaver &ss) override;
+  virtual int STDCALL operator&(IDataTree &ss);
+  virtual void STDCALL InitIntegrals();
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#endif 
+
+#endif

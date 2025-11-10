@@ -5,4 +5,4 @@
 #include "CManuver.h"
 class CManuverBovevoyRazvorot : public CManuver {
 };
-#endif //CMANUVERBOVEVOYRAZVOROT_H
+#endif // CMANUVERBOVEVOYRAZVOROT_H

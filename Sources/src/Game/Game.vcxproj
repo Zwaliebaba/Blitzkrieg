@@ -167,7 +167,8 @@ call s:\soft\copydll.bat $(SolutionDir) Release</Command>
     <ClCompile>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <InlineFunctionExpansion>Default</InlineFunctionExpansion>
-      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <FunctionLevelLinking>
+      </FunctionLevelLinking>
       <Optimization>Disabled</Optimization>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <WarningLevel>Level3</WarningLevel>
@@ -184,8 +185,8 @@ call s:\soft\copydll.bat $(SolutionDir) Release</Command>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
     </ClCompile>
     <PostBuildEvent>
-      <Command>copy $(OutDir)*.exe c:\a7\*.*
-s:\soft\copydll.bat $(SolutionDir) Debug</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
     <Midl>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -387,7 +388,6 @@ call s:\soft\copydll.bat $(SolutionDir) BetaRelease</Command>
     <ClInclude Include="resource.h" />
     <ClInclude Include="Specific.h" />
     <ClInclude Include="StdAfx.h" />
-    <ClInclude Include="stl_user_config.h" />
     <ClInclude Include="SysKeys.h" />
     <ClInclude Include="WinFrame.h" />
   </ItemGroup>
@@ -428,10 +428,6 @@ call s:\soft\copydll.bat $(SolutionDir) BetaRelease</Command>
     </ProjectReference>
     <ProjectReference Include="..\Net\Net.vcxproj">
       <Project>{6f016230-2433-4be3-978f-503c02dab2de}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="..\RandomMapGen\RandomMapGen.vcxproj">
-      <Project>{5ede0822-e0b5-488c-93a0-967870b24b42}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
     <ProjectReference Include="..\StreamIO\StreamIO.vcxproj">

@@ -25,7 +25,7 @@ void CSpriteTreeRootItem::InitDefaultValues()
 void CSpriteTreeRootItem::ComposeAnimations( const char *pszProjectFileName, const char *pszResultingDir, bool bSetCycledFlag )
 {
 	if ( GetChildsCount() == 0 )
-		return;			//пусто
+		return;			// empty
 
 	CSpritesItem *pSpritesItem = static_cast<CSpritesItem *>( GetChildItem( E_SPRITES_ITEM ) );
 	CTreeItemList::const_iterator spriteIt;
@@ -34,7 +34,7 @@ void CSpriteTreeRootItem::ComposeAnimations( const char *pszProjectFileName, con
 	CVectorOfStrings fileNameVector;
 	CVectorOfStrings invalidNameVector;
 
-	//всего одна анимация
+	// just one animation
 	vector<SAnimationDesc> animDescVector( 1 );
 	SAnimationDesc &animDesc = animDescVector[0];
 	if ( bSetCycledFlag )
@@ -47,7 +47,7 @@ void CSpriteTreeRootItem::ComposeAnimations( const char *pszProjectFileName, con
 	animDesc.ptFrameShift = pSpritesItem->GetPosition();
 	animDesc.szName = "effect";
 
-	//Заполняем вектор directions
+	// Filling the directions vector
 	fileNameVector.resize( nLastSprite );
 	animDesc.dirs.resize( 1 );
 
@@ -98,7 +98,7 @@ void CSpriteTreeRootItem::ComposeAnimations( const char *pszProjectFileName, con
 		AfxMessageBox( szErrorStr );
 	}
 
-	//если вообще ничего нету, то выходим
+	// if there is nothing at all, then we leave
 	if ( k == 0 )
 	{
 		AfxMessageBox( "Error: no valid animations" );
@@ -114,7 +114,7 @@ void CSpriteTreeRootItem::ComposeAnimations( const char *pszProjectFileName, con
 		return;
 	}
 
-	//Пока сохраняю только 1.tga, 1.san файлы
+	// For now I only save 1.tga, 1.san files
 	CPtr<IDataStorage> pSaveStorage = CreateStorage( pszResultingDir, STREAM_ACCESS_WRITE, STORAGE_TYPE_FILE );
 	std::string szTemp = pszResultingDir;
 	szTemp += "1";
@@ -134,12 +134,12 @@ FILETIME CSpriteTreeRootItem::FindMaximalSourceTime( const char *pszProjectFileN
 	zero.dwHighDateTime = 0;
 	zero.dwLowDateTime = 0;
 	if ( GetChildsCount() == 0 )
-		return zero;			//пусто
+		return zero;			// empty
 
 	CSpritesItem *pSpritesItem = static_cast<CSpritesItem *>( GetChildItem( E_SPRITES_ITEM ) );
 	CVectorOfStrings fileNameVector;
 
-	//всего одна анимация
+	// just one animation
 	string szDirName;
 	szDirName = pSpritesItem->GetDirName();
 	if ( IsRelatedPath( szDirName.c_str() ) )
@@ -157,11 +157,11 @@ FILETIME CSpriteTreeRootItem::FindMaximalSourceTime( const char *pszProjectFileN
 			fileNameVector.push_back( szTempFileName );
 	}
 
-	//если вообще ничего нету, то выходим
+	// if there is nothing at all, then we leave
 	if ( fileNameVector.empty() )
 		return zero;
 	
-	//Проходим по всем файлам и находим максимальное время изменения
+	// We go through all the files and find the maximum modification time
 	FILETIME nMaxTime;
 	nMaxTime.dwHighDateTime = 0;
 	nMaxTime.dwLowDateTime = 0;
@@ -182,16 +182,10 @@ void CSpritePropsItem::InitDefaultValues()
 
 void CSpritePropsItem::MyLButtonClick()
 {
-/*
-	//В ThumbList отображаю Animations соответствующие этой папке
-	CTreeItem *pPapa = GetParentTreeItem();
-	NI_ASSERT( pPapa->GetItemType() == E_UNIT_ANIMATION_PROPS_ITEM );
-	
-	CUnitAnimationPropsItem *pAnimProps = (CUnitAnimationPropsItem *) pPapa;
-	g_frameManager.GetAnimationsFrame()->SetActiveAnimItem( pAnimProps );
-*/
+/* //In ThumbList I display Animations corresponding to this folder
+	 */
 
-	//В SelectedThumbList items выделяю item соответствующий this
+	// In SelectedThumbList items I select the item corresponding to this
 	CSpriteFrame *pFrame = static_cast<CSpriteFrame *> ( g_frameManager.GetFrame( CFrameManager::E_SPRITE_FRAME ) );
 	pFrame->SelectItemInSelectedThumbList( (long) this );
 }
@@ -201,17 +195,9 @@ void CSpritePropsItem::MyKeyDown( int nChar )
 	switch ( nChar )
 	{
 		case VK_DELETE:
-/*
-			//Смотрим какой frame будет следующим выделенным в дереве и выделяем его в SelectedThumbList
-			HTREEITEM hNextSibling = pTreeCtrl->GetNextItem( hItem, TVGN_NEXT );
-			if ( hNextSibling )
-			{
-				CTreeItem *pNextSelItem = (CTreeItem *) pTreeCtrl->GetItemData( hNextSibling );
-				if ( pNextSelItem->GetItemType() == E_UNIT_FRAME_PROPS_ITEM )
-					g_frameManager.GetFrame( CFrameManager::E_SPRITE_FRAME )->SelectItemInSelectedThumbList( (DWORD) pNextSelItem );
-			}
-*/
-			//Убиваем этот frame
+/* //Look at which frame will be the next selected one in the tree and select it in SelectedThumbList
+			 */
+			// Let's kill this frame
 			CSpriteFrame *pFrame = static_cast<CSpriteFrame *> ( g_frameManager.GetFrame( CFrameManager::E_SPRITE_FRAME ) );
 			pFrame->DeleteFrameInSelectedList( (DWORD) this );
 			DeleteMeInParentTreeItem();
@@ -280,7 +266,7 @@ bool CSpritesItem::CopyItemTo( CTreeItem *pToItem )
 	if ( !CTreeItem::CopyItemTo( pTo ) )
 		return false;
 
-	//Теперь копируем список CSpritePropsItem
+	// Now copy the CSpritePropsItem list
 	pTo->RemoveAllChilds();
 	for ( CTreeItemList::iterator it=treeItemList.begin(); it!=treeItemList.end(); ++it )
 	{
@@ -311,20 +297,13 @@ void CSpritesItem::UpdateItemValue( int nItemId, const CVariant &value )
 	
 	if ( nItemId == 1 )
 	{
-		//Изменилось значение директории, загружаем все картинки из этой диры в AllThumbList
-/*
-		//Проверяем, что этот TreeItem выделен в дереве, иначе делаю его выделенным
-		HTREEITEM hSelected = pTreeCtrl->GetSelectedItem();
-		if ( hSelected != hItem )
-		{
-			SelectMeInTheTree();
-			g_frameManager.GetFrame( CFrameManager::E_SPRITE_FRAME )->SetActiveDirTreeItem( this );
-		}
-*/
+		// The value of the directory has changed, load all the pictures from this directory into AllThumbList
+/* //Check that this TreeItem is selected in the tree, otherwise make it selected
+		 */
 
 		if ( !IsRelatedPath( value ) )
 		{
-			//Тут вычисляется относительный путь, относительно файла с проектом
+			// Here the relative path is calculated relative to the project file
 			string szProjectName = g_frameManager.GetFrame( CFrameManager::E_SPRITE_FRAME )->GetProjectFileName();
 			string szValue = value;
 			string szRelatedPath;
@@ -358,5 +337,5 @@ void CSpritesItem::UpdateItemValue( int nItemId, const CVariant &value )
 
 void CSpritesItem::MyLButtonClick()
 {
-//	g_frameManager.GetFrame( CFrameManager::E_SPRITE_FRAME )->SetActiveSpritesItem( this );
+// g_frameManager.GetFrame( CFrameManager::E_SPRITE_FRAME )->SetActiveSpritesItem( this );
 }

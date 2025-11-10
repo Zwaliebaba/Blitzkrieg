@@ -268,7 +268,8 @@ call s:\soft\copydll.bat $(SolutionDir) BetaRelease</Command>
     <ClCompile>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <InlineFunctionExpansion>Default</InlineFunctionExpansion>
-      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <FunctionLevelLinking>
+      </FunctionLevelLinking>
       <Optimization>Disabled</Optimization>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <WarningLevel>Level3</WarningLevel>
@@ -287,8 +288,8 @@ call s:\soft\copydll.bat $(SolutionDir) BetaRelease</Command>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
     </ClCompile>
     <PostBuildEvent>
-      <Command>copy $(OutDir)*.exe c:\a7\*.*
-call s:\soft\copydll.bat $(SolutionDir) Debug</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
     <Midl>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -1401,7 +1402,6 @@ call s:\soft\copydll.bat $(SolutionDir) Release</Command>
     <ClInclude Include="SquadTreeItem.h" />
     <ClInclude Include="SquadView.h" />
     <ClInclude Include="StdAfx.h" />
-    <ClInclude Include="stl_user_config.h" />
     <ClInclude Include="TemplateTree.h" />
     <ClInclude Include="TemplateTreeDock.h" />
     <ClInclude Include="ThumbList.h" />

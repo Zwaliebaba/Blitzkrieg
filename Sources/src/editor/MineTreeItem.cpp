@@ -38,16 +38,8 @@ void CMineCommonPropsItem::InitDefaultValues()
 	prop.value = 10;
 	defaultValues.push_back( prop );
 
-/*
-	prop.nId = 3;
-	prop.nDomenType = DT_BROWSE;
-	prop.szDefaultName = "Flag picture";
-	prop.szDisplayName = "Flag picture";
-	prop.value = "";
-	prop.szStrings.push_back( "" );
-	prop.szStrings.push_back( szTGAFilter );
-	defaultValues.push_back( prop );
-*/
+/* prop.nId = 3;
+	 */
 
 	values = defaultValues;
 }

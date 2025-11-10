@@ -1,247 +1,249 @@
 #ifndef __TRAIN_PATH_UNIT_H__
 #define __TRAIN_PATH_UNIT_H__
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma ONCE
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#pragma once
+
 #include "PathUnit.h"
 #include "BasePathUnit.h"
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CTrainSmoothPath;
 class CEdgePoint;
 class CCarriagePathUnit;
 interface IEdge;
 interface IStaticPath;
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CTrainPathUnit : public IRefCount, public IBasePathUnit
 {
-	OBJECT_COMPLETE_METHODS( CTrainPathUnit );
-	DECLARE_SERIALIZE;
+  OBJECT_COMPLETE_METHODS(CTrainPathUnit);
+  DECLARE_SERIALIZE;
 
-	std::vector< CPtr<CCarriagePathUnit> > carriages;
-	std::vector< std::list<int> > nodesInside;
-	std::vector< std::list<int> > intermNodes;
+  std::vector<CPtr<CCarriagePathUnit>> carriages;
+  std::vector<std::list<int>> nodesInside;
+  std::vector<std::list<int>> intermNodes;
 
-	CPtr<CTrainSmoothPath> pSmoothPath;
-	CPtr<CEdgePoint> pCurEdgePoint;
+  CPtr<CTrainSmoothPath> pSmoothPath;
+  CPtr<CEdgePoint> pCurEdgePoint;
 
-	CVec2 vCenter;
-	CVec2 vSpeed;
-	CVec2 vDir;
-	float fMaxPossibleSpeed;
-	float fPassability;
+  CVec2 vCenter;
+  CVec2 vSpeed;
+  CVec2 vDir;
+  float fMaxPossibleSpeed;
+  float fPassability;
 
-	float fTrainLength;
-	bool bFrontDir;
-	bool bCanMove;
+  float fTrainLength;
+  bool bFrontDir;
+  bool bCanMove;
 
-	std::hash_set<int> damagedTrackCarriages;
+  std::hash_set<int> damagedTrackCarriages;
 
-	CPtr<IStaticPath> pPathToMove;
+  CPtr<IStaticPath> pPathToMove;
+
 public:
-	CTrainPathUnit() : fTrainLength( 0 ), bFrontDir( true ), bCanMove( false ) { }
-	CTrainPathUnit( class CAIUnit *pOwner ) : fTrainLength( 0 ), bFrontDir( true ), bCanMove( false ) { }
-	virtual void Init( const CVec2 &center, const int z, const WORD dir, const WORD id ) { }
-	// проинициализировать локомотивом pUnit
-	bool InitBy( class CCarriagePathUnit *pUnit );
+  CTrainPathUnit() : fTrainLength(0), bFrontDir(true), bCanMove(false) {}
+  CTrainPathUnit(class CAIUnit *pOwner) : fTrainLength(0), bFrontDir(true), bCanMove(false) {}
+  virtual void Init(const CVec2 &center, const int z, const WORD dir, const WORD id) {}
+  // initialize with locomotive pUnit
+  bool InitBy(class CCarriagePathUnit *pUnit);
 
-	virtual ISmoothPath* GetSmoothPath() const;
-	virtual const float GetRotateSpeed() const { return 0; }
+  virtual ISmoothPath *GetSmoothPath() const;
+  const float GetRotateSpeed() const override { return 0; }
 
-	virtual interface ISmoothPath* GetCurPath() const;
-	virtual void SetCurPath( interface ISmoothPath *pNewPath ) { NI_ASSERT_T( false, "Train can't change smooth path" ); }
-	virtual void RestoreDefaultPath() { NI_ASSERT_T( false, "Train can't change smooth path" ); }
+  interface ISmoothPath *GetCurPath() const override;
+  virtual void SetCurPath(interface ISmoothPath *pNewPath) { NI_ASSERT_T(false, "Train can't change smooth path"); }
+  virtual void RestoreDefaultPath() { NI_ASSERT_T(false, "Train can't change smooth path"); }
 
-	virtual void SecondSegment( const bool bUpdate = true );
-	virtual IStaticPath* CreateBigStaticPath( const CVec2 &vStartPoint, const CVec2 &vFinishPoint, interface IPointChecking *pPointChecking );
-	// возвращает - поехал или нет
-	virtual bool SendAlongPath( interface IStaticPath *pStaticPath, const CVec2 &vShift, bool bSmoothTurn = true );
-	virtual bool SendAlongPath( interface IPath *pPath );
+  virtual void SecondSegment(bool bUpdate = true);
+  IStaticPath *CreateBigStaticPath(const CVec2 &vStartPoint, const CVec2 &vFinishPoint, interface IPointChecking *pPointChecking) override;
+  // returns whether I went or not
+  bool SendAlongPath(interface IStaticPath *pStaticPath, const CVec2 &vShift, bool bSmoothTurn = true) override;
+  bool SendAlongPath(interface IPath *pPath) override;
 
-	CEdgePoint* GetCurEdgePoint();
-	void SetCurEdgePoint( CEdgePoint *pEdgePoint );
+  CEdgePoint *GetCurEdgePoint();
+  void SetCurEdgePoint(CEdgePoint *pEdgePoint);
 
-	void AddCarriage( class CCarriagePathUnit *pCarriage );
-	const float GetTrainLength() const { return fTrainLength; }
+  void AddCarriage(class CCarriagePathUnit *pCarriage);
+  const float GetTrainLength() const { return fTrainLength; }
 
-	const int GetNCarriages() const { return carriages.size(); }
-	CCarriagePathUnit* GetCarriage( const int n );
-	// расстояние от заднего колеса вагона n до переднего колеса вагона m, если m присоединён к m
-	const float GetDistFromBackToFrontWheel( const int n, const int m );
-	const float GetDistFromFrontToBackWheel( const int n, const int m );
-	void PushNodesToFrontCarriage( std::list<int> &newNodes );
+  const int GetNCarriages() const { return carriages.size(); }
+  CCarriagePathUnit *GetCarriage(int n);
+  // distance from the rear wheel of car n to the front wheel of car m, if m is connected to m
+  const float GetDistFromBackToFrontWheel(int n, int m);
+  const float GetDistFromFrontToBackWheel(int n, int m);
+  void PushNodesToFrontCarriage(std::list<int> &newNodes);
 
-	void SetBackWheel( const int n );
-	void SetFrontWheel( const int n );
+  void SetBackWheel(int n);
+  void SetFrontWheel(int n);
 
-	void ChangeDirection( const bool bNewFrontDir );
-	bool IsFrontDir() const { return bFrontDir; }
+  void ChangeDirection(bool bNewFrontDir);
+  bool IsFrontDir() const { return bFrontDir; }
 
-	void GetTrainNodes( std::list<int> *pNodesOfTrain );
+  void GetTrainNodes(std::list<int> *pNodesOfTrain);
 
-	// IBasePathUnit
-	virtual void SetRightDir( bool _bRightDir ) { }
-	virtual bool GetRightDir() const { return true; }
+  // IBasePathUnit
+  void SetRightDir(bool _bRightDir) override {}
+  bool GetRightDir() const override { return true; }
 
-	virtual const WORD GetID() const;
-	virtual const CVec2& GetCenter() const;
-	virtual const float GetZ() const;
-	virtual const SVector GetTile() const { return AICellsTiles::GetTile( GetCenter() ); }
-	virtual const float GetMaxSpeedHere( const CVec2 &point, bool bAdjust = true ) const;
-	virtual const float GetMaxPossibleSpeed() const;
-	virtual const float GetPassability() const;
-	virtual bool CanMove() const;
-	virtual bool CanMovePathfinding() const;
-	virtual const CVec2& GetSpeed() const;
-	virtual const int GetBoundTileRadius() const;
-	virtual const WORD GetDir() const;
-	virtual const WORD GetFrontDir() const;
-	virtual const CVec2& GetDirVector() const;
-	virtual const CVec2 GetAABBHalfSize() const;
-	virtual void SetCoordWOUpdate( const CVec3 &newCenter );
-	virtual void SetNewCoordinates( const CVec3 &newCenter, bool bStopUnit = true );
+  const WORD GetID() const override;
+  const CVec2 &GetCenter() const override;
+  const float GetZ() const override;
+  const SVector GetTile() const override { return AICellsTiles::GetTile(GetCenter()); }
+  const float GetMaxSpeedHere(const CVec2 &point, bool bAdjust = true) const override;
+  const float GetMaxPossibleSpeed() const override;
+  const float GetPassability() const override;
+  bool CanMove() const override;
+  bool CanMovePathfinding() const override;
+  const CVec2 &GetSpeed() const override;
+  const int GetBoundTileRadius() const override;
+  const WORD GetDir() const override;
+  const WORD GetFrontDir() const override;
+  const CVec2 &GetDirVector() const override;
+  const CVec2 GetAABBHalfSize() const override;
+  void SetCoordWOUpdate(const CVec3 &newCenter) override;
+  void SetNewCoordinates(const CVec3 &newCenter, bool bStopUnit = true) override;
 
-	virtual const SRect GetUnitRectForLock() const;
-	
-	virtual bool TurnToDir( const WORD &newDir, const bool bCanBackward = true, const bool bForward = true ) { return false; }
-	virtual bool TurnToUnit( const CVec2 &targCenter ) { return false; }
-	virtual void TurnAgainstUnit( const CVec2 &targCenter ) { }
-	virtual void UpdateDirection( const CVec2 &newDir );
-	virtual void UpdateDirection( const WORD newDir );
-	virtual bool IsIdle() const;
-	virtual bool IsTurning() const { return false; }
-	virtual void StopUnit();
-	virtual void StopTurning() { }
-	virtual void ForceGoByRightDir() { }
-	
-	virtual interface IStaticPathFinder* GetPathFinder() const;
-	// можно ли повернуться к направлению wNewDir, если нет - то попытаться проинициализировать путём в точку, где разворот возможен
-	virtual bool CheckToTurn( const WORD wNewDir ) { return false; }
+  const SRect GetUnitRectForLock() const override;
 
-	virtual void LockTiles( bool bUpdate = true ) { }
-	virtual void LockTilesForEditor() { }
-	virtual void UnlockTiles( const bool bUpdate = true ) { }
-	virtual void FixUnlocking() { }
-	virtual void UnfixUnlocking() { }
-	virtual bool IsLockingTiles() const { return false; }
-	virtual bool CanTurnToFrontDir( const WORD wDir ) { return false; }
+  bool TurnToDir(const WORD &newDir, const bool bCanBackward = true, const bool bForward = true) override { return false; }
+  bool TurnToUnit(const CVec2 &targCenter) override { return false; }
+  void TurnAgainstUnit(const CVec2 &targCenter) override {}
+  void UpdateDirection(const CVec2 &newDir) override;
+  void UpdateDirection(WORD newDir) override;
+  bool IsIdle() const override;
+  bool IsTurning() const override { return false; }
+  void StopUnit() override;
+  void StopTurning() override {}
+  void ForceGoByRightDir() override {}
 
-	virtual bool IsInFormation() const { return false; }
-	virtual class CFormation* GetFormation() const { return 0; }
-	virtual const CVec2 GetUnitPointInFormation() const { return VNULL2; }
-	virtual const int GetFormationSlot() const { return 0; }
+  interface IStaticPathFinder *GetPathFinder() const override;
+  // Is it possible to turn to the wNewDir direction? If not, then try to initialize the path to the point where a turn is possible
+  bool CheckToTurn(const WORD wNewDir) override { return false; }
 
-	virtual bool CanGoToPoint( const CVec2 &point ) const { return true; }
-	virtual BYTE GetAIClass() const { return AI_CLASS_ANY; }
-	
-	virtual float GetSmoothTurnThreshold() const { return 1.0f; }
-	
-	virtual void SetDesirableSpeed( const float fDesirableSpeed );
-	virtual void UnsetDesirableSpeed();
-	virtual float GetDesirableSpeed() const;
-	virtual void AdjustWithDesirableSpeed( float *pfMaxSpeed ) const;
-	
-	virtual const int CanGoBackward() const { return true; }
-	virtual bool HasSuspendedPoint() const { return false; }
-	virtual bool CanRotateTo( SRect smallRect, const CVec2 &vNewDir, bool bWithUnits, bool bCanGoBackward = true ) const { return false; }
-	
-	virtual bool IsInOneTrain( interface IBasePathUnit *pUnit ) const;
-	virtual bool IsTrain() const { return true; }
-	const CTrainPathUnit* GetTrainOwner() const { return this; }
-	
-	virtual const SVector GetLastKnownGoodTile() const { return GetTile(); }
+  void LockTiles(bool bUpdate = true) override {}
+  void LockTilesForEditor() override {}
+  void UnlockTiles(const bool bUpdate = true) override {}
+  void FixUnlocking() override {}
+  void UnfixUnlocking() override {}
+  bool IsLockingTiles() const override { return false; }
+  bool CanTurnToFrontDir(const WORD wDir) override { return false; }
 
-	void LocomotiveDead();
-	
-	virtual bool CanRotate() const { return false; }
+  bool IsInFormation() const override { return false; }
+  class CFormation *GetFormation() const override { return nullptr; }
+  const CVec2 GetUnitPointInFormation() const override { return VNULL2; }
+  const int GetFormationSlot() const override { return 0; }
 
-	void CarriageTrackDamaged( const int nOwnerID, const bool bTrackDamagedState );
+  bool CanGoToPoint(const CVec2 &point) const override { return true; }
+  BYTE GetAIClass() const override { return AI_CLASS_ANY; }
 
-	virtual bool IsDangerousDirExist() const { return false; }
-	virtual const WORD GetDangerousDir() const { return 0; }
+  float GetSmoothTurnThreshold() const override { return 1.0f; }
+
+  void SetDesirableSpeed(float fDesirableSpeed) override;
+  void UnsetDesirableSpeed() override;
+  float GetDesirableSpeed() const override;
+  void AdjustWithDesirableSpeed(float *pfMaxSpeed) const override;
+
+  const int CanGoBackward() const override { return true; }
+  bool HasSuspendedPoint() const override { return false; }
+  bool CanRotateTo(SRect smallRect, const CVec2 &vNewDir, bool bWithUnits, bool bCanGoBackward = true) const override { return false; }
+
+  bool IsInOneTrain(interface IBasePathUnit *pUnit) const override;
+  bool IsTrain() const override { return true; }
+  const CTrainPathUnit *GetTrainOwner() const { return this; }
+
+  const SVector GetLastKnownGoodTile() const override { return GetTile(); }
+
+  void LocomotiveDead();
+
+  bool CanRotate() const override { return false; }
+
+  void CarriageTrackDamaged(int nOwnerID, bool bTrackDamagedState);
+
+  bool IsDangerousDirExist() const override { return false; }
+  const WORD GetDangerousDir() const override { return 0; }
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CCarriagePathUnit : public CPathUnit
 {
-	OBJECT_COMPLETE_METHODS( CCarriagePathUnit );
-	DECLARE_SERIALIZE;
+  OBJECT_COMPLETE_METHODS(CCarriagePathUnit);
+  DECLARE_SERIALIZE;
 
-	CObj<CTrainPathUnit> pTrain;
+  CObj<CTrainPathUnit> pTrain;
 
-	CPtr<CEdgePoint> pFrontWheelPoint;
-	CPtr<CEdgePoint> pBackWheelPoint;
+  CPtr<CEdgePoint> pFrontWheelPoint;
+  CPtr<CEdgePoint> pBackWheelPoint;
 
-	// рёбра, на которых стоит вагон
-	std::list< CPtr<IEdge> > edges;
-	CVec2 vOldDir;
-	CVec2 vOldCenter;
+  // the ribs on which the carriage stands
+  std::list<CPtr<IEdge>> edges;
+  CVec2 vOldDir;
+  CVec2 vOldCenter;
 
-	//
-	void InitCenterAndDir3D( const CVec2 &vCenter, CVec3 *pvCenter3D, CVec3 *pvDir3D ) const;
-	const CVec3 Get3DPointOfUnit( const CVec2 &vCenter, const float fLength ) const;
-	const CVec2 Get2DPointOfUnit( const CVec2 &vCenter, const float fLength ) const;
+  //
+  void InitCenterAndDir3D(const CVec2 &vCenter, CVec3 *pvCenter3D, CVec3 *pvDir3D) const;
+  const CVec3 Get3DPointOfUnit(const CVec2 &vCenter, float fLength) const;
+  const CVec2 Get2DPointOfUnit(const CVec2 &vCenter, float fLength) const;
+
 public:
-	CCarriagePathUnit() { }
+  CCarriagePathUnit() {}
 
-	virtual void Init( class CAIUnit *pOwner, const CVec2 &center, const int z, const WORD dir, const WORD id );
-	const CTrainPathUnit* GetTrainOwner() const;
+  void Init(class CAIUnit *pOwner, const CVec2 &center, int z, WORD dir, WORD id) override;
+  const CTrainPathUnit *GetTrainOwner() const;
 
-	virtual ISmoothPath* GetSmoothPath() const;
+  ISmoothPath *GetSmoothPath() const override;
 
-	virtual interface ISmoothPath* GetCurPath() const;
-	virtual void SetCurPath( interface ISmoothPath *pNewPath ) { NI_ASSERT_T( false, "Train can't change smooth path" ); }
-	virtual void RestoreDefaultPath() { NI_ASSERT_T( false, "Train can't change smooth path" ); }
+  interface ISmoothPath *GetCurPath() const override;
+  void SetCurPath(interface ISmoothPath *pNewPath) override { NI_ASSERT_T(false, "Train can't change smooth path"); }
+  void RestoreDefaultPath() override { NI_ASSERT_T(false, "Train can't change smooth path"); }
 
-	virtual void FirstSegment();
-	virtual void SecondSegment( const bool bUpdate = true );
-	virtual IStaticPath* CreateBigStaticPath( const CVec2 &vStartPoint, const CVec2 &vFinishPoint, interface IPointChecking *pPointChecking );
-	// возвращает - поехал или нет
-	virtual bool SendAlongPath( interface IStaticPath *pStaticPath, const CVec2 &vShift, bool bSmoothTurn = true );
-	virtual bool SendAlongPath( interface IPath *pPath );
+  void FirstSegment() override;
+  void SecondSegment(bool bUpdate = true) override;
+  IStaticPath *CreateBigStaticPath(const CVec2 &vStartPoint, const CVec2 &vFinishPoint, interface IPointChecking *pPointChecking) override;
+  // returns whether I went or not
+  bool SendAlongPath(interface IStaticPath *pStaticPath, const CVec2 &vShift, bool bSmoothTurn = true) override;
+  bool SendAlongPath(interface IPath *pPath) override;
 
-	void SetOnRailroad();
-	void HookTo( CCarriagePathUnit *pUnit );
+  void SetOnRailroad();
+  void HookTo(CCarriagePathUnit *pUnit);
 
-	const CVec3 GetBackHookPoint3D() const;
-	const CVec2 GetBackHookPoint2D() const;
-	const CVec3 GetFrontHookPoint3D() const;
-	const CVec2 GetFronHookPoint2D() const;
-	const CVec3 GetBackHookPoint3DByFrontPoint( const CVec2 &vFrontPoint ) const;
-	const CVec2 GetBackHookPoint2DByFrontPoint( const CVec2 &vFrontPoint ) const;
-	const CVec3 GetFrontWheel3D() const;
-	const CVec2 GetFrontWheel2D() const;
+  const CVec3 GetBackHookPoint3D() const;
+  const CVec2 GetBackHookPoint2D() const;
+  const CVec3 GetFrontHookPoint3D() const;
+  const CVec2 GetFronHookPoint2D() const;
+  const CVec3 GetBackHookPoint3DByFrontPoint(const CVec2 &vFrontPoint) const;
+  const CVec2 GetBackHookPoint2DByFrontPoint(const CVec2 &vFrontPoint) const;
+  const CVec3 GetFrontWheel3D() const;
+  const CVec2 GetFrontWheel2D() const;
 
-	const CVec3 GetBackWheelPoint3DByFrontPoint( const CVec2 &vFrontPoint ) const;
-	const CVec2 GetBackWheelPoint2DByFrontPoint( const CVec2 &vFrontPoint ) const;
- 
-	const float GetDistanceToBackWheel() const;
-	const float GetDistanceBetweenWheels() const;
+  const CVec3 GetBackWheelPoint3DByFrontPoint(const CVec2 &vFrontPoint) const;
+  const CVec2 GetBackWheelPoint2DByFrontPoint(const CVec2 &vFrontPoint) const;
 
-	void SetPlacementByWheels( CEdgePoint *pFrontWheelPoint, CEdgePoint *pBackWheelPoint );
+  const float GetDistanceToBackWheel() const;
+  const float GetDistanceBetweenWheels() const;
 
-	CEdgePoint* GetFrontWheelPoint() const;
-	CEdgePoint* GetBackWheelPoint() const;
+  void SetPlacementByWheels(CEdgePoint *pFrontWheelPoint, CEdgePoint *pBackWheelPoint);
 
-	void SetSpeed( const CVec2 &_speed ) { speed = _speed; }
+  CEdgePoint *GetFrontWheelPoint() const;
+  CEdgePoint *GetBackWheelPoint() const;
 
-	virtual void GetPlacement(  struct SAINotifyPlacement *pPlacement, const NTimer::STime timeDiff ) const;
-	virtual void SetRightDir( bool bRightDir );
-	
-	virtual void SetNewCoordinates( const CVec3 &newCenter, bool bStopUnit = true );
-	virtual void SetNewCoordinatesForEditor( const CVec3 &newCenter );
-	virtual void SetCoordWOUpdate( const CVec3 &newCenter );
+  void SetSpeed(const CVec2 &_speed) { speed = _speed; }
 
-	virtual bool CanTurnToFrontDir( const WORD wDir ) { return false; }
-	virtual bool IsTrain() const { return true; }
-	virtual bool IsInOneTrain( interface IBasePathUnit *pUnit ) const;
+  void GetPlacement(struct SAINotifyPlacement *pPlacement, NTimer::STime timeDiff) const override;
+  void SetRightDir(bool bRightDir) override;
 
-	virtual void UpdateDirectionForEditor( const CVec2 &dirVec );
-	virtual bool CanMove() const;
-	virtual bool CanMovePathfinding() const;
-	virtual bool CanRotate() const { return false; }
+  void SetNewCoordinates(const CVec3 &newCenter, bool bStopUnit = true) override;
+  void SetNewCoordinatesForEditor(const CVec3 &newCenter) override;
+  void SetCoordWOUpdate(const CVec3 &newCenter) override;
 
-	void UnitDead();
-	
-	virtual void TrackDamagedState( const bool bTrackDamaged );
+  bool CanTurnToFrontDir(const WORD wDir) override { return false; }
+  virtual bool IsTrain() const { return true; }
+  bool IsInOneTrain(interface IBasePathUnit *pUnit) const override;
+
+  void UpdateDirectionForEditor(const CVec2 &dirVec) override;
+  bool CanMove() const override;
+  virtual bool CanMovePathfinding() const;
+  bool CanRotate() const override { return false; }
+
+  void UnitDead();
+
+  void TrackDamagedState(bool bTrackDamaged) override;
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // __TRAIN_PATH_UNIT_H__

@@ -7,7 +7,7 @@
 #endif // _MSC_VER > 1000
 
 #include "DataStorage.h"
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////// 
 struct SARMainSection;
 struct SARMenu;
 struct SARButton
@@ -43,18 +43,18 @@ public:
 	static const char* ACTION_NAMES[ACTION_COUNT];
 	static const char* ACTION_BEHAVIOUR_NAMES[AB_COUNT];
 
-	DWORD dwPresentState;						//в каком случае кнопка показывается на экране
-	DWORD dwEnableState;						//в какм случая кнопка может нажиматься на экране
-	bool bSelectable;								//просто текст
-	std::string szLabelFileName;		//Сообщение
-	std::string szTooltipFileName;	//Толтип
-	std::string szFocusedSoundFileName;	//Звук при наведении
-	std::string szActionSoundFileName;	//Звук при выполнении
-	std::vector<DWORD> dwColors;		//Цвета по состояниям ( если старший байт нулевой то кнопка не показывается в этом состоянии )
-	DWORD dwShadowColor;						//Цвет тени
-	DWORD dwAlign;									//Расположение сообщения в прямоугольнике
-	CRect position;									//Расположение на экране
-	int nFontSize;									//размер шрифта
+	DWORD dwPresentState;						// in which case the button is shown on the screen
+	DWORD dwEnableState;						// In what case can a button be pressed on the screen?
+	bool bSelectable;								// just text
+	std::string szLabelFileName;		// Message
+	std::string szTooltipFileName;	// Toltip
+	std::string szFocusedSoundFileName;	// Hover sound
+	std::string szActionSoundFileName;	// Sound when performing
+	std::vector<DWORD> dwColors;		// Colors by state (if the high byte is zero, the button is not shown in this state)
+	DWORD dwShadowColor;						// Shadow color
+	DWORD dwAlign;									// Positioning the message in a rectangle
+	CRect position;									// Location on screen
+	int nFontSize;									// font size
 	EAction	action;
 	std::string szActionTarget;
 	std::string szActionParameter;
@@ -62,7 +62,7 @@ public:
 	EActionBehaviour actionBehaviour;
 };
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////// 
 struct SARMenu
 {
 	friend struct SARButton;
@@ -75,7 +75,7 @@ public:
 	std::vector<SARButton> buttons;
 };
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////// 
 class CARMenuSelector;
 struct SARMainSection
 {
@@ -142,24 +142,24 @@ public:
 	std::string szBackgroundImageFileName;
 	std::vector<SLogo> logos;
 	CPoint shadowPoint;
-	std::vector<DWORD> dwColors;		//Цвета по состояниям ( если старший байт нулевой то кнопка не показывается в этом состоянии )
-	DWORD dwShadowColor;						//Цвет тени
-	DWORD dwAlign;									//Расположение сообщения в прямоугольнике
-	int nCodePage;									//кодировка используемая для всех сообщений
-	bool bShowToolTips;							//показывать ли тултипы
+	std::vector<DWORD> dwColors;		// Colors by state (if the high byte is zero, the button is not shown in this state)
+	DWORD dwShadowColor;						// Shadow color
+	DWORD dwAlign;									// Positioning the message in a rectangle
+	int nCodePage;									// encoding used for all messages
+	bool bShowToolTips;							// Should I show tooltips?
 
-	std::string szFontName;					//имя шрифта
-	int nFontWeight;								//толщина шрифта
+	std::string szFontName;					// font name
+	int nFontWeight;								// font thickness
 
-	SRegistryKey rkInstallFolder;		//Install Folder
-	SRegistryKey rkUninstallFolder;	//Uninstall Folder
+	SRegistryKey rkInstallFolder;		// Install Folder
+	SRegistryKey rkUninstallFolder;	// Uninstall Folder
 	std::string szGameInstalledFileName;
 	
 	std::string szMenuName;
 	std::hash_map<std::string, SARMenu> menus;
 };
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////// 
 class CARMenuSelector
 {
 	static const char* CONFIGURATION_FILE_NAME;
@@ -204,6 +204,6 @@ public:
 	bool ShellExecuteTarget( class CAutoRunDialog *pWnd, const std::string &szTarget, const std::string &szParameters, const std::string &szDirectory, bool bWait, bool bCurrent );
 	std::string ParseFolder( const std::string &rszFolder, bool *pbCurrent );
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////// 
 #endif // !defined(__AUTO_RUN_TYPES__)
 

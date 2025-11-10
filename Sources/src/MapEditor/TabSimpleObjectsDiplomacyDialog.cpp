@@ -9,13 +9,13 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 const int   PLAYERS_COLUMN_COUNT = 2;
 const char *PLAYERS_COLUMN_NAME  [PLAYERS_COLUMN_COUNT] = { "Player", "Side" };
 const int   PLAYERS_COLUMN_FORMAT[PLAYERS_COLUMN_COUNT] = { LVCFMT_LEFT, LVCFMT_RIGHT };
 int					PLAYERS_COLUMN_WIDTH [PLAYERS_COLUMN_COUNT] = { 80, 80 };
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 int CALLBACK PlayersCompareFunc( LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort )
 {
 	CTabSimpleObjectsDiplomacyDialog* pDiplomacyDialog = reinterpret_cast<CTabSimpleObjectsDiplomacyDialog*>( lParamSort );
@@ -32,32 +32,32 @@ int CALLBACK PlayersCompareFunc( LPARAM lParam1, LPARAM lParam2, LPARAM lParamSo
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 const int CTabSimpleObjectsDiplomacyDialog::vID[] = 
 {
-	IDC_SO_DIPLOMACY_PLAYERS_LIST,					//0
-	IDC_SO_DIPLOMACY_ADD_BUTTON,						//1
-	IDC_SO_DIPLOMACY_DELETE_BUTTON,					//2
-	IDC_SO_DIPLOMACY_SIDE0_BUTTON,					//3
-	IDC_SO_DIPLOMACY_SIDE1_BUTTON,					//4
-	IDOK,																		//5
-	IDCANCEL,																//6
-	IDC_SO_DIPLOMACY_PLAYERS_LABEL,					//7
-	IDC_SO_DIPLOMACY_TYPE_LABEL,						//8
-	IDC_SO_DIPLOMACY_TYPE_COMBO_BOX,				//9
-	IDC_SO_DIPLOMACY_ATTACK_SIDE_LABEL,			//10
-	IDC_SO_DIPLOMACY_ATTACK_SIDE_COMBO_BOX,	//11
+	IDC_SO_DIPLOMACY_PLAYERS_LIST,					// 0
+	IDC_SO_DIPLOMACY_ADD_BUTTON,						// 1
+	IDC_SO_DIPLOMACY_DELETE_BUTTON,					// 2
+	IDC_SO_DIPLOMACY_SIDE0_BUTTON,					// 3
+	IDC_SO_DIPLOMACY_SIDE1_BUTTON,					// 4
+	IDOK,																		// 5
+	IDCANCEL,																// 6
+	IDC_SO_DIPLOMACY_PLAYERS_LABEL,					// 7
+	IDC_SO_DIPLOMACY_TYPE_LABEL,						// 8
+	IDC_SO_DIPLOMACY_TYPE_COMBO_BOX,				// 9
+	IDC_SO_DIPLOMACY_ATTACK_SIDE_LABEL,			// 10
+	IDC_SO_DIPLOMACY_ATTACK_SIDE_COMBO_BOX,	// 11
 };
 
 const char CTabSimpleObjectsDiplomacyDialog::SIDE0_LABEL[] = _T( "Side 0" );
 const char CTabSimpleObjectsDiplomacyDialog::SIDE1_LABEL[] = _T( "Side 1" ); 
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 CTabSimpleObjectsDiplomacyDialog::CTabSimpleObjectsDiplomacyDialog( CWnd* pParent )
 	: CResizeDialog( CTabSimpleObjectsDiplomacyDialog::IDD, pParent ), bCreateControls( false ), nType( CMapInfo::TYPE_SINGLE_PLAYER ), nAttackingSide( 0 )
 {
-	//{{AFX_DATA_INIT(CTabSimpleObjectsDiplomacyDialog)
-	//}}AFX_DATA_INIT
+	// {{AFX_DATA_INIT(CTabSimpleObjectsDiplomacyDialog)
+	// }}AFX_DATA_INIT
 
 	SetControlStyle( IDC_SO_DIPLOMACY_PLAYERS_LIST, ANCHORE_LEFT_TOP | RESIZE_HOR_VER );
 	SetControlStyle( IDC_SO_DIPLOMACY_ADD_BUTTON, ANCHORE_RIGHT_TOP );
@@ -73,20 +73,20 @@ CTabSimpleObjectsDiplomacyDialog::CTabSimpleObjectsDiplomacyDialog( CWnd* pParen
 	SetControlStyle( IDC_SO_DIPLOMACY_ATTACK_SIDE_COMBO_BOX, ANCHORE_LEFT_BOTTOM | RESIZE_HOR );
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTabSimpleObjectsDiplomacyDialog::DoDataExchange( CDataExchange* pDX )
 {
 	CResizeDialog::DoDataExchange( pDX );
-	//{{AFX_DATA_MAP(CTabSimpleObjectsDiplomacyDialog)
+	// {{AFX_DATA_MAP(CTabSimpleObjectsDiplomacyDialog)
 	DDX_Control(pDX, IDC_SO_DIPLOMACY_TYPE_COMBO_BOX, m_Types);
 	DDX_Control(pDX, IDC_SO_DIPLOMACY_ATTACK_SIDE_COMBO_BOX, m_Sides);
 	DDX_Control(pDX, IDC_SO_DIPLOMACY_PLAYERS_LIST, m_PlayersList);
-	//}}AFX_DATA_MAP
+	// }}AFX_DATA_MAP
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 BEGIN_MESSAGE_MAP(CTabSimpleObjectsDiplomacyDialog, CResizeDialog )
-	//{{AFX_MSG_MAP(CTabSimpleObjectsDiplomacyDialog)
+	// {{AFX_MSG_MAP(CTabSimpleObjectsDiplomacyDialog)
 	ON_NOTIFY(LVN_COLUMNCLICK, IDC_SO_DIPLOMACY_PLAYERS_LIST, OnColumnclickPlayersList)
 	ON_BN_CLICKED(IDC_SO_DIPLOMACY_ADD_BUTTON, OnAddButton)
 	ON_BN_CLICKED(IDC_SO_DIPLOMACY_DELETE_BUTTON, OnDeleteButton)
@@ -101,10 +101,10 @@ BEGIN_MESSAGE_MAP(CTabSimpleObjectsDiplomacyDialog, CResizeDialog )
 	ON_NOTIFY(LVN_KEYDOWN, IDC_SO_DIPLOMACY_PLAYERS_LIST, OnKeydownPlayersList)
 	ON_CBN_SELCHANGE(IDC_SO_DIPLOMACY_TYPE_COMBO_BOX, OnSelchangeSoDiplomacyTypeComboBox)
 	ON_CBN_SELCHANGE(IDC_SO_DIPLOMACY_ATTACK_SIDE_COMBO_BOX, OnSelchangeSoDiplomacyAttackSideComboBox)
-	//}}AFX_MSG_MAP
+	// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 BOOL CTabSimpleObjectsDiplomacyDialog::OnInitDialog() 
 {
 	CResizeDialog ::OnInitDialog();
@@ -119,7 +119,7 @@ BOOL CTabSimpleObjectsDiplomacyDialog::OnInitDialog()
 	return TRUE;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTabSimpleObjectsDiplomacyDialog::OnOK() 
 {
 	for ( int nColumnIndex = 0; nColumnIndex < PLAYERS_COLUMN_COUNT; ++nColumnIndex )
@@ -130,7 +130,7 @@ void CTabSimpleObjectsDiplomacyDialog::OnOK()
 	CResizeDialog::OnOK();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTabSimpleObjectsDiplomacyDialog::OnCancel() 
 {
 	for ( int nColumnIndex = 0; nColumnIndex < PLAYERS_COLUMN_COUNT; ++nColumnIndex )
@@ -141,7 +141,7 @@ void CTabSimpleObjectsDiplomacyDialog::OnCancel()
 	CResizeDialog::OnCancel();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTabSimpleObjectsDiplomacyDialog::UpdateControls()
 {
 	CWnd* pWnd = 0;
@@ -194,7 +194,7 @@ void CTabSimpleObjectsDiplomacyDialog::UpdateControls()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTabSimpleObjectsDiplomacyDialog::CreateControls()
 {
 	m_PlayersList.SetExtendedStyle( m_PlayersList.GetExtendedStyle() | LVS_EX_FULLROWSELECT );
@@ -234,7 +234,7 @@ void CTabSimpleObjectsDiplomacyDialog::CreateControls()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTabSimpleObjectsDiplomacyDialog::FillPlayers()
 {
 	bCreateControls = true;
@@ -258,7 +258,7 @@ void CTabSimpleObjectsDiplomacyDialog::FillPlayers()
 	UpdateControls();
 }
 	
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTabSimpleObjectsDiplomacyDialog::OnColumnclickPlayersList(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
@@ -279,7 +279,7 @@ void CTabSimpleObjectsDiplomacyDialog::OnColumnclickPlayersList(NMHDR* pNMHDR, L
 	*pResult = 0;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTabSimpleObjectsDiplomacyDialog::OnAddButton() 
 {
 	if ( diplomacies.size() < 17 )
@@ -291,7 +291,7 @@ void CTabSimpleObjectsDiplomacyDialog::OnAddButton()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTabSimpleObjectsDiplomacyDialog::OnDeleteButton() 
 {
 	bCreateControls = true;
@@ -324,7 +324,7 @@ void CTabSimpleObjectsDiplomacyDialog::OnDeleteButton()
 	FillPlayers();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTabSimpleObjectsDiplomacyDialog::OnSide0Button() 
 {
 	bCreateControls = true;
@@ -346,7 +346,7 @@ void CTabSimpleObjectsDiplomacyDialog::OnSide0Button()
 	UpdateControls();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTabSimpleObjectsDiplomacyDialog::OnSide1Button() 
 {
 	bCreateControls = true;
@@ -368,7 +368,7 @@ void CTabSimpleObjectsDiplomacyDialog::OnSide1Button()
 	UpdateControls();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTabSimpleObjectsDiplomacyDialog::OnItemchangedPlayersList(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
@@ -379,7 +379,7 @@ void CTabSimpleObjectsDiplomacyDialog::OnItemchangedPlayersList(NMHDR* pNMHDR, L
 	*pResult = 0;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTabSimpleObjectsDiplomacyDialog::OnSimpleObjectsDiplomacyAddPlayerMenu() 
 {
 	if ( CWnd* pWnd = GetDlgItem( IDC_SO_DIPLOMACY_ADD_BUTTON ) )
@@ -391,7 +391,7 @@ void CTabSimpleObjectsDiplomacyDialog::OnSimpleObjectsDiplomacyAddPlayerMenu()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTabSimpleObjectsDiplomacyDialog::OnSimpleObjectsDiplomacyDeletePlayerMenu() 
 {
 	if ( CWnd* pWnd = GetDlgItem( IDC_SO_DIPLOMACY_DELETE_BUTTON ) )
@@ -403,7 +403,7 @@ void CTabSimpleObjectsDiplomacyDialog::OnSimpleObjectsDiplomacyDeletePlayerMenu(
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTabSimpleObjectsDiplomacyDialog::OnSimpleObjectsDiplomacySide0Menu() 
 {
 	if ( CWnd* pWnd = GetDlgItem( IDC_SO_DIPLOMACY_SIDE0_BUTTON ) )
@@ -415,7 +415,7 @@ void CTabSimpleObjectsDiplomacyDialog::OnSimpleObjectsDiplomacySide0Menu()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTabSimpleObjectsDiplomacyDialog::OnSimpleObjectsDiplomacySide1Menu() 
 {
 	if ( CWnd* pWnd = GetDlgItem( IDC_SO_DIPLOMACY_SIDE1_BUTTON ) )
@@ -427,7 +427,7 @@ void CTabSimpleObjectsDiplomacyDialog::OnSimpleObjectsDiplomacySide1Menu()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTabSimpleObjectsDiplomacyDialog::OnRclickPlayersList(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	CMenu tabsMenu;
@@ -460,7 +460,7 @@ void CTabSimpleObjectsDiplomacyDialog::OnRclickPlayersList(NMHDR* pNMHDR, LRESUL
 	*pResult = 0;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTabSimpleObjectsDiplomacyDialog::OnKeydownPlayersList(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	LV_KEYDOWN* pLVKeyDown = (LV_KEYDOWN*)pNMHDR;
@@ -507,7 +507,7 @@ void CTabSimpleObjectsDiplomacyDialog::OnKeydownPlayersList(NMHDR* pNMHDR, LRESU
 	*pResult = 0;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTabSimpleObjectsDiplomacyDialog::OnSelchangeSoDiplomacyTypeComboBox() 
 {
 	CString szBuffer;
@@ -527,7 +527,7 @@ void CTabSimpleObjectsDiplomacyDialog::OnSelchangeSoDiplomacyTypeComboBox()
 	UpdateControls();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CTabSimpleObjectsDiplomacyDialog::OnSelchangeSoDiplomacyAttackSideComboBox() 
 {
 	CString szBuffer;
@@ -545,7 +545,7 @@ void CTabSimpleObjectsDiplomacyDialog::OnSelchangeSoDiplomacyAttackSideComboBox(
 	UpdateControls();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// basement storage  
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
+// basement storage
+// ////////////////////////////////////////////////
 

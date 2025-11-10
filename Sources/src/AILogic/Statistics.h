@@ -1,44 +1,44 @@
 #ifndef __STATISTICS_H__
 #define __STATISTICS_H__
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma ONCE
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#pragma once
+
 interface IScenarioTracker;
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CStatistics
 {
-	DECLARE_SERIALIZE;
+  DECLARE_SERIALIZE;
 
-	CPtr<IScenarioTracker> pScenarioTracker;	// scenario tracker shortcut
-	bool bEnablePlayerExp;										// can we add player exp? (false in tutorial mode - initialized in the Init())
+  CPtr<IScenarioTracker> pScenarioTracker;// scenario tracker shortcut
+  bool bEnablePlayerExp;// can we add player exp? 
 public:
-	CStatistics() : bEnablePlayerExp( false ) {  }
+  CStatistics() : bEnablePlayerExp(false) {}
 
-	void Init();
+  void Init();
 
-	// player captured oter player's unit
-	void UnitCaptured( const int nPlayer );
-	// игрок nPlayer уничтожил юниты игрока nKilledUnitsPlayer, nUnits - количество убитых, fTotalAIPrice - их price
-	void UnitKilled( const int nPlayer, const int nKilledUnitsPlayer, const int nUnits, const float fTotalAIPrice );
-	// unit умер
-	void UnitDead( class CCommonUnit *pUnit );
-	// игрок nPlayer уничтожил house
-	void ObjectDestroyed( const int nPlayer );
-	// игрок nPlayer вызвал авиацию
-	void AviationCalled( const int nPlayer );
-	// игрок nPlayer использовал reinforcement
-	void ReinforcementUsed( const int nPlayer );
-	// игрок nPlayer использовал ресурсы
-	void ResourceUsed( const int nPlayer, const float fResources );
-	// unit получил level
-	void UnitLeveledUp( class CCommonUnit *pUnit );
-	//player's experience
-	void IncreasePlayerExperience( const int nPlayer, const float fPrice ) ;
+  // player captured oter player's unit
+  void UnitCaptured(int nPlayer);
+  // player nPlayer destroyed units of player nKilledUnitsPlayer, nUnits - number of killed, fTotalAIPrice - their price
+  void UnitKilled(int nPlayer, int nKilledUnitsPlayer, int nUnits, float fTotalAIPrice);
+  // unit died
+  void UnitDead(class CCommonUnit *pUnit);
+  // nPlayer destroyed house
+  void ObjectDestroyed(int nPlayer);
+  // nPlayer called the air force
+  void AviationCalled(int nPlayer);
+  // nPlayer used reinforcement
+  void ReinforcementUsed(int nPlayer);
+  // nPlayer used resources
+  void ResourceUsed(int nPlayer, float fResources);
+  // unit received level
+  void UnitLeveledUp(class CCommonUnit *pUnit);
+  // player's experience
+  void IncreasePlayerExperience(int nPlayer, float fPrice);
 
-	void SetFlagPoints( const int nParty, const float fPoints );
-	void SetCapturedFlags( const int nParty, const int nFlags );
+  void SetFlagPoints(int nParty, float fPoints);
+  void SetCapturedFlags(int nParty, int nFlags);
 
-	interface IMissionStatistics* GetPlayerStats( const int nPlayer );
+  interface IMissionStatistics *GetPlayerStats(int nPlayer);
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // __STATISTICS_H__

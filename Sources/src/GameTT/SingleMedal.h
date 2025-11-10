@@ -1,39 +1,40 @@
 #ifndef __IM_SINGLE_MEDAL_H__
 #define __IM_SINGLE_MEDAL_H__
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma ONCE
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#pragma once
+
 #include "InterMission.h"
 #include "iMission.h"
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CInterfaceSingleMedal : public CInterfaceInterMission
 {
-	OBJECT_NORMAL_METHODS( CInterfaceSingleMedal );
-	std::string szMedalName;
-	// input
-	NInput::CCommandRegistrator commandMsgs;
-	//
-	virtual bool STDCALL ProcessMessage( const SGameMessage &msg );
-	// disable explicit destruction
-	virtual ~CInterfaceSingleMedal();
-	CInterfaceSingleMedal() : CInterfaceInterMission( "Current" ) {  }
+  OBJECT_NORMAL_METHODS(CInterfaceSingleMedal);
+  std::string szMedalName;
+  // input
+  NInput::CCommandRegistrator commandMsgs;
+  //
+  bool STDCALL ProcessMessage(const SGameMessage &msg) override;
+  // disable explicit destruction
+  ~CInterfaceSingleMedal() override;
+  CInterfaceSingleMedal() : CInterfaceInterMission("Current") {}
 
 public:
-	virtual bool STDCALL Init();
-	void Create( const char *pszName );
+  bool STDCALL Init() override;
+  void Create(const char *pszName);
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CICSingleMedal : public CInterfaceCommandBase<CInterfaceSingleMedal, MISSION_INTERFACE_SINGLE_MEDAL>
 {
-	OBJECT_NORMAL_METHODS( CICSingleMedal );
-	std::string szName;
+  OBJECT_NORMAL_METHODS(CICSingleMedal);
+  std::string szName;
 
-	virtual void PreCreate( IMainLoop *pML ) {}
-	virtual void PostCreate( IMainLoop *pML, CInterfaceSingleMedal *pISM );
-	//
-	CICSingleMedal() {  }
+  void PreCreate(IMainLoop *pML) override {}
+  void PostCreate(IMainLoop *pML, CInterfaceSingleMedal *pISM) override;
+  //
+  CICSingleMedal() {}
+
 public:
-	virtual void STDCALL Configure( const char *pszConfig );
+  void STDCALL Configure(const char *pszConfig) override;
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#endif		//__IM_SINGLE_MEDAL_H__
+
+#endif		// __IM_SINGLE_MEDAL_H__

@@ -24,26 +24,26 @@ public:
 public:
 	typedef vector< CPtr<IGFXVertices> > CVectorOfVertices;
 	
-	//для редактирования shoot points
+	// to edit shoot points
 	struct SShootPoint
 	{
 		CBuildingSlotPropsItem *pSlot;
 		CPtr<IObjVisObj> pSprite;
 		CPtr<IObjVisObj> pHLine;
 		
-		float fDirection;		//угол направления конуса стрельбы
-		float fAngle;				//полный угол конуса стрельбы
+		float fDirection;		// firing cone direction angle
+		float fAngle;				// full cone angle
 	};
 	
-	//для редактирования fire points
+	// to edit fire points
 	struct SFirePoint
 	{
 		CBuildingFirePointPropsItem *pFirePoint;
 		CPtr<IObjVisObj> pSprite;
 		CPtr<IObjVisObj> pHLine;
 		
-		float fDirection;		//угол направления конуса стрельбы
-		//		float fAngle;				//полный угол конуса стрельбы
+		float fDirection;		// firing cone direction angle
+		// float fAngle;				
 	};
 	
 	enum EActiveMode
@@ -73,7 +73,7 @@ public:
 	void SetTranseparenceCombo( CComboBox *pCombo ) { m_pTransparenceCombo = pCombo; }
 	
 	void SetActiveMode( EActiveMode mode );
-	//для редактирования shoot points
+	// to edit shoot points
 	void DeleteShootPoint( CTreeItem *pShoot );
 	void SelectShootPoint( CTreeItem *pShoot );
 	void SetActiveShootPoint( SShootPoint *pShootPoint );
@@ -85,7 +85,7 @@ public:
 	void SetShootPointAngle( const POINT &point );
 	void MoveShootPoint( const POINT &point );
 	
-	//для редактирования fire point
+	// to edit fire point
 	void DeleteFirePoint( CTreeItem *pFire );
 	void SelectFirePoint( CTreeItem *pFire );
 	void SetActiveFirePoint( SFirePoint *pFirePoint );
@@ -96,7 +96,7 @@ public:
 	void SetFirePointAngle( const POINT &point );
 	void MoveFirePoint( const POINT &point );
 	
-	//для редактирования smoke effects
+	// for editing smoke effects
 	void AddOrSelectSmokePoint( const POINT &point );
 	void DeleteSmokePoint();
 	void SelectSmokePoint( CBuildingSmokePropsItem *pSmokePoint );
@@ -107,7 +107,7 @@ public:
 	void GenerateSmokePoints();
 	void CreateSmokeSprites( CBuildingSmokePropsItem *pSmokePoint );
 
-	//для редактирования direction explosions
+	// to edit direction explosions
 	void SelectDirExpPoint( CBuildingDirExplosionPropsItem *pDirExpPoint );
 	void ComputeDirExpDirectionLines();
 	void MoveDirExpPoint( const POINT &point );
@@ -117,13 +117,13 @@ public:
 	
 // Overrides
 	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CBuildingFrame)
+	// {{AFX_VIRTUAL(CBuildingFrame)
 	protected:
-	//}}AFX_VIRTUAL
+	// }}AFX_VIRTUAL
 
 // Implementation
 private:
-	// view for the client area of the frame.
+	// view for the client area of ​​the frame.
 	int m_mode;
 	CVec2 objShift, zeroShift;
 	CVec3 m_zeroPos;
@@ -139,20 +139,20 @@ private:
 	EActiveMode eActiveMode;
 	EActiveSubMode eActiveSubMode;
 
-	//для редактирования shoot points
+	// to edit shoot points
 	typedef list<SShootPoint> CListOfShootPoints;
 	CListOfShootPoints shootPoints;
-	SShootPoint *pActiveShootPoint;			//к этой переменной плохо ссылаться напрямую, лучше использовать SetActiveShootPoint()
+	SShootPoint *pActiveShootPoint;			// It is bad to refer to this variable directly, it is better to use SetActiveShootPoint()
 
-	//для костров
+	// for fires
 	typedef list<SFirePoint> CListOfFirePoints;
 	CListOfFirePoints firePoints;
-	SFirePoint *pActiveFirePoint;				//к этой переменной плохо ссылаться напрямую, лучше использовать SetActiveFirePoint()
+	SFirePoint *pActiveFirePoint;				// It is bad to refer to this variable directly, it is better to use SetActiveFirePoint()
 
-	//для дымов при разрушении
+	// for fumes during destruction
 	CBuildingSmokePropsItem *pActiveSmokePoint;
 
-	//для направленных взрывов
+	// for directed explosions
 	CBuildingDirExplosionPropsItem *pActiveDirExpPoint;
 
 	CPtr<IGFXVertices> pConeVertices;
@@ -166,19 +166,19 @@ private:
 	CComboBox *m_pTransparenceCombo;
 	int m_transValue;
 
-	// для отображения нужного спрайта
+	// to display the desired sprite
 	CTreeItem *pActiveGraphicProps;
 	
 protected:
 	void LoadSprite( const char *pszSpriteFullName );
 
 	void CreateKrest();
-	virtual void SpecificInit();														//для инициализации внутренних данных после загрузки проекта или создании нового
+	virtual void SpecificInit();														// to initialize internal data after loading a project or creating a new one
 	virtual void SpecificClearBeforeBatchMode();
 	virtual BOOL SpecificTranslateMessage( MSG *pMsg );
 	
-	virtual void SaveFrameOwnData( IDataTree *pDT );				//для сохранения собственных данных проекта
-	virtual void LoadFrameOwnData( IDataTree *pDT );				//для загрузки
+	virtual void SaveFrameOwnData( IDataTree *pDT );				// to save your own project data
+	virtual void LoadFrameOwnData( IDataTree *pDT );				// to download
 	virtual void SaveRPGStats( IDataTree *pDT, CTreeItem *pRootItem, const char *pszProjectName );
 	virtual void LoadRPGStats( IDataTree *pDT, CTreeItem *pRootItem );
 
@@ -199,7 +199,7 @@ protected:
 	
 // Generated message map functions
 protected:
-	//{{AFX_MSG(CBuildingFrame)
+	// {{AFX_MSG(CBuildingFrame)
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
@@ -234,13 +234,13 @@ protected:
 	afx_msg void OnUpdateSetSmokePoint(CCmdUI* pCmdUI);
 	afx_msg void OnGeneratePoints();
 	afx_msg void OnUpdateGeneratePoints(CCmdUI* pCmdUI);
-	//}}AFX_MSG
+	// }}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 
-//{{AFX_INSERT_LOCATION}}
+// {{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
 
-#endif		//__BUILDFRM_H__
+#endif		// __BUILDFRM_H__

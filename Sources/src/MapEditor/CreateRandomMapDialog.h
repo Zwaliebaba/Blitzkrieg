@@ -9,7 +9,7 @@
 #include "ResizeDialog.h"
 #include "..\StreamIO\ProgressHook.h"
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CCreateRandomMapProgress : public IProgressHook
 {
 	OBJECT_NORMAL_METHODS( CCreateRandomMapProgress );
@@ -29,13 +29,13 @@ public:
 	virtual void Init( const std::string &szMovieName ) {}
 	virtual void Stop() {}
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CCreateRandomMapDialog : public CResizeDialog
 {
 public:
 	CCreateRandomMapDialog( CWnd* pParent = NULL );
 
-	//{{AFX_DATA(CCreateRandomMapDialog)
+	// {{AFX_DATA(CCreateRandomMapDialog)
 	enum { IDD = IDD_CREATE_RANDOM_MAP };
 	CComboBox	m_Setting;
 	CComboBox	m_Template;
@@ -44,15 +44,15 @@ public:
 	CComboBox	m_Context;
 	BOOL	m_SaveAsBZM;
 	BOOL	m_SaveAsDDS;
-	//}}AFX_DATA
+	// }}AFX_DATA
 
-	//{{AFX_VIRTUAL(CCreateRandomMapDialog)
+	// {{AFX_VIRTUAL(CCreateRandomMapDialog)
 	protected:
 	virtual void DoDataExchange( CDataExchange* pDX );
-	//}}AFX_VIRTUAL
+	// }}AFX_VIRTUAL
 
 protected:
-	//{{AFX_MSG(CCreateRandomMapDialog)
+	// {{AFX_MSG(CCreateRandomMapDialog)
 	virtual BOOL OnInitDialog();
 	virtual void OnOK();
 	afx_msg void OnChangeCrmGraphEdit();
@@ -66,7 +66,7 @@ protected:
 	afx_msg void OnSelchangeCrmContextEdit();
 	afx_msg void OnEditchangeCrmTemplateEdit();
 	afx_msg void OnSelchangeCrmTemplateEdit();
-	//}}AFX_MSG
+	// }}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 
 protected:
@@ -121,6 +121,6 @@ public:
 	bool SaveAsBZM() { return ( resizeDialogOptions.nParameters[3] > 0 ); }
 	bool SaveAsDDS() { return ( resizeDialogOptions.nParameters[4] > 0 ); }
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//{{AFX_INSERT_LOCATION}}
+
+// {{AFX_INSERT_LOCATION}}
 #endif // !defined(__CREATE_RANDOM_MAP_DIALOG__)

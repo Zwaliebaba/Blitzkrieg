@@ -1,6 +1,6 @@
 // SEditorMApObject.h: interface for the SEditorMApObject class.
 //
-//////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////
 
 #if !defined(AFX_SEDITORMAPOBJECT_H__F284DFBF_8E87_40C0_94F9_A78B24FD9E26__INCLUDED_)
 #define AFX_SEDITORMAPOBJECT_H__F284DFBF_8E87_40C0_94F9_A78B24FD9E26__INCLUDED_
@@ -12,7 +12,7 @@
 #include "..\Common\MapObject.h"
 #include "..\Misc\Manipulator.h"
 #include "EditorObjectItem.h"
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class SUnitEditorObjectItem : public SEditorObjectItem
 {
 	virtual IManipulator* GetManipulator();
@@ -27,7 +27,7 @@ class SBuildingEditorObjectItem : public SEditorObjectItem
 {
 	virtual IManipulator* GetManipulator();
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CTrenchManipulator : public CManipulator
 {
 	OBJECT_MINIMAL_METHODS( CTrenchManipulator );
@@ -46,7 +46,7 @@ public:
 	void SetObject( SEditorObjectItem *p )			{ m_obj = p;}
 };
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 class CUnitManipulator : public CManipulator
 {
@@ -86,33 +86,10 @@ public:
 	void SetObject( SEditorObjectItem *p )			{ m_obj = p;}
 };
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/**
-class CMultiUnitManipulator : public CManipulator
-{
-	OBJECT_MINIMAL_METHODS( CMultiUnitManipulator );
-	//
-	std::vector<SEditorObjectItem*> m_objects;
 
-public:
-	CMultiUnitManipulator();
-	void SetAngle( const variant_t &value );		
-	void GetAngle( variant_t *pValue, int nIndex = -1 );	
+/* *
+ */
 
-	void SetPlayer( const variant_t &value );		
-	void GetPlayer( variant_t *pValue, int nIndex = -1 );	
-
-	void SetScriptID( const variant_t &value );		
-	void GetScriptID( variant_t *pValue, int nIndex = -1 );
-
-	void SetBehavior( const variant_t &value );		
-	void GetBehavior( variant_t *pValue, int nIndex = -1 );	
-
-	void AddObject( SEditorObjectItem *p )			{ m_objects.push_back( p );}
-	void SetObject( SEditorObjectItem *p )			{ m_objects.clear(); AddObject( p ); }
-};
-/**/
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class CBuildingManipulator : public CManipulator
 {
@@ -137,6 +114,6 @@ public:
 	void SetObject( SEditorObjectItem *p )			{ m_obj = p;}
 };
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 #endif // !defined(AFX_SEDITORMAPOBJECT_H__F284DFBF_8E87_40C0_94F9_A78B24FD9E26__INCLUDED_)

@@ -1,10 +1,10 @@
 #ifndef __STRUCTURESAVER_INTERNAL_H__
 #define __STRUCTURESAVER_INTERNAL_H__
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////// 
 #include "StructureSaver.h"
 #include "Streams.h"
 #include "..\Misc\BasicObjectFactory.h"
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////// 
 class CSaveLoadSystem : public ISaveLoadSystem
 {
 	CBasicObjectFactory *pFactory;
@@ -20,14 +20,14 @@ public:
 		                                                     IStructureSaver::EStoreMode eStoreMode );
 	virtual IDataTree* STDCALL CreateDataTreeSaver( IDataStream *pStream, IDataTree::EAccessMode eAccessMode, DTChunkID idBaseNode );
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////// 
 // a) chunk structure
 // b) ptr/ref storage
 // system is able to store ref/ptr only for objectbase ancestors
 // final save file structure
 // -header section list of object types with pointers
 // -object data separated in chunks one chunk per object
-// c) can replace CMemoryStream with specialized objects to increase perfomance
+// c) can replace CMemoryStream with specialized objects to increase performance
 
 // chunk with index 0 is used for system and should not be used in user code
 typedef char SSChunkID;
@@ -43,7 +43,7 @@ class CStructureSaver : public IStructureSaver
 	{
 		SSChunkID idChunk;
 		int nStart, nLength;
-		int nChunkNumber; // номер чанка по порядку для считывания - используется при записи/считывании vector/list
+		int nChunkNumber; // chunk number in order for reading - used when writing/reading vector/list
 		
 		void Clear() { idChunk = (SSChunkID)0xff; nChunkNumber = 1; nStart = 0; nLength = 0; }
 		CChunkLevel() { Clear(); }
@@ -58,7 +58,7 @@ class CStructureSaver : public IStructureSaver
 	bool bReading;
 	IStructureSaver::EStoreMode eStoreMode;	// we can store data only and can store with objects re-creation...
 	// maps objects addresses during save(first) to addresses during load(second) - during loading
-	// or serves as a sign that some object has been already stored - during storing
+	// or serves as a sign that some object has already been stored - during storing
 	typedef std::hash_map<void*, CPtr<IRefCount>, SDefaultPtrHash> CObjectsHash;
 	CObjectsHash objects;
 	typedef std::hash_map<void*,bool,SDefaultPtrHash> CPObjectsHash;
@@ -98,12 +98,12 @@ public:
 	virtual void STDCALL SetChunkCounter( int nCount );
 	// is structure saver opened in the READ mode?
 	virtual bool STDCALL IsReading() const { return bReading; }
-	// загрузка объекта с воссозданием его
+	// loading an object and recreating it
 	virtual IRefCount* STDCALL LoadObject();
-	// запись объекта и данных, необходимых для его воссоздания при загрузке
+	// recording the object and data needed to recreate it when loaded
 	virtual void STDCALL StoreObject( IRefCount *pObj );
-	// получить указатель на игровую базу данных
+	// get a pointer to the game database
 	virtual interface IGDB* STDCALL GetGDB() { return pGDB; }
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////// 
 #endif // __STRUCTURESAVER_INTERNAL_H__

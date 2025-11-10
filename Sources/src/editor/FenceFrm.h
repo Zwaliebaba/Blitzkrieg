@@ -53,10 +53,10 @@ public:
 	
 // Overrides
 	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CFenceFrame)
+	// {{AFX_VIRTUAL(CFenceFrame)
 protected:
 	virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
-	//}}AFX_VIRTUAL
+	// }}AFX_VIRTUAL
 
 // Implementation
 private:
@@ -77,7 +77,7 @@ private:
 	CComboBox *m_pTransparenceCombo;
 	int m_transValue;
 
-	std::list<int> freeIndexes;			//для хранения незаполненных индексов
+	std::list<int> freeIndexes;			// to store empty indexes
 	
 protected:
 	void ClickOnThumbList( int nID );
@@ -89,7 +89,7 @@ protected:
 	void CenterSpriteAboutTile();
 	
 	virtual void LoadRPGStats( IDataTree *pDT, CTreeItem *pRootItem );
-	virtual void SpecificInit();														//для инициализации внутренних данных после загрузки проекта или создании нового
+	virtual void SpecificInit();														// to initialize internal data after loading a project or creating a new one
 	virtual void SpecificClearBeforeBatchMode();
 	virtual BOOL SpecificTranslateMessage( MSG *pMsg );
 	
@@ -97,7 +97,7 @@ protected:
 	
 	// Generated message map functions
 protected:
-	//{{AFX_MSG(CFenceFrame)
+	// {{AFX_MSG(CFenceFrame)
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnMoveObject();
 	afx_msg void OnUpdateMoveObject(CCmdUI* pCmdUI);
@@ -112,13 +112,13 @@ protected:
 	afx_msg void OnUpdateDrawTransparence(CCmdUI* pCmdUI);
 	afx_msg void OnSetFocusTranseparence();
 	afx_msg void OnChangeTranseparence();
-	//}}AFX_MSG
+	// }}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 
-//{{AFX_INSERT_LOCATION}}
+// {{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
 
-#endif		//__FENCEFRM_H__
+#endif		// __FENCEFRM_H__

@@ -18,8 +18,8 @@
 static const int MIN_OPACITY = 120;
 static const int MAX_OPACITY = 255;
 
-static const int LINE_LENGTH = 100;			//длина линии, используемой дл¤ задани¤ конуса стрельбы
-static const int EDGE_LENGTH = 200;			//длина ребра конуса
+static const int LINE_LENGTH = 100;			// length of line used to define the cone of fire
+static const int EDGE_LENGTH = 200;			// cone edge length
 static const int SHOOT_PICTURE_SIZE = 8;
 
 
@@ -27,7 +27,7 @@ void CBridgeFrame::SetActiveFirePoint( SFirePoint *pFirePoint )
 {
 	if ( pActiveFirePoint )
 	{
-		//устанавливаем предыдущий активный fire point в неактивное состо¤ние
+		// set the previous active fire point to an inactive state
 		pActiveFirePoint->pSprite->SetOpacity( MIN_OPACITY );
 		if ( pActiveFirePoint->pHLine )
 			pActiveFirePoint->pHLine->SetOpacity( 0 );
@@ -82,8 +82,8 @@ void CBridgeFrame::SelectFirePoint( CTreeItem *pFire )
 	{
 		if ( it->pFirePoint == pFire )
 		{
-//			static_cast
-//			it->fDirection = pFire->GetDirection();
+// static_cast
+// it->fDirection = pFire->GetDirection();
 			SetActiveFirePoint( &(*it) );
 			GFXDraw();
 			break;
@@ -98,7 +98,7 @@ void CBridgeFrame::ComputeFireDirectionLines()
 		return;
 
 	IScene *pSG = GetSingleton<IScene>();
-	CVec3 vCenter3 = pActiveFirePoint->pHLine->GetPosition();		//положение центра линии
+	CVec3 vCenter3 = pActiveFirePoint->pHLine->GetPosition();		// line center position
 	CVec2 vCenter2;
 	pSG->GetPos2( &vCenter2, vCenter3 );
 	
@@ -112,7 +112,7 @@ void CBridgeFrame::ComputeFireDirectionLines()
 	CVec2 vPos2;
 	pSG->GetPos2( &vPos2, vPos3 );
 
-	CVec3 vLine1, vLine2;			//линии, отображающие красную стрелочку
+	CVec3 vLine1, vLine2;			// lines showing a red arrow
 	vLine1.z = vLine2.z = 0;
 	float fTemp = ToRadian( 5.0f );
 	vLine1.x = vCenter3.x - (float) (EDGE_LENGTH - 20) * sin( fA - fTemp );
@@ -120,13 +120,13 @@ void CBridgeFrame::ComputeFireDirectionLines()
 	vLine2.x = vCenter3.x - (float) (EDGE_LENGTH - 20) * sin( fA + fTemp );
 	vLine2.y = vCenter3.y + (float) (EDGE_LENGTH - 20) * cos( fA + fTemp );
 	
-	//теперь мы нашли точки v1, v2, получим 2D координаты дл¤ построени¤ линий
+	// now we have found points v1, v2, we will get 2D coordinates for constructing lines
 	{
 		CVerticesLock<SGFXTLVertex> vertices( pFireDirectionVertices );
 		
 		CVec2 v;
 		
-		//0xffff60e6 == (255, 96, 230) розовый цвет
+		// 0xffff60e6 == (255, 96, 230) pink color
 		DWORD dwColor = 0xffffff00;
 		vertices[0].Setup( vCenter2.x, vCenter2.y, 1, 1, dwColor, 0xff000000, 0, 0 );
 		vertices[1].Setup( vPos2.x, vPos2.y, 1, 1, dwColor, 0xff000000, 0, 0 );
@@ -158,7 +158,7 @@ void CBridgeFrame::AddOrSelectFirePoint( const POINT &point )
 	objShift = VNULL2;
 	zeroShift = VNULL2;
 
-	//провер¤ем, вдруг fire point с такими координатами уже существует
+	// let's check if a fire point with these coordinates already exists
 	CListOfFirePoints::iterator it=firePoints.begin();
 	for ( ; it!=firePoints.end(); ++it )
 	{
@@ -169,11 +169,11 @@ void CBridgeFrame::AddOrSelectFirePoint( const POINT &point )
 		if ( point.x >= vPos2.x - SHOOT_PICTURE_SIZE && point.x <= vPos2.x + SHOOT_PICTURE_SIZE &&
 			point.y >= vPos2.y - SHOOT_PICTURE_SIZE && point.y <= vPos2.y + SHOOT_PICTURE_SIZE )
 		{
-			//выдел¤ем этот shoot point
+			// let's highlight this shoot point
 			SetActiveFirePoint( &(*it) );
 			it->pFirePoint->SelectMeInTheTree();
 
-			//начинаем перетаскивать этот компонент
+			// start dragging this component
 			SetChangedFlag( true );
 			objShift.x = vPos2.x - point.x;
 			objShift.y = vPos2.y - point.y;
@@ -184,7 +184,7 @@ void CBridgeFrame::AddOrSelectFirePoint( const POINT &point )
 			zeroShift.y = vPos2.y - point.y;
 
 			m_mode = E_SET_FIRE_POINT;
-			//pTreeDockBar->SetFocus();
+			// pTreeDockBar->SetFocus();
 			g_frameManager.GetGameWnd()->SetCapture();
 			return;
 		}
@@ -192,11 +192,11 @@ void CBridgeFrame::AddOrSelectFirePoint( const POINT &point )
 	
 	if ( !ComputeMaxAndMinPositions( firePos3 ) )
 	{
-		//Ќе нашел пересечени¤ с залоченными тайлами, не добавл¤ю точку
+		// I didn’t find any intersection with locked tiles, so I won’t add a point
 		return;
 	}
 	
-	//добавл¤ем спрайт 'точка огн¤' с такими координатами
+	// add a 'fire point' sprite with these coordinates
 	IVisObjBuilder *pVOB = GetSingleton<IVisObjBuilder>();
 	CPtr<IObjVisObj> pObject = static_cast<IObjVisObj *> ( pVOB->BuildObject( "editor\\shoot\\1", 0, SGVOT_SPRITE ) );
 	NI_ASSERT( pObject != 0 );
@@ -211,7 +211,7 @@ void CBridgeFrame::AddOrSelectFirePoint( const POINT &point )
 	pSG->AddObject( pObject, SGVOGT_OBJECT );
 	pObject->SetOpacity( MAX_OPACITY );
 	
-	//добавл¤ем точку огн¤ в дерево
+	// add a fire point to the tree
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
 	CTreeItem *pRoot = pTree->GetRootItem();
 	CTreeItem *pFiresItem = pRoot->GetChildItem( E_BRIDGE_FIRE_POINTS_ITEM );
@@ -224,22 +224,22 @@ void CBridgeFrame::AddOrSelectFirePoint( const POINT &point )
 	fire.pFirePoint = pNewPoint;
 	fire.pSprite = pObject;
 	
-	// опируем в новый fire point информацию из старого
+	// copy information from the old one into the new fire point
 	if ( pActiveFirePoint )
 	{
-		//скопируем конус стрельбы из предыдущего shoot point
+		// copy the shooting cone from the previous shoot point
 		fire.fDirection = pActiveFirePoint->fDirection;
 		fire.pFirePoint->SetDirection( fire.fDirection );
 		fire.pFirePoint->SetEffectName( pActiveFirePoint->pFirePoint->GetEffectName() );
 	}
 	else
 	{
-		//создадим конус стрельбы по умолчанию
+		// create a default shooting cone
 		fire.fDirection = 0;
 		fire.pFirePoint->SetDirection( fire.fDirection );
 	}
 	
-	//нашел точку пересечени¤
+	// found the intersection point¤
 	CVec3 vHPos3 = firePos3;
 	if ( pActiveFirePoint )
 	{
@@ -264,7 +264,7 @@ void CBridgeFrame::AddOrSelectFirePoint( const POINT &point )
 		pSG->GetPos3( &vHPos3, vPos2 );
 	}
 
-	//создаем спрайт - горизонтальную линию
+	// create a sprite - a horizontal line
 	pObject = static_cast<IObjVisObj *> ( pVOB->BuildObject( "editor\\shoot_horizontal\\1", 0, SGVOT_SPRITE ) );
 	NI_ASSERT( pObject != 0 );
 	
@@ -317,12 +317,12 @@ void CBridgeFrame::SetFirePointAngle( const POINT &point )
 		return;
 	IScene *pSG = GetSingleton<IScene>();
 	
-	CVec3 vCenter3 = pActiveFirePoint->pHLine->GetPosition();		//положение центра конуса
+	CVec3 vCenter3 = pActiveFirePoint->pHLine->GetPosition();		// cone center position
 	CVec2 vCenter2;
 	pSG->GetPos2( &vCenter2, vCenter3 );
 	float temp = (vCenter2.x - point.x)*(vCenter2.x - point.x) + (vCenter2.y - point.y)*(vCenter2.y - point.y);
 	if ( sqrt( temp ) < 5 )
-		return;				//если очень маленькие рассто¤ни¤, то будет сильно скакать, избегаем скачков
+		return;				// if the distances are very small, it will jump a lot, avoid jumps
 	
 	CVec2 vPos2;
 	vPos2.x = point.x;
@@ -330,7 +330,7 @@ void CBridgeFrame::SetFirePointAngle( const POINT &point )
 	CVec3 vPos3;
 	pSG->GetPos3( &vPos3, vPos2 );
 	
-	//ѕересчитаем из координат на плоскости в значени¤ углов
+	// “We recalculate from coordinates on the plane into angle values”
 	CVec3 vCone;
 	vCone.x = vPos3.x - vCenter3.x;
 	vCone.y = vPos3.y - vCenter3.y;
@@ -397,7 +397,7 @@ void CBridgeFrame::GenerateFirePoints()
 		pActiveFirePoint = 0;
 	}
 	
-	//—перва найдем минимальные и максимальные координаты тайлов в pActiveSpansItem->lockedTiles
+	// —first, find the minimum and maximum coordinates of the tiles in pActiveSpansItem->lockedTiles
 	NI_ASSERT( !pActiveSpansItem->lockedTiles.empty() );
 	int nTileMinX = pActiveSpansItem->lockedTiles.front().nTileX, nTileMaxX = pActiveSpansItem->lockedTiles.front().nTileX;
 	int nTileMinY = pActiveSpansItem->lockedTiles.front().nTileY, nTileMaxY = pActiveSpansItem->lockedTiles.front().nTileY;
@@ -438,7 +438,7 @@ void CBridgeFrame::GenerateFirePoints()
 	
 	if ( m_bHorizontal )
 	{
-		//front left
+		// front left
 		for ( int i=0; i<(nTileMaxX-nTileMinX+1)/2; i++ )
 		{
 			v2.x = fLeftX + i * fCellSizeX + fCellSizeX / 4;
@@ -447,7 +447,7 @@ void CBridgeFrame::GenerateFirePoints()
 			
 			SetFireDirection( 180 );
 		}
-		//back right
+		// back right
 		for ( int i=0; i<(nTileMaxX-nTileMinX+1)/2; i++ )
 		{
 			v2.x = fRightX - i * fCellSizeX - fCellSizeX / 4;
@@ -459,7 +459,7 @@ void CBridgeFrame::GenerateFirePoints()
 	}
 	else
 	{
-		//front right
+		// front right
 		for ( int i=0; i<(nTileMaxY-nTileMinY+1)/2; i++ )
 		{
 			v2.x = fBottomX + i * fCellSizeX + fCellSizeX / 4;
@@ -468,7 +468,7 @@ void CBridgeFrame::GenerateFirePoints()
 			
 			SetFireDirection( 270 );
 		}
-		//back left
+		// back left
 		for ( int i=0; i<(nTileMaxY-nTileMinY+1)/2; i++ )
 		{
 			v2.x = fTopX - i * fCellSizeX - fCellSizeX / 4;

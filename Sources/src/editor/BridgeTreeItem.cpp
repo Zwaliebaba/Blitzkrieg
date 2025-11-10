@@ -56,8 +56,8 @@ bool CBridgeTreeRootItem::SaveShadowFile( const string &szBridgeFileName, const 
 {
 	IImageProcessor *pIP = GetImageProcessor();
 
-	//Тень надо промодулировать альфой из инвертированной картинки моста.
-	//Загружаем спрайт моста
+	// The shadow must be modulated with alpha from the inverted image of the bridge.
+	// Loading the bridge sprite
 	CPtr<IDataStream> pBridgeStream = OpenFileStream( szBridgeFileName.c_str(), STREAM_ACCESS_READ );
 	if ( pBridgeStream == 0 )
 		return false;
@@ -68,7 +68,7 @@ bool CBridgeTreeRootItem::SaveShadowFile( const string &szBridgeFileName, const 
 	pInverseSprite->SharpenAlpha( 1 );
 	pInverseSprite->InvertAlpha();
 
-	//Загружаем тень
+	// Loading the shadow
 	CPtr<IDataStream> pShadowStream = OpenFileStream( szShadowFileName.c_str(), STREAM_ACCESS_READ );
 	if ( pShadowStream == 0 )
 		return false;
@@ -90,12 +90,12 @@ bool CBridgeTreeRootItem::SaveShadowFile( const string &szBridgeFileName, const 
 	rc.top = 0;
 	rc.right = pInverseSprite->GetSizeX();
 	rc.bottom = pInverseSprite->GetSizeY();
-	// промодулировать тень инверсной альфой из основной картинки
+	// modulate the shadow with inverse alpha from the main image
 	pShadowImage->ModulateAlphaFrom( pInverseSprite, &rc, 0, 0 );
-	// занулить цвет - оставить только альфу
+	// zero color - leave only alpha
 	pShadowImage->SetColor( DWORD(0) );
 
-	//Сохраним файл с тенью под temp именем
+	// Let's save the file with the shadow under the name temp
 	CPtr<IDataStream> pSaveShadowStream = OpenFileStream( szTempShadow.c_str(), STREAM_ACCESS_WRITE );
 	pIP->SaveImageAsTGA( pSaveShadowStream, pShadowImage );
 
@@ -173,7 +173,7 @@ void CBridgeCommonPropsItem::UpdateItemValue( int nItemId, const CVariant &value
 	CTreeItem::UpdateItemValue( nItemId, value );
 	if ( nItemId == 2 )
 	{
-		//Изменился тип моста, обновим информацию в BridgeComposer
+		// The bridge type has changed, update the information in BridgeComposer
 		CBridgeFrame *pFrame = static_cast<CBridgeFrame *> ( g_frameManager.GetFrame( CFrameManager::E_BRIDGE_FRAME ) );
 		pFrame->SetBridgeType( GetDirection() );
 	}
@@ -301,7 +301,7 @@ int CBridgeStagePropsItem::GetActiveStage()
 
 int CBridgeCommonSpansItem::GetActiveStage()
 {
-	CBridgeStagePropsItem *pStage = static_cast<CBridgeStagePropsItem *> ( GetParentTreeItem() );				//stage
+	CBridgeStagePropsItem *pStage = static_cast<CBridgeStagePropsItem *> ( GetParentTreeItem() );				// stage
 	NI_ASSERT( pStage != 0 );
 	return pStage->GetActiveStage();
 }
@@ -345,21 +345,8 @@ void CBridgePartsItem::InitDefaultValues()
 	defaultValues.clear();
 	SProp prop;
 	
-/*
-	prop.nId = 1;
-	prop.nDomenType = DT_DEC;
-	prop.szDefaultName = "Length";
-	prop.szDisplayName = "Length";
-	prop.value = 2;
-	defaultValues.push_back( prop );
-
-	prop.nId = 2;
-	prop.nDomenType = DT_DEC;
-	prop.szDefaultName = "Width";
-	prop.szDisplayName = "Width";
-	prop.value = 4;
-	defaultValues.push_back( prop );
-*/
+/* prop.nId = 1;
+	 */
 
 	values = defaultValues;
 
@@ -387,7 +374,7 @@ void CBridgePartsItem::MyKeyDown( int nChar )
 	switch ( nChar )
 	{
 		case VK_DELETE:
-			//Убиваем эту часть забора
+			// Killing this part of the fence
 			CBridgeFrame *pFrame = static_cast<CBridgeFrame *> ( g_frameManager.GetFrame( CFrameManager::E_BRIDGE_FRAME ) );
 			pFrame->RemoveBridgeIndex( GetActiveStage(), nSpanIndex );
 			DeleteMeInParentTreeItem();
@@ -410,12 +397,12 @@ int CBridgePartsItem::operator&( IDataTree &ss )
 	CBridgeFrame *pFrame = static_cast<CBridgeFrame *> ( g_frameManager.GetFrame( CFrameManager::E_BRIDGE_FRAME ) );
 	if ( !saver.IsReading() )
 	{
-		// Сохраняем данные о тайловой проходимости
+		// Saving data on tile passability
 		pFrame->SaveMyData( this, saver );
 	}
 	else
 	{
-		// Считываем данные о тайловой проходимости
+		// Reading data on tile passability
 		pFrame->LoadMyData( this, saver );
 	}
 	
@@ -424,9 +411,9 @@ int CBridgePartsItem::operator&( IDataTree &ss )
 
 int CBridgePartsItem::GetActiveStage()
 {
-	CTreeItem *pPapa = GetParentTreeItem();		//begins or spans or ends
+	CTreeItem *pPapa = GetParentTreeItem();		// begins or spans or ends
 	NI_ASSERT( pPapa != 0 );
-	CBridgeStagePropsItem *pStage = static_cast<CBridgeStagePropsItem *> ( pPapa->GetParentTreeItem() );				//stage
+	CBridgeStagePropsItem *pStage = static_cast<CBridgeStagePropsItem *> ( pPapa->GetParentTreeItem() );				// stage
 	NI_ASSERT( pStage != 0 );
 	return pStage->GetActiveStage();
 }
@@ -443,13 +430,8 @@ void CBridgePartPropsItem::InitDefaultValues()
 	prop.value = "";
 	prop.szStrings.push_back( "" );
 
-/*
-	CParentFrame *pFrame = g_frameManager.GetActiveFrame();
-	if ( pFrame == 0 )
-		prop.szStrings.push_back( "" );
-	else
-		prop.szStrings.push_back( GetDirectory( pFrame->GetProjectFileName().c_str() ) );
-*/
+/* CParentFrame *pFrame = g_frameManager.GetActiveFrame();
+	 */
 	prop.szStrings.push_back( szTGAFilter );
 	defaultValues.push_back( prop );
 	values = defaultValues;
@@ -471,7 +453,7 @@ void CBridgePartPropsItem::UpdateItemValue( int nItemId, const CVariant &value )
 		string szProjectName = pFrame->GetProjectFileName();
 		if ( !IsRelatedPath(szFull.c_str()) )
 		{
-			//Тут вычисляется относительный путь, относительно файла с проектом
+			// Here the relative path is calculated relative to the project file
 			string szRelatedPath;
 			bool bRes = MakeSubRelativePath( szProjectName.c_str(), szFull.c_str(), szRelatedPath );
 			if ( bRes == false )
@@ -537,7 +519,7 @@ void CBridgeFirePointPropsItem::MyKeyDown( int nChar )
 	switch ( nChar )
 	{
 		case VK_DELETE:
-			//Убиваем этот fire point
+			// Let's kill this fire point
 			CBridgeFrame *pFrame = static_cast<CBridgeFrame *> ( g_frameManager.GetFrame( CFrameManager::E_BRIDGE_FRAME ) );
 			pFrame->DeleteFirePoint( this );
 			DeleteMeInParentTreeItem();
@@ -551,7 +533,7 @@ void CBridgeFirePointPropsItem::UpdateItemValue( int nItemId, const CVariant &va
 	if ( nItemId == 1 )
 	{
 		CBridgeFrame *pFrame = static_cast<CBridgeFrame *> ( g_frameManager.GetFrame( CFrameManager::E_BRIDGE_FRAME ) );
-		//Изменилось направление fire direction, обновим информацию в BridgeFrame
+		// The fire direction has changed, let's update the information in the BridgeFrame
 		CTreeItem *pTemp = pFrame->GetActiveFirePointItem();
 		if ( pTemp != this )
 		{
@@ -681,7 +663,7 @@ void CBridgeSmokePropsItem::UpdateItemValue( int nItemId, const CVariant &value 
 	CTreeItem::UpdateItemValue( nItemId, value );
 	if ( nItemId == 1 )
 	{
-		//Изменилось направление direction explosion direction, обновим информацию в BridgeFrame
+		// The direction explosion direction has changed, let's update the information in BridgeFrame
 		CBridgeFrame *pFrame = static_cast<CBridgeFrame *> ( g_frameManager.GetFrame( CFrameManager::E_BRIDGE_FRAME ) );
 		pFrame->ComputeSmokeLines();
 		return;
@@ -693,7 +675,7 @@ void CBridgeSmokePropsItem::MyKeyDown( int nChar )
 	switch ( nChar )
 	{
 	case VK_DELETE:
-		//Убиваем этот smoke point
+		// Let's kill this smoke point
 		CBridgeFrame *pFrame = static_cast<CBridgeFrame *> ( g_frameManager.GetFrame( CFrameManager::E_BRIDGE_FRAME ) );
 		pFrame->DeleteSmokePoint();
 		DeleteMeInParentTreeItem();

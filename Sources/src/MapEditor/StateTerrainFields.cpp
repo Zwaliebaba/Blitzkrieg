@@ -22,9 +22,9 @@ static char THIS_FILE[]=__FILE__;
 #define new DEBUG_NEW
 #endif
 
-//fields
-//CFieldsSelectState
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// fields
+// CFieldsSelectState
+// ////////////////////////////////////////////////
 void CFieldsSelectState::OnLButtonDown( UINT nFlags, const CTPoint<int> &rMousePoint, CTemplateEditorFrame* pFrame )
 {
 	if ( pParentState->stateParameter.Update( CInputStateParameter::ISE_LBUTTONDOWN, rMousePoint, pFrame ) )
@@ -45,7 +45,7 @@ void CFieldsSelectState::OnLButtonDown( UINT nFlags, const CTPoint<int> &rMouseP
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CFieldsSelectState::OnLButtonDblClk( UINT nFlags, const CTPoint<int> &rMousePoint, CTemplateEditorFrame* pFrame )
 {
 	if ( pParentState->stateParameter.Update( CInputStateParameter::ISE_LBUTTONDBLCLK, rMousePoint, pFrame ) )
@@ -55,7 +55,7 @@ void CFieldsSelectState::OnLButtonDblClk( UINT nFlags, const CTPoint<int> &rMous
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CFieldsSelectState::OnKeyDown( UINT nChar, UINT nRepCnt, UINT nFlags, CTemplateEditorFrame* pFrame )
 {
 	if ( pParentState->stateParameter.Update( CInputStateParameter::ISE_KEYDOWN, CTPoint<int>( 0, 0 ), pFrame ) )
@@ -73,8 +73,8 @@ void CFieldsSelectState::OnKeyDown( UINT nChar, UINT nRepCnt, UINT nFlags, CTemp
 	}
 }
 
-//CFieldsEditState
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// CFieldsEditState
+// ////////////////////////////////////////////////
 void CFieldsEditState::OnMouseMove( UINT nFlags, const CTPoint<int> &rMousePoint, CTemplateEditorFrame* pFrame )
 {
 	if ( pParentState->stateParameter.Update( CInputStateParameter::ISE_MOUSEMOVE, rMousePoint, pFrame ) )
@@ -95,7 +95,7 @@ void CFieldsEditState::OnMouseMove( UINT nFlags, const CTPoint<int> &rMousePoint
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CFieldsEditState::OnLButtonUp( UINT nFlags, const CTPoint<int> &rMousePoint, CTemplateEditorFrame* pFrame )
 {
 	if ( pParentState->stateParameter.Update( CInputStateParameter::ISE_LBUTTONUP, rMousePoint, pFrame ) )
@@ -107,7 +107,7 @@ void CFieldsEditState::OnLButtonUp( UINT nFlags, const CTPoint<int> &rMousePoint
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CFieldsEditState::OnKeyDown( UINT nChar, UINT nRepCnt, UINT nFlags, CTemplateEditorFrame* pFrame )
 {
 	if ( pParentState->stateParameter.Update( CInputStateParameter::ISE_KEYDOWN, CTPoint<int>( 0, 0 ), pFrame ) )
@@ -136,14 +136,14 @@ void CFieldsEditState::OnKeyDown( UINT nChar, UINT nRepCnt, UINT nFlags, CTempla
 				pFrame->RedrawWindow();
 			}
 		}
-		//не надо
-		//pFrame->RedrawWindow();
+		// No need
+		// pFrame->RedrawWindow();
 	}
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 
-//CFieldsAddState
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// CFieldsAddState
+// ////////////////////////////////////////////////
 void CFieldsAddState::OnMouseMove( UINT nFlags, const CTPoint<int> &rMousePoint, CTemplateEditorFrame* pFrame )
 {
 	if ( pParentState->stateParameter.Update( CInputStateParameter::ISE_MOUSEMOVE, rMousePoint, pFrame ) )
@@ -157,7 +157,7 @@ void CFieldsAddState::OnMouseMove( UINT nFlags, const CTPoint<int> &rMousePoint,
 	}	
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CFieldsAddState::OnLButtonDown( UINT nFlags, const CTPoint<int> &rMousePoint, CTemplateEditorFrame* pFrame )
 {
 	if ( pParentState->stateParameter.Update( CInputStateParameter::ISE_LBUTTONDOWN, rMousePoint, pFrame ) )
@@ -167,7 +167,7 @@ void CFieldsAddState::OnLButtonDown( UINT nFlags, const CTPoint<int> &rMousePoin
 	}	
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CFieldsAddState::OnRButtonDown( UINT nFlags, const CTPoint<int> &rMousePoint, CTemplateEditorFrame* pFrame )
 {
 	if ( pParentState->stateParameter.Update( CInputStateParameter::ISE_RBUTTONDOWN, rMousePoint, pFrame ) )
@@ -185,7 +185,7 @@ void CFieldsAddState::OnRButtonDown( UINT nFlags, const CTPoint<int> &rMousePoin
 	}	
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CFieldsAddState::OnLButtonDblClk( UINT nFlags, const CTPoint<int> &rMousePoint, CTemplateEditorFrame* pFrame )
 {
 	if ( pParentState->stateParameter.Update( CInputStateParameter::ISE_LBUTTONDBLCLK, rMousePoint, pFrame ) )
@@ -204,7 +204,7 @@ void CFieldsAddState::OnLButtonDblClk( UINT nFlags, const CTPoint<int> &rMousePo
 	}	
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CFieldsAddState::OnKeyDown( UINT nChar, UINT nRepCnt, UINT nFlags, CTemplateEditorFrame* pFrame )
 {
 	if ( pParentState->stateParameter.Update( CInputStateParameter::ISE_KEYDOWN, CTPoint<int>( 0, 0 ), pFrame ) )
@@ -233,14 +233,14 @@ void CFieldsAddState::OnKeyDown( UINT nChar, UINT nRepCnt, UINT nFlags, CTemplat
 				pFrame->RedrawWindow();
 			}
 		}
-		//не надо
-		//pFrame->RedrawWindow();
+		// No need
+		// pFrame->RedrawWindow();
 	}
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 
-//CFieldsState
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// CFieldsState
+// ////////////////////////////////////////////////
 const int CFieldsState::INVALID_INDEX = ( -1 );
 const float CFieldsState::POINT_RADIUS = fWorldCellSize / 4.0f;
 const int CFieldsState::POINT_PARTS = 8;
@@ -248,7 +248,7 @@ const float CFieldsState::LINE_SEGMENT = fWorldCellSize;
 const SColor CFieldsState::POINT_COLOR = SColor( 0xFF, 0xFF, 0x80, 0x80 );
 const SColor CFieldsState::LINE_COLOR = SColor( 0xFF, 0xFF, 0x80, 0x80 );
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CFieldsState::Enter()
 {
 	if ( CTemplateEditorFrame *pFrame = g_frameManager.GetTemplateEditorFrame() )
@@ -260,7 +260,7 @@ void CFieldsState::Enter()
 		pFrame->RedrawWindow();
 	}
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CFieldsState::Leave()
 {
 	if ( CTemplateEditorFrame *pFrame = g_frameManager.GetTemplateEditorFrame() )
@@ -273,7 +273,7 @@ void CFieldsState::Leave()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CFieldsState::Draw( CTemplateEditorFrame* pFrame )
 {
 	if ( IScene *pScene = GetSingleton<IScene>() )
@@ -318,7 +318,7 @@ void CFieldsState::Draw( CTemplateEditorFrame* pFrame )
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CFieldsState::Update()
 {
 	if ( IScene *pScene = GetSingleton<IScene>() )
@@ -336,7 +336,7 @@ void CFieldsState::Update()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 void CFieldsState::PlaceField( bool bPlace )
 {
 	if ( CTemplateEditorFrame *pFrame = g_frameManager.GetTemplateEditorFrame() )
@@ -374,7 +374,7 @@ void CFieldsState::PlaceField( bool bPlace )
 				std::list<CVec2> cutPolygon;
 				CutByPolygonCore<std::list<CVec2>, CVec2>( listedPolygon, mapVisPointsPolygon, &cutPolygon );
 
-				//randomize polygon
+				// randomize polygon
 				std::list<CVec2> polygon;
 				if ( pTabTerrainFieldsDialog->resizeDialogOptions.nParameters[0] > 0 )
 				{
@@ -392,7 +392,7 @@ void CFieldsState::PlaceField( bool bPlace )
 					polygon = cutPolygon;
 				}
 
-				//подчистим все чтобы не было обидно больно
+				// Let's clean everything up so it doesn't hurt
 				if ( pFrame->dlg ) 
 				{
 					pFrame->dlg->DestroyWindow();
@@ -408,11 +408,11 @@ void CFieldsState::PlaceField( bool bPlace )
 
 				pFrame->m_currentMovingObjectPtrAI = 0;
 				pFrame->m_currentMovingObjectsAI.clear();
-				//подчистили вроде
-				//remove objects
+				// Looks like they cleaned it up
+				// remove objects
 				if ( pTabTerrainFieldsDialog->resizeDialogOptions.nParameters[1] > 0 )
 				{
-					//пока пропустили
+					// missed it for now
 				}
 
 				SRMFieldSet fieldSet;
@@ -443,7 +443,7 @@ void CFieldsState::PlaceField( bool bPlace )
 						std::hash_map<LPARAM, float> distances;
 						const std::list<std::list<CVec2> > exclusivePolygons;
 						
-						//fill terrain
+						// fill terrain
 						if ( pTabTerrainFieldsDialog->resizeDialogOptions.nParameters[2] > 0 )
 						{
 							fieldSet.ValidateFieldSet( pFrame->descrTile, CMapInfo::MOST_COMMON_TILES[nMapSeason] );
@@ -461,7 +461,7 @@ void CFieldsState::PlaceField( bool bPlace )
 							pFrame->SetMapModified();
 						}
 
-						//fill objects
+						// fill objects
 						if ( pTabTerrainFieldsDialog->resizeDialogOptions.nParameters[3] > 0 )
 						{
 							CArray2D<BYTE> tileMap( rTerrainInfo.tiles.GetSizeX() * 2, rTerrainInfo.tiles.GetSizeY() * 2 );
@@ -491,7 +491,7 @@ void CFieldsState::PlaceField( bool bPlace )
 							pFrame->currentMapInfo.objects.clear();
 						}
 
-						//fill heights
+						// fill heights
 						if ( pTabTerrainFieldsDialog->resizeDialogOptions.nParameters[4] > 0 )
 						{
 							if ( fieldSet.fHeight > 0 )
@@ -551,4 +551,4 @@ void CFieldsState::PlaceField( bool bPlace )
 		pFrame->RedrawWindow();
 	}
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////

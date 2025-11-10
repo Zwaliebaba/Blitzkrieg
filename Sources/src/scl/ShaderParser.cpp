@@ -5,25 +5,25 @@
 
 #include "ShaderParser.h"
 #include "Shader.h"
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void ParseTechnique( _ReductionPtr reduction, STechnique *pTechnique );
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 CShaderParser::CShaderParser()
 {
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool CShaderParser::Init()
 {
 	return CParser::Init( "shader.cgt" );
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool CShaderParser::ErrorLexical( const int nLineNumber )
 {
 	printf( "ERROR in the line %d:\n", nLineNumber );
 	printf( "lexical error - unrecognized token \"%s\"\n", (const char*)(GetParser()->CurrentToken()->Name) );
 	return false;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 bool CShaderParser::ErrorSyntax( const int nLineNumber )
 {
 	printf( "ERROR in the line %d:\n", nLineNumber );
@@ -38,26 +38,26 @@ bool CShaderParser::ErrorSyntax( const int nLineNumber )
 	}
 	return false;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CShaderParser::ErrorComment( const int nLineNumber )
 {
 	printf( "ERROR in the line %d:\n", nLineNumber );
 	printf( "The end of the input was reached while reading a comment.\n" );
 	printf( "This is caused by a comment that was not terminated\n" );
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CShaderParser::ErrorInternal( const int nLineNumber )
 {
 	printf( "ERROR in the line %d:\n", nLineNumber );
 	printf( "Internal compiler error!\n" );
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CShaderParser::ErrorNotLoaded( const int nLineNumber )
 {
 	printf( "ERROR in the line %d:\n", nLineNumber );
 	printf( "ERROR: Compiled grammar tables not loaded - load it first\n" );
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void DumpReduction( _ReductionPtr reduction, const int nLevel )
 {
 	const short nTag = reduction->GetTag();
@@ -69,7 +69,7 @@ void DumpReduction( _ReductionPtr reduction, const int nLevel )
 		ParseTechnique( reduction, &technique );
 	for ( short i = 0; i < reduction->TokenCount; ++i )
 	{
-		//_bstr_t str = parser->GetCurrentReduction()->
+		// _bstr_t str = parser->GetCurrentReduction()->
 		_TokenPtr token = reduction->GetTokens( &i );
 		_bstr_t strName = token->GetName();
 		printf( "token %s", (const char*)strName );
@@ -98,7 +98,7 @@ void DumpReduction( _ReductionPtr reduction, const int nLevel )
 		}
 	}
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool CShaderParser::DoneParsing( _ReductionPtr reduction )
 {
 	const int nTableIndex = reduction->ParentRule->GetTableIndex();
@@ -119,7 +119,7 @@ bool CShaderParser::DoneParsing( _ReductionPtr reduction )
 	}
 	return true;
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 template <class TTokenVisitor>
 void VisitTokens( _ReductionPtr reduction, TTokenVisitor &visitor )
 {
@@ -146,7 +146,7 @@ void VisitTokens( _ReductionPtr reduction, TTokenVisitor &visitor )
 		}
 	}
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 int GetIntValue( _ReductionPtr reduction )
 {
 	for ( short i = 0; i < reduction->TokenCount; ++i )
@@ -179,7 +179,7 @@ int GetIntValueFromRule( _ReductionPtr rule )
 	}
 	return -1;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool GetBoolValue( _ReductionPtr reduction )
 {
 	for ( short i = 0; i < reduction->TokenCount; ++i )
@@ -207,15 +207,15 @@ bool GetBoolValueFromRule( _ReductionPtr rule )
 	}
 	return false;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // ************************************************************************************************************************ //
 // **
-// ** 
+// **
 // **
 // **
 // **
 // ************************************************************************************************************************ //
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 struct SPair
 {
 	DWORD first, second;
@@ -234,7 +234,7 @@ int GetRuleIndex( _ReductionPtr rule )
 {
 	return rule->GetParentRule()->GetTableIndex();
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // ************************************************************************************************************************ //
 // **
 // ** render states and stage props
@@ -242,7 +242,7 @@ int GetRuleIndex( _ReductionPtr rule )
 // **
 // **
 // ************************************************************************************************************************ //
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 static const SPair stencilActions[] = 
 {
 	{ RULE_STENCILACTION_KEEP			,	D3DSTENCILOP_KEEP			},
@@ -260,7 +260,7 @@ DWORD GetStencilAction( _ReductionPtr rule )
 	const DWORD dwTableIndex = rule->GetParentRule()->GetTableIndex();
 	return FindVal( dwTableIndex, stencilActions );
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 static const SPair cullModes[] = 
 {
 	{ RULE_CULLMODE_NONE	, D3DCULL_NONE	},
@@ -284,7 +284,7 @@ DWORD GetCullModeFromRule( _ReductionPtr rule )
 	}
 	return -1;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 static const SPair cpmFuncs[] = 
 {
 	{ RULE_CMPFUNCCMP_LESS					, D3DCMP_LESS					},
@@ -302,7 +302,7 @@ DWORD GetCmpFunc( _ReductionPtr rule )
 	const DWORD dwTableIndex = rule->GetParentRule()->GetTableIndex();
 	return FindVal( dwTableIndex, cpmFuncs );
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 static const SPair blendModes[] = 
 {
 	{ RULE_BLENDOP_ADD						, D3DBLENDOP_ADD					},
@@ -330,7 +330,7 @@ DWORD GetBlendVal( _ReductionPtr rule )
 	const DWORD dwTableIndex = rule->GetParentRule()->GetTableIndex();
 	return FindVal( dwTableIndex, blendModes );
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 static const SPair wrapModes[] = 
 {
 	{ RULE_TEXWRAPMODE_WRAP				, D3DTADDRESS_WRAP 			},
@@ -345,7 +345,7 @@ DWORD GetWrapMode( _ReductionPtr rule )
 	const DWORD dwTableIndex = rule->GetParentRule()->GetTableIndex();
 	return FindVal( dwTableIndex, wrapModes );
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 static const SPair filterModes[] = 
 {
 	{ RULE_TEXFILTERMODE_NONE						, D3DTEXF_NONE					},
@@ -361,7 +361,7 @@ DWORD GetFilterMode( _ReductionPtr rule )
 	const DWORD dwTableIndex = rule->GetParentRule()->GetTableIndex();
 	return FindVal( dwTableIndex, filterModes );
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 static const SPair transformFlagModes[] = 
 {
 	{ RULE_TRANSFORMFLAGS_DISABLE					, D3DTTFF_DISABLE 										},
@@ -380,7 +380,7 @@ DWORD GetTransformFlagMode( _ReductionPtr rule )
 	const DWORD dwTableIndex = rule->GetParentRule()->GetTableIndex();
 	return FindVal( dwTableIndex, transformFlagModes );
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 static const SPair texGenModes[] = 
 {
 	{ RULE_TEXGEN_CAMERASPACENORMAL						, D3DTSS_TCI_CAMERASPACENORMAL  				},
@@ -393,7 +393,7 @@ DWORD GetTexGenMode( _ReductionPtr rule )
 	const DWORD dwTableIndex = rule->GetParentRule()->GetTableIndex();
 	return FindVal( dwTableIndex, texGenModes );
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void ParseTexPropList( _ReductionPtr rule, std::vector<SShadeValue> &props )
 {
 	const int nRuleIndex = rule->GetParentRule()->GetTableIndex();
@@ -744,7 +744,7 @@ public:
 	{
 	}
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // ************************************************************************************************************************ //
 // **
 // ** color and alpha expression parsing
@@ -752,8 +752,8 @@ public:
 // **
 // **
 // ************************************************************************************************************************ //
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//typedef std::pair<SYMBOL_CONSTANTS, D3DTEXTUREOP> SOpPair;
+
+// typedef std::pair<SYMBOL_CONSTANTS, D3DTEXTUREOP> SOpPair;
 static const SPair ruleColorOperations[] = 
 {
 	{ RULE_EXP2_ADD								, D3DTOP_ADD								},
@@ -784,7 +784,7 @@ DWORD GetD3DTOP( const DWORD dwOp )
 	}
 	return 0xffffffff;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 DWORD GetArg( _ReductionPtr rule )
 {
 	for ( short i = 0; i < rule->TokenCount; ++i )
@@ -809,7 +809,7 @@ DWORD GetArg( _ReductionPtr rule )
 	}
 	return -1;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 DWORD GetRuleSimpleArg( const int nTableIndex )
 {
 	switch ( nTableIndex ) 
@@ -829,7 +829,7 @@ DWORD GetRuleSimpleArg( const int nTableIndex )
 	}
 	return D3DTA_CURRENT;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 DWORD GetRuleComplexArg( _ReductionPtr &rule2, const int nRule2Index )
 {
 	const DWORD dwModifier = nRule2Index == RULE_ARG_REPLICATE_LPARAN_RPARAN ? D3DTA_ALPHAREPLICATE : D3DTA_COMPLEMENT;
@@ -844,7 +844,7 @@ DWORD GetRuleComplexArg( _ReductionPtr &rule2, const int nRule2Index )
 	}
 	return -1;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CParseColorAlphaTokenVisitor
 {
 	const bool bColor;
@@ -1006,7 +1006,7 @@ public:
 	{
 	}
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // ************************************************************************************************************************ //
 // **
 // ** defs block parsing
@@ -1014,7 +1014,7 @@ public:
 // **
 // **
 // ************************************************************************************************************************ //
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CParseDefsBlockTokenVisitor
 {
 	SShaderDesc::SDefsBlock &defsBlock;
@@ -1078,7 +1078,7 @@ public:
 	{
 	}
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CParseSetRestoreTokenVisitor
 {
 	SShaderDesc::SDefsBlock &defsBlock;
@@ -1101,15 +1101,15 @@ public:
 	{
 	}
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // ************************************************************************************************************************ //
 // **
-// ** 
+// **
 // **
 // **
 // **
 // ************************************************************************************************************************ //
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CParseTechniqueTokenVisitor
 {
 	STechnique *pTechnique;
@@ -1150,21 +1150,21 @@ public:
 	{
 	}
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void ParseTechnique( _ReductionPtr reduction, STechnique *pTechnique )
 {
 	CParseTechniqueTokenVisitor visitor( pTechnique );
 	VisitTokens( reduction, visitor );
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // ************************************************************************************************************************ //
 // **
-// ** 
+// **
 // **
 // **
 // **
 // ************************************************************************************************************************ //
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool CShaderParser::Save( const char *pszFileName )
 {
 	CPtr<IDataStream> pStream = CreateFileStream( pszFileName, STREAM_ACCESS_WRITE );
@@ -1179,4 +1179,4 @@ bool CShaderParser::Save( const char *pszFileName )
 	saver.Add( 2, &techniques );
 	return true;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+

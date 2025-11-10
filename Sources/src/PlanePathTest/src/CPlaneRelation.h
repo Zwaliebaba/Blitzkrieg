@@ -16,14 +16,13 @@ enum EPlanesAttitude
 	
 };
 
-/** 1) определяет тип взаимодействия одного самолета относительно другого (см таблицу "поведение самолетов.xls". */
+/* * 1) determines the type of interaction of one aircraft relative to another (see table “aircraft behavior.xls”. */
 class CPlaneRelation 
 {
 public:
 
-    /**
-     * @url C:\home\a7\PlanePathTest\CManuverContainer.h 
-     */
+    /* *
+      */
     int GetAttitude(const interface IPlane * pPlane, const interface IPlane *pEnemy);
 };
-#endif //CPLANERELATION_H
+#endif // CPLANERELATION_H

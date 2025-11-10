@@ -1,47 +1,48 @@
 #ifndef __IM_ADD_UNIT_TO_MISSION_H__
 #define __IM_ADD_UNIT_TO_MISSION_H__
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma ONCE
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#pragma once
+
 #include "InterMission.h"
 #include "iMission.h"
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CInterfaceAddUnitToMission : public CInterfaceInterMission
 {
-	OBJECT_NORMAL_METHODS( CInterfaceAddUnitToMission );
-	// input
-	NInput::CCommandRegistrator commandMsgs;
-	//
-	virtual bool STDCALL ProcessMessage( const SGameMessage &msg );
-	// disable explicit destruction
-	virtual ~CInterfaceAddUnitToMission();
-	CInterfaceAddUnitToMission();
-	
-	void UpdateUnitsList();
-	void SelectItem();
-	void DisplaySlotsFromST();
-	void EnableItem( IUIContainer *pItem, bool bEnable );
-	
-	//массив массивов, размером число AI классов
-	//внутренний массив содержит индексы юнитов, добавленных в миссию, или -1, если юнит не взят.
-	static std::vector< std::vector<int> > m_missionSlots;
-public:
-	virtual bool STDCALL Init();
-	virtual void STDCALL StartInterface();
+  OBJECT_NORMAL_METHODS(CInterfaceAddUnitToMission);
+  // input
+  NInput::CCommandRegistrator commandMsgs;
+  //
+  bool STDCALL ProcessMessage(const SGameMessage &msg) override;
+  // disable explicit destruction
+  ~CInterfaceAddUnitToMission() override;
+  CInterfaceAddUnitToMission();
 
-	//эта функция считывает слоты из карты и заполняет первыми попавшимися юнитами такого класса
-	//информация сразу прогружается в ScenarioTracker
-	static bool AddDefaultSlotsToST();
+  void UpdateUnitsList();
+  void SelectItem();
+  void DisplaySlotsFromST();
+  void EnableItem(IUIContainer *pItem, bool bEnable);
+
+  // array of arrays, size number of AI classes
+  // the internal array contains the indexes of units added to the mission, or -1 if the unit is not taken.
+  static std::vector<std::vector<int>> m_missionSlots;
+
+public:
+  bool STDCALL Init() override;
+  void STDCALL StartInterface() override;
+
+  // this function reads slots from the map and fills them with the first available units of this class
+  // information is immediately loaded into ScenarioTracker
+  static bool AddDefaultSlotsToST();
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CICAddUnitToMission : public CInterfaceCommandBase<IInterfaceBase, MISSION_INTERFACE_ADD_UNIT_TO_MISSION>
 {
-	OBJECT_NORMAL_METHODS( CICAddUnitToMission );
-	
-	virtual void PreCreate( IMainLoop *pML ) {}
-	virtual void PostCreate( IMainLoop *pML, IInterfaceBase *pInterface ) { pML->PushInterface( pInterface ); }
-	//
-	CICAddUnitToMission() {  }
+  OBJECT_NORMAL_METHODS(CICAddUnitToMission);
+
+  void PreCreate(IMainLoop *pML) override {}
+  void PostCreate(IMainLoop *pML, IInterfaceBase *pInterface) override { pML->PushInterface(pInterface); }
+  //
+  CICAddUnitToMission() {}
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#endif		//__IM_ADD_UNIT_TO_MISSION_H__
+
+#endif		// __IM_ADD_UNIT_TO_MISSION_H__

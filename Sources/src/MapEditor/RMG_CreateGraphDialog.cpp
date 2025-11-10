@@ -15,7 +15,7 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 const char *CG_GRAPHS_XML_NAME = "Graphs";
 const char *CG_GRAPHS_FILE_NAME = "Editor\\DefaultGraphs";
 const char *CG_GRAPHS_DIALOG_TITLE = "Graphs Composer";
@@ -29,7 +29,7 @@ const char *CG_GRAPHS_COLUMN_NAME  [CG_GRAPHS_COLUMN_COUNT] = { "Path", "Max Siz
 const int   CG_GRAPHS_COLUMN_FORMAT[CG_GRAPHS_COLUMN_COUNT] = { LVCFMT_LEFT, LVCFMT_RIGHT, LVCFMT_LEFT, LVCFMT_LEFT, LVCFMT_LEFT, LVCFMT_LEFT, LVCFMT_LEFT, LVCFMT_LEFT, LVCFMT_LEFT, LVCFMT_LEFT, LVCFMT_LEFT };
 int					CG_GRAPHS_COLUMN_WIDTH [CG_GRAPHS_COLUMN_COUNT] = { 200, 60, 60, 80, 80, 80, 80, 80, 80, 80, 80 };
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 int CALLBACK CG_GraphsCompareFunc( LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort )
 {
 	CRMGCreateGraphDialog* pGraphDialog = reinterpret_cast<CRMGCreateGraphDialog*>( lParamSort );
@@ -52,34 +52,34 @@ const DWORD CRMGCreateGraphDialog::SGraphCheckInfo::SIDE_MAXX		= 0x04;
 const DWORD CRMGCreateGraphDialog::SGraphCheckInfo::SIDE_MAXY		= 0x08;
 const DWORD CRMGCreateGraphDialog::SGraphCheckInfo::SIDE_CENTER	= 0x10;
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 const int CRMGCreateGraphDialog::vID[] = 
 {
-	IDC_RMG_CG_GRAPHS_LABEL,							//0
-	IDC_RMG_CG_GRAPHS_LIST,								//1
-	IDC_RMG_CG_NODES_LABEL_TOP,						//2
-	IDC_RMG_CG_NODES_PLACE,								//3
-	IDC_RMG_CG_ADD_GRAPH_BUTTON,					//4
-	IDC_RMG_CG_DELETE_GRAPH_BUTTON,				//5
-	IDC_RMG_CG_GRAPH_PROPERTIES_BUTTON,		//6
-	IDC_RMG_CG_NODES_SLIDER,							//7
-	IDC_RMG_CG_NODES_SLIDER_LABEL_TOP,		//8
-	IDC_RMG_CG_NODES_SLIDER_LABEL_BOTTOM,	//9
-	IDC_RMG_CG_SAVE_BUTTON,								//10
-	IDOK,																	//11
-	IDCANCEL,															//12
-	IDC_RMG_CG_NODES_LABEL_BOTTOM,				//13
-	IDC_RMG_CG_DELIMITER_00,							//14
-	IDC_RMG_CG_CHECK_GRAPHS_BUTTON,				//15
+	IDC_RMG_CG_GRAPHS_LABEL,							// 0
+	IDC_RMG_CG_GRAPHS_LIST,								// 1
+	IDC_RMG_CG_NODES_LABEL_TOP,						// 2
+	IDC_RMG_CG_NODES_PLACE,								// 3
+	IDC_RMG_CG_ADD_GRAPH_BUTTON,					// 4
+	IDC_RMG_CG_DELETE_GRAPH_BUTTON,				// 5
+	IDC_RMG_CG_GRAPH_PROPERTIES_BUTTON,		// 6
+	IDC_RMG_CG_NODES_SLIDER,							// 7
+	IDC_RMG_CG_NODES_SLIDER_LABEL_TOP,		// 8
+	IDC_RMG_CG_NODES_SLIDER_LABEL_BOTTOM,	// 9
+	IDC_RMG_CG_SAVE_BUTTON,								// 10
+	IDOK,																	// 11
+	IDCANCEL,															// 12
+	IDC_RMG_CG_NODES_LABEL_BOTTOM,				// 13
+	IDC_RMG_CG_DELIMITER_00,							// 14
+	IDC_RMG_CG_CHECK_GRAPHS_BUTTON,				// 15
 };
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 CRMGCreateGraphDialog::CRMGCreateGraphDialog( CWnd* pParent )
 	: CResizeDialog( CRMGCreateGraphDialog::IDD, pParent ),
 		isChanged( false ), bCreateControls( false ), inputState( STATE_NONE ), nPatchesCount( 8 ), mousePoints( 0, 0, 0, 0 )
 {
-	//{{AFX_DATA_INIT(CRMGCreateGraphDialog)
-	//}}AFX_DATA_INIT
+	// {{AFX_DATA_INIT(CRMGCreateGraphDialog)
+	// }}AFX_DATA_INIT
 	SetControlStyle( vID[0], ANCHORE_LEFT_TOP | RESIZE_HOR );
 	SetControlStyle( vID[1], ANCHORE_LEFT_TOP | RESIZE_HOR );
 	SetControlStyle( vID[2], ANCHORE_LEFT_TOP | RESIZE_HOR );
@@ -98,21 +98,21 @@ CRMGCreateGraphDialog::CRMGCreateGraphDialog( CWnd* pParent )
 	SetControlStyle( vID[15], ANCHORE_RIGHT_TOP );
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGCreateGraphDialog::DoDataExchange(CDataExchange* pDX)
 {
 	CResizeDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(CRMGCreateGraphDialog)
+	// {{AFX_DATA_MAP(CRMGCreateGraphDialog)
 	DDX_Control(pDX, IDC_RMG_CG_NODES_LABEL_TOP, m_NodesMessageTop);
 	DDX_Control(pDX, IDC_RMG_CG_NODES_LABEL_BOTTOM, m_NodesMessageBottom);
 	DDX_Control(pDX, IDC_RMG_CG_GRAPHS_LIST, m_GraphsList);
 	DDX_Control(pDX, IDC_RMG_CG_NODES_SLIDER, m_NodesSlider);
-	//}}AFX_DATA_MAP
+	// }}AFX_DATA_MAP
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 BEGIN_MESSAGE_MAP(CRMGCreateGraphDialog, CResizeDialog)
-	//{{AFX_MSG_MAP(CRMGCreateGraphDialog)
+	// {{AFX_MSG_MAP(CRMGCreateGraphDialog)
 	ON_BN_CLICKED(IDC_RMG_CG_ADD_GRAPH_BUTTON, OnAddGraphButton)
 	ON_BN_CLICKED(IDC_RMG_CG_DELETE_GRAPH_BUTTON, OnDeleteGraphButton)
 	ON_BN_CLICKED(IDC_RMG_CG_GRAPH_PROPERTIES_BUTTON, OnGraphPropertiesButton)
@@ -142,10 +142,10 @@ BEGIN_MESSAGE_MAP(CRMGCreateGraphDialog, CResizeDialog)
 	ON_COMMAND(ID_FILE_SAVEAS, OnFileSaveas)
 	ON_COMMAND(ID_FILE_EXIT, OnFileExit)
 	ON_BN_CLICKED(IDC_RMG_CG_CHECK_GRAPHS_BUTTON, OnCheckGraphsButton)
-	//}}AFX_MSG_MAP
+	// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 BOOL CRMGCreateGraphDialog::OnInitDialog() 
 {
 	CResizeDialog::OnInitDialog();
@@ -169,7 +169,7 @@ BOOL CRMGCreateGraphDialog::OnInitDialog()
 	return true;
 }	
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGCreateGraphDialog::OnOK() 
 {
 	for ( int nColumnIndex = 0; nColumnIndex < CG_GRAPHS_COLUMN_COUNT; ++nColumnIndex )
@@ -181,7 +181,7 @@ void CRMGCreateGraphDialog::OnOK()
 	CResizeDialog::OnOK();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGCreateGraphDialog::OnCancel() 
 {
 	for ( int nColumnIndex = 0; nColumnIndex < CG_GRAPHS_COLUMN_COUNT; ++nColumnIndex )
@@ -192,7 +192,7 @@ void CRMGCreateGraphDialog::OnCancel()
 	CResizeDialog::OnCancel();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGCreateGraphDialog::OnAddGraphButton() 
 {
 	IDataStorage* pDataStorage = GetSingleton<IDataStorage>();
@@ -204,7 +204,7 @@ void CRMGCreateGraphDialog::OnAddGraphButton()
 	CFileDialog fileDialog( true, ".xml", "", OFN_ALLOWMULTISELECT, "XML files (*.xml)|*.xml||" );
 	fileDialog.m_ofn.lpstrFile = new char[0xFFFF];
 	fileDialog.m_ofn.lpstrFile[0] = 0;			
-	fileDialog.m_ofn.nMaxFile = 0xFFFF - 1; //на всякий пожарный
+	fileDialog.m_ofn.nMaxFile = 0xFFFF - 1; // just in case, fireman
 	fileDialog.m_ofn.lpstrInitialDir = resizeDialogOptions.szParameters[0].c_str();
 
 	if ( fileDialog.DoModal() == IDOK )
@@ -266,7 +266,7 @@ void CRMGCreateGraphDialog::OnAddGraphButton()
 	delete[] fileDialog.m_ofn.lpstrFile;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGCreateGraphDialog::OnDeleteGraphButton() 
 {
 	int nSelectedItem = m_GraphsList.GetNextItem( -1, LVIS_SELECTED );
@@ -290,14 +290,14 @@ void CRMGCreateGraphDialog::OnDeleteGraphButton()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGCreateGraphDialog::OnGraphPropertiesButton() 
 {
 	// TODO: Add your control notification handler code here
 	
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGCreateGraphDialog::OnItemchangedGraphsList(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
@@ -309,14 +309,14 @@ void CRMGCreateGraphDialog::OnItemchangedGraphsList(NMHDR* pNMHDR, LRESULT* pRes
 	*pResult = 0;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGCreateGraphDialog::OnDblclkGraphsList(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	OnGraphPropertiesButton();
 	*pResult = 0;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGCreateGraphDialog::OnRclickGraphsList(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	CMenu composersMenu;
@@ -332,12 +332,8 @@ void CRMGCreateGraphDialog::OnRclickGraphsList(NMHDR* pNMHDR, LRESULT* pResult)
 		{
 			pMenu->EnableMenuItem( IDC_RMG_CG_DELETE_GRAPH_MENU, pWnd->IsWindowEnabled() ? MF_ENABLED : MF_GRAYED );
 		}
-		/**
-		if ( CWnd* pWnd = GetDlgItem( vID[6] ) )
-		{
-			pMenu->EnableMenuItem( IDC_RMG_CG_GRAPH_PROPERTIES_MENU, pWnd->IsWindowEnabled() ? MF_ENABLED : MF_GRAYED );
-		}
-		/**/
+		/* *
+		 */
 		CPoint point;
 		GetCursorPos( &point );
 		pMenu->TrackPopupMenu( TPM_LEFTALIGN | TPM_LEFTBUTTON, point.x, point.y, this, 0 );
@@ -346,7 +342,7 @@ void CRMGCreateGraphDialog::OnRclickGraphsList(NMHDR* pNMHDR, LRESULT* pResult)
 	*pResult = 0;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGCreateGraphDialog::OnKeydownGraphsList(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	CPoint mousePoint;
@@ -393,7 +389,7 @@ void CRMGCreateGraphDialog::OnKeydownGraphsList(NMHDR* pNMHDR, LRESULT* pResult)
 	*pResult = 0;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGCreateGraphDialog::OnColumnclickGraphsList(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
@@ -415,27 +411,23 @@ void CRMGCreateGraphDialog::OnColumnclickGraphsList(NMHDR* pNMHDR, LRESULT* pRes
 	*pResult = 0;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGCreateGraphDialog::OnAddGraphMenu() 
 {
 	OnAddGraphButton();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGCreateGraphDialog::OnDeleteGraphMenu() 
 {
 	OnDeleteGraphButton();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/**
-void CRMGCreateGraphDialog::OnGraphPropertiesMenu() 
-{
-	OnGraphPropertiesButton();
-}
-/**/
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/* *
+ */
+
+
 void CRMGCreateGraphDialog::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) 
 {
 	if ( !bCreateControls )
@@ -446,7 +438,7 @@ void CRMGCreateGraphDialog::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScro
 	CResizeDialog::OnHScroll(nSBCode, nPos, pScrollBar);
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGCreateGraphDialog::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) 
 {
 	if ( !bCreateControls )
@@ -457,7 +449,7 @@ void CRMGCreateGraphDialog::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScro
 	CResizeDialog::OnVScroll(nSBCode, nPos, pScrollBar);
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool CRMGCreateGraphDialog::LoadGraphsList()
 {
 	IDataStorage* pDataStorage = GetSingleton<IDataStorage>();
@@ -468,10 +460,10 @@ bool CRMGCreateGraphDialog::LoadGraphsList()
 
 	SetWindowText( NStr::Format( "%s - [%s]", CG_GRAPHS_DIALOG_TITLE, resizeDialogOptions.szParameters[2] ) );
 	BeginWaitCursor();
-	//считываем графы с диска
+	// read graphs from disk
 	LoadDataResource( resizeDialogOptions.szParameters[2], "", false, 0, CG_GRAPHS_XML_NAME, graphs );
 	
-	//заполняем информацию по graphs
+	// fill out information using graphs
 	m_GraphsList.DeleteAllItems();
 	for ( CRMGraphsHashMap::iterator graphIterator = graphs.begin();  graphIterator != graphs.end(); ++graphIterator )
 	{
@@ -488,13 +480,13 @@ bool CRMGCreateGraphDialog::LoadGraphsList()
 	return true;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGCreateGraphDialog::OnSaveButton() 
 {
 	SaveGraphsList();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool CRMGCreateGraphDialog::SaveGraphsList()
 {
 	IDataStorage* pDataStorage = GetSingleton<IDataStorage>();
@@ -505,14 +497,14 @@ bool CRMGCreateGraphDialog::SaveGraphsList()
 
 	SetWindowText( NStr::Format( "%s - [%s]", CG_GRAPHS_DIALOG_TITLE, resizeDialogOptions.szParameters[2] ) );
 	BeginWaitCursor();
-	//сохраняем графы на диск
+	// save the graphs to disk
 	for ( CRMGraphsHashMap::const_iterator graphIterator = graphs.begin();  graphIterator != graphs.end(); ++graphIterator )
 	{
 		SRMGraph graph = graphIterator->second;
 		SaveDataResource( graphIterator->first, "", false, 0, RMGC_GRAPH_XML_NAME, graph );
 	}
 
-	//сохраняем список графов на диск
+	// save the list of graphs to disk
 	if ( !SaveDataResource( resizeDialogOptions.szParameters[2], "", false, 0, CG_GRAPHS_XML_NAME, graphs ) )
 	{
 		EndWaitCursor();
@@ -522,7 +514,7 @@ bool CRMGCreateGraphDialog::SaveGraphsList()
 	return true;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool CRMGCreateGraphDialog::LoadGraphToControls()
 {
 	int nFocusedItem = m_GraphsList.GetNextItem( -1, LVNI_FOCUSED );
@@ -555,7 +547,7 @@ bool CRMGCreateGraphDialog::LoadGraphToControls()
 	return true;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool CRMGCreateGraphDialog::SaveGraphFromControls()
 {
 	int nFocusedItem = m_GraphsList.GetNextItem( -1, LVNI_FOCUSED );
@@ -567,7 +559,7 @@ bool CRMGCreateGraphDialog::SaveGraphFromControls()
 	return true;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGCreateGraphDialog::SetGraphItem( int nItem, SRMGraph &rGraph )
 {
 	int nX = 0;
@@ -643,13 +635,13 @@ void CRMGCreateGraphDialog::SetGraphItem( int nItem, SRMGraph &rGraph )
 	m_GraphsList.SetItem( nItem, 10, LVIF_TEXT, szUsedScripAreas.c_str(), 0, 0, 0, 0 );
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 bool CRMGCreateGraphDialog::IsValidGraphEntered()
 {
 	return true;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGCreateGraphDialog::UpdateControls()
 {
 	CWnd* pWnd = 0;
@@ -667,7 +659,7 @@ void CRMGCreateGraphDialog::UpdateControls()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGCreateGraphDialog::CreateControls()
 {
 	bCreateControls = true;
@@ -694,12 +686,12 @@ void CRMGCreateGraphDialog::CreateControls()
 	bCreateControls = false;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGCreateGraphDialog::ClearControls()
 {
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGCreateGraphDialog::GetNodesPlaceRect( CRect* pRect, bool onlyDimensions )
 {
 	NI_ASSERT_T( pRect != 0,
@@ -724,7 +716,7 @@ void CRMGCreateGraphDialog::GetNodesPlaceRect( CRect* pRect, bool onlyDimensions
 	pRect->SetRectEmpty();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 CTPoint<int> CRMGCreateGraphDialog::GetTilePoint( int x, int y )
 {
 	CRect nodesPlaceRect;
@@ -734,7 +726,7 @@ CTPoint<int> CRMGCreateGraphDialog::GetTilePoint( int x, int y )
 											 ( nPatchesCount * STerrainPatchInfo::nSizeY - 1 ) - ( ( y - nodesPlaceRect.top ) * nPatchesCount * STerrainPatchInfo::nSizeY ) / nodesPlaceRect.Height() );
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 CTRect<int> CRMGCreateGraphDialog::GetTileRect( int minx, int miny, int maxx, int maxy )
 {
 	CRect nodesPlaceRect;
@@ -746,7 +738,7 @@ CTRect<int> CRMGCreateGraphDialog::GetTileRect( int minx, int miny, int maxx, in
 											( nPatchesCount * STerrainPatchInfo::nSizeY - 1 ) - ( ( maxy - nodesPlaceRect.top ) * nPatchesCount * STerrainPatchInfo::nSizeY ) / nodesPlaceRect.Height() );
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 CTRect<int> CRMGCreateGraphDialog::GetScreenRect( int minx, int miny, int maxx, int maxy )
 {
 	CRect nodesPlaceRect;
@@ -858,7 +850,7 @@ bool CRMGCreateGraphDialog::CheckForGraphElement( const SRMGraph &rGraph, const 
 	return pGraphCheckInfo->bSomeChecked;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGCreateGraphDialog::OnPaint()
 {
 
@@ -876,7 +868,7 @@ void CRMGCreateGraphDialog::OnPaint()
 		paintDC.DrawFrameControl( clientRect, DFC_SCROLL, DFCS_SCROLLSIZEGRIP );
 	}
 
-	//берем рабочую область экрана
+	// take the working area of ​​the screen
 	CRect nodesPlaceRect;
 	GetNodesPlaceRect( &nodesPlaceRect );
 
@@ -886,7 +878,7 @@ void CRMGCreateGraphDialog::OnPaint()
 	nRes = bmp.CreateCompatibleBitmap( &paintDC, nodesPlaceRect.Width(), nodesPlaceRect.Height() );
 	CBitmap *pOldBitmap = dc.SelectObject( &bmp );
 	
-	//сообщение о координатах, ноде или линке
+	// message about coordinates, node or link
 	CTRect<int> currentTileRect = GetTileRect( mousePoints );
 	CTPoint<int> mousePoint = currentTileRect.GetLeftTop();
 	currentTileRect.Normalize();
@@ -916,8 +908,8 @@ void CRMGCreateGraphDialog::OnPaint()
 				if ( graphCheckInfo.linksIndices.size() > 1 )
 				{
 					szAdditionalInfo = NStr::Format( "%d Links", graphCheckInfo.linksIndices.size() );
-					//SetCursor( LoadCursor( 0, IDC_IBEAM ) );
-					//bCursorNotSet = false;
+					// SetCursor( LoadCursor( 0, IDC_IBEAM ) );
+					// bCursorNotSet = false;
 				}
 				else if ( graphCheckInfo.linksIndices.size() == 1 )
 				{
@@ -929,8 +921,8 @@ void CRMGCreateGraphDialog::OnPaint()
 					{
 						szAdditionalInfo = NStr::Format( "Link %d: %s", graphCheckInfo.linksIndices[0], rGraph.links[ graphCheckInfo.linksIndices[0] ].szDescFileName.c_str() );
 					}
-					//SetCursor( LoadCursor( 0, IDC_IBEAM ) );
-					//bCursorNotSet = false;
+					// SetCursor( LoadCursor( 0, IDC_IBEAM ) );
+					// bCursorNotSet = false;
 				}
 				//
 				if ( graphCheckInfo.nNodeIndex >= 0 )
@@ -1095,7 +1087,7 @@ void CRMGCreateGraphDialog::OnPaint()
 																									currentTileRect.GetSizeY() ) );
 	m_NodesMessageBottom.SetWindowText( NStr::Format( "%s", szAdditionalInfo ) );
 	
-	//сетку рисуем всегда
+	// we always draw a grid
 	if ( nPatchesCount > 1 )
 	{
 		CPen gridPen( PS_DOT, 1, RGB( 0x80, 0x80, 0x80 ) );
@@ -1114,7 +1106,7 @@ void CRMGCreateGraphDialog::OnPaint()
 	dc.SelectObject( pOldBitmap );
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGCreateGraphDialog::OnLButtonDown( UINT nFlags, CPoint point ) 
 {
 	int nFocusedItem = m_GraphsList.GetNextItem( -1, LVNI_FOCUSED );
@@ -1135,7 +1127,7 @@ void CRMGCreateGraphDialog::OnLButtonDown( UINT nFlags, CPoint point )
 		mousePoints.maxx = point.x;
 		mousePoints.maxy = point.y;
 
-		//добавление нового прямоугольника
+		// adding a new rectangle
 		if ( nFlags & MK_CONTROL )
 		{
 			inputState = STATE_ADD_LINK;
@@ -1163,9 +1155,9 @@ void CRMGCreateGraphDialog::OnLButtonDown( UINT nFlags, CPoint point )
 			}
 		}
 
-		//построение линка ( из центра )
-		//двигание старого ( вместе с линками )
-		//увеличение старого ( вместе с линками )
+		// building a link (from the center)
+		// moving the old one (along with links)
+		// increase in old (along with links)
 		
 		GetClipCursor( &oldClipRect ); 
 		ClientToScreen( &nodesPlaceRect );
@@ -1179,7 +1171,7 @@ void CRMGCreateGraphDialog::OnLButtonDown( UINT nFlags, CPoint point )
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGCreateGraphDialog::OnLButtonUp( UINT nFlags, CPoint point )
 {  
 	int nFocusedItem = m_GraphsList.GetNextItem( -1, LVNI_FOCUSED );
@@ -1200,7 +1192,7 @@ void CRMGCreateGraphDialog::OnLButtonUp( UINT nFlags, CPoint point )
 		mousePoints.maxy = point.y;
 		
 		CTRect<int> currentTileRect = GetTileRect( mousePoints );
-		//добавление нового прямоугольника
+		// adding a new rectangle
 		if ( inputState == STATE_ADD )
 		{
 			currentTileRect.Normalize();
@@ -1231,8 +1223,8 @@ void CRMGCreateGraphDialog::OnLButtonUp( UINT nFlags, CPoint point )
 				SaveGraphFromControls();
 			}
 		}
-		//двигание старого ( вместе с линками )
-		//увеличение старого ( вместе с линками )
+		// moving the old one (along with links)
+		// increase in old (along with links)
 		else if ( ( inputState == STATE_MOVE ) || ( inputState == STATE_RESIZE ) )
 		{
 			bool bInside = false;
@@ -1253,7 +1245,7 @@ void CRMGCreateGraphDialog::OnLButtonUp( UINT nFlags, CPoint point )
 				SaveGraphFromControls();
 			}
 		}
-		//построение линка ( из центра )
+		// building a link (from the center)
 		else if ( inputState == STATE_ADD_LINK )
 		{
 			int nAIndex = -1;
@@ -1301,7 +1293,7 @@ void CRMGCreateGraphDialog::OnLButtonUp( UINT nFlags, CPoint point )
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGCreateGraphDialog::OnMouseMove( UINT nFlags, CPoint point ) 
 {
 	int nFocusedItem = m_GraphsList.GetNextItem( -1, LVNI_FOCUSED );
@@ -1318,12 +1310,12 @@ void CRMGCreateGraphDialog::OnMouseMove( UINT nFlags, CPoint point )
 		mousePoints.maxx = point.x;
 		mousePoints.maxy = point.y;
 
-		//добавление нового прямоугольника
+		// adding a new rectangle
 		if ( inputState == STATE_ADD )
 		{
 		}
-		//двигание старого ( вместе с линками )
-		//увеличение старого ( вместе с линками )
+		// moving the old one (along with links)
+		// increase in old (along with links)
 		else if ( ( inputState == STATE_MOVE ) || ( inputState == STATE_RESIZE ) )
 		{
 			CTRect<int> movedRect = lastNodePlace;
@@ -1331,7 +1323,7 @@ void CRMGCreateGraphDialog::OnMouseMove( UINT nFlags, CPoint point )
 			CTPoint<int> nNewPoint = GetTilePoint( mousePoints.GetRightBottom() );
 			if ( inputState == STATE_MOVE )
 			{
-				//новое положение
+				// new position
 				movedRect.Move( nNewPoint - nOldPoint );
 			}			
 			else
@@ -1370,7 +1362,7 @@ void CRMGCreateGraphDialog::OnMouseMove( UINT nFlags, CPoint point )
 				}
 			}
 			
-			//не вылазим за край!
+			// Let's not go over the edge!
 			if ( movedRect.minx < 0 )
 			{
 				movedRect.maxx -= movedRect.minx; 
@@ -1394,7 +1386,7 @@ void CRMGCreateGraphDialog::OnMouseMove( UINT nFlags, CPoint point )
 			rGraph.nodes[lastGraphCheckInfo.nNodeIndex].rect = movedRect;
 			SaveGraphFromControls();
 		}
-		//построение линка ( из центра )
+		// building a link (from the center)
 		else if ( inputState == STATE_ADD_LINK )
 		{
 		}
@@ -1417,61 +1409,14 @@ void CRMGCreateGraphDialog::OnMouseMove( UINT nFlags, CPoint point )
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGCreateGraphDialog::OnKeyDown( UINT nChar, UINT nRepCnt, UINT nFlags ) 
 {
-/**
-	int nFocusedItem = m_GraphsList.GetNextItem( -1, LVNI_FOCUSED );
-	if ( nFocusedItem == ( -1 ) )
-	{
-		CResizeDialog::OnKeyDown( nChar, nRepCnt, nFlags );
-		return;
-	}
-	std::string szKey = m_GraphsList.GetItemText( nFocusedItem, 0 );
-	SRMGraph &rGraph = graphs[szKey];
-
-	CRect nodesPlaceRect;
-	GetNodesPlaceRect( &nodesPlaceRect );
-	if ( nodesPlaceRect.PtInRect( CPoint( mousePoints.maxx, mousePoints.maxy ) ) )
-	{
-		if ( inputState == STATE_NONE )
-		{
-			SGraphCheckInfo graphCheckInfo;
-			CheckForGraphElement( rGraph, mousePoints.GetRightBottom(), &graphCheckInfo );
-			if ( graphCheckInfo.bSomeChecked )
-			{
-				if ( !graphCheckInfo.linksIndices.empty() )
-				{
-					rGraph.links.erase( rGraph.links.begin() + graphCheckInfo.linksIndices[0] );
-				}
-				else if ( graphCheckInfo.nNodeIndex >= 0 )
-				{
-					for ( CRMGraphLinksList::iterator graphLinkIterator = rGraph.links.begin(); graphLinkIterator != rGraph.links.end(); )
-					{
-						if ( ( graphCheckInfo.nNodeIndex == graphLinkIterator->link.a ) || ( graphCheckInfo.nNodeIndex == graphLinkIterator->link.b ) )
-						{
-							graphLinkIterator = rGraph.links.erase( graphLinkIterator );
-						}
-						else
-						{
-							++graphLinkIterator;
-						}
-					}
-					rGraph.nodes.erase( rGraph.nodes.begin() + graphCheckInfo.nNodeIndex );
-				}
-				SaveGraphFromControls();
-				LoadGraphToControls();
-			}			
-		}
-	}
-	else
-	{
-		CResizeDialog::OnKeyDown( nChar, nRepCnt, nFlags );
-	}
-/**/
+/* *
+	 */
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGCreateGraphDialog::OnRButtonUp( UINT nFlags, CPoint point ) 
 {
 	int nFocusedItem = m_GraphsList.GetNextItem( -1, LVNI_FOCUSED );
@@ -1511,7 +1456,7 @@ void CRMGCreateGraphDialog::OnRButtonUp( UINT nFlags, CPoint point )
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGCreateGraphDialog::OnDeleteMenu() 
 {
 	int nFocusedItem = m_GraphsList.GetNextItem( -1, LVNI_FOCUSED );
@@ -1594,7 +1539,7 @@ void CRMGCreateGraphDialog::OnDeleteMenu()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGCreateGraphDialog::OnLButtonDblClk(UINT nFlags, CPoint point) 
 {
 	int nFocusedItem = m_GraphsList.GetNextItem( -1, LVNI_FOCUSED );
@@ -1626,7 +1571,7 @@ void CRMGCreateGraphDialog::OnLButtonDblClk(UINT nFlags, CPoint point)
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGCreateGraphDialog::OnPropertiesMenu() 
 {
 	IDataStorage* pDataStorage = GetSingleton<IDataStorage>();
@@ -1691,7 +1636,7 @@ void CRMGCreateGraphDialog::OnPropertiesMenu()
 						SRMContainer container;
 						if ( LoadDataResource( graphNodePropertiesDialog.szContainerInitialFileName, "", false ,0, RMGC_CONTAINER_XML_NAME, container ) )
 						{
-							//сначала проверим на размер!
+							// Let's check the size first!
 							if ( ( ( rGraph.nodes[lastGraphCheckInfo.nNodeIndex].rect.Width() / STerrainPatchInfo::nSizeX ) < container.size.x ) ||
 									 ( ( rGraph.nodes[lastGraphCheckInfo.nNodeIndex].rect.Height() / STerrainPatchInfo::nSizeY ) < container.size.y ) )
 							{
@@ -1712,7 +1657,7 @@ void CRMGCreateGraphDialog::OnPropertiesMenu()
 																					szCheckResult.c_str() ),
 														strTitle,
 														MB_ICONEXCLAMATION | MB_OK );
-								//return;
+								// return;
 							}
 							bool bFilledNodeNotExists = true;
 							for ( int nNodeIndex = 0; nNodeIndex < rGraph.nodes.size(); ++nNodeIndex )
@@ -1734,7 +1679,7 @@ void CRMGCreateGraphDialog::OnPropertiesMenu()
 							}
 							else
 							{
-								//check stats!
+								// check stats!
 								std::string szCheckResult;
 								if ( rGraph.nSeason != container.nSeason )
 								{
@@ -1778,7 +1723,7 @@ void CRMGCreateGraphDialog::OnPropertiesMenu()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGCreateGraphDialog::OnActivate(UINT nState, CWnd* pWndOther, BOOL bMinimized) 
 {
 	if ( inputState != STATE_NONE )
@@ -1792,7 +1737,7 @@ void CRMGCreateGraphDialog::OnActivate(UINT nState, CWnd* pWndOther, BOOL bMinim
 	CResizeDialog::OnActivate(nState, pWndOther, bMinimized);
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGCreateGraphDialog::OnFileNew() 
 {
 	SaveGraphsList();
@@ -1801,7 +1746,7 @@ void CRMGCreateGraphDialog::OnFileNew()
 	UpdateControls();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGCreateGraphDialog::OnFileOpen() 
 {
 	IDataStorage* pDataStorage = GetSingleton<IDataStorage>();
@@ -1846,13 +1791,13 @@ void CRMGCreateGraphDialog::OnFileOpen()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGCreateGraphDialog::OnFileSave() 
 {
 	SaveGraphsList();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGCreateGraphDialog::OnFileSaveas() 
 {
 	IDataStorage* pDataStorage = GetSingleton<IDataStorage>();
@@ -1861,7 +1806,7 @@ void CRMGCreateGraphDialog::OnFileSaveas()
 		return;
 	}
 
-	//SaveGraphsList();
+	// SaveGraphsList();
 
 	CFileDialog fileDialog( false, ".xml", "", OFN_OVERWRITEPROMPT, "XML files (*.xml)|*.xml||" );
 	fileDialog.m_ofn.lpstrInitialDir = resizeDialogOptions.szParameters[1].c_str();
@@ -1895,13 +1840,13 @@ void CRMGCreateGraphDialog::OnFileSaveas()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGCreateGraphDialog::OnFileExit() 
 {
 	OnOK();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CRMGCreateGraphDialog::OnCheckGraphsButton() 
 {
 	IDataStorage* pDataStorage = GetSingleton<IDataStorage>();
@@ -1960,23 +1905,14 @@ void CRMGCreateGraphDialog::OnCheckGraphsButton()
 					return;
 				}
 
-				//check stats!
-				//сначала проверим на размер!
+				// check stats!
+				// Let's check the size first!
 				std::string szCheckResult;
 				if ( ( ( graphIterator->second.nodes[nNodeIndex].rect.Width() / STerrainPatchInfo::nSizeX ) < container.size.x ) ||
 						 ( ( graphIterator->second.nodes[nNodeIndex].rect.Height() / STerrainPatchInfo::nSizeY ) < container.size.y ) )
 				{
-					/**
-					szCheckResult += NStr::Format( "Invalid size:\r\nGraph Node: (%d, %d, %d, %d), [%dx%d]\r\nContainer: [%dx%d]",
-																					graphIterator->second.nodes[nNodeIndex].rect.minx,
-																					graphIterator->second.nodes[nNodeIndex].rect.miny,
-																					graphIterator->second.nodes[nNodeIndex].rect.maxx,
-																					graphIterator->second.nodes[nNodeIndex].rect.maxy,
-																					graphIterator->second.nodes[nNodeIndex].rect.Width(),
-																					graphIterator->second.nodes[nNodeIndex].rect.Height(),
-																					container.size.x * STerrainPatchInfo::nSizeX,
-																					container.size.y * STerrainPatchInfo::nSizeY );
-					/**/
+					/* *
+					 */
 				}
 				if ( bFilledNodeNotExists )
 				{
@@ -2028,6 +1964,6 @@ void CRMGCreateGraphDialog::OnCheckGraphsButton()
 	LoadGraphsList();
 	EndWaitCursor();
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// basement storage  
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// basement storage
+

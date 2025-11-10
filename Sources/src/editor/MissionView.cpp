@@ -9,7 +9,7 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // CMissionView
 
 CMissionView::CMissionView()
@@ -22,13 +22,13 @@ CMissionView::~CMissionView()
 
 
 BEGIN_MESSAGE_MAP(CMissionView, CWnd)
-//{{AFX_MSG_MAP(CMissionView)
+// {{AFX_MSG_MAP(CMissionView)
 ON_WM_PAINT()
-//}}AFX_MSG_MAP
+// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // CMissionView message handlers
 
 BOOL CMissionView::PreCreateWindow(CREATESTRUCT& cs) 

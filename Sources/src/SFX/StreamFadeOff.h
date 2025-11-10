@@ -1,40 +1,40 @@
 #ifndef __STREAMFADEOFF_H__
 #define __STREAMFADEOFF_H__
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CStreamFadeOff
 {
-	DECLARE_SERIALIZE;
-	
-	HANDLE hThread;
-	interface ISFX * pSFX;													//
-	
-	float fVolume;
+  DECLARE_SERIALIZE;
 
-	HANDLE hFinishReport;
-	HANDLE hStopCommand;
+  HANDLE hThread;
+  interface ISFX *pSFX;//
 
-	DWORD timeAccumulator;
-	float fVolumeSpeed;										// speed of decrease volume
+  float fVolume;
 
-	void Start();
-	void Stop();
+  HANDLE hFinishReport;
+  HANDLE hStopCommand;
 
-	bool Segment( const int nTimeDelta );
-	bool HaveToRun();
+  DWORD timeAccumulator;
+  float fVolumeSpeed;// speed of decrease in volume
 
-	void InitConsts();
+  void Start();
+  void Stop();
+
+  bool Segment(int nTimeDelta);
+  bool HaveToRun();
+
+  void InitConsts();
+
 public:
+  CStreamFadeOff() : hThread(nullptr), pSFX(nullptr), hFinishReport(nullptr), hStopCommand(nullptr), timeAccumulator(0) {}
+  ~CStreamFadeOff();
+  void Fade(unsigned int nTimeToFade);// time is in millisecond
 
-	CStreamFadeOff() : timeAccumulator( 0 ), pSFX( 0 ), hThread( 0 ), hFinishReport( 0 ), hStopCommand( 0 ) {}
-	~CStreamFadeOff();
-	void Fade( const unsigned int nTimeToFade );		// time is in millisecond
-	
-	void Clear();													// delete all objects, close handles
-	void Init() { InitConsts(); }
-	bool IsFading() const;
+  void Clear();// delete all objects, close handles
+  void Init() { InitConsts(); }
+  bool IsFading() const;
 
-	friend DWORD WINAPI TheThreadProc( LPVOID lpParameter );
+  friend DWORD WINAPI TheThreadProc(LPVOID lpParameter);
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // __STREAMFADEOFF_H__

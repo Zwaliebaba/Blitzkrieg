@@ -26,25 +26,18 @@ static const NInput::SRegisterCommandEntry stdCommands[] =
 	{ "begin_action2"	,	CMD_BEGIN_ACTION2		},
 	{ "end_action2"		,	CMD_END_ACTION2			},
 	//
-/*
-	{ "mouse_button0_down", CMD_MOUSE_BUTTON0_DOWN },
-	{ "mouse_button0_up"	, CMD_MOUSE_BUTTON0_UP	 },
-	{ "mouse_button1_down", CMD_MOUSE_BUTTON1_DOWN },
-	{ "mouse_button1_up"	, CMD_MOUSE_BUTTON1_UP	 },
-	{ "mouse_button2_down", CMD_MOUSE_BUTTON2_DOWN },
-	{ "mouse_button2_up"	, CMD_MOUSE_BUTTON2_UP	 },
-	//
-*/
+/* { "mouse_button0_down", CMD_MOUSE_BUTTON0_DOWN },
+	 */
 	{ 0,						0								}
 };
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // CGUIFrame
 
 IMPLEMENT_DYNCREATE(CGUIFrame, CParentFrame)
 
 BEGIN_MESSAGE_MAP(CGUIFrame, CParentFrame)
-//{{AFX_MSG_MAP(CGUIFrame)
+// {{AFX_MSG_MAP(CGUIFrame)
 ON_WM_CREATE()
 ON_COMMAND(ID_RUN_BUTTON, OnRunButton)
 ON_COMMAND(ID_STOP_BUTTON, OnStopButton)
@@ -66,10 +59,10 @@ ON_UPDATE_COMMAND_UI(ID_EDIT_PASTE, OnUpdateEditPaste)
 ON_COMMAND(ID_EDIT_CUT, OnEditCut)
 ON_UPDATE_COMMAND_UI(ID_EDIT_CUT, OnUpdateEditCut)
 ON_COMMAND(ID_EDIT_UNDO, OnEditUndo)
-//}}AFX_MSG_MAP
+// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // CGUIFrame construction/destruction
 
 CGUIFrame::CGUIFrame()
@@ -108,7 +101,7 @@ int CGUIFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;
 	g_frameManager.AddFrame( this );
 
-	// create a view to occupy the client area of the frame
+	// create a view to occupy the client area of ​​the frame
 	if (!pWndView->Create(NULL, NULL,  WS_CHILD | WS_VISIBLE, 
 		CRect(0, 0, 0, 0), this, AFX_IDW_PANE_FIRST, NULL))
 	{
@@ -116,14 +109,11 @@ int CGUIFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;
 	}
 
-	//инициализируем уникальное имя для проекта
+	// initialize a unique name for the project
 	GenerateProjectName();
 
-/*
-	SECToolBarManager* pToolBarMgr = theApp.GetMainFrame()->GetControlBarManager();
-	pToolBarMgr->ToolBarFromID(AFX_IDW_TOOLBAR+6)->SetButtonStyle( 0, TBBS_CHECKBOX | TBBS_CHECKED );
-	pToolBarMgr->ToolBarFromID(AFX_IDW_TOOLBAR+6)->SetButtonStyle( 1, TBBS_CHECKBOX );
-*/
+/* SECToolBarManager* pToolBarMgr = theApp.GetMainFrame()->GetControlBarManager();
+	 */
 	
 	return 0;
 }
@@ -132,13 +122,13 @@ void CGUIFrame::Init( IGFX *_pGFX )
 {
 	pGFX = _pGFX;
 
-	//инициализируем input
+	// initialize input
 	IInput *pInput = GetSingleton<IInput>();
 	pInput->SetBindSection( "game_mission" );
 	standardMsgs.Init( pInput, stdCommands );
 }
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // CGUIFrame message handlers
 void CGUIFrame::ShowFrameWindows( int nCommand )
 {
@@ -180,16 +170,8 @@ BOOL CGUIFrame::Run()
 			mouseState &= ~E_LBUTTONDOWN;
 			m_pScreen->OnLButtonUp( vPos2, (EMouseState) mouseState );
 			break;
-			/*
-			case CMD_BEGIN_ACTION2:
-			mouseState |= E_RBUTTONDOWN;
-			m_pScreen->OnRButtonDown( vPos2, (EMouseState) mouseState );
-			break;
-			case CMD_END_ACTION2:
-			mouseState &= ~E_RBUTTONDOWN;
-			m_pScreen->OnRButtonUp( vPos2, (EMouseState) mouseState );
-			break;
-			*/
+			/* case CMD_BEGIN_ACTION2:
+			 */
 		}
 	}
 	m_pScreen->OnMouseMove( vPos2, (EMouseState) mouseState );
@@ -219,7 +201,7 @@ void CGUIFrame::SpecificInit()
 	int nFirstChildId = m_pScreen->Load( szProjectFileName.c_str(), false );
 	if ( nFirstChildId != 0 )
 	{
-		// попытаемся взять первый child у скрина
+		// let's try to take the first child from the screen
 		IUIElement *pFirstChild = m_pScreen->GetChildByID( nFirstChildId );
 		if ( pFirstChild != 0 )
 		{
@@ -281,7 +263,7 @@ void CGUIFrame::OnUpdateRunButton(CCmdUI* pCmdUI)
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
 	if ( pTree != 0 )
 	{
-		//Если уже был создан проект
+		// If a project has already been created
 		if ( !bRunning )
 			pCmdUI->Enable( true );
 		else
@@ -296,7 +278,7 @@ void CGUIFrame::OnUpdateStopButton(CCmdUI* pCmdUI)
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
 	if ( pTree != 0 )
 	{
-		//Если уже был создан проект
+		// If a project has already been created
 		if ( bRunning )
 			pCmdUI->Enable( true );
 		else
@@ -355,42 +337,8 @@ void CGUIFrame::OnTestbutton()
 	CPtr<IDataStream> pStream;
 	CPtr<IDataTree> pDT;
 
-/*
-	IUIStatic *pStatic = ( IUIStatic *) pFactory->CreateObject( UI_STATIC );
-	szName = theApp.GetEditorDataDir();
-	szName += "editor\\UI\\statics\\default.xml";
-	pStream = CreateFileStream( szName.c_str(), STREAM_ACCESS_WRITE );
-	pDT = CreateDataTreeSaver( pStream, IDataTree::WRITE );
-	pStatic->operator&( *pDT );
-	
-	IUIButton *pButton = ( IUIButton *) pFactory->CreateObject( UI_BUTTON );
-	szName = theApp.GetEditorDataDir();
-	szName += "editor\\UI\\buttons\\default.xml";
-	pStream = CreateFileStream( szName.c_str(), STREAM_ACCESS_WRITE );
-	pDT = CreateDataTreeSaver( pStream, IDataTree::WRITE );
-	pButton->operator&( *pDT );
-
-	IUISlider *pSlider = ( IUISlider *) pFactory->CreateObject( UI_SLIDER );
-	szName = theApp.GetEditorDataDir();
-	szName += "editor\\UI\\sliders\\default.xml";
-	pStream = CreateFileStream( szName.c_str(), STREAM_ACCESS_WRITE );
-	pDT = CreateDataTreeSaver( pStream, IDataTree::WRITE );
-	pSlider->operator&( *pDT );
-
-	IUIScrollBar *pScrollBar = ( IUIScrollBar *) pFactory->CreateObject( UI_SCROLLBAR );
-	szName = theApp.GetEditorDataDir();
-	szName += "editor\\UI\\scrollbars\\default.xml";
-	pStream = CreateFileStream( szName.c_str(), STREAM_ACCESS_WRITE );
-	pDT = CreateDataTreeSaver( pStream, IDataTree::WRITE );
-	pScrollBar->operator&( *pDT );
-	
-	IUIStatusBar *pStatusBar = ( IUIStatusBar *) pFactory->CreateObject( UI_STATUS_BAR );
-	szName = theApp.GetEditorDataDir();
-	szName += "editor\\UI\\statusbars\\default.xml";
-	pStream = CreateFileStream( szName.c_str(), STREAM_ACCESS_WRITE );
-	pDT = CreateDataTreeSaver( pStream, IDataTree::WRITE );
-	pStatusBar->operator&( *pDT );
-*/
+/* IUIStatic *pStatic = ( IUIStatic *) pFactory->CreateObject( UI_STATIC );
+	 */
 
 	IUIListControl *pList = ( IUIListControl *) pFactory->CreateObject( UI_LIST );
 	szName = theApp.GetEditorDataDir();
@@ -399,22 +347,8 @@ void CGUIFrame::OnTestbutton()
 	pDT = CreateDataTreeSaver( pStream, IDataTree::WRITE );
 	pList->operator&( *pDT );
 	
-/*
-	IUIDialog *pDialog = ( IUIDialog *) pFactory->CreateObject( UI_DIALOG );
-	szName = theApp.GetEditorDataDir();
-	szName += "editor\\UI\\dialogs\\default.xml";
-	pStream = CreateFileStream( szName.c_str(), STREAM_ACCESS_WRITE );
-	pDT = CreateDataTreeSaver( pStream, IDataTree::WRITE );
-	pDialog->operator&( *pDT );
-
-
-	IUINumberIndicator *pNumIndicator = ( IUINumberIndicator *) pFactory->CreateObject( UI_NUMBER_INDICATOR );
-	szName = theApp.GetEditorDataDir();
-	szName += "editor\\UI\\NumberIndicators\\default.xml";
-	pStream = CreateFileStream( szName.c_str(), STREAM_ACCESS_WRITE );
-	pDT = CreateDataTreeSaver( pStream, IDataTree::WRITE );
-	pNumIndicator->operator&( *pDT );
-*/
+/* IUIDialog *pDialog = ( IUIDialog *) pFactory->CreateObject( UI_DIALOG );
+	 */
 }
 
 IUIElement *CGUIFrame::GUICreateElement()
@@ -460,7 +394,7 @@ void CGUIFrame::OnEditCopy()
 	m_copiedList.clear();
 	for ( CWindowList::iterator it=m_selectedList.begin(); it!=m_selectedList.end(); ++it )
 	{
-		//Копируем выделенные компоненты
+		// Copying the selected components
 		m_copiedList.push_back( (*it).GetPtr() );
 	}
 }
@@ -474,11 +408,11 @@ void CGUIFrame::OnEditCut()
 	
 	for ( CWindowList::iterator it=m_selectedList.begin(); it!=m_selectedList.end(); ++it )
 	{
-		//Копируем выделенные компоненты
+		// Copying the selected components
 		m_copiedList.push_back( (*it).GetPtr() );
 	}
 	
-	//удаляю все выделенные компоненты
+	// I delete all selected components
 	for ( CWindowList::iterator it=m_selectedList.begin(); it!=m_selectedList.end(); ++it )
 	{
 		m_pContainer->RemoveChild( *it );
@@ -494,7 +428,7 @@ void CGUIFrame::OnEditPaste()
 	if ( m_copiedList.empty() )
 		return;
 
-	//нахожу самый левый верхний компонент
+	// I find the top leftmost component
 	CTRect<float> minRC = GetElementRect( m_copiedList.front() );
 	for ( CCopyWindowList::iterator it=m_copiedList.begin(); it!=m_copiedList.end(); ++it )
 	{
@@ -523,17 +457,17 @@ void CGUIFrame::OnEditPaste()
 		}
 		
 		{
-			//определяем тип записанного элемента
+			// determine the type of the recorded element
 			CPtr<IDataStream> pStream = pStorage->OpenStream( "element", STREAM_ACCESS_READ );
 			CPtr<IDataTree> pDT = CreateDataTreeSaver( pStream, IDataTree::READ );
 			CTreeAccessor tree = pDT;
 			int nClassTypeID = GetCommonFactory()->GetObjectTypeID( *it );
 
-			//проверяем, чтобы дважды не вставился диалог
+			// check that the dialog is not inserted twice
 			if ( nClassTypeID == UI_DIALOG )
 			{
 				if ( m_pContainer.GetPtr() != m_pScreen.GetPtr() )
-					return;		//уже создан диалог на экране
+					return;		// a dialogue has already been created on the screen
 			}
 
 			m_undoStack.push_back( new CSaveAllUndo( m_pContainer ) );
@@ -550,7 +484,7 @@ void CGUIFrame::OnEditPaste()
 			m_pContainer->AddChild( pWindow );
 			SetElementRect( pWindow, rc );
 			
-			//выделяем все новосозданные компоненты
+			// select all newly created components
 			m_selectedList.push_back( pWindow );
 		}
 	}

@@ -1,6 +1,6 @@
 // DeepCPtrCopy.h: interface for the CDeepCPtrCopy class.
 //
-//////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////
 
 #if !defined(AFX_DEEPCPTRCOPY_H__C87849A5_AFF1_4D0A_8E89_F1B20F66F719__INCLUDED_)
 #define AFX_DEEPCPTRCOPY_H__C87849A5_AFF1_4D0A_8E89_F1B20F66F719__INCLUDED_
@@ -9,8 +9,8 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-/////////////////////////////////////////////////////////////////////////////
-// final class must implement clonable 
+// //
+// final class must implement cloneable
 #define IMPLEMENT_CLONABLE(classname) \
 	void* classname::Clone() const\
 	{ \
@@ -29,7 +29,7 @@
 	}\
 	private:\
 	
-/////////////////////////////////////////////////////////////////////////////
+// //
 // for classes
 #define DECLARE_CLONABLE_CLASS \
 	public:\
@@ -38,7 +38,7 @@
 #define DECLARE_CLONABLE_INTERFACE \
 	public:\
 	virtual void* STDCALL Clone() const = 0;
-/////////////////////////////////////////////////////////////////////////////
+// //
 // cloning parameter
 class CCloning
 {
@@ -48,7 +48,7 @@ public:
 	static void SetClone( const bool _bCloning ) { bCloning = _bCloning; }
 	static bool IsClone(){ return bCloning; }
 };
-/////////////////////////////////////////////////////////////////////////////
+// //
 // create object of this type on start cloning
 class CCloneStart
 {
@@ -57,7 +57,7 @@ public:
 	CCloneStart() : bOldClone( CCloning::IsClone() ) { CCloning::SetClone( true ); }
 	~CCloneStart() { CCloning::SetClone( bOldClone ); }
 };
-/////////////////////////////////////////////////////////////////////////////
+// //
 // performs deep copy if IsClone()
 template <class TPtr>
 class CDCPtr : public CObj<TPtr>
@@ -85,7 +85,7 @@ public:
 	CDCPtr( const CDCPtr & p ) { Clone( p ); }
 	operator=( const CDCPtr &p ) { Clone( p ); }
 };
-/////////////////////////////////////////////////////////////////////////////
+// //
 // don't copy et all if IsClone
 template <class TPtr>
 class CNCPtr : public CObj<TPtr>
@@ -108,5 +108,5 @@ public:
 	CNCPtr( const CNCPtr &p ) { Clone( p ); }
 	operator=( const CNCPtr &p ) { Clone( p ); }
 };
-/////////////////////////////////////////////////////////////////////////////
+// //
 #endif // !defined(AFX_DEEPCPTRCOPY_H__C87849A5_AFF1_4D0A_8E89_F1B20F66F719__INCLUDED_)

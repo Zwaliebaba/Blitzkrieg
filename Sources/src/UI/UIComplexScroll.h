@@ -1,59 +1,59 @@
 #ifndef __UICOMPLEXSCROLL_H__
 #define __UICOMPLEXSCROLL_H__
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma ONCE
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#pragma once
+
 #include "UIBasic.h"
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CUIComplexScroll : public CMultipleWindow
 {
-	DECLARE_SERIALIZE;
-	
-	class CUIScrollBar *pScrollBar;				//инициализируется во время загрузки и используется для ускорения доступа к компонентам
-	struct IUIDialog * pItemContainer;
+  DECLARE_SERIALIZE;
 
-	int nCurrentPosToAdd;									// position to add new element to
+  class CUIScrollBar *pScrollBar;// initialized at boot time and used to speed up access to components
+  struct IUIDialog *pItemContainer;
 
-	int nScrollBarWidth;
-	int m_nY;												//сдвиг по Y от начала текста, чтобы текст скроллировался
-	int nLeftSpace, nRightSpace;		//отступ текста соответственно слева от края и справа от скроллбара
-	int nTopSpace, nBottomSpace;		//отступ текста соответственно сверху и снизу
-	bool bScrollBarAlwaysVisible;
-	int nVSubSpace;									// subspace between elements
+  int nCurrentPosToAdd;// position to add new element to
 
-	void UpdateScrollBar( const int nMaxValue, const int nCurValue );
-	void GetBorderRect( CTRect<float> *pBorderRect ) const;
-	void RepositionScrollbar();
-	void UpdatePosition();
-	
+  int nScrollBarWidth;
+  int m_nY;// Y shift from the beginning of the text so that the text scrolls
+  int nLeftSpace, nRightSpace;// text indentation to the left of the edge and to the right of the scrollbar, respectively
+  int nTopSpace, nBottomSpace;// text indentation above and below, respectively
+  bool bScrollBarAlwaysVisible;
+  int nVSubSpace;// subspace between elements
+
+  void UpdateScrollBar(int nMaxValue, int nCurValue);
+  void GetBorderRect(CTRect<float> *pBorderRect) const;
+  void RepositionScrollbar();
+  void UpdatePosition();
+
 public:
-	CUIComplexScroll();
-	~CUIComplexScroll() {}
+  CUIComplexScroll();
+  ~CUIComplexScroll() override {}
 
-	virtual int STDCALL operator&( IDataTree &ss );
-	virtual void STDCALL Reposition( const CTRect<float> &rcParent );
-	virtual bool STDCALL ProcessMessage( const SUIMessage &msg );
+  int STDCALL operator&(IDataTree &ss) override;
+  void STDCALL Reposition(const CTRect<float> &rcParent) override;
+  bool STDCALL ProcessMessage(const SUIMessage &msg) override;
 
-	//mouse wheel
-	virtual bool STDCALL OnMouseWheel( const CVec2 &vPos, EMouseState mouseState, float fDelta ) = 0;
+  // mouse wheel
+  bool STDCALL OnMouseWheel(const CVec2 &vPos, EMouseState mouseState, float fDelta) override = 0;
 
-	// drawing
-	virtual void STDCALL Draw( IGFX *pGFX );
-	virtual void STDCALL Visit( interface ISceneVisitor *pVisitor );
+  // drawing
+  void STDCALL Draw(IGFX *pGFX) override;
+  void STDCALL Visit(interface ISceneVisitor *pVisitor) override;
 
-	// adding item window
-	virtual void STDCALL AddItem( IUIElement *pElement, const bool bResizeToFitText );
-	virtual void STDCALL Clear();
+  // adding item window
+  virtual void STDCALL AddItem(IUIElement *pElement, bool bResizeToFitText);
+  virtual void STDCALL Clear();
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CUIComplexScrollBridge : public IUIComplexScroll, public CUIComplexScroll
 {
-	OBJECT_NORMAL_METHODS( CUIComplexScrollBridge );
-	DECLARE_SUPER( CUIComplexScroll );
-	DEFINE_UICONTAINER_BRIDGE;
-	
-	virtual void STDCALL AddItem( IUIElement *pElement, const bool bResizeToFitText ) { CSuper::AddItem( pElement, bResizeToFitText ); }
-	virtual void STDCALL Clear() { CSuper::Clear(); }
+  OBJECT_NORMAL_METHODS(CUIComplexScrollBridge);
+  DECLARE_SUPER(CUIComplexScroll);
+  DEFINE_UICONTAINER_BRIDGE;
+
+  void STDCALL AddItem(IUIElement *pElement, const bool bResizeToFitText) override { CSuper::AddItem(pElement, bResizeToFitText); }
+  void STDCALL Clear() override { CSuper::Clear(); }
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // __UICOMPLEXSCROLL_H__

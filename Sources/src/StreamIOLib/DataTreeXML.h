@@ -1,20 +1,20 @@
 #ifndef __DATATREEXML_H__
 #define __DATATREEXML_H__
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #pragma ONCE
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #import "msxml.dll"
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 using namespace MSXML;
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// эти две структурки специально созданы для того, чтобы, чтобы можно было сбрасывать com_ptr объекты в STL контейнеры
-// горбуха, конечно, но такова природа com_ptr - косяк полный
+
+// these two structures are specially created to allow dumping com_ptr objects into STL containers
+// humpback, of course, but that’s the nature com_ptr - a complete mess
 template <class TYPE>
 struct SCOMPtr
 {
 	TYPE data;
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 struct SNodeslList
 {
 	SCOMPtr<IXMLDOMNodeListPtr> nodes;
@@ -27,25 +27,25 @@ class CDataTreeXML : public IDataTree
 	OBJECT_MINIMAL_METHODS( CDataTreeXML );
 	//
 	CPtr<IDataStream> pStream;						// stream, this table was open with
-	IXMLDOMDocumentPtr xmlDocument;				// открытый документ
+	IXMLDOMDocumentPtr xmlDocument;				// open document
 	//
-	std::list< SCOMPtr<IXMLDOMNodePtr> > nodes;	// стек нодов по иерархии углублени
-	std::list< SNodeslList > nodelists;					// стек списков нодов по иерархии углублени
-	IXMLDOMNodePtr xmlCurrNode;						// текущий node
+	std::list< SCOMPtr<IXMLDOMNodePtr> > nodes;	// stack of nodes according to the deepening hierarchy
+	std::list< SNodeslList > nodelists;					// stack of lists of nodes according to the deepening hierarchy
+	IXMLDOMNodePtr xmlCurrNode;						// current node
 	//
-	std::list< SCOMPtr<IXMLDOMElementPtr> > elements;	// стек элементов по иерархии углублени
-	std::list< SCOMPtr<IXMLDOMElementPtr> > arrbases; // стек элементов сонований массивов по иерархии углублени
-	IXMLDOMElementPtr xmlCurrElement;			// текущий элемент в блочной структуре при записи
+	std::list< SCOMPtr<IXMLDOMElementPtr> > elements;	// stack of elements according to deepening hierarchy
+	std::list< SCOMPtr<IXMLDOMElementPtr> > arrbases; // stack of elements of arrays according to the deepening hierarchy
+	IXMLDOMElementPtr xmlCurrElement;			// current element in block structure when written
 	//
 	IDataTree::EAccessMode eMode;
 	//
-	// получить из текущего node атрибут по имени.
+	// get an attribute by name from the current node.
 	IXMLDOMNodePtr GetAttribute( DTChunkID idChunk )
 	{
 		NI_ASSERT_TF( xmlCurrNode != 0, "can't get attribute - no current node set", return 0 );
 		return xmlCurrNode->attributes->getNamedItem( idChunk );
 	}
-	// получить текстовый node по имени. Это либо атрибут текущего node, либо single node из текущего.
+	// get text node by name. 
 	IXMLDOMNodePtr GetTextNode( DTChunkID idChunk )
 	{
 		NI_ASSERT_TF( xmlCurrNode != 0, "can't get node - no current node set", return 0 );
@@ -78,7 +78,7 @@ public:
 	virtual int STDCALL StartContainerChunk( DTChunkID idChunk );
 	virtual void STDCALL FinishContainerChunk();
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void InitCOM();
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // __DATATREEXML_H__

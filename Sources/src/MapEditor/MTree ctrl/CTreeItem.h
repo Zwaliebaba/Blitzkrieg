@@ -1,6 +1,6 @@
 #ifndef __KOSTYA_TREEITEM_H__
 #define __KOSTYA_TREEITEM_H__
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #include <vector>
 #include <string>
 #include <afxdisp.h>
@@ -60,7 +60,7 @@ public:
 	}
 	bool BuildEditor( HTREEITEM *item, CMultiTree *treePtr );												
 	bool KillEditor();											
-	//			頽ly for simple types
+	// 頽ly for simple types
 	void SetOleData( COleVariant var ) { m_var = var; }
 	COleVariant GetOleData() const { return m_var; }
 	~CSTreeItem() {}
@@ -74,7 +74,7 @@ public:
 	std::string GetNormalProperty()									{ return m_var ? "true": "false" ;}
 	bool BuildEditor( HTREEITEM *item, CMultiTree *treePtr );												
 	bool KillEditor();											
-	//			for bool type
+	// for bool type
 	void SetBoolData( bool var ) { m_var = var;  }
 	bool GetBoolData() const { return m_var; }
 	~CTrueFalseTreeItem() {}
@@ -96,7 +96,7 @@ public:
 	}
 	bool BuildEditor( HTREEITEM *item, CMultiTree *treePtr );												
 	bool KillEditor();											
-	//			for procent type
+	// for percentage type
 	void SetValue( int var ) { m_procent = var;  }
 	short GetValue() const { return m_procent; }
 	~CProcentTreeItem() {}
@@ -111,12 +111,12 @@ public:
 	std::string GetNormalProperty();
 	bool BuildEditor( HTREEITEM *item,	CMultiTree *treePtr );												
 	bool KillEditor();											
-	//			for bool type
+	// for bool type
 	void SetNumData( int var ) { m_var = var;  }
 	int GetNumData() const { return m_var; }
 	~CNumComboBoxTreeItem() {}
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 class CEmptyTreeItem : public CSimpleTreeItem
 {
@@ -126,8 +126,8 @@ public:
 	bool KillEditor();
 	~CEmptyTreeItem() {}
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//?!
+
+// ?!
 class CSimplePropertieTreeItem
 {
 protected:
@@ -141,7 +141,7 @@ public:
 	}
 	virtual ~CSimplePropertieTreeItem() {}
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 class CPropertieTreeItem : public CSimpleTreeItem, public CSimplePropertieTreeItem
 {
@@ -163,7 +163,7 @@ public:
 
 	~CPropertieTreeItem() {}
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CComboBoxTreeItemPropertieTreeItem : public CSimpleTreeItem, public CSimplePropertieTreeItem
 {
 	CTreeItemComboBox	*m_ComboBoxCtrl;
@@ -183,7 +183,7 @@ public:
 	bool KillEditor();
 	~CComboBoxTreeItemPropertieTreeItem() {}
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CDirChosePropertieTreeItem: public CSimpleTreeItem, public CSimplePropertieTreeItem
 {
 public:
@@ -202,7 +202,7 @@ public:
 	bool KillEditor();
 	~CDirChosePropertieTreeItem() {}
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CFileChosePropertieTreeItem: public CSimpleTreeItem, public CSimplePropertieTreeItem
 {
 public:
@@ -223,7 +223,7 @@ public:
 	~CFileChosePropertieTreeItem() {}
 };
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CUnitsPropertieTreeItem: public CSimpleTreeItem, public CSimplePropertieTreeItem
 {
 public:
@@ -242,7 +242,7 @@ public:
 	bool KillEditor()	;
 	~CUnitsPropertieTreeItem() {}
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // __KOSTYA_TREEITEM_H__
 
 

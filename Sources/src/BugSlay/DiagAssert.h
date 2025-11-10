@@ -1,94 +1,55 @@
-/*----------------------------------------------------------------------
-  John Robbins - Microsoft Systems Journal Bugslayer Column - Feb '99
-----------------------------------------------------------------------*/
+/* ----------------------------------------------------------------------
+   */
 
 #ifndef _DIAGASSERT_H
 #define _DIAGASSERT_H
 
 #ifndef __cplusplus
-extern "C" {
-#endif  //__cplusplus
+extern "C"
+{
 
-/*//////////////////////////////////////////////////////////////////////
-                                Defines
-//////////////////////////////////////////////////////////////////////*/
-// Keep the core stuff availible in both release and debug builds.
+#endif  // __cplusplus
+
+/* ////////////////////////////////////////////////////////////////////
+                                 */
+// Keep the core stuff available in both release and debug builds.
 // Uses the global assert flags.
 #define DA_USEDEFAULTS      0x0000
-// Turns on showing the assert in a messagebox.  This is the default.
+// Turns on showing the assert in a messagebox.  
 #define DA_SHOWMSGBOX       0x0001
-// Turns on showing the assert as through OutputDebugString.  This is
-//  the default.
+// Turns on showing the assert as through OutputDebugString.  
+// the default.
 #define DA_SHOWODS          0x0002
-// Shows a stack trace in the assert.  This is off by default with the
-//  ASSERT macro, and on in the SUPERASSERT macro.
+// Shows a stack trace in the assert.  
+// ASSERT macro, and on in the SUPERASSERT macro.
 #define DA_SHOWSTACKTRACE   0x0004
 
-/*----------------------------------------------------------------------
-FUNCTION        :   SetDiagAssertOptions
-DISCUSSION      :
-    Sets the global options for normal ASSERT macros.
-PARAMETERS      :
-    dwOpts - The new options flags.
-RETURNS         :
-    The previous options.
-----------------------------------------------------------------------*/
-DWORD STDCALL SetDiagAssertOptions( DWORD dwOpts );
+/* ----------------------------------------------------------------------
+ */
+DWORD STDCALL SetDiagAssertOptions(DWORD dwOpts);
 
-/*----------------------------------------------------------------------
-FUNCTION        :   AddDiagAssertModule
-DISCUSSION      :
-    Adds the specified module to the list of modules that error strings
-will be pulled from.
-PARAMETERS      :
-    hMod - The module to add.
-RETURNS         :
-    TRUE  - The module was added.
-    FALSE - The internal table is full.
-----------------------------------------------------------------------*/
-BOOL STDCALL AddDiagAssertModule( HMODULE hMod );
+/* ----------------------------------------------------------------------
+ */
+BOOL STDCALL AddDiagAssertModule(HMODULE hMod);
 
-/*----------------------------------------------------------------------
-FUNCTION        :   DiagAssert
-DISCUSSION      :
-    The actual assert function itself.
-PARAMETERS      :
-    dwOverrideOpts - The DA_* options to override the global defaults
-                     for this call into DiagAssert.
-    szMsg          - The message to show.
-    szFile         - The file that showed the assert.
-    dwLine         - The line that had the assert.
-RETURNS         :
-    FALSE - Ignore the assert.
-    TRUE  - Trigger the DebugBreak.
-----------------------------------------------------------------------*/
-BOOL STDCALL DiagAssert( DWORD dwOverrideOpts, LPCTSTR szMsg, LPCSTR szFile, DWORD dwLine ) ;
+/* ----------------------------------------------------------------------
+ */
+BOOL STDCALL DiagAssert(DWORD dwOverrideOpts, LPCTSTR szMsg, LPCSTR szFile, DWORD dwLine);
 
-/*----------------------------------------------------------------------
-FUNCTION        :   DiagOutput
-DISCUSSION      :
-    Provides a tracing routine to send strings through
-OutputDebugString.
-PARAMETERS      :
-    szFmt - The format string.
-    ...   - Parameters that will be expanded into szFmt.
-RETURNS         :
-    None.
-----------------------------------------------------------------------*/
-void STDCALL DiagOutput( LPCTSTR szFmt, ... );
+/* ----------------------------------------------------------------------
+ */
+void STDCALL DiagOutput(LPCTSTR szFmt, ...);
 
-/*//////////////////////////////////////////////////////////////////////
-                           _DEBUG Is Defined
-//////////////////////////////////////////////////////////////////////*/
+/* ////////////////////////////////////////////////////////////////////
+                            */
 #ifdef _DEBUG
 
-/*//////////////////////////////////////////////////////////////////////
-                                Defines
-//////////////////////////////////////////////////////////////////////*/
+/* ////////////////////////////////////////////////////////////////////
+                                 */
 // The different options that can be set with SetDiagAssertOptions to
-//  set the global options.  If any of these are passed to DiagAssert in
-//  the first parameter, then that value will override whatever the
-//  global settings are.
+// set the global options.  
+// the first parameter, then that value will override whatever the
+// global settings are.
 
 // Undefine the things I want to take over.
 #ifdef ASSERT
@@ -114,7 +75,7 @@ void STDCALL DiagOutput( LPCTSTR szFmt, ... );
         }                                                           \
     } while (0)
 
-// The normal assert.  It just uses whatever the module defaults.
+// The normal assert.  
 #define ASSERT(x) ASSERTMACRO(DA_USEDEFAULTS,x)
 
 // Do the lowercase one.
@@ -163,9 +124,8 @@ void STDCALL DiagOutput( LPCTSTR szFmt, ... );
 #define TRACE3(sz, p1, p2, p3)  ::DiagOutput(_T(sz), p1, p2, p3)
 
 #else   // !_DEBUG
-/*//////////////////////////////////////////////////////////////////////
-                       _DEBUG Is !!NOT!! Defined
-//////////////////////////////////////////////////////////////////////*/
+/* ////////////////////////////////////////////////////////////////////
+                        */
 // remove any previous ASSERT definitions
 #ifdef ASSERT
 #undef ASSERT
@@ -179,7 +139,7 @@ void STDCALL DiagOutput( LPCTSTR szFmt, ... );
 #define ADDDIAGASSERTMODULE(x)
 
 #ifdef __cplusplus
-//inline void TraceOutput(LPCTSTR, ...) { }
+// inline void TraceOutput(LPCTSTR, ...) { }
 #define TRACE   (void)0
 #endif
 
@@ -193,8 +153,6 @@ void STDCALL DiagOutput( LPCTSTR szFmt, ... );
 
 #ifndef __cplusplus
 }
-#endif  //__cplusplus
+#endif  // __cplusplus
 
 #endif  // _DIAGASSERT_H
-
-

@@ -1,83 +1,84 @@
 #ifndef __UICOLORTEXTSCROLL_H__
 #define __UICOLORTEXTSCROLL_H__
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma ONCE
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#pragma once
+
 #include "UIScrollText.h"
 
-typedef std::pair< CPtr<ITextDialog>, CPtr<IGFXText> > CVisibleString;
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+using CVisibleString = std::pair<CPtr<ITextDialog>, CPtr<IGFXText>>;
+
 class CUIColorTextScroll : public CUIScrollTextBox
 {
-	DECLARE_SERIALIZE;
+  DECLARE_SERIALIZE;
+
 public:
-	// one entry;
-	// displays in this way
-	// 
-	class CColorTextEntry : public IRefCount
-	{
-		DECLARE_SERIALIZE;
-		OBJECT_COMPLETE_METHODS( CColorTextEntry );
-		int nHeight;												// height of this item
-		int nY;															// Y position of this item
-		DWORD dwCaptionColor;								// color of this item
-		DWORD dwEntryColor;											// color of this item
-		std::wstring szCaptionString;
-		int entryStartX;									// position of entry start.
-		std::vector<std::wstring> entryStrings;
-		CVisibleString entry;
-		CVisibleString caption;
+  // one entry;
+  // displays in this way
+  // 
+  class CColorTextEntry : public IRefCount
+  {
+    DECLARE_SERIALIZE;
+    OBJECT_COMPLETE_METHODS(CColorTextEntry);
+    int nHeight;// height of this item
+    int nY;// Y position of this item
+    DWORD dwCaptionColor;// color of this item
+    DWORD dwEntryColor;// color of this item
+    std::wstring szCaptionString;
+    int entryStartX;// position of entry start.
+    std::vector<std::wstring> entryStrings;
+    CVisibleString entry;
+    CVisibleString caption;
 
-		CVisibleString CreateString( const std::wstring &szSource, const int nWidth, const DWORD dwColor, const int nRedLine );
-	public:
-		CColorTextEntry() {  }
-		CColorTextEntry( const wchar_t *pszCaptionText, const DWORD dwCaptionColor,
-										 const wchar_t *pszEntryText, const DWORD dwEntryColor,
-										 const int nY, const int nWidth );
+    CVisibleString CreateString(const std::wstring &szSource, int nWidth, DWORD dwColor, int nRedLine);
 
-		const int GetSizeY() const { return nHeight; }
-		int Get1LineHeight() const;
-		void Visit( interface ISceneVisitor *pVisitor, const CTRect<float> &border, const int nYOffset );
-	};
+  public:
+    CColorTextEntry() {}
+    CColorTextEntry(const wchar_t *pszCaptionText, DWORD dwCaptionColor,
+                    const wchar_t *pszEntryText, DWORD dwEntryColor,
+                    int nY, int nWidth);
+
+    const int GetSizeY() const { return nHeight; }
+    int Get1LineHeight() const;
+    void Visit(interface ISceneVisitor *pVisitor, const CTRect<float> &border, int nYOffset);
+  };
+
 private:
+  using CColorPair = std::pair<DWORD, DWORD>;
+  std::vector<CColorPair> colors;// color indexes (CAPTION,ENTRY)
 
-	typedef std::pair<DWORD,DWORD> CColorPair;
-	std::vector< CColorPair > colors;						// color indexes (CAPTION,ENTRY)
-	
-	typedef std::vector< CPtr<CColorTextEntry> > CTextEntrys;
-	CTextEntrys textEntrys;
-	int nCurrentYSize;
+  using CTextEntrys = std::vector<CPtr<CColorTextEntry>>;
+  CTextEntrys textEntrys;
+  int nCurrentYSize;
 
 protected:
-	virtual void RepositionText() {  }
+  void RepositionText() override {}
 
 public:
-	CUIColorTextScroll() : nCurrentYSize( 0 ) {  }
-	~CUIColorTextScroll() {  }
+  CUIColorTextScroll() : nCurrentYSize(0) {}
+  ~CUIColorTextScroll() override {}
 
-	virtual void STDCALL AppendMessage( const WORD *pszCaption, const WORD *pszMessage,
-																			const enum IUIColorTextScroll::EColorEntrys color );
+  virtual void STDCALL AppendMessage(const WORD *pszCaption, const WORD *pszMessage,
+                                     enum IUIColorTextScroll::EColorEntrys color);
 
-	virtual void STDCALL SetWindowText( int nState, const WORD *pszText );
+  void STDCALL SetWindowText(int nState, const WORD *pszText) override;
 
-	// serializing...
-	virtual int STDCALL operator&( IDataTree &ss );
-	virtual void STDCALL Reposition( const CTRect<float> &rcParent );
-	
-	// drawing
-	virtual void STDCALL Draw( IGFX *pGFX );
-	virtual void STDCALL Visit( interface ISceneVisitor *pVisitor );
+  // serializing...
+  int STDCALL operator&(IDataTree &ss) override;
+  void STDCALL Reposition(const CTRect<float> &rcParent) override;
+
+  // drawing
+  void STDCALL Draw(IGFX *pGFX) override;
+  void STDCALL Visit(interface ISceneVisitor *pVisitor) override;
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CUIColorTextScrollBridge : public IUIColorTextScroll, public CUIColorTextScroll
 {
-	OBJECT_NORMAL_METHODS( CUIColorTextScrollBridge );
-	DECLARE_SUPER( CUIColorTextScroll );
-	DEFINE_UICONTAINER_BRIDGE;
+  OBJECT_NORMAL_METHODS(CUIColorTextScrollBridge);
+  DECLARE_SUPER(CUIColorTextScroll);
+  DEFINE_UICONTAINER_BRIDGE;
 
-	virtual void STDCALL AppendMessage( const WORD *pszCaption, const WORD *pszMessage, 
-																			const enum IUIColorTextScroll::EColorEntrys color = IUIColorTextScroll::E_COLOR_DEFAULT ) 
-	{ CSuper::AppendMessage( pszCaption, pszMessage, color ); }
+  void STDCALL AppendMessage(const WORD *pszCaption, const WORD *pszMessage,
+                             const enum EColorEntrys color = E_COLOR_DEFAULT) override { CSuper::AppendMessage(pszCaption, pszMessage, color); }
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // __UICOLORTEXTSCROLL_H__

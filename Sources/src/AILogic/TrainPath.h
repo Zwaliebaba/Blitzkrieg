@@ -1,163 +1,168 @@
 #ifndef __TRAIN_PATH_H__
 #define __TRAIN_PATH_H__
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma ONCE
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#pragma once
+
 #include "Path.h"
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CEdgePoint;
 interface IEdge;
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 struct SPathEdge
 {
-	DECLARE_SERIALIZE;
-public:
-	CPtr<CEdgePoint> pFirstPoint;
-	CPtr<CEdgePoint> pLastPoint;
+  DECLARE_SERIALIZE;
 
-	SPathEdge() { }
-	SPathEdge( CEdgePoint *_pFirstPoint, CEdgePoint *_pLastPoint ) : pFirstPoint( _pFirstPoint ), pLastPoint( _pLastPoint ) { }
+public:
+  CPtr<CEdgePoint> pFirstPoint;
+  CPtr<CEdgePoint> pLastPoint;
+
+  SPathEdge() {}
+  SPathEdge(CEdgePoint *_pFirstPoint, CEdgePoint *_pLastPoint) : pFirstPoint(_pFirstPoint), pLastPoint(_pLastPoint) {}
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CTrainPath : public IStaticPath
 {
-	OBJECT_COMPLETE_METHODS( CTrainPath );
-	DECLARE_SERIALIZE;
+  OBJECT_COMPLETE_METHODS(CTrainPath);
+  DECLARE_SERIALIZE;
 
-	std::list<SPathEdge> edges;
+  std::list<SPathEdge> edges;
 
-	CVec2 vStartPoint;
-	CVec2 vFinishPoint;
+  CVec2 vStartPoint;
+  CVec2 vFinishPoint;
 
-	// 
+  // 
 public:
-	CTrainPath() { }
-	CTrainPath( interface IStaticPathFinder *pPathFinder, class CTrainPathUnit *pTrain );
+  CTrainPath() {}
+  CTrainPath(interface IStaticPathFinder *pPathFinder, class CTrainPathUnit *pTrain);
 
-	virtual const SVector GetStartTile() const;
-	virtual const SVector GetFinishTile() const;
-	virtual const CVec2& GetFinishPoint() const;
+  const SVector GetStartTile() const override;
+  const SVector GetFinishTile() const override;
+  const CVec2 &GetFinishPoint() const override;
 
-	virtual const int GetLength() const { return edges.size(); }
-	virtual void MoveFinishPointBy( const CVec2 &vMove ) { }
+  const int GetLength() const override { return edges.size(); }
+  void MoveFinishPointBy(const CVec2 &vMove) override {}
 
-	std::list< SPathEdge >::iterator GetStartEdgeIter() { return edges.begin(); }	
-	std::list< SPathEdge >::iterator GetEndEdgesIter() { return edges.end(); }	
-	CEdgePoint* GetFirstPoint( std::list< SPathEdge >::iterator iter );
-	CEdgePoint* GetLastPoint( std::list< SPathEdge >::iterator iter );
+  std::list<SPathEdge>::iterator GetStartEdgeIter() { return edges.begin(); }
+  std::list<SPathEdge>::iterator GetEndEdgesIter() { return edges.end(); }
+  CEdgePoint *GetFirstPoint(std::list<SPathEdge>::iterator iter);
+  CEdgePoint *GetLastPoint(std::list<SPathEdge>::iterator iter);
 
-	const CVec2 GetStartPoint() const { return vStartPoint; }
-	// направление начала движения
-	const CVec2 GetDirToGo();
+  const CVec2 GetStartPoint() const { return vStartPoint; }
+  // starting direction
+  const CVec2 GetDirToGo();
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CTrainSmoothPath : public ISmoothPath
 {
-	OBJECT_COMPLETE_METHODS( CTrainSmoothPath );
-	DECLARE_SERIALIZE;
+  OBJECT_COMPLETE_METHODS(CTrainSmoothPath);
+  DECLARE_SERIALIZE;
 
-	CTrainPathUnit *pOwner;
-	CPtr<CTrainPath> pTrainPath;
-	NTimer::STime lastUpdateTime;
-	float fSpeed;
-	bool bFinished;
+  CTrainPathUnit *pOwner;
+  CPtr<CTrainPath> pTrainPath;
+  NTimer::STime lastUpdateTime;
+  float fSpeed;
+  bool bFinished;
 
-	struct SPathPoint
-	{
-		DECLARE_SERIALIZE; 
-	public:
-		std::list< SPathEdge >::iterator iter;
-		CPtr<CEdgePoint> pPoint;
-	};
+  struct SPathPoint
+  {
+    DECLARE_SERIALIZE;
 
-	struct SCarriagePos
-	{
-		DECLARE_SERIALIZE;
-	public:
-		SPathPoint frontWheel;
-		SPathPoint backWheel;
-	};
+  public:
+    std::list<SPathEdge>::iterator iter;
+    CPtr<CEdgePoint> pPoint;
+  };
 
-	std::vector<SCarriagePos> carriages;
-	int nRecalculating;
+  struct SCarriagePos
+  {
+    DECLARE_SERIALIZE;
 
-	bool bRecalculatedPath;
-	CVec2 vRealFinishPoint;
+  public:
+    SPathPoint frontWheel;
+    SPathPoint backWheel;
+  };
 
-	// для saver/load
-	int iteratorShift;
-	bool bJustLoaded;
+  std::vector<SCarriagePos> carriages;
+  int nRecalculating;
 
-	//
-	void InitTrain();
-	// передвинуть переднее колесо вагона n на расстояние fDist
-	void MoveFrontWheel( const int n, float const fDist );
+  bool bRecalculatedPath;
+  CVec2 vRealFinishPoint;
 
-	void CheckPath();
-	void DelSharpAngles();
-	void LoadIterators();
-	void FinishPath();
+  // for saver/load
+  int iteratorShift;
+  bool bJustLoaded;
+
+  //
+  void InitTrain();
+  // move the front wheel of the car n by a distance fDist
+  void MoveFrontWheel(int n, float fDist);
+
+  void CheckPath();
+  void DelSharpAngles();
+  void LoadIterators();
+  void FinishPath();
+
 public:
-	CTrainSmoothPath() : bJustLoaded( false ), fSpeed( 0 ), lastUpdateTime( 0 ), bFinished( true ), nRecalculating( 0 ), bRecalculatedPath( false ) { }
+  CTrainSmoothPath() : lastUpdateTime(0), fSpeed(0), bFinished(true), nRecalculating(0), bRecalculatedPath(false), bJustLoaded(false) {}
 
-	bool Init( IStaticPath *pTrainPath );
+  bool Init(IStaticPath *pTrainPath);
 
-	virtual bool Init( interface IBasePathUnit *pUnit, IPath *pPath, bool bSmoothTurn, bool bCheckTurn = true );
-	virtual bool Init( interface IMemento *pMemento, interface IBasePathUnit *pUnit );
-	virtual bool InitByFormationPath( class CFormation *pFormation, interface IBasePathUnit *pUnit );
+  bool Init(interface IBasePathUnit *pUnit, IPath *pPath, bool bSmoothTurn, bool bCheckTurn = true) override;
+  bool Init(interface IMemento *pMemento, interface IBasePathUnit *pUnit) override;
+  bool InitByFormationPath(class CFormation *pFormation, interface IBasePathUnit *pUnit) override;
 
-	virtual const CVec2& GetFinishPoint() const { return pTrainPath->GetFinishPoint(); }
+  const CVec2 &GetFinishPoint() const override { return pTrainPath->GetFinishPoint(); }
 
-	virtual bool IsFinished() const;
-	
-	virtual void Stop() { }
+  bool IsFinished() const override;
 
-	virtual const CVec3 GetPoint( NTimer::STime timeDiff );
-	virtual float& GetSpeedLen();
+  void Stop() override {}
 
-	virtual void NotifyAboutClosestThreat( interface IBasePathUnit *pCollUnit, const float fDist );
-	virtual void SlowDown() { }
+  const CVec3 GetPoint(NTimer::STime timeDiff) override;
+  float &GetSpeedLen() override;
 
-	virtual bool CanGoBackward() const { return false; }
-	virtual bool CanGoForward() const { return true; }
-	virtual void GetNextTiles( std::list<SVector> *pTiles ) { pTiles->clear(); }
-	// погрешность до SAIConsts::SPLINE_STEP, используется в основном для формации
-	virtual CVec2 GetShift( const int nToShift ) const { return VNULL2; }
-	
-	virtual IMemento* GetMemento() const;
-	//radius of curvance. positive if rotation in positive direction, negative otherwise
-	virtual float GetCurvatureRadius() const { return 0.0f; }
-	virtual CVec2 GetCurvatureCenter() const { return CVec2( float(1e15), float(1e15) ); }
-	
-	virtual bool IsWithFormation() const { return false; }
+  void NotifyAboutClosestThreat(interface IBasePathUnit *pCollUnit, float fDist) override;
+  void SlowDown() override {}
 
-	virtual void GetSpeed3( CVec3 *vSpeed ) const
-	{
-	//CRAP{ пока Виталик в своих путях не станет вычислать скорость
-	*vSpeed = VNULL3;
-	//CRAP}
-	}
+  bool CanGoBackward() const override { return false; }
+  bool CanGoForward() const override { return true; }
+  void GetNextTiles(std::list<SVector> *pTiles) override { pTiles->clear(); }
+  // error up to SAIConsts::SPLINE_STEP, used mainly for formation
+  CVec2 GetShift(const int nToShift) const override { return VNULL2; }
 
-	CEdgePoint* GetBackWheelPoint( const int n ) const;
-	CEdgePoint* GetFrontWheelPoint( const int n ) const;
+  IMemento *GetMemento() const override;
+  // radius of curvance. 
+  float GetCurvatureRadius() const override { return 0.0f; }
+  CVec2 GetCurvatureCenter() const override { return CVec2(1e15, 1e15); }
 
-	void SetNewFrontWheel( const int n, CEdgePoint *pNewPoint );
-	void SetNewBackWheel( const int n, CEdgePoint *pNewPoint );
+  bool IsWithFormation() const override { return false; }
 
-	// для save/load
-	virtual void SetOwner( interface IBasePathUnit *pUnit );
-	virtual IBasePathUnit* GetOwner() const;
+  void GetSpeed3(CVec3 *vSpeed) const override
+  {
+    // CRAP{ until Vitalik in his ways begins to calculate the speed
+    *vSpeed = VNULL3;
+    // CRAP}
+  }
+
+  CEdgePoint *GetBackWheelPoint(int n) const;
+  CEdgePoint *GetFrontWheelPoint(int n) const;
+
+  void SetNewFrontWheel(int n, CEdgePoint *pNewPoint);
+  void SetNewBackWheel(int n, CEdgePoint *pNewPoint);
+
+  // for save/load
+  void SetOwner(interface IBasePathUnit *pUnit) override;
+  IBasePathUnit *GetOwner() const override;
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CTrainSmoothPathMemento : public IMemento
 {
-	OBJECT_COMPLETE_METHODS( CTrainSmoothPathMemento );
-	DECLARE_SERIALIZE;
-public:
-	CPtr<CTrainPath> pPath;
+  OBJECT_COMPLETE_METHODS(CTrainSmoothPathMemento);
+  DECLARE_SERIALIZE;
 
-	CTrainSmoothPathMemento() { }
-	CTrainSmoothPathMemento( CTrainPath *pPath );
+public:
+  CPtr<CTrainPath> pPath;
+
+  CTrainSmoothPathMemento() {}
+  CTrainSmoothPathMemento(CTrainPath *pPath);
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // __TRAIN_PATH_H__

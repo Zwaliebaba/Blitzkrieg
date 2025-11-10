@@ -170,11 +170,11 @@ void C3DRoadCommonPropsItem::UpdateItemValue( int nItemId, const CVariant &value
 	
 	if ( nItemId == 2 )
 	{
-		//Изменился флаг бордюра
+		// The curb flag has changed
 		bool bVal = HasBorders();
 		if ( bVal == true && bOldBordersFlag == false )
 		{
-			//добавим бордюры
+			// add borders
 			C3DRoadLayerPropsItem *pLayerProps = new C3DRoadLayerPropsItem;
 			pLayerProps->SetItemName( "Border layer" );
 			GetParentTreeItem()->AddChild( pLayerProps );
@@ -182,7 +182,7 @@ void C3DRoadCommonPropsItem::UpdateItemValue( int nItemId, const CVariant &value
 		
 		if ( bVal == false && bOldBordersFlag == true )
 		{
-			//удалим бордюры
+			// remove curbs
 			CTreeItem *pLayer = GetParentTreeItem()->GetChildItem( E_3DROAD_LAYER_PROPS_ITEM, 1 );
 			NI_ASSERT( pLayer != 0 );
 			pLayer->DeleteMeInParentTreeItem();
@@ -236,14 +236,8 @@ void C3DRoadLayerPropsItem::InitDefaultValues()
 	prop.szDisplayName = "Texture step";
 	prop.value = 0.1f;
 	defaultValues.push_back( prop );
-/*
-	prop.nId = 4;
-	prop.nDomenType = DT_FLOAT;
-	prop.szDefaultName = "Relative width";
-	prop.szDisplayName = "Relative width";
-	prop.value = 1.0f;
-	defaultValues.push_back( prop );
-*/
+/* prop.nId = 4;
+	 */
 	prop.nId = 5;
 	prop.nDomenType = DT_ROAD_TEXTURE_REF;
 	prop.szDefaultName = "Texture";
@@ -261,7 +255,7 @@ void C3DRoadLayerPropsItem::UpdateItemValue( int nItemId, const CVariant &value 
 	
 	pFrame->UpdateRoadView();
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////
 BYTE C3DRoadCommonPropsItem::GetSoilParams()
 {
 	BYTE res = 0x00;
@@ -271,5 +265,5 @@ BYTE C3DRoadCommonPropsItem::GetSoilParams()
 		res = res | SVectorStripeObjectDesc::ESP_TRACE;
 	return res;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////
 

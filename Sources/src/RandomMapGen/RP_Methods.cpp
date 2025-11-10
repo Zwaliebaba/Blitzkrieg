@@ -8,94 +8,87 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // SRoadPoint constants
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 const int SRoadPoint::INVALID_WIDTH = 0;
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//SRoadPoint methods
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// SRoadPoint methods
+
 // serializing...
-int SRoadPoint::operator&( IStructureSaver &ss )
+int SRoadPoint::operator&(IStructureSaver &ss)
 {
-	CSaverAccessor saver = &ss;
+  CSaverAccessor saver = &ss;
 
-	saver.Add( 1, &x );	
-	saver.Add( 2, &y );	
-	saver.Add( 3, &nDirection );
-	saver.Add( 4, &nWidth );
-	saver.Add( 5, &nRoadType );
+  saver.Add(1, &x);
+  saver.Add(2, &y);
+  saver.Add(3, &nDirection);
+  saver.Add(4, &nWidth);
+  saver.Add(5, &nRoadType);
 
-	return 0;
+  return 0;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // serializing...
-int SRoadPoint::operator&( IDataTree &ss )
+int SRoadPoint::operator&(IDataTree &ss)
 {
-	CTreeAccessor saver = &ss; 
+  CTreeAccessor saver = &ss;
 
-	saver.Add( "x", &x );	
-	saver.Add( "y", &y );	
-	saver.Add( "Direction", &nDirection );
-	saver.Add( "nWidth", &nWidth );	
-	saver.Add( "RoadType", &nRoadType );
+  saver.Add("x", &x);
+  saver.Add("y", &y);
+  saver.Add("Direction", &nDirection);
+  saver.Add("nWidth", &nWidth);
+  saver.Add("RoadType", &nRoadType);
 
-	return 0;
+  return 0;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool SRoadPoint::IsRoadPoint( const SRoadPoint &rRoadPoint, int *pnLength ) const
-{ 
-	if ( HasHorizontalDirection() )
-	{
-		if( y == rRoadPoint.y )
-		{
-			if ( pnLength )
-			{
-				*pnLength = ( ( rRoadPoint.x - x ) * RMGC_SHIFT_POINTS[nDirection - RMGC_HORIZONTAL_TO_ZERO].x );
-			}
-			return true;
-		}
-	}
-	else
-	{
-		if( x == rRoadPoint.x )
-		{
-			if ( pnLength )
-			{
-				*pnLength = ( ( rRoadPoint.y - y ) * RMGC_SHIFT_POINTS[nDirection - RMGC_HORIZONTAL_TO_ZERO].y );
-			}
-			return  true;
-		}
-	}
-	return false;
+
+bool SRoadPoint::IsRoadPoint(const SRoadPoint &rRoadPoint, int *pnLength) const
+{
+  if (HasHorizontalDirection())
+  {
+    if (y == rRoadPoint.y)
+    {
+      if (pnLength) { *pnLength = ((rRoadPoint.x - x) * RMGC_SHIFT_POINTS[nDirection - RMGC_HORIZONTAL_TO_ZERO].x); }
+      return true;
+    }
+  }
+  else
+  {
+    if (x == rRoadPoint.x)
+    {
+      if (pnLength) { *pnLength = ((rRoadPoint.y - y) * RMGC_SHIFT_POINTS[nDirection - RMGC_HORIZONTAL_TO_ZERO].y); }
+      return true;
+    }
+  }
+  return false;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//SRoadMakeParameter methods
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// SRoadMakeParameter methods
+
 // serializing...
-int SRoadMakeParameter::operator&( IStructureSaver &ss )
+int SRoadMakeParameter::operator&(IStructureSaver &ss)
 {
-	CSaverAccessor saver = &ss;
+  CSaverAccessor saver = &ss;
 
-	saver.Add( 1, &nMinMiddleDistance );	
-	saver.Add( 2, &lockedRects );
+  saver.Add(1, &nMinMiddleDistance);
+  saver.Add(2, &lockedRects);
 
-	return 0;
+  return 0;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // serializing...
-int SRoadMakeParameter::operator&( IDataTree &ss )
+int SRoadMakeParameter::operator&(IDataTree &ss)
 {
-	CTreeAccessor saver = &ss; 
+  CTreeAccessor saver = &ss;
 
-	saver.Add( "MinMiddleDistance", &nMinMiddleDistance );	
-	saver.Add( "LockedRects", &lockedRects );
+  saver.Add("MinMiddleDistance", &nMinMiddleDistance);
+  saver.Add("LockedRects", &lockedRects);
 
-	return 0;
+  return 0;
 }
-

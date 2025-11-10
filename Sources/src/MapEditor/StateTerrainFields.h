@@ -9,8 +9,8 @@
 #include "DrawingTools.h"
 #include "MapSoundInfo.h"
 
-//fields
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// fields
+// ////////////////////////////////////////////////
 class CFieldsSelectState : private IInputState
 {
 	friend class CInputMultiState;
@@ -30,13 +30,13 @@ class CFieldsSelectState : private IInputState
 								 NStr::Format( "Invalid parameter: %x", pParentState ) );
 	}
 
-	//IState interface
+	// IState interface
 	virtual void STDCALL OnLButtonDown( UINT nFlags, const CTPoint<int> &rMousePoint, CTemplateEditorFrame* pFrame );
 	virtual void STDCALL OnLButtonDblClk( UINT nFlags, const CTPoint<int> &rMousePoint, CTemplateEditorFrame* pFrame );
 	virtual void STDCALL OnKeyDown( UINT nChar, UINT nRepCnt, UINT nFlags, CTemplateEditorFrame* pFrame );
 };
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 class CFieldsEditState : public IInputState
 {
 	friend class CInputMultiState;
@@ -55,13 +55,13 @@ class CFieldsEditState : public IInputState
 								 NStr::Format( "Invalid parameter: %x", pParentState ) );
 	}
 
-	//IState interface
+	// IState interface
 	virtual void STDCALL OnMouseMove( UINT nFlags, const CTPoint<int> &rMousePoint, CTemplateEditorFrame* pFrame );
 	virtual void STDCALL OnLButtonUp( UINT nFlags, const CTPoint<int> &rMousePoint, CTemplateEditorFrame* pFrame );
 	virtual void STDCALL OnKeyDown( UINT nChar, UINT nRepCnt, UINT nFlags, CTemplateEditorFrame* pFrame );
 };
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 class CFieldsAddState : public IInputState
 {
 	friend class CInputMultiState;
@@ -80,7 +80,7 @@ class CFieldsAddState : public IInputState
 								 NStr::Format( "Invalid parameter: %x", pParentState ) );
 	}
 
-	//IState interface
+	// IState interface
 	virtual void STDCALL OnMouseMove( UINT nFlags, const CTPoint<int> &rMousePoint, CTemplateEditorFrame* pFrame );
 	virtual void STDCALL OnLButtonDown( UINT nFlags, const CTPoint<int> &rMousePoint, CTemplateEditorFrame* pFrame );
 	virtual void STDCALL OnRButtonDown( UINT nFlags, const CTPoint<int> &rMousePoint, CTemplateEditorFrame* pFrame );
@@ -88,7 +88,7 @@ class CFieldsAddState : public IInputState
 	virtual void STDCALL OnKeyDown( UINT nChar, UINT nRepCnt, UINT nFlags, CTemplateEditorFrame* pFrame );
 };
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 class CFieldsState : public CInputMultiState
 {
 	enum INPUT_STATES_FIELDS
@@ -113,11 +113,11 @@ class CFieldsState : public CInputMultiState
 	std::vector<CVec3> points;
 	int nCurrentPoint;
 
-	//common tools
+	// common tools
 	CInputStateParameter stateParameter;
 	CSceneDrawTool sceneDrawTool;
 	
-	//IState interface
+	// IState interface
 	virtual void STDCALL Enter();
 	virtual void STDCALL Leave();
 	virtual void STDCALL Update();
@@ -146,5 +146,5 @@ public:
 
 	void PlaceField( bool bPlace );
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////
 #endif // !defined(__State__Terrain_Fields__)

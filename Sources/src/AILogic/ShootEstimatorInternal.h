@@ -1,190 +1,213 @@
 #ifndef __SHOOT_ESTIMATOR_INTERNAL_H__
 #define __SHOOT_ESTIMATOR_INTERNAL_H__
 
-#pragma ONCE
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma once
+// //////////////////////////////////////////////////////////// 
 #include "ShootEstimator.h"
 #include "Obstacle.h"
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////// 
 class CAIUnit;
 class CBasicGun;
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// //////////////////////////////////////////////////////////// 
 class CTankShootEstimator : public IShootEstimator
 {
-	OBJECT_COMPLETE_METHODS( CTankShootEstimator );
-	DECLARE_SERIALIZE;
+  OBJECT_COMPLETE_METHODS(CTankShootEstimator);
+  DECLARE_SERIALIZE;
 
-	class CAIUnit *pOwner;
-	CPtr<CAIUnit> pBestUnit;
-	CPtr<CBasicGun> pBestGun;
-	int nBestGun;
-	CPtr<CAIUnit> pCurTarget;
-	bool bDamageToCurTargetUpdated;
+  class CAIUnit *pOwner;
+  CPtr<CAIUnit> pBestUnit;
+  CPtr<CBasicGun> pBestGun;
+  int nBestGun;
+  CPtr<CAIUnit> pCurTarget;
+  bool bDamageToCurTargetUpdated;
 
-	float fBestRating;
-	DWORD dwForbidden;
-	DWORD dwDefaultForbidden;
-	
-	CGDBPtr<SUnitBaseRPGStats> pMosinStats;
+  float fBestRating;
+  DWORD dwForbidden;
+  DWORD dwDefaultForbidden;
 
-	// время, требуемое, чтобы повернуть pGun на pEnemy
-	//const float FindTimeToTurn( CAIUnit *pEnemy, CBasicGun *pGun ) const;
-	// выбрать gun для pEnemy
-	void ChooseGun( CBasicGun **pBestGun, int *nBestGun, CAIUnit *pEnemy );
+  CGDBPtr<SUnitBaseRPGStats> pMosinStats;
 
-	const float GetRating( CAIUnit *pEnemy, CBasicGun *pGun ) const;
-	const float GetRating( const SUnitBaseRPGStats *pStats, const CVec2 &vCenter, CBasicGun *pGun ) const;
+  // time required to turn pGun on pEnemy
+  // const float FindTimeToTurn( CAIUnit *pEnemy, CBasicGun *pGun ) const;
+  // select gun for pEnemy
+  void ChooseGun(CBasicGun **pBestGun, int *nBestGun, CAIUnit *pEnemy);
+
+  const float GetRating(CAIUnit *pEnemy, CBasicGun *pGun) const;
+  const float GetRating(const SUnitBaseRPGStats *pStats, const CVec2 &vCenter, CBasicGun *pGun) const;
+
 public:
-	CTankShootEstimator() : pOwner( 0 ) { }
-	explicit CTankShootEstimator( class CAIUnit *pOwner );
+  CTankShootEstimator() : pOwner(nullptr) {}
+  explicit CTankShootEstimator(class CAIUnit *pOwner);
 
-	virtual void Reset( class CAIUnit *pCurEnemy, const bool bDamageUpdated, const DWORD dwForbidden );
-	virtual void AddUnit( class CAIUnit *pEnemy );
-	virtual class CAIUnit* GetBestUnit() const;
-	virtual class CBasicGun* GetBestGun() const;
-	virtual const int GetNumberOfBestGun() const;
+  void Reset(class CAIUnit *pCurEnemy, bool bDamageUpdated, DWORD dwForbidden) override;
+  void AddUnit(class CAIUnit *pEnemy) override;
+  class CAIUnit *GetBestUnit() const override;
+  class CBasicGun *GetBestGun() const override;
+  const int GetNumberOfBestGun() const override;
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// //////////////////////////////////////////////////////////// 
 class CSoldierShootEstimator : public IShootEstimator
 {
-	OBJECT_COMPLETE_METHODS( CSoldierShootEstimator );
-	DECLARE_SERIALIZE;
+  OBJECT_COMPLETE_METHODS(CSoldierShootEstimator);
+  DECLARE_SERIALIZE;
 
-	static const int N_GOOD_NUMBER_ATTACKING_GRENADES;
+  static const int N_GOOD_NUMBER_ATTACKING_GRENADES;
 
-	class CAIUnit *pOwner;
-	CPtr<CAIUnit> pBestUnit;
-	CPtr<CBasicGun> pBestGun;
-	int nBestGun;
-	CPtr<CAIUnit> pCurTarget;
-	bool bDamageToCurTargetUpdated;
+  class CAIUnit *pOwner;
+  CPtr<CAIUnit> pBestUnit;
+  CPtr<CBasicGun> pBestGun;
+  int nBestGun;
+  CPtr<CAIUnit> pCurTarget;
+  bool bDamageToCurTargetUpdated;
 
-	float fBestRating;
+  float fBestRating;
 
-	bool bHasGrenades;
-	// бросаем гранату, не учитываю общую функцию выбора цели по рейтингу
-	bool bThrowGrenade;
+  bool bHasGrenades;
+  // throw a grenade, do not take into account the general function of selecting a target by rating
+  bool bThrowGrenade;
 
-	DWORD dwForbidden;
+  DWORD dwForbidden;
 
-	CGDBPtr<SUnitBaseRPGStats> pMosinStats;
+  CGDBPtr<SUnitBaseRPGStats> pMosinStats;
 
-	// выбрать gun для pEnemy
-	void ChooseGun( CBasicGun **pBestGun, int *nBestGun, CAIUnit *pEnemy );
+  // select gun for pEnemy
+  void ChooseGun(CBasicGun **pBestGun, int *nBestGun, CAIUnit *pEnemy);
 
-	const float GetRating( CAIUnit *pEnemy, CBasicGun *pGun ) const;
-	const float GetRating( const SUnitBaseRPGStats *pStats, const CVec2 &vCenter, CBasicGun *pGun ) const;
+  const float GetRating(CAIUnit *pEnemy, CBasicGun *pGun) const;
+  const float GetRating(const SUnitBaseRPGStats *pStats, const CVec2 &vCenter, CBasicGun *pGun) const;
+
 public:
-	CSoldierShootEstimator() : pOwner( 0 ) { }
-	explicit CSoldierShootEstimator( class CAIUnit *pOwner );
+  CSoldierShootEstimator() : pOwner(nullptr) {}
+  explicit CSoldierShootEstimator(class CAIUnit *pOwner);
 
-	virtual void Reset( class CAIUnit *pCurEnemy, const bool bDamageUpdated, const DWORD dwForbidden );
-	virtual void AddUnit( class CAIUnit *pEnemy );
-	virtual class CAIUnit* GetBestUnit() const;
-	virtual class CBasicGun* GetBestGun() const;
-	virtual const int GetNumberOfBestGun() const;
+  void Reset(class CAIUnit *pCurEnemy, bool bDamageUpdated, DWORD dwForbidden) override;
+  void AddUnit(class CAIUnit *pEnemy) override;
+  class CAIUnit *GetBestUnit() const override;
+  class CBasicGun *GetBestGun() const override;
+  const int GetNumberOfBestGun() const override;
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// стрельба из бортовых стрелковых точек для самолетов
+
+// //////////////////////////////////////////////////////////// 
+// shooting from onboard shooting points for aircraft
 class CPlaneDeffensiveFireShootEstimator : public IShootEstimator
 {
-	OBJECT_COMPLETE_METHODS( CPlaneDeffensiveFireShootEstimator );
-	DECLARE_SERIALIZE;
+  OBJECT_COMPLETE_METHODS(CPlaneDeffensiveFireShootEstimator);
+  DECLARE_SERIALIZE;
 
-	class CAIUnit *pOwner;
-	
-	CPtr<CAIUnit> pBestUnit;
-	CPtr<CAIUnit> pCurTarget;
-	CPtr<CBasicGun> pGun;
-	bool bDamageToCurTargetUpdated;
-	float fBestRating;
-	
-	const float CalcTimeToOpenFire( class CAIUnit *pEnemy, CBasicGun *pGun ) const; // время для открытия огня (учитывая поворот оружия и скорость сближения с врагом)
+  class CAIUnit *pOwner;
 
-	const float CalcRating( CAIUnit *pEnemy, CBasicGun *pGun ) const;
+  CPtr<CAIUnit> pBestUnit;
+  CPtr<CAIUnit> pCurTarget;
+  CPtr<CBasicGun> pGun;
+  bool bDamageToCurTargetUpdated;
+  float fBestRating;
+
+  const float CalcTimeToOpenFire(class CAIUnit *pEnemy, CBasicGun *pGun) const;// time to open fire (taking into account the rotation of the weapon and the speed of approaching the enemy)
+
+  const float CalcRating(CAIUnit *pEnemy, CBasicGun *pGun) const;
+
 public:
-	CPlaneDeffensiveFireShootEstimator() : pOwner( 0 ) { }
-	explicit CPlaneDeffensiveFireShootEstimator( class CAIUnit *pOwner );
+  CPlaneDeffensiveFireShootEstimator() : pOwner(nullptr) {}
+  explicit CPlaneDeffensiveFireShootEstimator(class CAIUnit *pOwner);
 
-	void SetGun( CBasicGun *_pGun);
+  void SetGun(CBasicGun *_pGun);
 
-	virtual void Reset( class CAIUnit *pCurEnemy, const bool bDamageUpdated, const DWORD dwForbidden );//dwFirbidden is ignored
-	virtual void AddUnit( class CAIUnit *pEnemy );
-	virtual class CAIUnit* GetBestUnit() const;
-	virtual class CBasicGun* GetBestGun() const;
-	virtual const int GetNumberOfBestGun() const;
+  void Reset(class CAIUnit *pCurEnemy, bool bDamageUpdated, DWORD dwForbidden) override;// dwFirbidden is ignored
+  void AddUnit(class CAIUnit *pEnemy) override;
+  class CAIUnit *GetBestUnit() const override;
+  class CBasicGun *GetBestGun() const override;
+  const int GetNumberOfBestGun() const override;
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// for 
+
+// //////////////////////////////////////////////////////////// 
+// for
 class CBuilding;
+
 class CPlaneShturmovikShootEstimator : public IShootEstimator
 {
-	OBJECT_COMPLETE_METHODS( CPlaneShturmovikShootEstimator );
-	DECLARE_SERIALIZE;
+  OBJECT_COMPLETE_METHODS(CPlaneShturmovikShootEstimator);
+  DECLARE_SERIALIZE;
 
-	struct STargetInfo
-	{
-		DECLARE_SERIALIZE;
-	public:
-		CPtr<CAIUnit> pTarget;
-		bool bCanTargetShootToPlanes;
-		bool bCanAttackerBreakTarget;
-		WORD wSpeedDiff;
-		WORD wDirToTarget;
-		float fRating;
-		//
-		void Reset()
-		{
-			bCanTargetShootToPlanes = false;
-			bCanAttackerBreakTarget = false;
-			fRating = 0;
-			wSpeedDiff = 65535;
-			pTarget = 0;
-		}
-		STargetInfo() { Reset(); }
-	};
+  struct STargetInfo
+  {
+    DECLARE_SERIALIZE;
 
-	class CAIUnit *pOwner;
-	CPtr<CAIUnit> pCurEnemy;
-	CVec2 vCenter;
-	
-	STargetInfo bestForGuns;
-	STargetInfo bestForBombs;
-	STargetInfo bestAviation;
-	typedef std::hash_set< int/*unique id of building*/ >  CBuildings;
-	CBuildings buildings;
-	CPtr<CBuilding> pBestBuilding;
+  public:
+    CPtr<CAIUnit> pTarget;
+    bool bCanTargetShootToPlanes;
+    bool bCanAttackerBreakTarget;
+    WORD wSpeedDiff;
+    WORD wDirToTarget;
+    float fRating;
+    //
+    void Reset()
+    {
+      bCanTargetShootToPlanes = false;
+      bCanAttackerBreakTarget = false;
+      fRating = 0;
+      wSpeedDiff = 65535;
+      pTarget = nullptr;
+    }
 
-	const float CPlaneShturmovikShootEstimator::CalcTimeToOpenFire( CAIUnit *pEnemy ) const;
-	void CollectTarget( CPlaneShturmovikShootEstimator::STargetInfo * pInfo, class CAIUnit *pTarget, const DWORD dwPossibleGuns );
-	const float CalcRating( CAIUnit *pEnemy, const DWORD dwPossibleGuns ) const;
+    STargetInfo() { Reset(); }
+  };
+
+  class CAIUnit *pOwner;
+  CPtr<CAIUnit> pCurEnemy;
+  CVec2 vCenter;
+
+  STargetInfo bestForGuns;
+  STargetInfo bestForBombs;
+  STargetInfo bestAviation;
+  using CBuildings = std::hash_set<int/* unique id of building */>;
+  CBuildings buildings;
+  CPtr<CBuilding> pBestBuilding;
+
+  const float CPlaneShturmovikShootEstimator::CalcTimeToOpenFire(CAIUnit *pEnemy) const;
+  void CollectTarget(STargetInfo *pInfo, class CAIUnit *pTarget, DWORD dwPossibleGuns);
+  const float CalcRating(CAIUnit *pEnemy, DWORD dwPossibleGuns) const;
+
 public:
-	CPlaneShturmovikShootEstimator() : pOwner( 0 ) {  }
-	CPlaneShturmovikShootEstimator( class CAIUnit    *pOwner );
-	void SetCurCenter( const CVec2 &vNewCenter ) { vCenter = vNewCenter; }
+  CPlaneShturmovikShootEstimator() : pOwner(nullptr) {}
+  CPlaneShturmovikShootEstimator(class CAIUnit *pOwner);
+  void SetCurCenter(const CVec2 &vNewCenter) { vCenter = vNewCenter; }
 
-	virtual void Reset( class CAIUnit *pCurEnemy, const bool bDamageUpdated, const DWORD dwForbidden );//dwFirbidden is ignored
-	virtual void AddUnit( class CAIUnit *pEnemy );
-	virtual class CAIUnit* GetBestUnit() const;
+  void Reset(class CAIUnit *pCurEnemy, bool bDamageUpdated, DWORD dwForbidden) override;// dwFirbidden is ignored
+  void AddUnit(class CAIUnit *pEnemy) override;
+  class CAIUnit *GetBestUnit() const override;
 
-	void CalcBestBuilding();
-	class CBuilding * GetBestBuilding() const { return pBestBuilding; }
+  void CalcBestBuilding();
+  class CBuilding *GetBestBuilding() const { return pBestBuilding; }
 
-	virtual class CBasicGun* GetBestGun() const { NI_ASSERT_T(false,"Wrong call"); return 0;} 
-	virtual const int GetNumberOfBestGun() const{ NI_ASSERT_T(false,"Wrong call"); return 0;} 
+  class CBasicGun *GetBestGun() const override
+  {
+    NI_ASSERT_T(false, "Wrong call");
+    return nullptr;
+  }
+
+  const int GetNumberOfBestGun() const override
+  {
+    NI_ASSERT_T(false, "Wrong call");
+    return 0;
+  }
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// для стрельбы по препятствиям. 
+
+// //////////////////////////////////////////////////////////// 
+// for shooting at obstacles.
 class CShootEstimatorForObstacles : public IObstacleEnumerator
 {
-	class CCommonUnit *pOwner;
-	float fCurRating;
-	CPtr<IObstacle> pBest;
-public:
-	CShootEstimatorForObstacles( class CCommonUnit *pOwner ) : pOwner( pOwner ), fCurRating( 0 ) {  }
+  class CCommonUnit *pOwner;
+  float fCurRating;
+  CPtr<IObstacle> pBest;
 
-	virtual bool AddObstacle( IObstacle *pObstacle );
-	virtual interface IObstacle * GetBest() const;
+public:
+  CShootEstimatorForObstacles(class CCommonUnit *pOwner) : pOwner(pOwner), fCurRating(0) {}
+
+  bool AddObstacle(IObstacle *pObstacle) override;
+  virtual interface IObstacle *GetBest() const;
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// //////////////////////////////////////////////////////////// 
 #endif __SHOOT_ESTIMATOR_INTERNAL_H__

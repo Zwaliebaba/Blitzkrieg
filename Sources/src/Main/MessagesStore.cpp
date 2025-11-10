@@ -2,22 +2,14 @@
 
 #include "MessagesStore.h"
 #include "Messages.h"
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-IMultiplayerMessage* CMessagesStore::GetMessage()
-{
-	if ( messages.empty() )
-		return 0;
-	else
-	{
-		pTakenMessage = messages.front();
-		messages.pop_front();
 
-		return pTakenMessage;
-	}
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CMessagesStore::AddMessage( IMultiplayerMessage *pMessage )
+IMultiplayerMessage *CMessagesStore::GetMessage()
 {
-	messages.push_back( pMessage );
+  if (messages.empty()) return nullptr;
+  pTakenMessage = messages.front();
+  messages.pop_front();
+
+  return pTakenMessage;
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void CMessagesStore::AddMessage(IMultiplayerMessage *pMessage) { messages.push_back(pMessage); }

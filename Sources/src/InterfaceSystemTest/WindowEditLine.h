@@ -1,6 +1,6 @@
 // WindowEditLine.h: interface for the CWindowEditLine class.
 //
-//////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////
 
 #if !defined(AFX_WINDOWEDITLINE_H__7531A3C4_0749_49AD_8A73_4500671399F2__INCLUDED_)
 #define AFX_WINDOWEDITLINE_H__7531A3C4_0749_49AD_8A73_4500671399F2__INCLUDED_
@@ -11,8 +11,8 @@
 
 #include "Window.h"
 interface IGFXText;
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// for edit text. keep focus if being clicked upon
+
+// for edit text. 
 class CWindowEditLine : public CWindow, public IEditLine
 {
 	OBJECT_COMPLETE_METHODS(CWindowEditLine)
@@ -22,25 +22,25 @@ class CWindowEditLine : public CWindow, public IEditLine
 	CNCPtr<IGFXText> pGfxText;								// text to display
 	NTimer::STime timeSegment;							// for counting segment times
 
-	int nCursorPos;									//позиция курсора в текущей редактируемой строке
-	bool bShowCursor;								//для мигания курсора
-	bool bFocused;									//для отображения курсора
-	int m_nBeginSel;								//начало выделения
-	int m_nEndSel;									//конец выделения
-	DWORD dwSelColor;								//цвет для выделенного текста
-	int m_nBeginDragSel;						//начало выделения мышкой
+	int nCursorPos;									// cursor position in the currently edited line
+	bool bShowCursor;								// to blink the cursor
+	bool bFocused;									// to display the cursor
+	int m_nBeginSel;								// beginning of selection
+	int m_nEndSel;									// end of selection
+	DWORD dwSelColor;								// color for selected text
+	int m_nBeginDragSel;						// start of mouse selection
 
-	bool bNumericMode;							//вводятся только числа
-	bool bGameSpySymbols;						//ограничение на вводимые символы
+	bool bNumericMode;							// only numbers are entered
+	bool bGameSpySymbols;						// character limit
 	bool bLocalPlayerNameMode;			// local player's name allowed symbols
-	bool bFileNameSymbols;					//символы доступные для имени файла
+	bool bFileNameSymbols;					// characters available for filename
 	
-	int nMaxLength;									//если эта переменная установлена, то включено ограничение на количество символов в тексте
-	int nBeginText;		//с этой позиции начинается отображение текста szFullText
-	bool bTextScroll;	//если установлена эта переменная, то можно вводить текст шире поля edit box
+	int nMaxLength;									// if this variable is set, then the limit on the number of characters in the text is enabled
+	int nBeginText;		// from this position the text display szFullText begins
+	bool bTextScroll;	// if this variable is set, you can enter text wider than the edit box
 
-	//для скроллинга текста влево и вправо
-	//в pGFXText будет храниться лишь часть отображаемой строки, а в этой переменной полностью текст
+	// to scroll text left and right
+	// pGFXText will store only part of the displayed string, and this variable will store the entire text
 	std::wstring wszFullText;
 	std::string szFontName;	
 	DWORD dwColor;
@@ -53,7 +53,7 @@ class CWindowEditLine : public CWindow, public IEditLine
 	std::string szOnReturn;
 	std::string szOnEscape;
 
-	//selection under mouse position
+	// selection under mouse position
 	int GetSelection( const int nX );
 	// deletes text under selection
 	bool DeleteSelection();
@@ -95,7 +95,7 @@ public:
 	virtual void STDCALL SetText( const wchar_t *pszText );
 	virtual const wchar_t * STDCALL GetText() const { return wszFullText.c_str(); }
 
-	//begin message sinks
+	// begin message sinks
 	void OnReturn( const struct SGameMessage &msg );
 	void OnTab( const struct SGameMessage &msg );
 	void OnBack( const struct SGameMessage &msg );
@@ -107,9 +107,9 @@ public:
 	void OnHome( const struct SGameMessage &msg );
 	void OnEnd( const struct SGameMessage &msg );
 	void OnEscape( const struct SGameMessage &msg );
-	//end message sinks
+	// end message sinks
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 #endif // !defined(AFX_WINDOWEDITLINE_H__7531A3C4_0749_49AD_8A73_4500671399F2__INCLUDED_)
 

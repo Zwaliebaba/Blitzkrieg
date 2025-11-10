@@ -128,13 +128,13 @@ void MyFillBrezenham( int x1, int y1, int x2, int y2, std::list<CVec2> &tiles )
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // CObjectFrame
 
 IMPLEMENT_DYNCREATE(CObjectFrame, CGridFrame)
 
 BEGIN_MESSAGE_MAP(CObjectFrame, CGridFrame)
-	//{{AFX_MSG_MAP(CObjectFrame)
+	// {{AFX_MSG_MAP(CObjectFrame)
 	ON_WM_CREATE()
 	ON_WM_LBUTTONDOWN()
 	ON_WM_RBUTTONDOWN()
@@ -151,10 +151,10 @@ BEGIN_MESSAGE_MAP(CObjectFrame, CGridFrame)
 	ON_CBN_SELCHANGE( IDC_OBJECT_TRANSPARENCE, OnChangeTranseparence )
 	ON_COMMAND(ID_DRAW_ONE_WAY_TRANSEPARENCE, OnDrawOneWayTranseparence)
 	ON_UPDATE_COMMAND_UI(ID_DRAW_ONE_WAY_TRANSEPARENCE, OnUpdateDrawOneWayTranseparence)
-	//}}AFX_MSG_MAP
+	// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // CObjectFrame construction/destruction
 
 CObjectFrame::CObjectFrame()
@@ -202,7 +202,7 @@ int CObjectFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;
 	g_frameManager.AddFrame( this );
 
-	// create a view to occupy the client area of the frame
+	// create a view to occupy the client area of ​​the frame
 	if (!pWndView->Create(NULL, NULL,  WS_CHILD | WS_VISIBLE, 
 		CRect(0, 0, 0, 0), this, AFX_IDW_PANE_FIRST, NULL))
 	{
@@ -210,7 +210,7 @@ int CObjectFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;
 	}
 	
-	//инициализируем уникальное имя для проекта
+	// initialize a unique name for the project
 	GenerateProjectName();
 	
 	SECToolBarManager* pToolBarMgr = theApp.GetMainFrame()->GetControlBarManager();
@@ -219,7 +219,7 @@ int CObjectFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	return 0;
 }
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // CObjectFrame message handlers
 
 void CObjectFrame::ShowFrameWindows( int nCommand )
@@ -293,7 +293,7 @@ void CObjectFrame::GFXDraw()
 	SGFXRect2 rc;
 	CVec2 zeroPos2;
 	pGFX->SetTexture( 0, pKrestTexture );
-	//	pGFX->SetShadingEffect( 3 );
+	// pGFX->SetShadingEffect( 3 );
 	pSG->GetPos2( &zeroPos2, m_zeroPos );
 	rc.rect = CTRect<float> ( zeroPos2.x, zeroPos2.y, zeroPos2.x+zeroSizeX, zeroPos2.y+zeroSizeY );
 	rc.maps = CTRect<float> ( 0.0f, 0.0f, 1.0f, 1.0f );
@@ -311,7 +311,7 @@ void CObjectFrame::SpecificInit()
 
 	m_mode = -1;
 	CreateKrest();
-	//Загружаем спрайт
+	// Loading the sprite
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
 	CTreeItem *pRootItem = pTree->GetRootItem();
 	CTreeItem *pGraphicsItem = pRootItem->GetChildItem( E_OBJECT_GRAPHICS_ITEM );
@@ -333,7 +333,7 @@ void CObjectFrame::SpecificClearBeforeBatchMode()
 	pSprite = 0;
 	m_SpriteLoadPos = CVec3(16*fWorldCellSize, 16*fWorldCellSize, 0);
 	pActiveGraphicProps = 0;
-//	pKrestTexture = 0;
+// pKrestTexture = 0;
 	m_zeroPos = CVec3(16*fWorldCellSize, 16*fWorldCellSize, 0);
 
 	GetSingleton<IScene>()->Clear();
@@ -356,7 +356,7 @@ BOOL CObjectFrame::SpecificTranslateMessage( MSG *pMsg )
 				{
 					if ( i == m_nSelected )
 					{
-						//удаляем закрашенные тайлы, соответствующие этой линии
+						// remove the filled tiles corresponding to this line
 						STransLine &line = *it;
 						std::list<CVec2> coords;
 						float ftx1, fty1, ftx2, fty2;
@@ -371,11 +371,11 @@ BOOL CObjectFrame::SpecificTranslateMessage( MSG *pMsg )
 						MyFillBrezenham( ftx1, fty1, ftx2, fty2, coords );
 						for ( std::list<CVec2>::iterator it=coords.begin(); it!=coords.end(); ++it )
 						{
-							//найдем индекс тайла в массиве тайлов
+							// find the tile index in the tile array
 							DeleteTileInListOfNormalTiles( dirTiles, it->x, it->y );
 						}
 						
-						//удаляем выделенную линию
+						// delete the highlighted line
 						transLines.erase( it );
 						break;
 					}
@@ -383,15 +383,15 @@ BOOL CObjectFrame::SpecificTranslateMessage( MSG *pMsg )
 				}
 				m_nSelected = -1;
 				bDrawRect = false;
-				//NI_ASSERT( it != transLines.end() );
+				// NI_ASSERT( it != transLines.end() );
 				SetChangedFlag( true );
 				
 				bDragging = true;
-				//прохожу по всем линиям и обновляю прозрачности, чтобы избежать удаления общих тайлов
+				// I go through all the lines and update the transparencies to avoid deleting common tiles
 				for ( it=transLines.begin(); it!=transLines.end(); ++it )
 				{
 					currentLine = *it;
-					int nRes = UpdateNormalForSelectedLine();		//обновляем нормаль
+					int nRes = UpdateNormalForSelectedLine();		// update the normal
 					std::list<CVec2> coords;
 					float ftx1, fty1, ftx2, fty2;
 					POINT pt;
@@ -405,7 +405,7 @@ BOOL CObjectFrame::SpecificTranslateMessage( MSG *pMsg )
 					MyFillBrezenham( ftx1, fty1, ftx2, fty2, coords );
 					for ( std::list<CVec2>::iterator ext=coords.begin(); ext!=coords.end(); ++ext )
 					{
-						//обновим значение тайла в массиве тайлов
+						// update the value of the tile in the tile array
 						SetTileInListOfNormalTiles( dirTiles, ext->x, ext->y, nRes );
 					}
 				}
@@ -428,13 +428,13 @@ void CObjectFrame::SetActiveGraphicPropsItem( CTreeItem *pGraphicProps )
 	CObjectGraphicPropsItem *pGraphicPropsItem = static_cast<CObjectGraphicPropsItem *> ( pActiveGraphicProps );
 	NI_ASSERT( pGraphicPropsItem != 0 );
 	
-	//так как имя файла относительное, здесь я должен собрать полный путь
+	// since the filename is relative, here I have to collect the full path
 	string szDir = GetDirectory( szProjectFileName.c_str() );
 	string szObjName;
 	const char *pszFileName = pGraphicPropsItem->GetFileName();
 	bool bRes = MakeFullPath( szDir.c_str(), pszFileName, szObjName );
 	if ( !bRes )
-		szObjName = pszFileName;		//popa
+		szObjName = pszFileName;		// popa
 	
 	LoadSprite( szObjName.c_str() );
 }
@@ -445,13 +445,13 @@ void CObjectFrame::UpdateActiveSprite()
 	CObjectGraphicPropsItem *pGraphicPropsItem = static_cast<CObjectGraphicPropsItem *> ( pActiveGraphicProps );
 	NI_ASSERT( pGraphicPropsItem != 0 );
 	
-	//так как имя файла относительное, здесь я должен собрать полный путь
+	// since the filename is relative, here I have to collect the full path
 	string szDir = GetDirectory( szProjectFileName.c_str() );
 	string szObjName;
 	const char *pszFileName = pGraphicPropsItem->GetFileName();
 	bool bRes = MakeFullPath( szDir.c_str(), pszFileName, szObjName );
 	if ( !bRes )
-		szObjName = pszFileName;		//popa
+		szObjName = pszFileName;		// popa
 	
 	LoadSprite( szObjName.c_str() );
 }
@@ -472,7 +472,7 @@ bool CObjectFrame::ExportFrameData( IDataTree *pDT, const char *pszProjectName, 
 	CVec3 realZeroPos3;
 	pSG->GetPos3( &realZeroPos3, krestPos2 );
 	
-	// Сохраняем данные о тайловой проходимости
+	// Saving data on tile passability
 	CVec3 mostLeft3 = realZeroPos3;
 	if ( lockedTiles.empty() )
 	{
@@ -482,7 +482,7 @@ bool CObjectFrame::ExportFrameData( IDataTree *pDT, const char *pszProjectName, 
 	}
 	else
 	{
-		//Сперва найдем минимальные и максимальные координаты тайлов в lockedTiles
+		// First, let's find the minimum and maximum coordinates of the tiles in lockedTiles
 		int nTileMinX = lockedTiles.front().nTileX;
 		int nTileMaxX = lockedTiles.front().nTileX;
 		int nTileMinY = lockedTiles.front().nTileY;
@@ -529,19 +529,19 @@ bool CObjectFrame::ExportFrameData( IDataTree *pDT, const char *pszProjectName, 
 		objectRPGStats.vOrigin.x = realZeroPos3.x - mostLeft3.x;
 		objectRPGStats.vOrigin.y = realZeroPos3.y - mostLeft3.y;
 		
-		//		pSG->MoveObject( pSprite, realPos3 );
+		// pSG->MoveObject( pSprite, realPos3 );
 		GFXDraw();
 	}
 	
-	//Compose animation
+	// Compose animation
 	CVec2 zeroPos2 = ::ComputeSpriteNewZeroPos( pSprite, m_zeroPos, CVec2(zeroShiftX, zeroShiftY) );
 	pObjectRoot->ComposeAnimations( pszProjectName, GetDirectory(pszResultFileName).c_str(), zeroPos2, objectRPGStats.passability, objectRPGStats.vOrigin );
 	
-	//Сохраняем RPG stats
+	// Save RPG stats
 	SaveRPGStats( pDT, pRootItem, pszProjectName );
 	
 	
-	//создадим файл icon.tga с изображением объекта
+	// create a file icon.tga with an image of the object
 	CTreeItem *pGraphicsItem = pRootItem->GetChildItem( E_OBJECT_GRAPHICS_ITEM );
 	NI_ASSERT( pGraphicsItem != 0 );
 	CObjectGraphicPropsItem *pGraphicPropsItem = (CObjectGraphicPropsItem *) pGraphicsItem->GetChildItem( E_OBJECT_GRAPHIC1_PROPS_ITEM );
@@ -599,7 +599,7 @@ void CObjectFrame::SaveRPGStats( IDataTree *pDT, CTreeItem *pRootItem, const cha
 	CVec3 realZeroPos3;
 	pSG->GetPos3( &realZeroPos3, krestPos2 );
 
-	// Сохраняем данные о тайловой проходимости
+	// Saving data on tile passability
 	CVec3 mostLeft3 = realZeroPos3;
 	if ( lockedTiles.empty() )
 	{
@@ -609,7 +609,7 @@ void CObjectFrame::SaveRPGStats( IDataTree *pDT, CTreeItem *pRootItem, const cha
 	}
 	else
 	{
-		//Сперва найдем минимальные и максимальные координаты тайлов в lockedTiles
+		// First, let's find the minimum and maximum coordinates of the tiles in lockedTiles
 		int nTileMinX = lockedTiles.front().nTileX;
 		int nTileMaxX = lockedTiles.front().nTileX;
 		int nTileMinY = lockedTiles.front().nTileY;
@@ -656,12 +656,12 @@ void CObjectFrame::SaveRPGStats( IDataTree *pDT, CTreeItem *pRootItem, const cha
 		objectRPGStats.vOrigin.x = realZeroPos3.x - mostLeft3.x;
 		objectRPGStats.vOrigin.y = realZeroPos3.y - mostLeft3.y;
 
-//		pSG->MoveObject( pSprite, realPos3 );
+// pSG->MoveObject( pSprite, realPos3 );
 		GFXDraw();
 	}
 
 
-	// Сохраняем данные о прозрачности объекта
+	// Saving object transparency data
 	{
 		if ( transeparences.empty() && dirTiles.empty() )
 		{
@@ -671,7 +671,7 @@ void CObjectFrame::SaveRPGStats( IDataTree *pDT, CTreeItem *pRootItem, const cha
 		}
 		else
 		{
-			//Сперва найдем минимальные и максимальные координаты тайлов в transeparences и dirTiles
+			// First, let's find the minimum and maximum coordinates of the tiles in transeparences and dirTiles
 			int nTileMinX, nTileMaxX, nTileMinY, nTileMaxY;
 			if ( !transeparences.empty() )
 			{
@@ -688,7 +688,7 @@ void CObjectFrame::SaveRPGStats( IDataTree *pDT, CTreeItem *pRootItem, const cha
 				nTileMaxY = dirTiles.front().nTileY;
 			}
 			
-			//transeparences
+			// transeparences
 			{
 				for ( CListOfTiles::iterator it=transeparences.begin(); it!=transeparences.end(); ++it )
 				{
@@ -707,7 +707,7 @@ void CObjectFrame::SaveRPGStats( IDataTree *pDT, CTreeItem *pRootItem, const cha
 				}
 			}
 			
-			//direction tiles
+			// direction tiles
 			{
 				for ( CListOfNormalTiles::iterator it=dirTiles.begin(); it!=dirTiles.end(); ++it )
 				{
@@ -729,7 +729,7 @@ void CObjectFrame::SaveRPGStats( IDataTree *pDT, CTreeItem *pRootItem, const cha
 			{
 				for ( int x=0; x<nTileMaxX-nTileMinX+1; x++ )
 				{
-					//transeparences
+					// transeparences
 					{
 						CListOfTiles::iterator it = transeparences.begin();
 						for ( ; it!=transeparences.end(); ++it )
@@ -744,7 +744,7 @@ void CObjectFrame::SaveRPGStats( IDataTree *pDT, CTreeItem *pRootItem, const cha
 							pBuf[ x + y*(nTileMaxX - nTileMinX + 1) ] = 0;
 					}
 
-					//direction tiles
+					// direction tiles
 					{
 						CListOfNormalTiles::iterator it = dirTiles.begin();
 						for ( ; it!=dirTiles.end(); ++it )
@@ -795,14 +795,14 @@ void CObjectFrame::LoadRPGStats( IDataTree *pDT, CTreeItem *pRootItem )
 	pEffects->SetEffectExplosion( objectRPGStats.szEffectExplosion.c_str() );
 	pEffects->SetEffectDeath( objectRPGStats.szEffectDeath.c_str() );
 
-	//Загружаем инфу о проходимости AI тайлов
-	CVec3 beginPos3;						//координаты самого левого тайла, который связан с vOrigin
+	// Loading information about the passability of AI tiles
+	CVec3 beginPos3;						// coordinates of the leftmost tile that is associated with vOrigin
 	beginPos3.x = 16*fWorldCellSize;
 	beginPos3.y = 16*fWorldCellSize;
 	beginPos3.z = 0;
 	
 	CVec2 realZeroPos2;
-	CVec3 realZeroPos3;				//тут будет точная координата перекрестия
+	CVec3 realZeroPos3;				// here will be the exact coordinate of the crosshair
 	{
 		pSG->GetPos2( &realZeroPos2, m_zeroPos );
 		realZeroPos2.x += zeroShiftX;
@@ -819,7 +819,7 @@ void CObjectFrame::LoadRPGStats( IDataTree *pDT, CTreeItem *pRootItem )
 	
 	{
 		pSG->GetPos2( &pos2, beginPos3 );
-		//сдвинемся на центр тайла
+		// let's move to the center of the tile
 		pt.x = pos2.x + fCellSizeX/2;
 		pt.y = pos2.y;
 		CGridFrame::ComputeGameTileCoordinates( pt, ftX, ftY );
@@ -840,13 +840,13 @@ void CObjectFrame::LoadRPGStats( IDataTree *pDT, CTreeItem *pRootItem )
 	}
 	
 	{
-		//Загружаем инфу о видимости AI тайлов
-		CVec3 beginVis3;						//координаты самого левого тайла, который связан с vVisOrigin
+		// Loading information about the visibility of AI tiles
+		CVec3 beginVis3;						// coordinates of the leftmost tile that is associated with vVisOrigin
 		beginVis3.x = realZeroPos3.x - objectRPGStats.vVisOrigin.x;
 		beginVis3.y = realZeroPos3.y - objectRPGStats.vVisOrigin.y;
 		beginVis3.z = 0;
 		pSG->GetPos2( &pos2, beginVis3 );
-		//сдвинемся на центр тайла
+		// let's move to the center of the tile
 		pt.x = pos2.x + fCellSizeX/2;
 		pt.y = pos2.y;
 		CGridFrame::ComputeGameTileCoordinates( pt, ftX, ftY );
@@ -864,7 +864,7 @@ void CObjectFrame::LoadRPGStats( IDataTree *pDT, CTreeItem *pRootItem )
 				}
 				else if ( nTemp & 0x08 )
 				{
-					//направленная прозрачность
+					// directional transparency
 					SetTileInListOfNormalTiles( dirTiles, nVisTileX + x, nVisTileY + y, nTemp >> 4 );
 				}
 			}
@@ -884,26 +884,20 @@ void CObjectFrame::SaveFrameOwnData( IDataTree *pDT )
 {
 	pDT->StartChunk( "own_data" );
 	CTreeAccessor tree = pDT;
-/*
-	if ( pSprite )
-	{
-		//Сохраняем позицию спрайта
-		CVec3 pos3 = pSprite->GetPosition();
-		tree.Add( "sprite_pos", &pos3 );
-	}
-*/
+/* if(pSprite)
+	 */
 	tree.Add( "sprite_pos", &m_SpriteLoadPos );
 	
-	//Сохраняем позицию креста
+	// Maintain the position of the cross
 	tree.Add( "krest_pos", &m_zeroPos );
 	
-	//Сохраняем export file name
+	// Save export file name
 	tree.Add( "export_file_name", &szPrevExportFileName );
 	
-	//сохраним тайлы
-	//	tree.Add( "LockedTiles", &lockedTiles );
-	//	tree.Add( "DirectionTiles", &dirTiles );
-	//	tree.Add( "Transeparences", &transeparences );
+	// save the tiles
+	// tree.Add( "LockedTiles", &lockedTiles );
+	// tree.Add( "DirectionTiles", &dirTiles );
+	// tree.Add( "Transeparences", &transeparences );
 	tree.Add( "TransLines", &transLines );
 	
 	pDT->FinishChunk();
@@ -914,7 +908,7 @@ void CObjectFrame::LoadFrameOwnData( IDataTree *pDT )
 	pDT->StartChunk( "own_data" );
 	CTreeAccessor tree = pDT;
 	
-	//Загружаем позицию спрайта
+	// Loading the sprite position
 	tree.Add( "sprite_pos", &m_SpriteLoadPos );
 	if ( pSprite )
 	{
@@ -922,10 +916,10 @@ void CObjectFrame::LoadFrameOwnData( IDataTree *pDT )
 		pSprite->SetPosition( m_SpriteLoadPos );
 	}
 
-	//Загружаем позицию креста
+	// Loading the position of the cross
 	tree.Add( "krest_pos", &m_zeroPos );
 	
-	//Загружаем export file name
+	// Loading export file name
 	string szPrevExportDir;
 	tree.Add( "export_dir", &szPrevExportDir );
 	if ( szPrevExportDir.size() > 0 )
@@ -936,10 +930,10 @@ void CObjectFrame::LoadFrameOwnData( IDataTree *pDT )
 	else
 		tree.Add( "export_file_name", &szPrevExportFileName );
 	
-	//загрузим тайлы
-//	tree.Add( "LockedTiles", &lockedTiles );
-//	tree.Add( "DirectionTiles", &dirTiles );
-//	tree.Add( "Transeparences", &transeparences );
+	// load the tiles
+// tree.Add( "LockedTiles", &lockedTiles );
+// tree.Add( "DirectionTiles", &dirTiles );
+// tree.Add( "Transeparences", &transeparences );
 	tree.Add( "TransLines", &transLines );
 	bDragging = true;
 	for ( CTransLineList::iterator it=transLines.begin(); it!=transLines.end(); ++it )
@@ -968,21 +962,21 @@ int CObjectFrame::UpdateNormalForSelectedLine()
 	NI_ASSERT( bDragging == true );
 
 	IScene *pSG = GetSingleton<IScene>();
-	CVec3 v1, v2, r;												//r это вторая точка нормали
+	CVec3 v1, v2, r;												// r is the second normal point
 	r.z = 0;
 	pSG->GetPos3( &v1, currentLine.p1 );
 	pSG->GetPos3( &v2, currentLine.p2 );
 	
-	//нормаль
+	// normal
 	CVerticesLock<SGFXTLVertex> vertices( currentLine.pNormalVertices );
 	float fcx = (v1.x + v2.x) / 2;
 	float fcy = (v1.y + v2.y) / 2;
 	float alpha = atan2( v2.y - v1.y, v2.x - v1.x );
 	alpha += FP_PI / 16.0f;
-	if ( alpha > FP_PI )								//от -PI до PI
+	if ( alpha > FP_PI )								// -PI to PI
 		alpha -= FP_2PI;
 
-	int nRes = (float) ( FP_PI + alpha ) * 8 / FP_PI;				//угол в единицах 0..15
+	int nRes = (float) ( FP_PI + alpha ) * 8 / FP_PI;				// angle in units 0..15
 	nRes = ( nRes + 8 ) % 16;
 	NI_ASSERT( nRes >= 0 && nRes <= 15 );
 	alpha = (float) nRes * FP_PI8;
@@ -1011,13 +1005,13 @@ void CObjectFrame::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	SetFocus();
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
-	if ( pTree == 0 )			//Если проект не был создан
+	if ( pTree == 0 )			// If the project has not been created
 		return;
 	
 	if ( tbStyle == E_DRAW_GRID )
 	{
 		SetChangedFlag( true );
-		float ftX, ftY;			//tile X and tile Y coords
+		float ftX, ftY;			// tile X and tile Y coords
 		CGridFrame::ComputeGameTileCoordinates( point, ftX, ftY );
 		SetTileInListOfTiles( lockedTiles, ftX, ftY, 1, E_LOCKED_TILE );
 		GFXDraw();
@@ -1026,7 +1020,7 @@ void CObjectFrame::OnLButtonDown(UINT nFlags, CPoint point)
 	else if ( tbStyle == E_DRAW_TRANSEPARENCE )
 	{
 		SetChangedFlag( true );
-		float ftX, ftY;			//tile X and tile Y coords
+		float ftX, ftY;			// tile X and tile Y coords
 		CGridFrame::ComputeGameTileCoordinates( point, ftX, ftY );
 		SetTileInListOfTiles( transeparences, ftX, ftY, m_transValue, E_TRANSEPARENCE_TILE );
 		GFXDraw();
@@ -1063,16 +1057,16 @@ void CObjectFrame::OnLButtonDown(UINT nFlags, CPoint point)
 	{
 		if ( bDragging )
 		{
-			//помещаем линию в массив уже созданных
+			// place the line in the array of already created ones
 			currentLine.p2.x = point.x;
 			currentLine.p2.y = point.y;
 			{
 				CVerticesLock<SGFXTLVertex> vertices( currentLine.pVertices );
 				vertices[1].Setup( point.x, point.y, 1, 1, 0xff0000ff, 0xff000000, 0, 0 );
 			}
-			int nRes = UpdateNormalForSelectedLine();		//обновляем нормаль
+			int nRes = UpdateNormalForSelectedLine();		// update the normal
 
-			//обновляем список залоканных тайлов
+			// updating the list of locked tiles
 			float ftx1, fty1, ftx2, fty2;
 			POINT pt;
 			pt.x = currentLine.p1.x;
@@ -1094,7 +1088,7 @@ void CObjectFrame::OnLButtonDown(UINT nFlags, CPoint point)
 		}
 		else
 		{
-			//проверим, вдруг точка внутри центрального прямоугольника
+			// Let's check if the point is inside the central rectangle
 			CTransLineList::iterator it = transLines.begin();
 			int i = 0;
 			for ( ; it!=transLines.end(); ++it )
@@ -1103,11 +1097,11 @@ void CObjectFrame::OnLButtonDown(UINT nFlags, CPoint point)
 				float fcy = (it->p1.y + it->p2.y) / 2;
 				if ( point.x >= fcx - DELTA_X && point.x <= fcx + DELTA_X && point.y >= fcy - DELTA_Y && point.y <= fcy + DELTA_Y )
 				{
-					//нашли прямоугольник, выделяем эту линию
+					// found a rectangle, select this line
 					{
-						//сперва развыделяем старую
+						// first unselect the old one
 						if ( m_nSelected == i )
-							break;		//выделена опять та же самая линия
+							break;		// the same line is highlighted again
 						
 						int k = 0;
 						for ( CTransLineList::iterator it=transLines.begin(); it!=transLines.end(); ++it )
@@ -1137,7 +1131,7 @@ void CObjectFrame::OnLButtonDown(UINT nFlags, CPoint point)
 			{
 				if ( m_nSelected >= 0 )
 				{
-					//развыделяем старую линию
+					// unselect the old line
 					int i = 0;
 					for ( it=transLines.begin(); it!=transLines.end(); ++it )
 					{
@@ -1155,7 +1149,7 @@ void CObjectFrame::OnLButtonDown(UINT nFlags, CPoint point)
 					NI_ASSERT( it != transLines.end() );
 				}
 				
-				//создаем новую линию
+				// create a new line
 				currentLine.p1.x = point.x;
 				currentLine.p1.y = point.y;
 				currentLine.p2.x = point.x;
@@ -1185,14 +1179,14 @@ void CObjectFrame::OnRButtonDown(UINT nFlags, CPoint point)
 {
 	SetFocus();
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
-	if ( pTree == 0 )			//Если проект не был создан
+	if ( pTree == 0 )			// If the project has not been created
 		return;
 	SetChangedFlag( true );
 	
 	if ( tbStyle == E_DRAW_GRID )
 	{
 		SetChangedFlag( true );
-		float ftX, ftY;			//tile X and tile Y coords
+		float ftX, ftY;			// tile X and tile Y coords
 		CGridFrame::ComputeGameTileCoordinates( point, ftX, ftY );
 		SetTileInListOfTiles( lockedTiles, ftX, ftY, 0, E_LOCKED_TILE );
 		GFXDraw();
@@ -1201,7 +1195,7 @@ void CObjectFrame::OnRButtonDown(UINT nFlags, CPoint point)
 	else if ( tbStyle == E_DRAW_TRANSEPARENCE )
 	{
 		SetChangedFlag( true );
-		float ftX, ftY;			//tile X and tile Y coords
+		float ftX, ftY;			// tile X and tile Y coords
 		CGridFrame::ComputeGameTileCoordinates( point, ftX, ftY );
 		SetTileInListOfTiles( transeparences, ftX, ftY, 0, E_TRANSEPARENCE_TILE );
 		GFXDraw();
@@ -1219,13 +1213,13 @@ void CObjectFrame::OnRButtonDown(UINT nFlags, CPoint point)
 void CObjectFrame::OnMouseMove(UINT nFlags, CPoint point) 
 {
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
-	if ( pTree == 0 )			//Если проект не был создан
+	if ( pTree == 0 )			// If the project has not been created
 		return;
 	
 	if ( tbStyle == E_DRAW_GRID && nFlags & MK_RBUTTON )
 	{
 		SetChangedFlag( true );
-		float ftX, ftY;			//tile X and tile Y coords
+		float ftX, ftY;			// tile X and tile Y coords
 		CGridFrame::ComputeGameTileCoordinates( point, ftX, ftY );
 		SetTileInListOfTiles( lockedTiles, ftX, ftY, 0, E_LOCKED_TILE );
 		GFXDraw();
@@ -1234,7 +1228,7 @@ void CObjectFrame::OnMouseMove(UINT nFlags, CPoint point)
 	else if ( tbStyle == E_DRAW_GRID && nFlags & MK_LBUTTON )
 	{
 		SetChangedFlag( true );
-		float ftX, ftY;			//tile X and tile Y coords
+		float ftX, ftY;			// tile X and tile Y coords
 		CGridFrame::ComputeGameTileCoordinates( point, ftX, ftY );
 		SetTileInListOfTiles( lockedTiles, ftX, ftY, 1, E_LOCKED_TILE );
 		GFXDraw();
@@ -1243,7 +1237,7 @@ void CObjectFrame::OnMouseMove(UINT nFlags, CPoint point)
 	else if ( tbStyle == E_DRAW_TRANSEPARENCE && nFlags & MK_RBUTTON )
 	{
 		SetChangedFlag( true );
-		float ftX, ftY;			//tile X and tile Y coords
+		float ftX, ftY;			// tile X and tile Y coords
 		CGridFrame::ComputeGameTileCoordinates( point, ftX, ftY );
 		SetTileInListOfTiles( transeparences, ftX, ftY, 0, E_TRANSEPARENCE_TILE );
 		GFXDraw();
@@ -1251,7 +1245,7 @@ void CObjectFrame::OnMouseMove(UINT nFlags, CPoint point)
 	else if ( tbStyle == E_DRAW_TRANSEPARENCE && nFlags & MK_LBUTTON )
 	{
 		SetChangedFlag( true );
-		float ftX, ftY;			//tile X and tile Y coords
+		float ftX, ftY;			// tile X and tile Y coords
 		CGridFrame::ComputeGameTileCoordinates( point, ftX, ftY );
 		SetTileInListOfTiles( transeparences, ftX, ftY, m_transValue, E_TRANSEPARENCE_TILE );
 		GFXDraw();
@@ -1293,11 +1287,11 @@ void CObjectFrame::OnMouseMove(UINT nFlags, CPoint point)
 			currentLine.p2.y = point.y;
 			CVerticesLock<SGFXTLVertex> vertices( currentLine.pVertices );
 			vertices[1].Setup( point.x, point.y, 1, 1, 0xff0000ff, 0xff000000, 0, 0 );
-			UpdateNormalForSelectedLine();		//обновляем нормаль
+			UpdateNormalForSelectedLine();		// update the normal
 		}
 		else
 		{
-			//проверим, если мышка вблизи центра линии, то рисую прямоугольник выделения
+			// Let's check if the mouse is near the center of the line, then draw a selection rectangle
 			bDrawRect = false;
 			for ( CTransLineList::iterator it=transLines.begin(); it!=transLines.end(); ++it )
 			{
@@ -1347,7 +1341,7 @@ void CObjectFrame::LoadSprite( const char *pszSpriteFullName )
 	if ( pSprite )
 		pSG->RemoveObject( pSprite );
 	
-	//Скомпонуем спрайт в editor temp dir
+	// Let's compose the sprite in editor temp dir
 	string szTempDir = theApp.GetEditorTempDir();
 	if ( !ComposeSingleSprite( pszSpriteFullName, szTempDir.c_str(), "Object" ) )
 	{
@@ -1378,17 +1372,17 @@ bool CObjectFrame::LoadFramePreExportData( const char *pszProjectFile, CTreeItem
 	const char *pszFileName = pGraphicPropsItem->GetFileName();
 	NI_ASSERT( pszFileName != 0 );
 	
-	//так как имя файла относительное, здесь я должен собрать полный путь
+	// since the filename is relative, here I have to collect the full path
 	string szDir = GetDirectory( pszProjectFile );
 	string szObjName;
 	bool bRes = MakeFullPath( szDir.c_str(), pszFileName, szObjName );
 	if ( !bRes )
-		szObjName = pszFileName;		//popa
+		szObjName = pszFileName;		// popa
 	
 	LoadSprite( szObjName.c_str() );
 	pSprite->Update( timeGetTime() );
 	
-	//временно сохраним, чтобы не испортилась координата
+	// We’ll save it temporarily so that the coordinate doesn’t get damaged
 	CVec3 vSave = m_zeroPos;
 	CreateKrest();
 	m_zeroPos = vSave;
@@ -1502,7 +1496,7 @@ void CObjectFrame::OnUpdateMoveObject(CCmdUI* pCmdUI)
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
 	if ( pTree != 0 )
 	{
-		//Если уже был создан проект
+		// If a project has already been created
 		pCmdUI->Enable( true );
 	}
 	else
@@ -1514,7 +1508,7 @@ void CObjectFrame::OnUpdateDrawGrid(CCmdUI* pCmdUI)
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
 	if ( pTree != 0 )
 	{
-		//Если уже был создан проект
+		// If a project has already been created
 		pCmdUI->Enable( true );
 	}
 	else
@@ -1526,7 +1520,7 @@ void CObjectFrame::OnUpdateSetZeroButton(CCmdUI* pCmdUI)
 	CETreeCtrl *pTree = pTreeDockBar->GetTreeWithIndex( 0 );
 	if ( pTree != 0 )
 	{
-		//Если уже был создан проект
+		// If a project has already been created
 		pCmdUI->Enable( true );
 	}
 	else
@@ -1591,7 +1585,7 @@ FILETIME CObjectFrame::FindMinimalExportFileTime( const char *pszResultFileName,
 	NI_ASSERT( pWinterGraphProps != 0 );
 	if ( strlen( pWinterGraphProps->GetFileName() ) )
 	{
-		//Если есть зимний спрайт
+		// If there is a winter sprite
 		string szTempFileName = szDestDir;
 		szTempFileName += "1w.san";
 		current = GetFileChangeTime( szTempFileName.c_str() );

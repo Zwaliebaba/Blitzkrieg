@@ -51,45 +51,45 @@ void CCreateRandomMapProgress::Step()
 }
 
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 const int CCreateRandomMapDialog::vID[] = 
 {
-	IDC_CRM_TEMPLATE_LABEL,									//0
-	IDC_CRM_TEMPLATE_EDIT,									//1
-	IDC_CRM_TEMPLATE_BROWSE_BUTTON,					//2
-	IDC_CRM_CONTEXT_LABEL,									//3
-	IDC_CRM_CONTEXT_EDIT,										//4
-	IDC_CRM_CONTEXT_BROWSE_BUTTON,					//5
-	IDC_CRM_GRAPH_LABEL,										//6
-	IDC_CRM_GRAPH_EDIT,											//7
-	IDC_CRM_SETTING_LABEL,									//8
-	IDC_CRM_SETTING_COMBOBOX,								//9
-	IDC_CRM_DIRECTIONS_RADIOBUTTONS_LABEL,	//10
-	IDC_CRM_DIRECTION_RADIO_0,							//11
-	IDC_CRM_DIRECTION_RADIO_90,							//12
-	IDC_CRM_DIRECTION_RADIO_180,						//13
-	IDC_CRM_DIRECTION_RADIO_270,						//14
-	IDC_CRM_LEVEL_RADIOBUTTONS_LABEL,				//15
-	IDC_CRM_LEVEL_RADIO_0,									//16
-	IDC_CRM_LEVEL_RADIO_1,									//17
-	IDC_CRM_LEVEL_RADIO_2,									//18
-	IDC_CRM_SAVE_AS_BZM_CHECKBOX,						//19
-	IDC_CRM_SAVE_AS_DDS_CHECKBOX,						//20
-	IDC_CRM_MAP_LABEL,											//22
-	IDC_CRM_MAP_EDIT,												//23
-	IDC_CRM_MAP_BROWSE_BUTTON,							//24
-	IDOK,																		//25
-	IDCANCEL,																//26
+	IDC_CRM_TEMPLATE_LABEL,									// 0
+	IDC_CRM_TEMPLATE_EDIT,									// 1
+	IDC_CRM_TEMPLATE_BROWSE_BUTTON,					// 2
+	IDC_CRM_CONTEXT_LABEL,									// 3
+	IDC_CRM_CONTEXT_EDIT,										// 4
+	IDC_CRM_CONTEXT_BROWSE_BUTTON,					// 5
+	IDC_CRM_GRAPH_LABEL,										// 6
+	IDC_CRM_GRAPH_EDIT,											// 7
+	IDC_CRM_SETTING_LABEL,									// 8
+	IDC_CRM_SETTING_COMBOBOX,								// 9
+	IDC_CRM_DIRECTIONS_RADIOBUTTONS_LABEL,	// 10
+	IDC_CRM_DIRECTION_RADIO_0,							// 11
+	IDC_CRM_DIRECTION_RADIO_90,							// 12
+	IDC_CRM_DIRECTION_RADIO_180,						// 13
+	IDC_CRM_DIRECTION_RADIO_270,						// 14
+	IDC_CRM_LEVEL_RADIOBUTTONS_LABEL,				// 15
+	IDC_CRM_LEVEL_RADIO_0,									// 16
+	IDC_CRM_LEVEL_RADIO_1,									// 17
+	IDC_CRM_LEVEL_RADIO_2,									// 18
+	IDC_CRM_SAVE_AS_BZM_CHECKBOX,						// 19
+	IDC_CRM_SAVE_AS_DDS_CHECKBOX,						// 20
+	IDC_CRM_MAP_LABEL,											// 22
+	IDC_CRM_MAP_EDIT,												// 23
+	IDC_CRM_MAP_BROWSE_BUTTON,							// 24
+	IDOK,																		// 25
+	IDCANCEL,																// 26
 };
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 CCreateRandomMapDialog::CCreateRandomMapDialog( CWnd* pParent )
 	: CResizeDialog( CCreateRandomMapDialog::IDD, pParent ), bCreateControls( true )
 {
-	//{{AFX_DATA_INIT(CCreateRandomMapDialog)
+	// {{AFX_DATA_INIT(CCreateRandomMapDialog)
 	m_SaveAsBZM = false;
 	m_SaveAsDDS = false;
-	//}}AFX_DATA_INIT
+	// }}AFX_DATA_INIT
 
 	SetControlStyle( IDC_CRM_TEMPLATE_LABEL,								ANCHORE_LEFT_TOP );
 	SetControlStyle( IDC_CRM_TEMPLATE_EDIT,									ANCHORE_LEFT_TOP | RESIZE_HOR );
@@ -119,11 +119,11 @@ CCreateRandomMapDialog::CCreateRandomMapDialog( CWnd* pParent )
 	SetControlStyle( IDCANCEL,															ANCHORE_BOTTOM | ANCHORE_HOR_CENTER );
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CCreateRandomMapDialog::DoDataExchange(CDataExchange* pDX)
 {
 	CResizeDialog::DoDataExchange( pDX );
-	//{{AFX_DATA_MAP( CCreateRandomMapDialog )
+	// {{AFX_DATA_MAP( CCreateRandomMapDialog )
 	DDX_Control(pDX, IDC_CRM_SETTING_COMBOBOX, m_Setting);
 	DDX_Control(pDX, IDC_CRM_TEMPLATE_EDIT, m_Template);
 	DDX_Control(pDX, IDC_CRM_MAP_EDIT, m_Map);
@@ -131,12 +131,12 @@ void CCreateRandomMapDialog::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_CRM_CONTEXT_EDIT, m_Context);
 	DDX_Check(pDX, IDC_CRM_SAVE_AS_BZM_CHECKBOX, m_SaveAsBZM);
 	DDX_Check(pDX, IDC_CRM_SAVE_AS_DDS_CHECKBOX, m_SaveAsDDS);
-	//}}AFX_DATA_MAP
+	// }}AFX_DATA_MAP
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 BEGIN_MESSAGE_MAP(CCreateRandomMapDialog, CResizeDialog)
-	//{{AFX_MSG_MAP(CCreateRandomMapDialog)
+	// {{AFX_MSG_MAP(CCreateRandomMapDialog)
 	ON_EN_CHANGE(IDC_CRM_GRAPH_EDIT, OnChangeCrmGraphEdit)
 	ON_EN_CHANGE(IDC_CRM_MAP_EDIT, OnChangeCrmMapEdit)
 	ON_CBN_SELCHANGE(IDC_CRM_SETTING_COMBOBOX, OnSelchangeCrmSettingCombobox)
@@ -147,10 +147,10 @@ BEGIN_MESSAGE_MAP(CCreateRandomMapDialog, CResizeDialog)
 	ON_CBN_SELCHANGE(IDC_CRM_CONTEXT_EDIT, OnSelchangeCrmContextEdit)
 	ON_CBN_EDITCHANGE(IDC_CRM_TEMPLATE_EDIT, OnEditchangeCrmTemplateEdit)
 	ON_CBN_SELCHANGE(IDC_CRM_TEMPLATE_EDIT, OnSelchangeCrmTemplateEdit)
-	//}}AFX_MSG_MAP
+	// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CCreateRandomMapDialog::ValidatePath( std::string *pszPath ) 
 {
 	if ( IDataStorage *pDataStorage = GetSingleton<IDataStorage>() )
@@ -167,26 +167,26 @@ void CCreateRandomMapDialog::ValidatePath( std::string *pszPath )
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 BOOL CCreateRandomMapDialog::OnInitDialog() 
 {
 	CResizeDialog::OnInitDialog();
 	
 	bCreateControls = true;
-	//0 Template
-	//1 Context
-	//2	Setting
-	//3	Map
+	// 0 Template
+	// 1 Context
+	// 2 Setting
+	// 3 Map
 	if ( resizeDialogOptions.szParameters.size() < 4 )
 	{
 		resizeDialogOptions.szParameters.resize( 4, "" );
 	}
 
-	//0	Graph
-	//1 Direction
-	//2 Level
-	//3 Save As BZM
-	//3 Save As DDS
+	// 0 Graph
+	// 1 Direction
+	// 2 Level
+	// 3 Save As BZM
+	// 3 Save As DDS
 	if ( resizeDialogOptions.nParameters.size() < 5 )
 	{
 		resizeDialogOptions.nParameters.resize( 5, 0 );
@@ -226,7 +226,7 @@ BOOL CCreateRandomMapDialog::OnInitDialog()
 	return TRUE;
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void	CCreateRandomMapDialog::UpdateControls()
 {
 	CString strText = NStr::Format( "%d", &( resizeDialogOptions.nParameters[0] ) );
@@ -267,7 +267,7 @@ void	CCreateRandomMapDialog::UpdateControls()
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CCreateRandomMapDialog::OnOK() 
 {
 	UpdateControls();
@@ -280,25 +280,25 @@ void CCreateRandomMapDialog::OnCancel()
 	CResizeDialog::OnCancel();
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CCreateRandomMapDialog::OnChangeCrmGraphEdit() 
 {
 	UpdateControls();
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CCreateRandomMapDialog::OnChangeCrmMapEdit() 
 {
 	UpdateControls();
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CCreateRandomMapDialog::OnSelchangeCrmSettingCombobox() 
 {
 	UpdateControls();
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CCreateRandomMapDialog::OnCrmTemplateBrowseButton() 
 {
 	CString strDialogTitle = _T( "Open Template" );
@@ -337,7 +337,7 @@ void CCreateRandomMapDialog::OnCrmTemplateBrowseButton()
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CCreateRandomMapDialog::OnCrmContextBrowseButton() 
 {
 	CString strDialogTitle = _T( "Open Context" );
@@ -376,7 +376,7 @@ void CCreateRandomMapDialog::OnCrmContextBrowseButton()
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CCreateRandomMapDialog::OnCrmMapBrowseButton() 
 {
 	CString strDialogTitle = _T( "Open Map" );
@@ -415,79 +415,33 @@ void CCreateRandomMapDialog::OnCrmMapBrowseButton()
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CCreateRandomMapDialog::OnEditchangeCrmContextEdit() 
 {
 	UpdateControls();
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CCreateRandomMapDialog::OnSelchangeCrmContextEdit() 
 {
 	UpdateControls();
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CCreateRandomMapDialog::OnEditchangeCrmTemplateEdit() 
 {
 	UpdateControls();
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CCreateRandomMapDialog::OnSelchangeCrmTemplateEdit() 
 {
 	UpdateControls();
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// basement storage  
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/**
-void CCreateRandomMapDialog::OnPAKBrowseButton() 
-{
-	CString strDialogTitle;
-	CString strFileName;
-	CString strFolderName;
-
-	strDialogTitle.LoadString( IDS_IFP_BROWSE_FOR_PAK_DIALOG_TITLE );
-
-	m_PAKEdit.GetWindowText( strFileName );
-	int nSlashPos = strFileName.ReverseFind( '\\' );
-	if ( nSlashPos >= 0 )
-	{
-		strFolderName = strFileName.Left( nSlashPos );
-	}
-	
-	CFileDialog fileDialog( true, ".pak", strFileName, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, "PAK files (*.pak)|*.pak|All Files (*.*)|*.*||", this );
-	fileDialog.m_ofn.lpstrTitle = strDialogTitle;
-	fileDialog.m_ofn.lpstrInitialDir = strFolderName;
-	
-	if ( fileDialog.DoModal() == IDOK )
-	{
-		strFileName = fileDialog.GetPathName();
-
-		int nSlashPos = strFileName.ReverseFind( '.' );
-		if ( nSlashPos < 0 )
-		{
-			strFileName += ".pak";
-		}
-
-		resizeDialogOptions.szParameters[0] = strFileName;
-		m_PAKEdit.SetWindowText( resizeDialogOptions.szParameters[0].c_str() );
-
-		UpdateControls();
-	}
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CImportFromPAKDialog::OnChangePAKBrowseEdit() 
-{
-	CString strFolderName;
-	m_PAKEdit.GetWindowText( strFolderName );
-	resizeDialogOptions.szParameters[0] = strFolderName;
-	UpdateControls();
-}
 
 
-/**/
+
+// basement storage
+
+/* *
+ */

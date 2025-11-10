@@ -18,8 +18,8 @@
 static const int MIN_OPACITY = 120;
 static const int MAX_OPACITY = 255;
 
-static const int LINE_LENGTH = 100;			//длина линии, используемой дл¤ задани¤ конуса стрельбы
-static const int EDGE_LENGTH = 200;			//длина ребра конуса
+static const int LINE_LENGTH = 100;			// length of line used to define the cone of fire
+static const int EDGE_LENGTH = 200;			// cone edge length
 static const int SHOOT_PICTURE_SIZE = 8;
 
 
@@ -27,7 +27,7 @@ void CBuildingFrame::SelectDirExpPoint( CBuildingDirExplosionPropsItem *pDirExpP
 {
 	if ( pActiveDirExpPoint )
 	{
-		//устанавливаем предыдущий активный direction explosiom в неактивное состо¤ние
+		// set the previous active direction explosiom to the inactive state
 		pActiveDirExpPoint->pSprite->SetOpacity( MIN_OPACITY );
 		pActiveDirExpPoint->pHLine->SetOpacity( 0 );
 	}
@@ -50,7 +50,7 @@ void CBuildingFrame::ComputeDirExpDirectionLines()
 	NI_ASSERT( pActiveDirExpPoint->pHLine != 0 );
 
 	IScene *pSG = GetSingleton<IScene>();
-	CVec3 vCenter3 = pActiveDirExpPoint->pHLine->GetPosition();		//положение центра линии
+	CVec3 vCenter3 = pActiveDirExpPoint->pHLine->GetPosition();		// line center position
 	CVec2 vCenter2;
 	pSG->GetPos2( &vCenter2, vCenter3 );
 	
@@ -64,7 +64,7 @@ void CBuildingFrame::ComputeDirExpDirectionLines()
 	CVec2 vPos2;
 	pSG->GetPos2( &vPos2, vPos3 );
 	
-	CVec3 vLine1, vLine2;			//линии, отображающие красную стрелочку
+	CVec3 vLine1, vLine2;			// lines showing a red arrow
 	vLine1.z = vLine2.z = 0;
 	float fTemp = ToRadian( 5.0f );
 	vLine1.x = vCenter3.x - (float) (EDGE_LENGTH - 20) * sin( fA - fTemp );
@@ -72,13 +72,13 @@ void CBuildingFrame::ComputeDirExpDirectionLines()
 	vLine2.x = vCenter3.x - (float) (EDGE_LENGTH - 20) * sin( fA + fTemp );
 	vLine2.y = vCenter3.y + (float) (EDGE_LENGTH - 20) * cos( fA + fTemp );
 	
-	//теперь мы нашли точки v1, v2, получим 2D координаты дл¤ построени¤ линий
+	// now we have found points v1, v2, we will get 2D coordinates for constructing lines
 	{
 		CVerticesLock<SGFXTLVertex> vertices( pFireDirectionVertices );
 		
 		CVec2 v;
 		
-		//0xffff60e6 == (255, 96, 230) розовый цвет
+		// 0xffff60e6 == (255, 96, 230) pink color
 		DWORD dwColor = 0xffffff00;
 		vertices[0].Setup( vCenter2.x, vCenter2.y, 1, 1, dwColor, 0xff000000, 0, 0 );
 		vertices[1].Setup( vPos2.x, vPos2.y, 1, 1, dwColor, 0xff000000, 0, 0 );
@@ -127,12 +127,12 @@ void CBuildingFrame::SetDirExpPointAngle( const POINT &point )
 		return;
 	IScene *pSG = GetSingleton<IScene>();
 	
-	CVec3 vCenter3 = pActiveDirExpPoint->pHLine->GetPosition();		//положение центра конуса
+	CVec3 vCenter3 = pActiveDirExpPoint->pHLine->GetPosition();		// cone center position
 	CVec2 vCenter2;
 	pSG->GetPos2( &vCenter2, vCenter3 );
 	float temp = (vCenter2.x - point.x)*(vCenter2.x - point.x) + (vCenter2.y - point.y)*(vCenter2.y - point.y);
 	if ( sqrt( temp ) < 5 )
-		return;				//если очень маленькие рассто¤ни¤, то будет сильно скакать, избегаем скачков
+		return;				// if the distances are very small, it will jump a lot, avoid jumps
 	
 	CVec2 vPos2;
 	vPos2.x = point.x;
@@ -140,7 +140,7 @@ void CBuildingFrame::SetDirExpPointAngle( const POINT &point )
 	CVec3 vPos3;
 	pSG->GetPos3( &vPos3, vPos2 );
 	
-	//ѕересчитаем из координат на плоскости в значени¤ углов
+	// “We recalculate from coordinates on the plane into angle values”
 	CVec3 vCone;
 	vCone.x = vPos3.x - vCenter3.x;
 	vCone.y = vPos3.y - vCenter3.y;
@@ -186,7 +186,7 @@ void CBuildingFrame::GenerateDirExpPoints()
 	CTreeItem *pDirExpItems = pRootItem->GetChildItem( E_BUILDING_DIR_EXPLOSIONS_ITEM );
 	NI_ASSERT( pDirExpItems != 0 );
 	
-	//—перва найдем минимальные и максимальные координаты тайлов в lockedTiles
+	// —first, find the minimum and maximum coordinates of the tiles in lockedTiles
 	NI_ASSERT( !lockedTiles.empty() );
 	int nTileMinX = lockedTiles.front().nTileX, nTileMaxX = lockedTiles.front().nTileX;
 	int nTileMinY = lockedTiles.front().nTileY, nTileMaxY = lockedTiles.front().nTileY;
@@ -236,11 +236,11 @@ void CBuildingFrame::GenerateDirExpPoints()
 		switch( i )
 		{
 		case 0:
-			//front left
+			// front left
 			v2.x = (fLeftX + fBottomX) / 2;
 			v2.y = (fLeftY + fBottomY) / 2;
 
-			//на центр тайла
+			// to the center of the tile
 			pt.x = v2.x;
 			pt.y = v2.y - fCellSizeY / 4;
 
@@ -267,11 +267,11 @@ void CBuildingFrame::GenerateDirExpPoints()
 			break;
 
 		case 1:
-			//front right
+			// front right
 			v2.x = (fRightX + fBottomX) / 2;
 			v2.y = (fRightY + fBottomY) / 2;
 
-			//на центр тайла
+			// to the center of the tile
 			pt.x = v2.x;
 			pt.y = v2.y - fCellSizeY / 4;
 			
@@ -298,11 +298,11 @@ void CBuildingFrame::GenerateDirExpPoints()
 			break;
 
 		case 2:
-			//back right
+			// back right
 			v2.x = (fTopX + fRightX) / 2;
 			v2.y = (fTopY + fRightY) / 2;
 
-			//на центр тайла
+			// to the center of the tile
 			pt.x = v2.x;
 			pt.y = v2.y + fCellSizeY / 4;
 			
@@ -329,11 +329,11 @@ void CBuildingFrame::GenerateDirExpPoints()
 			break;
 
 		case 3:
-			//back left
+			// back left
 			v2.x = (fLeftX + fTopX) / 2;
 			v2.y = (fLeftY + fTopY) / 2;
 			
-			//на центр тайла
+			// to the center of the tile
 			pt.x = v2.x;
 			pt.y = v2.y + fCellSizeY / 4;
 			
@@ -360,7 +360,7 @@ void CBuildingFrame::GenerateDirExpPoints()
 			break;
 
 		case 4:
-			//top center
+			// top center
 			v2.x = (fLeftX + fRightX) / 2;
 			v2.y = (fLeftY + fRightY) / 2;
 			pSG->GetPos3( &v3, v2 );

@@ -3,12 +3,8 @@
 #ifndef CPLANEPREFERENCES_H
 #define CPLANEPREFERENCES_H
 
-/**
- * 1) У самолета есть список маневров, которые он может совершать (с весами).
- * при выборе маневра CManuverBuilder смотрит в этот список и выбирает нужный маневр.
- * 2) у самолета есть параметры для определения того, что скорость малая...предельная, для.
- * 3) содержит в себе нечеткую логику самолета.
- */
+/* *
+  */
 class CPlanePreferences 
 {
 
@@ -27,4 +23,4 @@ public:
 	float GetStallSpeed() const { return fStallSpeed; }
 	float GetMaxSpeed() const { return fMaxSpeed; }
 };
-#endif //CPLANEPREFERENCES_H
+#endif // CPLANEPREFERENCES_H

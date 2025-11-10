@@ -12,35 +12,35 @@ using std::vector;
 class CETreeCtrl;
 class CPropView;
 
-//Вспомогательная функция, вычисляет относительный путь
-//Первый параметр - полный путь, относительно которого вычисляется результат
-//Второй параметр - полный путь, который надо сделать относительным
+// Helper function, calculates relative path
+// The first parameter is the full path relative to which the result is calculated
+// The second parameter is the full path, which must be made relative
 bool MakeRelativePath( const char *pszDirectoryName, const char *pszFileName, string &szResult );
 
-//Вычисляет относительный путь только для поддиректорий, иначе возвращает false
+// Calculates relative path only for subdirectories, otherwise returns false
 bool MakeSubRelativePath( const char *pszDirectoryName, const char *pszFileName, string &szResult );
 
-//Возвращает имя директории по полному имени файла
+// Returns the directory name from the full file name
 string GetDirectory( const char *pszFileName );
 
-//Определяет, является ли данный путь полным или относительным
+// Determines whether the given path is fully qualified or relative
 bool IsRelatedPath( const char *pszFileName );
 
-//Из полного имени и относительного создает полное имя
-//pszFullName это имя директории, обязано заканчиваться на '\\'
+// Creates a full name from a full name and a relative name
+// pszFullName is the directory name, must end with '\\'
 bool MakeFullPath( const char *pszFullDirName, const char *pszRelName, string &szResult );
 
-//вспомогательная функция для всех frames
+// helper function for all frames
 void ShowFirstChildElementInPropertyView( CETreeCtrl *pTree, CPropView *pOIDockBar );
 
-//Получить время изменения для файла
+// Get modification time for a file
 FILETIME GetFileChangeTime( const char *pszFileName );
 FILETIME GetTextureFileChangeTime( const char *pszFileName );
 bool operator > ( FILETIME a, FILETIME b );
 bool operator < ( FILETIME a, FILETIME b );
 bool operator == ( FILETIME a, FILETIME b );
 
-//copy file and change it's modification time to the current system time
+// copy file and change it's modification time to the current system time
 BOOL MyCopyFile( const char *pszSrc, const char *pszDest );
 void MyCopyDir( const string szSrc, const string szDest );
 
@@ -108,4 +108,4 @@ public:
 
 extern CFrameManager g_frameManager;
 
-#endif		//__FRAMES_H__
+#endif		// __FRAMES_H__

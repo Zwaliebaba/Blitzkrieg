@@ -15,10 +15,10 @@ public:
 	
 	// Overrides
 	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CGUIView)
+	// {{AFX_VIRTUAL(CGUIView)
 protected:
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
-	//}}AFX_VIRTUAL
+	// }}AFX_VIRTUAL
 	
 	// Implementation
 public:
@@ -28,12 +28,12 @@ private:
 	
 	// Generated message map functions
 protected:
-	//{{AFX_MSG(CGUIView)
+	// {{AFX_MSG(CGUIView)
 	afx_msg void OnPaint();
-	//}}AFX_MSG
+	// }}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 
-#endif		//__GUIVIEW_H__
+#endif		// __GUIVIEW_H__

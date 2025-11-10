@@ -1,74 +1,76 @@
 #ifndef __MULTIPLAYER_INFO_H__
 #define __MULTIPLAYER_INFO_H__
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma ONCE
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#include "..\RandomMapGen\MapInfo_Types.h"
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#pragma once
+
+#include "../RandomMapGen/MapInfo_Types.h"
+
 class CMultiplayerInfo
 {
-	enum CMapInfo::GAME_TYPE eGameType;
+  enum CMapInfo::GAME_TYPE eGameType;
 
-	struct SWinConditions
-	{
-		//FC settings
-		int nFlagScoreLimit;
-		int nKillScoreLimit;
-		//
+  struct SWinConditions
+  {
+    // FC settings
+    int nFlagScoreLimit;
+    int nKillScoreLimit;
+    //
 
-		//sabotage settings
-		NTimer::STime nTimeToCapture;										// in seconds
+    // sabotage settings
+    NTimer::STime nTimeToCapture;// in seconds
 
-		// common settings
-		NTimer::STime nTimeLimit;												// in seconds
-	};
-	SWinConditions winConditions;
+    // common settings
+    NTimer::STime nTimeLimit;// in seconds
+  };
 
-	bool bNoWin;
+  SWinConditions winConditions;
 
-	std::vector<float> flagPoints;
-	std::vector<float> flagPoints4Script;
-	std::vector<float> troopsPoints;
+  bool bNoWin;
 
-	// for sabotage mission
-	NTimer::STime timeOfFlagCaptured;
-	bool bCapturedByAttackingParty;
-	int nAttackingParty;
-	int nFlagsAtTheMap;
+  std::vector<float> flagPoints;
+  std::vector<float> flagPoints4Script;
+  std::vector<float> troopsPoints;
 
-	std::vector< std::hash_set<int> > capturedByPartyFlags;
+  // for sabotage mission
+  NTimer::STime timeOfFlagCaptured;
+  bool bCapturedByAttackingParty;
+  int nAttackingParty;
+  int nFlagsAtTheMap;
 
-	//
-	void CheckWinConditions();
-	void GameFinished( const EFeedBack eGameResult );
+  std::vector<std::hash_set<int>> capturedByPartyFlags;
 
-	void CheckSabotageWinConditions();
-	void CheckFlagControlWinConditions();
-	void CheckFlagPoints();
-	void CheckTroopPoints();
+  //
+  void CheckWinConditions();
+  void GameFinished(EFeedBack eGameResult);
+
+  void CheckSabotageWinConditions();
+  void CheckFlagControlWinConditions();
+  void CheckFlagPoints();
+  void CheckTroopPoints();
+
 public:
-	CMultiplayerInfo() 
-		: bNoWin( false ), flagPoints( 3, 0.0f ), troopsPoints( 3, 0.0f ), flagPoints4Script( 3, 0.0f ), nFlagsAtTheMap( 0 ) { }
-	
-	void Clear();
+  CMultiplayerInfo()
+    : bNoWin(false), flagPoints(3, 0.0f), flagPoints4Script(3, 0.0f), troopsPoints(3, 0.0f), nFlagsAtTheMap(0) {}
 
-	void Init();
-	void Segment();
+  void Clear();
 
-	void AddFlagPoints( const int nParty, const float fPoints );
-	void FlagCaptured( const int nParty, const int nFlagID );
-	void UnitsKilled( const int nKillerPlayer, const float fUnitsPrice, const int nKilledUnitsPlayer );
+  void Init();
+  void Segment();
 
-	// время, требуемое для того, чтобы флаг, в радиусе которого только юниты одного игрока, перешёл этому игроку
-	const NTimer::STime GetTimeToCaptureObject() const;
+  void AddFlagPoints(int nParty, float fPoints);
+  void FlagCaptured(int nParty, int nFlagID);
+  void UnitsKilled(int nKillerPlayer, float fUnitsPrice, int nKilledUnitsPlayer);
 
-	void AddFlagAtTheMap() { ++nFlagsAtTheMap; }
-	
-	bool IsSabotage() const { return eGameType == CMapInfo::TYPE_SABOTAGE; }
-	const int GetAttackingParty() const { return nAttackingParty; }
+  // the time required for a flag within which only one player's units are in radius to pass to that player
+  const NTimer::STime GetTimeToCaptureObject() const;
 
-	void NoWin();
-	bool IsNoWin() const { return bNoWin; }
+  void AddFlagAtTheMap() { ++nFlagsAtTheMap; }
+
+  bool IsSabotage() const { return eGameType == CMapInfo::TYPE_SABOTAGE; }
+  const int GetAttackingParty() const { return nAttackingParty; }
+
+  void NoWin();
+  bool IsNoWin() const { return bNoWin; }
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // __MULTIPLAYER_INFO_H__

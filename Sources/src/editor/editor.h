@@ -18,7 +18,7 @@ using std::string;
 class CSimpleWindow;
 class CMainFrame;
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // CEditorApp:
 // See editor.cpp for the implementation of this class
 //
@@ -39,7 +39,7 @@ public:
 	void SaveNewFrameTypeToRegister();
 	int LoadLastActiveModuleID();
 	
-	//if this function returns true, then application will be closed
+	// if this function returns true, then application will be closed
 	bool RunBatchMode();
 
 	void UpdateStatusBarIndicators();
@@ -65,14 +65,14 @@ public:
 	
 	// Overrides
 	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CEditorApp)
+	// {{AFX_VIRTUAL(CEditorApp)
 	public:
 	virtual BOOL InitInstance();
 	virtual int ExitInstance();
-//	virtual BOOL ProcessMessageFilter(int code, LPMSG lpMsg);
+// virtual BOOL ProcessMessageFilter(int code, LPMSG lpMsg);
 	virtual BOOL OnIdle(LONG lCount);
 	virtual BOOL SaveAllModified();
-	//}}AFX_VIRTUAL
+	// }}AFX_VIRTUAL
 
 	CMainFrame *GetMainFrame() { return m_pMainFrame; }
 	string GetEditorDir() const { return szEditorDir; }
@@ -101,14 +101,14 @@ public:
 // Implementation
 
 protected:
-	string szEditorDir;					//содержит директорию исполняемого файла компоновщика (reseditor.exe)
-	string szExecDir;           //dir с game.exe
-	string szMODName;           //название текущего мода
-	string szMODVersion;        //версия текущего мода
-	string szMODDesc;           //MOD description string
-	string szExecArgs;          //game.exe args
-	string szSourceDir;					//общая директория к исходникам для всех модулей
-	string szDestDir;						//общая экспортируемая директория для всех модулей
+	string szEditorDir;					// contains the linker executable directory (reseditor.exe)
+	string szExecDir;           // dir with game.exe
+	string szMODName;           // name of the current mod
+	string szMODVersion;        // version of the current mod
+	string szMODDesc;           // MOD description string
+	string szExecArgs;          // game.exe args
+	string szSourceDir;					// common source directory for all modules
+	string szDestDir;						// common export directory for all modules
 	HMENU m_hMDIMenu;
 	HACCEL m_hMDIAccel;
 	CMainFrame *m_pMainFrame;
@@ -116,21 +116,21 @@ protected:
 	bool m_bVersionIncreased;
 
 public:
-	//{{AFX_MSG(CEditorApp)
+	// {{AFX_MSG(CEditorApp)
 	afx_msg void OnAppAbout();
 	afx_msg void OnFileNew();
 	afx_msg void OnUpdateRecentFile(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateRecentFileRange(CCmdUI* pCmdUI);
 	afx_msg void OnRecentFile( UINT nID );
-	//}}AFX_MSG
+	// }}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
 
 extern CEditorApp theApp;
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 
-//{{AFX_INSERT_LOCATION}}
+// {{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
 
 #endif // !defined(AFX_EDITOR_H__EF9ACF1F_0933_498C_B092_A3DED0F07F99__INCLUDED_)

@@ -1,45 +1,48 @@
 #ifndef __ROTATING_FIREPLACES_OBJECT_H__
 #define __ROTATING_FIREPLACES_OBJECT_H__
 
-#pragma ONCE
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma once
+// //////////////////////////////////////////////////////////// 
 class CRotatingFireplacesObject
 {
-	DECLARE_SERIALIZE;
+  DECLARE_SERIALIZE;
 
-	struct SUnitInfo
-	{
-		DECLARE_SERIALIZE;
-	public:
-		class CSoldier *pSoldier;
-		int nLastFireplace;
-		NTimer::STime lastFireplaceChange;
+  struct SUnitInfo
+  {
+    DECLARE_SERIALIZE;
 
-		SUnitInfo() : pSoldier( 0 ), nLastFireplace( 0 ), lastFireplaceChange( 0 ) { }
-	};
+  public:
+    class CSoldier *pSoldier;
+    int nLastFireplace;
+    NTimer::STime lastFireplaceChange;
 
-	std::list<SUnitInfo> units;
+    SUnitInfo() : pSoldier(nullptr), nLastFireplace(0), lastFireplaceChange(0) {}
+  };
 
-	//
-	bool IsBetterToGoToFireplace( class CSoldier *pSoldier, const int nFireplace ) const;
+  std::list<SUnitInfo> units;
+
+  //
+  bool IsBetterToGoToFireplace(class CSoldier *pSoldier, int nFireplace) const;
+
 public:
-	CRotatingFireplacesObject() { }
+  CRotatingFireplacesObject() {}
 
-	// вызывается после того, как юнита полностью добавили в объект
-	// nFireplace - номер fireplace в том случае, если солдат добавляется в fireplace
-	void AddUnit( class CSoldier *pSoldier, const int nFireplace );
-	void DeleteUnit( class CSoldier *pSoldier );
+  // called after the unit has been completely added to the object
+  // nFireplace - fireplace number if a soldier is added to the fireplace
+  void AddUnit(class CSoldier *pSoldier, int nFireplace);
+  void DeleteUnit(class CSoldier *pSoldier);
 
-	virtual void Segment();
+  virtual void Segment();
 
-	// можно ли менять слот у этого слодата
-	virtual bool CanRotateSoldier( class CSoldier *pSoldier ) const = 0;
-	// поставить солдата в place вместо сидящего там
-	virtual void ExchangeUnitToFireplace( class CSoldier *pSoldier, int nFirePlace ) = 0;
-	// количество fireplaces
-	virtual const int GetNFirePlaces() const = 0;
-	// солдат, сидящий в fireplace, если fireplace пуст, то возвращает 0
-	virtual class CSoldier* GetSoldierInFireplace( const int nFireplace) const = 0;
+  // Is it possible to change the slot for this slot?
+  virtual bool CanRotateSoldier(class CSoldier *pSoldier) const = 0;
+  // put the soldier in place instead of the one sitting there
+  virtual void ExchangeUnitToFireplace(class CSoldier *pSoldier, int nFirePlace) = 0;
+  // number of fireplaces
+  virtual const int GetNFirePlaces() const = 0;
+  // a soldier sitting in a fireplace, if the fireplace is empty then returns 0
+  virtual class CSoldier *GetSoldierInFireplace(int nFireplace) const = 0;
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// //////////////////////////////////////////////////////////// 
 #endif // __ROTATING_FIREPLACES_OBJECT_H__

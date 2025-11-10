@@ -1,90 +1,98 @@
 #ifndef __SUSPENDED_UPDATES_H__
 #define __SUSPENDED_UPDATES_H__
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma ONCE
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#include "..\Misc\AreaMap.h"
+
+#pragma once
+
+#include "../Misc/AreaMap.h"
 #include "UpdatableObject.h"
 #include "AIHashFuncs.h"
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CSuspendedUpdates
 {
-	DECLARE_SERIALIZE;
+  DECLARE_SERIALIZE;
 
-	// отложенные updates
-	// по ¤чейке - список объектов, которые в ней хран¤т updates
-	typedef CAreaMap<IUpdatableObj, CPtr<IUpdatableObj>, SVector, int> CObjectsByCells;
-	CObjectsByCells objectsByCells;
-	// по объекту - updates, которые дл¤ него отложены
-	std::hash_map< CObj<IUpdatableObj>, std::vector< CPtr<IDataStream> >, SUpdatableObjectObjHash > updates;
-	// по объекту - тайлы, при видимости которых нужно послать все отложенные updates
-	typedef std::hash_map< int, std::hash_set<SVector, STilesHash > > CTilesMap;
-	CTilesMap tilesOfObj;
-	
-	// объекту - отложенные updates дипломатии
-	// предполагаетс¤, что таких updates будет немного
-	typedef std::hash_map< CObj<IUpdatableObj>, CPtr<IDataStream>, SUpdatableObjectObjHash > CDiplomacyUpdatesType;
-	CDiplomacyUpdatesType diplomacyUpdates;
+  // deferred updates
+  // by cell - list of objects that store updates in it
+  using CObjectsByCells = CAreaMap<IUpdatableObj, CPtr<IUpdatableObj>, SVector, int>;
+  CObjectsByCells objectsByCells;
+  // by object - updates that are postponed for it
+  std::hash_map<CObj<IUpdatableObj>, std::vector<CPtr<IDataStream>>, SUpdatableObjectObjHash> updates;
+  // by object - tiles, when visible, all pending updates should be sent
+  using CTilesMap = std::hash_map<int, std::hash_set<SVector, STilesHash>>;
+  CTilesMap tilesOfObj;
 
-	// дл¤ каждого eAction все вспомненные updates
-	struct SRecalledUpdate
-	{
-		virtual int STDCALL operator&( IStructureSaver &ss ) { CSaverAccessor saver = &ss; saver.Add( 1, &pObj ); saver.Add( 3, &pUpdateInfo ); return 0; }
-	public:	
-		CObj<IUpdatableObj> pObj;
-		CPtr<IDataStream> pUpdateInfo;
+  // object - deferred diplomacy updates
+  // It is expected that there will be few such updates
+  using CDiplomacyUpdatesType = std::hash_map<CObj<IUpdatableObj>, CPtr<IDataStream>, SUpdatableObjectObjHash>;
+  CDiplomacyUpdatesType diplomacyUpdates;
 
-		SRecalledUpdate() { }
-		SRecalledUpdate( IUpdatableObj *_pObj, IDataStream *_pUpdateInfo ) 
-			: pObj( _pObj ), pUpdateInfo( _pUpdateInfo ) { }
+  // for each eAction all recalled updates
+  struct SRecalledUpdate
+  {
+    virtual int STDCALL operator&(IStructureSaver &ss)
+    {
+      CSaverAccessor saver = &ss;
+      saver.Add(1, &pObj);
+      saver.Add(3, &pUpdateInfo);
+      return 0;
+    }
 
-		void Recall( SSuspendedUpdate *pRecallTo );
-	};
+    CObj<IUpdatableObj> pObj;
+    CPtr<IDataStream> pUpdateInfo;
 
-	typedef std::list<SRecalledUpdate> CRecalledUpdatesType;
-	std::vector<CRecalledUpdatesType> recalledUpdates;
+    SRecalledUpdate() {}
 
-	// тайлы, которые стали видны после очередного сканировани¤ тумана
-	std::hash_set< SVector, STilesHash > visibleTiles;
+    SRecalledUpdate(IUpdatableObj *_pObj, IDataStream *_pUpdateInfo)
+      : pObj(_pObj), pUpdateInfo(_pUpdateInfo) {}
 
-	int nMyParty;
+    void Recall(SSuspendedUpdate *pRecallTo);
+  };
 
-	//
-	// удалить всЄ, св¤занное с pObj, кроме diplomacy updates
-	void DeleteObjectInfo( IUpdatableObj *pObj );
-	// удал¤ет отложенные update дл¤ eAction объекта pObj
-	void DeleteUpdate( IUpdatableObj *pObj, const EActionNotify &eAction );
-	void CommonInit();
-	void SuspendUpdate( const EActionNotify &eAction, IUpdatableObj * pObj, const  SSuspendedUpdate &update );
-	void UpdateVisibleTiles( const std::hash_set< SVector, STilesHash > &tilesSet, std::hash_set<SVector, STilesHash> *pCoverTiles );
+  using CRecalledUpdatesType = std::list<SRecalledUpdate>;
+  std::vector<CRecalledUpdatesType> recalledUpdates;
+
+  // tiles that became visible after the next scan of the fog
+  std::hash_set<SVector, STilesHash> visibleTiles;
+
+  int nMyParty;
+
+  //
+  // delete everything related to pObj, except diplomacy updates
+  void DeleteObjectInfo(IUpdatableObj *pObj);
+  // removes pending updates for eAction object pObj
+  void DeleteUpdate(IUpdatableObj *pObj, const EActionNotify &eAction);
+  void CommonInit();
+  void SuspendUpdate(const EActionNotify &eAction, IUpdatableObj *pObj, const SSuspendedUpdate &update);
+  void UpdateVisibleTiles(const std::hash_set<SVector, STilesHash> &tilesSet, std::hash_set<SVector, STilesHash> *pCoverTiles);
+
 public:
-	CSuspendedUpdates();
+  CSuspendedUpdates();
 
-	void Init( const int nStaticMapSizeX, const int nStaticMapSizeY );
-	void Clear();
+  void Init(int nStaticMapSizeX, int nStaticMapSizeY);
+  void Clear();
 
-	// апдейт составного объекта
-	void AddComplexObjectUpdate( const EActionNotify &eAction, IUpdatableObj * pObj, const  SSuspendedUpdate &update );
-	
-	// вызываетс¤ при сканировании warfog, когда tile стал виден стороной nParty
-	void TileBecameVisible( const SVector &tile, const int nParty );
+  // composite object update
+  void AddComplexObjectUpdate(const EActionNotify &eAction, IUpdatableObj *pObj, const SSuspendedUpdate &update);
 
-	// проверить, не нужно ли отложить; если нужно, то запоминает update и возвращает true, иначе - false
-	bool CheckToSuspend( const EActionNotify &eAction, IUpdatableObj *pObj, const SSuspendedUpdate &update );
+  // called when scanning warfog, when the tile has become visible to the nParty side
+  void TileBecameVisible(const SVector &tile, int nParty);
 
-	// есть отложенный update eAction дл¤ pObj
-	bool DoesExistSuspendedUpdate( IUpdatableObj *pObj, const EActionNotify &eAction );
+  // check whether it needs to be postponed; 
+  bool CheckToSuspend(const EActionNotify &eAction, IUpdatableObj *pObj, const SSuspendedUpdate &update);
 
-	// не остались ли recalled updates дл¤ этого eActions
-	bool IsRecalledEmpty( const EActionNotify &eAction ) const;
-	const int GetNRecalled( const EActionNotify &eAction ) const;
+  // there is a deferred update eAction for pObj
+  bool DoesExistSuspendedUpdate(IUpdatableObj *pObj, const EActionNotify &eAction);
 
-	// записать очередной вспомненный update дл¤ eAction
-	void GetRecalled( const EActionNotify &eAction, SSuspendedUpdate *pUpdate );
-	// удалить всЄ, св¤занное с pObj, если дл¤ pObj есть какие-нибудь updates, кроме diplomacy updates
-	void DeleteUpdates( IUpdatableObj *pObj );
+  // Are there any thoughtful updates left for this eActions?
+  bool IsRecalledEmpty(const EActionNotify &eAction) const;
+  const int GetNRecalled(const EActionNotify &eAction) const;
 
-	void Segment();
+  // record the next remembered update for eAction
+  void GetRecalled(const EActionNotify &eAction, SSuspendedUpdate *pUpdate);
+  // delete everything related to pObj if there are any updates for pObj other than diplomacy updates
+  void DeleteUpdates(IUpdatableObj *pObj);
+
+  void Segment();
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // __SUSPENDED_UPDATES_H__

@@ -1,7 +1,7 @@
 #ifndef __TRENCHVIEW_H__
 #define __TRENCHVIEW_H__
 
-/////////////////////////////////////////////////////////////////////////////
+// //
 // CTrenchView window
 
 class CTrenchView : public CWnd
@@ -18,10 +18,10 @@ public:
 	
 	// Overrides
 	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CTrenchView)
+	// {{AFX_VIRTUAL(CTrenchView)
 protected:
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
-	//}}AFX_VIRTUAL
+	// }}AFX_VIRTUAL
 	
 	// Implementation
 public:
@@ -31,12 +31,12 @@ private:
 	
 	// Generated message map functions
 protected:
-	//{{AFX_MSG(CTrenchView)
+	// {{AFX_MSG(CTrenchView)
 	afx_msg void OnPaint();
-	//}}AFX_MSG
+	// }}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
 
-/////////////////////////////////////////////////////////////////////////////
+// //
 
-#endif		//__TRENCHVIEW_H__
+#endif		// __TRENCHVIEW_H__

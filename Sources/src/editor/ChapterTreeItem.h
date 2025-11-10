@@ -21,7 +21,7 @@ public:
 	CChapterCommonPropsItem() { nItemType = E_CHAPTER_COMMON_PROPS_ITEM; InitDefaultValues(); nImageIndex = 0; }
 	~CChapterCommonPropsItem() {};
 	
-	//Получение внутренних параметров
+	// Getting internal parameters
 	const char* GetHeaderText() { return values[0].value; }
 	const char* GetSubHeaderText() { return values[1].value; }
 	const char* GetDescText() { return values[2].value; }
@@ -33,7 +33,7 @@ public:
 	const char *GetContextName() { return values[8].value; }
 	const char *GetPlayerSideName() { return values[9].value; }
 	
-	//Установка внутренних параметров
+	// Setting internal parameters
 	void SetHeaderText( const char *pszName ) { values[0].value = pszName; }
 	void SetSubHeaderText( const char *pszName ) { values[1].value = pszName; }
 	void SetDescText( const char *pszName ) { values[2].value = pszName; }
@@ -50,40 +50,8 @@ public:
 	virtual void MyLButtonClick();
 };
 
-/*
-class CChapterMusicsItem : public CTreeItem
-{
-	OBJECT_NORMAL_METHODS( CChapterMusicsItem );
-public:
-	CChapterMusicsItem() { nItemType = E_CHAPTER_MUSICS_ITEM; InitDefaultValues(); nImageIndex = 3; }
-	~CChapterMusicsItem() {};
-	
-	virtual void InitDefaultValues();
-	virtual void MyKeyDown( int nChar );
-};
-
-class CChapterMusicPropsItem : public CTreeItem
-{
-	OBJECT_NORMAL_METHODS( CChapterMusicPropsItem );
-public:
-	CChapterMusicPropsItem() { bStaticElements = true; nItemType = E_CHAPTER_MUSIC_PROPS_ITEM; InitDefaultValues(); nImageIndex = 4; }
-	~CChapterMusicPropsItem() {};
-	
-	//Получение внутренних параметров
-	const char* GetMusicFileName() { return values[0].value; }
-	bool GetMusicCombatFlag() { return values[1].value; }
-	int GetMusicProbability() { return values[2].value; }
-	
-	//Установка внутренних параметров
-	void SetMusicFileName( const char *pszVal ) { values[0].value = pszVal; }
-	void SetMusicCombatFlag( bool nVal ) { values[1].value = nVal; }
-	void SetMusicProbability( int nVal ) { values[2].value = nVal; }
-	
-	virtual void InitDefaultValues();
-	virtual void MyKeyDown( int nChar );
-	virtual void UpdateItemValue( int nItemId, const CVariant &value );
-};
-*/
+/* class CChapterMusicsItem : public CTreeItem
+ */
 
 class CChapterMissionsItem : public CTreeItem
 {
@@ -105,11 +73,11 @@ public:
 	CChapterMissionPropsItem() { bStaticElements = true; nItemType = E_CHAPTER_MISSION_PROPS_ITEM; InitDefaultValues(); nImageIndex = 3; }
 	~CChapterMissionPropsItem() {};
 	
-	//Получение внутренних параметров
+	// Getting internal parameters
 	const char* GetMissionName() { return values[0].value; }
 	CVec2 GetMissionPosition() { CVec2 res(values[1].value, values[2].value); return res; }
 	
-	//Установка внутренних параметров
+	// Setting internal parameters
 	void SetMissionName( const char *pszVal ) { values[0].value = pszVal; }
 	void SetMissionPosition( CVec2 vVal ) { values[1].value = vVal.x; values[2].value = vVal.y; }
 	
@@ -140,10 +108,10 @@ public:
 	CChapterPlacePropsItem() { bStaticElements = true; nItemType = E_CHAPTER_PLACE_PROPS_ITEM; InitDefaultValues(); nImageIndex = 3; }
 	~CChapterPlacePropsItem() {};
 	
-	//Получение внутренних параметров
+	// Getting internal parameters
 	CVec2 GetPosition() { CVec2 res(values[0].value, values[1].value); return res; }
 	
-	//Установка внутренних параметров
+	// Setting internal parameters
 	void SetPosition( CVec2 vVal ) { values[0].value = vVal.x; values[1].value = vVal.y; }
 	
 	virtual void InitDefaultValues();
@@ -153,4 +121,4 @@ public:
 	virtual void MyRButtonClick();
 };
 
-#endif		//__CHAPTER_TREE_ITEM_H__
+#endif		// __CHAPTER_TREE_ITEM_H__

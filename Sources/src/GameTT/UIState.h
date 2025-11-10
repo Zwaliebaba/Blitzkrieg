@@ -2,147 +2,149 @@
 #define __UI_STATE_H__
 
 class CInterfaceMainMenu;
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 interface IUIState
 {
 private:
-	int nMenuID;
-	std::string szTitleKey;
+  int nMenuID;
+  std::string szTitleKey;
+
 protected:
-	CInterfaceMainMenu *pMainInterface;
+  CInterfaceMainMenu *pMainInterface;
 
 public:
-	IUIState( int nID, const char *pszTitleKey ) : pMainInterface( 0 ), nMenuID( nID ), szTitleKey( pszTitleKey ) {}
-	virtual ~IUIState() {}
-	void Init( CInterfaceMainMenu *pMainMenu ) { pMainInterface = pMainMenu; }
-	CInterfaceMainMenu *GetMainInterface() { return pMainInterface; }
+  IUIState(int nID, const char *pszTitleKey) : nMenuID(nID), szTitleKey(pszTitleKey), pMainInterface(nullptr) {}
+  virtual ~IUIState() {}
+  void Init(CInterfaceMainMenu *pMainMenu) { pMainInterface = pMainMenu; }
+  CInterfaceMainMenu *GetMainInterface() { return pMainInterface; }
 
-	virtual bool ProcessMessage( const SGameMessage &msg ) = 0;
-	virtual void Show();
-	virtual void Hide();
+  virtual bool ProcessMessage(const SGameMessage &msg) = 0;
+  virtual void Show();
+  virtual void Hide();
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 enum ECommands
 {
-	//Main menu
-	IMC_MULTIPLAYER			=	10003,
-	IMC_LOAD_GAME				=	10004,
-	IMC_SETTINGS				=	10005,
-	IMC_EXIT_GAME				= 10006,
-	IMC_SHOW_EXIT_GAME	= 8888,
-	
-	//New game
-	IMC_TUTORIAL				= 10003,
-	IMC_SINGLE_MISSION	=	10004,
-	IMC_PLAYER_PROFILE	=	10005,
-	IMC_SCENARIO				= 10002,
+  // Main menu
+  IMC_MULTIPLAYER = 10003,
+  IMC_LOAD_GAME = 10004,
+  IMC_SETTINGS = 10005,
+  IMC_EXIT_GAME = 10006,
+  IMC_SHOW_EXIT_GAME = 8888,
 
-	//Select Campaign
-	IMC_GERMAN_CAMPAIGN	= 10004,
-	IMC_RUSSIAN_CAMPAIGN= 10003,
-	IMC_ALLIES_CAMPAIGN	=	10002,
-	
-	//Options
-	IMC_OPTIONS					=	10003,
-	IMC_VIDEO						= 10004,
-	IMC_CREDITS					=	10005,
-	IMC_MODS						= 10007,
+  // New game
+  IMC_TUTORIAL = 10003,
+  IMC_SINGLE_MISSION = 10004,
+  IMC_PLAYER_PROFILE = 10005,
+  IMC_SCENARIO = 10002,
 
-	//multiplayer
-	IMC_LAN							= 10003,
-	IMC_INTERNET				= 10002,
-	IMC_GAMESPY					= 10004,
-	
-	//custom games
-	IMC_CUSTOM_CAMPAIGNS	= 10003,
-	IMC_CUSTOM_CHAPTERS		= 10004,
-	IMC_CUSTOM_MISSIONS		= 10002,
+  // Select Campaign
+  IMC_GERMAN_CAMPAIGN = 10004,
+  IMC_RUSSIAN_CAMPAIGN = 10003,
+  IMC_ALLIES_CAMPAIGN = 10002,
 
-	//load game
-	IMC_LOAD_LOAD_GAME		=	10002,
-	IMC_LOAD_LOAD_REPLAY	= 10003,
+  // Options
+  IMC_OPTIONS = 10003,
+  IMC_VIDEO = 10004,
+  IMC_CREDITS = 10005,
+  IMC_MODS = 10007,
 
-	//demo version menu
-	IMC_DEMO_NEW_GAME			= 10002,
-	IMC_DEMO_OPTIONS			= 10005,
-	IMC_DEMO_LOAD_GAME		= 10004,
-	IMC_DEMO_EXIT_GAME		= 10006,
+  // multiplayer
+  IMC_LAN = 10003,
+  IMC_INTERNET = 10002,
+  IMC_GAMESPY = 10004,
+
+  // custom games
+  IMC_CUSTOM_CAMPAIGNS = 10003,
+  IMC_CUSTOM_CHAPTERS = 10004,
+  IMC_CUSTOM_MISSIONS = 10002,
+
+  // load game
+  IMC_LOAD_LOAD_GAME = 10002,
+  IMC_LOAD_LOAD_REPLAY = 10003,
+
+  // demo version menu
+  IMC_DEMO_NEW_GAME = 10002,
+  IMC_DEMO_OPTIONS = 10005,
+  IMC_DEMO_LOAD_GAME = 10004,
+  IMC_DEMO_EXIT_GAME = 10006,
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CUIMainMenuState : public IUIState
 {
 public:
-	CUIMainMenuState() : IUIState( 2000, "imheader-mainmenu-header" ) {}
+  CUIMainMenuState() : IUIState(2000, "imheader-mainmenu-header") {}
 
-	virtual bool ProcessMessage( const SGameMessage &msg );
+  bool ProcessMessage(const SGameMessage &msg) override;
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CUINewGameState : public IUIState
 {
 public:
-	CUINewGameState() : IUIState( 2001, "imheader-newgame-header" ) {}
-	virtual void Show();
-	virtual bool ProcessMessage( const SGameMessage &msg );
+  CUINewGameState() : IUIState(2001, "imheader-newgame-header") {}
+  void Show() override;
+  bool ProcessMessage(const SGameMessage &msg) override;
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CUISelectCampaignState : public IUIState
 {
 public:
-	CUISelectCampaignState() : IUIState( 2002, "imheader-selectcampaign-header" ) {}
+  CUISelectCampaignState() : IUIState(2002, "imheader-selectcampaign-header") {}
 
-	virtual void Show();
-	virtual bool ProcessMessage( const SGameMessage &msg );
+  void Show() override;
+  bool ProcessMessage(const SGameMessage &msg) override;
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CUIOptionsState : public IUIState
 {
 public:
-	CUIOptionsState() : IUIState( 2003, "imheader-options-header" ) {}
+  CUIOptionsState() : IUIState(2003, "imheader-options-header") {}
 
-	virtual bool ProcessMessage( const SGameMessage &msg );
+  bool ProcessMessage(const SGameMessage &msg) override;
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CUIMultiplayerState : public IUIState
 {
 public:
-	CUIMultiplayerState () : IUIState( 2004, "Textes\\UI\\Intermission\\MainMenu\\Multiplayer\\caption" ) {  }
+  CUIMultiplayerState() : IUIState(2004, "Textes\\UI\\Intermission\\MainMenu\\Multiplayer\\caption") {}
 
-	virtual bool ProcessMessage( const SGameMessage &msg );
+  bool ProcessMessage(const SGameMessage &msg) override;
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CUICustomGameState : public IUIState
 {
 public:
-	CUICustomGameState () : IUIState( 2005, "Textes\\UI\\Intermission\\MainMenu\\CustomGame\\caption" ) {  }
-	
-	virtual bool ProcessMessage( const SGameMessage &msg );
+  CUICustomGameState() : IUIState(2005, "Textes\\UI\\Intermission\\MainMenu\\CustomGame\\caption") {}
+
+  bool ProcessMessage(const SGameMessage &msg) override;
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CUILoadGameState : public IUIState
 {
 public:
-	CUILoadGameState () : IUIState( 2006, "Textes\\UI\\Intermission\\MainMenu\\LoadGame\\caption" ) {  }
-	
-	virtual bool ProcessMessage( const SGameMessage &msg );
+  CUILoadGameState() : IUIState(2006, "Textes\\UI\\Intermission\\MainMenu\\LoadGame\\caption") {}
+
+  bool ProcessMessage(const SGameMessage &msg) override;
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CUICreditsState : public IUIState
 {
-	bool bLeaveToMainMenu;
+  bool bLeaveToMainMenu;
+
 public:
-	CUICreditsState () : IUIState( 2007, "imheader-gbutton-credits" ), bLeaveToMainMenu( false ) {  }
-	
-	virtual void Show();
-	virtual void Hide();
-	virtual bool ProcessMessage( const SGameMessage &msg );
+  CUICreditsState() : IUIState(2007, "imheader-gbutton-credits"), bLeaveToMainMenu(false) {}
+
+  void Show() override;
+  void Hide() override;
+  bool ProcessMessage(const SGameMessage &msg) override;
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CUIDemoMainMenuState : public IUIState
 {
 public:
-	CUIDemoMainMenuState() : IUIState( 2008, "imheader-mainmenu-header" ) {}
+  CUIDemoMainMenuState() : IUIState(2008, "imheader-mainmenu-header") {}
 
-	virtual bool ProcessMessage( const SGameMessage &msg );
+  bool ProcessMessage(const SGameMessage &msg) override;
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#endif		//__UI_STATE_H__
+
+#endif		// __UI_STATE_H__

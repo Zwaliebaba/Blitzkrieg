@@ -1,41 +1,42 @@
 #ifndef __IM_UNITS_POOL_H__
 #define __IM_UNITS_POOL_H__
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma ONCE
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#pragma once
+
 #include "InterMission.h"
 #include "iMission.h"
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CInterfaceUnitsPool : public CInterfaceInterMission
 {
-	OBJECT_NORMAL_METHODS( CInterfaceUnitsPool );
-	// input
-	NInput::CCommandRegistrator commandMsgs;
-	std::vector< std::vector<int> > units;
-	std::vector< std::vector<int> > depot;
-	//
-	virtual bool STDCALL ProcessMessage( const SGameMessage &msg );
-	// disable explicit destruction
-	virtual ~CInterfaceUnitsPool();
-	CInterfaceUnitsPool() : CInterfaceInterMission( "InterMission" ) {}
+  OBJECT_NORMAL_METHODS(CInterfaceUnitsPool);
+  // input
+  NInput::CCommandRegistrator commandMsgs;
+  std::vector<std::vector<int>> units;
+  std::vector<std::vector<int>> depot;
+  //
+  bool STDCALL ProcessMessage(const SGameMessage &msg) override;
+  // disable explicit destruction
+  ~CInterfaceUnitsPool() override;
+  CInterfaceUnitsPool() : CInterfaceInterMission("InterMission") {}
 
 public:
-	virtual bool STDCALL Init();
-	void Create( int nNewUnits );
+  bool STDCALL Init() override;
+  void Create(int nNewUnits);
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CICUnitsPool : public CInterfaceCommandBase<CInterfaceUnitsPool, MISSION_INTERFACE_UNITS_POOL>
 {
-	OBJECT_NORMAL_METHODS( CICUnitsPool );
+  OBJECT_NORMAL_METHODS(CICUnitsPool);
 
-	int nNewUnits;
-	
-	virtual void PreCreate( IMainLoop *pML ) {}
-	virtual void PostCreate( IMainLoop *pML, CInterfaceUnitsPool *pIUP );
-	//
-	CICUnitsPool() {  }
+  int nNewUnits;
+
+  void PreCreate(IMainLoop *pML) override {}
+  void PostCreate(IMainLoop *pML, CInterfaceUnitsPool *pIUP) override;
+  //
+  CICUnitsPool() {}
+
 public:
-	virtual void STDCALL Configure( const char *pszConfig );
+  void STDCALL Configure(const char *pszConfig) override;
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#endif		//__IM_UNITS_POOL_H__
+
+#endif		// __IM_UNITS_POOL_H__

@@ -8,28 +8,28 @@
 #include "Resource.h"
 #include "ResizeDialog.h"
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CMapEditorOptionsDialog : public CResizeDialog
 {
 public:
 	CMapEditorOptionsDialog( CWnd* pParent = NULL );
 
-	//{{AFX_DATA(CMapEditorOptionsDialog)
+	// {{AFX_DATA(CMapEditorOptionsDialog)
 	enum { IDD = IDD_MAP_EDITOR_OPTIONS };
 	CEdit	m_Parameters;
-	//}}AFX_DATA
+	// }}AFX_DATA
 
-	//{{AFX_VIRTUAL(CMapEditorOptionsDialog)
+	// {{AFX_VIRTUAL(CMapEditorOptionsDialog)
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);
-	//}}AFX_VIRTUAL
+	// }}AFX_VIRTUAL
 
 protected:
-	//{{AFX_MSG(CMapEditorOptionsDialog)
+	// {{AFX_MSG(CMapEditorOptionsDialog)
 	virtual BOOL OnInitDialog();
 	virtual void OnOK();
 	virtual void OnCancel();
-	//}}AFX_MSG
+	// }}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 
 protected:
@@ -53,7 +53,7 @@ public:
 	bool IsBZM(){ return ( resizeDialogOptions.nParameters[0] == 0 ); }
 	std::string GetParameter() { return resizeDialogOptions.szParameters[0]; }
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//{{AFX_INSERT_LOCATION}}
+
+// {{AFX_INSERT_LOCATION}}
 #endif // !defined(__MAP_EDITOR_OPTIONS_DIALOG__)

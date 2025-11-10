@@ -1,4 +1,4 @@
-//{{NO_DEPENDENCIES}}
+// {{NO_DEPENDENCIES}}
 // Microsoft Developer Studio generated include file.
 // Used by BugSlayer.rc
 //
@@ -39,7 +39,7 @@
 #define IDC_EXCEPTION_EMERGENCY         1041
 #define IDC_ASSERTION_EMERGENCY         1042
 
-// Next default values for new objects
+// Next default values ​​for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS

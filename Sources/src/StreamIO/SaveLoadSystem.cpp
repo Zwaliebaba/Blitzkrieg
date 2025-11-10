@@ -14,46 +14,36 @@
 #include "DataTableXML.h"
 #include "DataBase.h"
 #include "IniFile.h"
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 CSaveLoadSystem theSaveLoadSystem;
-ISaveLoadSystem* STDCALL GetSLS_Hook()
+ISaveLoadSystem * STDCALL GetSLS_Hook() { return &theSaveLoadSystem; }
+
+CSaveLoadSystem::CSaveLoadSystem() {}
+CSaveLoadSystem::~CSaveLoadSystem() { if (pFactory) delete pFactory; }
+
+void CSaveLoadSystem::AddFactory(IObjectFactory *_pFactory)
 {
-	return &theSaveLoadSystem;
+  if (pFactory == nullptr) pFactory = new CBasicObjectFactory();
+  NI_ASSERT_SLOW_TF(pFactory != 0, "basic save-load factory was not created", return);
+  pFactory->Aggregate(_pFactory);
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-CSaveLoadSystem::CSaveLoadSystem()
+
+IStructureSaver *CSaveLoadSystem::CreateStructureSaver(IDataStream *pStream, IStructureSaver::EAccessMode eAccessMode,
+                                                       interface IProgressHook *pLoadHook)
 {
+  NI_ASSERT_TF(pStream != 0, "Can't create structure saver from NULL stream", return 0);
+  return new CStructureSaver2(pStream, eAccessMode, pLoadHook, pFactory, pGDB);
 }
-CSaveLoadSystem::~CSaveLoadSystem()
+
+IDataTree *CSaveLoadSystem::CreateDataTreeSaver(IDataStream *pStream, IDataTree::EAccessMode eAccessMode, DTChunkID idBaseNode)
 {
-	if ( pFactory )
-		delete pFactory;
+  NI_ASSERT_TF(pStream != 0, "Can't create data tree saver from NULL stream", return 0);
+  InitCOM();
+  auto pDT = new CDataTreeXML(eAccessMode);
+  pDT->Open(pStream, idBaseNode);
+  return pDT;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CSaveLoadSystem::AddFactory( IObjectFactory *_pFactory )
-{
-	if ( pFactory == 0 )	
-		pFactory = new CBasicObjectFactory();
-	NI_ASSERT_SLOW_TF( pFactory != 0, "basic save-load factory was not created", return );
-	pFactory->Aggregate( _pFactory );
-}
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-IStructureSaver* CSaveLoadSystem::CreateStructureSaver( IDataStream *pStream, IStructureSaver::EAccessMode eAccessMode, 
-		interface IProgressHook *pLoadHook )
-{
-	NI_ASSERT_TF( pStream != 0, "Can't create structure saver from NULL stream", return 0 );
-	return new CStructureSaver2( pStream, eAccessMode, pLoadHook, pFactory, pGDB );
-}
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-IDataTree* CSaveLoadSystem::CreateDataTreeSaver( IDataStream *pStream, IDataTree::EAccessMode eAccessMode, DTChunkID idBaseNode )
-{
-	NI_ASSERT_TF( pStream != 0, "Can't create data tree saver from NULL stream", return 0 );
-	InitCOM();
-	CDataTreeXML *pDT = new CDataTreeXML( eAccessMode );
-	pDT->Open( pStream, idBaseNode );
-	return pDT;
-}
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // ************************************************************************************************************************ //
 // **
 // ** open storage
@@ -61,35 +51,35 @@ IDataTree* CSaveLoadSystem::CreateDataTreeSaver( IDataStream *pStream, IDataTree
 // **
 // **
 // ************************************************************************************************************************ //
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-IDataStorage* CSaveLoadSystem::OpenStorage( const char *pszName, DWORD dwAccessMode, DWORD type )
+
+IDataStorage *CSaveLoadSystem::OpenStorage(const char *pszName, DWORD dwAccessMode, DWORD type)
 {
-	switch ( type )
-	{
-		case STORAGE_TYPE_MOD:
-			return new CModFileSystem( pszName, dwAccessMode );
-		case STORAGE_TYPE_COMMON:
-			return new CCommonFileSystem( pszName, dwAccessMode );
-		case STORAGE_TYPE_FILE:
-			return new CFileSystem( pszName, dwAccessMode, false );
-		case STORAGE_TYPE_ZIP:
-			return new CZipFileSystem( pszName, dwAccessMode );
-		case STORAGE_TYPE_MEM:
-			return new CMemFileSystem( dwAccessMode );
-	}
-	return 0;
+  switch (type)
+  {
+    case STORAGE_TYPE_MOD:
+      return new CModFileSystem(pszName, dwAccessMode);
+    case STORAGE_TYPE_COMMON:
+      return new CCommonFileSystem(pszName, dwAccessMode);
+    case STORAGE_TYPE_FILE:
+      return new CFileSystem(pszName, dwAccessMode, false);
+    case STORAGE_TYPE_ZIP:
+      return new CZipFileSystem(pszName, dwAccessMode);
+    case STORAGE_TYPE_MEM:
+      return new CMemFileSystem(dwAccessMode);
+  }
+  return nullptr;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-IDataStorage* CSaveLoadSystem::CreateStorage( const char *pszName, DWORD dwAccessMode, DWORD type )
+
+IDataStorage *CSaveLoadSystem::CreateStorage(const char *pszName, DWORD dwAccessMode, DWORD type)
 {
-	switch ( type )
-	{
-		case STORAGE_TYPE_FILE:
-			return new CFileSystem( pszName, dwAccessMode, true );
-	}
-	return 0;
+  switch (type)
+  {
+    case STORAGE_TYPE_FILE:
+      return new CFileSystem(pszName, dwAccessMode, true);
+  }
+  return nullptr;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // ************************************************************************************************************************ //
 // **
 // ** open database/datatable
@@ -97,33 +87,32 @@ IDataStorage* CSaveLoadSystem::CreateStorage( const char *pszName, DWORD dwAcces
 // **
 // **
 // ************************************************************************************************************************ //
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-IDataTable* CSaveLoadSystem::OpenDataTable( IDataStream *pStream, const char *pszBaseNode )
+
+IDataTable *CSaveLoadSystem::OpenDataTable(IDataStream *pStream, const char *pszBaseNode)
 {
-	InitCOM();
-	//
-	CDataTableXML *pTable = new CDataTableXML();
-	pTable->Open( pStream, pszBaseNode );
-	return pTable;
+  InitCOM();
+  //
+  auto pTable = new CDataTableXML();
+  pTable->Open(pStream, pszBaseNode);
+  return pTable;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-IDataBase* CSaveLoadSystem::OpenDataBase( const char *pszName, DWORD dwAccessMode, DWORD type )
+
+IDataBase *CSaveLoadSystem::OpenDataBase(const char *pszName, DWORD dwAccessMode, DWORD type)
 {
-	NI_ASSERT_TF( type == DB_TYPE_INI, "Can support only .ini files now", return 0 );
-	//
-	CIniFileDataBase *pDB = new CIniFileDataBase( pszName, dwAccessMode );
-	return pDB;
+  NI_ASSERT_TF(type == DB_TYPE_INI, "Can support only .ini files now", return 0);
+  //
+  auto pDB = new CIniFileDataBase(pszName, dwAccessMode);
+  return pDB;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-IDataTable* CSaveLoadSystem::OpenIniDataTable( IDataStream *pStream )
+
+IDataTable *CSaveLoadSystem::OpenIniDataTable(IDataStream *pStream)
 {
-	CIniFile *pFile = new CIniFile();
-	if ( pFile->Load(pStream) == false )
-	{
-		pFile->AddRef();
-		pFile->Release();
-		return 0;
-	}
-	return pFile;
+  auto pFile = new CIniFile();
+  if (pFile->Load(pStream) == false)
+  {
+    pFile->AddRef();
+    pFile->Release();
+    return nullptr;
+  }
+  return pFile;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

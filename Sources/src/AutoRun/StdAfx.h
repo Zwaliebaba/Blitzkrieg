@@ -21,8 +21,8 @@
 #endif // _AFX_NO_AFXCMN_SUPPORT
 #include <comutil.h>
 
-//#include <stdlib.h>
-//#include <math.h>
+// #include <stdlib.h>
+// #include <math.h>
 // STL headers
 #pragma warning( disable : 4503 4018 4786 4800 4290 4146 4244 4284 )
 #include <algorithm>
@@ -37,7 +37,7 @@
 //
 typedef __int64 int64;									// due to lack of 'long long' type support
 typedef unsigned __int64 QWORD;					// quadra word
-#define for if(false); else for					// to achive standard variable scope resolving, declared inside 'for'
+#define for if(false); else for					// to achieve standard variable scope resolving, declared inside 'for'
 #define STDCALL __stdcall								// to use with interface function calls
 // define 'interface' keyword
 #ifndef interface
@@ -52,7 +52,7 @@ typedef unsigned __int64 QWORD;					// quadra word
 
 #include "resource.h"
 
-//{{AFX_INSERT_LOCATION}}
+// {{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
 
 #endif // !defined(AFX_STDAFX_H__722566A7_527F_471B_AB5D_252854280081__INCLUDED_)

@@ -63,7 +63,7 @@ bool SImagePack::FindEdges( IImage *pImage, CTRect<int> &rEdges , DWORD dwMinAlp
 
   CImageAccessor imageAccessor = pImage;
 
-	//Top edge
+	// Top edge
 	for ( nYindex = 0; nYindex < dim.y; ++nYindex )
 	{
 		for ( nXindex = 0; nXindex < dim.x; ++nXindex )
@@ -78,7 +78,7 @@ bool SImagePack::FindEdges( IImage *pImage, CTRect<int> &rEdges , DWORD dwMinAlp
 	}
 	if ( rEdges.top < 0 ) return false;
 
-	//bottom edge
+	// bottom edge
 	for ( nYindex = dim.y - 1; nYindex >= rEdges.top; --nYindex )
 	{
 		for ( nXindex = 0; nXindex < dim.x; ++nXindex )
@@ -92,7 +92,7 @@ bool SImagePack::FindEdges( IImage *pImage, CTRect<int> &rEdges , DWORD dwMinAlp
 		if ( rEdges.bottom < dim.y ) break;
 	}
 
-	//left edge
+	// left edge
 	for ( nXindex = 0; nXindex < dim.x; ++nXindex )
 	{
 		for ( nYindex = rEdges.top; nYindex <= rEdges.bottom; ++nYindex )
@@ -106,7 +106,7 @@ bool SImagePack::FindEdges( IImage *pImage, CTRect<int> &rEdges , DWORD dwMinAlp
 		if ( rEdges.left >= 0 ) break;
 	}
 
-	//right edge
+	// right edge
 	for ( nXindex = dim.x - 1; nXindex >= rEdges.left; --nXindex )
 	{
 		for ( nYindex = rEdges.top; nYindex <= rEdges.bottom; ++nYindex )
@@ -134,19 +134,19 @@ IImage* SImagePack::CreateImagePack( IImage **pImages, CTPoint<int> *pImageLeftT
   vPackedImages.clear();
   IImageProcessor *pImageProcessor = GetImageProcessor();
   
-  //главный цикл
+  // main loop
   int imageIndex = 0;
   for( imageIndex = 0; imageIndex < nImageCount; ++imageIndex )
   {
-    //добавляем 
+    // add
     vPackedImages.push_back( SPackedImage() );
     vPackedImages[imageIndex].originalLeftTop = pImageLeftTops[imageIndex];
 
-    //подвигаем картинку в угол
+    // move the picture to the corner
     CTRect<int> edges( 0, 0, 0, 0 );	
     if( !FindEdges( pImages[imageIndex], edges , dwMinAlpha ) )
     {
-      //нет картинки, ничего не добавляем
+      // no picture, don't add anything
       break;
     }
     CPtr<IImage> pEdgedImage = pImageProcessor->CreateImage( pImages[imageIndex]->GetSizeX(),
@@ -154,8 +154,8 @@ IImage* SImagePack::CreateImagePack( IImage **pImages, CTPoint<int> *pImageLeftT
     pEdgedImage->Set( 0 );
     pEdgedImage->CopyFrom( pImages[imageIndex], &( ( RECT )( edges ) ), 0, 0 );
 
-    //определяем размеры картинки исходя из минимального прамоугольника в котором
-    //выполняется alpha > 0, края картинки должы быть кратны LARGE_SIDE
+    // determine the size of the picture based on the minimum rectangle in which
+    // alpha > 0 is executed, the edges of the image must be a multiple of LARGE_SIDE
     int nXSize = 0; 
     int nYSize = 0;
     if ( ( edges.GetSizeX() % LARGE_SIDE ) > 0 )
@@ -175,16 +175,16 @@ IImage* SImagePack::CreateImagePack( IImage **pImages, CTPoint<int> *pImageLeftT
       nYSize = edges.GetSizeY();
     }
 
-    //получаем координаты больших и маленьких квадратиков в исходной картинке
-    //запаковывать будем только после того, как получим общее количество
-    //больших и маленьких квадратиков
+    // we get the coordinates of large and small squares in the original image
+    // We will pack only after we receive the total quantity
+    // big and small squares
     CImageAccessor edgedImageAccessor = pEdgedImage;
     for ( int nLargeYIndex = 0; nLargeYIndex < ( nYSize / LARGE_SIDE ); ++nLargeYIndex )
     {
       for ( int nLargeXIndex = 0; nLargeXIndex < ( nXSize / LARGE_SIDE ); ++nLargeXIndex )
       {
-        //количество маленьких квадратиков, если оно равно square( GRANULARITY ),
-        //то они все отбрасываются, а на их место записывается один большой квадрат
+        // number of small squares, if equal to square( GRANULARITY ),
+        // then they are all discarded, and one large square is written in their place
         int nSmallSquaresCount = 0;
         for ( int nSmallYIndex = 0; nSmallYIndex < GRANULARITY;	++nSmallYIndex )
         {
@@ -201,7 +201,7 @@ IImage* SImagePack::CreateImagePack( IImage **pImages, CTPoint<int> *pImageLeftT
               {
                 if ( edgedImageAccessor[nYIndex][nXIndex].a >= dwMinAlpha )
                 {
-                  //запись маленького квадратика
+                  // writing a small square
                   ++nSmallSquaresCount;
                   SPackedImage::SPackedImageNode packedImageNode;
                   packedImageNode.original.x = edges.left +
@@ -220,16 +220,16 @@ IImage* SImagePack::CreateImagePack( IImage **pImages, CTPoint<int> *pImageLeftT
             }
           }
         }
-        //если маленькие квадратики целиком составляют большой,
-        //необходимо их удалить и записать на их место один большой квадратик
+        // if the small squares entirely make up the large one,
+        // you need to delete them and write one large square in their place
         if ( nSmallSquaresCount == square( GRANULARITY ) )
         {
-          //удаление маленьких квадратиков
+          // removing small squares
           for ( int index = 0; index < nSmallSquaresCount; ++index )
           {
             vPackedImages[imageIndex].vPackedImageNodes.pop_back();
           }
-          //запись большого квадратика
+          // writing a large square
           SPackedImage::SPackedImageNode packedImageNode;
           packedImageNode.original.x = edges.left + 
                                        vPackedImages[imageIndex].originalLeftTop.x + 
@@ -243,11 +243,11 @@ IImage* SImagePack::CreateImagePack( IImage **pImages, CTPoint<int> *pImageLeftT
       }
     }
   }
-  //если все картинки оказались пустыми возвращаем 0
+  // if all the pictures are empty we return 0
   if( vPackedImages.size() == 0 ) return 0;
 
-  //определяем размер картинки для запаковки,
-  //исходя из количества больших и маленьких квадратиков
+  // determine the size of the picture for packaging,
+  // based on the number of large and small squares
   CTPoint<int> packDim( 0, 0 );
   GetMinimalDimensions( packDim );
 
@@ -294,11 +294,11 @@ IImage* SImagePack::CreateImagePack( IImage **pImages, CTPoint<int> *pImageLeftT
       }
     }
 	}
-  //создаем картинку и помещаем в нее изображения
+  // create a picture and place images in it
 	IImage *pPackedImage = pImageProcessor->CreateImage( packDim.x * LARGE_SIDE, packDim.y * LARGE_SIDE );
 #if !defined(_DEBUG)
   pPackedImage->Set( 0 );
-#endif //#if !defined(_DEBUG)
+#endif // #if !defined(_DEBUG)
   for( imageIndex = 0; imageIndex < nImageCount; ++imageIndex )
   {
     for( nodeIndex = 0; nodeIndex < vPackedImages[imageIndex].vPackedImageNodes.size(); ++nodeIndex )
@@ -327,7 +327,7 @@ IImage* SImagePack::CreateImagePack( IImage **pImages, CTPoint<int> *pImageLeftT
 #ifdef _DEBUG
       originalSquare.bottom -= 1;
       originalSquare.right -= 1;
-#endif //#ifdef _DEBUG
+#endif // #ifdef_DEBUG
       pPackedImage->CopyFrom( pImages[imageIndex],
                               &( ( RECT )( originalSquare ) ),
                               vPackedImages[imageIndex].vPackedImageNodes[nodeIndex].packed.left * packDim.x * LARGE_SIDE,
@@ -343,7 +343,7 @@ IImage* SImagePack::UnpackImage( IImage *pPackedImage, int imageIndex ) const
        ( imageIndex >= vPackedImages.size() ) ||
        ( vPackedImages[imageIndex].vPackedImageNodes.size() == 0 ) ) return 0;
 
-  //ищем размеры картинки
+  // looking for picture sizes
   int nMaxXSize = 0;
   int nMaxYSize = 0;
   int nodeIndex = 0;
@@ -379,8 +379,8 @@ IImage* SImagePack::UnpackImage( IImage *pPackedImage, int imageIndex ) const
   }
 #ifdef _DEBUG
   printf("nMaxSize (%dx%d)\n", nMaxXSize, nMaxYSize );
-#endif //#ifdef _DEBUG
-  //приводим размеры картинки к степени двойки
+#endif // #ifdef_DEBUG
+  // reduce the size of the image to the power of two
   int power = 1;
   while( power < nMaxXSize ) power *= 2;
   nMaxXSize = power;
@@ -389,11 +389,11 @@ IImage* SImagePack::UnpackImage( IImage *pPackedImage, int imageIndex ) const
   nMaxYSize = power;
 
   IImageProcessor *pImageProcessor = GetImageProcessor();
-  //создаем картинку и помещаем в нее изображения
+  // create a picture and place images in it
 	IImage *pOriginalImage = pImageProcessor->CreateImage( nMaxXSize, nMaxYSize );
 #if !defined(_DEBUG)
   pOriginalImage->Set( 0 );
-#endif //#if !defined(_DEBUG)
+#endif // #if !defined(_DEBUG)
   CTPoint<int> packedDim( pPackedImage->GetSizeX(), pPackedImage->GetSizeY() );
   for( nodeIndex = 0; nodeIndex < vPackedImages[imageIndex].vPackedImageNodes.size(); ++nodeIndex )
   {

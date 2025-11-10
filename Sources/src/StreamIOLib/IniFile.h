@@ -1,8 +1,8 @@
 #ifndef __INIFILE_H__
 #define __INIFILE_H__
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #pragma ONCE
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 struct SEntry
 {
 	typedef std::string TKey;
@@ -70,7 +70,7 @@ struct STable
 	CValMap::iterator find( const TVal::TKey &key ) { return emap.find( key ); }
 	CValMap::const_iterator find( const TVal::TKey &key ) const { return emap.find( key ); }
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 struct SIniFileEntry
 {
 	int nOrder;
@@ -126,7 +126,7 @@ public:
 	//
 	virtual int STDCALL GetRowNames( char *pszBuffer, int nBufferSize );
 	virtual int STDCALL GetEntryNames( const char *pszRow, char *pszBuffer, int nBufferSize );
-	// очистка секции
+	// section cleaning
 	virtual void STDCALL ClearRow( const char *pszRowName )
 	{
 		if ( SRow *pRow = GetRow( pszRowName ) )
@@ -146,5 +146,5 @@ public:
 	virtual void STDCALL SetString( const char *pszRow, const char *pszEntry, const char *val );
 	virtual void STDCALL SetRawData( const char *pszRow, const char *pszEntry, const void *pBuffer, int nBufferSize );
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // __INIFILE_H__

@@ -7,7 +7,7 @@
 // MultiTree.h : header file
 //
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // CMultiTree window
 
 #include "CTreeItem.h"
@@ -31,9 +31,9 @@ class CMultiTree : public CTreeCtrl
 public:
 	CMultiTree();
 	CHeaderCtrl m_wndHeader;
-// Attributes 
+// Attributes
 public:
-	//  using with usual types
+	// using with usual types
 	HTREEITEM InsertItem( LPCTSTR lpszItem, int nImage, int nSelectedImage, HTREEITEM hParent = TVI_ROOT, HTREEITEM hInsertAfter = TVI_LAST);
 	HTREEITEM InsertItem(LPCTSTR lpszItem, HTREEITEM hParent = TVI_ROOT, HTREEITEM hInsertAfter = TVI_LAST );
 	HTREEITEM InsertItem(UINT nMask, LPCTSTR lpszItem, int nImage, int nSelectedImage, UINT nState, UINT nStateMask, LPARAM lParam, HTREEITEM hParent, HTREEITEM hInsertAfter );
@@ -55,12 +55,12 @@ public:
 
 // Overrides
 	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CMultiTree)
+	// {{AFX_VIRTUAL(CMultiTree)
 	public:
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
 	protected:
 	virtual LRESULT DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam);
-	//}}AFX_VIRTUAL
+	// }}AFX_VIRTUAL
 
 // Implementation
 public:
@@ -75,20 +75,20 @@ private:
 
 	// Generated message map functions
 protected:
-	//{{AFX_MSG(CMultiTree)
+	// {{AFX_MSG(CMultiTree)
 	afx_msg void OnPaint();
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
 		afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnSize(UINT nType, int cx, int cy);
-	//}}AFX_MSG
+	// }}AFX_MSG
 
 	DECLARE_MESSAGE_MAP()
 };
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 
-//{{AFX_INSERT_LOCATION}}
+// {{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
 
 #endif // !defined(AFX_MULTITREE_H__C215D318_F9F4_40AD_B30F_81CADE81DAA5__INCLUDED_)

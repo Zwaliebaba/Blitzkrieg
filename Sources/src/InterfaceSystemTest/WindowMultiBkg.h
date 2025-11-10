@@ -1,6 +1,6 @@
 // WindowMultiBkg.h: interface for the CWindowMultiBkg class.
 //
-//////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////
 
 #if !defined(AFX_WINDOWMULTIBKG_H__12210016_22A9_4349_BFA0_D81ED89414D9__INCLUDED_)
 #define AFX_WINDOWMULTIBKG_H__12210016_22A9_4349_BFA0_D81ED89414D9__INCLUDED_
@@ -10,7 +10,7 @@
 #endif // _MSC_VER > 1000
 
 #include "Window.h"
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 enum ESubState
 {
 	EST_NORMAL				= 0,
@@ -20,21 +20,21 @@ enum ESubState
 	
 	_EST_COUNT				= 4,
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 struct SWindowSubState
 {	
 	DECLARE_SERIALIZE;
 public:
 	CDCPtr<IBackground> pBackground;									// background for this substats
 	SWindowSubState() {  }
-	//CRAP{ FOR TEST
+	// CRAP{ FOR TEST
 	SWindowSubState( int TEST );
-	//CRAP}
+	// CRAP}
 	
 	virtual int STDCALL operator&( IDataTree &ss );
 	void Visit( interface ISceneVisitor * pVisitor );
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 struct SWindowState
 {
 	DECLARE_SERIALIZE;
@@ -43,7 +43,7 @@ public:
 	int nSubState;																	// current active substate
 
 
-	//CRAP{ FOR TEST
+	// CRAP{ FOR TEST
 	SWindowState( int TEST )
 	{
 		nSubState = 0;
@@ -52,7 +52,7 @@ public:
 		substates.push_back( TEST );
 		substates.push_back( TEST ) ;
 	}
-	//CRAP}
+	// CRAP}
 
 	SWindowState() : substates( _EST_COUNT ), nSubState ( -1 ) {  }
 	
@@ -63,7 +63,7 @@ public:
 			substates[nSubState].Visit( pVisitor );
 	}
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CWindowMultiBkg : public CWindow  
 {
 	DECLARE_SERIALIZE;
@@ -89,9 +89,9 @@ public:
 		nState = 0;
 	}
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // Multi State Button may have any number of states (must be equal in number to graphical states )
-// generate Effector sequiences for 
+// generate Effector sequences for
 // MouseEnter/MouseLeave
 // Pressed/Released
 // Also button is registered for game messages.
@@ -116,7 +116,7 @@ class CWindowMSButton : public CWindowMultiBkg, public IButton
 	bool bPressed;
 	bool bMouseEntered;
 
-	std::string szEntered;									// effect, that runned upon enter. to enable UNdo
+	std::string szEntered;									// effect, that ran upon enter. 
 	std::string szPushed;
 
 	std::vector<SButtonState> buttonStates;
@@ -140,5 +140,5 @@ public:
 	virtual void NotifyStateSequenceFinished();
 	virtual void STDCALL Init();
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // !defined(AFX_WINDOWMULTIBKG_H__12210016_22A9_4349_BFA0_D81ED89414D9__INCLUDED_)

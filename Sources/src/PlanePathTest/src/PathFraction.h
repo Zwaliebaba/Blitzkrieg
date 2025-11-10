@@ -7,9 +7,9 @@
 
 inline CVec3 ToVec3( const CVec2 &v ) { return CVec3(v,0); }
 inline CVec3 ToVec3( const CVec3 &v ) { return v; }
-/////////////////////////////////////////////////////////////////////////////
-//	CPathFractionLine
-/////////////////////////////////////////////////////////////////////////////
+// //
+// CPathFractionLine
+// //
 class CPathFractionLine : public IPathFraction
 {
 	OBJECT_COMPLETE_METHODS( CPathFractionLine )
@@ -19,12 +19,12 @@ class CPathFractionLine : public IPathFraction
 	float fLength;
 	float fLengthMultiply;
 public:
-	//CRAP{ FOR 2D PATH
+	// CRAP{ FOR 2D PATH
 	void Init( const CVec2 &_x0, const CVec2 &_x1, const float _fLength = -1 )
 	{
 		Init( ToVec3(_x0), ToVec3(_x1), _fLength );
 	}
-	//CRAP}
+	// CRAP}
 	
 	void Init( const CVec3 &_x0, const CVec3 &_x1, const float _fLength = -1 )
 	{
@@ -58,15 +58,15 @@ public:
 	virtual CVec3 STDCALL GetEndPoint() const { return x1;}
 	virtual CVec3 STDCALL GetEndTangent() const { return v0;}
 };
-/////////////////////////////////////////////////////////////////////////////
-//	CPathFractionAnaliticCurve
-/////////////////////////////////////////////////////////////////////////////
+// //
+// CPathFractionAnalyticCurve
+// //
 template <class TAanliticCurve>
 class CPathFractionAnaliticCurve : public IPathFraction
 {
 	OBJECT_COMPLETE_METHODS( CPathFractionAnaliticCurve )
 	TAanliticCurve curve;
-	float fLength;										// lenght is ecternal
+	float fLength;										// length is external
 	
 public:
 	// CRAP{ FOR 2D PATH
@@ -88,7 +88,7 @@ public:
 	{
 		InitByCoords( ToVec3(x0), ToVec3(x1), ToVec3(v0), ToVec3(v1), fLenght );
 	}
-	//CRAP}
+	// CRAP}
 
 	void InitByCoords( const CVec3 &x0, const CVec3 &x1, const CVec3 &_v0, const CVec3 &_v1, const float _fLenght )
 	{
@@ -111,19 +111,19 @@ public:
 	virtual float STDCALL GetLength() const { return fLength; }
 };
 
-/////////////////////////////////////////////////////////////////////////////
-//	CPathFractionBezier3D 
-/////////////////////////////////////////////////////////////////////////////
+// //
+// CPathFractionBezier3D
+// //
 class CPathFractionBezier3D : public CPathFractionAnaliticCurve< CBezierCurve<CVec3> >
 {
 	OBJECT_COMPLETE_METHODS( CPathFractionBezier3D )
 	CBezierCurve<CVec3> bezier;
-	float fLength;										// lenght is ecternal
+	float fLength;										// length is external
 public:
 };
-/////////////////////////////////////////////////////////////////////////////
-//	CPathFractionBSPline3D 
-/////////////////////////////////////////////////////////////////////////////
+// //
+// CPathFractionBSPline3D
+// //
 class CPathFractionBSPline3D : public IPathFraction
 {
 	OBJECT_COMPLETE_METHODS( CPathFractionBSPline3D )
@@ -146,7 +146,7 @@ public:
 	{
 		Init( ToVec3(x0), ToVec3(x1), ToVec3(v0), ToVec3(v1), _fLength );
 	}
-	//CRAP}
+	// CRAP}
 
 	void Init( const CVec3 &x0, const CVec3 &x1, const CVec3 &_v0, const CVec3 &_v1, const float _fLength );
 	
@@ -155,4 +155,4 @@ public:
 	virtual float STDCALL GetLength() const { return fLength; }
 };
 
-#endif //_plane_simple_path_fraction_
+#endif // _plane_simple_path_fraction_

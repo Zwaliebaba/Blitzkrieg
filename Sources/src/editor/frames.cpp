@@ -26,7 +26,7 @@ bool MakeRelativePath( const char *pszSrcName, const char *pszDstName, string &s
 	const char *pszs = szTempSrc.c_str();
 	const char *pszd = szTempDst.c_str();
 
-	//Проверяем имя диска
+	// Checking the disk name
 	if ( pszs[0] != pszd[0] || pszs[1] != pszd[1] || pszs[2] != pszd[2] )
 		return false;
 
@@ -59,7 +59,7 @@ bool MakeSubRelativePath( const char *pszSrcName, const char *pszDstName, string
 		if ( szResult.size() == 0 )
 			return true;
 
-		if ( szResult[0] == '.' )		//тогда не внутри src директории
+		if ( szResult[0] == '.' )		// then not inside the src directory
 		{
 			szResult = "";
 			return false;
@@ -170,7 +170,7 @@ FILETIME GetFileChangeTime( const char *pszFileName )
 	if ( !bRes )
 		return zero;
 	
-	//Возвращаю максимальное время из времени создания и времени последней модификации
+	// I return the maximum time from the creation time and the last modification time
 	if ( fileInfo.ftCreationTime > fileInfo.ftLastWriteTime )
 		return fileInfo.ftCreationTime;
 	else
@@ -229,7 +229,7 @@ BOOL MyCopyFile( const char *pszSrc, const char *pszDest )
 	SYSTEMTIME st;
 	GetSystemTime( &st );
 	SystemTimeToFileTime( &st, &writeTime );
-//	FileTimeToLocalFileTime( &writeTime, &writeTime );
+// FileTimeToLocalFileTime( &writeTime, &writeTime );
 	SetFileTime( hFile, 0, 0, &writeTime );
 	CloseHandle( hFile );
 	return true;
@@ -289,7 +289,7 @@ void CFrameManager::SetActiveFrame( CParentFrame *pNewActiveFrame )
 
 	if ( activeFrameType != pActiveFrame->GetFrameType() && theApp.IsInitFinished() )
 	{
-		theApp.SaveNewFrameTypeToRegister();			//сразу сохраним инфу в реестре
+		theApp.SaveNewFrameTypeToRegister();			// We will immediately save the information in the registry
 	}
 	activeFrameType = ( CFrameManager::EFrameType ) pActiveFrame->GetFrameType();
 	
@@ -310,7 +310,7 @@ CParentFrame *CFrameManager::GetFrame( int nID )
 
 CParentFrame *CFrameManager::ActivateFrameByExtension( const char *pszExtension )
 {
-	//найдем frame, соответствующий расширению файла
+	// find the frame corresponding to the file extension
 	std::string szExtension = pszExtension;
 	int nTemp = szExtension.rfind( '.' );
 	if ( nTemp == std::string::npos )

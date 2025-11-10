@@ -5,4 +5,4 @@
 #include "CManuver.h"
 class CManuverPike : public CManuver {
 };
-#endif //CMANUVERPIKE_H
+#endif // CMANUVERPIKE_H

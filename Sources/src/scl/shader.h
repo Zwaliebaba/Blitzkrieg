@@ -1,8 +1,8 @@
 #ifndef __SHADER_H__
 #define __SHADER_H__
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #pragma once
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 enum SYMBOL_CONSTANTS
 {
    SYMBOL_EOF                         = 0,  // (EOF)
@@ -182,7 +182,7 @@ enum SYMBOL_CONSTANTS
 enum RULE_CONSTANTS
 {
    RULE_DECLARATIONS                                                = 0,  // <Declarations> ::= <Declaration> <Declarations>
-   RULE_DECLARATIONS2                                               = 1,  // <Declarations> ::= 
+   RULE_DECLARATIONS2                                               = 1,  // <Declarations> ::=
    RULE_DECLARATION                                                 = 2,  // <Declaration> ::= <Technique>
    RULE_TECHNIQUE_TECHNIQUE_LPARAN_COMMA_RPARAN_LBRACE_RBRACE       = 3,  // <Technique> ::= technique '(' <Num Textures> , <Num Stages> ')' '{' <Technique Def> '}'
    RULE_TECHNIQUE_TECHNIQUE_LPARAN_COMMA_COMMA_RPARAN_LBRACE_RBRACE = 4,  // <Technique> ::= technique '(' <Num Textures> , <Num Stages> , <Stencil> ')' '{' <Technique Def> '}'
@@ -196,13 +196,13 @@ enum RULE_CONSTANTS
    RULE_DEFSBLOCK                                                   = 12,  // <Defs Block> ::= <Color Ops> <Alpha Ops>
    RULE_DEFSBLOCK2                                                  = 13,  // <Defs Block> ::= <Color Ops> <Alpha Ops> <Properties>
    RULE_COLOROPS_COLOR_EQ_SEMI                                      = 14,  // <Color Ops> ::= color = <Expression> ;
-   RULE_COLOROPS                                                    = 15,  // <Color Ops> ::= 
+   RULE_COLOROPS                                                    = 15,  // <Color Ops> ::=
    RULE_ALPHAOPS_ALPHA_EQ_SEMI                                      = 16,  // <Alpha Ops> ::= alpha = <Expression> ;
-   RULE_ALPHAOPS                                                    = 17,  // <Alpha Ops> ::= 
+   RULE_ALPHAOPS                                                    = 17,  // <Alpha Ops> ::=
    RULE_FUNCARGS2_LPARAN_COMMA_RPARAN                               = 18,  // <Func Args 2> ::= '(' <Arg> , <Arg> ')'
    RULE_FUNCARGS3_LPARAN_COMMA_COMMA_RPARAN                         = 19,  // <Func Args 3> ::= '(' <Arg> , <Arg> , <Arg> ')'
    RULE_EXPRESSION                                                  = 20,  // <Expression> ::= <Exp>
-   RULE_EXPRESSION_PIPE                                             = 21,  // <Expression> ::= <Expression> '|' <Exp>
+   RULE_EXPRESSION_PIPE                                             = 21,  // <Expression> ::= <Expression> '|' 
    RULE_EXP                                                         = 22,  // <Exp> ::= <Exp2> <Func Args 2>
    RULE_EXP2                                                        = 23,  // <Exp> ::= <Exp3> <Func Args 3>
    RULE_EXP3                                                        = 24,  // <Exp> ::= <Arg>
@@ -353,5 +353,5 @@ enum RULE_CONSTANTS
    RULE_BOOLVAL_TRUE                                                = 169,  // <Bool Val> ::= true
    RULE_BOOLVAL_FALSE                                               = 170  // <Bool Val> ::= false
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // __SHADER_H__

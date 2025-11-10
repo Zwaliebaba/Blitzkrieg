@@ -11,9 +11,9 @@ struct SImagePack
   {
     struct SPackedImageNode
     {
-      CTPoint<int> original;              //original (defragmented) coord in original image 
-      CTRect<float> packed;               //packed (fragmented) coord in packed image
-      bool isLarge;                       //is fragment large (IF_LARGE) or small (IF_SMALL)
+      CTPoint<int> original;              // original (defragmented) coord in original image
+      CTRect<float> packed;               // packed (fragmented) coord in packed image
+      bool isLarge;                       // is fragment large (IF_LARGE) or small (IF_SMALL)
 
       SPackedImageNode() : original( 0, 0 ), packed( 0.0f, 0.0f, 0.0f, 0.0f ), isLarge( true ) {  }
       int operator&( IStructureSaver &ss )
@@ -26,9 +26,9 @@ struct SImagePack
       }
     };
   
-    //original (defragmented) image LeftTop corner position
+    // original (defragmented) image LeftTop corner position
     CTPoint<int> originalLeftTop;
-    //fragmented image to original image fragment map
+    // fragmented image to original image fragment map
     std::vector<SPackedImageNode> vPackedImageNodes;
 
     SPackedImage() : originalLeftTop( 0, 0 ) {  }

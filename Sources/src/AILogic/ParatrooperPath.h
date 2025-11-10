@@ -1,60 +1,70 @@
 #ifndef __PARATROOPER_PATH_H__
 #define __PARATROOPER_PATH_H__
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma ONCE
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#pragma once
+
 #include "Path.h"
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CParatrooperPath : public ISmoothPath
 {
-	OBJECT_COMPLETE_METHODS( CParatrooperPath );
-	DECLARE_SERIALIZE;
+  OBJECT_COMPLETE_METHODS(CParatrooperPath);
+  DECLARE_SERIALIZE;
 
-	NTimer::STime lastPathUpdateTime;
+  NTimer::STime lastPathUpdateTime;
 
-	CVec3 vStartPoint;
-	CVec3 vFinishPoint;
-	CVec2 vFinishPoint2D;
+  CVec3 vStartPoint;
+  CVec3 vFinishPoint;
+  CVec2 vFinishPoint2D;
 
-	CVec3 vCurPoint;
-	float fSpeedLen;
-	
-	CVec3 vHorSpeed;//horisontal speed of parachute
-	
-	void FindFreeTile();
-	void Init();
+  CVec3 vCurPoint;
+  float fSpeedLen;
+
+  CVec3 vHorSpeed;// horizontal speed of parachute
+
+  void FindFreeTile();
+  void Init();
 
 public:
-	CParatrooperPath() { };
-	CParatrooperPath( const CVec3 &startPoint );
-	virtual bool IsFinished() const;
-	virtual const CVec3 GetPoint( NTimer::STime timeDiff );
+  CParatrooperPath() {};
+  CParatrooperPath(const CVec3 &startPoint);
+  bool IsFinished() const override;
+  const CVec3 GetPoint(NTimer::STime timeDiff) override;
 
-	virtual void GetSpeed3( CVec3 *vSpeed ) const;
+  void GetSpeed3(CVec3 *vSpeed) const override;
 
-	virtual const CVec2& GetFinishPoint() const { return vFinishPoint2D; }
-//ненужные функции
-	virtual bool Init( interface IBasePathUnit *pUnit, IPath *pPath, bool bSmoothTurn = true, bool bCheckTurn = true ) { CPtr<IPath> p = pPath; return true; }
-	virtual bool InitByFormationPath( class CFormation *pFormation, interface IBasePathUnit *pUnit ) { return true; }
-	virtual bool Init( interface IMemento *pMemento, interface IBasePathUnit *pUnit ) { CPtr<IMemento> p = pMemento; return true; }
+  const CVec2 &GetFinishPoint() const override { return vFinishPoint2D; }
+  // unnecessary functions
+  bool Init(interface IBasePathUnit *pUnit, IPath *pPath, bool bSmoothTurn = true, bool bCheckTurn = true) override
+  {
+    CPtr<IPath> p = pPath;
+    return true;
+  }
 
-	virtual void Stop() {}
-	virtual float& GetSpeedLen() { return fSpeedLen; }
-	virtual void NotifyAboutClosestThreat( interface IBasePathUnit *pCollUnit, const float fDist ) {}
-	virtual void SlowDown() {}
-	virtual bool CanGoBackward() const { return false; }
-	virtual bool CanGoForward() const { return true; }
-	virtual void GetNextTiles( std::list<SVector> *pTiles ) {}
-	virtual CVec2 GetShift( const int nToShift ) const { return CVec2( 0, 0 ); }
-	virtual IMemento* GetMemento() const { return 0; }
-	virtual float GetCurvatureRadius() const { return 0.0f; }
+  bool InitByFormationPath(class CFormation *pFormation, interface IBasePathUnit *pUnit) override { return true; }
 
-	virtual bool IsWithFormation() const { return true; }
+  bool Init(interface IMemento *pMemento, interface IBasePathUnit *pUnit) override
+  {
+    CPtr<IMemento> p = pMemento;
+    return true;
+  }
 
-	virtual void SetOwner( interface IBasePathUnit *pUnit ) { }
-	virtual IBasePathUnit* GetOwner() const { return 0; }
-	
-	static float CalcFallTime( const float fZ );
+  void Stop() override {}
+  float &GetSpeedLen() override { return fSpeedLen; }
+  void NotifyAboutClosestThreat(interface IBasePathUnit *pCollUnit, const float fDist) override {}
+  void SlowDown() override {}
+  bool CanGoBackward() const override { return false; }
+  bool CanGoForward() const override { return true; }
+  void GetNextTiles(std::list<SVector> *pTiles) override {}
+  CVec2 GetShift(const int nToShift) const override { return CVec2(0, 0); }
+  IMemento *GetMemento() const override { return nullptr; }
+  float GetCurvatureRadius() const override { return 0.0f; }
+
+  bool IsWithFormation() const override { return true; }
+
+  void SetOwner(interface IBasePathUnit *pUnit) override {}
+  IBasePathUnit *GetOwner() const override { return nullptr; }
+
+  static float CalcFallTime(float fZ);
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #endif // __PARATROOPER_PATH_H__

@@ -10,13 +10,13 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 BEGIN_MESSAGE_MAP( CInputNotifyShortcutBar, SECShortcutBar )
-	//{{AFX_MSG_MAP( CInputNotifyShortcutBar )
+	// {{AFX_MSG_MAP( CInputNotifyShortcutBar )
 	ON_MESSAGE( TCM_TABSEL, OnNotify3DTabChangePage )	
-	//}}AFX_MSG_MAP
+	// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 BOOL CInputNotifyShortcutBar::OnChangeBar( int nShortcutIndex )
 {
@@ -34,7 +34,7 @@ BOOL CInputNotifyShortcutBar::OnChangeBar( int nShortcutIndex )
 	return true;
 }
 
-LRESULT CInputNotifyShortcutBar::OnNotify3DTabChangePage( WPARAM wParam, LPARAM /*lParam*/ )
+LRESULT CInputNotifyShortcutBar::OnNotify3DTabChangePage( WPARAM wParam, LPARAM /* lParam */ )
 {
 	SNotifyStruct notifyStruct;
 	if ( CWnd *pParent = GetParent() )

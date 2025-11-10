@@ -1,57 +1,51 @@
 #ifndef __IM_UPGRADE_UNIT_H__
 #define __IM_UPGRADE_UNIT_H__
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma ONCE
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#pragma once
+
 #include "InterMission.h"
 #include "iMission.h"
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CInterfaceUpgradeUnit : public CInterfaceInterMission
 {
-	OBJECT_NORMAL_METHODS( CInterfaceUpgradeUnit );
-	// input
-	NInput::CCommandRegistrator commandMsgs;
-	bool bToChapter;
-	//
-	virtual bool STDCALL ProcessMessage( const SGameMessage &msg );
-	// disable explicit destruction
-	virtual ~CInterfaceUpgradeUnit();
-	CInterfaceUpgradeUnit() : CInterfaceInterMission( "InterMission" ) {  }
-	
-	void DefaultUpgrades();
+  OBJECT_NORMAL_METHODS(CInterfaceUpgradeUnit);
+  // input
+  NInput::CCommandRegistrator commandMsgs;
+  bool bToChapter;
+  //
+  bool STDCALL ProcessMessage(const SGameMessage &msg) override;
+  // disable explicit destruction
+  ~CInterfaceUpgradeUnit() override;
+  CInterfaceUpgradeUnit() : CInterfaceInterMission("InterMission") {}
+
+  void DefaultUpgrades();
+
 public:
-	void SetToChapter( const bool _bToChapter ) { bToChapter = _bToChapter; }
-	virtual bool STDCALL Init();
-	virtual void STDCALL StartInterface();
-	virtual void STDCALL OnGetFocus( bool bFocus );
+  void SetToChapter(const bool _bToChapter) { bToChapter = _bToChapter; }
+  bool STDCALL Init() override;
+  void STDCALL StartInterface() override;
+  void STDCALL OnGetFocus(bool bFocus) override;
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CICUpgradeUnit : public CInterfaceCommandBase<CInterfaceUpgradeUnit, MISSION_INTERFACE_UPGRADE_UNIT>
 {
-	OBJECT_NORMAL_METHODS( CICUpgradeUnit );
-	bool bToChapter;											// if true, then to chapter, oterwise to 
-	
-	virtual void PreCreate( IMainLoop *pML ) 
-	{ 
-		if ( bToChapter ) 
-			pML->ResetStack(); 
-	}
-	virtual void PostCreate( IMainLoop *pML, CInterfaceUpgradeUnit *pInterface ) 
-	{ 
-		pInterface->SetToChapter( bToChapter );
-		pML->PushInterface( pInterface ); 
-	}
-	//
-	CICUpgradeUnit() : bToChapter( false ) {  }
+  OBJECT_NORMAL_METHODS(CICUpgradeUnit);
+  bool bToChapter;// if true, then to chapter, later to
+
+  void PreCreate(IMainLoop *pML) override { if (bToChapter) pML->ResetStack(); }
+
+  void PostCreate(IMainLoop *pML, CInterfaceUpgradeUnit *pInterface) override
+  {
+    pInterface->SetToChapter(bToChapter);
+    pML->PushInterface(pInterface);
+  }
+
+  //
+  CICUpgradeUnit() : bToChapter(false) {}
+
 public:
-	virtual void STDCALL Configure( const char *pszConfig )
-	{
-		if ( pszConfig )
-		{
-			bToChapter = NStr::ToInt( pszConfig );
-		}
-	}
+  void STDCALL Configure(const char *pszConfig) override { if (pszConfig) { bToChapter = NStr::ToInt(pszConfig); } }
 
 };
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#endif		//__IM_UPGRADE_UNIT_H__
+
+#endif		// __IM_UPGRADE_UNIT_H__

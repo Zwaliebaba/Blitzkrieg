@@ -10,13 +10,13 @@
 #include "DirectionButton.h"
 #include "CreateFilterDialog.h"
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 struct SFilterItem
 {
 	std::string szName;
 	std::string szFilter;
 
-	//constructors
+	// constructors
 	SFilterItem() {}
 	SFilterItem( const std::string &rszName, const std::string &rszFilter ) : szName( rszName ), szFilter( rszFilter ) {}
 	SFilterItem( const SFilterItem &rFilterItem ) : szName( rFilterItem.szName ), szFilter( rFilterItem.szFilter ) {}
@@ -36,13 +36,13 @@ struct SFilterItem
 	virtual int STDCALL operator&( IStructureSaver &ss );
 };
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class CTabSimpleObjectsDialog : public CResizeDialog
 {
 public:
 	CTabSimpleObjectsDialog( CWnd* pParent = NULL );
 	  
-	//{{AFX_DATA(CTabSimpleObjectsDialog)
+	// {{AFX_DATA(CTabSimpleObjectsDialog)
 	enum { IDD = IDD_TAB_SIMPLE_OBJECTS };
 	CComboBox	m_players;
 	CButton	m_listCheck;
@@ -58,15 +58,15 @@ public:
 	CComboBox	m_filtersCtrl;
 	CListCtrl	m_imageList;
 	CButton	m_flagFlora;
-	//}}AFX_DATA
-	//CImageList *pIML;
+	// }}AFX_DATA
+	// CImageList *pIML;
 	CDirectionButton m_angelButton;
 
-	//{{AFX_VIRTUAL(CTabSimpleObjectsDialog)
+	// {{AFX_VIRTUAL(CTabSimpleObjectsDialog)
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);
 	virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
-	//}}AFX_VIRTUAL
+	// }}AFX_VIRTUAL
 
 protected:
 	const static int vID[];
@@ -76,7 +76,7 @@ protected:
 	std::vector<SFilterItem> m_filters; 
 	std::vector<CButton*> m_checkButtons;
 
-	//{{AFX_MSG(CTabSimpleObjectsDialog)
+	// {{AFX_MSG(CTabSimpleObjectsDialog)
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	virtual BOOL OnInitDialog();
 	afx_msg void OnItemchangedList1(NMHDR* pNMHDR, LRESULT* pResult);
@@ -100,7 +100,7 @@ protected:
 	afx_msg void OnDblclkObjectsList(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnRclickObjectsList(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnObjectPropertiesMenu();
-	//}}AFX_MSG
+	// }}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 public:
 	TFilterHashMap m_allFilters;
@@ -126,12 +126,12 @@ public:
 	int GetObjectIndex();
 	
 
-	//MODs support
+	// MODs support
 	void DeleteImageList();
 	void CreateImageList();
 
 	void ShowObjectProperties();
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//{{AFX_INSERT_LOCATION}}
+
+// {{AFX_INSERT_LOCATION}}
 #endif // !defined(__Tabs__Simple_Objects_Dialog__)

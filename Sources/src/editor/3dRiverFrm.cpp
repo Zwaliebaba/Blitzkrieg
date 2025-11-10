@@ -23,21 +23,21 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // C3DRiverFrame
 
 IMPLEMENT_DYNCREATE(C3DRiverFrame, CParentFrame)
 
 BEGIN_MESSAGE_MAP(C3DRiverFrame, CParentFrame)
-//{{AFX_MSG_MAP(C3DRiverFrame)
+// {{AFX_MSG_MAP(C3DRiverFrame)
 ON_WM_CREATE()
 ON_COMMAND(ID_SWITCH_WIREFRAME, OnSwitchWireframeMode)
 ON_UPDATE_COMMAND_UI(ID_SWITCH_WIREFRAME, OnUpdateSwitchWireframeMode)
 	ON_WM_SETFOCUS()
-	//}}AFX_MSG_MAP
+	// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // C3DRiverFrame construction/destruction
 
 C3DRiverFrame::C3DRiverFrame()
@@ -67,7 +67,7 @@ int C3DRiverFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;
 	g_frameManager.AddFrame( this );
 
-	// create a view to occupy the client area of the frame
+	// create a view to occupy the client area of ​​the frame
 	if (!pWndView->Create(NULL, NULL,  WS_CHILD | WS_VISIBLE, 
 		CRect(0, 0, 0, 0), this, AFX_IDW_PANE_FIRST, NULL))
 	{
@@ -78,7 +78,7 @@ int C3DRiverFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	return 0;
 }
 
-/////////////////////////////////////////////////////////////////////////////
+// 
 // C3DRiverFrame message handlers
 
 void C3DRiverFrame::GFXDraw()

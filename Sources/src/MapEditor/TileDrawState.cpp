@@ -1,6 +1,6 @@
 // TileDrawState.cpp: implementation of the CTileDrawState class.
 //
-//////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
 #include "editor.h"
@@ -22,13 +22,13 @@ static char THIS_FILE[]=__FILE__;
 #define new DEBUG_NEW
 #endif
 
-//////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////
 void NormalizeRange( std::vector<SMainTileDesc> *pTiles );
 int  GetRandomTile( const std::vector<SMainTileDesc> &tiles );
-//////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////
 
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTileDrawState::OnMouseMove( UINT nFlags, const CTPoint<int> &rMousePoint, CTemplateEditorFrame* pFrame )
 {
 	if ( !stateParameter.Update( CInputStateParameter::ISE_MOUSEMOVE, rMousePoint, pFrame ) )
@@ -96,7 +96,7 @@ void CTileDrawState::OnMouseMove( UINT nFlags, const CTPoint<int> &rMousePoint, 
 					}
 					pTerrainEditor->Update( rTilepdate );
 					
-					// красный квадратик под курсором
+					// red square under the cursor
 					if ( GRect(r).contains( mousePoint.x , mousePoint.y ) )
 					{
 						std::vector< CTPoint<int> > pointsForUpdate;
@@ -142,7 +142,7 @@ void CTileDrawState::OnMouseMove( UINT nFlags, const CTPoint<int> &rMousePoint, 
 			GRect terrainRect( 0, 0 , terrainInfo.patches.GetSizeX() * 16 - 1, terrainInfo.patches.GetSizeY() * 16 - 1);
 			dynamic_cast< ITerrainEditor* >(terra)->GetTileIndex( v, &tileX, &tileY );	
 			
-			// красный квадратик под курсором
+			// red square under the cursor
 			CPoint pt;
 			GetCursorPos(&pt);
       pFrame->ScreenToClient(&pt);
@@ -171,7 +171,7 @@ void CTileDrawState::OnMouseMove( UINT nFlags, const CTPoint<int> &rMousePoint, 
 		}
 	}
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTileDrawState::OnLButtonDown( UINT nFlags, const CTPoint<int> &rMousePoint, CTemplateEditorFrame* pFrame )
 {
 	if ( !stateParameter.Update( CInputStateParameter::ISE_LBUTTONDOWN, rMousePoint, pFrame ) )
@@ -179,7 +179,7 @@ void CTileDrawState::OnLButtonDown( UINT nFlags, const CTPoint<int> &rMousePoint
 		return;
 	}
 
-	// включим режим рисования кисточкой 	и нарисуем один тайл
+	// turn on the brush drawing mode and draw one tile
 	CTPoint<int> mousePoint( rMousePoint );
 	RECT r;
 	g_frameManager.GetGameWnd()->GetClientRect( &r );
@@ -214,7 +214,7 @@ void CTileDrawState::OnLButtonDown( UINT nFlags, const CTPoint<int> &rMousePoint
 						int nMapIndex = pFrame->descrTile.terrtypes[nTileIndex].GetMapsIndex();
 						if ( terrainRect.contains( tileX + j - ( pFrame->m_brushDX >> 1 ), tileY + i - ( pFrame->m_brushDY >> 1 )) ) 
 						{
-							//(dynamic_cast< ITerrainEditor* >(terra))->SetTile( tileX + j - ( m_brushDX >> 1 ), tileY + i - ( m_brushDY >> 1 )		, mapIndex );		
+							// (dynamic_cast< ITerrainEditor* >(terra))->SetTile( tileX + j - ( m_brushDX >> 1 ), tileY + i - ( m_brushDY >> 1 ) , mapIndex );
 							tmpVec.push_back( STileRedoCmdInfo( tileX + j - ( pFrame->m_brushDX >> 1 ), tileY + i - ( pFrame->m_brushDY >> 1 ) , nMapIndex, 
 								pTerrainEditor->GetTile( tileX + j - ( pFrame->m_brushDX >> 1 ), tileY + i - ( pFrame->m_brushDY >> 1 )	) ) );
 						} 
@@ -240,7 +240,7 @@ void CTileDrawState::OnLButtonDown( UINT nFlags, const CTPoint<int> &rMousePoint
 	pFrame->RedrawWindow();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTileDrawState::OnLButtonUp( UINT nFlags, const CTPoint<int> &rMousePoint, CTemplateEditorFrame* pFrame )
 {
 	if ( !stateParameter.Update( CInputStateParameter::ISE_LBUTTONUP, rMousePoint, pFrame ) )
@@ -252,7 +252,7 @@ void CTileDrawState::OnLButtonUp( UINT nFlags, const CTPoint<int> &rMousePoint, 
 		g_frameManager.GetMiniMapWindow()->UpdateMinimapEditor( false );
 	}
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTileDrawState::Enter()
 {
 	if ( CTemplateEditorFrame *pFrame = g_frameManager.GetTemplateEditorFrame() )
@@ -261,28 +261,28 @@ void CTileDrawState::Enter()
 		{
 			g_frameManager.GetMiniMapWindow()->UpdateMinimapEditor( false );
 		}
-		//Draw( pFrame );
+		// Draw( pFrame );
 		pFrame->RedrawWindow();
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTileDrawState::Leave()
 {
 	if ( CTemplateEditorFrame *pFrame = g_frameManager.GetTemplateEditorFrame() )
 	{
-		//Draw( pFrame );
+		// Draw( pFrame );
 		pFrame->RedrawWindow();
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CTileDrawState::Update()
 {
 	if ( CTemplateEditorFrame *pFrame = g_frameManager.GetTemplateEditorFrame() )
 	{
-		//Draw( pFrame );
+		// Draw( pFrame );
 		pFrame->RedrawWindow();
 	}
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+

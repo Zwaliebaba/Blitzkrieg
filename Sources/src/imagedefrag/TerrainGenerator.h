@@ -22,8 +22,8 @@ enum ETerGenAlgs
   TG_MAX_ALG
 };
 
-// структура исходных параметров для генерации карты высот
-// в алгоритме необязательно должны использоваться сразу все параметры
+// structure of initial parameters for generating a height map
+// the algorithm does not necessarily have to use all parameters at once
 struct SfBmValues
 {
   ETerGenAlgs alg;

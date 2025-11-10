@@ -11,39 +11,39 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 const int CInputViewDialog::vID[] = 
 {
-	IDC_IV_ORIGINAL_LABEL,										//0
-	IDC_IV_ORIGINAL_EDIT,											//1
-	IDC_IV_ORIGINAL_DESCRIPTION_LABEL,				//2
-	IDC_IV_ORIGINAL_DESCRIPTION_EDIT,					//3
-	IDC_IV_TRANSLATE_LABEL,										//4
-	IDC_IV_TRANSLATE_EDIT,										//5
-	IDC_IV_STATE_LABEL,												//6
-	IDC_IV_STATE_FRAME_LABEL,									//7
-	IDC_IV_NOT_TRANSLATED_RADIO_BUTTON,				//8
-	IDC_IV_OUTDATED_RADIO_BUTTON,							//9
-	IDC_IV_TRANSLATED_RADIO_BUTTON,						//10
-	IDC_IV_APPROVED_RADIO_BUTTON,							//11
-	IDC_IV_NOT_TRANSLATED_RADIO_BUTTON_LABEL,	//12
-	IDC_IV_OUTDATED_RADIO_BUTTON_LABEL,				//13
-	IDC_IV_TRANSLATED_RADIO_BUTTON_LABEL,			//14
-	IDC_IV_APPROVED_RADIO_BUTTON_LABEL,				//15
-	IDC_IV_IMAGE_BORDER,											//16
-	IDC_IV_NOT_TRANSLATED_RADIO_BUTTON_BITMAP,//17
-	IDC_IV_OUTDATED_RADIO_BUTTON_BITMAP,			//18
-	IDC_IV_TRANSLATED_RADIO_BUTTON_BITMAP,		//19
-	IDC_IV_APPROVED_RADIO_BUTTON_BITMAP,			//20
+	IDC_IV_ORIGINAL_LABEL,										// 0
+	IDC_IV_ORIGINAL_EDIT,											// 1
+	IDC_IV_ORIGINAL_DESCRIPTION_LABEL,				// 2
+	IDC_IV_ORIGINAL_DESCRIPTION_EDIT,					// 3
+	IDC_IV_TRANSLATE_LABEL,										// 4
+	IDC_IV_TRANSLATE_EDIT,										// 5
+	IDC_IV_STATE_LABEL,												// 6
+	IDC_IV_STATE_FRAME_LABEL,									// 7
+	IDC_IV_NOT_TRANSLATED_RADIO_BUTTON,				// 8
+	IDC_IV_OUTDATED_RADIO_BUTTON,							// 9
+	IDC_IV_TRANSLATED_RADIO_BUTTON,						// 10
+	IDC_IV_APPROVED_RADIO_BUTTON,							// 11
+	IDC_IV_NOT_TRANSLATED_RADIO_BUTTON_LABEL,	// 12
+	IDC_IV_OUTDATED_RADIO_BUTTON_LABEL,				// 13
+	IDC_IV_TRANSLATED_RADIO_BUTTON_LABEL,			// 14
+	IDC_IV_APPROVED_RADIO_BUTTON_LABEL,				// 15
+	IDC_IV_IMAGE_BORDER,											// 16
+	IDC_IV_NOT_TRANSLATED_RADIO_BUTTON_BITMAP,// 17
+	IDC_IV_OUTDATED_RADIO_BUTTON_BITMAP,			// 18
+	IDC_IV_TRANSLATED_RADIO_BUTTON_BITMAP,		// 19
+	IDC_IV_APPROVED_RADIO_BUTTON_BITMAP,			// 20
 };
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 CInputViewDialog::CInputViewDialog( CWnd* pParent )
 : CResizeDialog( CInputViewDialog::IDD, pParent ), hNextIcon( 0 ), pwndMainFrame( 0 ), bTranslatedTextChanged( false ), bManualState( false ), nInitialState( SELKTextProperty::STATE_NOT_TRANSLATED )
 
 {
-	//{{AFX_DATA_INIT(CInputViewDialog)
-	//}}AFX_DATA_INIT
+	// {{AFX_DATA_INIT(CInputViewDialog)
+	// }}AFX_DATA_INIT
 
 	SetControlStyle( IDC_IV_ORIGINAL_LABEL, ANCHORE_LEFT_TOP | RESIZE_HOR, 0.5f, 0.5f, 0.5f, 1.0f );
 	SetControlStyle( IDC_IV_ORIGINAL_EDIT, ANCHORE_LEFT_TOP | RESIZE_HOR_VER, 0.5f, 0.5f, 0.5f, 1.0f );
@@ -75,11 +75,11 @@ CInputViewDialog::CInputViewDialog( CWnd* pParent )
 	SetControlStyle( IDC_IV_IMAGE_BORDER, ANCHORE_BOTTOM | ANCHORE_HOR_CENTER );
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CInputViewDialog::DoDataExchange(CDataExchange* pDX)
 {
 	CResizeDialog::DoDataExchange( pDX );
-	//{{AFX_DATA_MAP( CInputViewDialog )
+	// {{AFX_DATA_MAP( CInputViewDialog )
 	DDX_Control(pDX, IDC_IV_NOT_TRANSLATED_RADIO_BUTTON, m_NotTranslatedButton);
 	DDX_Control(pDX, IDC_IV_OUTDATED_RADIO_BUTTON, m_OutdatedButton);
 	DDX_Control(pDX, IDC_IV_TRANSLATED_RADIO_BUTTON, m_TranslatedButton);
@@ -89,12 +89,12 @@ void CInputViewDialog::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_IV_ORIGINAL_DESCRIPTION_EDIT, m_DescriptionEdit);
 	DDX_Control(pDX, IDC_IV_NEXT_BUTTON, m_NextButton);
 	DDX_Control(pDX, IDC_IV_BACK_BUTTON, m_BackButton);
-	//}}AFX_DATA_MAP
+	// }}AFX_DATA_MAP
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 BEGIN_MESSAGE_MAP(CInputViewDialog, CResizeDialog)
-	//{{AFX_MSG_MAP(CInputViewDialog)
+	// {{AFX_MSG_MAP(CInputViewDialog)
 	ON_BN_CLICKED(IDC_IV_NOT_TRANSLATED_RADIO_BUTTON, OnNotTranslatedRadioButton)
 	ON_BN_CLICKED(IDC_IV_TRANSLATED_RADIO_BUTTON, OnTranslatedRadioButton)
 	ON_BN_CLICKED(IDC_IV_APPROVED_RADIO_BUTTON, OnApprovedRadioButton)
@@ -102,10 +102,10 @@ BEGIN_MESSAGE_MAP(CInputViewDialog, CResizeDialog)
 	ON_BN_CLICKED(IDC_IV_BACK_BUTTON, OnBackButton)
 	ON_BN_CLICKED(IDC_IV_NEXT_BUTTON, OnNextButton)
 	ON_WM_PAINT()
-	//}}AFX_MSG_MAP
+	// }}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 BOOL CInputViewDialog::OnInitDialog() 
 {
 	CResizeDialog::OnInitDialog();
@@ -119,7 +119,7 @@ BOOL CInputViewDialog::OnInitDialog()
 	return true;
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CInputViewDialog::OnNotTranslatedRadioButton() 
 {
 	bManualState = true;
@@ -130,7 +130,7 @@ void CInputViewDialog::OnNotTranslatedRadioButton()
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CInputViewDialog::OnTranslatedRadioButton() 
 {
 	bManualState = true;
@@ -141,7 +141,7 @@ void CInputViewDialog::OnTranslatedRadioButton()
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CInputViewDialog::OnApprovedRadioButton() 
 {
 	bManualState = true;
@@ -152,7 +152,7 @@ void CInputViewDialog::OnApprovedRadioButton()
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CInputViewDialog::OnChangeTranslateEdit() 
 {
 	if ( pwndMainFrame && ( pwndMainFrame->GetSafeHwnd() != 0 ) )
@@ -189,7 +189,7 @@ void CInputViewDialog::OnChangeTranslateEdit()
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CInputViewDialog::OnNextButton() 
 {
 	if ( pwndMainFrame && ( pwndMainFrame->GetSafeHwnd() != 0 ) )
@@ -198,7 +198,7 @@ void CInputViewDialog::OnNextButton()
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CInputViewDialog::OnBackButton() 
 {
 	if ( pwndMainFrame && ( pwndMainFrame->GetSafeHwnd() != 0 ) )
@@ -207,7 +207,7 @@ void CInputViewDialog::OnBackButton()
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CInputViewDialog::LoadGameImage( const std::string &rszGameImagePath )
 {
 	szGameImagePath = rszGameImagePath;
@@ -252,7 +252,7 @@ void CInputViewDialog::LoadGameImage( const std::string &rszGameImagePath )
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void CInputViewDialog::OnPaint() 
 {
 	CPaintDC dc(this);
@@ -282,7 +282,7 @@ void CInputViewDialog::OnPaint()
 											 &memDC,
 											 0, 0, gameImageSize.x, gameImageSize.y,
 											 SRCCOPY );
-				//::SetBrushOrgEx( pDC->m_hDC, orgPoint.x, orgPoint.y, &point );
+				// ::SetBrushOrgEx( pDC->m_hDC, orgPoint.x, orgPoint.y, &point );
 				memDC.SelectObject( pOldBitmap );
 			}
 		}
@@ -290,6 +290,6 @@ void CInputViewDialog::OnPaint()
 	// Do not call CResizeDialog::OnPaint() for painting messages
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// basement storage  
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// basement storage
+

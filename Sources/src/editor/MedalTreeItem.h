@@ -21,12 +21,12 @@ public:
 	CMedalCommonPropsItem() { nItemType = E_MEDAL_COMMON_PROPS_ITEM; InitDefaultValues(); nImageIndex = 0; }
 	~CMedalCommonPropsItem() {};
 	
-	//Получение внутренних параметров
+	// Getting internal parameters
 	const char* GetName() { return values[0].value; }
 	const char* GetDescText() { return values[1].value; }
 	const char* GetTexture() { return values[2].value; }
 	
-	//Установка внутренних параметров
+	// Setting internal parameters
 	void SetName( const char *pszName ) { values[0].value = pszName; }
 	const char* SetDescText( const char *pszName ) { values[1].value = pszName; }
 	const char* SetTexture( const char *pszName ) { values[2].value = pszName; }
@@ -42,7 +42,7 @@ public:
 	CMedalPicturePropsItem() { nItemType = E_MEDAL_PICTURE_PROPS_ITEM; InitDefaultValues(); nImageIndex = 1; }
 	~CMedalPicturePropsItem() {};
 	
-	//Получение внутренних параметров
+	// Getting internal parameters
 	const char* GetTexture() { return values[0].value; }
 	CVec2 GetPosition() { return CVec2( values[1].value, values[2].value ); }
 	
@@ -57,12 +57,12 @@ public:
 	CMedalTextPropsItem() { nItemType = E_MEDAL_TEXT_PROPS_ITEM; InitDefaultValues(); nImageIndex = 2; }
 	~CMedalTextPropsItem() {};
 	
-	//Получение внутренних параметров
+	// Getting internal parameters
 	const char* GetDescText() { return values[0].value; }
-//	CVec2 GetPosition() { return CVec2( values[1].value, values[2].value ); }
+// CVec2 GetPosition() { return CVec2( values[1].value, values[2].value ); 
 	
 	virtual void InitDefaultValues();
 	virtual void UpdateItemValue( int nItemId, const CVariant &value );
 };
 
-#endif		//__MEDAL_TREE_ITEM_H__
+#endif		// __MEDAL_TREE_ITEM_H__

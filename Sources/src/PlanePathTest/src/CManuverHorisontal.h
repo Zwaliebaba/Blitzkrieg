@@ -5,4 +5,4 @@
 #include "CManuver.h"
 class CManuverHorisontal : public CManuver {
 };
-#endif //CMANUVERHORISONTAL_H
+#endif // CMANUVERHORISONTAL_H
