@@ -280,10 +280,10 @@ void CreateCrosses(const float fX, const float fY, const STerrainPatchInfo &patc
   }
 }
 
-/* void CreateWarFog( const float fX, const float fY, int nStartX, int nStartY, const std::hash_map<DWORD, DWORD> &visibilities, 
+/* void CreateWarFog( const float fX, const float fY, int nStartX, int nStartY, const std::unordered_map<DWORD, DWORD> &visibilities, 
 									  */
 
-void CreateWarFog(const float fX, const float fY, int nStartX, int nStartY, const std::hash_map<DWORD, DWORD> &visibilities,
+void CreateWarFog(const float fX, const float fY, int nStartX, int nStartY, const std::unordered_map<DWORD, DWORD> &visibilities,
                   const STerrainInfo &info, struct STerrainPatch *pPatch)
 {
   const CArray2D<SVertexAltitude> &heights = info.altitudes;

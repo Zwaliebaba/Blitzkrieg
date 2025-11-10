@@ -1,4 +1,5 @@
 #include "StdAfx.h"
+#include <functional>
 
 static bool bInternal = false;
 static constexpr int nNumCallstackEntries = 20;
@@ -9,8 +10,8 @@ struct SAllocInfo
   int nSize;
 };
 
-using CAllocsInfoMap = std::hash_map<void *, SAllocInfo, SDefaultPtrHash>;
-using CIgnoredMap = std::hash_map<DWORD, bool>;
+using CAllocsInfoMap = std::unordered_map<void *, SAllocInfo, SDefaultPtrHash>;
+using CIgnoredMap = std::unordered_map<DWORD, bool>;
 using CIgnoredPathList = std::list<std::string>;
 static CAllocsInfoMap *pAllocs = nullptr;
 static CIgnoredMap *pIgnored = nullptr;
@@ -95,14 +96,14 @@ static bool IsFileIgnored(const char *pszFileName)
     }
   }
   // also, we don't need to capture this source file
-  return stricmp(__FILE__, pszFileName) == 0;
+  return _stricmp(__FILE__, pszFileName) == 0;
 }
 
 // check if this return address meets our requirements (i.e. if it is not in an ignored file)
 static bool IsAddressFits(DWORD dwAddress)
 {
   if (pIgnored == nullptr) pIgnored = new CIgnoredMap;
-  std::hash_map<DWORD, bool>::iterator i = pIgnored->find(dwAddress);
+  std::unordered_map<DWORD, bool>::iterator i = pIgnored->find(dwAddress);
   if (i == pIgnored->end())
   {
     const char *pszFileName = nullptr;
@@ -171,7 +172,7 @@ struct SFileLocationEqual
   bool operator()(const SFileLocationKey &key1, const SFileLocationKey &key2) const { return (key1.first == key2.first) && (key1.second == key2.second); }
 };
 
-using CAllocStatsMap = std::hash_map<SFileLocationKey, SAllocStats, SFileLocationHashFunc, SFileLocationEqual>;
+using CAllocStatsMap = std::unordered_map<SFileLocationKey, SAllocStats, SFileLocationHashFunc, SFileLocationEqual>;
 using CMemStats = std::pair<SFileLocationKey, SAllocStats>;
 using CMemStatsList = std::list<CMemStats>;
 

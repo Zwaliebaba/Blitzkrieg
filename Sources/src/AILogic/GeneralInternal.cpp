@@ -417,7 +417,7 @@ bool CGeneral::IsMobileReinforcement(int nGroupID) const { return mobileReinforc
 
 void CGeneral::GiveNewUnits(const std::list<CCommonUnit *> &pUnits)
 {
-  using Formations = std::hash_map<int, bool>;
+  using Formations = std::unordered_map<int, bool>;
   Formations formations;// added formations
 
   // pick up all units except soldiers. 

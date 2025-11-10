@@ -247,7 +247,7 @@ class CRailroad : public CSplineEdge
   std::vector<CPtr<CEdgePoint>> intersectionPoints;
   int nIntersectionPoints;
 
-  std::hash_map<CPtr<CEdgePoint>, int, SDefaultPtrHash> intersectionPointToGraphNode;
+  std::unordered_map<CPtr<CEdgePoint>, int, SDefaultPtrHash> intersectionPointToGraphNode;
 
 public:
   CRailroad() : intersectionPoints(10), nIntersectionPoints(0) {}
@@ -314,14 +314,14 @@ class CRailroadGraph : public CGraph
 {
   DECLARE_SERIALIZE;
 
-  std::hash_map<DWORD, CObj<IEdge>> edges;
+  std::unordered_map<DWORD, CObj<IEdge>> edges;
   std::vector<CObj<CEdgePoint>> edgeNodes;
 
   //
-  void LookForPoint(int v, const CVec2 &vDir, std::hash_set<int> *pVisitedPoints, std::list<SPointInfo> *pPointsList);
+  void LookForPoint(int v, const CVec2 &vDir, std::unordered_set<int> *pVisitedPoints, std::list<SPointInfo> *pPointsList);
   // returns v2 such that a train from an edge with direction vDir could travel to edge ( v, v2 ) and dir was as close as possible to vDir
   // if v2 is not found, then returns -1
-  void GetMovablePoint(int v, const CVec2 &vDir, std::hash_set<int> *pVisitedPoints, std::list<SPointInfo> *pPointsList);
+  void GetMovablePoint(int v, const CVec2 &vDir, std::unordered_set<int> *pVisitedPoints, std::list<SPointInfo> *pPointsList);
 
 public:
   CRailroadGraph() : edgeNodes(10) {}

@@ -15,8 +15,8 @@
 // //////////////////////////////////////////////////////////// 
 class CComplexObjects
 {
-  using CAIVisMap = std::hash_map<IRefCount *, CMapObjectsList, SDefaultPtrHash>;
-  using CVisAIMap = std::hash_map<SMapObject *, CPtr<IRefCount>, SDefaultPtrHash>;
+  using CAIVisMap = std::unordered_map<IRefCount *, CMapObjectsList, SDefaultPtrHash>;
+  using CVisAIMap = std::unordered_map<SMapObject *, CPtr<IRefCount>, SDefaultPtrHash>;
   CAIVisMap aivis;
   CVisAIMap visai;
 
@@ -116,10 +116,10 @@ class CWorldBase
     SObjectSounds() : wSoundID(0), wLoopedSoundID(0) {}
   };
 
-  using ObjectsSounds = std::hash_map<CPtr<SMapObject>, SObjectSounds, SPtrHash>;
+  using ObjectsSounds = std::unordered_map<CPtr<SMapObject>, SObjectSounds, SPtrHash>;
   ObjectsSounds objectsSounds;// Some objects have sounds that need to be removed
   //
-  using CLinksMap = std::hash_map<CPtr<IRefCount>, CPtr<IRefCount>, SDefaultPtrHash>;
+  using CLinksMap = std::unordered_map<CPtr<IRefCount>, CPtr<IRefCount>, SDefaultPtrHash>;
 
   // update check values
   CVec3 vLastAnchor;// last camera position
@@ -138,7 +138,7 @@ class CWorldBase
   std::list<CPtr<IMOUnit>> updatable;// units, which require update
   //
   bool bEnableAIInfo;// enable to show (and retrieve from AI) info for the current screen
-  // std::hash_map<int, bool> showicons;
+  // std::unordered_map<int, bool> showicons;
   // CRAP{ for forced rotation of models during debugging
   bool bForceRotation;
   // CRAP}

@@ -26,7 +26,7 @@ class CGeneral : public CCommander, public IEnemyContainer
   int nParty;// general is for this player
 
   using CUnitTimeSeen = std::pair<CPtr<CAIUnit>, NTimer::STime>;
-  using CEnemyVisibility = std::hash_map<int/* unit unique ID */, CUnitTimeSeen>;
+  using CEnemyVisibility = std::unordered_map<int/* unit unique ID */, CUnitTimeSeen>;
 
   // { do not save these, it is only for IN-Segment use
   CEnemyVisibility::iterator curProcessed;// cannot be saved, so there will be some tricks
@@ -43,13 +43,13 @@ class CGeneral : public CCommander, public IEnemyContainer
   CommonUnits transportsFree;
 
   NTimer::STime timeNextUpdate;// next update of this general
-  std::hash_set<int> mobileReinforcementGroupIDs;
+  std::unordered_set<int> mobileReinforcementGroupIDs;
 
   CPtr<CGeneralAirForce> pAirForce;
   CPtr<CGeneralArtillery> pGeneralArtillery;
   CPtr<CGeneralIntendant> pIntendant;
 
-  using RequestedTasks = std::hash_map<int/* request ID */, CPtr<IGeneralTask>>;
+  using RequestedTasks = std::unordered_map<int/* request ID */, CPtr<IGeneralTask>>;
   RequestedTasks requestedTasks;
 
   CResistancesContainer resContainer;

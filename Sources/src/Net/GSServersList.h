@@ -129,7 +129,7 @@ public:
   }
 
   // auxiliary multichannel functions
-  void STDCALL AddChannel(const int nChannelID, const std::hash_set<BYTE> &channelMessages) override { NI_ASSERT_T(false, "wrong call"); }
+  void STDCALL AddChannel(const int nChannelID, const std::unordered_set<BYTE> &channelMessages) override { NI_ASSERT_T(false, "wrong call"); }
   void STDCALL RemoveChannel(const int nChannelID) override { NI_ASSERT_T(false, "wrong call"); }
 
   bool STDCALL GetChannelMessage(EMessage *pMsg, int *pClientID, int *received, IDataStream *pPkt, const int nChannel) override

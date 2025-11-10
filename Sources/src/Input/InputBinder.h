@@ -123,7 +123,7 @@ class CCombo : public CTRefCount<IRefCount>
     void Suppress(int nAdd, DWORD time);
   };
 
-  using CMappingsMap = std::hash_map<std::string, SMapping>;
+  using CMappingsMap = std::unordered_map<std::string, SMapping>;
   //
   CMappingsMap mappings;// all mapping for this combo
   SMapping *pMapping;// current mapping
@@ -301,7 +301,7 @@ class CInputBinder : public CInputAPI
 {
   OBJECT_SERVICE_METHODS(CInputBinder);
   //
-  using CCommandsMap = std::hash_map<std::string, SCommand>;
+  using CCommandsMap = std::unordered_map<std::string, SCommand>;
   CCommandsMap commands;
   SBindsConfig config;// binds config (for serialization)
   std::string szCurrentMapping;// current mapping section

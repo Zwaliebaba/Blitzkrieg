@@ -62,8 +62,8 @@ interface IGlobalVars : IRefCount
   virtual void STDCALL RemoveVar(const char *pszValueName) = 0;
   virtual void STDCALL RemoveVarsByMatch(const char *pszValueMatch) = 0;
   //
-  virtual const WORD * STDCALL GetWVar(const char *pszValueName) const = 0;
-  virtual void STDCALL SetVar(const char *pszValueName, const WORD *pszValue) = 0;
+  virtual const wchar_t* STDCALL GetWVar(const char *pszValueName) const = 0;
+  virtual void STDCALL SetVar(const char *pszValueName, const wchar_t*pszValue) = 0;
   virtual void STDCALL RemoveWVar(const char *pszValueName) = 0;
   // dump vars
   virtual bool STDCALL DumpVars(const char *pszFileName) = 0;
@@ -101,13 +101,13 @@ inline void SetGlobalVar(const char *pszValueName, float value) { GetSingleton<I
 inline void SetGlobalVar(const char *pszValueName, unsigned long value) { GetSingleton<IGlobalVars>()->SetVar(pszValueName, NStr::Format("%ul", value)); }
 inline void RemoveGlobalVar(const char *pszValueName) { GetSingleton<IGlobalVars>()->RemoveVar(pszValueName); }
 
-inline const WORD *GetGlobalWVar(const char *pszValueName, const WORD *defval = L"")
+inline const wchar_t*GetGlobalWVar(const char *pszValueName, const wchar_t *defval = L"")
 {
-  const WORD *pszVal = GetSingleton<IGlobalVars>()->GetWVar(pszValueName);
+  const wchar_t*pszVal = GetSingleton<IGlobalVars>()->GetWVar(pszValueName);
   return pszVal == nullptr ? defval : pszVal;
 }
 
-inline void SetGlobalVar(const char *pszValueName, const WORD *pszValue) { GetSingleton<IGlobalVars>()->SetVar(pszValueName, pszValue); }
+inline void SetGlobalVar(const char *pszValueName, const wchar_t*pszValue) { GetSingleton<IGlobalVars>()->SetVar(pszValueName, pszValue); }
 inline void RemoveGlobalWVar(const char *pszValueName) { GetSingleton<IGlobalVars>()->RemoveWVar(pszValueName); }
 
 // ************************************************************************************************************************ //

@@ -41,10 +41,10 @@ public:
   };
 
 private:
-  using CAnimationSet = std::hash_map<int, int>;
+  using CAnimationSet = std::unordered_map<int, int>;
 
-  using CSimpleUpdatesSet = std::hash_map<int, SSimpleUpdate>;
-  using CComplexUpdatesSet = std::hash_map<int, CObj<IUpdatableObj>>;
+  using CSimpleUpdatesSet = std::unordered_map<int, SSimpleUpdate>;
+  using CComplexUpdatesSet = std::unordered_map<int, CObj<IUpdatableObj>>;
 
   // simpleUpdate - those actions that have a 1 at the end, complexUpdates - those actions that have a 0 at the end
   std::vector<CSimpleUpdatesSet> simpleUpdates;

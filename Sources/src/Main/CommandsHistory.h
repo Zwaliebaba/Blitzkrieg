@@ -16,7 +16,7 @@ class CCommandsHistory : public ICommandsHistory
   OBJECT_COMPLETE_METHODS(CCommandsHistory);
   DECLARE_SERIALIZE;
 
-  using CHistory = std::hash_map<int, std::list<CPtr<IAILogicCommand>>>;
+  using CHistory = std::unordered_map<int, std::list<CPtr<IAILogicCommand>>>;
   CHistory savingHistory;
   CHistory loadedHistory;
 

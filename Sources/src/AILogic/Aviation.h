@@ -43,7 +43,7 @@ class CPlanesFormation : public IRefCount, public IAviationUnit, public IBasePat
   CVec2 vNewDirection;
   float fBombPointOffset;
 
-  using CMemberCache = std::hash_map<CVec2, CPlaneSmoothPath::SMemberInfo, SVec2Hash, SVec2Equ>;
+  using CMemberCache = std::unordered_map<CVec2, CPlaneSmoothPath::SMemberInfo, SVec2Hash, SVec2Equ>;
   CMemberCache memberCache;
 
 public:

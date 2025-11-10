@@ -1,6 +1,3 @@
-#ifndef __COMMONFILESYSTEM_H__
-#define __COMMONFILESYSTEM_H__
-
 #pragma once
 
 struct SCommonFileInfo
@@ -19,7 +16,7 @@ class CCommonFileSystemEnumerator : public IStorageEnumerator
   std::string szFileName;// current enumerated file name
   SStorageElementStats stats;// temporary data storage to fill each call
   //
-  using CFilesMap = std::hash_map<std::string, SCommonFileInfo>;
+  using CFilesMap = std::unordered_map<std::string, SCommonFileInfo>;
   const CFilesMap &files;
   CFilesMap::const_iterator itCurrFile;
   bool bReset;
@@ -38,7 +35,7 @@ class CCommonFileSystem : public IDataStorage
   //
   CPtr<IDataStorage> pZipStorage;// zip file system
   CPtr<IDataStorage> pFileStorage;// open file system
-  using CFilesMap = std::hash_map<std::string, SCommonFileInfo>;
+  using CFilesMap = std::unordered_map<std::string, SCommonFileInfo>;
   CFilesMap files;// correspondence between the file name and the information necessary to obtain it
   //
   std::string szBase;
@@ -69,5 +66,3 @@ public:
   // remove MOD
   bool STDCALL RemoveStorage(const char *pszName) override;
 };
-
-#endif // __COMMONFILESYSTEM_H__

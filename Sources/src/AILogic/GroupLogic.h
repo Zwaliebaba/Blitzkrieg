@@ -18,7 +18,7 @@ class CGroupLogic : public IRefCount
   DECLARE_SERIALIZE;
 
   CFreeIds groupIds;
-  std::hash_set<int> registeredGroups;
+  std::unordered_set<int> registeredGroups;
   CQueuesSet<CPtr<CCommonUnit>> groupUnits;
   std::list<CPtr<CCommonUnit>> followingUnits;
 
@@ -45,7 +45,7 @@ class CGroupLogic : public IRefCount
 
   using CAmbushGroups = std::list<std::list<SAmbushInfo>>;
   CAmbushGroups ambushGroups;
-  std::hash_set<int> ambushUnits;
+  std::unordered_set<int> ambushUnits;
   NTimer::STime lastAmbushCheck;
 
   //

@@ -1024,11 +1024,11 @@ static const int commandsmap[][2] =
     {ACTION_COMMAND_CATCH_ARTILLERY, USER_ACTION_CAPTURE_ARTILLERY},
     {-1, -1}
 };
-static std::hash_map<int, int> commandsremap;
+static std::unordered_map<int, int> commandsremap;
 
 inline int GetUserAction(int nCommand)
 {
-  std::hash_map<int, int>::const_iterator pos = commandsremap.find(nCommand);
+  std::unordered_map<int, int>::const_iterator pos = commandsremap.find(nCommand);
   return pos != commandsremap.end() ? pos->second : -1;
 }
 

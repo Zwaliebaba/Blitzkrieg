@@ -12,7 +12,7 @@ class CResupplyCellInfo : public IRefCount
   DECLARE_SERIALIZE;
   OBJECT_COMPLETE_METHODS(CResupplyCellInfo);
 
-  using CResupplyInfo = std::hash_map<int/* Unique ID */, BYTE>;
+  using CResupplyInfo = std::unordered_map<int/* Unique ID */, BYTE>;
   CResupplyInfo resupplyInfo;
   std::vector<float> resupplyCount;
   float fCount;// whole weight
@@ -200,11 +200,11 @@ public:
 private:
   CArray2D<CPtr<CResupplyCellInfo>> cells;
 
-  using ResupplyCells = std::hash_map<SVector, CPtr<CResupplyCellInfo>, SVectorHash>;
+  using ResupplyCells = std::unordered_map<SVector, CPtr<CResupplyCellInfo>, SVectorHash>;
   ResupplyCells cellsWithRequests;
 
   // artillery without crew.
-  using CFreeArtillery = std::hash_map</* Unique ID */ int, CPtr<CEnemyRememberer>>;
+  using CFreeArtillery = std::unordered_map</* Unique ID */ int, CPtr<CEnemyRememberer>>;
   CFreeArtillery freeArtillery;
 
   // storages (tasks to defend storages)

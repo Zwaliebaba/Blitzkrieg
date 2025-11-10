@@ -50,7 +50,7 @@ void CCommonGameCreationInfo::Init()
   lastPingMessageTime = 0;
   startSendMessagesTime = 0;
 
-  std::hash_set<BYTE> channelMessages;
+  std::unordered_set<BYTE> channelMessages;
 
   channelMessages.insert(static_cast<BYTE>(NGM_SEND_ME_MAP));
   channelMessages.insert(static_cast<BYTE>(NGM_TOTAL_PACKED_SIZE));

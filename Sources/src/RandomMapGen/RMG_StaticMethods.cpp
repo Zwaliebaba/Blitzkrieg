@@ -138,7 +138,7 @@ int SRMTemplateUnitsTable::UnitRPGTypeToIndex(DWORD nUnitRPGType)
 {
   if (unitRPGTypeToIndex.empty()) { for (int nUnitRPGTypeIndex = 0; nUnitRPGTypeIndex < UNIT_RPG_TYPE_COUNT; ++nUnitRPGTypeIndex) { unitRPGTypeToIndex[UNIT_RPG_TYPES[nUnitRPGTypeIndex]] = nUnitRPGTypeIndex; } }
 
-  std::hash_map<DWORD, int>::const_iterator indexIterator = unitRPGTypeToIndex.find(nUnitRPGType);
+  std::unordered_map<DWORD, int>::const_iterator indexIterator = unitRPGTypeToIndex.find(nUnitRPGType);
   if (indexIterator == unitRPGTypeToIndex.end()) { return -1; }
   return indexIterator->second;
 }
@@ -148,7 +148,7 @@ int SRMTemplateUnitsTable::UnitRPGMnemonicToIndex(const std::string &rszUnitRPGM
 {
   if (unitRPGMnemonicToIndex.empty()) { for (int nUnitRPGTypeIndex = 0; nUnitRPGTypeIndex < UNIT_RPG_TYPE_COUNT; ++nUnitRPGTypeIndex) { unitRPGMnemonicToIndex[UNIT_RPG_MNEMONICS[nUnitRPGTypeIndex]] = nUnitRPGTypeIndex; } }
 
-  std::hash_map<std::string, int>::const_iterator indexIterator = unitRPGMnemonicToIndex.find(rszUnitRPGMnenonic);
+  std::unordered_map<std::string, int>::const_iterator indexIterator = unitRPGMnemonicToIndex.find(rszUnitRPGMnenonic);
   if (indexIterator == unitRPGMnemonicToIndex.end()) { return -1; }
   return indexIterator->second;
 }

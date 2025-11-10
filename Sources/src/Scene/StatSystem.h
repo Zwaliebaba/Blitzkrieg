@@ -22,7 +22,7 @@ class CStatSystem : public IStatSystem
   DECLARE_SERIALIZE;
   //
   using CEntriesList = std::list<SStatEntry>;
-  using CEntriesPtrMap = std::hash_map<std::string, SStatEntry *>;
+  using CEntriesPtrMap = std::unordered_map<std::string, SStatEntry *>;
   CEntriesList entriesList;// entries list for fast sequential access and sequence ordering
   CEntriesPtrMap entriesMap;// entries map for fast access
   //

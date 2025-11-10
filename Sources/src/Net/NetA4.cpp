@@ -963,7 +963,7 @@ namespace NNet
     existingChannels.resize(nNewSize);
   }
 
-  void CNetDriver::AddChannel(const int nChannelID, const std::hash_set<BYTE> &channelMessages)
+  void CNetDriver::AddChannel(const int nChannelID, const std::unordered_set<BYTE> &channelMessages)
   {
     {
       CCriticalSectionLock criticalSectionLock(criticalSection);

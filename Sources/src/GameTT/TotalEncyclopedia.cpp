@@ -46,7 +46,7 @@ const char *CInterfaceUnitsEncyclopediaBase::GetUnitNameByWindowID(const int nID
 {
   if (nID >= E_START_WINDOW_ID && nID < E_START_WINDOW_ID + 9000)
   {
-    std::hash_map<int/* nWindowID */, const SGDBObjectDesc *>::const_iterator it = gdbByWindowID.find(nID - E_START_WINDOW_ID);
+    std::unordered_map<int/* nWindowID */, const SGDBObjectDesc *>::const_iterator it = gdbByWindowID.find(nID - E_START_WINDOW_ID);
     if (it != gdbByWindowID.end()) return it->second->szKey.c_str();
   }
   return nullptr;

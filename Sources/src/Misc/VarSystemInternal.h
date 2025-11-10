@@ -185,7 +185,7 @@ template<class TVar, class TBase>
 class CTVarSystem : public TBase
 {
 public:
-  using CVarsMap = std::hash_map<std::string, TVar>;
+  using CVarsMap = std::unordered_map<std::string, TVar>;
   using CVar = TVar;
 
 private:
@@ -348,8 +348,8 @@ public:
   }
 
   //
-  CVarsMap::const_iterator begin() const { return variables.begin(); }
-  CVarsMap::const_iterator end() const { return variables.end(); }
+  auto begin() const { return variables.begin(); }
+  auto end() const { return variables.end(); }
 };
 
 template<class TVar>

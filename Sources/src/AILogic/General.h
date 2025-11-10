@@ -19,12 +19,12 @@ enum EResupplyType
 class CSupremeBeing
 {
   DECLARE_SERIALIZE;
-  using Generals = std::hash_map<int, CPtr<CGeneral>>;
+  using Generals = std::unordered_map<int, CPtr<CGeneral>>;
   Generals generals;
   using DelayedTasks = std::list<CPtr<IGeneralDelayedTask>>;
   DelayedTasks delayedTasks;
 
-  std::hash_set<int/* Link ID */> ironmans;
+  std::unordered_set<int/* Link ID */> ironmans;
 
 public:
   void Segment();

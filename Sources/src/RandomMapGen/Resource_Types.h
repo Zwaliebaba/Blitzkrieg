@@ -235,7 +235,7 @@ struct SEnumFilesInDataStorageParameter
 };
 
 
-using TEnumFolders = std::hash_map<std::string, std::set<std::string>>;
+using TEnumFolders = std::unordered_map<std::string, std::set<std::string>>;
 
 struct SEnumFolderStructureParameter
 {

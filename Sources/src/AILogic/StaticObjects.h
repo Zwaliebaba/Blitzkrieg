@@ -17,7 +17,7 @@ class CBuildingStorage;
 template<bool bOnlyContainers>
 class CStObjIter;
 using CStoragesList = std::list<CPtr<CBuildingStorage>>;
-using CIntHash = std::hash_set<int>;
+using CIntHash = std::unordered_set<int>;
 
 // **********************************************************************
 // *CStaticObjects*
@@ -32,7 +32,7 @@ class CStaticObjects : public IRefCount
   DECLARE_SERIALIZE;
 
   using ObstacleAreaMap = CAreaMap<IObstacle, CPtr<IObstacle>, SVector, int>;
-  using ObstacleObjectMap = std::hash_map<int, CPtr<IObstacle>>;
+  using ObstacleObjectMap = std::unordered_map<int, CPtr<IObstacle>>;
 
   ObstacleAreaMap obstacles;
   ObstacleObjectMap obstacleObjects;
@@ -72,7 +72,7 @@ public:
   {
     DECLARE_SERIALIZE;
 
-    using CStorages = std::hash_map<CObj<CBuildingStorage>, bool, SUniqueIdHash>;
+    using CStorages = std::unordered_map<CObj<CBuildingStorage>, bool, SUniqueIdHash>;
     using CStoragesList = std::list<CObj<CBuildingStorage>>;
 
     struct CPartyInfo
@@ -126,12 +126,12 @@ public:
   using CSegmObjects = std::set<CPtr<CStaticObject>, SSegmentObjectsSort>;
   CSegmObjects segmObjects;
 
-  using CObjectsHashSet = std::hash_set<CObj<CExistingObject>, SUniqueIdHash>;
+  using CObjectsHashSet = std::unordered_set<CObj<CExistingObject>, SUniqueIdHash>;
   CObjectsHashSet terraObjs;
   CObjectsHashSet deletedObjects;
   std::list<CPtr<CStaticObject>> unregisteredObjects;
 
-  std::hash_set<int> burningObjects;
+  std::unordered_set<int> burningObjects;
 
   //
   void AddToAreaMap(CExistingObject *pObj);

@@ -35,12 +35,12 @@ class CScripts
   std::string szScriptFile;
 
   // active scripts
-  std::hash_map<int, SScriptInfo> activeScripts;
+  std::unordered_map<int, SScriptInfo> activeScripts;
   // by the name of the script - himself
-  std::hash_map<std::string, int> name2script;
+  std::unordered_map<std::string, int> name2script;
 
   // group number - units
-  std::hash_map<int, std::list<CPtr<IUpdatableObj>>> groups;
+  std::unordered_map<int, std::list<CPtr<IUpdatableObj>>> groups;
 
   // reinforcement number - reinforcement object
   struct SReinforcementObject
@@ -59,21 +59,21 @@ class CScripts
   };
 
   using CReinfList = std::list<SReinforcementObject>;
-  std::hash_map<int, CReinfList> reinforcs;
+  std::unordered_map<int, CReinfList> reinforcs;
   // delayed (nowhere to put) reinforcements
   CReinfList suspendedReinforcs;
   CReinfList::iterator reinforcsIter;
   NTimer::STime lastTimeToCheckSuspendedReinforcs;
 
-  std::hash_map<int, int> reservePositions;
+  std::unordered_map<int, int> reservePositions;
 
   // unit - script group number
-  std::hash_map<int, int> groupUnits;
+  std::unordered_map<int, int> groupUnits;
 
   // for segment
-  std::hash_map<int, SScriptInfo>::iterator segmIter;
+  std::unordered_map<int, SScriptInfo>::iterator segmIter;
 
-  std::hash_map<std::string, SScriptArea> areas;
+  std::unordered_map<std::string, SScriptArea> areas;
 
   bool bKill;
 
@@ -92,7 +92,7 @@ class CScripts
   void OutScriptError(const char *pszString);
 
   // provide new links to reinforcements
-  void SetNewLinksToReinforcement(CReinfList *pReinf, std::hash_map<int, int> *pOld2NewLinks);
+  void SetNewLinksToReinforcement(CReinfList *pReinf, std::unordered_map<int, int> *pOld2NewLinks);
   //
   bool CanLandWithShift(const SMapObjectInfo &mapObject, IObjectsDB *pIDB, CVec2 *pvShift);
   bool CanFormationLand(const SMapObjectInfo &mapObject, IObjectsDB *pIDB, const CVec2 &vShift = VNULL2);

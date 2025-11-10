@@ -34,7 +34,7 @@ class CStaticMap
   // by terrain tile number - its type
   std::vector<BYTE> terrSubTypes;
 
-  std::hash_map<int, SRect> unitsRects;
+  std::unordered_map<int, SRect> unitsRects;
 
   // heights at the nodes of the visual grid grid
   CArray2D<float> heights;

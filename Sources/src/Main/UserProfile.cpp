@@ -116,7 +116,7 @@ int CUserProfile::GetUsedTemplateGraphs(const std::string &szTemplate, const std
   CTemplateUsageMap::const_iterator posTemplate = templates.find(szTemplate);
   if (posTemplate != templates.end())
   {
-    std::hash_map<std::string, int>::const_iterator posGraph = posTemplate->second.graphs.find(szGraph);
+    std::unordered_map<std::string, int>::const_iterator posGraph = posTemplate->second.graphs.find(szGraph);
     if (posGraph != posTemplate->second.graphs.end()) return posGraph->second;
   }
   return 0;

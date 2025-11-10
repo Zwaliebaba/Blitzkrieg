@@ -32,7 +32,7 @@ struct SRow
   using TKey = std::string;
   using TVal = SEntry;
   using CValList = std::list<TVal>;
-  using CValMap = std::hash_map<TVal::TKey, TVal *>;
+  using CValMap = std::unordered_map<TVal::TKey, TVal *>;
   TKey key;
   CValList elist;
   CValMap emap;
@@ -57,7 +57,7 @@ struct STable
   using TKey = std::string;
   using TVal = SRow;
   using CValList = std::list<TVal>;
-  using CValMap = std::hash_map<TVal::TKey, TVal *>;
+  using CValMap = std::unordered_map<TVal::TKey, TVal *>;
   TKey key;
   CValList elist;
   CValMap emap;

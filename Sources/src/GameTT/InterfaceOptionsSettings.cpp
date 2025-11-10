@@ -82,7 +82,7 @@ void CInterfaceOptionsSettings::Create()
   if (!bInMission) StoreScreen();
   pScene->AddUIScreen(pUIScreen);
 
-  std::hash_map<std::string, OptionDescs> sections;
+  std::unordered_map<std::string, OptionDescs> sections;
 
   IOptionSystem *pOptionSystem = GetSingleton<IOptionSystem>();
 
@@ -100,7 +100,7 @@ void CInterfaceOptionsSettings::Create()
 
   nMaxDivision = 0;
   const std::string szKeyOption = "Textes\\Options\\";
-  for (std::hash_map<std::string, OptionDescs>::iterator it = sections.begin(); it != sections.end(); ++it)
+  for (std::unordered_map<std::string, OptionDescs>::iterator it = sections.begin(); it != sections.end(); ++it)
   {
     const std::string szKeyName = szKeyOption + it->first + ".name";
     const std::string szKeyTooltip = szKeyOption + it->first + ".tooltip";

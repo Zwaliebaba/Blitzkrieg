@@ -26,13 +26,13 @@ class CObjectsDB : public IObjectsDB
 {
   OBJECT_NORMAL_METHODS(CObjectsDB);
   //
-  using CObjectsRPGMap = std::hash_map<const IGDBObject *, const SCommonRPGStats *, SDefaultPtrHash>;
-  using CAddStatsMap = std::hash_map<std::string, SCommonRPGStats *>;
-  using CGameStatsMap = std::hash_map<std::string, SBasicGameStats *>;
-  using CAIExpLevelsMap = std::hash_map<int, SAIExpLevel>;
-  using CAIExpLevelsByNameMap = std::hash_map<std::string, const SAIExpLevel *>;
+  using CObjectsRPGMap = std::unordered_map<const IGDBObject *, const SCommonRPGStats *, SDefaultPtrHash>;
+  using CAddStatsMap = std::unordered_map<std::string, SCommonRPGStats *>;
+  using CGameStatsMap = std::unordered_map<std::string, SBasicGameStats *>;
+  using CAIExpLevelsMap = std::unordered_map<int, SAIExpLevel>;
+  using CAIExpLevelsByNameMap = std::unordered_map<std::string, const SAIExpLevel *>;
   //
-  using CObjDescMap = std::hash_map<std::string, const SGDBObjectDesc *>;
+  using CObjDescMap = std::unordered_map<std::string, const SGDBObjectDesc *>;
   std::vector<SGDBObjectDesc> objects;// all object entries
   CObjDescMap objmap;// objects map
   CObjectsRPGMap rpgs;// RPG stats
@@ -63,7 +63,7 @@ public:
 
   const SGDBObjectDesc * STDCALL GetDesc(const char *pszName) const override
   {
-    std::hash_map<std::string, const SGDBObjectDesc *>::const_iterator pos = objmap.find(pszName);
+    std::unordered_map<std::string, const SGDBObjectDesc *>::const_iterator pos = objmap.find(pszName);
     return pos != objmap.end() ? pos->second : nullptr;
   }
 
@@ -200,8 +200,8 @@ bool CObjectsDB::LoadDB()
 
 class CGDBAutoMagic
 {
-  using CIntToStrMap = std::hash_map<int, std::string>;
-  using CStrToIntMap = std::hash_map<std::string, int>;
+  using CIntToStrMap = std::unordered_map<int, std::string>;
+  using CStrToIntMap = std::unordered_map<std::string, int>;
   // vis type
   CIntToStrMap vistostr;
   CStrToIntMap strtovis;

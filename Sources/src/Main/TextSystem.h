@@ -1,6 +1,3 @@
-#ifndef __TEXT_SYSTEM_H__
-#define __TEXT_SYSTEM_H__
-
 #pragma once
 
 enum
@@ -13,9 +10,9 @@ enum
 
 interface IText : ISharedResource
 {
-  virtual const WORD * STDCALL GetString() const = 0;
+  virtual const wchar_t * STDCALL GetString() const = 0;
   virtual const int STDCALL GetLength() const = 0;
-  virtual void STDCALL SetText(const WORD *pszText) = 0;
+  virtual void STDCALL SetText(const wchar_t*pszText) = 0;
   //
   virtual bool STDCALL IsChanged() const = 0;
   virtual void STDCALL ResetChanged() = 0;
@@ -39,4 +36,3 @@ interface ITextManager : ISharedManager
 
 IObjectLoader * STDCALL GetTextLoader();
 
-#endif	// __TEXT_SYSTEM_H__

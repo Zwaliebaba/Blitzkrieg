@@ -114,7 +114,7 @@ namespace NNet
 
     //
     // multichannel
-    std::vector<std::hash_set<BYTE>> channelMsgTypes;
+    std::vector<std::unordered_set<BYTE>> channelMsgTypes;
 
     struct SChannelMessage
     {
@@ -205,7 +205,7 @@ namespace NNet
     sockaddr * STDCALL GetSockAddr() override;
 
     //
-    void STDCALL AddChannel(int nChannelID, const std::hash_set<BYTE> &channelMessages) override;
+    void STDCALL AddChannel(int nChannelID, const std::unordered_set<BYTE> &channelMessages) override;
     void STDCALL RemoveChannel(int nChannelID) override;
     // received is not filled in!
     bool STDCALL GetChannelMessage(EMessage *pMsg, int *pClientID, int *received, IDataStream *pPkt, int nChannel) override;

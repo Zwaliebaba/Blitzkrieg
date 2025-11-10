@@ -160,7 +160,7 @@ struct SRMContainer
 };
 
 
-using CRMContainersHashMap = std::hash_map<std::string, SRMContainer>;
+using CRMContainersHashMap = std::unordered_map<std::string, SRMContainer>;
 
 
 struct SRMGraphNode
@@ -299,7 +299,7 @@ struct SRMGraph
   bool IsSupportedSetting(const std::string &rszSettingName) const;
 };
 
-using CRMGraphsHashMap = std::hash_map<std::string, SRMGraph>;
+using CRMGraphsHashMap = std::unordered_map<std::string, SRMGraph>;
 using CRMGraphWeightVector = CWeightVector<std::string>;
 
 
@@ -359,8 +359,8 @@ struct SRMTileSetShell
 
 using CRMObjectSet = std::vector<SRMObjectSetShell>;
 using CRMTileSet = std::vector<SRMTileSetShell>;
-using CRMObjectSetHashMap = std::hash_map<std::string, CRMObjectSet>;
-using CRMTileSetHashMap = std::hash_map<std::string, CRMTileSet>;
+using CRMObjectSetHashMap = std::unordered_map<std::string, CRMObjectSet>;
+using CRMTileSetHashMap = std::unordered_map<std::string, CRMTileSet>;
 
 
 struct SRMFieldSet
@@ -413,7 +413,7 @@ struct SRMFieldSet
   virtual int STDCALL operator&(IDataTree &ss);
 };
 
-using CRMFieldSetsHashMap = std::hash_map<std::string, SRMFieldSet>;
+using CRMFieldSetsHashMap = std::unordered_map<std::string, SRMFieldSet>;
 
 
 struct SRMVSODesc
@@ -550,7 +550,7 @@ struct SRMTemplate
   bool IsSupportedSetting(const std::string &rszSettingName) const;
 };
 
-using CRMTemplatesHashMap = std::hash_map<std::string, SRMTemplate>;
+using CRMTemplatesHashMap = std::unordered_map<std::string, SRMTemplate>;
 
 
 // for building roads
@@ -705,15 +705,15 @@ public:
 };
 
 
-using CRMUnitsPlaceHoldersHashMap = std::hash_map<DWORD, CWeightVector<std::string>>;
-using CRMUnitsPlaceHoldersMnemonicsHashMap = std::hash_map<std::string, CWeightVector<std::string>>;
+using CRMUnitsPlaceHoldersHashMap = std::unordered_map<DWORD, CWeightVector<std::string>>;
+using CRMUnitsPlaceHoldersMnemonicsHashMap = std::unordered_map<std::string, CWeightVector<std::string>>;
 
 
 struct SRMTemplateUnitsTable
 {
 protected:
-  static std::hash_map<DWORD, int> unitRPGTypeToIndex;
-  static std::hash_map<std::string, int> unitRPGMnemonicToIndex;
+  static std::unordered_map<DWORD, int> unitRPGTypeToIndex;
+  static std::unordered_map<std::string, int> unitRPGMnemonicToIndex;
 
 public:
   struct SRandomMissionBonus
@@ -806,7 +806,7 @@ struct SRMContext
   }
 
   // returns the number of objects and objects for the player
-  int GetAvailiableUnits(int nPlayer, DWORD nUnitRPGType, std::hash_set<std::string> *pAvailableUnits)
+  int GetAvailiableUnits(int nPlayer, DWORD nUnitRPGType, std::unordered_set<std::string> *pAvailableUnits)
   {
     for (int nLevelIndex = 0; nLevelIndex < levels.size(); ++nLevelIndex)
     {

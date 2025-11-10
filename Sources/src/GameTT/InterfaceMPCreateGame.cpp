@@ -151,7 +151,7 @@ void CInterfaceMPCreateGame::Create(const /* ECreateGameMode */ int eMode)
 
 void CInterfaceMPCreateGame::PrepareMapsList()
 {
-  std::hash_set<std::string> szFileNames;
+  std::unordered_set<std::string> szFileNames;
   const std::string szPathBegin = "maps\\multiplayer\\";
   const std::string szMask1 = ".bzm";
 
@@ -173,7 +173,7 @@ void CInterfaceMPCreateGame::PrepareMapsList()
   CPtr<IMovieProgressHook> pProgress = CreateObject<IMovieProgressHook>(MAIN_PROGRESS_INDICATOR);
   pProgress->Init(IMovieProgressHook::PT_MINIMAP);
   pProgress->SetNumSteps(szFileNames.size());
-  for (std::hash_set<std::string>::const_iterator it = szFileNames.begin(); it != szFileNames.end(); ++it)
+  for (std::unordered_set<std::string>::const_iterator it = szFileNames.begin(); it != szFileNames.end(); ++it)
   {
     const std::string &szFileName = *it;
 

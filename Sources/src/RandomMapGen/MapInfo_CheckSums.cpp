@@ -9,7 +9,7 @@
 #include "../Misc/CheckSums.h"
 #include "Resource_Types.h"
 
-std::hash_set<const IGDBObject *, SDefaultPtrHash> CMapInfo::gdbObjects;
+std::unordered_set<const IGDBObject *, SDefaultPtrHash> CMapInfo::gdbObjects;
 
 using namespace NCheckSums;
 
@@ -147,7 +147,7 @@ void CMapInfo::GetReinforcementsCheckSum(uLong *pResourcesCheckSum, uLong *pMapC
 {
   SCheckSumBufferStorage bufMap;
 
-  for (std::hash_map<int, SReinforcementGroupInfo::SGroupsVector>::iterator iter = reinforcements.groups.begin(); iter != reinforcements.groups.end(); ++iter)
+  for (std::unordered_map<int, SReinforcementGroupInfo::SGroupsVector>::iterator iter = reinforcements.groups.begin(); iter != reinforcements.groups.end(); ++iter)
   {
     CopyToBuf(&bufMap, iter->first);
     for (int i = 0; i < iter->second.ids.size(); ++i) CopyToBuf(&bufMap, iter->second.ids[i]);

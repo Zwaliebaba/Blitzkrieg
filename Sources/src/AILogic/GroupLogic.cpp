@@ -334,7 +334,7 @@ void CGroupLogic::ProcessAmbushGroups()
   if (lastAmbushCheck + 5000 < curTime)
   {
     lastAmbushCheck = curTime;
-    std::hash_set<int> checkedUnits;
+    std::unordered_set<int> checkedUnits;
 
     auto iter = ambushGroups.begin();
     while (iter != ambushGroups.end())
@@ -467,7 +467,7 @@ void CGroupLogic::GroupCommand(const SAIUnitCmd &command, const WORD wGroup, boo
     if (command.cmdType == ACTION_COMMAND_MOVE_TO_GRID) ProcessGridCommand(command.vPos, CVec2(NTrg::Cos(command.fNumber), NTrg::Sin(command.fNumber)), wGroup, bPlaceInQueue);
     else
     {
-      std::hash_set<int> memFormationIDs;
+      std::unordered_set<int> memFormationIDs;
       for (auto iter = groups.begin(); iter != groups.end(); ++iter)
       {
         CCommonUnit *pUnit = *iter;

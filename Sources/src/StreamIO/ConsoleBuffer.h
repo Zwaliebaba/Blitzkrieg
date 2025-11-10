@@ -9,9 +9,9 @@ class CConsoleBuffer : public IConsoleBuffer
   // DECLARE_SERIALIZE;
   //
   using CStringsList = std::list<std::pair<std::wstring, DWORD>>;
-  using CStreamsMap = std::hash_map<int, CStringsList>;
-  using CDublicateMap = std::hash_map<int, std::list<int>>;
-  using CStreamNamesMap = std::hash_map<int, std::string>;
+  using CStreamsMap = std::unordered_map<int, CStringsList>;
+  using CDublicateMap = std::unordered_map<int, std::list<int>>;
+  using CStreamNamesMap = std::unordered_map<int, std::string>;
   CStreamsMap streams;// all stream channels map
   CStreamNamesMap names;// some channel names
   CStreamsMap logs;// channel logs

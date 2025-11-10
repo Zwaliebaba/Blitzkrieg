@@ -5,10 +5,10 @@
 
 class CMemoryConsumeCheck
 {
-  using CRememberedStatus = std::hash_map<int /* nConsumeID */, MEMORYSTATUS>;
+  using CRememberedStatus = std::unordered_map<int /* nConsumeID */, MEMORYSTATUS>;
   CRememberedStatus rememberedStatus;
 
-  using CMemoryUsed = std::hash_map<int /* nConsumeID */, double /* memory used */>;
+  using CMemoryUsed = std::unordered_map<int /* nConsumeID */, double /* memory used */>;
   CMemoryUsed memoryUsed;
   CMemoryUsed memoryUsedSummed;
 

@@ -82,9 +82,9 @@ class CStructureSaver2 : public IStructureSaver
   bool bIsReading;
   // maps objects addresses during save(first) to addresses during load(second) - during loading
   // or serves as a sign that some object has already been stored - during storing
-  using CObjectsHash = std::hash_map<void *, CPtr<IRefCount>, SDefaultPtrHash>;
+  using CObjectsHash = std::unordered_map<void *, CPtr<IRefCount>, SDefaultPtrHash>;
   CObjectsHash objects;
-  using CPObjectsHashSet = std::hash_set<IRefCount *, SDefaultPtrHash>;
+  using CPObjectsHashSet = std::unordered_set<IRefCount *, SDefaultPtrHash>;
   CPObjectsHashSet storedObjects;
   std::list<CPtr<IRefCount>> toStore;
   //
@@ -95,7 +95,7 @@ class CStructureSaver2 : public IStructureSaver
   bool bCollectReferedObjects;
   using CObjectInfoList = std::vector<SObjectInfo>;
   CObjectInfoList objinfos;
-  std::hash_set<IRefCount *, SDefaultPtrHash> objset;
+  std::unordered_set<IRefCount *, SDefaultPtrHash> objset;
   std::list<IRefCount *> referedObjects;
 #endif // _FINALRELEASE
   //

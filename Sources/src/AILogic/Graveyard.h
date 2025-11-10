@@ -68,11 +68,11 @@ class CGraveyard
   DECLARE_SERIALIZE;
 
   std::list<SKilledUnit> killed;
-  using UpdateObjSet = std::hash_map<CObj<CAIUnit>, float, SUnitObjHash>;
+  using UpdateObjSet = std::unordered_map<CObj<CAIUnit>, float, SUnitObjHash>;
   UpdateObjSet soonBeDead;
 
-  using CBridgeDeadSoldiers = std::hash_map<int, std::list<CPtr<CDeadUnit>>>;
-  std::hash_set<IUpdatableObj *, SDefaultPtrHash> bridgeSoldiersSet;
+  using CBridgeDeadSoldiers = std::unordered_map<int, std::list<CPtr<CDeadUnit>>>;
+  std::unordered_set<IUpdatableObj *, SDefaultPtrHash> bridgeSoldiersSet;
   CBridgeDeadSoldiers bridgeDeadSoldiers;
 
   //

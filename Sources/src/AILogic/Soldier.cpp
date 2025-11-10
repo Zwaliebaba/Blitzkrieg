@@ -1013,7 +1013,7 @@ void CSniper::Segment()
     lastVisibilityCheck = curTime;
     bVisible = false;
     constexpr float fMaxVisRadius = 30 * SConsts::TILE_SIZE;
-    std::hash_set<SVector, STilesHash> visitedTiles;
+    std::unordered_set<SVector, STilesHash> visitedTiles;
 
     SSniperTrace sniperTracer(this);
     const SVector curCenterTile(GetTile());

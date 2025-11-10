@@ -1,16 +1,14 @@
 #include "StdAfx.h"
-
 #include "StrProc.h"
-
-#include <hash_map>
+#include <functional>
+#include <unordered_map>
 #include <stack>
-#include <math.h>
 #include <stdlib.h>
 
 // /////////////////////////
 namespace NStr
 {
-  static std::hash_map<char, char> brackets;// map with open bracket <=> close bracket respect
+  static std::unordered_map<char, char> brackets;// map with open bracket <=> close bracket respect
   static char cBracketTypes[8] = "({[\" ";// all available brackets (open)
   static constexpr int NUM_BRACKET_TYPES = 4;// number of available brackets
   static int nCodePage = GetACP();

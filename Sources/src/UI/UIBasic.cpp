@@ -1191,12 +1191,12 @@ void CMultipleWindow::InitDependentInfoMW()
 
   // Reading LUA support
 #if defined( _DO_ASSERT ) || defined( _DO_ASSERT_SLOW )
-  std::hash_map<int, int> mapa;
+  std::unordered_map<int, int> mapa;
 
   // we check that there are no children with duplicate IDs
   for (auto it = childList.begin(); it != childList.end(); ++it) { if ((*it)->GetWindowID() > 10) mapa[(*it)->GetWindowID()]++; }
 
-  for (std::hash_map<int, int>::iterator it = mapa.begin(); it != mapa.end(); ++it) { NI_ASSERT_T(it->second == 1, NStr::Format("Duplicate window id %d", it->first)); }
+  for (std::unordered_map<int, int>::iterator it = mapa.begin(); it != mapa.end(); ++it) { NI_ASSERT_T(it->second == 1, NStr::Format("Duplicate window id %d", it->first)); }
 #endif		// defined( _DO_ASSERT ) || 
 
   luaScript.Clear();

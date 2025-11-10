@@ -223,10 +223,10 @@ interface IMOSquad : IMOContainer
 
 using CMapObjectsList = std::list<CPtr<SMapObject>>;
 using CMapObjectsPtrList = std::list<SMapObject *>;
-using CMapObjectsMap = std::hash_map<IRefCount *, CObj<SMapObject>, SDefaultPtrHash>;
-using CMapObjectsSet = std::hash_set<SMapObject *, SDefaultPtrHash>;
+using CMapObjectsMap = std::unordered_map<IRefCount *, CObj<SMapObject>, SDefaultPtrHash>;
+using CMapObjectsSet = std::unordered_set<SMapObject *, SDefaultPtrHash>;
 //
-using CBridgeSpanObjectsMap = std::hash_map<IRefCount *, CPtr<SBridgeSpanObject>, SDefaultPtrHash>;
+using CBridgeSpanObjectsMap = std::unordered_map<IRefCount *, CPtr<SBridgeSpanObject>, SDefaultPtrHash>;
 
 interface IText *GetLocalName(const SGDBObjectDesc *pDesc);
 

@@ -68,7 +68,7 @@ namespace NProperty
   // properties set
   struct SProperties
   {
-    using CPropertiesMap = std::hash_map<std::string, CPtr<SBaseProperty>>;
+    using CPropertiesMap = std::unordered_map<std::string, CPtr<SBaseProperty>>;
     using CPropertiesList = std::list<SPropDesc>;
     CPropertiesMap propMap;// properties map for a fast access
     CPropertiesList propList;// properties list for a sequential access
@@ -99,7 +99,7 @@ namespace NProperty
 
 class CPropertiesRegister
 {
-  using CRegistersMap = std::hash_map<std::string, NProperty::SProperties>;
+  using CRegistersMap = std::unordered_map<std::string, NProperty::SProperties>;
   CRegistersMap registers;
 
 public:
@@ -262,7 +262,7 @@ class CMultiManipulator : public IMultiManipulator
   //
   using CManipulatorsList = std::vector<CPtr<IManipulator>>;
   CManipulatorsList manipulators;
-  using CPropsMap = std::hash_map<std::string, SMultiManipulatorProperty>;
+  using CPropsMap = std::unordered_map<std::string, SMultiManipulatorProperty>;
   CPropsMap propsMap;
   bool bPropsAlreadyBuilt;
   //

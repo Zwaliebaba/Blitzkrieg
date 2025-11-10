@@ -5,7 +5,7 @@
 #endif // _MSC_VER > 1000
 
 #include <winsock.h>
-#include <hash_map>
+#include <unordered_map>
 #include "Streams.h"
 #include "NetAcks.h"
 
@@ -109,7 +109,7 @@ namespace NNet
     CHANNEL_DATA_OFFSET nChannelOutputOffset, nChannelInputOffset;
     using SChannelBlockList = std::list<SChannelBlock>;
     SChannelBlockList channelOutFlyList, channelOutList, channelInList;
-    std::hash_map<PACKET_ID, PACKET_ID> reassign;
+    std::unordered_map<PACKET_ID, PACKET_ID> reassign;
 
     static bool IsBefore(CHANNEL_DATA_OFFSET border, CHANNEL_DATA_OFFSET test);
   };

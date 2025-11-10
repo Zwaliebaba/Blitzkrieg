@@ -68,7 +68,7 @@ class CMapSounds
       DECLARE_SERIALIZE;
 
     public:
-      std::hash_map<WORD, CVec2> instanceIDs;
+      std::unordered_map<WORD, CVec2> instanceIDs;
       int nCount;
       SMapSounds() : nCount(0) {}
     };
@@ -98,7 +98,7 @@ class CMapSounds
     SPlaying playingSound;// current unlooped sound
 
     // lists by sound type
-    using CellSounds = std::hash_map<WORD, SMapSounds>;
+    using CellSounds = std::unordered_map<WORD, SMapSounds>;
     CellSounds cellSounds;
     CellSounds cellLoopedSounds;
     NTimer::STime timeNextRun;// next sound time
@@ -120,7 +120,7 @@ class CMapSounds
   // 2d map of sound cells
   CArray2D<CMapSoundCell> mapCells;
   // cell - sound instance id
-  std::hash_map<WORD, SIntPair> cells;
+  std::unordered_map<WORD, SIntPair> cells;
 
   CSoundScene *pSoundScene;
   NTimer::STime timeNextUpdate;
@@ -271,7 +271,7 @@ private:
       }
     };
 
-    using CMusicSettingsList = std::hash_map<std::string/* Party Name */, SMusicSettings>;
+    using CMusicSettingsList = std::unordered_map<std::string/* Party Name */, SMusicSettings>;
 
     enum EStreamingSoundsState
     {
@@ -500,13 +500,13 @@ public:
 
   using CSamplesList = std::list<CPtr<ISound>>;
   using CSoundsList = std::list<CPtr<CSound>>;
-  using CHearableSounds = std::hash_map<std::string/* subst name */, CSoundsList>;
-  using CSoundSubstTable = std::hash_map<std::string/* sound name */, std::string/* subst name */>;
+  using CHearableSounds = std::unordered_map<std::string/* subst name */, CSoundsList>;
+  using CSoundSubstTable = std::unordered_map<std::string/* sound name */, std::string/* subst name */>;
 
-  // typedef std::hash_map< SIntPair, CSoundCell, SIntPairHash > CSoundCells;
+  // typedef std::unordered_map< SIntPair, CSoundCell, SIntPairHash > CSoundCells;
   using CSoundCellsInBounds = CArray2D<CPtr<CSoundCell>>;
-  using CSoundCellsOutOfBounds = std::hash_map<SIntPair, CPtr<CSoundCell>, SIntPairHash>;
-  using CSoundCellsWithSound = std::hash_map<SIntPair, CPtr<CSoundCell>, SIntPairHash>;
+  using CSoundCellsOutOfBounds = std::unordered_map<SIntPair, CPtr<CSoundCell>, SIntPairHash>;
+  using CSoundCellsWithSound = std::unordered_map<SIntPair, CPtr<CSoundCell>, SIntPairHash>;
 
   // to collect sounds that are heard in the cage and sort them by
   // to the sounds that replace them
@@ -530,7 +530,7 @@ public:
 private:
   enum ESoundSceneMode eSoundSceneMode;
   CFreeIds freeIDs;// sound ID table
-  std::hash_map<WORD, SIntPair> soundIDs;// in which cell is the sound located?
+  std::unordered_map<WORD, SIntPair> soundIDs;// in which cell is the sound located?
 
   ISFX *pSFX;
   ISoundManager *pSoundManager;
@@ -548,8 +548,8 @@ private:
   CStreamingSounds streamingSounds;
 
   CHearableSounds interfaceSounds;// sounds from the interface
-  std::hash_set<int> finishedInterfaceSounds;
-  std::hash_set<int> deletedInterfaceSounds;
+  std::unordered_set<int> finishedInterfaceSounds;
+  std::unordered_set<int> deletedInterfaceSounds;
 
   CTerrainSounds terrainSounds;
   CMapSounds mapSounds;

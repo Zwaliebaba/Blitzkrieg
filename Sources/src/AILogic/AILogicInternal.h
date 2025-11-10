@@ -12,7 +12,7 @@ class CCommonUnit;
 class CAIUnit;
 class CBridgeSpan;
 
-using LinkInfo = std::hash_map<CLinkObject *, SMapObjectInfo::SLinkInfo, SUniqueIdHash>;
+using LinkInfo = std::unordered_map<CLinkObject *, SMapObjectInfo::SLinkInfo, SUniqueIdHash>;
 
 class CAILogic : public IAILogic
 {
@@ -44,7 +44,7 @@ class CAILogic : public IAILogic
   bool bSegment;
   bool bNetGameStarted;
 
-  using CAvailTrucks = std::hash_set<CGDBPtr<SMechUnitRPGStats>, SDefaultPtrHash>;
+  using CAvailTrucks = std::unordered_set<CGDBPtr<SMechUnitRPGStats>, SDefaultPtrHash>;
   CAvailTrucks availableTrucks;
   // check if object is a truck attached to script artillery
   // if yes, searches for a truck suitable for artillery (in pNewStats) and returns true, if no artillery is found, returns false
@@ -176,8 +176,8 @@ public:
   bool STDCALL ToggleShow(int nShowType) override;
 
   bool STDCALL IsCombatSituation() override;
-  void InitStartCommands(const LinkInfo &linksInfo, std::hash_map<int, int> &old2NewLinks);
-  void InitReservePositions(std::hash_map<int, int> &old2NewLinks);
+  void InitStartCommands(const LinkInfo &linksInfo, std::unordered_map<int, int> &old2NewLinks);
+  void InitReservePositions(std::unordered_map<int, int> &old2NewLinks);
 
   bool IsSegment() const { return bSegment; }
 

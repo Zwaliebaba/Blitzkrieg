@@ -160,7 +160,7 @@ namespace NNet
     for (int i = 0; i < pkts.size(); ++i)
     {
       PACKET_ID nPkt = pkts[i];
-      std::hash_map<PACKET_ID, PACKET_ID>::iterator k = reassign.find(nPkt);
+      std::unordered_map<PACKET_ID, PACKET_ID>::iterator k = reassign.find(nPkt);
       if (k != reassign.end()) reassign.erase(k);
     }
   }
@@ -173,7 +173,7 @@ namespace NNet
       PACKET_ID nPkt = pkts[i];
       for (;;)
       {
-        std::hash_map<PACKET_ID, PACKET_ID>::iterator k = reassign.find(nPkt);
+        std::unordered_map<PACKET_ID, PACKET_ID>::iterator k = reassign.find(nPkt);
         if (k == reassign.end()) break;
 #ifdef LOG
         cout << "commit pkt" << nPkt << " translated to commit pkt " << k->second << endl;

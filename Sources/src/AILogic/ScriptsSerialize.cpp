@@ -51,7 +51,7 @@ int CScripts::operator&(IStructureSaver &ss)
   if (!saver.IsReading())
   {
     std::list<SScriptInfo> activeScriptsInfo;
-    for (std::hash_map<int, SScriptInfo>::iterator iter = activeScripts.begin(); iter != activeScripts.end(); ++iter) activeScriptsInfo.push_back(iter->second);
+    for (std::unordered_map<int, SScriptInfo>::iterator iter = activeScripts.begin(); iter != activeScripts.end(); ++iter) activeScriptsInfo.push_back(iter->second);
 
     saver.Add(9, &activeScriptsInfo);
   }

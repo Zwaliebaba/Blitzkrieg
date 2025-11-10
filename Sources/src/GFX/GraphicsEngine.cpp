@@ -1203,8 +1203,8 @@ bool CGraphicsEngine::EndScene()
 void CGraphicsEngine::ForceFlushTempBuffers()
 {
   // force flush for all temp buffers
-  for (std::hash_map<DWORD, CPtr2<CTempVB>>::iterator it = tempVBs.begin(); it != tempVBs.end(); ++it) it->second->ForceFlush();
-  for (std::hash_map<DWORD, CPtr2<CTempIB>>::iterator it = tempIBs.begin(); it != tempIBs.end(); ++it) it->second->ForceFlush();
+  for (std::unordered_map<DWORD, CPtr2<CTempVB>>::iterator it = tempVBs.begin(); it != tempVBs.end(); ++it) it->second->ForceFlush();
+  for (std::unordered_map<DWORD, CPtr2<CTempIB>>::iterator it = tempIBs.begin(); it != tempIBs.end(); ++it) it->second->ForceFlush();
 }
 
 bool CGraphicsEngine::Flip()
@@ -1319,8 +1319,8 @@ IGFXIndices *CGraphicsEngine::CreateIndices(int nNumElements, DWORD dwFormat, EG
 void CGraphicsEngine::SetOptimizedBuffers(bool bEnable)
 {
   bUseOptimizedBuffers = bEnable;
-  for (std::hash_map<DWORD, CPtr2<CTempVB>>::iterator it = tempVBs.begin(); it != tempVBs.end(); ++it) it->second->UseOptimized(bEnable);
-  for (std::hash_map<DWORD, CPtr2<CTempIB>>::iterator it = tempIBs.begin(); it != tempIBs.end(); ++it) it->second->UseOptimized(bEnable);
+  for (std::unordered_map<DWORD, CPtr2<CTempVB>>::iterator it = tempVBs.begin(); it != tempVBs.end(); ++it) it->second->UseOptimized(bEnable);
+  for (std::unordered_map<DWORD, CPtr2<CTempIB>>::iterator it = tempIBs.begin(); it != tempIBs.end(); ++it) it->second->UseOptimized(bEnable);
 }
 
 void *CGraphicsEngine::GetTempVertices(int nNumElements, DWORD dwFormat, EGFXPrimitiveType type)

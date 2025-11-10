@@ -17,7 +17,7 @@ class CVisObjBuilder : public IVisObjBuilder
   CPtr<IDataStorage> pStorage;
   CPtr<IParticleManager> pPM;
   //
-  using CEffectDescMap = std::hash_map<std::string, SEffectDesc>;
+  using CEffectDescMap = std::unordered_map<std::string, SEffectDesc>;
   CEffectDescMap effectDescs;
   //
   class CSpriteVisObj *CreateSpriteVisObj(const std::string &szName);

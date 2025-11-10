@@ -26,7 +26,7 @@ class CStateChangesTracker
   };
 
   //
-  std::hash_map<DWORD, SState> allstates;
+  std::unordered_map<DWORD, SState> allstates;
   std::list<SState *> changedstates;
 
 public:
@@ -52,7 +52,7 @@ public:
 
   void ClearStates()
   {
-    for (std::hash_map<DWORD, SState>::iterator it = allstates.begin(); it != allstates.end(); ++it) it->second.dwNeedValue = it->second.dwCurrValue = -1;
+    for (std::unordered_map<DWORD, SState>::iterator it = allstates.begin(); it != allstates.end(); ++it) it->second.dwNeedValue = it->second.dwCurrValue = -1;
     changedstates.clear();
   }
 };
@@ -103,14 +103,14 @@ class CGraphicsEngine : public IGFX
   CPtr2<CStaticVB> pSVB;// solid vertex buffer with static allocator
   CPtr2<CStaticIB> pSIB;// solid index buffer with static allocator
   // temp buffers
-  std::hash_map<DWORD, CPtr2<CTempVB>> tempVBs;
+  std::unordered_map<DWORD, CPtr2<CTempVB>> tempVBs;
   CPtr2<CTempVB> pTVB;
-  std::hash_map<DWORD, CPtr2<CTempIB>> tempIBs;
+  std::unordered_map<DWORD, CPtr2<CTempIB>> tempIBs;
   CPtr2<CTempIB> pTIB;
   bool bUseOptimizedBuffers;
   // dynamic buffers
-  using CDynamicVBMap = std::hash_multimap<DWORD, CPtr2<CDynamicVB>>;
-  using CDynamicIBMap = std::hash_multimap<DWORD, CPtr2<CDynamicIB>>;
+  using CDynamicVBMap = std::unordered_multimap<DWORD, CPtr2<CDynamicVB>>;
+  using CDynamicIBMap = std::unordered_multimap<DWORD, CPtr2<CDynamicIB>>;
   CDynamicVBMap dynVBs;
   CDynamicIBMap dynIBs;
   // last formats for flushing
@@ -121,7 +121,7 @@ class CGraphicsEngine : public IGFX
   // textures tracker
   std::vector<IGFXBaseTexture *> usedtextures;
   // CRAP{ for shaders testing
-  using CShadersMap = std::hash_map<int, CShader>;
+  using CShadersMap = std::unordered_map<int, CShader>;
   CShadersMap shaders;
   // CRAP}
   // fonts
@@ -226,9 +226,9 @@ class CGraphicsEngine : public IGFX
 
   // dynamic IBs and VBs functions
   template<class TBuffer, class TD3DBuffer, class TCreator>
-  TBuffer *GetDynamicBuffer(int nNumElements, DWORD dwFormat, std::hash_multimap<DWORD, CPtr2<TBuffer>> &buffers, TD3DBuffer *, TCreator *)
+  TBuffer *GetDynamicBuffer(int nNumElements, DWORD dwFormat, std::unordered_multimap<DWORD, CPtr2<TBuffer>> &buffers, TD3DBuffer *, TCreator *)
   {
-    using CDynBuffersMap = std::hash_multimap<DWORD, CPtr2<TBuffer>>;
+    using CDynBuffersMap = std::unordered_multimap<DWORD, CPtr2<TBuffer>>;
     using CDynBuffersRange = std::pair<CDynBuffersMap::iterator, CDynBuffersMap::iterator>;
     CDynBuffersRange range = buffers.equal_range(dwFormat);
     for (CDynBuffersMap::iterator it = range.first; it != range.second; ++it) { if (it->second->HasSolidBlock(nNumElements)) return it->second.GetPtr(); }

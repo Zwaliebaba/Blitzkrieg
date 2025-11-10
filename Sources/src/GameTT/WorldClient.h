@@ -289,7 +289,7 @@ class CWorldClient : public CWorldBase
     DWORD flags;
   };
 
-  using CActionsMap = std::hash_map<int, SActionDesc>;
+  using CActionsMap = std::unordered_map<int, SActionDesc>;
   CActionsMap userActions;// user action functions
   //
   using CTerrainPointsList = std::list<STerrainSelectionPoint>;

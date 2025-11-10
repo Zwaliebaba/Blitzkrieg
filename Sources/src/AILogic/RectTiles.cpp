@@ -156,7 +156,7 @@ namespace
     int operator()(const SVector &v) const { return (v.x * 65535) + v.y; }
   };
 
-  using CSVectorHash = std::hash_map<SVector, bool, SVectorHash>;
+  using CSVectorHash = std::unordered_map<SVector, bool, SVectorHash>;
 }
 
 // ///////////////////////////////////////////////////////////// 

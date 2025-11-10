@@ -6,7 +6,7 @@
 #include "resource.h"
 #include "DialogMemory.h"
 #include "WndUtils.h"
-#include <hash_map>
+#include <unordered_map>
 
 /* BOOL CALLBACK DlgProcMemory( HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam );
 

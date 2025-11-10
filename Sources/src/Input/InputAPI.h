@@ -168,8 +168,8 @@ class CInputAPI : public CTRefCount<IInput>
   using CDevicesList = std::vector<SDevice>;
   using CCharsList = std::list<STextMessage>;
   using CMessagesList = std::list<SGameMessage>;
-  using CControlIDsMap = std::hash_map<int, CControl *>;
-  using CControlNamesMap = std::hash_map<std::string, CControl *>;
+  using CControlIDsMap = std::unordered_map<int, CControl *>;
+  using CControlNamesMap = std::unordered_map<std::string, CControl *>;
 
   struct SStoredControl
   {

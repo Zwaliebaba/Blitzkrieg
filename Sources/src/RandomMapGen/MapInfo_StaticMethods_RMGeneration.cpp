@@ -137,7 +137,7 @@ bool CMapInfo::AddMapInfo(SLoadMapInfo *pDestLoadMapInfo, const CTPoint<int> &rD
 
   // UPDATE_LINK_ID
   // usedIDs[old nLinkID] = new nLinkID;
-  std::hash_map<int, int> usedIDs;
+  std::unordered_map<int, int> usedIDs;
 
   // update usedID
   int nCurrentLinkID = nMaxLinkID;
@@ -405,7 +405,7 @@ bool CMapInfo::FillTileSet(STerrainInfo *pTerrainInfo,
                            const std::list<CVec2> &rInclusivePolygon,
                            const std::list<std::list<CVec2>> &rExclusivePolygons,
                            const CRMTileSet &rTileSet,
-                           std::hash_map<LPARAM, float> *pDistances)
+                           std::unordered_map<LPARAM, float> *pDistances)
 {
   if (rTileSet.empty()) { return true; }
 
@@ -454,7 +454,7 @@ bool CMapInfo::FillTileSet(STerrainInfo *pTerrainInfo,
           if (pDistances)
           {
             const LPARAM lParam = MAKELPARAM(nXIndex, nYIndex);
-            std::hash_map<LPARAM, float>::const_iterator distanceIterator = pDistances->find(MAKELPARAM(nXIndex, nYIndex));
+            std::unordered_map<LPARAM, float>::const_iterator distanceIterator = pDistances->find(MAKELPARAM(nXIndex, nYIndex));
             if (distanceIterator != pDistances->end()) { fInclusiveDistance = distanceIterator->second; }
             else
             {
@@ -647,7 +647,7 @@ bool CMapInfo::FillProfilePattern(STerrainInfo *pTerrainInfo,
                                   const SVAGradient &rGradient,
                                   const CTPoint<int> &rPatternSize,
                                   float fPositiveRatio,
-                                  std::hash_map<LPARAM, float> *pDistances)
+                                  std::unordered_map<LPARAM, float> *pDistances)
 {
   NI_ASSERT_TF(pTerrainInfo != 0,
                NStr::Format( "CMapInfo::FillProfilePattern(): Invalid parameter pTerrainInfo: %x (!= 0)\n", pTerrainInfo ),
@@ -692,7 +692,7 @@ bool CMapInfo::FillProfilePattern(STerrainInfo *pTerrainInfo,
           if (pDistances)
           {
             const LPARAM lParam = MAKELPARAM(nXIndex, nYIndex);
-            std::hash_map<LPARAM, float>::const_iterator distanceIterator = pDistances->find(MAKELPARAM(nXIndex, nYIndex));
+            std::unordered_map<LPARAM, float>::const_iterator distanceIterator = pDistances->find(MAKELPARAM(nXIndex, nYIndex));
             if (distanceIterator != pDistances->end()) { fInclusiveDistance = distanceIterator->second; }
             else
             {
@@ -911,7 +911,7 @@ bool CMapInfo::CreateRandomMap(SMissionStats *pMissionStats, const std::string &
   }
 
   // cache fieldSets
-  std::hash_map<std::string, SRMFieldSet> fieldSetsHashMap;
+  std::unordered_map<std::string, SRMFieldSet> fieldSetsHashMap;
   {
     SRMFieldSet fieldSet;
     bResult = LoadDataResource(randomMapTemplate.fields[randomMapTemplate.nDefaultFieldIndex], "", false, 1, RMGC_FIELDSET_XML_NAME, fieldSet);
@@ -997,7 +997,7 @@ bool CMapInfo::CreateRandomMap(SMissionStats *pMissionStats, const std::string &
   }
 
   // insert patches
-  std::hash_map<std::string, SRMContainer> containersHashMap;
+  std::unordered_map<std::string, SRMContainer> containersHashMap;
   // for road construction
   std::vector<SRMPlacedPatch> placedPatches;
   // to define fields
@@ -1344,7 +1344,7 @@ bool CMapInfo::CreateRandomMap(SMissionStats *pMissionStats, const std::string &
   // then matching on one side
   // then any
   // then empty
-  std::hash_map<std::string, SVectorStripeObjectDesc> vsodescHashMap;
+  std::unordered_map<std::string, SVectorStripeObjectDesc> vsodescHashMap;
   for (int nPSType = SRMPlacedPatch::PST_TWO; nPSType <= SRMPlacedPatch::PST_EMPTY; ++nPSType)
   {
     for (int nLinkIndex = 0; nLinkIndex < selectedGraph.links.size(); ++nLinkIndex)
@@ -1582,7 +1582,7 @@ bool CMapInfo::CreateRandomMap(SMissionStats *pMissionStats, const std::string &
   if (pProgressHook) { pProgressHook->Step(); }
 
   // filling empty spaces
-  std::hash_map<std::string, SVAGradient> gradientsHashMap;
+  std::unordered_map<std::string, SVAGradient> gradientsHashMap;
 
   if (!fieldGraph.inclusivePolygons.empty())
   {
@@ -1629,7 +1629,7 @@ bool CMapInfo::CreateRandomMap(SMissionStats *pMissionStats, const std::string &
         }
         const SRMFieldSet &rFieldSet = fieldSetsHashMap[szKey];
 
-        std::hash_map<LPARAM, float> distances;
+        std::unordered_map<LPARAM, float> distances;
         CMapInfo::FillTileSet(&(mapInfo.terrain), tilesetDesc, inclusivePolygon, exclusivePolygons, rFieldSet.tilesShells, &distances);
         CMapInfo::FillObjectSet(&mapInfo, inclusivePolygon, exclusivePolygons, rFieldSet.objectsShells, &tileMap);
 

@@ -24,7 +24,7 @@ void CInterfaceCustomList::FillListFromCurrentDir()
 
   auto pCollector = checked_cast<IFilesInspectorEntryCollector *>(GetSingleton<IFilesInspector>()->GetEntry(szCollectorName.c_str()));
   const std::vector<std::string> &tutorialFiles = pCollector->GetCollected();
-  std::hash_set<std::string> setOfDirs;// here I will save all the directories
+  std::unordered_set<std::string> setOfDirs;// here I will save all the directories
 
   for (int i = 0; i < tutorialFiles.size(); i++)
   {
@@ -42,12 +42,12 @@ void CInterfaceCustomList::FillListFromCurrentDir()
     }
   }
 
-  for (std::hash_set<std::string>::iterator it = setOfDirs.begin(); it != setOfDirs.end(); ++it)
+  for (std::unordered_set<std::string>::iterator it = setOfDirs.begin(); it != setOfDirs.end(); ++it)
   {
     // find all non-empty subdirectories inside a given directory
     std::string szCmpDir = szCurrentDir + *it;
     szCmpDir += '\\';
-    std::hash_set<std::string> setOfSubDirs;
+    std::unordered_set<std::string> setOfSubDirs;
     for (int i = 0; i < tutorialFiles.size(); i++)
     {
       std::string szCurrentName = tutorialFiles[i];
@@ -80,7 +80,7 @@ void CInterfaceCustomList::FillListFromCurrentDir()
       }
     }
 
-    for (std::hash_set<std::string>::iterator it = setOfSubDirs.begin(); it != setOfSubDirs.end(); ++it) { dirs.push_back(*it); }
+    for (std::unordered_set<std::string>::iterator it = setOfSubDirs.begin(); it != setOfSubDirs.end(); ++it) { dirs.push_back(*it); }
   }
 
   int nIndex = 0;

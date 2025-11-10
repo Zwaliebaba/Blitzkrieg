@@ -67,7 +67,7 @@ class CResistancesContainer
     SSellInfo(const float _fCellWeight, const bool _bInUse, const bool _bAllowShoot) : fCellWeight(_fCellWeight), bInUse(_bInUse), bAllowShoot(_bAllowShoot) {}
   };
 
-  using CCellsWeights = std::hash_map<int, SSellInfo>;
+  using CCellsWeights = std::unordered_map<int, SSellInfo>;
   CCellsWeights cellsWeights;
   std::list<CCircle> excluded;// general will not shoot to these circles
 

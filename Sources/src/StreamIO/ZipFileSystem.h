@@ -52,7 +52,7 @@ class CZipFileSystem : public IDataStorage
 
   //
   CZipFilesList zipfiles;// list of open zip files
-  using CFilesMap = std::hash_map<std::string, SZipArchiveFileInfo>;
+  using CFilesMap = std::unordered_map<std::string, SZipArchiveFileInfo>;
   CFilesMap files;// correspondence between the file name and the information necessary to obtain it
   //
   std::string szBase;

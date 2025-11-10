@@ -18,7 +18,7 @@ extern CDiplomacy theDipl;
 extern CUpdater updater;
 
 // numbering - by update, which can be postponed, its serial number
-std::hash_map<int, int> numeration;
+std::unordered_map<int, int> numeration;
 
 constexpr int N_CELL_SIZE = 8;
 constexpr int N_SUSPENDED_ACTIONS = 7;
@@ -177,7 +177,7 @@ void CSuspendedUpdates::GetRecalled(const EActionNotify &eAction, SSuspendedUpda
   recalledUpdates[nNumeration].pop_back();
 }
 
-void CSuspendedUpdates::UpdateVisibleTiles(const std::hash_set<SVector, STilesHash> &tilesSet, std::hash_set<SVector, STilesHash> *pCoverTiles)
+void CSuspendedUpdates::UpdateVisibleTiles(const std::unordered_set<SVector, STilesHash> &tilesSet, std::unordered_set<SVector, STilesHash> *pCoverTiles)
 {
   for (auto visTilesIter = tilesSet.begin(); visTilesIter != visibleTiles.end(); ++visTilesIter)
   {
@@ -206,7 +206,7 @@ void CSuspendedUpdates::UpdateVisibleTiles(const std::hash_set<SVector, STilesHa
 
 void CSuspendedUpdates::Segment()
 {
-  std::hash_set<SVector, STilesHash> coveredTiles;
+  std::unordered_set<SVector, STilesHash> coveredTiles;
   UpdateVisibleTiles(visibleTiles, &coveredTiles);
   visibleTiles.clear();
   UpdateVisibleTiles(coveredTiles, nullptr);
@@ -227,7 +227,7 @@ void CSuspendedUpdates::Segment()
 void CSuspendedUpdates::DeleteObjectInfo(IUpdatableObj *pObj)
 {
   // remove object from cells
-  for (std::hash_set<SVector, STilesHash>::iterator tilesOfObjIter = tilesOfObj[pObj->GetUniqueId()].begin(); tilesOfObjIter != tilesOfObj[pObj->GetUniqueId()].end(); ++tilesOfObjIter) objectsByCells.RemoveFromPosition(pObj, *tilesOfObjIter);
+  for (std::unordered_set<SVector, STilesHash>::iterator tilesOfObjIter = tilesOfObj[pObj->GetUniqueId()].begin(); tilesOfObjIter != tilesOfObj[pObj->GetUniqueId()].end(); ++tilesOfObjIter) objectsByCells.RemoveFromPosition(pObj, *tilesOfObjIter);
 
   // remove all tiles for object visibility
   tilesOfObj.erase(pObj->GetUniqueId());

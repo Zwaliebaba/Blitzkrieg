@@ -1,6 +1,6 @@
 #include "StdAfx.h"
-
 #include "BasicObjectFactory.h"
+#include <typeinfo>
 
 IRefCount *CBasicObjectFactory::CreateObject(int nTypeID)
 {

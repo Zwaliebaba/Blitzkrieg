@@ -120,5 +120,5 @@ const std::string SRMTemplateUnitsTable::UNIT_RPG_MNEMONICS[UNIT_RPG_TYPE_COUNT]
 };
 
 
-std::hash_map<DWORD, int> SRMTemplateUnitsTable::unitRPGTypeToIndex;
-std::hash_map<std::string, int> SRMTemplateUnitsTable::unitRPGMnemonicToIndex;
+std::unordered_map<DWORD, int> SRMTemplateUnitsTable::unitRPGTypeToIndex;
+std::unordered_map<std::string, int> SRMTemplateUnitsTable::unitRPGMnemonicToIndex;

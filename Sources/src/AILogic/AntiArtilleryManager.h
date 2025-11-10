@@ -14,7 +14,7 @@ class CAntiArtilleryManager
   DECLARE_SERIALIZE;
 
   // circles from shots from own artillery for each side
-  using CAntiArtilleries = std::hash_set<int>;
+  using CAntiArtilleries = std::unordered_set<int>;
   std::vector<CAntiArtilleries> antiArtilleries;
 
   static bool IsHeardForParty(CAntiArtillery *pAntiArt, int nParty);

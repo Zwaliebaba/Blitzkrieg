@@ -16,15 +16,15 @@ class CListControlWrapper
 
   CPtr<IUIListControl> pPlayersList;// list control shortcut
 
-  using IDToPosMap = std::hash_map<TID, int>;
-  using PosToIDMap = std::hash_map<int, TID>;
+  using IDToPosMap = std::unordered_map<TID, int>;
+  using PosToIDMap = std::unordered_map<int, TID>;
 
 
   IDToPosMap playerIDToPos;
   PosToIDMap posToPlayerID;
   //
 
-  using PlayersInfo = std::hash_map<TID, CPtr<TInfo>>;
+  using PlayersInfo = std::unordered_map<TID, CPtr<TInfo>>;
   PlayersInfo playersInfo;
 
   PlayersInfo::iterator curIter;// current iterator.

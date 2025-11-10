@@ -1,6 +1,6 @@
 #include "StdAfx.h"
-
 #include "StructureSaver2.h"
+#include <typeinfo>
 #include "ProgressHook.h"
 
 #ifndef _FINALRELEASE
@@ -306,7 +306,7 @@ IRefCount *CStructureSaver2::LoadObject()
 bool CStructureSaver2::StartChunk(const SSChunkID idChunk)
 {
   CChunkLevel &last = chunks.back();
-  chunks.push_back();
+  chunks.pop_back();
   if (IsReading())
   {
     bool bRes = GetShortChunk(last, idChunk, chunks.back(), last.nChunkNumber);
@@ -348,7 +348,7 @@ void CStructureSaver2::Start(EAccessMode eAccessMode, IProgressHook *pLoadHook)
   chunks.clear();
   obj.Clear();
   data.Clear();
-  chunks.push_back();
+  chunks.pop_back();
   bIsReading = eAccessMode == READ;
   if (IsReading())
   {
@@ -492,7 +492,7 @@ void CStructureSaver2::Start(EAccessMode eAccessMode, IProgressHook *pLoadHook)
   }
 }
 
-// std::hash_map<int, std::string> type2name;
+// std::unordered_map<int, std::string> type2name;
 // std::map<int, int> type2size;
 
 void CStructureSaver2::Finish()

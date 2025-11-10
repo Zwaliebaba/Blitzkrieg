@@ -61,7 +61,7 @@ struct SMessageAtomReactionForLoad
 
 using CAtomReactionsSequenceForLoad = std::vector<SMessageAtomReactionForLoad>;
 // for every return there is vector of reactions
-using CAtomReactionSequencesForLoad = std::hash_map<std::string/* CustomCheckReturn */, CAtomReactionsSequenceForLoad>;
+using CAtomReactionSequencesForLoad = std::unordered_map<std::string/* CustomCheckReturn */, CAtomReactionsSequenceForLoad>;
 
 struct SMessageReactionForLoad
 {
@@ -89,7 +89,7 @@ struct SMessageReactionForLoad
 // CLoadHelper
 
 
-class CLoadHelper : public ILoadHelper, public std::hash_map<std::string, int>
+class CLoadHelper : public ILoadHelper, public std::unordered_map<std::string, int>
 {
   OBJECT_COMPLETE_METHODS(CLoadHelper);
 
@@ -321,7 +321,7 @@ class CMessageReaction : public IMessageReaction
   DECLARE_SERIALIZE;
 
   using CMessageSequence = std::vector<CPtr<IMessageReaction>>;
-  using CMessageSequences = std::hash_map<int/* custom check return */, CMessageSequence>;
+  using CMessageSequences = std::unordered_map<int/* custom check return */, CMessageSequence>;
 
   int nCustomCheckType;
   CCustomCheckParams customCheckParams;
@@ -347,12 +347,12 @@ class CMessageLink : public IMessageLink
   DECLARE_SERIALIZE;
 
   using CIncomingMessage = std::pair<int/* nIncomingMessageID */, int/* nParam */>;
-  using CMessageReactions = std::hash_map<CIncomingMessage, CPtr<CMessageReaction>, SPairHash>;
+  using CMessageReactions = std::unordered_map<CIncomingMessage, CPtr<CMessageReaction>, SPairHash>;
   CMessageReactions messageReactions;
 
 #if !defined(_FINALRELEASE) && !defined(_BETARELEASE)
-  std::hash_map<int, std::string> messagesForDebug;
-  std::hash_map<int, std::string> parametersForDebug;
+  std::unordered_map<int, std::string> messagesForDebug;
+  std::unordered_map<int, std::string> parametersForDebug;
 #endif // #if !defined(_FINALRELEASE) && !defined(_BETARELEASE)
 
 public:
@@ -371,12 +371,12 @@ class CMessageLinkContainer : public IMessageLinkContainer
 
   CPtr<CInterfaceScreenBase> pInterface;// for temporary storage
 
-  using CMessageLinks = std::hash_map<int/* eLinkID */, CObj<IMessageLink>>;
+  using CMessageLinks = std::unordered_map<int/* eLinkID */, CObj<IMessageLink>>;
   CMessageLinks messageLinks;
 
   CCustomMessageReaction customReactions;
   // for simplyfing work ( work with ints instead of strings )
-  using CLoadHelpers = std::hash_map<int/* ELoadHelperID */, CObj<ILoadHelper>>;
+  using CLoadHelpers = std::unordered_map<int/* ELoadHelperID */, CObj<ILoadHelper>>;
   CLoadHelpers loadHelpers;
 
 public:

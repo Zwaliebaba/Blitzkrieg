@@ -51,7 +51,7 @@ private:
   class CBoredUnitsContainer
   {
     DECLARE_SERIALIZE;
-    using CBoredUnits = std::hash_map<CPtr<IMOUnit>, bool, SPtrHash>;
+    using CBoredUnits = std::unordered_map<CPtr<IMOUnit>, bool, SPtrHash>;
     CBoredUnits boredUnits;
     int nCounter;// for optimization - size boredUnits
     NTimer::STime timeLastBored;// time for last bored sound
@@ -184,9 +184,9 @@ private:
   };
 
   //
-  using CUnitAcksInfo = std::hash_map<int, SUnitAckInfo>;
-  using CUnitAcksPresence = std::hash_map<int, NTimer::STime>;
-  using CUnitsAcks = std::hash_map<CPtr<IMOUnit>, SUnitAck, SDefaultPtrHash>;
+  using CUnitAcksInfo = std::unordered_map<int, SUnitAckInfo>;
+  using CUnitAcksPresence = std::unordered_map<int, NTimer::STime>;
+  using CUnitsAcks = std::unordered_map<CPtr<IMOUnit>, SUnitAck, SDefaultPtrHash>;
   using CDeathAcks = std::list<SDeathAck>;
 
   // to select a given type of ask
@@ -210,7 +210,7 @@ private:
   int nSelectionCounter;
 
   // here is information about units registered in bored states
-  using BoredUnits = std::hash_map<int, CBoredUnitsContainer>;
+  using BoredUnits = std::unordered_map<int, CBoredUnitsContainer>;
   BoredUnits boredUnits;
 
   CUnitAcksPresence acksPresence;// the presence of a given Ack in the sound at a given moment
@@ -220,7 +220,7 @@ private:
 
   // not serialized.
   CUnitAcksInfo acksInfo;// Ack data
-  std::hash_map<std::string, int> loadHelper;
+  std::unordered_map<std::string, int> loadHelper;
   // constants
   int MIN_ACK_RADIUS;
   int MAX_ACK_RADIUS;

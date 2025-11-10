@@ -141,7 +141,7 @@ void CTimeCounter::PrintCounters()
     if (fTime > 0.0f) pConsoleBuffer->WriteASCII(11, NStr::Format("%s = %g", names[name].c_str(), fTime), 0, true);
   }
 
-  for (std::hash_map<std::string, double>::const_iterator iter = szCounters.begin(); iter != szCounters.end(); ++iter)
+  for (std::unordered_map<std::string, double>::const_iterator iter = szCounters.begin(); iter != szCounters.end(); ++iter)
   {
     const double fTime = iter->second;
     if (fTime > 0.0f) pConsoleBuffer->WriteASCII(11, NStr::Format("%s = %g", (iter->first).c_str(), fTime), 0, true);

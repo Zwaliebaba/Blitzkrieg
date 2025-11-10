@@ -191,7 +191,7 @@ class CUIMiniMap : public CSimpleWindow
   std::list<SMiniMapCircle> circles;
 
   // list of items indicated by a flag
-  std::hash_map<std::string, STextureMarker> markersTypes;
+  std::unordered_map<std::string, STextureMarker> markersTypes;
   std::list<SMiniMapMarker> markers;
 
   bool isWarFogNeedUpdate;

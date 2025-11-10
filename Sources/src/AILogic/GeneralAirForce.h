@@ -27,7 +27,7 @@ class CGeneralAirForce : public IRefCount, public IEnemyEnumerator
 
   bool bReservedByFighters;// we are waiting for the aviation to regenerate to send fighters
 
-  using AntiAviation = std::hash_map<int, CPtr<CEnemyRememberer>>;
+  using AntiAviation = std::unordered_map<int, CPtr<CEnemyRememberer>>;
   AntiAviation antiAviation;
 
   struct SSupportInfo
@@ -47,7 +47,7 @@ class CGeneralAirForce : public IRefCount, public IEnemyEnumerator
   NTimer::STime checkPeriod;// next check for all aircraft except fighters
   NTimer::STime fighterCheckPeriod;// next test for fighters
 public:
-  using Requests = std::hash_map<int /* request ID */, SSupportInfo>;
+  using Requests = std::unordered_map<int /* request ID */, SSupportInfo>;
   using RequestsByForceType = std::vector<Requests>;
 
 private:

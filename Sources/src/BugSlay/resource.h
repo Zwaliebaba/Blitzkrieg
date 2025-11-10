@@ -39,13 +39,3 @@
 #define IDC_EXCEPTION_EMERGENCY         1041
 #define IDC_ASSERTION_EMERGENCY         1042
 
-// Next default values ​​for new objects
-// 
-#ifdef APSTUDIO_INVOKED
-#ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        114
-#define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1043
-#define _APS_NEXT_SYMED_VALUE           101
-#endif
-#endif

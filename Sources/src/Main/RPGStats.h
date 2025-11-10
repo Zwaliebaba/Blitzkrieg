@@ -768,8 +768,8 @@ class CRPGStatsAutomagic : public IRPGStatsAutomagic
 {
   OBJECT_COMPLETE_METHODS(CRPGStatsAutomagic);
 
-  using CI2SMap = std::hash_map<int, std::string>;
-  using CS2IMap = std::hash_map<std::string, int>;
+  using CI2SMap = std::unordered_map<int, std::string>;
+  using CS2IMap = std::unordered_map<std::string, int>;
   //
   CI2SMap i2s;
   CS2IMap s2i;

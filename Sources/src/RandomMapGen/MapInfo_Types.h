@@ -124,7 +124,7 @@ private:
   static int nCurRandomSeed;
 
   // checksums
-  static std::hash_set<const IGDBObject *, SDefaultPtrHash> gdbObjects;
+  static std::unordered_set<const IGDBObject *, SDefaultPtrHash> gdbObjects;
 
   using TGetCheckSumFunc = void(CMapInfo::*)(uLong *pResourcesCheckSum, uLong *pMapCheckSum);
   void UpdateCheckSum(TGetCheckSumFunc pCheckSumFunc, uLong *pResourcesCheckSum, uLong *pMapCheckSum);
@@ -303,7 +303,7 @@ public:
   bool FillTileSet(const std::list<CVec2> &rInclusivePolygon,
                    const std::list<std::list<CVec2>> &rExclusivePolygons,
                    const CRMTileSet &rTileSet,
-                   std::hash_map<LPARAM, float> *pDistances = nullptr);
+                   std::unordered_map<LPARAM, float> *pDistances = nullptr);
   // CArray2D<BYTE> *pTileMap - in AI tiles (twice as many as VIS tiles)
   bool FillObjectSet(const std::list<CVec2> &rInclusivePolygon,
                      const std::list<std::list<CVec2>> &rExclusivePolygons,
@@ -314,14 +314,14 @@ public:
                           const struct SVAGradient &rGradient,
                           const CTPoint<int> &rPatternSize,
                           float fPositiveRatio,
-                          std::hash_map<LPARAM, float> *pDistances = nullptr);
+                          std::unordered_map<LPARAM, float> *pDistances = nullptr);
 
   // ------------------------------------------------------------------------------------------------------------------
   static bool AddMapInfo(SLoadMapInfo *pLoadMapInfo, const CTPoint<int> &rDestPoint, const SLoadMapInfo &rSourceLoadMapInfo);
   static bool FillTerrain(STerrainInfo *pTerrainInfo, const struct STilesetDesc &rTilesetDesc, int nTileIndex);
-  static bool FillTileSet(STerrainInfo *pTerrainInfo, const struct STilesetDesc &rTilesetDesc, const std::list<CVec2> &rInclusivePolygon, const std::list<std::list<CVec2>> &rExclusivePolygons, const CRMTileSet &rTileSet, std::hash_map<LPARAM, float> *pDistances = nullptr);
+  static bool FillTileSet(STerrainInfo *pTerrainInfo, const struct STilesetDesc &rTilesetDesc, const std::list<CVec2> &rInclusivePolygon, const std::list<std::list<CVec2>> &rExclusivePolygons, const CRMTileSet &rTileSet, std::unordered_map<LPARAM, float> *pDistances = nullptr);
   static bool FillObjectSet(SLoadMapInfo *pLoadMapInfo, const std::list<CVec2> &rInclusivePolygon, const std::list<std::list<CVec2>> &rExclusivePolygons, const CRMObjectSet &rObjectSet, CArray2D<BYTE> *pTileMap = nullptr);
-  static bool FillProfilePattern(STerrainInfo *pTerrainInfo, const std::list<CVec2> &rInclusivePolygon, const std::list<std::list<CVec2>> &rExclusivePolygons, const struct SVAGradient &rGradient, const CTPoint<int> &rPatternSize, float fPositiveRatio, std::hash_map<LPARAM, float> *pDistances = nullptr);
+  static bool FillProfilePattern(STerrainInfo *pTerrainInfo, const std::list<CVec2> &rInclusivePolygon, const std::list<std::list<CVec2>> &rExclusivePolygons, const struct SVAGradient &rGradient, const CTPoint<int> &rPatternSize, float fPositiveRatio, std::unordered_map<LPARAM, float> *pDistances = nullptr);
 
   // nGraph == ( -1 ) - random number will be used
   // nAngle == ( -1 ) - random number will be used

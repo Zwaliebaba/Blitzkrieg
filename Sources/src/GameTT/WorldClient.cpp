@@ -1210,7 +1210,7 @@ void CWorldClient::AssignSelectionGroup(int nIndex)
   // assign selection group index for all objects in this group
   CCollectObjectsSelectiorVisitor visitor;
   selunits.Visit(&visitor);
-  using CUnitsSet = std::hash_set<IMOUnit *, SDefaultPtrHash>;
+  using CUnitsSet = std::unordered_set<IMOUnit *, SDefaultPtrHash>;
   CUnitsSet unitset;
   for (auto it = visitor.GetObjects().begin(); it != visitor.GetObjects().end(); ++it)
   {

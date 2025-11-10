@@ -61,14 +61,14 @@ class CUnits : public IRefCount
   // for cell numbering
   CFreeIds cellsIds;
   // for serialization
-  std::hash_map<int, SVector> cellIdToCoord;
+  std::unordered_map<int, SVector> cellIdToCoord;
 
 
   // CRAP{ for debug
-  std::hash_set<int> unitsInCellsSet;
+  std::unordered_set<int> unitsInCellsSet;
   // CRAP}
 
-  std::vector<std::hash_map<int, int>> nUnitsOfType;
+  std::vector<std::unordered_map<int, int>> nUnitsOfType;
 
   //
   void AddUnitToConcreteCell(class CAIUnit *pUnit, const SVector &cell, bool bWithLeveledCelles);

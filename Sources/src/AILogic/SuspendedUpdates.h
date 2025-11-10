@@ -16,14 +16,14 @@ class CSuspendedUpdates
   using CObjectsByCells = CAreaMap<IUpdatableObj, CPtr<IUpdatableObj>, SVector, int>;
   CObjectsByCells objectsByCells;
   // by object - updates that are postponed for it
-  std::hash_map<CObj<IUpdatableObj>, std::vector<CPtr<IDataStream>>, SUpdatableObjectObjHash> updates;
+  std::unordered_map<CObj<IUpdatableObj>, std::vector<CPtr<IDataStream>>, SUpdatableObjectObjHash> updates;
   // by object - tiles, when visible, all pending updates should be sent
-  using CTilesMap = std::hash_map<int, std::hash_set<SVector, STilesHash>>;
+  using CTilesMap = std::unordered_map<int, std::unordered_set<SVector, STilesHash>>;
   CTilesMap tilesOfObj;
 
   // object - deferred diplomacy updates
   // It is expected that there will be few such updates
-  using CDiplomacyUpdatesType = std::hash_map<CObj<IUpdatableObj>, CPtr<IDataStream>, SUpdatableObjectObjHash>;
+  using CDiplomacyUpdatesType = std::unordered_map<CObj<IUpdatableObj>, CPtr<IDataStream>, SUpdatableObjectObjHash>;
   CDiplomacyUpdatesType diplomacyUpdates;
 
   // for each eAction all recalled updates
@@ -52,7 +52,7 @@ class CSuspendedUpdates
   std::vector<CRecalledUpdatesType> recalledUpdates;
 
   // tiles that became visible after the next scan of the fog
-  std::hash_set<SVector, STilesHash> visibleTiles;
+  std::unordered_set<SVector, STilesHash> visibleTiles;
 
   int nMyParty;
 
@@ -63,7 +63,7 @@ class CSuspendedUpdates
   void DeleteUpdate(IUpdatableObj *pObj, const EActionNotify &eAction);
   void CommonInit();
   void SuspendUpdate(const EActionNotify &eAction, IUpdatableObj *pObj, const SSuspendedUpdate &update);
-  void UpdateVisibleTiles(const std::hash_set<SVector, STilesHash> &tilesSet, std::hash_set<SVector, STilesHash> *pCoverTiles);
+  void UpdateVisibleTiles(const std::unordered_set<SVector, STilesHash> &tilesSet, std::unordered_set<SVector, STilesHash> *pCoverTiles);
 
 public:
   CSuspendedUpdates();

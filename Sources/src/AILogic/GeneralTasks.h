@@ -75,7 +75,7 @@ class CGeneralTaskToHoldReinforcement : public IGeneralTask, public IWorkerEnume
   OBJECT_COMPLETE_METHODS(CGeneralTaskToHoldReinforcement);
   CommonUnits tanksFree;
   SAIGeneralParcelInfo patchInfo;
-  using UnitsPositions = std::hash_map<int, CVec2>;
+  using UnitsPositions = std::unordered_map<int, CVec2>;
   UnitsPositions unitsPositions;
 
   float fSeverity;// current severity of this task

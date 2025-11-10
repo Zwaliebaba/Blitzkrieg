@@ -1,6 +1,3 @@
-#ifndef __GLOBAL_VARS_H__
-#define __GLOBAL_VARS_H__
-
 #pragma once
 
 #include "../Misc/FileUtils.h"
@@ -9,10 +6,10 @@ class CGlobalVars : public IGlobalVars
 {
   OBJECT_NORMAL_METHODS(CGlobalVars);
   //
-  using CValuesMap = std::hash_map<std::string, std::string>;
+  using CValuesMap = std::unordered_map<std::string, std::string>;
   CValuesMap values;
 
-  using CWValuesMap = std::hash_map<std::string, std::wstring>;
+  using CWValuesMap = std::unordered_map<std::string, std::wstring>;
   CWValuesMap wValues;
 
 public:
@@ -76,9 +73,9 @@ public:
   }
 
   //
-  void STDCALL SetVar(const char *pszValueName, const WORD *pszValue) override { wValues[pszValueName] = pszValue; }
+  void STDCALL SetVar(const char *pszValueName, const wchar_t*pszValue) override { wValues[pszValueName] = pszValue; }
 
-  const WORD * STDCALL GetWVar(const char *pszValueName) const override
+  const wchar_t* STDCALL GetWVar(const char *pszValueName) const override
   {
     CWValuesMap::const_iterator pos = wValues.find(pszValueName);
     return pos == wValues.end() ? nullptr : pos->second.c_str();
@@ -131,5 +128,3 @@ public:
     return 0;
   }
 };
-
-#endif // __GLOBAL_VARS_H__

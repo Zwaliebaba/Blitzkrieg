@@ -284,7 +284,7 @@ inline const char *GetKeyName(int nID)
 struct SDeviceEnumDesc : SDeviceDesc
 {
   bool bPoll;
-  std::hash_map<int, int> cntrltypes;
+  std::unordered_map<int, int> cntrltypes;
   std::vector<SControlDesc> controls;
   std::vector<DIOBJECTDATAFORMAT> objects;
 };
@@ -292,7 +292,7 @@ struct SDeviceEnumDesc : SDeviceDesc
 struct SDevicesEnumDesc
 {
   std::vector<SDeviceEnumDesc> devices;
-  std::hash_map<int, int> devtypes;
+  std::unordered_map<int, int> devtypes;
 };
 
 // callback to enumerate all input devices

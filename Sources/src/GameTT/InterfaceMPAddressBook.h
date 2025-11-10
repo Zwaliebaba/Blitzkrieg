@@ -15,7 +15,7 @@ class CInterfaceMPAddressBook : public CInterfaceMultiplayerScreen
   OBJECT_NORMAL_METHODS(CInterfaceMPAddressBook);
   //
   NInput::CCommandRegistrator msgs;
-  using CServersList = std::hash_set<std::string>;
+  using CServersList = std::unordered_set<std::string>;
 
   CServersList szServers;
   bool bChanged;

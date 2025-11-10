@@ -54,10 +54,10 @@ class CSaverAccessor
   int __cdecl TestDataPath(std::set<T1, T2, T3> *) { return 0; }
 
   template<class T1, class T2, class T3, class T4, class T5>
-  int __cdecl TestDataPath(std::hash_map<T1, T2, T3, T4, T5> *) { return 0; }
+  int __cdecl TestDataPath(std::unordered_map<T1, T2, T3, T4, T5> *) { return 0; }
 
   template<class T1, class T2, class T3, class T4>
-  int __cdecl TestDataPath(std::hash_set<T1, T2, T3, T4> *) { return 0; }
+  int __cdecl TestDataPath(std::unordered_set<T1, T2, T3, T4> *) { return 0; }
 
   template<class T1, class T2, class T3, class T4, class T5>
   int __cdecl TestDataPath(std::priority_queue<T1, T2, T3> *) { return 0; }
@@ -143,7 +143,7 @@ class CSaverAccessor
   }
 
   template<class T, class T1, class T2, class T3, class T4, class T5>
-  void __cdecl AddInternal(const SSChunkID idChunk, T *p, std::hash_map<T1, T2, T3, T4, T5> *pData)
+  void __cdecl AddInternal(const SSChunkID idChunk, T *p, std::unordered_map<T1, T2, T3, T4, T5> *pData)
   {
     if (!pSS->StartChunk(idChunk)) return;
     DoHashMap(*pData);
@@ -159,14 +159,14 @@ class CSaverAccessor
   }
 
   template<class T, class T1, class T2, class T3, class T4>
-  void __cdecl AddInternal(const SSChunkID idChunk, T *p, std::hash_set<T1, T2, T3, T4> *pData)
+  void __cdecl AddInternal(const SSChunkID idChunk, T *p, std::unordered_set<T1, T2, T3, T4> *pData)
   {
     std::list<T1> elements;
-    // hash_set => list
-    if (!IsReading()) { for (std::hash_set<T1, T2, T3, T4>::iterator it = pData->begin(); it != pData->end(); ++it) elements.push_back(*it); }
+    // unordered_set => list
+    if (!IsReading()) { for (std::unordered_set<T1, T2, T3, T4>::iterator it = pData->begin(); it != pData->end(); ++it) elements.push_back(*it); }
     // add container
     Add(idChunk, &elements);
-    // list => hash_set
+    // list => unordered_set
     if (IsReading())
     {
       pData->clear();
@@ -178,11 +178,11 @@ class CSaverAccessor
   void __cdecl AddInternal(const SSChunkID idChunk, T *p, std::set<T1, T2, T3> *pData)
   {
     std::list<T1> elements;
-    // hash_set => list
+    // unordered_set => list
     if (!IsReading()) { for (typename std::set<T1, T2, T3>::iterator it = pData->begin(); it != pData->end(); ++it) elements.push_back(*it); }
     // add container
     Add(idChunk, &elements);
-    // list => hash_set
+    // list => unordered_set
     if (IsReading())
     {
       pData->clear();
@@ -282,9 +282,9 @@ class CSaverAccessor
     if (nSize > 0) AddRawData(2, &data[0], sizeof(T1) * nSize);
   }
 
-  // hash_map
+  // unordered_map
   template<class T1, class T2, class T3, class T4, class T5>
-  void DoHashMap(std::hash_map<T1, T2, T3, T4, T5> &data)
+  void DoHashMap(std::unordered_map<T1, T2, T3, T4, T5> &data)
   {
     if (IsReading())
     {
@@ -305,7 +305,7 @@ class CSaverAccessor
     }
     else
     {
-      for (std::hash_map<T1, T2, T3, T4, T5>::iterator pos = data.begin(); pos != data.end(); ++pos)
+      for (std::unordered_map<T1, T2, T3, T4, T5>::iterator pos = data.begin(); pos != data.end(); ++pos)
       {
         T1 idx = pos->first;
         Add(1, &idx);

@@ -5,8 +5,8 @@
 
 class CBasicObjectFactory : public IObjectFactory
 {
-  using CNewFuncsMap = std::hash_map<int, ObjectFactoryNewFunc>;
-  using CRTTIMap = std::hash_map<const type_info *, int, SDefaultPtrHash>;
+  using CNewFuncsMap = std::unordered_map<int, ObjectFactoryNewFunc>;
+  using CRTTIMap = std::unordered_map<const type_info *, int, SDefaultPtrHash>;
   // table of functions for creating new objects
   CNewFuncsMap newfuncs;
   CRTTIMap rttis;

@@ -1,7 +1,5 @@
-#ifndef __UIOPTIONS_H__
-#define __UIOPTIONS_H__
-
 #pragma once
+
 #include "../StreamIO/OptionSystem.h"
 
 // ui side
@@ -11,8 +9,8 @@ interface IUISetOptionsToUI
   // use tempBuffer
   virtual void STDCALL SetSelectionOption(const std::vector<SOptionDropListValue> &szSelections, int nDefault) = 0;
   virtual void STDCALL SetSliderOption(int nMin, int nMax, int nDefault) = 0;
-  virtual void STDCALL SetTextOption(const WORD *pszEntry) = 0;
-  virtual void STDCALL SetTextGameSpyOption(const WORD *pszEntry) = 0;
+  virtual void STDCALL SetTextOption(const wchar_t*pszEntry) = 0;
+  virtual void STDCALL SetTextGameSpyOption(const wchar_t*pszEntry) = 0;
   virtual void STDCALL SetTextNumericOption(int nEnntry) = 0;
 
   virtual void STDCALL ResetSelection() = 0;
@@ -26,9 +24,9 @@ interface IUIGetOptionsFromUI
 {
   virtual int STDCALL GetSelectionOption() const = 0;
   virtual int STDCALL GetSliderOption() const = 0;
-  virtual const WORD * STDCALL GetTextOption() const = 0;
+  virtual const wchar_t* STDCALL GetTextOption() const = 0;
   virtual const int STDCALL GetTextNumericOption() const = 0;
-  virtual const WORD * STDCALL GetTextGameSpyOption() const = 0;
+  virtual const wchar_t* STDCALL GetTextGameSpyOption() const = 0;
 };
 
 enum EOptionsType
@@ -144,7 +142,7 @@ class COptionTextEntry : public COption
 
 public:
   COptionTextEntry() {}
-  COptionTextEntry(const char *pszName, const bool _bInstant, const WORD *_pszText) : COption(pszName, _bInstant), szText(_pszText) {}
+  COptionTextEntry(const char *pszName, const bool _bInstant, const wchar_t*_pszText) : COption(pszName, _bInstant), szText(_pszText) {}
 
   void STDCALL Set(interface IUISetOptionsToUI *pSet) override { pSet->SetTextOption(szText.c_str()); }
 
@@ -163,7 +161,7 @@ class COptionTextEntryGameSpyCharacters : public COption
 
 public:
   COptionTextEntryGameSpyCharacters() {}
-  COptionTextEntryGameSpyCharacters(const char *pszName, const bool _bInstant, const WORD *_pszText) : COption(pszName, _bInstant), szText(_pszText) {}
+  COptionTextEntryGameSpyCharacters(const char *pszName, const bool _bInstant, const wchar_t*_pszText) : COption(pszName, _bInstant), szText(_pszText) {}
 
   void STDCALL Set(interface IUISetOptionsToUI *pSet) override { pSet->SetTextGameSpyOption(szText.c_str()); }
 
@@ -193,5 +191,3 @@ public:
 
   void STDCALL Apply() override { GetOptionSystem()->Set(GetName(), variant_t(static_cast<long>(nEntry))); }
 };
-
-#endif // __UIOPTIONS_H__

@@ -49,7 +49,7 @@ void CInterfaceBaseList::FillListFromCurrentDir()
     IDataStorage *pStorage = GetSingleton<IDataStorage>();
     CPtr<IStorageEnumerator> pEnumerator = pStorage->CreateEnumerator();
     pEnumerator->Reset("*.*");
-    std::hash_set<std::string> setOfDirs;
+    std::unordered_set<std::string> setOfDirs;
 
     while (pEnumerator->Next())
     {
@@ -84,7 +84,7 @@ void CInterfaceBaseList::FillListFromCurrentDir()
       }
     }
 
-    for (std::hash_set<std::string>::const_iterator it = setOfDirs.begin(); it != setOfDirs.end(); ++it) { dirs.push_back(*it); }
+    for (std::unordered_set<std::string>::const_iterator it = setOfDirs.begin(); it != setOfDirs.end(); ++it) { dirs.push_back(*it); }
   }
   else
   {

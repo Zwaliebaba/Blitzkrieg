@@ -9,7 +9,7 @@ struct SCommand;
 class CSetBindSectionVisitor : public IInputVisitor
 {
   const std::string szBindSection;
-  std::hash_set<CCombo *, SDefaultPtrHash> combos;
+  std::unordered_set<CCombo *, SDefaultPtrHash> combos;
 
 public:
   CSetBindSectionVisitor(const std::string &_szBindSection) : szBindSection(_szBindSection) {}
@@ -31,8 +31,8 @@ class CFindBindVisitor : public IInputVisitor
   };
 
   //
-  using CControlsMap = std::hash_map<const CControl *, std::list<CBind *>, SDefaultPtrHash>;
-  using CBindsMap = std::hash_map<CBind *, SBindStats, SDefaultPtrHash>;
+  using CControlsMap = std::unordered_map<const CControl *, std::list<CBind *>, SDefaultPtrHash>;
+  using CBindsMap = std::unordered_map<CBind *, SBindStats, SDefaultPtrHash>;
   const SCommand *pCommand2Find;// command to find
   const EInputBindActivationType eType;// command activation type to find
   CControlsMap controls;// controls of the bind to find

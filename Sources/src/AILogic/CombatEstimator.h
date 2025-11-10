@@ -22,7 +22,7 @@ class CCombatEstimator
       : time(time), fDamage(fDamage) {}
   };
 
-  using CRegisteredUnits = std::hash_set<int>;
+  using CRegisteredUnits = std::unordered_set<int>;
   CRegisteredUnits registeredMechUnits;// enemy units (not infantry) with a non-zero current speed
   CRegisteredUnits registeredInfantry;// enemy units (infantry) with non-zero current speed
 

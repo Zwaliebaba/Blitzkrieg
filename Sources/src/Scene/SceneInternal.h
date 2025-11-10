@@ -27,7 +27,7 @@ struct SVisObjDesc
   int operator&(IStructureSaver &ss);
 };
 
-using CVisObjDescMap = std::hash_map<IVisObj *, SVisObjDesc, SDefaultPtrHash>;
+using CVisObjDescMap = std::unordered_map<IVisObj *, SVisObjDesc, SDefaultPtrHash>;
 
 struct SToolTip
 {
@@ -122,7 +122,7 @@ using CEffectObjList = std::list<CPtr<IEffectVisObj>>;
 using CSpritesObjList = std::list<CPtr<ISpriteVisObj>>;
 using CParticlesVisList = std::list<SParticleInfo>;
 using CSceneObjectsList = std::list<CPtr<ISceneObject>>;
-using CParticlesVisMap = std::hash_map<IGFXTexture *, CParticlesVisList, SDefaultPtrHash>;
+using CParticlesVisMap = std::unordered_map<IGFXTexture *, CParticlesVisList, SDefaultPtrHash>;
 
 using CObjectsArea = CAreaMap<IObjVisObj>;
 

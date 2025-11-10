@@ -4,6 +4,8 @@
 #include "StdAfx.h"
 #include "CallStack.h"
 // The project internal header file.
+#include <functional>
+
 #include "Internal.h"
 
 #define WORK_AROUND_SRCLINE_BUG 1

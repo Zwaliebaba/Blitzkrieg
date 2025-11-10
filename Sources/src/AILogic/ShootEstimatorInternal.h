@@ -161,7 +161,7 @@ class CPlaneShturmovikShootEstimator : public IShootEstimator
   STargetInfo bestForGuns;
   STargetInfo bestForBombs;
   STargetInfo bestAviation;
-  using CBuildings = std::hash_set<int/* unique id of building */>;
+  using CBuildings = std::unordered_set<int/* unique id of building */>;
   CBuildings buildings;
   CPtr<CBuilding> pBestBuilding;
 

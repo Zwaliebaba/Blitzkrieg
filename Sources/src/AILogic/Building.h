@@ -161,7 +161,7 @@ class CBuilding : public CGivenPassabilityStObject, public ILoadableObject, publ
   // the amount of HP when it’s time to run away from the building (run away if there are fewer of them)
   const float GetEscapeHitPoints() const;
   // kick a soldier's formation out of the house, pFormations - list of already kicked out formations
-  void DriveOut(CSoldier *pSoldier, std::hash_set<int> *pFormations);
+  void DriveOut(CSoldier *pSoldier, std::unordered_set<int> *pFormations);
   void KillAllInsiders();
 
 protected:

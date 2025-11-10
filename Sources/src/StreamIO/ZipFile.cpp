@@ -1,7 +1,6 @@
 #include "StdAfx.h"
-
 #include "ZipFile.h"
-
+#include <functional>
 #include <zlib.h>
 #include "StreamAdaptor.h"
 #include "MemFileSystem.h"

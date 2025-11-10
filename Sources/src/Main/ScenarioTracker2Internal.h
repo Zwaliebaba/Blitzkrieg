@@ -113,7 +113,7 @@ class CScenarioTracker2 : public CTRefCount<IScenarioTracker>
   std::string szMinimumDifficulty;
   //
   mutable std::vector<SOpponentDesc> opponents;// opponents descriptions
-  using CNamesUsageMap = std::hash_map<std::string, SNameUsageStats>;
+  using CNamesUsageMap = std::unordered_map<std::string, SNameUsageStats>;
   CNamesUsageMap personalNamesUsage;// personal names usage
   // current chapter script
   class Script *pChapterScript;// chapter script

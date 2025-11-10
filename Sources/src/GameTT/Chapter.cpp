@@ -115,7 +115,7 @@ void CInterfaceChapter::IncrementChapterVisited()
     int nNumberOfFinishedMissions = GetGlobalVar("Mission.Finished.Counter", 0);
     int nTotalProbability = 0;// to select a mission based on probability
 
-    std::hash_map<std::string, int> missionFinishTimes;// in this table there will be matches between the name of the mission and when it was last completed
+    std::unordered_map<std::string, int> missionFinishTimes;// in this table there will be matches between the name of the mission and when it was last completed
     // fill out the form
     for (int i = 0; i < nNumberOfFinishedMissions; i++)
     {
@@ -137,7 +137,7 @@ void CInterfaceChapter::IncrementChapterVisited()
 
       // let's determine when this mission was last completed
       int nFinishTime = 0;
-      std::hash_map<std::string, int>::iterator findIt = missionFinishTimes.find(temp.szName);
+      std::unordered_map<std::string, int>::iterator findIt = missionFinishTimes.find(temp.szName);
       if (findIt != missionFinishTimes.end()) nFinishTime = findIt->second;// the mission is on the sign, which means it was completed at some point
 
       temp.nProbability = nNumberOfFinishedMissions - nFinishTime + 1;
@@ -239,7 +239,7 @@ struct SMissionInfo
 };
 
 
-using CTemplateInfos = std::hash_map<std::string, std::vector<SMissionInfo>>;
+using CTemplateInfos = std::unordered_map<std::string, std::vector<SMissionInfo>>;
 
 
 bool CInterfaceChapter::Init()

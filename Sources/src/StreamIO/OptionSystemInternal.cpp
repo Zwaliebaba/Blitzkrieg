@@ -1,21 +1,16 @@
 #include "StdAfx.h"
-
 #include "OptionsConvert.h"
 #include "OptionSystemInternal.h"
-
 #include "../Main/TextSystem.h"
-
 #include "../GFX/GFX.h"
 #include "../GFX/GFXHelper.h"
 #include "../SFX/SFX.h"
 #include "../Scene/Scene.h"
 #include "../Scene/PFX.h"
 #include "../GameTT/UIOptions.h"
-
 #include "../AILogic/AILogic.h"
 #include "../Input/Input.h"
 #include "../Input/InputTypes.h"
-#include "../Main/iMainCommands.h"
 
 // ************************************************************************************************************************ //
 // **
@@ -145,7 +140,7 @@ bool COptionSystem::Set(const std::string &szVarName, const variant_t &_var)
   if (var.vt == VT_BSTR)
   {
     // cut string for allowable length
-    std::wstring szStr = (const WORD *) bstr_t(var);
+    std::wstring szStr = (const wchar_t*) bstr_t(var);
     if (szStr.size() > 12)
     {
       szStr.resize(8);
@@ -157,7 +152,7 @@ bool COptionSystem::Set(const std::string &szVarName, const variant_t &_var)
   // CRAP{ FOR LOCAL PLAYER NAME
   if (szVarName == "GamePlay.PlayerName")
   {
-    std::wstring szPlayerName = (const WORD *) bstr_t(var);
+    std::wstring szPlayerName = (const wchar_t*) bstr_t(var);
     if (szPlayerName.empty())
     {
       IText *pT = GetSingleton<ITextManager>()->GetDialog("Textes\\PlayerName");
@@ -188,19 +183,19 @@ void COptionSystem::InnerSet(const std::string &szVarName, const variant_t &var)
       ISFX *pSFX = GetSingleton<ISFX>();
       short nVolume = static_cast<short>(var) * GetGlobalVar("Sound.StreamMasterVolume", 1.0f);
       pSFX->SetStreamMasterVolume(nVolume / 100.0f);
-      SetGlobalVar(("Options." + szVarName).c_str(), var);
+      SetGlobalVar(("Options." + szVarName).c_str(), (float)var);
     }
     else if (pOpt->szAction == "SetSFXVolume")
     {
       ISFX *pSFX = GetSingleton<ISFX>();
       short nVolume = static_cast<short>(var) * GetGlobalVar("Sound.SFXMasterVolume", 1.0f);
       pSFX->SetSFXMasterVolume(nVolume / 100.0f);
-      SetGlobalVar(("Options." + szVarName).c_str(), var);
+      SetGlobalVar(("Options." + szVarName).c_str(), (float)var);
     }
     else if (pOpt->szAction == "SetDifficulty")
     {
       SetDifficulty(var);
-      SetGlobalVar(("Options." + szVarName).c_str(), static_cast<_bstr_t>(var));
+      SetGlobalVar(("Options." + szVarName).c_str(), (const char*)static_cast<_bstr_t>(var));
     }
     else if (pOpt->szAction == "SetBlood")
     {
@@ -259,11 +254,11 @@ void COptionSystem::InnerSet(const std::string &szVarName, const variant_t &var)
       const float fValue = static_cast<float>((long) (*pOpt)) / 100.0f;
       GetSingleton<IParticleManager>()->SetQuality(fValue);
       GetSingleton<IScene>()->SetWeatherQuality(fValue);
-      SetGlobalVar(("Options." + szVarName).c_str(), static_cast<_bstr_t>(var));
+      SetGlobalVar(("Options." + szVarName).c_str(), (const char*)static_cast<_bstr_t>(var));
     }
     else if (pOpt->szAction == "SetOptBuffers") { GetSingleton<IGFX>()->SetOptimizedBuffers(std::string((const char *) bstr_t(var)) != "OFF"); }
-    else if (var.vt == VT_BSTR) { SetGlobalVar(("Options." + szVarName).c_str(), static_cast<_bstr_t>(var)); }
-    else { SetGlobalVar(("Options." + szVarName).c_str(), var); }
+    else if (var.vt == VT_BSTR) { SetGlobalVar(("Options." + szVarName).c_str(), (const char*)static_cast<_bstr_t>(var)); }
+    else { SetGlobalVar(("Options." + szVarName).c_str(), (float)var); }
   }
 }
 
@@ -365,7 +360,7 @@ void COptionSystem::Repair(IDataTree *pSS, const bool bToDefault)
       // CRAP{ FOR LOCAL PLAYER'S NAME
       if (pDesc->szName == "GamePlay.PlayerName")
       {
-        const std::wstring szPlayerName = (const WORD *) bstr_t(dummy);
+        const std::wstring szPlayerName = (const wchar_t *) bstr_t(dummy);
         if (szPlayerName.empty())
         {
           SetVar(pDesc->szName, pTmpOptions->GetVar(pDesc->szName));

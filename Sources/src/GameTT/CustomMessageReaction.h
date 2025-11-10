@@ -18,7 +18,7 @@ class CCustomMessageReaction
       : pfnReaction(_pfnReaction) {}
   };
 
-  using CReactions = std::hash_map<std::string, SReactionDescriptor>;
+  using CReactions = std::unordered_map<std::string, SReactionDescriptor>;
   CReactions reactions;
 
 public:
