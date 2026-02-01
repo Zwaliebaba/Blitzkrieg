@@ -1,8 +1,8 @@
-#ifndef __MESSAGEREACTION_H__
-#define __MESSAGEREACTION_H__
-
 #pragma once
+
 #include "iMission.h"
+
+#undef SetWindowText
 
 // encapsulate (atomic) reaction on specific message
 
@@ -87,5 +87,3 @@ interface IMessageLinkContainer : IRefCount
   // set text to desider window
   virtual void STDCALL SetWindowText(int nElementID, const wchar_t *pszText) = 0;
 };
-
-#endif // __MESSAGEREACTION_H__

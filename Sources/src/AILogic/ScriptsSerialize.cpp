@@ -69,7 +69,7 @@ int CScripts::operator&(IStructureSaver &ss)
       for (auto iter = activeScriptsInfo.begin(); iter != activeScriptsInfo.end(); ++iter)
       {
         script.GetGlobal(iter->szName.c_str());
-        const int nScriptRef = script.Ref(1);
+        const int nScriptRef = script.Ref();
 
         name2script[iter->szName] = nScriptRef;
 

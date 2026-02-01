@@ -1,15 +1,14 @@
 #include "StdAfx.h"
-
 #include "TotalEncyclopedia.h"
-
-#include "../Main/ScenarioTracker.h"
-#include "../UI/UIMessages.h"
+#include <functional>
 #include "CommonId.h"
+#include "SaveLoadCommon.h"
 #include "UnitTypes.h"
 #include "etypes.h"
-#include "SaveLoadCommon.h"
-#include "../StreamIO/ProgressHook.h"
+#include "../Main/ScenarioTracker.h"
 #include "../Misc/Checker.h"
+#include "../StreamIO/ProgressHook.h"
+#include "../UI/UIMessages.h"
 
 // get index in unitTypes by EUnitRPGClass
 
@@ -422,7 +421,7 @@ void CInterfaceWarehouse::CUnitClassInfo::Expand(IUIShortcutBar *pSB, const bool
 
 int CInterfaceWarehouse::CUnitClassInfo::ApplyUpgrades()
 {
-  std::for_each(units.begin(), units.end(), std::mem_fun(CUnitInfoItem::ApplyUpgrades));
+  std::for_each(units.begin(), units.end(), std::mem_fn(&CUnitInfoItem::ApplyUpgrades));
   // fuck
   return 0;
 }
@@ -652,7 +651,7 @@ void CInterfaceWarehouse::CPlayerUnitsPane::SetUpgrade(const std::string &szNewS
 
 int CInterfaceWarehouse::CPlayerUnitsPane::ApplyUpgrades()
 {
-  std::for_each(classes.begin(), classes.end(), std::mem_fun(CUnitClassInfo::ApplyUpgrades));
+  std::for_each(classes.begin(), classes.end(), std::mem_fn(&CUnitClassInfo::ApplyUpgrades));
   return 0;
 }
 

@@ -131,7 +131,7 @@ public:
   IMemento *GetMemento() const override;
   // radius of curvance. 
   float GetCurvatureRadius() const override { return 0.0f; }
-  CVec2 GetCurvatureCenter() const override { return CVec2(1e15, 1e15); }
+  CVec2 GetCurvatureCenter() const override { return CVec2(1e15f, 1e15f); }
 
   bool IsWithFormation() const override { return false; }
 

@@ -527,7 +527,7 @@ void FillActionsPriority(const char *pszRow, const char *pszEntry, CTableAccesso
     if (std::find(desired.begin(), desired.end(), 0) == desired.end()) dst.push_back(0);
   }
   // remove all actions >= 64
-  dst.erase(std::remove_if(dst.begin(), dst.end(), std::bind2nd(std::greater_equal<int>(), 64)), dst.end());
+  dst.erase(std::remove_if(dst.begin(), dst.end(), [](int v) { return v >= 64; }), dst.end());
 }
 
 void CWorldClient::Init(ISingleton *pSingleton)
@@ -559,7 +559,7 @@ void CWorldClient::Init(ISingleton *pSingleton)
   RegisterAction(USER_ACTION_INSTALL, SActionDesc::INSTANT, &CWorldClient::ActionInstallMsg);
   RegisterAction(USER_ACTION_UNINSTALL, SActionDesc::INSTANT, &CWorldClient::ActionUnInstallMsg);
 
-  RegisterAction(USER_ACTION_CAPTURE_ARTILLERY, SActionDesc::AUTO, ActionCaptureArtilleryMsg);
+  RegisterAction(USER_ACTION_CAPTURE_ARTILLERY, SActionDesc::AUTO, &CWorldClient::ActionCaptureArtilleryMsg);
   RegisterAction(USER_ACTION_HOOK_ARTILLERY, SActionDesc::AUTO | SActionDesc::FORCED, &CWorldClient::ActionHookArtilleryMsg);
   RegisterAction(USER_ACTION_DEPLOY_ARTILLERY, SActionDesc::FORCED, &CWorldClient::ActionDeployArtilleryMsg);
 

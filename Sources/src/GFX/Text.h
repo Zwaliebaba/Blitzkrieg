@@ -118,8 +118,8 @@ class CGFXText : public IGFXText
   CGFXText();
   //
   using FillGeometryDataPtr = float(CGFXText::*)(const wchar_t *pszStringBegin, const wchar_t *pszStringEnd,
-                                                 float sx, float sy, const CTRect<float> &rcClipRect,
-                                                 DWORD dwColor, DWORD dwSpecular,
+                                                 float sx, const float sy, const CTRect<float> &rcClipRect,
+                                                 const DWORD dwColor, const DWORD dwSpecular,
                                                  std::vector<SGFXLVertex> &vertices, std::vector<WORD> &indices) const;
   //
   template<class TVisitor>

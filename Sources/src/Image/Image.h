@@ -1,11 +1,8 @@
-#ifndef __IMAGE_H__
-#define __IMAGE_H__
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "../GFX/GFXTypes.h"
+
+#undef LoadImage
 
 enum
 {
@@ -201,4 +198,3 @@ enum ECompressionType
   COMPRESSION_HIGH_QUALITY,
 };
 
-#endif // __IMAGE_H__

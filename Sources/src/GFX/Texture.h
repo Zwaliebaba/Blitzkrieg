@@ -8,7 +8,7 @@ class CBaseTexture : public TBase
 {
   // NOTE: I know, that protected members are very bad, but this class is used only for interchange compatibility of texture and render-target texture
 protected:
-  NWin32Helper::com_ptr<IDirect3DTexture8> pTexture;// internal D3D data container
+  NWin32Helper::com_ptr<IDirect3DTexture9> pTexture;// internal D3D data container
   EGFXPixelFormat format;// format
   int nSizeX, nSizeY;// top level dimension
   int nMemUsage;// memory usage (approx, in bytes)
@@ -37,7 +37,7 @@ public:
     nMemUsage = 0;
   }
 
-  virtual IDirect3DTexture8 *GetInternalContainer() = 0;
+  virtual IDirect3DTexture9 *GetInternalContainer() = 0;
   //
   int STDCALL GetSizeX(int nLevel) const { return nSizeX >> nLevel; }
   int STDCALL GetSizeY(int nLevel) const { return nSizeY >> nLevel; }
@@ -55,10 +55,10 @@ public:
     : CBaseTexture<IGFXTexture>(GFXPF_UNKNOWN, -1, -1, 0) {}
 
   //
-  void Init(IDirect3DTexture8 *_pTexture, int _nMemUsage);
+  void Init(IDirect3DTexture9 *_pTexture, int _nMemUsage);
   //
   D3DRESOURCETYPE GetType() const { return D3DRTYPE_TEXTURE; }
-  IDirect3DTexture8 *GetInternalContainer() override;
+  IDirect3DTexture9 *GetInternalContainer() override;
   //
   // internal container clearing
   bool STDCALL Load(bool bPreLoad = false) override;
@@ -78,19 +78,19 @@ class CRenderTargetTexture : public CBaseTexture<IGFXRTexture>
   OBJECT_COMPLETE_METHODS(CRenderTargetTexture);
   SHARED_RESOURCE_METHODS(nRefData.a, "RTexture");
   //
-  NWin32Helper::com_ptr<IDirect3DSurface8> pColor;// color buffer
-  NWin32Helper::com_ptr<IDirect3DSurface8> pDepth;// depth buffer
+  NWin32Helper::com_ptr<IDirect3DSurface9> pColor;// color buffer
+  NWin32Helper::com_ptr<IDirect3DSurface9> pDepth;// depth buffer
 public:
   CRenderTargetTexture()
     : CBaseTexture<IGFXRTexture>(GFXPF_ARGB8888, -1, -1, 0) {}
 
   //
-  void Init(IDirect3DTexture8 *_pTexture, IDirect3DSurface8 *_pDepth, int _nMemUsage);
+  void Init(IDirect3DTexture9 *_pTexture, IDirect3DSurface9 *_pDepth, int _nMemUsage);
   //
-  IDirect3DSurface8 *GetColorSurface() const { return pColor; }
-  IDirect3DSurface8 *GetDepthSurface() const { return pDepth; }
+  IDirect3DSurface9 *GetColorSurface() const { return pColor; }
+  IDirect3DSurface9 *GetDepthSurface() const { return pDepth; }
   //
-  IDirect3DTexture8 *GetInternalContainer() override { return pTexture; }
+  IDirect3DTexture9 *GetInternalContainer() override { return pTexture; }
   void STDCALL SwapData(ISharedResource *pResource) override {}
 
   void STDCALL ClearInternalContainer() override
@@ -111,15 +111,15 @@ class CSurface : public IGFXSurface
 {
   OBJECT_COMPLETE_METHODS(CSurface);
   //
-  NWin32Helper::com_ptr<IDirect3DSurface8> pSurface;
+  NWin32Helper::com_ptr<IDirect3DSurface9> pSurface;
   EGFXPixelFormat format;
   int nSizeX, nSizeY;
 
 public:
-  CSurface() : format(GFXPF_UNKNOWN), nSizeX(-1), nSizeY(-1) {}
-  CSurface(IDirect3DSurface8 *_pSurface) { Init(_pSurface); }
-  //
-  void Init(IDirect3DSurface8 *_pSurface);
+CSurface() : format(GFXPF_UNKNOWN), nSizeX(-1), nSizeY(-1) {}
+CSurface(IDirect3DSurface9 *_pSurface) { Init(_pSurface); }
+//
+void Init(IDirect3DSurface9 *_pSurface);
   // direct data access through lock
   bool STDCALL Lock(SSurfaceLockInfo *pLockInfo) override;
   bool STDCALL Unlock() override;

@@ -96,4 +96,5 @@ public:
   bool STDCALL InitJoinToServer(const char *pszIPAddress, const int nPort, bool bPasswordRequired, const char *pszPassword) override { return true; }
 };
 
+
 #endif // __MULTIPLAYER_INTERNAL_H__

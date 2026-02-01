@@ -1,6 +1,8 @@
 #ifndef __SAMPLESOUNDS_H__
 #define __SAMPLESOUNDS_H__
 
+#include "FMODStub.h"
+
 // ************************************************************************************************************************ //
 // **
 // ** base shared sound sample resource

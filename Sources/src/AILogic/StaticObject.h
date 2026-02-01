@@ -188,7 +188,12 @@ protected:
   void InitTransparenciesPossibility();
 
 public:
-  CGivenPassabilityStObject() : bTransparencySet(false) {}
+  CGivenPassabilityStObject()
+    : boundRect(),
+      lockTypes(0),
+      bPartially(false),
+      bTransparencySet(false) {}
+
   CGivenPassabilityStObject(const CVec2 &center, int dbID, float fHP, int nFrameIndex);
   virtual void Init();
 

@@ -69,7 +69,7 @@ void CChatUserChanged::SendToUI()
     case IChat::EUM_NOT_AWAY:
       eUIState = EPCS_IN_CHAT;
       break;
-    case IChat::EUM_IN_GS_CHAT:
+    case IChat::EUM_IN_CHAT:
       eUIState = EPCS_IN_CHAT;
       break;
     case IChat::EUM_IN_SERVERS_LIST:

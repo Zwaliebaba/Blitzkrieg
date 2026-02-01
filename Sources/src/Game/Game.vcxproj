@@ -211,7 +211,7 @@ call s:\soft\copydll.bat $(SolutionDir) Release</Command>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OutputFile>.\Debug\Game.exe</OutputFile>
-      <AdditionalDependencies>d3dx8.lib;version.lib;winmm.lib;odbc32.lib;odbccp32.lib;comsupp.lib;Shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>version.lib;winmm.lib;odbc32.lib;odbccp32.lib;comsupp.lib;Shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='FastDebug|Win32'">
@@ -432,6 +432,9 @@ call s:\soft\copydll.bat $(SolutionDir) BetaRelease</Command>
     <ProjectReference Include="..\Net\Net.vcxproj">
       <Project>{6f016230-2433-4be3-978f-503c02dab2de}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\RandomMapGen\RandomMapGen.vcxproj">
+      <Project>{5ede0822-e0b5-488c-93a0-967870b24b42}</Project>
     </ProjectReference>
     <ProjectReference Include="..\StreamIO\StreamIO.vcxproj">
       <Project>{6ba635ec-36bc-4d5d-8995-78ac0a0e9684}</Project>

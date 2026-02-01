@@ -1,5 +1,4 @@
 #include "stdafx.h"
-
 #include "MessagesStore.h"
 #include "Messages.h"
 

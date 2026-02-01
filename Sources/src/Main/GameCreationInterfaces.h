@@ -90,6 +90,7 @@ interface IChat : IRefCount
     EUM_NONE,
     EUM_AWAY,
     EUM_NOT_AWAY,
+    EUM_IN_CHAT,
     EUM_IN_SERVERS_LIST,
     EUM_IN_STAGING_ROOM,
     EUM_IN_GAME_PLAYING,

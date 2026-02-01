@@ -323,11 +323,18 @@ public:
   CInvisShell(const NTimer::STime &explTime, CExplosion *expl, const int nGun)
     : CShell(explTime, expl, nGun) {}
 
-  bool operator <(const CInvisShell &shell) { return GetExplTime() > shell.GetExplTime(); }
+  bool operator <(const CInvisShell &shell) const { return GetExplTime() > shell.GetExplTime(); }
 };
 
 // ///////////////////////////////////////////////////////////// 
-inline bool operator <(const CPtr<CInvisShell> &shell1, const CPtr<CInvisShell> &shell2) { return (*shell1) < (*shell2); }
+// Custom comparator for priority queue of CInvisShell pointers
+struct CInvisShellCompare
+{
+  bool operator()(const CPtr<CInvisShell> &shell1, const CPtr<CInvisShell> &shell2) const
+  {
+    return (*shell1) < (*shell2);
+  }
+};
 // ///////////////////////////////////////////////////////////// 
 // visible projectile
 class CVisShell : public CLinkObject, public CShell
@@ -375,7 +382,7 @@ class CShellsStore
 {
   DECLARE_SERIALIZE;
   // all invisible projectiles
-  std::priority_queue<CPtr<CInvisShell>> invisShells;
+  std::priority_queue<CPtr<CInvisShell>, std::vector<CPtr<CInvisShell>>, CInvisShellCompare> invisShells;
   // all visible projectiles
   std::list<CPtr<CVisShell>> visShells;
 

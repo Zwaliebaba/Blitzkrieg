@@ -1,24 +1,18 @@
 #include "stdafx.h"
-
 #include "GameCreation.h"
-#include "ServerInfo.h"
+#include <zlib.h>
+#include "CommandsHistory.h"
 #include "GameCreationMessages.h"
 #include "GamePlaying.h"
-#include "NetMessages.h"
 #include "MultiplayerConsts.h"
-#include "CommandsHistory.h"
-
-#include "../RandomMapGen/Resource_Types.h"
+#include "NetMessages.h"
+#include "ServerInfo.h"
+#include "../Net/NetDriver.h"
 #include "../RandomMapGen/MapInfo_Types.h"
-
+#include "../RandomMapGen/Resource_Types.h"
+#include "../StreamIO/OptionsConvert.h"
 #include "../StreamIO/StreamIOHelper.h"
 #include "../StreamIO/StreamIOTypes.h"
-
-#include "../Net/NetDriver.h"
-#include "../StreamIO/OptionsConvert.h"
-
-#include <zlib.h>
-#include "../zlib/zconf.h"
 
 // for debug
 #if !defined(_FINALRELEASE) || defined(_DEVVERSION)
@@ -1111,7 +1105,7 @@ void CClientGameCreation::ProcessLogicIDSet(int nClientID, CStreamAccessor &pkt)
   NI_ASSERT_T(nOurLogicID == -1, NStr::Format( "Double logic id received ( %d, %d )", nOurLogicID, nLogicID ));
   players[nLogicID] = players[16];
 
-  std::construct(&(players[16]));
+  new (&(players[16])) SPlayerInfo();
 
   nOurLogicID = nLogicID;
   players[nLogicID].nLogicID = nLogicID;

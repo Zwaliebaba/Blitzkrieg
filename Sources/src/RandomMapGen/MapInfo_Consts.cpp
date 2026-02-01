@@ -17,21 +17,21 @@ const int RMGC_INVALID_SCRIPT_ID_VALUE = -1;// 0
 const int RMGC_DEFAULT_SCRIPT_ID_VALUE = 0;// 0
 const int RMGC_INVALID_FRAME_INDEX_VALUE = -1;
 
-auto RMGC_TEMPLATES_XML_NAME = "Templates";
-auto RMGC_TEMPLATES_FILE_NAME = "editor\\templates";
+const char* RMGC_TEMPLATES_XML_NAME = "Templates";
+const char* RMGC_TEMPLATES_FILE_NAME = "editor\\templates";
 
-auto RMGC_MINIMAP_XML_NAME = "MiniMapCreationParameters";
-auto RMGC_MINIMAP_FILE_NAME = "minimap";
+const char* RMGC_MINIMAP_XML_NAME = "MiniMapCreationParameters";
+const char* RMGC_MINIMAP_FILE_NAME = "minimap";
 
-auto RMGC_TILESET_FILE_NAME = "tileset";
-auto RMGC_CROSSSET_FILE_NAME = "crosset";
-auto RMGC_ROADSET_FILE_NAME = "roadset";
-auto RMGC_NOISE_FILE_NAME = "noise";
+const char* RMGC_TILESET_FILE_NAME = "tileset";
+const char* RMGC_CROSSSET_FILE_NAME = "crosset";
+const char* RMGC_ROADSET_FILE_NAME = "roadset";
+const char* RMGC_NOISE_FILE_NAME = "noise";
 
-auto RMGC_QUICK_LOAD_MAP_INFO_NAME = "QuickLoadMapInfo";
+const char* RMGC_QUICK_LOAD_MAP_INFO_NAME = "QuickLoadMapInfo";
 const int RMGC_QUICK_LOAD_MAP_INFO_CHUNK_NUMBER = 2;
 
-auto RMGC_DEFAULT_ANGLE_MASK = "NESW";
+const char* RMGC_DEFAULT_ANGLE_MASK = "NESW";
 
 const int RMGC_CREATE_RANDOM_MAP_STEP_COUNT = 19;
 const int RMGC_CREATE_MINIMAP_IMAGE_STEP_COUNT = 10;

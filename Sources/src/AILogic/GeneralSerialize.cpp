@@ -1,5 +1,4 @@
 #include "stdafx.h"
-
 #include "GeneralInternal.h"
 #include "SerializeOwner.h"
 #include "GeneralTasks.h"
@@ -8,9 +7,8 @@
 #include "EnemyRememberer.h"
 #include "GeneralIntendant.h"
 #include "GeneralConsts.h"
-#include "CommonUnit.h"
 
-CSupremeBeing::operator&(IStructureSaver &ss)
+int CSupremeBeing::operator&(IStructureSaver &ss)
 {
   CSaverAccessor saver = &ss;
   saver.Add(1, &generals);

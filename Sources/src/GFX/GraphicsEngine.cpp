@@ -17,6 +17,24 @@
 
 #include "VideoCheck.h"
 
+// DX8 texture stage state values that were moved to sampler states in DX9
+// These compatibility defines allow DX8 code to compile with DX9
+#ifndef D3DTSS_ADDRESSU
+#define D3DTSS_ADDRESSU 13
+#endif
+#ifndef D3DTSS_ADDRESSV
+#define D3DTSS_ADDRESSV 14
+#endif
+#ifndef D3DTSS_MAGFILTER
+#define D3DTSS_MAGFILTER 16
+#endif
+#ifndef D3DTSS_MINFILTER
+#define D3DTSS_MINFILTER 17
+#endif
+#ifndef D3DTSS_MIPFILTER
+#define D3DTSS_MIPFILTER 18
+#endif
+
 int CGraphicsEngine::operator&(IStructureSaver &ss)
 {
   CSaverAccessor saver = &ss;
@@ -48,13 +66,13 @@ public:
 
 class CD3DDisplayModeFilterFunctional
 {
-  IDirect3D8 *pD3D;
+  IDirect3D9 *pD3D;
   int nAdapter;
   D3DDEVTYPE devtype;
   bool bWindowed;
 
 public:
-  CD3DDisplayModeFilterFunctional(IDirect3D8 *_pD3D, int _nAdapter, D3DDEVTYPE _devtype, bool _bWindowed)
+  CD3DDisplayModeFilterFunctional(IDirect3D9 *_pD3D, int _nAdapter, D3DDEVTYPE _devtype, bool _bWindowed)
     : pD3D(_pD3D), nAdapter(_nAdapter), devtype(_devtype), bWindowed(_bWindowed) {}
 
   bool operator()(const D3DDISPLAYMODE &check) const
@@ -71,20 +89,19 @@ public:
 // enumerate video modes for them and check compatibility with D3D device
 bool EnumAdapters(std::list<SAdapterDesc> *pAdapters)
 {
-  pAdapters->clear();
-  // let's create a temporary D3D to list the necessary parameters
-  NWin32Helper::com_ptr<IDirect3D8> pD3D = Direct3DCreate8(D3D_SDK_VERSION);
-  NI_ASSERT_TF(pD3D != 0, NStr::Format("Can't create Direct3D8 of build %d. Pls, install latest DX", D3D_SDK_VERSION), return false);
-  pD3D->Release();
-  //
-  for (int i = 0; i < pD3D->GetAdapterCount(); ++i)
+pAdapters->clear();
+// let's create a temporary D3D to list the necessary parameters
+NWin32Helper::com_ptr<IDirect3D9> pD3D = Direct3DCreate9(D3D_SDK_VERSION);
+NI_ASSERT_TF(pD3D != 0, NStr::Format("Can't create Direct3D9 of build %d. Pls, install latest DX", D3D_SDK_VERSION), return false);
+//
+for (int i = 0; i < pD3D->GetAdapterCount(); ++i)
   {
     // get adapter identifier
-    D3DADAPTER_IDENTIFIER8 adapterInfo;
-    HRESULT dxrval = pD3D->GetAdapterIdentifier(i, D3DENUM_NO_WHQL_LEVEL, &adapterInfo);
+    D3DADAPTER_IDENTIFIER9 adapterInfo;
+    HRESULT dxrval = pD3D->GetAdapterIdentifier(i, 0, &adapterInfo);
     if (FAILED(dxrval)) continue;
     // get HW device caps for this adapter
-    D3DCAPS8 capsDevice;
+    D3DCAPS9 capsDevice;
     Zero(capsDevice);
     dxrval = pD3D->GetDeviceCaps(i, D3DDEVTYPE_HAL, &capsDevice);
     // deny device if it is not support (at least) HW rasterization and textures
@@ -96,20 +113,25 @@ bool EnumAdapters(std::list<SAdapterDesc> *pAdapters)
       continue;
     // Now we are sure that we want this device. 
     std::list<D3DDISPLAYMODE> modes;
-    DWORD dwNumAdapterModes = pD3D->GetAdapterModeCount(i);
+    // DX9: GetAdapterModeCount requires a format parameter - enumerate common formats
+    D3DFORMAT enumFormats[] = {D3DFMT_X8R8G8B8, D3DFMT_A8R8G8B8, D3DFMT_R5G6B5, D3DFMT_X1R5G5B5, D3DFMT_A1R5G5B5};
     CD3DDisplayModeFilterFunctional dispfilter = CD3DDisplayModeFilterFunctional(pD3D, i, capsDevice.DeviceType, false);
-    for (int nMode = 0; nMode < dwNumAdapterModes; ++nMode)
+    for (int fmtIdx = 0; fmtIdx < ARRAY_SIZE(enumFormats); ++fmtIdx)
     {
-      // Get the display mode attributes
-      D3DDISPLAYMODE displayMode;
-      pD3D->EnumAdapterModes(i, nMode, &displayMode);
-      // Filter out low-resolution modes
-      if ((displayMode.Width < 640) || (displayMode.Height < 400)) continue;
-      // Let's filter only those video modes that are compatible with D3D device.
-      if (dispfilter(displayMode)) continue;
-      // Check if the mode already exists (to filter out refresh rates)
-      modes.remove_if(CD3DDisplayModeMatchFunctional(displayMode));
-      modes.push_back(displayMode);
+      DWORD dwNumAdapterModes = pD3D->GetAdapterModeCount(i, enumFormats[fmtIdx]);
+      for (int nMode = 0; nMode < dwNumAdapterModes; ++nMode)
+      {
+        // Get the display mode attributes
+        D3DDISPLAYMODE displayMode;
+        pD3D->EnumAdapterModes(i, enumFormats[fmtIdx], nMode, &displayMode);
+        // Filter out low-resolution modes
+        if ((displayMode.Width < 640) || (displayMode.Height < 400)) continue;
+        // Let's filter only those video modes that are compatible with D3D device.
+        if (dispfilter(displayMode)) continue;
+        // Check if the mode already exists (to filter out refresh rates)
+        modes.remove_if(CD3DDisplayModeMatchFunctional(displayMode));
+        modes.push_back(displayMode);
+      }
     }
     //
     DWORD dwBehavior = 0;
@@ -209,14 +231,13 @@ static SVideoCardType videoCardsArray[] =
 
 EGFXVideoCard CGraphicsEngine::GetVideoCard()
 {
-  D3DADAPTER_IDENTIFIER8 sID;
+  D3DADAPTER_IDENTIFIER9 sID;
   HRESULT dxrval;
   if (pD3D) dxrval = pD3D->GetAdapterIdentifier(D3DADAPTER_DEFAULT, 0, &sID);
   else
   {
-    NWin32Helper::com_ptr<IDirect3D8> pD3DTemp = Direct3DCreate8(D3D_SDK_VERSION);
-    NI_ASSERT_TF(pD3DTemp != 0, NStr::Format("Can't create Direct3D8 of build %d. Pls, install latest DX", D3D_SDK_VERSION), return GFXVC_DEFAULT);
-    pD3DTemp->Release();
+    NWin32Helper::com_ptr<IDirect3D9> pD3DTemp = Direct3DCreate9(D3D_SDK_VERSION);
+    NI_ASSERT_TF(pD3DTemp != 0, NStr::Format("Can't create Direct3D9 of build %d. Pls, install latest DX", D3D_SDK_VERSION), return GFXVC_DEFAULT);
     dxrval = pD3DTemp->GetAdapterIdentifier(D3DADAPTER_DEFAULT, 0, &sID);
   }
   if (FAILED(dxrval)) return GFXVC_DEFAULT;
@@ -226,6 +247,7 @@ EGFXVideoCard CGraphicsEngine::GetVideoCard()
     const SVideoCardType &sType = videoCardsArray[i];
     if ((sID.VendorId == sType.dwVendorID) && ((sID.DeviceId & sType.dwDeviceIDMask) == (sType.dwDeviceID & sType.dwDeviceIDMask))) return sType.eType;
   }
+  return GFXVC_DEFAULT;
 }
 
 bool CGraphicsEngine::SetMode(int nSizeX, int nSizeY, int nBpp, int nStencilBPP, EGFXFullscreen eFullscreen, int nFreq)
@@ -255,7 +277,7 @@ bool CGraphicsEngine::FillPresentationParams(int nWidth, int nHeight, int nBPP, 
     pp.BackBufferCount = 1;
     pp.SwapEffect = D3DSWAPEFFECT_COPY;
     pp.FullScreen_RefreshRateInHz = D3DPRESENT_RATE_DEFAULT;
-    pp.FullScreen_PresentationInterval = D3DPRESENT_INTERVAL_DEFAULT;
+    pp.PresentationInterval = D3DPRESENT_INTERVAL_DEFAULT;
     //
     HRESULT dxrval = pD3D->GetAdapterDisplayMode(adapter.nIndex, &displaymode);
     NI_ASSERTHR_TF(dxrval, "Can't get current display mode for windowed case", return false);
@@ -291,7 +313,7 @@ bool CGraphicsEngine::FillPresentationParams(int nWidth, int nHeight, int nBPP, 
     pp.Windowed = false;
     pp.BackBufferCount = 1;
     pp.SwapEffect = D3DSWAPEFFECT_FLIP;
-    pp.FullScreen_PresentationInterval = D3DPRESENT_INTERVAL_ONE;// D3DPRESENT_INTERVAL_IMMEDIATE;
+    pp.PresentationInterval = D3DPRESENT_INTERVAL_ONE;// D3DPRESENT_INTERVAL_IMMEDIATE;
     pp.FullScreen_RefreshRateInHz = nFreq;// D3DPRESENT_RATE_DEFAULT; 
     //
     nRenderSurfaceBPP = nBPP;
@@ -337,13 +359,13 @@ bool CGraphicsEngine::FillPresentationParams(int nWidth, int nHeight, int nBPP, 
     if (nFreq == 1) pp.FullScreen_RefreshRateInHz = displaymode.RefreshRate;
     else if ((nWidth <= desktopmode.Width) && (nHeight <= desktopmode.Height) && (desktopmode.RefreshRate <= displaymode.RefreshRate))
     {
-      // try to find allowed frequency
-      const int nNumAdapterModes = pD3D->GetAdapterModeCount(adapter.nIndex);
+      // try to find allowed frequency - DX9 requires format parameter
+      const int nNumAdapterModes = pD3D->GetAdapterModeCount(adapter.nIndex, displaymode.Format);
       for (int i = 0; i < nNumAdapterModes; ++i)
       {
         // Get the display mode attributes
         D3DDISPLAYMODE mode;
-        pD3D->EnumAdapterModes(adapter.nIndex, i, &mode);
+        pD3D->EnumAdapterModes(adapter.nIndex, displaymode.Format, i, &mode);
         // Filter out low-resolution modes
         if ((nWidth == mode.Width) && (nHeight == mode.Height) && (mode.RefreshRate == desktopmode.RefreshRate))
         {
@@ -453,8 +475,8 @@ bool CGraphicsEngine::Init(const char *pszAdapterName, HWND hWnd)
   // assign window handle
   hWindow = hWnd;
   // create D3D
-  pD3D.Create(Direct3DCreate8(D3D_SDK_VERSION));
-  NI_ASSERT_TF(pD3D != 0, NStr::Format("Can't create Direct3D8 of build %d. Pls, install latest DX", D3D_SDK_VERSION), return false);
+  pD3D.Create(Direct3DCreate9(D3D_SDK_VERSION));
+  NI_ASSERT_TF(pD3D != 0, NStr::Format("Can't create Direct3D9 of build %d. Pls, install latest DX", D3D_SDK_VERSION), return false);
   // 
   // CRAP{ for shaders testing
   SetupShaders();
@@ -524,7 +546,7 @@ const SGFXDisplayMode *CGraphicsEngine::GetDisplayModes() const
       //
       if ((enumode.nBPP <= nMaxModeBPP) /* && (float(it->Height)/float(it->Width) == 3.0f/4.0f) */)
       {
-        std::remove(adapter.extmodes.begin(), adapter.extmodes.end(), enumode);
+        adapter.extmodes.erase(std::remove(adapter.extmodes.begin(), adapter.extmodes.end(), enumode), adapter.extmodes.end());
         adapter.extmodes.push_back(enumode);
       }
     }
@@ -554,8 +576,8 @@ void CGraphicsEngine::DestroyAllObjects()
   //
   if (pD3DDevice)
   {
-    pD3DDevice->SetIndices(0, 0);
-    pD3DDevice->SetStreamSource(0, 0, 4);
+    pD3DDevice->SetIndices(nullptr);
+    pD3DDevice->SetStreamSource(0, nullptr, 0, 4);
     for (int i = 0; i < adapter.capsHWDevice.MaxSimultaneousTextures; ++i) pD3DDevice->SetTexture(i, 0);
   }
   //
@@ -607,7 +629,7 @@ bool CGraphicsEngine::ResetDevice()
     // 
     {
       // setup global vars with caps
-      const D3DCAPS8 &caps = adapter.capsHWDevice;
+      const D3DCAPS9 &caps = adapter.capsHWDevice;
       SetGlobalVar("GFX.Caps.Gamma.Calibrate", static_cast<int>((caps.Caps2 & D3DCAPS2_CANCALIBRATEGAMMA) != 0));
       SetGlobalVar("GFX.Caps.Gamma.Fullscreen", static_cast<int>((caps.Caps2 & D3DCAPS2_FULLSCREENGAMMA) != 0));
       SetGlobalVar("GFX.Caps.Texture.NonPow2Conditional", static_cast<int>((caps.TextureCaps & D3DPTEXTURECAPS_NONPOW2CONDITIONAL) != 0));
@@ -641,8 +663,8 @@ bool CGraphicsEngine::ResetDevice()
     // CRAP{ this must be set up by the shader
     for (int i = 0; i < adapter.capsHWDevice.MaxSimultaneousTextures; ++i)
     {
-      SetTextureStageState(i, D3DTSS_MAGFILTER, D3DTEXF_POINT);
-      SetTextureStageState(i, D3DTSS_MINFILTER, D3DTEXF_POINT);
+      pD3DDevice->SetSamplerState(i, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
+      pD3DDevice->SetSamplerState(i, D3DSAMP_MINFILTER, D3DTEXF_POINT);
     }
     SetRenderState(D3DRS_ALPHABLENDENABLE, true);
     SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
@@ -663,8 +685,8 @@ bool CGraphicsEngine::ResetDevice()
     // CRAP{ this must be set up by the shader
     for (int i = 0; i < adapter.capsHWDevice.MaxSimultaneousTextures; ++i)
     {
-      SetTextureStageState(i, D3DTSS_MAGFILTER, D3DTEXF_POINT);
-      SetTextureStageState(i, D3DTSS_MINFILTER, D3DTEXF_POINT);
+      pD3DDevice->SetSamplerState(i, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
+      pD3DDevice->SetSamplerState(i, D3DSAMP_MINFILTER, D3DTEXF_POINT);
     }
     SetRenderState(D3DRS_ALPHABLENDENABLE, true);
     SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
@@ -683,7 +705,7 @@ bool CGraphicsEngine::ResetDevice()
   // retrieve screen color and depth surfaces
   {
     // retrieve screen color surface
-    HRESULT dxrval = pD3DDevice->GetRenderTarget(pScreenColor.GetAddr());
+    HRESULT dxrval = pD3DDevice->GetRenderTarget(0, pScreenColor.GetAddr());
     NI_ASSERTHR_T(dxrval, "Can't get screen render target");
     // retrieve screen depth surface
     dxrval = pD3DDevice->GetDepthStencilSurface(pScreenDepth.GetAddr());
@@ -711,13 +733,15 @@ bool CGraphicsEngine::SetRenderTarget(IGFXRTexture *_pRT)
     // reset all textures in order to avoid render-target-as-texture simultaneous usage
     for (int i = 0; i < 8; ++i) SetTexture(i, nullptr);
     auto pRT = checked_cast<CRenderTargetTexture *>(_pRT);
-    HRESULT dxrval = pD3DDevice->SetRenderTarget(pRT->GetColorSurface(), pRT->GetDepthSurface());
+    HRESULT dxrval = pD3DDevice->SetRenderTarget(0, pRT->GetColorSurface());
     NI_ASSERTHR_T(dxrval, "Can't set texture as render target");
+    dxrval = pD3DDevice->SetDepthStencilSurface(pRT->GetDepthSurface());
   }
   else if (pScreenColor != 0)
   {
-    HRESULT dxrval = pD3DDevice->SetRenderTarget(pScreenColor, pScreenDepth);
+    HRESULT dxrval = pD3DDevice->SetRenderTarget(0, pScreenColor);
     NI_ASSERTHR_T(dxrval, "Can't set original render target");
+    dxrval = pD3DDevice->SetDepthStencilSurface(pScreenDepth);
   }
   //
   pCurrRT = _pRT;
@@ -732,7 +756,7 @@ bool CGraphicsEngine::SetRenderTarget(IGFXRTexture *_pRT)
 // **
 // ************************************************************************************************************************ //
 
-bool CGraphicsEngine::SetupViewport(const D3DVIEWPORT8 &viewport)
+bool CGraphicsEngine::SetupViewport(const D3DVIEWPORT9 &viewport)
 {
   Zero(matViewport);
   matViewport._11 = viewport.Width / 2.0f;
@@ -879,7 +903,7 @@ bool CGraphicsEngine::RestoreTransform()
   return SetViewTransform(matViewDirectStored);
 }
 
-bool CGraphicsEngine::SetupLight(int nIndex, const D3DLIGHT8 &light)
+bool CGraphicsEngine::SetupLight(int nIndex, const D3DLIGHT9 &light)
 {
   HRESULT dxrval = pD3DDevice->SetLight(nIndex, &light);
   NI_ASSERTHR_SLOW_TF(dxrval, NStr::Format("Can't set light %d.", nIndex), return false);
@@ -903,7 +927,7 @@ inline void Assign(D3DVECTOR *pVec, const CVec3 &vec)
 
 void CGraphicsEngine::SetLight(int nIndex, const SGFXLightDirectional &light)
 {
-  D3DLIGHT8 lt;
+  D3DLIGHT9 lt;
   Zero(lt);
   lt.Type = D3DLIGHT_DIRECTIONAL;
   Assign(&lt.Ambient, light.vAmbient);
@@ -915,7 +939,7 @@ void CGraphicsEngine::SetLight(int nIndex, const SGFXLightDirectional &light)
 
 void CGraphicsEngine::SetLight(int nIndex, const SGFXLightPoint &light)
 {
-  D3DLIGHT8 lt;
+  D3DLIGHT9 lt;
   Zero(lt);
   lt.Type = D3DLIGHT_POINT;
   Assign(&lt.Ambient, light.vAmbient);
@@ -931,7 +955,7 @@ void CGraphicsEngine::SetLight(int nIndex, const SGFXLightPoint &light)
 
 void CGraphicsEngine::SetLight(int nIndex, const SGFXLightSpot &light)
 {
-  D3DLIGHT8 lt;
+  D3DLIGHT9 lt;
   Zero(lt);
   lt.Type = D3DLIGHT_SPOT;
   Assign(&lt.Ambient, light.vAmbient);
@@ -957,7 +981,7 @@ void CGraphicsEngine::EnableLight(int nIndex, bool bEnable)
 
 void CGraphicsEngine::SetMaterial(const SGFXMaterial &material)
 {
-  D3DMATERIAL8 mat;
+  D3DMATERIAL9 mat;
   Zero(mat);
   Assign(&mat.Ambient, material.vAmbient);
   Assign(&mat.Diffuse, material.vDiffuse);
@@ -975,7 +999,7 @@ bool CGraphicsEngine::SetTexture(int nStage, IGFXBaseTexture *pTexture)
   if (usedtextures[nStage] == pTexture) return true;
   // set this texture
   usedtextures[nStage] = pTexture;
-  IDirect3DBaseTexture8 *pD3DTexture = nullptr;
+  IDirect3DBaseTexture9 *pD3DTexture = nullptr;
   if (pTexture)
   {
     if (auto pTex = dynamic_cast<CTexture *>(pTexture))
@@ -998,10 +1022,22 @@ void CGraphicsEngine::SetRenderState(D3DRENDERSTATETYPE state, int nValue)
    */
 }
 
-void CGraphicsEngine::SetTextureStageState(DWORD stage, D3DTEXTURESTAGESTATETYPE type, int value)
+void CGraphicsEngine::SetTextureStageState(DWORD stage, int type, int value)
 {
-  // sctTSS[stage].SetState( type, value );
-  pD3DDevice->SetTextureStageState(stage, type, value);
+  // DX9: Filter and address modes moved to sampler states
+  // Handle the legacy DX8 texture stage state values that now must use SetSamplerState
+  if (type == D3DTSS_ADDRESSU)
+    pD3DDevice->SetSamplerState(stage, D3DSAMP_ADDRESSU, value);
+  else if (type == D3DTSS_ADDRESSV)
+    pD3DDevice->SetSamplerState(stage, D3DSAMP_ADDRESSV, value);
+  else if (type == D3DTSS_MAGFILTER)
+    pD3DDevice->SetSamplerState(stage, D3DSAMP_MAGFILTER, value);
+  else if (type == D3DTSS_MINFILTER)
+    pD3DDevice->SetSamplerState(stage, D3DSAMP_MINFILTER, value);
+  else if (type == D3DTSS_MIPFILTER)
+    pD3DDevice->SetSamplerState(stage, D3DSAMP_MIPFILTER, value);
+  else
+    pD3DDevice->SetTextureStageState(stage, D3DTEXTURESTAGESTATETYPE(type), value);
 }
 
 void CGraphicsEngine::ApplyRenderStates()
@@ -1271,7 +1307,7 @@ IGFXVertices *CGraphicsEngine::CreateVertices(int nNumElements, DWORD dwFormat, 
   {
     /* if ( eDynamic == GFXD_DYNAMIC )
        */
-    pBuffer = CreateGeometryBuffer(nNumElements, dwFormat, eDynamic, static_cast<CStaticVB *>(nullptr), static_cast<IDirect3DVertexBuffer8 *>(nullptr), static_cast<SVBCreator *>(nullptr));
+    pBuffer = CreateGeometryBuffer(nNumElements, dwFormat, eDynamic, static_cast<CStaticVB *>(nullptr), static_cast<IDirect3DVertexBuffer9 *>(nullptr), static_cast<SVBCreator *>(nullptr));
   }
   // allocate range
   SRangeLimits range;
@@ -1300,7 +1336,7 @@ IGFXIndices *CGraphicsEngine::CreateIndices(int nNumElements, DWORD dwFormat, EG
   {
     /* if ( eDynamic == GFXD_DYNAMIC )
        */
-    pBuffer = CreateGeometryBuffer(nNumElements, dwFormat, eDynamic, static_cast<CStaticIB *>(nullptr), static_cast<IDirect3DIndexBuffer8 *>(nullptr), static_cast<SIBCreator *>(nullptr));
+    pBuffer = CreateGeometryBuffer(nNumElements, dwFormat, eDynamic, static_cast<CStaticIB *>(nullptr), static_cast<IDirect3DIndexBuffer9 *>(nullptr), static_cast<SIBCreator *>(nullptr));
   }
   // allocate range
   SRangeLimits range;
@@ -1341,7 +1377,7 @@ void *CGraphicsEngine::GetTempVertices(int nNumElements, DWORD dwFormat, EGFXPri
   // create new buffer
   if (pTVB == 0)
   {
-    pTVB = CreateGeometryBuffer(nNumElements, dwFormat, GFXD_DYNAMIC, static_cast<CTempVB *>(nullptr), static_cast<IDirect3DVertexBuffer8 *>(nullptr), static_cast<SVBCreator *>(nullptr));
+    pTVB = CreateGeometryBuffer(nNumElements, dwFormat, GFXD_DYNAMIC, static_cast<CTempVB *>(nullptr), static_cast<IDirect3DVertexBuffer9 *>(nullptr), static_cast<SVBCreator *>(nullptr));
     pTVB->UseOptimized(bUseOptimizedBuffers);
     tempVBs[dwFormat] = pTVB;
   }
@@ -1364,7 +1400,7 @@ void *CGraphicsEngine::GetTempIndices(int nNumElements, DWORD dwFormat, EGFXPrim
   // create new buffer
   if (pTIB == 0)
   {
-    pTIB = CreateGeometryBuffer(nNumElements, dwFormat, GFXD_DYNAMIC, static_cast<CTempIB *>(nullptr), static_cast<IDirect3DIndexBuffer8 *>(nullptr), static_cast<SIBCreator *>(nullptr));
+    pTIB = CreateGeometryBuffer(nNumElements, dwFormat, GFXD_DYNAMIC, static_cast<CTempIB *>(nullptr), static_cast<IDirect3DIndexBuffer9 *>(nullptr), static_cast<SIBCreator *>(nullptr));
     pTIB->UseOptimized(bUseOptimizedBuffers);
     tempIBs[dwFormat] = pTIB;
   }
@@ -1383,7 +1419,7 @@ void *CGraphicsEngine::GetTempIndices(int nNumElements, DWORD dwFormat, EGFXPrim
 bool CGraphicsEngine::BeginSolidVertexBlock(int nNumElements, DWORD dwFormat, EGFXDynamic eDynamic)
 {
   NI_ASSERT_SLOW_T(pSVB == 0, "Can't begin new solid vertex block - finish previous first!");
-  pSVB = CreateGeometryBuffer(nNumElements, dwFormat, eDynamic, static_cast<CStaticVB *>(nullptr), static_cast<IDirect3DVertexBuffer8 *>(nullptr), static_cast<SVBCreator *>(nullptr));
+  pSVB = CreateGeometryBuffer(nNumElements, dwFormat, eDynamic, static_cast<CStaticVB *>(nullptr), static_cast<IDirect3DVertexBuffer9 *>(nullptr), static_cast<SVBCreator *>(nullptr));
   return true;
 }
 
@@ -1396,7 +1432,7 @@ bool CGraphicsEngine::EndSolidVertexBlock()
 bool CGraphicsEngine::BeginSolidIndexBlock(int nNumElements, DWORD dwFormat, EGFXDynamic eDynamic)
 {
   NI_ASSERT_SLOW_T(pSIB == 0, "Can't begin new solid index block - finish previous first!");
-  pSIB = CreateGeometryBuffer(nNumElements, dwFormat, eDynamic, static_cast<CStaticIB *>(nullptr), static_cast<IDirect3DIndexBuffer8 *>(nullptr), static_cast<SIBCreator *>(nullptr));
+  pSIB = CreateGeometryBuffer(nNumElements, dwFormat, eDynamic, static_cast<CStaticIB *>(nullptr), static_cast<IDirect3DIndexBuffer9 *>(nullptr), static_cast<SIBCreator *>(nullptr));
   return true;
 }
 
@@ -1420,21 +1456,21 @@ IGFXTexture *CGraphicsEngine::CreateTexture(int nSizeX, int nSizeY, int nNumMipL
 {
   const int nMemUsage = nSizeX * nSizeY * GetBPP(format) / 8 * (1.0f + 1.0f - 1.0f / static_cast<float>(1 << (nNumMipLevels - 1)));
   D3DPOOL pool = pools[eDynamic - 1];
-  NWin32Helper::com_ptr<IDirect3DTexture8> pD3DTexture;
-  HRESULT dxrval = pD3DDevice->CreateTexture(nSizeX, nSizeY, nNumMipLevels, 0, GFXPixelFormatToD3D(format), pool, pD3DTexture.GetAddr());
+  NWin32Helper::com_ptr<IDirect3DTexture9> pD3DTexture;
+  HRESULT dxrval = pD3DDevice->CreateTexture(nSizeX, nSizeY, nNumMipLevels, 0, GFXPixelFormatToD3D(format), pool, pD3DTexture.GetAddr(), nullptr);
   int nTryCounter = 0;
   while (((dxrval == D3DERR_OUTOFVIDEOMEMORY) || (dxrval == E_OUTOFMEMORY)) && (nTryCounter < 100))
   {
     FreeVideoMemory(nCurrFrameNumber - 5, static_cast<int>(nMemUsage * 1.25f), true);
-    dxrval = pD3DDevice->CreateTexture(nSizeX, nSizeY, nNumMipLevels, 0, GFXPixelFormatToD3D(format), pool, pD3DTexture.GetAddr());
+    dxrval = pD3DDevice->CreateTexture(nSizeX, nSizeY, nNumMipLevels, 0, GFXPixelFormatToD3D(format), pool, pD3DTexture.GetAddr(), nullptr);
     if (FAILED(dxrval))
     {
       FreeVideoMemory(nCurrFrameNumber, static_cast<int>(nMemUsage * 1.25f), true);
-      dxrval = pD3DDevice->CreateTexture(nSizeX, nSizeY, nNumMipLevels, 0, GFXPixelFormatToD3D(format), pool, pD3DTexture.GetAddr());
+      dxrval = pD3DDevice->CreateTexture(nSizeX, nSizeY, nNumMipLevels, 0, GFXPixelFormatToD3D(format), pool, pD3DTexture.GetAddr(), nullptr);
       if (FAILED(dxrval))
       {
         FreeVideoMemory(nCurrFrameNumber + 1, static_cast<int>(nMemUsage * 1.25f), true);
-        dxrval = pD3DDevice->CreateTexture(nSizeX, nSizeY, nNumMipLevels, 0, GFXPixelFormatToD3D(format), pool, pD3DTexture.GetAddr());
+        dxrval = pD3DDevice->CreateTexture(nSizeX, nSizeY, nNumMipLevels, 0, GFXPixelFormatToD3D(format), pool, pD3DTexture.GetAddr(), nullptr);
       }
     }
   }
@@ -1451,8 +1487,8 @@ IGFXTexture *CGraphicsEngine::CreateTexture(int nSizeX, int nSizeY, int nNumMipL
 
 IGFXRTexture *CGraphicsEngine::CreateRTexture(int nSizeX, int nSizeY)
 {
-  NWin32Helper::com_ptr<IDirect3DTexture8> pD3DTexture;
-  HRESULT dxrval = pD3DDevice->CreateTexture(nSizeX, nSizeY, 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, pD3DTexture.GetAddr());
+  NWin32Helper::com_ptr<IDirect3DTexture9> pD3DTexture;
+  HRESULT dxrval = pD3DDevice->CreateTexture(nSizeX, nSizeY, 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, pD3DTexture.GetAddr(), nullptr);
   NI_ASSERTHR_T(dxrval, "Can't create texture for render target");
   // find best depth-stencil format
   static const D3DFORMAT s_fmtDepth[] = {D3DFMT_D32, D3DFMT_D24S8, D3DFMT_D24X4S4, D3DFMT_D24X8, D3DFMT_D16, D3DFMT_D15S1};
@@ -1473,8 +1509,8 @@ IGFXRTexture *CGraphicsEngine::CreateRTexture(int nSizeX, int nSizeY)
   NI_ASSERT_T(fmtDepthStencil != D3DFMT_UNKNOWN, "Can't find depth-stencil format");
   if (fmtDepthStencil != D3DFMT_UNKNOWN)
   {
-    NWin32Helper::com_ptr<IDirect3DSurface8> pSurface;
-    dxrval = pD3DDevice->CreateDepthStencilSurface(nSizeX, nSizeY, fmtDepthStencil, D3DMULTISAMPLE_NONE, pSurface.GetAddr());
+    NWin32Helper::com_ptr<IDirect3DSurface9> pSurface;
+    dxrval = pD3DDevice->CreateDepthStencilSurface(nSizeX, nSizeY, fmtDepthStencil, D3DMULTISAMPLE_NONE, 0, TRUE, pSurface.GetAddr(), nullptr);
     CRenderTargetTexture *pTexture = CreateObject<CRenderTargetTexture>(GFX_RT_TEXTURE);
     pTexture->Init(pD3DTexture, pSurface, nSizeX * nSizeY * 4 * 2);
     //
@@ -1487,8 +1523,8 @@ IGFXRTexture *CGraphicsEngine::CreateRTexture(int nSizeX, int nSizeY)
 bool CGraphicsEngine::UpdateTexture(IGFXTexture *pSrcTexture, IGFXTexture *pDstTexture, bool bAsync)
 {
   NI_ASSERT_TF(pSrcTexture != nullptr && pDstTexture != 0, "Source and destination textures must be non-zero!", return false);
-  IDirect3DTexture8 *pSrc = static_cast<CTexture *>(pSrcTexture)->GetInternalContainer();
-  IDirect3DTexture8 *pDst = static_cast<CTexture *>(pDstTexture)->GetInternalContainer();
+  IDirect3DTexture9 *pSrc = static_cast<CTexture *>(pSrcTexture)->GetInternalContainer();
+  IDirect3DTexture9 *pDst = static_cast<CTexture *>(pDstTexture)->GetInternalContainer();
   //
   if (bAsync)
   {
@@ -1497,12 +1533,13 @@ bool CGraphicsEngine::UpdateTexture(IGFXTexture *pSrcTexture, IGFXTexture *pDstT
   }
   else
   {
-    NWin32Helper::com_ptr<IDirect3DSurface8> pDstSurface, pSrcSurface;
+    NWin32Helper::com_ptr<IDirect3DSurface9> pDstSurface, pSrcSurface;
     pSrc->GetSurfaceLevel(0, pSrcSurface.GetAddr());
     pDst->GetSurfaceLevel(0, pDstSurface.GetAddr());
     //
-    HRESULT dxrval = pD3DDevice->CopyRects(pSrcSurface, 0, 0, pDstSurface, 0);
-    NI_ASSERTHR_TF(dxrval, "Can't copy rects", return false);
+    // DX9: CopyRects replaced with UpdateSurface (for system->video copy) or StretchRect
+    HRESULT dxrval = pD3DDevice->UpdateSurface(pSrcSurface, nullptr, pDstSurface, nullptr);
+    NI_ASSERTHR_TF(dxrval, "Can't update surface", return false);
   }
   return true;
 }
@@ -1516,7 +1553,7 @@ bool CGraphicsEngine::UpdateTexture(IGFXTexture *pSrcTexture, IGFXTexture *pDstT
 // ************************************************************************************************************************ //
 
 // set vertex shader and force flush temp buffers, if shader has changed
-void CGraphicsEngine::SetVertexShader(DWORD dwFVF) { pD3DDevice->SetVertexShader(dwFVF); }
+void CGraphicsEngine::SetVertexShader(DWORD dwFVF) { pD3DDevice->SetFVF(dwFVF); }
 
 // low-level render range function
 // just DrawPrimitive or DrawIndexedPrimitive (and set streaming source and indices)
@@ -1533,14 +1570,14 @@ HRESULT CGraphicsEngine::RenderRange(CVertices *pVertices, CIndices *pIndices)
   nNumPassedVertices += dwNumVertices;
   nNumPassedPrimitives += dwNumPrimitives;
   //
-  HRESULT dxrval = pD3DDevice->SetStreamSource(0, pVertices->GetInternalContainer(), pVertices->GetElementSize());
+  HRESULT dxrval = pD3DDevice->SetStreamSource(0, pVertices->GetInternalContainer(), 0, pVertices->GetElementSize());
   NI_ASSERTHR_SLOW_TF(dxrval, NStr::Format("Can't set streaming source %d", 0), return dxrval);
   if (pIndices != nullptr)
   {
     // render...
-    dxrval = pD3DDevice->SetIndices(pIndices->GetInternalContainer(), pVertices->GetRangeStart());
+    dxrval = pD3DDevice->SetIndices(pIndices->GetInternalContainer());
     NI_ASSERTHR_SLOW_TF(dxrval, "Can't set indices source", return dxrval);
-    dxrval = pD3DDevice->DrawIndexedPrimitive(d3dptPrimitiveType, 0, dwNumVertices,
+    dxrval = pD3DDevice->DrawIndexedPrimitive(d3dptPrimitiveType, pVertices->GetRangeStart(), 0, dwNumVertices,
                                               pIndices->GetRangeStart(), dwNumPrimitives);
     NI_ASSERTHR_SLOW_TF(dxrval, "Can't draw indexed primitive", return dxrval);
   }
@@ -1553,8 +1590,8 @@ HRESULT CGraphicsEngine::RenderRange(CVertices *pVertices, CIndices *pIndices)
   return dxrval;
 }
 
-HRESULT CGraphicsEngine::RenderRange(IDirect3DVertexBuffer8 *pVertices, int nFirstVertex, int nNumVertices, int nVertexSize,
-                                     IDirect3DIndexBuffer8 *pIndices, int nFirstIndex,
+HRESULT CGraphicsEngine::RenderRange(IDirect3DVertexBuffer9 *pVertices, int nFirstVertex, int nNumVertices, int nVertexSize,
+                                     IDirect3DIndexBuffer9 *pIndices, int nFirstIndex,
                                      int nNumPrimitives, D3DPRIMITIVETYPE d3dptPrimitiveType)
 {
   if (pVertices == nullptr) return D3DERR_INVALIDCALL;
@@ -1564,14 +1601,14 @@ HRESULT CGraphicsEngine::RenderRange(IDirect3DVertexBuffer8 *pVertices, int nFir
   nNumPassedVertices += nNumVertices;
   nNumPassedPrimitives += nNumPrimitives;
   //
-  HRESULT dxrval = pD3DDevice->SetStreamSource(0, pVertices, nVertexSize);
+  HRESULT dxrval = pD3DDevice->SetStreamSource(0, pVertices, 0, nVertexSize);
   NI_ASSERTHR_SLOW_TF(dxrval, NStr::Format("Can't set streaming source %d", 0), return dxrval);
   if (pIndices != nullptr)
   {
     // render...
-    dxrval = pD3DDevice->SetIndices(pIndices, nFirstVertex);
+    dxrval = pD3DDevice->SetIndices(pIndices);
     NI_ASSERTHR_SLOW_TF(dxrval, "Can't set indices source", return dxrval);
-    dxrval = pD3DDevice->DrawIndexedPrimitive(d3dptPrimitiveType, 0, nNumVertices,
+    dxrval = pD3DDevice->DrawIndexedPrimitive(d3dptPrimitiveType, nFirstVertex, 0, nNumVertices,
                                               nFirstIndex, nNumPrimitives);
     NI_ASSERTHR_SLOW_TF(dxrval, "Can't draw indexed primitive", return dxrval);
   }
@@ -1600,7 +1637,7 @@ bool CGraphicsEngine::Draw(IGFXVertices *pVerts, IGFXIndices *pInds)
   int nNumVertices = pVertices->GetNumElements();
   int nNumPrimitives;
   int nFirstIndex = 0;
-  IDirect3DIndexBuffer8 *pIB = nullptr;
+  IDirect3DIndexBuffer9 *pIB = nullptr;
   if (pIndices != nullptr)
   {
     if (pIndices->GetNumUsedVertices() != 0) nNumVertices = pIndices->GetNumUsedVertices();
@@ -1629,10 +1666,10 @@ bool CGraphicsEngine::DrawTemp()
   //
   pTVB->UnlockAll();
   D3DPRIMITIVETYPE d3dptPrimitiveType = GFXPrimitiveToD3D(pTIB != 0 ? pTIB->GetType() : pTVB->GetType());
-  IDirect3DVertexBuffer8 *pVB = pTVB->GetInternalContainer();
+  IDirect3DVertexBuffer9 *pVB = pTVB->GetInternalContainer();
   int nFirstVertex = pTVB->GetRangeStart();
   int nNumVertices = pTVB->GetNumElements();
-  IDirect3DIndexBuffer8 *pIB = nullptr;
+  IDirect3DIndexBuffer9 *pIB = nullptr;
   int nNumPrimitives = GetNumPrimitives(d3dptPrimitiveType, pTVB->GetNumElements());
   int nFirstIndex = 0;
   if (pTIB != 0)
@@ -1775,13 +1812,15 @@ bool CGraphicsEngine::DrawRects(const SGFXRect2 *pRects, int nNumRects, bool bSo
 
 bool CGraphicsEngine::SetGammaRamp(const SGFXGammaRamp &ramp, bool bCalibrate)
 {
-  if (pD3DDevice) pD3DDevice->SetGammaRamp(bCalibrate ? D3DSGR_CALIBRATE : D3DSGR_NO_CALIBRATION, static_cast<D3DGAMMARAMP *>(&ramp));
+  // DX9: SetGammaRamp requires swap chain index (0) as first parameter
+  if (pD3DDevice) pD3DDevice->SetGammaRamp(0, bCalibrate ? D3DSGR_CALIBRATE : D3DSGR_NO_CALIBRATION, reinterpret_cast<const D3DGAMMARAMP *>(&ramp));
   return true;
 }
 
 bool CGraphicsEngine::GetGammaRamp(const SGFXGammaRamp *pRamp)
 {
-  pD3DDevice->GetGammaRamp(static_cast<D3DGAMMARAMP *>(pRamp));
+  // DX9: GetGammaRamp requires swap chain index (0) as first parameter
+  pD3DDevice->GetGammaRamp(0, const_cast<D3DGAMMARAMP *>(reinterpret_cast<const D3DGAMMARAMP *>(pRamp)));
   return true;
 }
 
@@ -1804,11 +1843,12 @@ bool CGraphicsEngine::TakeScreenShot(IImage *pImage)
   // extract real display mode
   D3DDISPLAYMODE mode;
   HRESULT dxrval = pD3D->GetAdapterDisplayMode(adapter.nIndex, &mode);
-  // create surface and retrieve screen
-  NWin32Helper::com_ptr<IDirect3DSurface8> pD3DSurface;
-  dxrval = pD3DDevice->CreateImageSurface(mode.Width, mode.Height, D3DFMT_A8R8G8B8, pD3DSurface.GetAddr());
+  // create surface and retrieve screen - DX9: CreateImageSurface -> CreateOffscreenPlainSurface
+  NWin32Helper::com_ptr<IDirect3DSurface9> pD3DSurface;
+  dxrval = pD3DDevice->CreateOffscreenPlainSurface(mode.Width, mode.Height, D3DFMT_A8R8G8B8, D3DPOOL_SYSTEMMEM, pD3DSurface.GetAddr(), nullptr);
   NI_ASSERTHR_TF(dxrval, NStr::Format("Can't create surface %d:%d:32 to take screenshot", mode.Width, mode.Height), return 0);
-  dxrval = pD3DDevice->GetFrontBuffer(pD3DSurface);
+  // DX9: GetFrontBuffer -> GetFrontBufferData
+  dxrval = pD3DDevice->GetFrontBufferData(0, pD3DSurface);
   NI_ASSERTHR_TF(dxrval, "Can't retrieve front buffer data for the screenshot", return 0);
   //
   D3DLOCKED_RECT lrRect;
@@ -1820,7 +1860,7 @@ bool CGraphicsEngine::TakeScreenShot(IImage *pImage)
 
   for (int i = 0; i < nHeight; ++i)
   {
-    memcpy(pDst, static_cast<void *>(static_cast<DWORD>(lrRect.pBits) + i * lrRect.Pitch), nWidth * sizeof(SColor));
+    memcpy(pDst, reinterpret_cast<char *>(lrRect.pBits) + i * lrRect.Pitch, nWidth * sizeof(SColor));
     pDst += nWidth;
   }
   pD3DSurface->UnlockRect();

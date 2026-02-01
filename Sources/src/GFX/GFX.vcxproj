@@ -264,7 +264,7 @@
       <SubSystem>Windows</SubSystem>
       <OutputFile>.\Debug\GFX.dll</OutputFile>
       <ImportLibrary>.\Debug\GFX.lib</ImportLibrary>
-      <AdditionalDependencies>d3d8.lib;dxguid.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>dxguid.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ModuleDefinitionFile>.\GFX.def</ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>
@@ -443,7 +443,6 @@
     <ClInclude Include="GFXTypes.h" />
     <ClInclude Include="GraphicsEngine.h" />
     <ClInclude Include="RangeAllocs.h" />
-    <ClInclude Include="resource.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Specific.h" />
     <ClInclude Include="StdAfx.h" />
@@ -451,9 +450,6 @@
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="VideoCheck.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="GFX.rc" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="GFX.def">

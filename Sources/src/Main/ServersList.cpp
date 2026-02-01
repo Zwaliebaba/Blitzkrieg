@@ -29,7 +29,7 @@ IMultiplayerMessage *CServersList::GetMessage() { return messages.GetMessage(); 
 
 void CServersList::AddServer(INetNodeAddress *pAddress, const float fPing, const INetDriver::SGameInfo &gameInfo, const bool bSameVersion)
 {
-  servers.push_back();
+  servers.emplace_back();
   SServerInfo &info = servers.back();
 
   info.bUpdated = true;

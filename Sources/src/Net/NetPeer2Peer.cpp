@@ -53,8 +53,8 @@ namespace NNet
         break;
     }
 #endif
-    output.push_back();
-    SMessage &res = output.back();
+output.emplace_back();
+SMessage &res = output.back();
     res.msg = msg;
     res.from = _from;
     if (pData) res.pkt = *pData;
@@ -148,7 +148,7 @@ namespace NNet
     cout << "RECV direct from " << pWho->addr.GetFastName() << endl;
 #endif
     // add to pending list
-    pWho->messages.push_back();
+    pWho->messages.emplace_back();
     SQMessage &b = pWho->messages.back();
     b.msg = data;
     b.nID = -1;
@@ -163,7 +163,7 @@ namespace NNet
     cout << "RECV broadcast from " << pWho->addr.GetFastName() << " msg " << nID << endl;
 #endif
     // add to pending list
-    pWho->messages.push_back();
+    pWho->messages.emplace_back();
     SQMessage &b = pWho->messages.back();
     b.msg = data;
     b.nID = nID;
@@ -175,7 +175,7 @@ namespace NNet
       if (pTest && pTest->IsActive())
       {
         // add ack request if such client exists
-        b.acks.push_back();
+        b.acks.emplace_back();
         SAck &ack = b.acks.back();
         ack.addr = i->addr;
         ack.bAcked = false;
@@ -232,7 +232,7 @@ namespace NNet
         // if sender is inactive no messages from him will be received and ack is useless
         if (pSender->IsActive())
         {
-          pFrom->fastacks.push_back();
+          pFrom->fastacks.emplace_back();
           SFastAck &b = pFrom->fastacks.back();
           b.addr = addr;
           b.nID = nID;

@@ -1,8 +1,7 @@
-#ifndef __WORLD_H__
-#define __WORLD_H__
-// //////////////////////////////////////////////////////////// 
 #pragma once
-// //////////////////////////////////////////////////////////// 
+
+#undef GetMessage
+
 enum
 {
   WCB_YOU_WIN = 0x00300001,
@@ -57,5 +56,3 @@ interface IWorldClient : IWorld
   virtual void STDCALL DoAction(const SGameMessage &msg) = 0;
 };
 
-// //////////////////////////////////////////////////////////// 
-#endif // __WORLD_H__

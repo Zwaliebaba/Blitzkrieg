@@ -154,7 +154,7 @@ bool CTexture::Load(const bool bPreLoad)
   return true;
 }
 
-void CTexture::Init(IDirect3DTexture8 *_pTexture, const int _nMemUsage)
+void CTexture::Init(IDirect3DTexture9 *_pTexture, const int _nMemUsage)
 {
   NI_ASSERT_T(_pTexture != 0, "Can't init texture from NULL D3D object");
   pTexture = _pTexture;
@@ -170,7 +170,7 @@ void CTexture::Init(IDirect3DTexture8 *_pTexture, const int _nMemUsage)
   nMemUsage = _nMemUsage;
 }
 
-IDirect3DTexture8 *CTexture::GetInternalContainer()
+IDirect3DTexture9 *CTexture::GetInternalContainer()
 {
   if (pTexture == 0) Load();
   return pTexture;
@@ -215,7 +215,7 @@ int CTexture::operator&(IStructureSaver &ss)
 // **
 // ************************************************************************************************************************ //
 
-void CRenderTargetTexture::Init(IDirect3DTexture8 *_pTexture, IDirect3DSurface8 *_pDepth, int _nMemUsage)
+void CRenderTargetTexture::Init(IDirect3DTexture9 *_pTexture, IDirect3DSurface9 *_pDepth, int _nMemUsage)
 {
   NI_ASSERT_T(_pTexture != 0, "Can't init texture from NULL D3D object");
   pTexture = _pTexture;
@@ -229,7 +229,7 @@ void CRenderTargetTexture::Init(IDirect3DTexture8 *_pTexture, IDirect3DSurface8 
   }
   nMemUsage = _nMemUsage;
   //
-  IDirect3DSurface8 *pSurface = nullptr;
+  IDirect3DSurface9 *pSurface = nullptr;
   HRESULT dxrval = pTexture->GetSurfaceLevel(0, &pSurface);
   NI_ASSERTHR_T(dxrval, "Can't retrieve 0th surface level from render-target texture");
   pColor = pSurface;
@@ -246,7 +246,7 @@ void CRenderTargetTexture::Init(IDirect3DTexture8 *_pTexture, IDirect3DSurface8 
 // **
 // ************************************************************************************************************************ //
 
-void CSurface::Init(IDirect3DSurface8 *_pSurface)
+void CSurface::Init(IDirect3DSurface9 *_pSurface)
 {
   NI_ASSERT_T(_pSurface != 0, "Can't init surface from NULL D3D object");
   pSurface = _pSurface;

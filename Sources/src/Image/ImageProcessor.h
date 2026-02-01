@@ -1,6 +1,8 @@
 #ifndef __IMAGEPROCESSOR_H__
 #define __IMAGEPROCESSOR_H__
 
+#undef LoadImage
+
 class CImageProcessor : public IImageProcessor
 {
   OBJECT_NORMAL_METHODS(CImageProcessor);

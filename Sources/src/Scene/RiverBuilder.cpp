@@ -189,7 +189,7 @@ void BuildLayer(const std::vector<SVectorStripeObjectPoint> &points,
       if (pos != patchpoints.end()) pos->second.push_back(nPoint);
       else
       {
-        patchpoints.push_back();
+        patchpoints.push_back(SPatch());
         patchpoints.back().first = *patch;
         patchpoints.back().second.push_back(nPoint);
       }

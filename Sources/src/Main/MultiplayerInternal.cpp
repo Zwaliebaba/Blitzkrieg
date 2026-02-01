@@ -129,7 +129,7 @@ void CMultiplayer::ServersListSegment()
 
       break;
       case EUTMN_CHAT_MODE:
-        if (pChat) pChat->UserModeChanged(IChat::EUM_IN_GS_CHAT);
+        if (pChat) pChat->UserModeChanged(IChat::EUM_IN_CHAT);
         bInGSChat = true;
 
         break;

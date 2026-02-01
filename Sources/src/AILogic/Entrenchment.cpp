@@ -306,7 +306,7 @@ void CEntrenchment::ProcessEmptyFireplace(const int nFireplace)
 void CEntrenchment::DelSoldier(CSoldier *pUnit, const bool bFillEmptyFireplace)
 {
   auto iter = insiders.begin();
-  while (iter != insiders.end() && iter->pUnit != pUnit) ++iter;
+  while (iter != insiders.end() && iter->pUnit.GetPtr() != pUnit) ++iter;
 
   if (iter != insiders.end())
   {

@@ -275,7 +275,8 @@
       <Optimization>Disabled</Optimization>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <WarningLevel>Level3</WarningLevel>
-      <MinimalRebuild>true</MinimalRebuild>
+      <MinimalRebuild>
+      </MinimalRebuild>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <PreprocessorDefinitions>_WINDOWS;_DO_ASSERT_SLOW;_DO_CHECKED_CAST;WIN32;_DEBUG;_STL_RANGE_CHECK;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -287,6 +288,7 @@
       <ProgramDataBaseFileName>.\Debug\</ProgramDataBaseFileName>
       <AdditionalOptions> /Zm200 </AdditionalOptions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <AdditionalIncludeDirectories>$(SolutionDir)Main</AdditionalIncludeDirectories>
     </ClCompile>
     <PostBuildEvent>
       <Command>
@@ -314,7 +316,7 @@
       <SubSystem>Windows</SubSystem>
       <OutputFile>.\Debug\Scene.dll</OutputFile>
       <ImportLibrary>.\Debug\Scene.lib</ImportLibrary>
-      <AdditionalDependencies>winmm.lib;binkw32.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>winmm.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ModuleDefinitionFile>.\Scene.def</ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>
@@ -411,13 +413,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AnimVisitor.cpp">
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Profiler|Win32'"> /Zm150   /Zm150 </AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'"> /Zm150   /Zm150 </AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='FastDebug|Win32'"> /Zm150   /Zm150 </AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'"> /Zm200   /Zm200 </AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='BetaRelease|Win32'"> /Zm150   /Zm150 </AdditionalOptions>
-    </ClCompile>
-    <ClCompile Include="BinkVideoPlayer.cpp">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Profiler|Win32'"> /Zm150   /Zm150 </AdditionalOptions>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'"> /Zm150   /Zm150 </AdditionalOptions>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='FastDebug|Win32'"> /Zm150   /Zm150 </AdditionalOptions>
@@ -773,7 +768,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimVisitor.h" />
-    <ClInclude Include="BinkVideoPlayer.h" />
     <ClInclude Include="BoldLineVisObj.h" />
     <ClInclude Include="Builders.h" />
     <ClInclude Include="Camera.h" />

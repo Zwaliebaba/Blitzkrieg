@@ -1,16 +1,11 @@
 #include "StdAfx.h"
-
 #include <mmsystem.h>
-
 #include "WinFrame.h"
-#include "SysKeys.h"
-
 #include "../Misc/Win32Helper.h"
 #include "../Main/iMain.h"
 #include "../Scene/Scene.h"
 #include "../Input/Input.h"
 #include "../Input/InputTypes.h"
-
 #include "resource.h"
 
 using namespace NWin32Helper;
@@ -18,10 +13,6 @@ static CCriticalSection msgs;
 
 #define SPLASH_SCREEN_SIZE_X 600
 #define SPLASH_SCREEN_SIZE_Y 352
-
-#ifndef WM_MOUSEWHEEL
-#define WM_MOUSEWHEEL	0x020A
-#endif // WM_MOUSEWHEEL
 
 namespace NWinFrame
 {
@@ -202,7 +193,7 @@ namespace NWinFrame
   static void AddMsg(SWindowsMsg::EMsg msg, int x, int y, DWORD dwFlags)
   {
     CCriticalSectionLock lock(msgs);
-    msgList.push_back();
+    msgList.emplace_back();
     SWindowsMsg &m = msgList.back();
     m.time = GetTickCount();
     m.msg = msg;
@@ -367,7 +358,7 @@ namespace NWinFrame
     MSG msg;
     while (PeekMessage(&msg, nullptr, 0, 0, PM_NOREMOVE))
     {
-      if (::GetMessage(&msg, nullptr, 0, 0))
+      if (::GetMessageA(&msg, nullptr, 0, 0))
       {
         if (msg.message == WM_ACTIVATEAPP) SetActive(msg.wParam != 0);
         TranslateMessage(&msg);

@@ -168,7 +168,7 @@
       <SubSystem>Windows</SubSystem>
       <OutputFile>.\Debug\Image.dll</OutputFile>
       <ImportLibrary>.\Debug\Image.lib</ImportLibrary>
-      <AdditionalDependencies>s3tc.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ModuleDefinitionFile>.\Image.def</ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>
@@ -374,7 +374,6 @@
     <ClInclude Include="ImageProcessor.h" />
     <ClInclude Include="ImageReal.h" />
     <ClInclude Include="ImageTGA.h" />
-    <ClInclude Include="resource.h" />
     <ClInclude Include="Specific.h" />
     <ClInclude Include="StdAfx.h" />
   </ItemGroup>
@@ -401,9 +400,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Profiler|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Profiler|Win32'">StdAfx.h</PrecompiledHeaderFile>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="Image.rc" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="Image.def">

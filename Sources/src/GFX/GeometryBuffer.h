@@ -41,7 +41,7 @@ public:
   // direct data access (lock/unlock)
   void *Lock(int nStart, int nNumElements)
   {
-    BYTE *pMemory = nullptr;
+    void *pMemory = nullptr;
     HRESULT dxrval = pBuffer->Lock(nStart * nElementSize, nNumElements * nElementSize, &pMemory, dwLockFlags);
     NI_ASSERTHR_SLOW_TF(dxrval, NStr::Format("Can't lock vertex/index buffer from %d on %d elements", nStart, nNumElements), return 0);
     ++nLockCounter;
@@ -64,8 +64,8 @@ public:
   virtual void FreeRange(const SRangeLimits &range) = 0;
 };
 
-using CVertexBuffer = CDataBuffer<IDirect3DVertexBuffer8>;
-using CIndexBuffer = CDataBuffer<IDirect3DIndexBuffer8>;
+using CVertexBuffer = CDataBuffer<IDirect3DVertexBuffer9>;
+using CIndexBuffer = CDataBuffer<IDirect3DIndexBuffer9>;
 
 // a buffer that can allocate ranges
 template<class TBuffer, class TAllocator>
@@ -85,10 +85,10 @@ public:
   static int GetOptimalSize(int nDesiredSize, int nElementSize) { return TAllocator::GetOptimalSize(nDesiredSize, nElementSize); }
 };
 
-using CStaticVB = CRangeDataBuffer<IDirect3DVertexBuffer8, CStaticAllocator>;
-using CStaticIB = CRangeDataBuffer<IDirect3DIndexBuffer8, CStaticAllocator>;
-using CDynamicVB = CRangeDataBuffer<IDirect3DVertexBuffer8, CPow2Allocator>;
-using CDynamicIB = CRangeDataBuffer<IDirect3DIndexBuffer8, CPow2Allocator>;
+using CStaticVB = CRangeDataBuffer<IDirect3DVertexBuffer9, CStaticAllocator>;
+using CStaticIB = CRangeDataBuffer<IDirect3DIndexBuffer9, CStaticAllocator>;
+using CDynamicVB = CRangeDataBuffer<IDirect3DVertexBuffer9, CPow2Allocator>;
+using CDynamicIB = CRangeDataBuffer<IDirect3DIndexBuffer9, CPow2Allocator>;
 
 class CVertices : public IGFXVertices
 {
@@ -115,7 +115,7 @@ public:
   }
 
   //
-  IDirect3DVertexBuffer8 *GetInternalContainer() { return pData->GetInternalContainer(); }
+  IDirect3DVertexBuffer9 *GetInternalContainer() { return pData->GetInternalContainer(); }
   DWORD GetFormat() const { return pData->GetFormat(); }
   int GetElementSize() const { return pData->GetElementSize(); }
   // primitives... set/get type and number of primitives
@@ -168,7 +168,7 @@ public:
   }
 
   //
-  IDirect3DIndexBuffer8 *GetInternalContainer() { return pData->GetInternalContainer(); }
+  IDirect3DIndexBuffer9 *GetInternalContainer() { return pData->GetInternalContainer(); }
   DWORD GetFormat() const { return pData->GetFormat(); }
   int GetElementSize() const { return pData->GetElementSize(); }
   // primitives... set/get type and number of primitives
@@ -253,7 +253,7 @@ public:
     }
     nCurrElement = nNextElement;
     // lock
-    BYTE *pData = nullptr;
+    void *pData = nullptr;
     HRESULT dxrval = pBuffer->Lock(nCurrElement * nElementSize, nAmount * nElementSize, &pData, flags);
     NI_ASSERTHR_SLOW_TF(dxrval, NStr::Format("Can't lock temporary buffer for %d elements", nAmount), return 0);
     nNextElement = nCurrElement + nAmount + 1;
@@ -287,7 +287,7 @@ public:
   static int GetOptimalSize(int nDesiredSize, int nElementSize) { return Max(nDesiredSize, 65536 / nElementSize); }
 };
 
-using CTempVB = CTempBuffer<IDirect3DVertexBuffer8>;
-using CTempIB = CTempBuffer<IDirect3DIndexBuffer8>;
+using CTempVB = CTempBuffer<IDirect3DVertexBuffer9>;
+using CTempIB = CTempBuffer<IDirect3DIndexBuffer9>;
 
 #endif // __GEOMETRYBUFFER_H__

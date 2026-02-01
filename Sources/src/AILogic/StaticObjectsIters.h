@@ -23,11 +23,8 @@ class CStObjIter
   void NextXY();
   void IterateToNextCell();
 
-  CStObjIter(const CStObjIter &iter);
-  CStObjIter &operator=(const CStObjIter &iter);
-
 protected:
-  CStaticObjects::StaticObjectsAreaMap &GetAreaMap();
+  static CStaticObjects::StaticObjectsAreaMap &GetAreaMap();
   int GetCellSize() const;
 
 public:
@@ -114,7 +111,7 @@ template<>
 inline int CStObjIter<true>::GetCellSize() const { return SConsts::STATIC_CONTAINER_OBJ_CELL; }
 
 template<bool bOnlyContainers>
-CStObjIter<bOnlyContainers>::CStObjIter<bOnlyContainers>(const int downX, const int upX, const int downY, const int upY) { Init(downX, upX, downY, upY); }
+CStObjIter<bOnlyContainers>::CStObjIter(const int downX, const int upX, const int downY, const int upY) { Init(downX, upX, downY, upY); }
 
 template<bool bOnlyContainers>
 void CStObjIter<bOnlyContainers>::Init(const int _downX, const int _upX, const int _downY, const int _upY)
@@ -180,15 +177,15 @@ CExistingObject *CStObjIter<bOnlyContainers>::operator*()
 // **********************************************************************
 
 template<bool bOnlyContainers>
-CStObjGlobalIter<bOnlyContainers>::CStObjGlobalIter<bOnlyContainers>()
-  : CStObjIter<bOnlyContainers>(0, GetAreaMap().GetSizeX() - 1, 0, GetAreaMap().GetSizeY() - 1) {}
+CStObjGlobalIter<bOnlyContainers>::CStObjGlobalIter()
+    : CStObjIter<bOnlyContainers>(0, this->GetAreaMap().GetSizeX() - 1, 0, this->GetAreaMap().GetSizeY() - 1) {}
 
 // **********************************************************************
 // *CStObjCircleIter*
 // **********************************************************************
 
 template<bool bOnlyContainers>
-CStObjCircleIter<bOnlyContainers>::CStObjCircleIter<bOnlyContainers>(const CVec2 &vCenter, const float fR)
+CStObjCircleIter<bOnlyContainers>::CStObjCircleIter(const CVec2 &vCenter, const float fR)
 {
   const int nBigCellSize = SConsts::TILE_SIZE * GetCellSize();
 

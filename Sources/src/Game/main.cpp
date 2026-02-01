@@ -61,11 +61,6 @@ struct SCmdParams
   int nGuaranteeFPS;
   int nAutoSavePeriod;
   std::string szMovieDir;
-  // game spy support
-  std::string szIPToGameSpyConnect;
-  int nGameSpyHostPort;
-  bool bGameSpyPasswordRequired;
-  std::string szGameSpyPassword;
 
   ITextureManager::ETextureQuality eTextureQuality;
   //
@@ -74,7 +69,7 @@ struct SCmdParams
   std::string szSaveFile;// save file name - for direct save launch
   std::string szModName;// mod file name - to lauch game with particular mod added
 
-  SCmdParams() : nGameSpyHostPort(0), bGameSpyPasswordRequired(false) {}
+  SCmdParams() {}
 };
 
 void ProcessCommandLine(LPSTR lpCmdLine, SCmdParams *pCmdParams);
@@ -316,8 +311,6 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
   {
     std::string szGameSpyServer = GetGlobalVar("Options.Multiplayer.GameSpyServerName", "");
     if (!szGameSpyServer.empty()) GetSingleton<IOptionSystem>()->Set("Multiplayer.ServerName", szGameSpyServer.c_str());
-
-    if (cmdp.bGameSpyPasswordRequired) GetSingleton<IOptionSystem>()->Set("Multiplayer.ServerPassword", cmdp.szGameSpyPassword.c_str());
   }
   timeMeter.Sample("serialize config");
   // cursor - set bounds and default mode
@@ -371,13 +364,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
     //
     IInput *pInput = GetSingleton<IInput>();
 
-    if (cmdp.nGameSpyHostPort)
-    {
-      std::string szCommandStr = std::string(NStr::Format("%i", cmdp.nGameSpyHostPort)) + '"' + cmdp.szGameSpyPassword;
-      pMainLoop->Command(MISSION_COMMAND_GAMESPY_HOST, szCommandStr.c_str());
-    }
-    else if (!cmdp.szIPToGameSpyConnect.empty()) { pMainLoop->Command(MISSION_COMMAND_GAMESPY_CLIENT, (cmdp.szIPToGameSpyConnect + '"' + cmdp.szGameSpyPassword).c_str()); }
-    else if (!cmdp.szSaveFile.empty()) pMainLoop->Command(MAIN_COMMAND_LOAD, cmdp.szSaveFile.c_str());
+    if (!cmdp.szSaveFile.empty()) pMainLoop->Command(MAIN_COMMAND_LOAD, cmdp.szSaveFile.c_str());
     else if (cmdp.szMapName.empty() || cmdp.bMultiplayer)
     {
       pMainLoop->Command(MISSION_COMMAND_VIDEO, NStr::Format("%s;%d", "movies\\intro", MISSION_COMMAND_MAIN_MENU));
@@ -563,52 +550,6 @@ void ProcessCommandLine(LPSTR lpCmdLine, SCmdParams *pCmdParams)
       std::string szDataDir = szParams[i].c_str() + 8;
       NStr::TrimBoth(szDataDir, '"');
       SetGlobalVar("DataDir", szDataDir.c_str());
-    }
-    else if (szParams[i].compare(0, 8, "-connect") == 0)
-    {
-      GetSingleton<IConsoleBuffer>()->WriteASCII(100, szParams[i].c_str(), 0, true);
-      std::string szConnectParams = szParams[i].c_str() + 8;
-      // NStr::TrimBoth( szConnectParams, '"' );
-      NStr::TrimRight(szConnectParams, ':');
-      pCmdParams->szIPToGameSpyConnect = szConnectParams;
-
-      // CRAP{ for debug
-      // pCmdParams->eFullscreenMode = GFXFS_WINDOWED;
-      // SetGlobalVar( "windowed", "1" );
-      // SetGlobalVar( "DataDir", "j:" );
-      // CRAP}
-    }
-    else if (szParams[i].compare(0, 5, "-host") == 0)
-    {
-      std::string szConnectParams = realStr.c_str() + 5;
-      if (szConnectParams == "") pCmdParams->nGameSpyHostPort = -1;
-      else pCmdParams->nGameSpyHostPort = NStr::ToInt(szConnectParams);
-
-      // CRAP{ for debug
-      // pCmdParams->eFullscreenMode = GFXFS_WINDOWED;
-      // SetGlobalVar( "windowed", "1" );
-      // CRAP}
-    }
-    else if (szParams[i].compare(0, 9, "-password") == 0)
-    {
-      std::string szPassword = realStr.c_str() + 9;
-      NStr::TrimBoth(szPassword, '"');
-
-      pCmdParams->bGameSpyPasswordRequired = true;
-      pCmdParams->szGameSpyPassword = szPassword;
-    }
-    else if (szParams[i].compare(0, 5, "-name") == 0)
-    {
-      std::string szNick = realStr.c_str() + 5;
-      NStr::TrimBoth(szNick, '"');
-
-      SetGlobalVar("Options.Multiplayer.GameSpyPlayerName", NStr::ToUnicode(szNick).c_str());
-    }
-    else if (szParams[i].compare(0, 5, "-room") == 0)
-    {
-      std::string szRoom = realStr.c_str() + 5;
-      NStr::TrimBoth(szRoom, '"');
-      SetGlobalVar("Options.Multiplayer.GameSpyServerName", szRoom.c_str());
     }
 #ifndef _FINALRELEASE
     // for debug purposes!

@@ -27,7 +27,7 @@ class CListControlWrapper
   using PlayersInfo = std::unordered_map<TID, CPtr<TInfo>>;
   PlayersInfo playersInfo;
 
-  PlayersInfo::iterator curIter;// current iterator.
+  typename PlayersInfo::iterator curIter;// current iterator.
 
 
 public:

@@ -894,7 +894,6 @@
     <ClInclude Include="PlayMovieInterface.h" />
     <ClInclude Include="QuitMission.h" />
     <ClInclude Include="ReplayList.h" />
-    <ClInclude Include="resource.h" />
     <ClInclude Include="SaveLoadCommon.h" />
     <ClInclude Include="SaveMission.h" />
     <ClInclude Include="SaveReplay.h" />
@@ -914,9 +913,6 @@
     <ClInclude Include="UnitTypes.h" />
     <ClInclude Include="UpgradeUnit.h" />
     <ClInclude Include="WorldClient.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="GameTT.rc" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="GameTT.def">

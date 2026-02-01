@@ -167,7 +167,7 @@ void AddRecalled(const EActionNotify &eAction, T *pBuffer, int *pnLen)
 {
   while (!theSuspendedUpdates.IsRecalledEmpty(eAction))
   {
-    std::construct(&pBuffer[(*pnLen)]);
+    new (&pBuffer[(*pnLen)]) T();
     theSuspendedUpdates.GetRecalled(eAction, &pBuffer[(*pnLen)]);
 
     ++(*pnLen);
@@ -179,7 +179,7 @@ void AddRecalled(const EActionNotify &eAction, SNewUnitInfo *pObjects, int *pnLe
 {
   while (!theSuspendedUpdates.IsRecalledEmpty(eAction))
   {
-    std::construct(&pObjects[(*pnLen)]);
+    new (&pObjects[(*pnLen)]) SNewUnitInfo();
     theSuspendedUpdates.GetRecalled(eAction, &pObjects[(*pnLen)]);
 
     // because 
@@ -219,7 +219,7 @@ void CUpdater::UpdateActions(SAINotifyAction **pActionsBuffer, int *pnLen)
       AddRecalled(eAction, *pActionsBuffer, pnLen);
       for (CSimpleUpdatesSet::iterator iter = simpleUpdates[i].begin(); iter != simpleUpdates[i].end(); ++iter)
       {
-        std::construct(&(*pActionsBuffer)[(*pnLen)]);
+        new (&(*pActionsBuffer)[(*pnLen)]) SAINotifyAction();
 
         SSimpleUpdate &update = iter->second;
 
@@ -259,7 +259,7 @@ void CUpdater::UpdateActions(SAINotifyAction **pActionsBuffer, int *pnLen)
     AddRecalled(ACTION_NOTIFY_DEAD_UNIT, *pActionsBuffer, pnLen);
     for (CComplexUpdatesSet::iterator iter = complexUpdates[ACTION_NOTIFY_DEAD_UNIT >> 4].begin(); iter != complexUpdates[ACTION_NOTIFY_DEAD_UNIT >> 4].end(); ++iter)
     {
-      std::construct(&(*pActionsBuffer)[(*pnLen)]);
+      new (&(*pActionsBuffer)[(*pnLen)]) SAINotifyAction();
 
       iter->second->GetDyingInfo(&(*pActionsBuffer)[(*pnLen)]);
       auto pUnit = checked_cast<IUpdatableObj *>((*pActionsBuffer)[(*pnLen)].pObj);
@@ -320,7 +320,7 @@ void CUpdater::UpdateRPGParams(SAINotifyRPGStats **pUnitRPGBuffer, int *pnLen)
       IUpdatableObj *pObj = iter->second;
       if (pObj->IsValid())
       {
-        std::construct(&(*pUnitRPGBuffer)[(*pnLen)]);
+        new (&(*pUnitRPGBuffer)[(*pnLen)]) SAINotifyRPGStats();
         pObj->GetRPGStats(&(*pUnitRPGBuffer)[(*pnLen)]);
 
         if (!theSuspendedUpdates.CheckToSuspend(ACTION_NOTIFY_RPG_CHANGED, pObj, (*pUnitRPGBuffer)[(*pnLen)])) ++(*pnLen);
@@ -486,7 +486,7 @@ void CUpdater::GetNewStaticObjects(struct SNewUnitInfo **pObjects, int *pnLen)
   AddRecalled(ACTION_NOTIFY_NEW_ST_OBJ, *pObjects, pnLen);
   for (CComplexUpdatesSet::iterator iter = complexUpdates[ACTION_NOTIFY_NEW_ST_OBJ >> 4].begin(); iter != complexUpdates[ACTION_NOTIFY_NEW_ST_OBJ >> 4].end(); ++iter)
   {
-    std::construct(&(*pObjects)[(*pnLen)]);
+    new (&(*pObjects)[(*pnLen)]) SNewUnitInfo();
 
     IUpdatableObj *pObj = iter->second;
     pObj->GetNewUnitInfo(&(*pObjects)[*pnLen]);
@@ -687,7 +687,7 @@ void CUpdater::UpdateDiplomacies(SAINotifyDiplomacy **pDiplomaciesBuffer, int *p
     AddRecalled(ACTION_NOTIFY_UPDATE_DIPLOMACY, *pDiplomaciesBuffer, pnLen);
     for (CComplexUpdatesSet::iterator iter = complexUpdates[ACTION_NOTIFY_UPDATE_DIPLOMACY >> 4].begin(); iter != complexUpdates[ACTION_NOTIFY_UPDATE_DIPLOMACY >> 4].end(); ++iter)
     {
-      std::construct(&(*pDiplomaciesBuffer)[(*pnLen)]);
+      new (&(*pDiplomaciesBuffer)[(*pnLen)]) SAINotifyDiplomacy();
 
       IUpdatableObj *pObj = iter->second;
       (*pDiplomaciesBuffer)[(*pnLen)].pObj = pObj;

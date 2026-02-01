@@ -1,7 +1,6 @@
-#ifndef __MESSAGES_STORE_H__
-#define __MESSAGES_STORE_H__
-
 #pragma once
+
+#undef GetMessage
 
 interface IMultiplayerMessage;
 
@@ -14,7 +13,5 @@ public:
   CMessagesStore() {}
 
   void AddMessage(IMultiplayerMessage *pMessage);
-  interface IMultiplayerMessage * GetMessage();
+  IMultiplayerMessage *GetMessage();
 };
-
-#endif // __MESSAGES_STORE_H__

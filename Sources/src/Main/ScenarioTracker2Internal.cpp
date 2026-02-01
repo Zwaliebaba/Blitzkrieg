@@ -372,7 +372,7 @@ namespace NScenarioScript2
   static int Sqrt(struct lua_State *pState)
   {
     Script script(pState);
-    script.PushNumber(sqrt(script.GetObject(1)));
+    script.PushNumber(sqrt(static_cast<float>(script.GetObject(1))));
     return 1;
   }
 
@@ -809,7 +809,7 @@ std::string CScenarioTracker2::GetBestPersonalName(const std::string &szRPGStats
           std::list<SNameUsageStats> usages;
           for (auto name = it->names.begin(); name != it->names.end(); ++name)
           {
-            usages.push_back();
+            usages.emplace_back();
             usages.back().szName = *name;
             CNamesUsageMap::const_iterator posNameUsage = personalNamesUsage.find(*name);
             if (posNameUsage != personalNamesUsage.end()) usages.back() = posNameUsage->second;

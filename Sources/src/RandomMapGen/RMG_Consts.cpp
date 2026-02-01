@@ -10,23 +10,23 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 
-auto RMGC_CONTAINER_XML_NAME = "Container";
-auto RMGC_GRAPH_XML_NAME = "Graph";
-auto RMGC_OBJECTSET_XML_NAME = "ObjectSet";
-auto RMGC_TILESET_XML_NAME = "TileSet";
-auto RMGC_FIELDSET_XML_NAME = "FieldSet";
-auto RMGC_TEMPLATE_XML_NAME = "Template";
+const char* RMGC_CONTAINER_XML_NAME = "Container";
+const char* RMGC_GRAPH_XML_NAME = "Graph";
+const char* RMGC_OBJECTSET_XML_NAME = "ObjectSet";
+const char* RMGC_TILESET_XML_NAME = "TileSet";
+const char* RMGC_FIELDSET_XML_NAME = "FieldSet";
+const char* RMGC_TEMPLATE_XML_NAME = "Template";
 
-auto RMGC_ROAD_LEVEL_FILE_NAME = "RoadLevel";// "Scenarios\\Profiles\\roadProfile";
-auto RMGC_RIVER_LEVEL_FILE_NAME = "RiverLevel";// "Scenarios\\Profiles\\riverProfile";
-auto RMGC_RM_LEVEL_VSO_PARAMETER_NAME = "SRMLevelVSOParameter";
-auto RMGC_CONTEXT_NAME = "ChapterUnitsTable";
-auto RMGC_SETTING_NAME = "ChapterSetting";
-auto RMGC_SETTING_DEFAULT_FOLDER = "Scenarios\\Settings\\";
-auto RMGC_ANY_SETTING_NAME = "<any setting>";
-auto RMGC_NO_MOD_FOLDER = "<no any MOD>";
-auto RMGC_CURRENT_MOD_FOLDER = "<current MOD>";
-auto RMGC_OWN_MOD_FOLDER = "<map MOD>";
+const char* RMGC_ROAD_LEVEL_FILE_NAME = "RoadLevel";// "Scenarios\\Profiles\\roadProfile";
+const char* RMGC_RIVER_LEVEL_FILE_NAME = "RiverLevel";// "Scenarios\\Profiles\\riverProfile";
+const char* RMGC_RM_LEVEL_VSO_PARAMETER_NAME = "SRMLevelVSOParameter";
+const char* RMGC_CONTEXT_NAME = "ChapterUnitsTable";
+const char* RMGC_SETTING_NAME = "ChapterSetting";
+const char* RMGC_SETTING_DEFAULT_FOLDER = "Scenarios\\Settings\\";
+const char* RMGC_ANY_SETTING_NAME = "<any setting>";
+const char* RMGC_NO_MOD_FOLDER = "<no any MOD>";
+const char* RMGC_CURRENT_MOD_FOLDER = "<current MOD>";
+const char* RMGC_OWN_MOD_FOLDER = "<map MOD>";
 
 
 const int SRMGraphLink::INVALID_LINK_VALUE = -1;

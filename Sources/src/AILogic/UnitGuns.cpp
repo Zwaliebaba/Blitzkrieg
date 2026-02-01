@@ -78,7 +78,7 @@ bool CUnitGuns::FindTimeToGo(CAIUnit *pUnit, CAIUnit *pEnemy, std::list<SWeaponP
   CPtr<IStaticPath> pPath = CreateStaticPathForAttack(pUnit, pEnemy, pStats->fRangeMin, fFireRangeMax);
 
   if (!pPath || pPath->GetLength() == -1) return false;
-  pPathInfo->push_back();
+  pPathInfo->emplace_back();
   pPathInfo->back().fRadius = fFireRangeMax;
   pPathInfo->back().time = pPath->GetLength() * SConsts::TILE_SIZE * pUnit->GetStats()->fSpeed;
   pPathInfo->back().pStaticPath = pPath;
@@ -133,7 +133,7 @@ bool CUnitGuns::FindTimeToStatObjGo(CAIUnit *pUnit, CStaticObject *pObj, std::li
   CPtr<IStaticPath> pPath = CreateStaticPathForStObjAttack(pUnit, pObj, pStats->fRangeMin, fFireRangeMax);
 
   if (!pPath.IsValid() || pPath->GetLength() == -1) return false;
-  pPathInfo->push_back();
+  pPathInfo->emplace_back();
   pPathInfo->back().fRadius = fFireRangeMax;
   pPathInfo->back().time = pPath->GetLength() * SConsts::TILE_SIZE * pUnit->GetStats()->fSpeed;
   pPathInfo->back().pStaticPath = pPath;
@@ -209,7 +209,7 @@ int CUnitGuns::GetNAmmo(const int nCommonGun) const
 }
 
 // nAmmo with sign
-void CUnitGuns::ChangeAmmo(const int nCommonGun, const nAmmo)
+void CUnitGuns::ChangeAmmo(const int nCommonGun, const int nAmmo)
 {
   NI_ASSERT_T(nCommonGun < nCommonGuns, NStr::Format( "Wrong number of gun (%d), total number of guns (%d)", nCommonGun, nCommonGuns ));
   commonGunsInfo[nCommonGun]->nAmmo += nAmmo;

@@ -1209,7 +1209,7 @@ void CAIUnit::InitializeShootArea(SShootArea *pArea, CBasicGun *pGun, const floa
 
 void CAIUnit::GetShootAreas(SShootAreas *pShootAreas, int *pnAreas) const
 {
-  std::construct(pShootAreas);
+  new (pShootAreas) SShootAreas();
   *pnAreas = 1;
 
   if (GetFirstArtilleryGun() != nullptr)

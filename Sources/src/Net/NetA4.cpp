@@ -108,7 +108,7 @@ namespace NNet
   static void WritePacket(std::list<CMemoryStream> *pDst, CMemoryStream &pkt)
   {
     NI_ASSERT_T(pkt.GetSize() < N_STREAM_BUFFER - 1000, NStr::Format( "Wrong memory stream size (%d)", pkt.GetSize() ));
-    pDst->push_back();
+    pDst->emplace_back();
     CMemoryStream &b = pDst->back();
     int nSize = pkt.GetSize();
     if (nSize >= 128)
@@ -262,7 +262,7 @@ namespace NNet
   // //////////
   void CNetDriver::AddClient(const SClientAddressInfo &addr, CP2PTracker::UCID clientID)
   {
-    clients.push_back();
+    clients.emplace_back();
     SPeer &peer = clients.back();
     peer.currentAddr = addr.inetAddress;
     peer.clientID = clientID;
@@ -631,7 +631,7 @@ namespace NNet
     SPeer *pPeer = GetClient(_from);
     NI_ASSERT_T(pPeer != 0, "NULL peer");
     if (!pPeer) return;
-    msgQueue.push_back();
+    msgQueue.emplace_back();
     SMessage &res = msgQueue.back();
     res.msg = msg;
     res.pkt = data;
@@ -1024,7 +1024,7 @@ namespace NNet
       }
       pkt->Seek(nCurStreamPosition, STREAM_SEEK_SET);
 
-      channelMsgs[i].push_back();
+      channelMsgs[i].emplace_back();
       channelMsgs[i].back().msg = eMsgID;
       channelMsgs[i].back().nClientID = nClientID;
       channelMsgs[i].back().pPkt = CreateObject<IDataStream>(STREAMIO_MEMORY_STREAM);

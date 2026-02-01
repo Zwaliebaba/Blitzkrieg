@@ -360,7 +360,7 @@
       <SubSystem>Windows</SubSystem>
       <OutputFile>.\Debug\SFX.dll</OutputFile>
       <ImportLibrary>.\Debug\SFX.lib</ImportLibrary>
-      <AdditionalDependencies>fmodvc.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ModuleDefinitionFile>.\Sound.def</ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>
@@ -388,7 +388,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonStructs.h" />
-    <ClInclude Include="resource.h" />
     <ClInclude Include="SampleSounds.h" />
     <ClInclude Include="SFX.h" />
     <ClInclude Include="SoundEngine.h" />
@@ -398,9 +397,6 @@
     <ClInclude Include="StdAfx.h" />
     <ClInclude Include="StreamFadeOff.h" />
     <ClInclude Include="StreamingSound.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="SFX.rc" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="Sound.def">

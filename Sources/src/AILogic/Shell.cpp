@@ -1,5 +1,4 @@
 #include "stdafx.h"
-
 #include "Shell.h"
 #include "AIStaticMap.h"
 #include "AIUnit.h"
@@ -18,10 +17,8 @@
 #include "Cheats.h"
 #include "MPLog.h"
 #include "StaticObjectsIters.h"
-
-#include "../Scene/Scene.h"
 #include "../Misc/CheckSums.h"
-// ///////////////////////////////////////////////////////////// 
+
 extern CCombatEstimator theCombatEstimator;
 extern CStaticMap theStaticMap;
 extern CUpdater updater;
@@ -552,7 +549,7 @@ void CShellsStore::UpdateCheckSum(uLong *pCheckSum)
   static SCheckSumBufferStorage checkSumBuf(10000);
   checkSumBuf.nCnt = 0;
 
-  std::priority_queue<CPtr<CInvisShell>> copyQueue = invisShells;
+  std::priority_queue<CPtr<CInvisShell>, std::vector<CPtr<CInvisShell>>, CInvisShellCompare> copyQueue = invisShells;
   while (!copyQueue.empty())
   {
     CInvisShell *pShell = copyQueue.top();

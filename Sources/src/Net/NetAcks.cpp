@@ -282,7 +282,7 @@ namespace NNet
 #ifdef LOG
     cout << "SEND, pkts left=" << fWindow - nFlyPackets << endl;
 #endif
-    sentUpdates.push_back();
+    sentUpdates.emplace_back();
     // current packet number
     // const unsigned char *pStart = bits.GetCurrentPtr();
     PACKET_ID nPktCurrent = nPktSent++;

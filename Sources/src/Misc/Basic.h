@@ -245,7 +245,7 @@ public:																																																\
 private:																																															\
 	std::string szSharedResourceName;																																		\
 	SInt nSharedResourceLastUsage;																																			\
-	const std::string GetSharedResourceFullName() const { return szSharedResourceName + GetGlobalVar("SharedResource."extvarname".Ext", ""); }
+	const std::string GetSharedResourceFullName() const { return szSharedResourceName + GetGlobalVar("SharedResource." extvarname ".Ext", ""); }
 
 // ************************************************************************************************************************ //
 // **
@@ -627,13 +627,17 @@ public:																																								\
 	TPtrName& operator=( TUserObj *_ptr ) { Set( _ptr ); return *this; }								\
 	TPtrName& operator=( const TPtrName &a ) { Set( a.GetPtr() ); return *this; }				\
 	bool operator==( const TPtrName &a ) const { return GetPtr() == a.GetPtr(); }				\
-	bool operator==( const TUserObj *a ) const { return GetPtr() == a; }								\
+	bool operator==( std::nullptr_t ) const { return GetPtr() == nullptr; }							\
+	template<class U, typename = typename std::enable_if<std::is_same<U, TUserObj*>::value>::type> \
+	bool operator==( U a ) const { return GetPtr() == a; }															\
 	bool operator!=( const TPtrName &a ) const { return GetPtr() != a.GetPtr(); }				\
-	bool operator!=( const TUserObj *a ) const { return GetPtr() != a; }								\
-	bool operator< ( const TUserObj *a ) const { return GetPtr() < a; }									\
-	bool operator> ( const TUserObj *a ) const { return GetPtr() > a; }									\
-	bool operator<=( const TUserObj *a ) const { return GetPtr() <= a; }								\
-	bool operator>=( const TUserObj *a ) const { return GetPtr() >= a; }								\
+	bool operator!=( std::nullptr_t ) const { return GetPtr() != nullptr; }							\
+	template<class U, typename = typename std::enable_if<std::is_same<U, TUserObj*>::value>::type> \
+	bool operator!=( U a ) const { return GetPtr() != a; }															\
+	bool operator< ( const TPtrName &a ) const { return GetPtr() < a.GetPtr(); }				\
+	bool operator> ( const TPtrName &a ) const { return GetPtr() > a.GetPtr(); }				\
+	bool operator<=( const TPtrName &a ) const { return GetPtr() <= a.GetPtr(); }				\
+	bool operator>=( const TPtrName &a ) const { return GetPtr() >= a.GetPtr(); }				\
 };
 // ptr specialization
 BASIC_PTR_DECLARE(CPtr, NRefCount::SRefPtrFunc);

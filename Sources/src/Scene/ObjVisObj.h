@@ -8,44 +8,9 @@
 template<class TBase>
 class CTObjVisObj : public TBase
 {
-  using CObjVisObj = CTObjVisObj<TBase>;
-  //
-  DWORD dwGameType;// object game type
-  CVec3 vPos;// unit's position
-  int nDirection;// 2D direction
-  bool bVisible;// is this object visible?
-  int nPriority;// this object priority
-  EVisObjSelectionState selectionState;// selection state
-  // icons
-  CIconsList icons;
-
-protected:
-  DWORD dwLastUpdateTime;// last time, update was calculated
-  //
-  virtual void RepositionIcons() {}
-  void RepositionIconsLocal(const DWORD placement, const CTRect<float> &rcRect, const float fAddZ = 20) { ::RepositionIconsLocal(icons, placement, rcRect, fAddZ); }
-
-  void VisitIcons(ISceneVisitor *pVisitor)
-  {
-    for (auto it = icons.begin(); it != icons.end(); ++it)
-    {
-      it->pIcon->Reposition(vPos);
-      it->pIcon->Visit(pVisitor);
-    }
-  }
-
-  //
-  void SetPos(const CVec3 &_vPos) { vPos = _vPos; }
-  const CVec3 &GetPos() const { return vPos; }
-  const int GetPriority() const { return nPriority; }
-  const DWORD GetGameType(const DWORD dwType) const { return dwGameType == 0 ? dwType : dwGameType; }
-  //
-  void SetDir(const int _nDirection) { nDirection = _nDirection % 65536; }
-  const int GetDir() const { return nDirection; }
-  //
-  virtual ~CTObjVisObj() {}
-
 public:
+  using CObjVisObj = CTObjVisObj<TBase>;
+
   CTObjVisObj()
   {
     dwGameType = 0;
@@ -66,9 +31,11 @@ public:
     SetDirection(_nDir);
   }
 
-  virtual const CVec3 & STDCALL GetPosition() const { return vPos; }
+  virtual const CVec3 &STDCALL GetPosition() const { return vPos; }
+
   virtual int STDCALL GetDirection() const { return nDirection; }
-  // 
+
+  //
   // selection
   //
   virtual EVisObjSelectionState STDCALL GetSelectionState() const { return selectionState; }
@@ -76,16 +43,21 @@ public:
   virtual void STDCALL Select(EVisObjSelectionState state)
   {
     selectionState = state;
-    for (auto it = icons.begin(); it != icons.end(); ++it) { if (it->nID < 10100) it->pIcon->SetAlpha(selectionState == SGVOSS_SELECTED ? 0xff : 0x60); }
+    for (auto it = icons.begin(); it != icons.end(); ++it)
+      if (it->nID < 10100) it->pIcon->SetAlpha(selectionState == SGVOSS_SELECTED ? 0xff : 0x60);
   }
 
   //
   // visibility, priority, game type
   //
   virtual bool STDCALL IsVisible() const { return bVisible; }
+
   virtual void STDCALL SetVisible(const bool _bVisible) { bVisible = _bVisible; }
+
   virtual void STDCALL SetPriority(const int _nPriority) { nPriority = _nPriority; }
+
   virtual void STDCALL SetGameType(const DWORD dwType) { dwGameType = dwType; }
+
   //
   // icons
   //
@@ -135,9 +107,10 @@ public:
     if (bReposition) RepositionIcons();
   }
 
-  virtual ISceneIcon * STDCALL GetIcon(int nID) const
+  virtual ISceneIcon *STDCALL GetIcon(int nID) const
   {
-    for (auto it = icons.begin(); it != icons.end(); ++it) { if (it->nID == nID) return it->pIcon; }
+    for (auto it = icons.begin(); it != icons.end(); ++it)
+      if (it->nID == nID) return it->pIcon;
     return nullptr;
   }
 
@@ -158,6 +131,43 @@ public:
     if (saver.IsReading()) Select(selectionState);
     return 0;
   }
+
+protected:
+  //
+  DWORD dwGameType;// object game type
+  CVec3 vPos;// unit's position
+  int nDirection;// 2D direction
+  bool bVisible;// is this object visible?
+  int nPriority;// this object priority
+  EVisObjSelectionState selectionState;// selection state
+  // icons
+  CIconsList icons;
+
+protected:
+  DWORD dwLastUpdateTime;// last time, update was calculated
+  //
+  virtual void RepositionIcons() {}
+  void RepositionIconsLocal(const DWORD placement, const CTRect<float> &rcRect, const float fAddZ = 20) { ::RepositionIconsLocal(icons, placement, rcRect, fAddZ); }
+
+  void VisitIcons(ISceneVisitor *pVisitor)
+  {
+    for (auto it = icons.begin(); it != icons.end(); ++it)
+    {
+      it->pIcon->Reposition(vPos);
+      it->pIcon->Visit(pVisitor);
+    }
+  }
+
+  //
+  void SetPos(const CVec3 &_vPos) { vPos = _vPos; }
+  const CVec3 &GetPos() const { return vPos; }
+  const int GetPriority() const { return nPriority; }
+  const DWORD GetGameType(const DWORD dwType) const { return dwGameType == 0 ? dwType : dwGameType; }
+  //
+  void SetDir(const int _nDirection) { nDirection = _nDirection % 65536; }
+  const int GetDir() const { return nDirection; }
+  //
+  virtual ~CTObjVisObj() {}
 };
 
 #endif // __OBJVISOBJ_H__

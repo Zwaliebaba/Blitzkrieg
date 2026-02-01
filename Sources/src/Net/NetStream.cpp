@@ -40,7 +40,7 @@ namespace NNet
         pBits->Write(&block, block.GetSendSize());
         return;
       }
-      channelOutFlyList.push_back();
+      channelOutFlyList.emplace_back();
       SChannelBlock *pMSVCSuck = nullptr;
       int nMaxSize = nSizeLimit - pMSVCSuck->GetHeaderSize();
       nMaxSize = Min(nMaxSize, 255);

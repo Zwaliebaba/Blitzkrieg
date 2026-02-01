@@ -589,7 +589,7 @@ void CCollisionsCollector::HandOutCollisions()
       }
     }
 
-    while (!collisions.empty() && collisions.top().pUnit1 == pUnit1) collisions.pop();
+    while (!collisions.empty() && collisions.top().pUnit1.GetPtr() == pUnit1) collisions.pop();
   }
 }
 

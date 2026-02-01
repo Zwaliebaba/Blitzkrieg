@@ -1,13 +1,9 @@
-#ifndef __GFX_H__
-#define __GFX_H__
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "GFXTypes.h"
 
-// ��������� �� �������� �������� � object factory
+#undef DrawText
+
 enum
 {
   GFX_BASE_VALUE = 0x10030000,
@@ -297,5 +293,3 @@ interface IGFX : IRefCount
   // temporal function before shaders
   virtual bool STDCALL SetShadingEffect(int nEffect) = 0;
 };
-
-#endif // __GFX_H__

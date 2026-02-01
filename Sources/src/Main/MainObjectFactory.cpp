@@ -64,7 +64,6 @@ CMainObjectFactory::CMainObjectFactory()
   REGISTER_CLASS(this, MAIN_CAMPAIGN_STATISTICS, CCampaignStatistics);
 
   REGISTER_CLASS(this, LAN_MULTIPLAYER, CLanMultiplayer);
-  REGISTER_CLASS(this, GAMESPY_MULTIPLAYER, CGameSpyMultiplayer);
   REGISTER_CLASS(this, INTERNET_MULTIPLAYER, CInternetMultiplayer);
 
   REGISTER_CLASS(this, MAIN_PROGRESS_INDICATOR, CProgressScreen);

@@ -394,13 +394,9 @@
     <ClInclude Include="MatrixEffectorJogging.h" />
     <ClInclude Include="MatrixEffectorLeveling.h" />
     <ClInclude Include="MeshAnimation.h" />
-    <ClInclude Include="resource.h" />
     <ClInclude Include="Specific.h" />
     <ClInclude Include="SpriteAnimation.h" />
     <ClInclude Include="StdAfx.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="anim.rc" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="Animation.def">

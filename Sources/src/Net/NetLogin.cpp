@@ -58,7 +58,8 @@ namespace NNet
         return *i;
       }
     }
-    SAcceptedLogin &a = *acceptedList.insert(acceptedList.end());
+    acceptedList.emplace_back();
+    SAcceptedLogin &a = acceptedList.back();
     a.addr = addr;
     a.fTimeLeft = F_KEEP_ACCEPTED_TIME;
     a.nLoginAttempt = info.nLoginAttempt;

@@ -276,7 +276,7 @@ void CGroupLogic::EraseFromAmbushGroups(const SAIUnitCmd &command, const WORD wG
 
 void CGroupLogic::CreateAmbushGroup(const WORD wGroup)
 {
-  ambushGroups.push_front();
+  ambushGroups.push_front(std::list<SAmbushInfo>());
   for (int i = groupUnits.begin(wGroup); i != groupUnits.end(); i = groupUnits.GetNext(i))
   {
     CCommonUnit *pUnit = groupUnits.GetEl(i);

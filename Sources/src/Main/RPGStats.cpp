@@ -1,6 +1,9 @@
 #include "StdAfx.h"
 
 #include "RPGStats.h"
+
+#include <functional>
+
 #include "../AILogic/AIConsts.h"
 #include "../Formats/fmtTerrain.h"
 #include "../Common/Actions.h"
@@ -36,7 +39,7 @@ void SWeaponRPGStats::ToAIUnits()
   // degrees <=> degrees65535
   wDeltaAngle = static_cast<DWORD>(float(wDeltaAngle / 2) * (65536.0f / 360.0f)) % 65536;
   // shell types
-  std::for_each(shells.begin(), shells.end(), std::mem_fun_ref(SShell::ToAIUnits));
+  std::for_each(shells.begin(), shells.end(), std::mem_fn(&SShell::ToAIUnits));
 }
 
 SWeaponRPGStats::SShell::SShell()
@@ -418,7 +421,7 @@ int STerraObjSetRPGStats::SSegment::operator&(IDataTree &ss)
 void STerraObjSetRPGStats::ToAIUnits()
 {
   SStaticObjectRPGStats::ToAIUnits();
-  std::for_each(segments.begin(), segments.end(), std::mem_fun_ref(SSegment::ToAIUnits));
+  for (auto &segment : segments) segment.ToAIUnits();
 }
 
 int STerraObjSetRPGStats::operator&(IDataTree &ss)
@@ -580,7 +583,7 @@ bool SBuildingRPGStats::Validate()
   NI_ASSERT_SLOW_TF(nMedicalSlots <= 100, NStr::Format("Wrong number of medical slots (%d) in \"%s\"", nMedicalSlots, szKeyName.c_str()), return false);
   NI_ASSERT_SLOW_TF(slots.size() <= 100, NStr::Format("Wrong number of fireplaces (%d) in \"%s\"", slots.size(), szKeyName.c_str()), return false);
   //
-  std::for_each(slots.begin(), slots.end(), std::mem_fun_ref(SSlot::Validate));
+  for (auto &slot : slots) slot.Validate();
   //
   return true;
 }
@@ -820,11 +823,11 @@ void SBuildingRPGStats::ToAIUnits()
 {
   SObjectBaseRPGStats::ToAIUnits();
   //
-  std::for_each(entrances.begin(), entrances.end(), std::mem_fun_ref(SEntrance::ToAIUnits));
-  std::for_each(slots.begin(), slots.end(), std::mem_fun_ref(SSlot::ToAIUnits));
-  std::for_each(firePoints.begin(), firePoints.end(), std::mem_fun_ref(SFirePoint::ToAIUnits));
-  std::for_each(smokePoints.begin(), smokePoints.end(), std::mem_fun_ref(SFirePoint::ToAIUnits));
-  std::for_each(dirExplosions.begin(), dirExplosions.end(), std::mem_fun_ref(SDirectionExplosion::ToAIUnits));
+  for (auto &entrance : entrances) entrance.ToAIUnits();
+  for (auto &slot : slots) slot.ToAIUnits();
+  for (auto &firePoint : firePoints) firePoint.ToAIUnits();
+  for (auto &smokePoint : smokePoints) smokePoint.ToAIUnits();
+  for (auto &dirExplosion : dirExplosions) dirExplosion.ToAIUnits();
 }
 
 // ************************************************************************************************************************ //
@@ -1165,8 +1168,8 @@ void SUnitBaseRPGStats::ToAIUnits()
   vAABBVisHalfSize = vAABBHalfSize;
   Vis2AI(&vAABBCenter);
   Vis2AI(&vAABBHalfSize);
-  std::for_each(aabb_as.begin(), aabb_as.end(), std::mem_fun_ref(SAABBDesc::ToAIUnits));
-  std::for_each(aabb_ds.begin(), aabb_ds.end(), std::mem_fun_ref(SAABBDesc::ToAIUnits));
+  for (auto &aabb_a : aabb_as) aabb_a.ToAIUnits();
+  for (auto &aabb_d : aabb_ds) aabb_d.ToAIUnits();
   //
   // re-map AI actions to user commands
   // every unit can perform STOP, GUARD and FOLLOW and can be followed by
@@ -1389,7 +1392,7 @@ void SMechUnitRPGStats::ToAIUnits()
     // std::swap( (*gunners)[1], (*gunners)[2] );
   }
   // armor
-  std::for_each(&(armors[0]), &(armors[6]), std::mem_fun_ref(SArmor::ToAIUnits));
+  for (auto &armor : armors) armor.ToAIUnits();
   // initialize min/max Armor
   {
     nMinArmor = armors[0].nMin;
@@ -1401,7 +1404,7 @@ void SMechUnitRPGStats::ToAIUnits()
     }
   }
   //
-  std::for_each(platforms.begin(), platforms.end(), std::mem_fun_ref(SPlatform::ToAIUnits));
+  for (auto &platform : platforms) platform.ToAIUnits();
   //
   if (nPriority == 0) nPriority = 1;
   //
@@ -1881,7 +1884,7 @@ bool SEntrenchmentRPGStats::SSegmentRPGStats::ToAIUnits()
 void SEntrenchmentRPGStats::ToAIUnits()
 {
   SHPObjectRPGStats::ToAIUnits();
-  std::for_each(segments.begin(), segments.end(), std::mem_fun_ref(SSegmentRPGStats::ToAIUnits));
+  for (auto &segment : segments) segment.ToAIUnits();
 }
 
 float SEntrenchmentRPGStats::SSegmentRPGStats::GetLength() const { return vAABBHalfSize.x * 2.0f * fAITileXCoeff; }
@@ -2040,7 +2043,7 @@ bool SFenceRPGStats::SSegmentRPGStats::ToAIUnits()
 void SFenceRPGStats::ToAIUnits()
 {
   SStaticObjectRPGStats::ToAIUnits();
-  std::for_each(stats.begin(), stats.end(), std::mem_fun_ref(SSegmentRPGStats::ToAIUnits));
+  for (auto &stat : stats) stat.ToAIUnits();
 }
 
 const int SFenceRPGStats::GetTypeFromIndex(const int nIndex) const
@@ -2134,14 +2137,14 @@ bool SSquadRPGStats::SFormation::SEntry::ToAIUnits()
 
 bool SSquadRPGStats::SFormation::ToAIUnits()
 {
-  std::for_each(order.begin(), order.end(), std::mem_fun_ref(SEntry::ToAIUnits));
+  for (auto &entry : order) entry.ToAIUnits();
   return true;
 }
 
 void SSquadRPGStats::ToAIUnits()
 {
   SHPObjectRPGStats::ToAIUnits();
-  std::for_each(formations.begin(), formations.end(), std::mem_fun_ref(SFormation::ToAIUnits));
+  for (auto &formation : formations) formation.ToAIUnits();
   // set available user actions
   for (std::vector<SFormation>::const_iterator it = formations.begin(); it != formations.end(); ++it) availActions.SetAction(USER_ACTION_FORMATION_0 + it->type);
   // each squad can follow and can be followed by
@@ -2363,10 +2366,10 @@ bool SBridgeRPGStats::SSegmentRPGStats::ToAIUnits()
 void SBridgeRPGStats::ToAIUnits()
 {
   SStaticObjectRPGStats::ToAIUnits();
-  std::for_each(segments.begin(), segments.end(), std::mem_fun_ref(SSegmentRPGStats::ToAIUnits));
-  std::for_each(firePoints.begin(), firePoints.end(), std::mem_fun_ref(SFirePoint::ToAIUnits));
-  std::for_each(smokePoints.begin(), smokePoints.end(), std::mem_fun_ref(SFirePoint::ToAIUnits));
-  std::for_each(dirExplosions.begin(), dirExplosions.end(), std::mem_fun_ref(SDirectionExplosion::ToAIUnits));
+  for (auto &segment : segments) segment.ToAIUnits();
+  for (auto &firePoint : firePoints) firePoint.ToAIUnits();
+  for (auto &smokePoint : smokePoints) smokePoint.ToAIUnits();
+  for (auto &dirExplosion : dirExplosions) dirExplosion.ToAIUnits();
   // CRAP{ currently does not provide AIclasses for bridges
   dwAIClasses = 0;
   // CRAP}

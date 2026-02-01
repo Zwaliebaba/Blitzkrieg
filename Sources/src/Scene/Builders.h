@@ -72,6 +72,8 @@ struct STerrainTLVertex
     };
   };
 
+  STerrainTLVertex() : x(0), y(0), z(0), rhw(0), color(0), tu(0), tv(0), tu1(0), tv1(0) {}
+
   //
   void Setup(float _sx, float _sy, float _sz, float _rhw, DWORD _color, float _tu, float _tv, float _tu1, float _tv1)
   {

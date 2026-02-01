@@ -657,7 +657,7 @@ float CArtillery::GetMaxFireRange() const { return pGuns->GetMaxFireRange(this);
 
 void CArtillery::GetRangeArea(SShootAreas *pRangeArea) const
 {
-  std::construct(pRangeArea);
+  new (pRangeArea) SShootAreas();
   if (GetState()->GetName() == EUSN_RANGING)
   {
     CCircle rangeCircle;

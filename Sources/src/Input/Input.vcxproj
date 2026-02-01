@@ -439,13 +439,9 @@
     <ClInclude Include="InputObjectFactory.h" />
     <ClInclude Include="InputSlider.h" />
     <ClInclude Include="InputTypes.h" />
-    <ClInclude Include="resource.h" />
     <ClInclude Include="Specific.h" />
     <ClInclude Include="StdAfx.h" />
     <ClInclude Include="Visitors.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="Input.rc" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="Input.def">

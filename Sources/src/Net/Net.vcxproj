@@ -414,13 +414,9 @@
     <ClInclude Include="NetPeer2Peer.h" />
     <ClInclude Include="NetServerInfo.h" />
     <ClInclude Include="NetStream.h" />
-    <ClInclude Include="resource.h" />
     <ClInclude Include="Specific.h" />
     <ClInclude Include="StdAfx.h" />
     <ClInclude Include="Streams.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="net.rc" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="net.def">

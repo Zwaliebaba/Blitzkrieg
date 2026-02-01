@@ -121,7 +121,8 @@ void CMultiPlayerTransceiver::LoadGameSettings()
   std::vector<int> busyNumbers(16, 0);
   for (int i = 0; i != nNumPlayers; ++i)
   {
-    SPlayerInfo &player = *players.insert(players.end());
+    players.emplace_back();
+    SPlayerInfo &player = players.back();
 
     player.totalLagTime = 0;
     player.lastLagUpdateTime = 0;

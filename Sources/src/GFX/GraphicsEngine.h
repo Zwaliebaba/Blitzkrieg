@@ -71,10 +71,10 @@ class CGraphicsEngine : public IGFX
   DECLARE_SERIALIZE;
   //
   HWND hWindow;// window handle, this engine attached to
-  NWin32Helper::com_ptr<IDirect3D8> pD3D;// main Direct3D object
-  NWin32Helper::com_ptr<IDirect3DDevice8> pD3DDevice;// current D3DDevice
-  NWin32Helper::com_ptr<IDirect3DSurface8> pScreenColor;// frame buffer
-  NWin32Helper::com_ptr<IDirect3DSurface8> pScreenDepth;// depth buffer
+  NWin32Helper::com_ptr<IDirect3D9> pD3D;// main Direct3D object
+  NWin32Helper::com_ptr<IDirect3DDevice9> pD3DDevice;// current D3DDevice
+  NWin32Helper::com_ptr<IDirect3DSurface9> pScreenColor;// frame buffer
+  NWin32Helper::com_ptr<IDirect3DSurface9> pScreenDepth;// depth buffer
   CPtr<IGFXRTexture> pCurrRT;// current texture-as-render-target
   SAdapterDesc adapter;// selected adapter description
   D3DDISPLAYMODE displaymode;// current display mode
@@ -88,8 +88,8 @@ class CGraphicsEngine : public IGFX
   float fContrast;
   float fGamma;
   // viewport and matrices
-  D3DVIEWPORT8 currviewport;
-  std::list<D3DVIEWPORT8> viewports;
+  D3DVIEWPORT9 currviewport;
+  std::list<D3DVIEWPORT9> viewports;
   SHMatrix matView, matBillboard;// viewport matrix (WCS => VCS)
   SHMatrix matInvView;// inverse view matrix
   SHMatrix matProjection;// projection matrix (VCS => PCS)
@@ -146,7 +146,7 @@ class CGraphicsEngine : public IGFX
   void ReCreateAllObjects();
   bool SetViewTransform(const CVec3 &ptX, const CVec3 &ptY, const CVec3 &ptZ, const CVec3 &ptO);
   void SetRenderState(D3DRENDERSTATETYPE state, int nValue);
-  void SetTextureStageState(DWORD stage, D3DTEXTURESTAGESTATETYPE type, int value);
+  void SetTextureStageState(DWORD stage, int type, int value);
   void ApplyRenderStates();
   void ApplyTextureStageStates();
 
@@ -160,14 +160,14 @@ class CGraphicsEngine : public IGFX
   //
   bool IsFullscreen() const { return pp.Windowed == 0; }
   //
-  bool SetupViewport(const D3DVIEWPORT8 &viewport);
-  bool SetupLight(int nIndex, const D3DLIGHT8 &light);
+  bool SetupViewport(const D3DVIEWPORT9 &viewport);
+  bool SetupLight(int nIndex, const D3DLIGHT9 &light);
   //
   void UpdatePickMatrix();
   //
   HRESULT RenderRange(CVertices *pVertices, CIndices *pIndices);
-  HRESULT RenderRange(IDirect3DVertexBuffer8 *pVertices, int nFirstVertex, int nNumVertices, int nVertexSize,
-                      IDirect3DIndexBuffer8 *pIndices, int nFirstIndex,
+  HRESULT RenderRange(IDirect3DVertexBuffer9 *pVertices, int nFirstVertex, int nNumVertices, int nVertexSize,
+                      IDirect3DIndexBuffer9 *pIndices, int nFirstIndex,
                       int nNumPrimitives, D3DPRIMITIVETYPE d3dptPrimitiveType);
   //
   void ForceFlushTempBuffers();
@@ -179,14 +179,14 @@ class CGraphicsEngine : public IGFX
   {
     static const char *GetName() { return "vertex"; }
     static int GetElementSize(DWORD dwFormat) { return GetVertexSize(dwFormat); }
-    static HRESULT CreateBuffer(IDirect3DDevice8 *pD3DDevice, int nSizeInBytes, DWORD dwUsage, DWORD dwFormat, D3DPOOL pool, IDirect3DVertexBuffer8 **ppD3DBuffer) { return pD3DDevice->CreateVertexBuffer(nSizeInBytes, dwUsage, dwFormat, pool, ppD3DBuffer); }
+    static HRESULT CreateBuffer(IDirect3DDevice9 *pD3DDevice, int nSizeInBytes, DWORD dwUsage, DWORD dwFormat, D3DPOOL pool, IDirect3DVertexBuffer9 **ppD3DBuffer) { return pD3DDevice->CreateVertexBuffer(nSizeInBytes, dwUsage, dwFormat, pool, ppD3DBuffer, nullptr); }
   };
 
   struct SIBCreator
   {
     static const char *GetName() { return "index"; }
     static int GetElementSize(DWORD dwFormat) { return GetIndexSize(dwFormat); }
-    static HRESULT CreateBuffer(IDirect3DDevice8 *pD3DDevice, int nSizeInBytes, DWORD dwUsage, DWORD dwFormat, D3DPOOL pool, IDirect3DIndexBuffer8 **ppD3DBuffer) { return pD3DDevice->CreateIndexBuffer(nSizeInBytes, dwUsage, D3DFORMAT(dwFormat), pool, ppD3DBuffer); }
+    static HRESULT CreateBuffer(IDirect3DDevice9 *pD3DDevice, int nSizeInBytes, DWORD dwUsage, DWORD dwFormat, D3DPOOL pool, IDirect3DIndexBuffer9 **ppD3DBuffer) { return pD3DDevice->CreateIndexBuffer(nSizeInBytes, dwUsage, D3DFORMAT(dwFormat), pool, ppD3DBuffer, nullptr); }
   };
 
   template<class TBuffer, class TD3DBuffer, class TCreator>

@@ -1665,7 +1665,6 @@
     <ClInclude Include="Randomize.h" />
     <ClInclude Include="RectTiles.h" />
     <ClInclude Include="Resistance.h" />
-    <ClInclude Include="resource.h" />
     <ClInclude Include="RndRunUpToEnemy.h" />
     <ClInclude Include="RotatingFireplacesObject.h" />
     <ClInclude Include="SaveDBID.h" />
@@ -1716,9 +1715,6 @@
     <ClInclude Include="ValidObjectCheck.h" />
     <ClInclude Include="WarFogTracer.h" />
     <ClInclude Include="Weather.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="AILogic.rc" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="AILogic.def">

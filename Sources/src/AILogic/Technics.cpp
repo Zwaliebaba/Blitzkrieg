@@ -271,7 +271,7 @@ CBasicGun *CMilitaryCar::GetFirstArtilleryGun() const { return pGuns->GetFirstAr
 
 void CMilitaryCar::GetRangeArea(SShootAreas *pRangeArea) const
 {
-  std::construct(pRangeArea);
+  new (pRangeArea) SShootAreas();
   if (GetState()->GetName() == EUSN_RANGING)
   {
     CCircle rangeCircle;

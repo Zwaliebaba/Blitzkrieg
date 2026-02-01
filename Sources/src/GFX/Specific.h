@@ -1,12 +1,16 @@
-#include <d3d8.h>
-#include <d3d8types.h>
-#include <d3d8caps.h>
+#pragma once
+
+#include <d3d9.h>
+#include <d3d9types.h>
+#include <d3d9caps.h>
 
 #include "../Misc/Win32Helper.h"
 
 #include "GFX.h"
 #include "GFXHelper.h"
 #include "CommonStructs.h"
+
+#pragma comment(lib, "d3d9.lib")
 
 // ************************************************************************************************************************ //
 // ** class CRefCount

@@ -481,7 +481,6 @@
   <ItemGroup>
     <ClInclude Include="MaskManager.h" />
     <ClInclude Include="MaskSystem.h" />
-    <ClInclude Include="resource.h" />
     <ClInclude Include="Specific.h" />
     <ClInclude Include="StdAfx.h" />
     <ClInclude Include="UI.h" />
@@ -517,9 +516,6 @@
     <ClInclude Include="UITimeCounter.h" />
     <ClInclude Include="UITree.h" />
     <ClInclude Include="UIVideoButton.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="UI.rc" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="UI.def">

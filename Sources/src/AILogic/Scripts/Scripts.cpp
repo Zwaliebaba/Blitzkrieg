@@ -624,7 +624,7 @@ int CScripts::RunScript(struct lua_State *state)
   script.Pop();
 
   script.GetGlobal(szName.c_str());
-  const int nScriptRef = script.Ref(1);
+  const int nScriptRef = script.Ref();
 
   pScripts->name2script[szName] = nScriptRef;
 
