@@ -23,7 +23,7 @@ std::string CUIConsts::GetPartyNameByNumber(const int nCampaign)
   }
 }
 
-const WORD *CUIConsts::GetLocalPartyName(const char *pszPartyKey)
+const wchar_t *CUIConsts::GetLocalPartyName(const char *pszPartyKey)
 {
   ITextManager *pTextM = GetSingleton<ITextManager>();
   std::string szPath = "Textes\\Opponents\\";
@@ -34,7 +34,7 @@ const WORD *CUIConsts::GetLocalPartyName(const char *pszPartyKey)
   return pText->GetString();
 }
 
-const WORD *CUIConsts::GetGamesListTitle(const enum EMultiplayerConnectionType eType)
+const wchar_t *CUIConsts::GetGamesListTitle(const enum EMultiplayerConnectionType eType)
 {
   ITextManager *pTM = GetSingleton<ITextManager>();
   IText *pText = nullptr;
@@ -165,7 +165,7 @@ void CUIConsts::CreateDescription(const struct SChapterStats::SMission *pStats, 
   }
 }
 
-const WORD *CUIConsts::GetMapTypeString(const int nGameType)
+const wchar_t *CUIConsts::GetMapTypeString(const int nGameType)
 {
   ITextManager *pT = GetSingleton<ITextManager>();
   IText *pText = nullptr;

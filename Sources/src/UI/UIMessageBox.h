@@ -25,7 +25,7 @@ public:
   int STDCALL operator&(IDataTree &ss) override;
 
   void SetMessageBoxType(int nType);
-  void STDCALL SetWindowText(int nState, const WORD *pszText) override;
+  void STDCALL SetWindowText(int nState, const wchar_t *pszText) override;
 
   int GetResult() { return m_nResult; }
 };

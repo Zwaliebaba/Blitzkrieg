@@ -278,7 +278,7 @@ void CGamePlaying::Segment()
   }
 }
 
-const bool CGamePlaying::GetPlayerInfo(const WORD *pszPlayerName, SPlayerInfo *pInfo) const
+const bool CGamePlaying::GetPlayerInfo(const wchar_t *pszPlayerName, SPlayerInfo *pInfo) const
 {
   std::wstring szPlayerName = pszPlayerName;
 

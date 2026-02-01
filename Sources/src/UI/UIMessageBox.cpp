@@ -105,4 +105,4 @@ void CUIMessageBox::SetMessageBoxType(int nType)
   }
 }
 
-void CUIMessageBox::SetWindowText(int nState, const WORD *pszText) { pText->CSimpleWindow::SetWindowText(nState, pszText); }
+void CUIMessageBox::SetWindowText(int nState, const wchar_t *pszText) { pText->CSimpleWindow::SetWindowText(nState, pszText); }

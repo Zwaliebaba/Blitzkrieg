@@ -159,6 +159,8 @@ struct SGFXVertex
     };
   };
 
+  SGFXVertex() : x(0), y(0), z(0), nx(0), ny(0), nz(0), tu(0), tv(0) {}
+
   //
   void Setup(float _x, float _y, float _z, float _nx, float _ny, float _nz, float _tu, float _tv)
   {
@@ -202,6 +204,8 @@ struct SGFXVertex2
       CVec2 tex1;
     };
   };
+
+  SGFXVertex2() : x(0), y(0), z(0), nx(0), ny(0), nz(0), tu(0), tv(0), tu1(0), tv1(0) {}
 
   //
   void Setup(float _x, float _y, float _z, float _nx, float _ny, float _nz, float _tu, float _tv, float _tu1, float _tv1)
@@ -247,6 +251,9 @@ struct SGFXLVertex
       CVec2 tex;
     };
   };
+
+  SGFXLVertex() : x(0), y(0), z(0), color(0), specular(0), tu(0), tv(0) {}
+
 
   //
   void Setup(float _x, float _y, float _z, DWORD _color, DWORD _specular, float _tu, float _tv)
@@ -310,6 +317,8 @@ struct SGFXLVertex2
       CVec2 tex, tex1;
     };
   };
+
+  SGFXLVertex2() : x(0), y(0), z(0), color(0), specular(0), tu(0), tv(0), tu1(0), tv1(0) {}
 
   //
   void Setup(float _x, float _y, float _z, DWORD _color, DWORD _specular, float _tu, float _tv, float _tu1, float _tv1)
@@ -379,6 +388,8 @@ struct SGFXTLVertex
     };
   };
 
+  SGFXTLVertex() : x(0), y(0), z(0), rhw(0), color(0), specular(0), tu(0), tv(0) {}
+
   //
   void Setup(float _sx, float _sy, float _sz, float _rhw, DWORD _color, DWORD _specular, float _tu, float _tv)
   {
@@ -424,6 +435,8 @@ struct SGFXTLVertex2
     };
   };
 
+  SGFXTLVertex2() : x(0), y(0), z(0), rhw(0), color(0), specular(0), tu(0), tv(0), tu1(0), tv1(0) {}
+
   //
   void Setup(float _x, float _y, float _z, float _rhw, DWORD _color, DWORD _specular, float _tu, float _tv, float _tu1, float _tv1)
   {
@@ -468,6 +481,8 @@ struct SGFXTLPoint
     };
   };
 
+  SGFXTLPoint() : x(0), y(0), z(0), rhw(0), color(0) {}
+
   //
   void Setup(float _sx, float _sy, float _sz, float _rhw, DWORD _color)
   {
@@ -503,6 +518,8 @@ struct SGFXLineVertex
       DWORD color;
     };
   };
+
+  SGFXLineVertex() : x(0), y(0), z(0), color(0) {}
 
   //
   void Setup(float _x, float _y, float _z, DWORD _color)

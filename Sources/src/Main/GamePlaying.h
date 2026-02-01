@@ -44,7 +44,7 @@ public:
 
   void STDCALL Segment() override;
 
-  const bool STDCALL GetPlayerInfo(const WORD *pszPlayerName, SPlayerInfo *pInfo) const override;
+  const bool STDCALL GetPlayerInfo(const wchar_t *pszPlayerName, SPlayerInfo *pInfo) const override;
   const bool STDCALL GetOurPlayerInfo(SPlayerInfo *pInfo) const override;
 
   const int STDCALL GetNAllies() const override;

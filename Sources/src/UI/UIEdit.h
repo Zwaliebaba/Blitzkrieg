@@ -41,7 +41,7 @@ public:
   // virtual bool STDCALL OnLButtonUp( const CVec2 &vPos, EMouseState mouseState ) { return true; 
 
   //
-  void STDCALL SetWindowText(int nState, const WORD *pszText) override;
+  void STDCALL SetWindowText(int nState, const wchar_t *pszText) override;
   void STDCALL SetFocus(bool bFocus) override;
   virtual void STDCALL SetCursor(int nPos);
   virtual int STDCALL GetCursor() { return nCursorPos; }

@@ -157,7 +157,7 @@ public:
   //
   const TKey *GetKey(TValue *pValue)
   {
-    for (typename CDataHash::const_iterator it = data.begin(); it != data.end(); ++it) { if (it->second == pValue) return &(it->first); }
+    for (typename CDataHash::const_iterator it = data.begin(); it != data.end(); ++it) { if (it->second.GetPtr() == pValue) return &(it->first); }
     return nullptr;
   }
 

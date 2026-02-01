@@ -18,7 +18,7 @@ void CLanChat::InitInGameChat(INetDriver *_pNetDriver)
   pNetDriver->AddChannel(1, messages);
 }
 
-void CLanChat::SendMessage(const WORD *pszMessage, const SPlayerInfo &ourPlayer)
+void CLanChat::SendMessage(const wchar_t *pszMessage, const SPlayerInfo &ourPlayer)
 {
   BYTE msgID = NGM_CHAT_MESSAGE;
   std::wstring szMessage = pszMessage;
@@ -31,7 +31,7 @@ void CLanChat::SendMessage(const WORD *pszMessage, const SPlayerInfo &ourPlayer)
   if (ourPlayer.fPing != -1.0f && ourPlayer.nSide != -1) messages.AddMessage(new CChatMessage(pszMessage, ourPlayer.szName.c_str(), false));
 }
 
-void CLanChat::SendWhisperMessage(const WORD *pszMessage, const SPlayerInfo &toPlayer, const SPlayerInfo &ourPlayer)
+void CLanChat::SendWhisperMessage(const wchar_t *pszMessage, const SPlayerInfo &toPlayer, const SPlayerInfo &ourPlayer)
 {
   BYTE msgID = NGM_CHAT_MESSAGE;
   std::wstring szMessage = pszMessage;

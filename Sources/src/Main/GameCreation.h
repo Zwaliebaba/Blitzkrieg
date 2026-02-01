@@ -79,8 +79,8 @@ protected:
   void SendPingMessage();
 
 public:
-  void Init();
-  const bool GetPlayerInfo(const WORD *pszPlayerName, SPlayerInfo *pInfo) const;
+void Init();
+const bool GetPlayerInfo(const wchar_t *pszPlayerName, SPlayerInfo *pInfo) const;
   const bool GetOurPlayerInfo(SPlayerInfo *pInfo, int nOurLogicID) const;
 
   bool CanStartGame() const;
@@ -141,7 +141,7 @@ public:
   bool STDCALL IsAllPlayersInOneParty() const override { return CCommonGameCreationInfo::IsAllPlayersInOneParty(); }
   IMultiplayerMessage * STDCALL GetMessage() override { return CCommonGameCreationInfo::GetMessage(); }
 
-  const bool STDCALL GetPlayerInfo(const WORD *pszPlayerName, SPlayerInfo *pInfo) const override { return CCommonGameCreationInfo::GetPlayerInfo(pszPlayerName, pInfo); }
+  const bool STDCALL GetPlayerInfo(const wchar_t *pszPlayerName, SPlayerInfo *pInfo) const override { return CCommonGameCreationInfo::GetPlayerInfo(pszPlayerName, pInfo); }
 
   const bool STDCALL GetOurPlayerInfo(SPlayerInfo *pInfo) const override { return CCommonGameCreationInfo::GetOurPlayerInfo(pInfo, 0); }
 
@@ -238,7 +238,7 @@ public:
   bool STDCALL IsAllPlayersInOneParty() const override { return CCommonGameCreationInfo::IsAllPlayersInOneParty(); }
   interface IGamePlaying * STDCALL CreateGamePlaying() override;
 
-  const bool STDCALL GetPlayerInfo(const WORD *pszPlayerName, SPlayerInfo *pInfo) const override { return CCommonGameCreationInfo::GetPlayerInfo(pszPlayerName, pInfo); }
+  const bool STDCALL GetPlayerInfo(const wchar_t *pszPlayerName, SPlayerInfo *pInfo) const override { return CCommonGameCreationInfo::GetPlayerInfo(pszPlayerName, pInfo); }
 
   const bool STDCALL GetOurPlayerInfo(SPlayerInfo *pInfo) const override { return CCommonGameCreationInfo::GetOurPlayerInfo(pInfo, nOurLogicID); }
 

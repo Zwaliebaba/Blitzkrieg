@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.14.36623.8
+# Visual Studio Version 18
+VisualStudioVersion = 18.2.11415.280 d18.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AILogic", "AILogic\AILogic.vcxproj", "{590BAE45-DF7C-4DFE-9F28-E378758A0CE9}"
 EndProject
@@ -16,8 +16,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GFX", "GFX\GFX.vcxproj", "{131D326E-EA83-4CAA-B33D-EE67A458FC38}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Game", "Game\Game.vcxproj", "{2AB154E2-1BB7-41E2-8F37-0AE351515A97}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameSpy", "GameSpy\GameSpy.vcxproj", "{07EF189B-93B0-4D5F-9ED2-C25509E0ADA8}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameTT", "GameTT\GameTT.vcxproj", "{5C63C1B4-C8E5-4763-8E86-FFF1A9E755CA}"
 EndProject
@@ -42,6 +40,11 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UI", "UI\UI.vcxproj", "{FC094CB3-9FED-444C-9E08-E66FF6948A4C}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RandomMapGen", "RandomMapGen\RandomMapGen.vcxproj", "{5EDE0822-E0B5-488C-93A0-967870B24B42}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Files", "Solution Files", "{D9BFC03C-095B-4A0C-A113-0CE66A65B296}"
+	ProjectSection(SolutionItems) = preProject
+		vcpkg.json = vcpkg.json
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -167,22 +170,6 @@ Global
 		{2AB154E2-1BB7-41E2-8F37-0AE351515A97}.ReleaseDll|x86.Build.0 = Release|Win32
 		{2AB154E2-1BB7-41E2-8F37-0AE351515A97}.Template|x86.ActiveCfg = Template|Win32
 		{2AB154E2-1BB7-41E2-8F37-0AE351515A97}.Template|x86.Build.0 = Template|Win32
-		{07EF189B-93B0-4D5F-9ED2-C25509E0ADA8}.BetaRelease|x86.ActiveCfg = BetaRelease|Win32
-		{07EF189B-93B0-4D5F-9ED2-C25509E0ADA8}.BetaRelease|x86.Build.0 = BetaRelease|Win32
-		{07EF189B-93B0-4D5F-9ED2-C25509E0ADA8}.Debug|x86.ActiveCfg = Debug|Win32
-		{07EF189B-93B0-4D5F-9ED2-C25509E0ADA8}.Debug|x86.Build.0 = Debug|Win32
-		{07EF189B-93B0-4D5F-9ED2-C25509E0ADA8}.FastDebug|x86.ActiveCfg = FastDebug|Win32
-		{07EF189B-93B0-4D5F-9ED2-C25509E0ADA8}.FastDebug|x86.Build.0 = FastDebug|Win32
-		{07EF189B-93B0-4D5F-9ED2-C25509E0ADA8}.Profiler|x86.ActiveCfg = Profiler|Win32
-		{07EF189B-93B0-4D5F-9ED2-C25509E0ADA8}.Profiler|x86.Build.0 = Profiler|Win32
-		{07EF189B-93B0-4D5F-9ED2-C25509E0ADA8}.Release|x86.ActiveCfg = Release|Win32
-		{07EF189B-93B0-4D5F-9ED2-C25509E0ADA8}.Release|x86.Build.0 = Release|Win32
-		{07EF189B-93B0-4D5F-9ED2-C25509E0ADA8}.ReleaseDebug|x86.ActiveCfg = Release|Win32
-		{07EF189B-93B0-4D5F-9ED2-C25509E0ADA8}.ReleaseDebug|x86.Build.0 = Release|Win32
-		{07EF189B-93B0-4D5F-9ED2-C25509E0ADA8}.ReleaseDll|x86.ActiveCfg = Release|Win32
-		{07EF189B-93B0-4D5F-9ED2-C25509E0ADA8}.ReleaseDll|x86.Build.0 = Release|Win32
-		{07EF189B-93B0-4D5F-9ED2-C25509E0ADA8}.Template|x86.ActiveCfg = Template|Win32
-		{07EF189B-93B0-4D5F-9ED2-C25509E0ADA8}.Template|x86.Build.0 = Template|Win32
 		{5C63C1B4-C8E5-4763-8E86-FFF1A9E755CA}.BetaRelease|x86.ActiveCfg = BetaRelease|Win32
 		{5C63C1B4-C8E5-4763-8E86-FFF1A9E755CA}.BetaRelease|x86.Build.0 = BetaRelease|Win32
 		{5C63C1B4-C8E5-4763-8E86-FFF1A9E755CA}.Debug|x86.ActiveCfg = Debug|Win32

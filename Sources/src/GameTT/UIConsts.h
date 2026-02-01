@@ -9,14 +9,14 @@ class CUIConsts
 public:
   static std::string GetPartyNameByNumber(int nCampaign);
 
-  static const WORD *GetLocalPartyName(const char *pszPartyKey);
-  static const WORD *GetGamesListTitle(enum EMultiplayerConnectionType eType);
+  static const wchar_t *GetLocalPartyName(const char *pszPartyKey);
+  static const wchar_t *GetGamesListTitle(enum EMultiplayerConnectionType eType);
 
   static std::string ConstructOptionKey(const char *pszOptionName, const char *pszSelectionName);
   static std::string CreateTexturePathFromMapPath(const char *pszMapPath);
   static void CreateDescription(const struct SChapterStats::SMission *pStats, std::wstring *pDescription, bool bNeedBonuses);
 
-  static const WORD *GetMapTypeString(int /* SQuickLoadMapInfo::EMultiplayerMapType */ nGameType);
+  static const wchar_t *GetMapTypeString(int /* SQuickLoadMapInfo::EMultiplayerMapType */ nGameType);
   static std::string GetCampaignNameAddition();
 
 };

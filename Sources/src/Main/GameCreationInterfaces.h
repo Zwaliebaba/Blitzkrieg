@@ -41,7 +41,7 @@ interface IGameCreation : IRefCount
   virtual bool STDCALL IsAllPlayersInOneParty() const = 0;
   virtual interface IGamePlaying * STDCALL CreateGamePlaying() = 0;
 
-  virtual const bool STDCALL GetPlayerInfo(const WORD *pszPlayerName, SPlayerInfo *pInfo) const = 0;
+  virtual const bool STDCALL GetPlayerInfo(const wchar_t *pszPlayerName, SPlayerInfo *pInfo) const = 0;
   virtual const bool STDCALL GetOurPlayerInfo(SPlayerInfo *pInfo) const = 0;
   virtual void STDCALL SetNewGameSettings(const SMultiplayerGameSettings &settings) = 0;
   virtual void STDCALL ModChanged() {}
@@ -62,7 +62,7 @@ interface IGamePlaying : IRefCount
 
   virtual void STDCALL Segment() = 0;
 
-  virtual const bool STDCALL GetPlayerInfo(const WORD *pszPlayerName, SPlayerInfo *pInfo) const = 0;
+  virtual const bool STDCALL GetPlayerInfo(const wchar_t *pszPlayerName, SPlayerInfo *pInfo) const = 0;
   virtual const bool STDCALL GetOurPlayerInfo(SPlayerInfo *pInfo) const = 0;
 
   virtual const int STDCALL GetNAllies() const = 0;
@@ -90,20 +90,19 @@ interface IChat : IRefCount
     EUM_NONE,
     EUM_AWAY,
     EUM_NOT_AWAY,
-    EUM_IN_GS_CHAT,
     EUM_IN_SERVERS_LIST,
     EUM_IN_STAGING_ROOM,
     EUM_IN_GAME_PLAYING,
   };
 
-  virtual void STDCALL InitGSChat(const WORD *pszUserName) = 0;
+  virtual void STDCALL InitGSChat(const wchar_t *pszUserName) = 0;
   virtual void STDCALL InitInGameChat(INetDriver *pNetDriver) = 0;
   virtual void STDCALL DestroyInGameChat() = 0;
 
-  virtual void STDCALL SendMessage(const WORD *pszMessage, const SPlayerInfo &ourPlayer) = 0;
-  virtual void STDCALL SendWhisperMessage(const WORD *pszMessage, const SPlayerInfo &toPlayer, const SPlayerInfo &ourPlayer) = 0;
+  virtual void STDCALL SendMessage(const wchar_t *pszMessage, const SPlayerInfo &ourPlayer) = 0;
+  virtual void STDCALL SendWhisperMessage(const wchar_t *pszMessage, const SPlayerInfo &toPlayer, const SPlayerInfo &ourPlayer) = 0;
   // for gamespy messages
-  virtual void STDCALL SendMessage(const WORD *pszMessage, const WORD *wszToPlayer, bool bWhisper) = 0;
+  virtual void STDCALL SendMessage(const wchar_t *pszMessage, const wchar_t *wszToPlayer, bool bWhisper) = 0;
 
   virtual void STDCALL Segment() = 0;
 

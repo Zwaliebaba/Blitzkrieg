@@ -16,10 +16,10 @@ class CTextString : public ITextString
 
 public:
   void STDCALL SwapData(ISharedResource *pResource) override;
-  const WORD * STDCALL GetString() const override { return szString.c_str(); }
+  const wchar_t * STDCALL GetString() const override { return szString.c_str(); }
   const int STDCALL GetLength() const override { return szString.size(); }
 
-  void STDCALL SetText(const WORD *pszText) override
+  void STDCALL SetText(const wchar_t *pszText) override
   {
     szString = pszText == nullptr ? L"" : pszText;
     bChanged = true;
@@ -43,9 +43,9 @@ class CTextDialog : public ITextDialog
 
 public:
   void STDCALL SwapData(ISharedResource *pResource) override;
-  const WORD * STDCALL GetString() const override { return szString.c_str(); };
+  const wchar_t * STDCALL GetString() const override { return szString.c_str(); };
   const int STDCALL GetLength() const override { return szString.size(); }
-  void STDCALL SetText(const WORD *pszText) override;
+  void STDCALL SetText(const wchar_t *pszText) override;
   //
   bool STDCALL IsChanged() const override { return bChanged; }
   void STDCALL ResetChanged() override { bChanged = false; }

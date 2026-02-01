@@ -1,7 +1,11 @@
-#ifndef __USER_INTERFACE_H__
-#define __USER_INTERFACE_H__
-
 #pragma once
+
+#include "TextSystem.h"
+
+#undef GetMessage
+#undef GetWindowText
+#undef SetWindowText
+#undef MessageBox
 
 interface IGFXTexture;
 
@@ -133,13 +137,13 @@ interface IUIElement : IRefCount
   virtual IUIContainer * STDCALL GetParent() = 0;
 
   // text functions
-  virtual void STDCALL SetWindowText(int nState, const WORD *pszText) = 0;
-  virtual const WORD * STDCALL GetWindowText(int nState) = 0;
+  virtual void STDCALL SetWindowText(int nState, const wchar_t *pszText) = 0;
+  virtual const wchar_t * STDCALL GetWindowText(int nState) = 0;
   virtual void STDCALL SetTextColor(DWORD dwColor) = 0;
 
   // tool tip functions
-  virtual interface IText * STDCALL GetHelpContext(const CVec2 &vPos, CTRect<float> *pRect) = 0;
-  virtual void STDCALL SetHelpContext(int nState, const WORD *pszToolTipText) = 0;
+  virtual IText * STDCALL GetHelpContext(const CVec2 &vPos, CTRect<float> *pRect) = 0;
+  virtual void STDCALL SetHelpContext(int nState, const wchar_t *pszToolTipText) = 0;
 
   // state
   virtual void STDCALL SetFocus(bool bFocus) = 0;
@@ -217,7 +221,7 @@ interface IUIScreen : IUIContainer
   // clear all chat strings
   virtual void STDCALL ClearStrings() = 0;
   // show message box
-  virtual int STDCALL MessageBox(const WORD *pszText, int nType) = 0;
+  virtual int STDCALL MessageBox(const wchar_t *pszText, int nType) = 0;
 };
 
 // this is an element of the 'chain-of-responsibility' pattern for the commands processing inside the console
@@ -265,9 +269,9 @@ interface IUINumberIndicator : IUIElement
 
 interface IUIStatusBar : IUIContainer
 {
-  virtual void STDCALL OutputString(int nControl, const WORD *pszText) = 0;
+  virtual void STDCALL OutputString(int nControl, const wchar_t *pszText) = 0;
   virtual void STDCALL OutputValue(int nControl, float fVal) = 0;
-  virtual void STDCALL SetUnitProperty(int nPropType, int nPropValue, const WORD *pszToolText) = 0;
+  virtual void STDCALL SetUnitProperty(int nPropType, int nPropValue, const wchar_t *pszToolText) = 0;
   virtual void STDCALL SetUnitIcons(DWORD dwIcons) = 0;
 };
 
@@ -360,7 +364,7 @@ interface IUIShortcutBar : IUIContainer
   // Add nNum lines of new items ( for faster performance in total encyclopedia )
   virtual void STDCALL AddMultyItems(int nNum) = 0;
   // add text item, the height of text will be computed automatically
-  virtual IUIElement * STDCALL AddTextItem(const WORD *pszText) = 0;
+  virtual IUIElement * STDCALL AddTextItem(const wchar_t *pszText) = 0;
   // initial update, call this function after all bars and items are added
   virtual void STDCALL InitialUpdate() = 0;
   // get selection index of bar and selection index of item
@@ -393,7 +397,7 @@ interface IUIMessageBox : IUIContainer
 
 interface IUIScrollTextBox : IUIContainer
 {
-  virtual void STDCALL AppendText(const WORD *pszText) = 0;
+  virtual void STDCALL AppendText(const wchar_t *pszText) = 0;
 };
 
 interface IUIColorTextScroll : IUIContainer
@@ -404,7 +408,7 @@ interface IUIColorTextScroll : IUIContainer
     E_COLOR_IMPORTANT = 1,
   };
 
-  virtual void STDCALL AppendMessage(const WORD *pszCaption, const WORD *pszMessage,
+  virtual void STDCALL AppendMessage(const wchar_t *pszCaption, const wchar_t *pszMessage,
                                      enum EColorEntrys color = E_COLOR_DEFAULT) = 0;
 
 };
@@ -464,5 +468,3 @@ interface IUIVideoButton : IUIElement
   virtual int STDCALL GetCurrentFrame() = 0;
   virtual bool STDCALL SetCurrentFrame(int nFrame) = 0;
 };
-
-#endif // __USER_INTERFACE_H__

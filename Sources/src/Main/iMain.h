@@ -1,9 +1,8 @@
-#ifndef __IMAIN_H__
-#define __IMAIN_H__
-
 #pragma once
 
 #include "iMainClassIDs.h"
+
+#undef GetMessage
 
 // ************************************************************************************************************************ //
 // **
@@ -168,5 +167,3 @@ interface IRPGStatsAutomagic : IRefCount
   virtual const char * STDCALL GetNextStr(const char *pszVal) = 0;
   virtual const int STDCALL GetNextInt(int nVal) = 0;
 };
-
-#endif // __IMAIN_H__

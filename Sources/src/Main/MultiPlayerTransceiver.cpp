@@ -803,7 +803,7 @@ void CMultiPlayerTransceiver::CommandClientSpeed(const int nChange)
      */
 }
 
-void CMultiPlayerTransceiver::CommandClientDropPlayer(const WORD *pszPlayerNick)
+void CMultiPlayerTransceiver::CommandClientDropPlayer(const wchar_t *pszPlayerNick)
 {
   auto iter = players.begin();
   while (iter != players.end() && iter->szName != pszPlayerNick) ++iter;

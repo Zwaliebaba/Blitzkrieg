@@ -62,7 +62,7 @@ void CChatWrapper::Init(IUIColorTextScroll *_pChatText,
   pWhisper = _pWhisper;
 }
 
-void CChatWrapper::AddImportantText(const WORD *wszMessage) { pChatText->AppendMessage(nullptr, wszMessage, IUIColorTextScroll::E_COLOR_IMPORTANT); }
+void CChatWrapper::AddImportantText(const wchar_t *wszMessage) { pChatText->AppendMessage(nullptr, wszMessage, IUIColorTextScroll::E_COLOR_IMPORTANT); }
 
 bool CChatWrapper::ProcessMessage(const SGameMessage &msg)
 {

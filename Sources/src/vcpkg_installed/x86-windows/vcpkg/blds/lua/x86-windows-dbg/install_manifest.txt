@@ -1,0 +1,8 @@
+C:/Users/zwali/source/repos/Blitzkrieg/Sources/src/vcpkg_installed/x86-windows/vcpkg/pkgs/lua_x86-windows/debug/lib/lua.lib
+C:/Users/zwali/source/repos/Blitzkrieg/Sources/src/vcpkg_installed/x86-windows/vcpkg/pkgs/lua_x86-windows/debug/bin/lua.dll
+C:/Users/zwali/source/repos/Blitzkrieg/Sources/src/vcpkg_installed/x86-windows/vcpkg/pkgs/lua_x86-windows/debug/share/unofficial-lua/unofficial-lua-config.cmake
+C:/Users/zwali/source/repos/Blitzkrieg/Sources/src/vcpkg_installed/x86-windows/vcpkg/pkgs/lua_x86-windows/debug/share/unofficial-lua/unofficial-lua-config-debug.cmake
+C:/Users/zwali/source/repos/Blitzkrieg/Sources/src/vcpkg_installed/x86-windows/vcpkg/pkgs/lua_x86-windows/debug/lib/lua-c++.lib
+C:/Users/zwali/source/repos/Blitzkrieg/Sources/src/vcpkg_installed/x86-windows/vcpkg/pkgs/lua_x86-windows/debug/bin/lua-c++.dll
+C:/Users/zwali/source/repos/Blitzkrieg/Sources/src/vcpkg_installed/x86-windows/vcpkg/pkgs/lua_x86-windows/debug/share/unofficial-lua-cpp/unofficial-lua-cpp-config.cmake
+C:/Users/zwali/source/repos/Blitzkrieg/Sources/src/vcpkg_installed/x86-windows/vcpkg/pkgs/lua_x86-windows/debug/share/unofficial-lua-cpp/unofficial-lua-cpp-config-debug.cmake

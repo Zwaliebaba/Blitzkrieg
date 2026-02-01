@@ -52,7 +52,7 @@ public:
   // client commands
   void STDCALL CommandClientTogglePause() override;
   void STDCALL CommandClientSpeed(int nChange) override;
-  void STDCALL CommandClientDropPlayer(const WORD *pszPlayerNick) override {}
+  void STDCALL CommandClientDropPlayer(const wchar_t *pszPlayerNick) override {}
 
   void STDCALL CommandTimeOut(const bool bSet) override {}
 

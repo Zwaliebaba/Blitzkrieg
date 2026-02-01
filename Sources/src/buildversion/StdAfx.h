@@ -52,13 +52,13 @@
 #include <string>
 #include <vector>
 #include <map>
-#include <hash_map>
-#include <hash_set>
+#include <unordered_map>
+#include <unordered_set>
 #include <set>
 #include <queue>
 //
-typedef __int64 int64;									// due to lack of 'long long' type support
-typedef unsigned __int64 QWORD;					// quadra word
+using int64 = __int64;									// due to lack of 'long long' type support
+using QWORD = unsigned __int64;					// quadra word
 
 #define STDCALL __stdcall								// to use with interface function calls
 // define 'interface' keyword

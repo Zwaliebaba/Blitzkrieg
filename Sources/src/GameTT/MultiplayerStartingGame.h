@@ -54,7 +54,7 @@ public:
   virtual void STDCALL SetParams(const char *pszParams);
   void STDCALL Done() override;
   // IWhisper
-  const WORD *GetDestinationName() override;
+  const wchar_t *GetDestinationName() override;
 };
 
 class CICMultyplayerStartingGame : public CInterfaceCommandBase<CInterfaceMPStartingGame, MISSION_INTERFACE_MULTIPLAYER_STARTINGGAME>

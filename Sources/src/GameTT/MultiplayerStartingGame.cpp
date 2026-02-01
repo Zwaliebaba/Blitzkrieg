@@ -342,7 +342,7 @@ void CInterfaceMPStartingGame::Done()
   bServerconfiguration = false;
 }
 
-const WORD *CInterfaceMPStartingGame::GetDestinationName()
+const wchar_t *CInterfaceMPStartingGame::GetDestinationName()
 {
   SUIPlayerInfo *pInfo = playerList.GetCurInfo();
   if (!pInfo) return nullptr;

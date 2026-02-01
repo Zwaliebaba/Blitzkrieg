@@ -4,7 +4,7 @@
 
 // const int GLAD = 20;			
 
-void CUIScrollTextBox::SetWindowText(int nState, const WORD *pszText)
+void CUIScrollTextBox::SetWindowText(int nState, const wchar_t *pszText)
 {
   NI_ASSERT_T(nState < states.size(), NStr::Format("Can't set window text for %d stats (max %d)", nState, states.size()));
   IText *pText = states[nState].pGfxText->GetText();
@@ -58,7 +58,7 @@ void CUIScrollTextBox::UpdateScrollBar(const int nMaxValue, const int nCurValue)
   pScrollBar->SetStep(1);
 }
 
-void CUIScrollTextBox::AppendText(const WORD *pszText)
+void CUIScrollTextBox::AppendText(const wchar_t *pszText)
 {
   bool bNeedScrollToEnd = pScrollBar->GetPosition() == pScrollBar->GetMaxValue();
 

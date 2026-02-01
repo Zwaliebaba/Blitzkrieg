@@ -75,21 +75,6 @@ public:
   interface IGameCreation * STDCALL CreateServer(const SGameInfo &gameInfo, const SQuickLoadMapInfo &mapInfo, CPtr<IChat> *pChat) override;
 };
 
-class CGameSpyServersList : public CServersList
-{
-  OBJECT_COMPLETE_METHODS(CGameSpyServersList);
-
-protected:
-  void CreateInGameChat(CPtr<IChat> *pChat, interface INetDriver *pNetDriver) override;
-  interface INetDriver *CreateInGameNetDriver(int nPort) override;
-
-public:
-  CGameSpyServersList() {}
-  void Init();
-
-  interface IGameCreation * STDCALL CreateServer(const struct SGameInfo &gameInfo, const struct SQuickLoadMapInfo &mapInfo, CPtr<IChat> *pChat) override;
-};
-
 class CInternetServersList : public CServersList
 {
   OBJECT_COMPLETE_METHODS(CInternetServersList);

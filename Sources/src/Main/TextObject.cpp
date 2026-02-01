@@ -63,7 +63,7 @@ bool CTextDialog::Load(const bool bPreLoad)
   return true;
 }
 
-void CTextDialog::SetText(const WORD *pszText)
+void CTextDialog::SetText(const wchar_t *pszText)
 {
   szString = pszText == nullptr ? L"" : pszText;
   bChanged = true;

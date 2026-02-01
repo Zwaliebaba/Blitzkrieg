@@ -1,6 +1,3 @@
-#ifndef __UNITS_ITERATORS_2__
-#define __UNITS_ITERATORS_2__
-
 #pragma once
 
 #include "Units.h"
@@ -173,6 +170,9 @@ public:
 template<>
 class CUnitsIter<1, 0>
 {
+  static constexpr BYTE cOnlyOneTypeVisibility = 1;
+  static constexpr int NSize = 0;
+
   CVec2 vDownLeft;
   CVec2 vUpRight;
 
@@ -325,6 +325,9 @@ public:
 template<>
 class CUnitsIter<0, 0>
 {
+  static constexpr BYTE cOnlyOneTypeVisibility = 0;
+  static constexpr int NSize = 0;
+
   CVec2 vDownLeft;
   CVec2 vUpRight;
 
@@ -474,4 +477,3 @@ public:
   const bool IsFinished() const { return cCurMech >= cMechEnd; }
 };
 
-#endif // __UNITS_ITERATORS_2__

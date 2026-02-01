@@ -31,7 +31,7 @@ void CInterfaceIMTutorial::StartInterface()
   pUIScreen->Load("ui\\Popup\\IMTutorial");
   pUIScreen->Reposition(pGFX->GetScreenRect());
 
-  const WORD *pText = GetGlobalWVar("TutorialText", nullptr);
+  const wchar_t *pText = GetGlobalWVar("TutorialText", nullptr);
   NI_ASSERT_T(pText != 0, "Invalid tutorial text");
   if (!pText) return;
 

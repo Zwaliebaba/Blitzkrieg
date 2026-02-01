@@ -199,8 +199,8 @@ public:
   std::wstring szMessageText;
 
   SChatMessage() : szPlayerName(L"") {}
-  SChatMessage(const WORD *pszMessageText, bool _bWhisper) : bWhisper(_bWhisper), szMessageText(pszMessageText) {}
-  SChatMessage(const WORD *pszMessageText, const WORD *pszPlayerName, bool _bWhisper) : bWhisper(_bWhisper), szPlayerName(pszPlayerName), szMessageText(pszMessageText) {}
+  SChatMessage(const wchar_t *pszMessageText, bool _bWhisper) : bWhisper(_bWhisper), szMessageText(pszMessageText) {}
+  SChatMessage(const wchar_t *pszMessageText, const wchar_t *pszPlayerName, bool _bWhisper) : bWhisper(_bWhisper), szPlayerName(pszPlayerName), szMessageText(pszMessageText) {}
 
   int STDCALL operator&(interface IStructureSaver &ss) override
   {
@@ -262,7 +262,7 @@ public:
     return 0;
   }
 
-  SUIServerInfo(const WORD _wServerID, const WORD *pszName, const char *pszMapName,
+  SUIServerInfo(const WORD _wServerID, const wchar_t *pszName, const char *pszMapName,
                 const int _nPlayers, const int _nPlayersMax,
                 const bool _bPassword, const bool _bCanJoin, const float _fPing,
                 const char *_pszModName, const char *_pszModVersion, const bool _bSamePatch,
@@ -292,7 +292,7 @@ public:
 
   SUIRelationNotify() {}
 
-  SUIRelationNotify(const WORD *pszName, const EPlayerRelation _eRelation)
+  SUIRelationNotify(const wchar_t *pszName, const EPlayerRelation _eRelation)
     : eRelation(_eRelation), szName(pszName) {}
 };
 
@@ -312,7 +312,7 @@ public:
 
   SUIChatPlayerInfo() {}
 
-  SUIChatPlayerInfo(const WORD *pszName)
+  SUIChatPlayerInfo(const wchar_t *pszName)
     : eRelation(EPR_NORMAL), eState(EPCS_IN_CHAT), szName(pszName) {}
 };
 
@@ -326,7 +326,7 @@ struct SUIChatPlayerChangedNick : IRefCount
 public:
   SUIChatPlayerChangedNick() : wszOldNick(L""), wszNewNick(L"") {}
 
-  SUIChatPlayerChangedNick(const WORD *pwszOldNick, const WORD *pwszNewNick)
+  SUIChatPlayerChangedNick(const wchar_t *pwszOldNick, const wchar_t *pwszNewNick)
     : wszOldNick(pwszOldNick), wszNewNick(pwszNewNick) {}
 };
 
@@ -359,7 +359,7 @@ public:
 
   SUIPlayerInfo() {}
 
-  SUIPlayerInfo(const int _nID, const char *pszSide, const bool _bReady, const float _fPing, const WORD *pszName, const int _nDownloadCount)
+  SUIPlayerInfo(const int _nID, const char *pszSide, const bool _bReady, const float _fPing, const wchar_t *pszName, const int _nDownloadCount)
     : nID(_nID), szSide(pszSide), bReady(_bReady), fPing(_fPing), nDownloadCount(_nDownloadCount), szName(pszName) {}
 };
 

@@ -64,7 +64,7 @@ void CCommonGameCreationInfo::Init()
   packedInfo.bPacked = false;
 }
 
-const bool CCommonGameCreationInfo::GetPlayerInfo(const WORD *pszPlayerName, SPlayerInfo *pInfo) const
+const bool CCommonGameCreationInfo::GetPlayerInfo(const wchar_t *pszPlayerName, SPlayerInfo *pInfo) const
 {
   std::wstring szPlayerName = pszPlayerName;
 

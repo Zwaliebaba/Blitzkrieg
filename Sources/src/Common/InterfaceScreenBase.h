@@ -10,6 +10,9 @@
 #include "../Misc/HPTimer.h"
 #include "../Main/TextSystem.h"
 
+#undef SetWindowText
+#undef GetMessage
+
 template<class TInterface, int NInterfaceTypeID>
 class CInterfaceCommandBase : public IInterfaceCommand
 {
@@ -145,7 +148,7 @@ public:
   virtual int STDCALL FinishInterface(IInterfaceCommand *pCmdNextInterface);
   virtual int STDCALL FinishInterface(int nInterfaceCommandTypeID, const char *pszCommandConfig);
   virtual void STDCALL SetWindowText(int nElementID, IText *pText);
-  virtual void STDCALL SetWindowText(int nElementID, const WORD *pszText);
+  virtual void STDCALL SetWindowText(int nElementID, const wchar_t *pszText);
 };
 
 #endif // __INTERFACESCREENBASE_H__

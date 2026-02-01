@@ -82,7 +82,7 @@ void CInterfaceScreenBase::Done()
   pInput->SetTextMode(INPUT_TEXT_MODE_NOTEXT);
 }
 
-void CInterfaceScreenBase::SetWindowText(const int nElementID, const WORD *pszText)
+void CInterfaceScreenBase::SetWindowText(const int nElementID, const wchar_t *pszText)
 {
   IUIElement *pElement = pUIScreen->GetChildByID(nElementID);
   if (pElement) { pElement->SetWindowText(0, pszText); }
@@ -119,7 +119,7 @@ bool CInterfaceScreenBase::OnCursorMove(const CVec2 &vPos)
     IText *pText = pUIScreen->GetHelpContext(vPos, &rcRect);
     if ((timeAbs - time >= timeToolTipShowTime) || (pText && pText->IsChanged()))
     {
-      if ((pLastToolTip != pText) || (pText && pText->IsChanged()))
+      if ((pLastToolTip.GetPtr() != pText) || (pText && pText->IsChanged()))
       {
         const DWORD dwColor = GetGlobalVar(("Scene.Colors.ToolTip." + szInterfaceType + ".Color").c_str(), 0);
         pLastToolTip = pText;
@@ -128,7 +128,7 @@ bool CInterfaceScreenBase::OnCursorMove(const CVec2 &vPos)
       }
       else if (timeAbs - timeToolTip >= timeToolTipHideTime) pScene->SetToolTip(nullptr, vPos, rcRect);
     }
-    else if (pLastToolTip != pText)
+    else if (pLastToolTip.GetPtr() != pText)
     {
       pScene->SetToolTip(nullptr, vPos, rcRect);
       pLastToolTip = nullptr;
@@ -446,7 +446,7 @@ bool CInterfaceScreenBase::ShowTutorial()
   {
     GetSingleton<IUserProfile>()->HelpCalled(GetCommonFactory()->GetObjectTypeID(this), nHelpContextNumber);
 
-    const WORD *pText = pTutorial->GetWindowText(nHelpContextNumber);
+    const wchar_t *pText = pTutorial->GetWindowText(nHelpContextNumber);
     if (pText && pText[0] != 0)
     {
       SetGlobalVar("TutorialText", pText);

@@ -1,0 +1,12 @@
+C:/Users/zwali/source/repos/Blitzkrieg/Sources/src/vcpkg_installed/x86-windows/vcpkg/blds/lua/x86-windows-dbg/CMakeFiles/lua.dir
+C:/Users/zwali/source/repos/Blitzkrieg/Sources/src/vcpkg_installed/x86-windows/vcpkg/blds/lua/x86-windows-dbg/CMakeFiles/edit_cache.dir
+C:/Users/zwali/source/repos/Blitzkrieg/Sources/src/vcpkg_installed/x86-windows/vcpkg/blds/lua/x86-windows-dbg/CMakeFiles/rebuild_cache.dir
+C:/Users/zwali/source/repos/Blitzkrieg/Sources/src/vcpkg_installed/x86-windows/vcpkg/blds/lua/x86-windows-dbg/CMakeFiles/list_install_components.dir
+C:/Users/zwali/source/repos/Blitzkrieg/Sources/src/vcpkg_installed/x86-windows/vcpkg/blds/lua/x86-windows-dbg/CMakeFiles/install.dir
+C:/Users/zwali/source/repos/Blitzkrieg/Sources/src/vcpkg_installed/x86-windows/vcpkg/blds/lua/x86-windows-dbg/CMakeFiles/install/local.dir
+C:/Users/zwali/source/repos/Blitzkrieg/Sources/src/vcpkg_installed/x86-windows/vcpkg/blds/lua/x86-windows-dbg/cpp/CMakeFiles/lua-cpp.dir
+C:/Users/zwali/source/repos/Blitzkrieg/Sources/src/vcpkg_installed/x86-windows/vcpkg/blds/lua/x86-windows-dbg/cpp/CMakeFiles/edit_cache.dir
+C:/Users/zwali/source/repos/Blitzkrieg/Sources/src/vcpkg_installed/x86-windows/vcpkg/blds/lua/x86-windows-dbg/cpp/CMakeFiles/rebuild_cache.dir
+C:/Users/zwali/source/repos/Blitzkrieg/Sources/src/vcpkg_installed/x86-windows/vcpkg/blds/lua/x86-windows-dbg/cpp/CMakeFiles/list_install_components.dir
+C:/Users/zwali/source/repos/Blitzkrieg/Sources/src/vcpkg_installed/x86-windows/vcpkg/blds/lua/x86-windows-dbg/cpp/CMakeFiles/install.dir
+C:/Users/zwali/source/repos/Blitzkrieg/Sources/src/vcpkg_installed/x86-windows/vcpkg/blds/lua/x86-windows-dbg/cpp/CMakeFiles/install/local.dir

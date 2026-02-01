@@ -29,8 +29,8 @@ public:
   bool STDCALL OnMouseWheel(const CVec2 &vPos, EMouseState mouseState, float fDelta) override = 0;
 
   // text
-  void STDCALL SetWindowText(int nState, const WORD *pszText) override;
-  virtual void STDCALL AppendText(const WORD *pszText);
+  void STDCALL SetWindowText(int nState, const wchar_t *pszText) override;
+  virtual void STDCALL AppendText(const wchar_t *pszText);
 
   // serializing...
   int STDCALL operator&(IDataTree &ss) override;
@@ -49,7 +49,7 @@ class CUIScrollTextBoxBridge : public IUIScrollTextBox, public CUIScrollTextBox
   DECLARE_SUPER(CUIScrollTextBox);
   DEFINE_UICONTAINER_BRIDGE;
 
-  void STDCALL AppendText(const WORD *pszText) override { CSuper::AppendText(pszText); }
+  void STDCALL AppendText(const wchar_t *pszText) override { CSuper::AppendText(pszText); }
 };
 
 #endif // __UI_SCROLL_TEXT_H__

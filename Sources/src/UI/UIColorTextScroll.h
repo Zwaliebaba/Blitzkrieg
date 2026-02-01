@@ -57,10 +57,10 @@ public:
   CUIColorTextScroll() : nCurrentYSize(0) {}
   ~CUIColorTextScroll() override {}
 
-  virtual void STDCALL AppendMessage(const WORD *pszCaption, const WORD *pszMessage,
+  virtual void STDCALL AppendMessage(const wchar_t *pszCaption, const wchar_t *pszMessage,
                                      enum IUIColorTextScroll::EColorEntrys color);
 
-  void STDCALL SetWindowText(int nState, const WORD *pszText) override;
+  void STDCALL SetWindowText(int nState, const wchar_t *pszText) override;
 
   // serializing...
   int STDCALL operator&(IDataTree &ss) override;
@@ -77,7 +77,7 @@ class CUIColorTextScrollBridge : public IUIColorTextScroll, public CUIColorTextS
   DECLARE_SUPER(CUIColorTextScroll);
   DEFINE_UICONTAINER_BRIDGE;
 
-  void STDCALL AppendMessage(const WORD *pszCaption, const WORD *pszMessage,
+  void STDCALL AppendMessage(const wchar_t *pszCaption, const wchar_t *pszMessage,
                              const enum EColorEntrys color = E_COLOR_DEFAULT) override { CSuper::AppendMessage(pszCaption, pszMessage, color); }
 };
 

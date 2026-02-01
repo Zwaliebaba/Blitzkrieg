@@ -40,7 +40,7 @@ public:
   void STDCALL StartInterface() override;
 
   // IWhisper
-  const WORD *GetDestinationName() override;
+  const wchar_t *GetDestinationName() override;
 };
 
 class CICMultyplayerChat : public CInterfaceCommandBase<CInterfaceMPChat, MISSION_INTERFACE_MULTYPLAYER_CHAT>

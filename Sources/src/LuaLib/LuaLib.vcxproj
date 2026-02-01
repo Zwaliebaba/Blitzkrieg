@@ -34,31 +34,31 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Template|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='BetaRelease|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
     <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
     <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Profiler|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
     <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
     <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='FastDebug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
     <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -112,6 +112,9 @@
     <OutDir>.\BetaRelease\</OutDir>
     <IntDir>.\BetaRelease\</IntDir>
     <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Label="Vcpkg">
+    <VcpkgEnableManifest>true</VcpkgEnableManifest>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='FastDebug|Win32'">
     <ClCompile>
@@ -264,47 +267,9 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="LuaSrc\lapi.c" />
-    <ClCompile Include="LuaSrc\lcode.c" />
-    <ClCompile Include="LuaSrc\ldebug.c" />
-    <ClCompile Include="LuaSrc\ldo.c" />
-    <ClCompile Include="LuaSrc\lfunc.c" />
-    <ClCompile Include="LuaSrc\lgc.c" />
-    <ClCompile Include="LuaSrc\llex.c" />
-    <ClCompile Include="LuaSrc\lmem.c" />
-    <ClCompile Include="LuaSrc\lobject.c" />
-    <ClCompile Include="LuaSrc\lparser.c" />
-    <ClCompile Include="LuaSrc\lstate.c" />
-    <ClCompile Include="LuaSrc\lstring.c" />
-    <ClCompile Include="LuaSrc\ltable.c" />
-    <ClCompile Include="LuaSrc\ltm.c" />
-    <ClCompile Include="LuaSrc\lundump.c" />
-    <ClCompile Include="LuaSrc\lvm.c" />
-    <ClCompile Include="LuaSrc\lzio.c" />
     <ClCompile Include="Script.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="LuaSrc\lapi.h" />
-    <ClInclude Include="LuaSrc\lcode.h" />
-    <ClInclude Include="LuaSrc\ldebug.h" />
-    <ClInclude Include="LuaSrc\ldo.h" />
-    <ClInclude Include="LuaSrc\lfunc.h" />
-    <ClInclude Include="LuaSrc\lgc.h" />
-    <ClInclude Include="LuaSrc\llex.h" />
-    <ClInclude Include="LuaSrc\llimits.h" />
-    <ClInclude Include="LuaSrc\lmem.h" />
-    <ClInclude Include="LuaSrc\lobject.h" />
-    <ClInclude Include="LuaSrc\lopcodes.h" />
-    <ClInclude Include="LuaSrc\lparser.h" />
-    <ClInclude Include="LuaSrc\lstate.h" />
-    <ClInclude Include="LuaSrc\lstring.h" />
-    <ClInclude Include="LuaSrc\ltable.h" />
-    <ClInclude Include="LuaSrc\ltm.h" />
-    <ClInclude Include="LuaSrc\lua.h" />
-    <ClInclude Include="LuaSrc\luadebug.h" />
-    <ClInclude Include="LuaSrc\lundump.h" />
-    <ClInclude Include="LuaSrc\lvm.h" />
-    <ClInclude Include="LuaSrc\lzio.h" />
     <ClInclude Include="Script.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -169,7 +169,7 @@ void CUIShortcutBar::AddMultyItems(int nNum)
   }
 }
 
-IUIElement *CUIShortcutBar::AddTextItem(const WORD *pszText)
+IUIElement *CUIShortcutBar::AddTextItem(const wchar_t *pszText)
 {
   NI_ASSERT_T(bars.size() > 0, "CUIShortcutBar error: You need to add bar before adding items");
   SBar &bar = bars[bars.size() - 1];

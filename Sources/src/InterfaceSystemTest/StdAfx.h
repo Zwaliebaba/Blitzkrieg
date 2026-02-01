@@ -34,15 +34,25 @@
 #include <string>
 #include <vector>
 #include <map>
-#include <hash_map>
-#include <hash_set>
+#include <unordered_map>
+#include <unordered_set>
 #include <set>
 #include <queue>
+
+// Compatibility aliases for old hash_map/hash_set
+namespace std {
+  template<class Key, class T, class Hash = std::hash<Key>, class Pred = std::equal_to<Key>, class Alloc = std::allocator<std::pair<const Key, T>>>
+  using hash_map = std::unordered_map<Key, T, Hash, Pred, Alloc>;
+  template<class Key, class T, class Hash = std::hash<Key>, class Pred = std::equal_to<Key>, class Alloc = std::allocator<std::pair<const Key, T>>>
+  using hash_multimap = std::unordered_multimap<Key, T, Hash, Pred, Alloc>;
+  template<class Key, class Hash = std::hash<Key>, class Pred = std::equal_to<Key>, class Alloc = std::allocator<Key>>
+  using hash_set = std::unordered_set<Key, Hash, Pred, Alloc>;
+}
+
 //
 typedef UINT FAR *LPUINT;
-typedef __int64 int64;									// due to lack of 'long long' type support
-typedef unsigned __int64 QWORD;					// quadra word
-#define for if(false); else for					// to achieve standard variable scope resolving, declared inside 'for'
+using int64 = __int64;									// due to lack of 'long long' type support
+using QWORD = unsigned __int64;					// quadra word
 #define STDCALL __stdcall								// to use with interface function calls
 // define 'interface' keyword
 #ifndef interface

@@ -21,6 +21,7 @@ struct SGenericNumber
 
 interface IRefCount
 {
+  virtual ~IRefCount() = default;
   // refcounting
   virtual void STDCALL AddRef(int nRef = 1, int nMask = 0x7fffffff) = 0;
   virtual void STDCALL Release(int nRef = 1, int nMask = 0x7fffffff) = 0;

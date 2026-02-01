@@ -16,14 +16,14 @@ class CLanChat : public IChat
   CMessagesStore messages;
 
 public:
-  void STDCALL InitGSChat(const WORD *pszUserName) override {}
-  void STDCALL InitInGameChat(INetDriver *pNetDriver) override;
-  void STDCALL DestroyInGameChat() override {}
+void STDCALL InitGSChat(const wchar_t *pszUserName) override {}
+void STDCALL InitInGameChat(INetDriver *pNetDriver) override;
+void STDCALL DestroyInGameChat() override {}
 
-  void STDCALL SendMessage(const WORD *pszMessage, const SPlayerInfo &ourPlayer) override;
-  void STDCALL SendWhisperMessage(const WORD *pszMessage, const SPlayerInfo &toPlayer, const SPlayerInfo &ourPlayer) override;
-  void STDCALL SendMessage(const WORD *pszMessage, const WORD *wszToPlayer, const bool bWhisper) override {}
-  void STDCALL Segment() override;
+void STDCALL SendMessage(const wchar_t *pszMessage, const SPlayerInfo &ourPlayer) override;
+void STDCALL SendWhisperMessage(const wchar_t *pszMessage, const SPlayerInfo &toPlayer, const SPlayerInfo &ourPlayer) override;
+void STDCALL SendMessage(const wchar_t *pszMessage, const wchar_t *wszToPlayer, const bool bWhisper) override {}
+void STDCALL Segment() override;
 
   IMultiplayerMessage * STDCALL GetMessage() override;
 

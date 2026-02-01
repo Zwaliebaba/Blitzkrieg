@@ -51,7 +51,7 @@ interface IUpdatableObj : IRefCount
 
   virtual void GetRevealCircle(CCircle *pCircle) const { NI_ASSERT_T(false, "Wrong call of GetCircle"); }
   virtual void GetShootAreas(struct SShootAreas *pShootAreas, int *pnAreas) const { *pnAreas = 0; }
-  virtual void GetRangeArea(struct SShootAreas *pRangeArea) const { std::construct(pRangeArea); }
+  virtual void GetRangeArea(struct SShootAreas *pRangeArea) const { *pRangeArea = SShootAreas{}; }
 
   virtual const EActionNotify GetDieAction() const
   {

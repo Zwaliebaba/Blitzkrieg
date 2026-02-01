@@ -72,7 +72,7 @@ struct SPlayerInfo
     nClientID(-1), nLogicID(-1), nSide(-1), bReady(false), fPing(-1.0f),
     lastTimeInfoAsked(0), cMapLoadProgress(100), szName(L""), eState(EPS_INVALID) {}
 
-  SPlayerInfo(const int _nCliendID, const int _nLogicID, const int _nSide, const bool _bReady, const WORD *pszName, const EPlayerStates _eState, const BYTE _cMapLoadProgress)
+  SPlayerInfo(const int _nCliendID, const int _nLogicID, const int _nSide, const bool _bReady, const wchar_t *pszName, const EPlayerStates _eState, const BYTE _cMapLoadProgress)
     : nClientID(_nCliendID), nLogicID(_nLogicID), nSide(_nSide), bReady(_bReady),
       lastTimeInfoAsked(0), cMapLoadProgress(_cMapLoadProgress), szName(pszName), eState(_eState) {}
 
@@ -108,7 +108,7 @@ struct SGameInfo
   //
   SGameInfo() : bPasswordRequired(false), szPassword(""), checkSumMap(0L), checkSumRes(0L), bMapLoaded(true) {}
 
-  void Init(const WORD *pszGameName, const char *pszMapName, const int _nMaxPlayers, const int _nCurPlayers,
+  void Init(const wchar_t *pszGameName, const char *pszMapName, const int _nMaxPlayers, const int _nCurPlayers,
             const SMultiplayerGameSettings &_gameSettings,
             const CMapInfo::GAME_TYPE _eGameType, bool _bPasswordRequired, const std::string &_szPassword,
             const std::string &_szModName, const std::string &_szModVersion, const bool _bMapLoaded)

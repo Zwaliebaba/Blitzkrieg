@@ -10,7 +10,6 @@
 #include "../StreamIO/StreamIOTypes.h"
 
 #include "../Net/NetDriver.h"
-#include "GameSpyPeerChat.h"
 
 BASIC_REGISTER_CLASS(IServersList);
 
@@ -251,60 +250,6 @@ void CLanServersList::CreateInGameChat(CPtr<IChat> *pChat, INetDriver *pNetDrive
   auto pCreatedChat = new CLanChat();
   pCreatedChat->InitInGameChat(pNetDriver);
   *pChat = pCreatedChat;
-}
-
-// **********************************************************************
-// *CGameSpyServersList*
-// **********************************************************************
-
-void CGameSpyServersList::Init()
-{
-  INetDriver *pNetDriver = CreateObject<INetDriver>(NET_GS_SERVERS_LIST_DIRVER);
-  pNetDriver->Init(GetGlobalVar("NetGameVersion", 1), SMultiplayerConsts::GS_NET_PORT, true);
-
-  CServersList::Init(pNetDriver);
-}
-
-void CGameSpyServersList::CreateInGameChat(CPtr<IChat> *pChat, INetDriver *pInGameNetDriver)
-{
-  if ((*pChat) == nullptr)
-  {
-    *pChat = new CGameSpyPeerChat();
-
-    std::wstring szPlayerName = GetGlobalWVar("Options.Multiplayer.GameSpyPlayerName", L"Noname");
-    if (szPlayerName == L"Noname") szPlayerName = NStr::ToUnicode(GetGlobalVar("Options.Multiplayer.PlayerName", "Noname"));
-
-    (*pChat)->InitGSChat(szPlayerName.c_str());
-  }
-
-  (*pChat)->InitInGameChat(pInGameNetDriver);
-}
-
-IGameCreation *CGameSpyServersList::CreateServer(const struct SGameInfo &gameInfo, const struct SQuickLoadMapInfo &mapInfo, CPtr<IChat> *pChat)
-{
-  DestroyNetDriver();
-
-  INetDriver *pInGameNetDriver = CreateObject<INetDriver>(INetDriver::tidTypeID);
-  pInGameNetDriver->Init(GetGlobalVar("NetGameVersion", 1), SMultiplayerConsts::NET_PORT, false);
-
-  INetDriver *pOutGameNetDriver = CreateObject<INetDriver>(NET_GS_QUERY_REPORTING_DRIVER);
-  pOutGameNetDriver->Init(GetGlobalVar("NetGameVersion", 1), SMultiplayerConsts::GS_NET_PORT, false);
-
-  auto pGameCreation = new CServerGameCreation();
-  pGameCreation->Init(pInGameNetDriver, pOutGameNetDriver, gameInfo, mapInfo);
-
-  CreateInGameChat(pChat, pInGameNetDriver);
-
-  return pGameCreation;
-}
-
-INetDriver *CGameSpyServersList::CreateInGameNetDriver(const int nPort)
-{
-  INetDriver *pNetDriver = CreateObject<INetDriver>(INetDriver::tidTypeID);
-  if (nPort == -1) pNetDriver->Init(GetGlobalVar("NetGameVersion", 1), SMultiplayerConsts::NET_PORT, true);
-  else pNetDriver->Init(GetGlobalVar("NetGameVersion", 1), nPort, true);
-
-  return pNetDriver;
 }
 
 // **********************************************************************

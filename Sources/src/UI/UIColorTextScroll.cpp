@@ -1,9 +1,7 @@
 #include "StdAfx.h"
-
 #include "UIColorTextScroll.h"
 
-
-CUIColorTextScroll::CColorTextEntry::operator&(IStructureSaver &ss)
+int CUIColorTextScroll::CColorTextEntry::operator&(IStructureSaver &ss)
 {
   CSaverAccessor saver = &ss;
   saver.Add(1, &nHeight);
@@ -43,13 +41,12 @@ int CUIColorTextScroll::CColorTextEntry::Get1LineHeight() const
   return 1;
 }
 
-CUIColorTextScroll::CColorTextEntry::CColorTextEntry(const wchar_t *pszCaptionText, const DWORD _dwCaptionColor,
-                                                     const wchar_t *pszEntryText, const DWORD _dwEntryColor,
-                                                     const int _nY, const int nWidth)
+CUIColorTextScroll::CColorTextEntry::CColorTextEntry(const wchar_t *pszCaptionText, const DWORD _dwCaptionColor, const wchar_t *pszEntryText, const DWORD _dwEntryColor, const int _nY, const int nWidth)
   : nHeight(0),
     nY(_nY),
     dwCaptionColor(_dwCaptionColor),
-    dwEntryColor(_dwEntryColor), entryStartX(0)
+    dwEntryColor(_dwEntryColor),
+    entryStartX(0)
 {
   // determine caption size
   if (pszCaptionText)
@@ -103,7 +100,7 @@ void CUIColorTextScroll::Reposition(const CTRect<float> &rcParent)
   // reposition entries
 }
 
-void CUIColorTextScroll::SetWindowText(int nState, const WORD *pszText)
+void CUIColorTextScroll::SetWindowText(int nState, const wchar_t *pszText)
 {
   textEntrys.clear();
   AppendMessage(pszText, nullptr, IUIColorTextScroll::E_COLOR_DEFAULT);
@@ -111,8 +108,7 @@ void CUIColorTextScroll::SetWindowText(int nState, const WORD *pszText)
 
 void CUIColorTextScroll::Draw(IGFX *pGFX) { NI_ASSERT_T(false, "wrong call"); }
 
-void CUIColorTextScroll::AppendMessage(const WORD *pszCaption, const WORD *pszMessage,
-                                       const enum IUIColorTextScroll::EColorEntrys color)
+void CUIColorTextScroll::AppendMessage(const wchar_t *pszCaption, const wchar_t *pszMessage, const enum IUIColorTextScroll::EColorEntrys color)
 {
   const int nColorIndex = static_cast<int>(color);
   NI_ASSERT_T(nColorIndex < colors.size(), NStr::Format("wrong color index %d", nColorIndex));
@@ -120,9 +116,7 @@ void CUIColorTextScroll::AppendMessage(const WORD *pszCaption, const WORD *pszMe
   CTRect<float> rect;
   GetBorderRect(&rect);
 
-  auto pNewEntry = new CColorTextEntry(pszCaption, colors[nColorIndex].first,
-                                       pszMessage, colors[nColorIndex].second,
-                                       nCurrentYSize, rect.Width());
+  auto pNewEntry = new CColorTextEntry(pszCaption, colors[nColorIndex].first, pszMessage, colors[nColorIndex].second, nCurrentYSize, rect.Width());
   nCurrentYSize += pNewEntry->GetSizeY();
   textEntrys.push_back(pNewEntry);
 

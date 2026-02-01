@@ -40,7 +40,7 @@ interface ITransceiver : IRefCount
   // client commands
   virtual void STDCALL CommandClientTogglePause() = 0;
   virtual void STDCALL CommandClientSpeed(int nChange) = 0;
-  virtual void STDCALL CommandClientDropPlayer(const WORD *pszPlayerNick) = 0;
+  virtual void STDCALL CommandClientDropPlayer(const wchar_t *pszPlayerNick) = 0;
 
   virtual void STDCALL CommandTimeOut(bool bSet) = 0;
 

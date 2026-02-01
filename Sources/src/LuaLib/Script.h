@@ -1,10 +1,10 @@
 // ////
 #pragma once
 
-extern "C"
-{
-#include "LuaSrc/Lua.h"
-#include "LuaSrc/luadebug.h"
+extern "C" {
+#include <lua.h>
+#include <lauxlib.h>
+#include <lualib.h>
 }
 
 class Script
@@ -51,7 +51,7 @@ public:
     float GetNumber() const { return static_cast<float>(lua_tonumber(GetState(), m_stackIndex)); }
     const char *GetString() const { return lua_tostring(GetState(), m_stackIndex); }
     operator const char *() const { return GetString(); }
-    int StrLen() const { return lua_strlen(GetState(), m_stackIndex); }
+    size_t StrLen() const { return lua_rawlen(GetState(), m_stackIndex); }
     CFunction GetCFunction() const { return lua_tocfunction(GetState(), m_stackIndex); }
     void *GetUserData() const { return lua_touserdata(GetState(), m_stackIndex); }
     const void *GetPointer() const { return lua_topointer(GetState(), m_stackIndex); }
@@ -97,12 +97,9 @@ public:
     void SetUserData(const char *name, void *data)
     {
       lua_pushstring(GetState(), name);
-      lua_pushuserdata(GetState(), data);
+      lua_pushlightuserdata(GetState(), data);
       lua_settable(GetState(), m_stackIndex);
     }
-
-    // int CallFunction();
-    int Tag() { return lua_tag(GetState(), m_stackIndex); }
 
     /* *
        */
@@ -161,8 +158,6 @@ public:
 
   enum { REFNIL = LUA_REFNIL };
 
-  enum { ANYTAG = LUA_ANYTAG };
-
   Script(bool initStandardLibrary = true);
   Script(lua_State *state);
   ~Script();
@@ -175,14 +170,14 @@ public:
   void PushValue(int index) { lua_pushvalue(m_state, index); }
   void Remove(int index) { lua_remove(m_state, index); }
   void Insert(int index) { lua_insert(m_state, index); }
-  int StackSpace() { return lua_stackspace(m_state); }
+  bool EnsureStack(int n) { return lua_checkstack(m_state, n) != 0; }
 
   Object GetObject(int index) { return Object(*this, index); }
   void PushObject(Object object) { lua_pushvalue(m_state, object.GetStackIndex()); }
 
   // access functions (stack -> C)
-  int Equal(int index1, int index2) { return lua_equal(m_state, index1, index2); }
-  int LessThan(int index1, int index2) { return lua_lessthan(m_state, index1, index2); }
+  int Equal(int index1, int index2) { return lua_compare(m_state, index1, index2, LUA_OPEQ); }
+  int LessThan(int index1, int index2) { return lua_compare(m_state, index1, index2, LUA_OPLT); }
 
   // push functions (C -> stack)
   void PushBool(bool value)
@@ -196,7 +191,7 @@ public:
   void PushLString(const char *s, size_t len) { lua_pushlstring(m_state, s, len); }
   void PushString(const char *s) { lua_pushstring(m_state, s); }
   void PushCClosure(lua_CFunction fn, int n) { lua_pushcclosure(m_state, fn, n); }
-  void PushUserTag(void *u, int tag) { lua_pushusertag(m_state, u, tag); }
+  void PushLightUserData(void *u) { lua_pushlightuserdata(m_state, u); }
 
   // get functions (Lua -> stack)
   Object GetGlobal(const char *name)
@@ -211,13 +206,11 @@ public:
 
   Object GetGlobals()
   {
-    lua_getglobals(m_state);
+    lua_pushglobaltable(m_state);
     return Object(*this, GetTop());
   }
 
-  void GetTagMethod(int tag, const char *event) { lua_gettagmethod(m_state, tag, event); }
-
-  int GetRef(int ref) { return lua_getref(m_state, ref); }
+  void GetRef(int ref) { lua_rawgeti(m_state, LUA_REGISTRYINDEX, ref); }
 
   Object NewTable()
   {
@@ -230,30 +223,24 @@ public:
   void SetTable(int index) { lua_settable(m_state, index); }
   void RawSet(int index) { lua_rawset(m_state, index); }
   void RawSetI(int index, int n) { lua_rawseti(m_state, index, n); }
-  void SetGlobals() { lua_setglobals(m_state); }
-  void SetTagMethod(int tag, const char *event) { lua_settagmethod(m_state, tag, event); }
-  int Ref(int lock) { return lua_ref(m_state, lock); }
+  int Ref() { return luaL_ref(m_state, LUA_REGISTRYINDEX); }
 
 
   // "do" functions(run Lua code)
-  int Call(int nargs, int nresults) { return lua_call(m_state, nargs, nresults); }
-  void RawCall(int nargs, int nresults) { lua_rawcall(m_state, nargs, nresults); }
-  int DoFile(const char *filename) { return lua_dofile(m_state, filename); }
-  int DoString(const char *str) { return lua_dostring(m_state, str); }
-  int DoBuffer(const char *buff, size_t size, const char *name) { return lua_dobuffer(m_state, buff, size, name); }
+  int Call(int nargs, int nresults) { return lua_pcall(m_state, nargs, nresults, 0); }
+  void RawCall(int nargs, int nresults) { lua_call(m_state, nargs, nresults); }
+  int DoFile(const char *filename) { return luaL_dofile(m_state, filename); }
+  int DoString(const char *str) { return luaL_dostring(m_state, str); }
+  int DoBuffer(const char *buff, size_t size, const char *name) { return luaL_loadbuffer(m_state, buff, size, name) || lua_pcall(m_state, 0, LUA_MULTRET, 0); }
 
 
   // miscellaneous functions
-  int NewTag() { return lua_newtag(m_state); }
-  int CopyTagMethods(int tagto, int tagfrom) { return lua_copytagmethods(m_state, tagto, tagfrom); }
-  void SetTag(int tag) { lua_settag(m_state, tag); }
+  void Error(const char *s) { lua_pushstring(m_state, s); lua_error(m_state); }
 
-  void Error(const char *s) { lua_error(m_state, s); }
-
-  void Unref(int ref) { lua_unref(m_state, ref); }
+  void Unref(int ref) { luaL_unref(m_state, LUA_REGISTRYINDEX, ref); }
 
   int Next(int index) { return lua_next(m_state, index); }
-  int GetN(int index) { return lua_getn(m_state, index); }
+  lua_Unsigned GetN(int index) { return lua_rawlen(m_state, index); }
 
   void Concat(int n) { lua_concat(m_state, n); }
 
@@ -268,18 +255,17 @@ public:
 
   void Register(const SRegFunction *pList);
   void Register(const char *funcName, lua_CFunction function) { lua_register(m_state, funcName, function); }
-  void PushUserData(void *u) { lua_pushuserdata(m_state, u); }
+  void PushUserData(void *u) { lua_pushlightuserdata(m_state, u); }
   void PushCFunction(lua_CFunction f) { lua_pushcclosure(m_state, f, 0); }
-  int CloneTag(int t) { lua_copytagmethods(m_state, lua_newtag(m_state), t); }
 
-  bool IsFunction(int index) { return lua_isfunction(m_state, index); }
-  bool IsCFunction(int index) { return lua_iscfunction(m_state, index); }
+  bool IsFunction(int index) { return lua_isfunction(m_state, index) != 0; }
+  bool IsCFunction(int index) { return lua_iscfunction(m_state, index) != 0; }
   bool IsString(int index) { return lua_isstring(m_state, index) != 0; }
   bool IsNumber(int index) { return lua_isnumber(m_state, index) != 0; }
-  bool IsTable(int index) { return lua_istable(m_state, index); }
-  bool IsUserData(int index) { return lua_isuserdata(m_state, index); }
-  bool IsNil(int index) { return lua_isnil(m_state, index); }
-  bool IsNull(int index) { return lua_isnull(m_state, index); }
+  bool IsTable(int index) { return lua_istable(m_state, index) != 0; }
+  bool IsUserData(int index) { return lua_isuserdata(m_state, index) != 0; }
+  bool IsNil(int index) { return lua_isnil(m_state, index) != 0; }
+  bool IsNull(int index) { return lua_isnone(m_state, index) != 0; }
 
   int ConfigGetInteger(const char *section, const char *entry, int defaultValue = 0);
   float ConfigGetReal(const char *section, const char *entry, double defaultValue = 0.0);

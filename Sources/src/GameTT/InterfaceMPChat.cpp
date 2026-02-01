@@ -78,7 +78,7 @@ void CInterfaceMPChat::StartInterface()
 }
 
 // IWhisper
-const WORD *CInterfaceMPChat::GetDestinationName() { return playerList.GetCurInfo()->szName.c_str(); }
+const wchar_t *CInterfaceMPChat::GetDestinationName() { return playerList.GetCurInfo()->szName.c_str(); }
 
 bool CInterfaceMPChat::ProcessMPCommand(SToUICommand &cmd)
 {

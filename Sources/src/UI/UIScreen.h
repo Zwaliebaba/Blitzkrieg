@@ -75,7 +75,7 @@ public:
   virtual void STDCALL ProcessGameMessage(const SGameMessage &msg);
   virtual bool STDCALL GetMessage(SGameMessage *pMsg);
 
-  virtual int STDCALL MessageBox(const WORD *pszText, int nType);
+  virtual int STDCALL MessageBox(const wchar_t *pszText, int nType);
 
   bool STDCALL OnChar(int nAsciiCode, int nVirtualKey, bool bPressed, DWORD keyState) override;
   virtual void STDCALL ClearStrings() { listOfAcks.clear(); }
@@ -88,7 +88,7 @@ class CUIScreenBridge : public IUIScreen, public CUIScreen
   DECLARE_SUPER(CUIScreen);
   DEFINE_UISCREEN_BRIDGE;
   bool STDCALL IsEmpty() override { return CSuper::IsEmpty(); }
-  int STDCALL MessageBox(const WORD *pszText, int nType) override { return CSuper::MessageBox(pszText, nType); }
+  int STDCALL MessageBox(const wchar_t *pszText, int nType) override { return CSuper::MessageBox(pszText, nType); }
 };
 
 #endif // __UISCREEN_H__

@@ -191,15 +191,15 @@ void CUISquadElement::SetParent(interface IUIContainer *_pParent) { pParent = _p
 
 IUIContainer *CUISquadElement::GetParent() { return pParent; }
 
-void CUISquadElement::SetWindowText(int nState, const WORD *pszText) {}
+void CUISquadElement::SetWindowText(int nState, const wchar_t *pszText) {}
 
-const WORD *CUISquadElement::GetWindowText(int nState) { return nullptr; }
+const wchar_t *CUISquadElement::GetWindowText(int nState) { return nullptr; }
 
 void CUISquadElement::SetTextColor(DWORD dwColor) {}
 
 interface IText *CUISquadElement::GetHelpContext(const CVec2 &vPos, CTRect<float> *pRect) { return nullptr; }
 
-void CUISquadElement::SetHelpContext(int nState, const WORD *pszToolTipText) {}
+void CUISquadElement::SetHelpContext(int nState, const wchar_t *pszToolTipText) {}
 
 void CUISquadElement::SetFocus(bool bFocus) {}
 

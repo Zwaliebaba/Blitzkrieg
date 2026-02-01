@@ -1,0 +1,14 @@
+{
+  "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
+  "name": "blitzkrieg",
+  "version": "1.0.0",
+  "builtin-baseline": "c82f74667287d3dc386bce81e44964370c91a289",
+  "dependencies": [
+    "zlib",
+    "libpng",
+    {
+      "name": "lua",
+      "features": [ "cpp" ]
+    }
+  ]
+}

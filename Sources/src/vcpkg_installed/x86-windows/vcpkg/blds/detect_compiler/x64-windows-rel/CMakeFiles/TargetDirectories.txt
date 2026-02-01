@@ -1,0 +1,2 @@
+C:/Users/zwali/source/repos/Blitzkrieg/Sources/src/vcpkg_installed/x86-windows/vcpkg/blds/detect_compiler/x64-windows-rel/CMakeFiles/edit_cache.dir
+C:/Users/zwali/source/repos/Blitzkrieg/Sources/src/vcpkg_installed/x86-windows/vcpkg/blds/detect_compiler/x64-windows-rel/CMakeFiles/rebuild_cache.dir

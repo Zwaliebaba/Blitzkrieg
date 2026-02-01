@@ -47,7 +47,7 @@ class CMOSquad : public CTRefCount<IMOSquad>
 
   SUnitDesc *GetUnit(IMOUnit *pUnit)
   {
-    for (auto it = passangers.begin(); it != passangers.end(); ++it) { if (it->pUnit == pUnit) return &(*it); }
+    for (auto it = passangers.begin(); it != passangers.end(); ++it) { if (it->pUnit.GetPtr() == pUnit) return &(*it); }
     return nullptr;
   }
 

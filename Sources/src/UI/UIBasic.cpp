@@ -342,7 +342,7 @@ IText *CSimpleWindow::GetHelpContext(const CVec2 &vPos, CTRect<float> *pRect)
   return states[nCurrentState].pToolText;
 }
 
-void CSimpleWindow::SetHelpContext(int nState, const WORD *pszToolTipText) { states[nState].pToolText->SetText(pszToolTipText); }
+void CSimpleWindow::SetHelpContext(int nState, const wchar_t *pszToolTipText) { states[nState].pToolText->SetText(pszToolTipText); }
 
 void CSimpleWindow::InitText()
 {
@@ -374,7 +374,7 @@ void CSimpleWindow::InitText()
   }
 }
 
-void CSimpleWindow::SetWindowText(int nState, const WORD *pszText)
+void CSimpleWindow::SetWindowText(int nState, const wchar_t *pszText)
 {
   CTRect<float> textRC = wndRect;
   if (bBounded)
@@ -402,7 +402,7 @@ void CSimpleWindow::SetWindowText(int nState, const WORD *pszText)
   states[nState].pGfxText->SetWidth(textRC.Width());
 }
 
-const WORD *CSimpleWindow::GetWindowText(int nState)
+const wchar_t *CSimpleWindow::GetWindowText(int nState)
 {
   NI_ASSERT_T(nState < states.size(), NStr::Format("Can't get text from state %d (max %d states)", nState, states.size()));
   IText *pText = states[nState].pGfxText->GetText();
@@ -1636,7 +1636,7 @@ bool CMultipleWindow::OnMouseMove(const CVec2 &vPos, EMouseState mState)
         break;
       }
     }
-    if (pHighlighted && pHighlighted != pNewH)
+    if (pHighlighted && pHighlighted.GetPtr() != pNewH)
     {
       // the previous highlighted window removes mouse focus
       // pHighlighted->OnMouseMove( vPos, mState );
@@ -1940,7 +1940,7 @@ void CMultipleWindow::MoveWindowUp(IUIElement *pWnd)
 {
   for (auto it = childList.begin(); it != childList.end(); ++it)
   {
-    if ((*it) == pWnd)
+    if ((*it).GetPtr() == pWnd)
     {
       childList.push_front(*it);
       childList.erase(it);
@@ -1953,7 +1953,7 @@ void CMultipleWindow::MoveWindowDown(IUIElement *pWnd)
 {
   for (auto it = childList.begin(); it != childList.end(); ++it)
   {
-    if ((*it) == pWnd)
+    if ((*it).GetPtr() == pWnd)
     {
       childList.push_back(*it);
       childList.erase(it);

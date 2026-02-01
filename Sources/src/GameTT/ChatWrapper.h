@@ -8,7 +8,7 @@
 
 interface IWhisper
 {
-  virtual const WORD *GetDestinationName() = 0;
+  virtual const wchar_t *GetDestinationName() = 0;
 };
 
 class CChatWrapper
@@ -32,7 +32,7 @@ public:
             IWhisper *_pWhisper);
 
   // direct to local window
-  void AddImportantText(const WORD *wszMessage);
+  void AddImportantText(const wchar_t *wszMessage);
   bool ProcessMessage(const SGameMessage &msg);
   void AddMessageToChat(const struct SChatMessage *pChatMessage);
 };

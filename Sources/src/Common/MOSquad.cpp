@@ -87,7 +87,7 @@ bool CMOSquad::Load(interface IMOUnit *pUnit, bool bEnter)
   {
     for (auto it = passangers.begin(); it != passangers.end(); ++it)
     {
-      if (it->pUnit == pUnit)
+      if (it->pUnit.GetPtr() == pUnit)
       {
         // first, remove it from internal container
         passangers.erase(it);
@@ -112,7 +112,7 @@ void CMOSquad::NotifyStatsChanged(IMOUnit *pUnit, float fHP, float fAmmo1, float
 {
   for (auto it = passangers.begin(); it != passangers.end(); ++it)
   {
-    if (it->pUnit == pUnit)
+    if (it->pUnit.GetPtr() == pUnit)
     {
       it->fHP = fHP;
       it->fAmmo1 = fAmmo1;

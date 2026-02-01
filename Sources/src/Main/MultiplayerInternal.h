@@ -53,7 +53,7 @@ public:
 
   CCommand * STDCALL GetCommand() override;
   void STDCALL SendClientCommands(IDataStream *pPacket) override;
-  void STDCALL SendInGameChatMessage(const WORD *pszType, const WORD *pszMessage) override;
+  void STDCALL SendInGameChatMessage(const wchar_t *pszType, const wchar_t *pszMessage) override;
 
   // valid onlye during of the game
   int STDCALL GetNumberOfPlayers() const override;
@@ -81,21 +81,6 @@ protected:
 public:
   void STDCALL Init() override {}
   bool STDCALL InitJoinToServer(const char *pszIPAddress, const int nPort, bool bPasswordRequired, const char *pszPassword) override { return true; }
-};
-
-class CGameSpyMultiplayer : public CMultiplayer
-{
-  OBJECT_COMPLETE_METHODS(CGameSpyMultiplayer);
-
-protected:
-  IServersList *CreateServersList() override;
-
-public:
-  CGameSpyMultiplayer();
-  void STDCALL Init() override;
-
-  void STDCALL InitServersList() override;
-  bool STDCALL InitJoinToServer(const char *pszIPAddress, int nPort, bool bPasswordRequired, const char *pszPassword) override;
 };
 
 class CInternetMultiplayer : public CMultiplayer

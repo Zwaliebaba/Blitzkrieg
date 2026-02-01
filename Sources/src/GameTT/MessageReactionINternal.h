@@ -396,7 +396,7 @@ public:
 
   int STDCALL CustomCheck(int nCustomCheckKey, const CCustomCheckParams &checkParams) override;
   void STDCALL CustomReaction(const std::string &szCustomReactionName) override;
-  void STDCALL SetWindowText(int nElementID, const WORD *pszText) override;
+  void STDCALL SetWindowText(int nElementID, const wchar_t *pszText) override;
 };
 
 #endif // __MESSAGEREACTIONINTERNAL_H__

@@ -1,8 +1,6 @@
 #include "StdAfx.h"
-
 #include "ImagePNG.h"
-
-#include "../libpng/png.h"
+#include <png.h>
 
 enum EBMMTypes
 {
@@ -18,19 +16,19 @@ bool NImage::RecognizeFormatPNG(IDataStream *pStream)
   int nCounter = pStream->Read(signature, 8);
   pStream->Seek(-nCounter, STREAM_SEEK_CUR);
   if (nCounter != 8) return false;
-  return png_check_sig(signature, 8) != 0;
+  return png_sig_cmp(signature, 0, 8) == 0;
 }
 
 void PNGReadFunction(png_structp png_ptr, png_bytep data, png_size_t length)
 {
-  IDataStream *pStream = reinterpret_cast<IDataStream *>(png_ptr->io_ptr);
+  IDataStream *pStream = reinterpret_cast<IDataStream *>(png_get_io_ptr(png_ptr));
   int check = pStream->Read(data, length);
   if (check != length) png_error(png_ptr, "Read Error");
 }
 
 void PNGWriteFunction(png_structp png_ptr, png_bytep data, png_size_t length)
 {
-  IDataStream *pStream = reinterpret_cast<IDataStream *>(png_ptr->io_ptr);
+  IDataStream *pStream = reinterpret_cast<IDataStream *>(png_get_io_ptr(png_ptr));
   int check = pStream->Write(data, length);
   if (check != length) png_error(png_ptr, "Write Error");
 }
@@ -39,66 +37,83 @@ void PNGFlushFunction(png_structp png_ptr) {}
 
 CImage *NImage::LoadImagePNG(IDataStream *pStream)
 {
-  png_struct *png = nullptr;
-  png_info *info = nullptr;
+  png_structp png = nullptr;
+  png_infop info = nullptr;
   png_bytep *row_pointers = nullptr;
+  png_uint_32 width = 0, height = 0;
+  int bit_depth = 0, color_type = 0, interlace_type = 0;
+  png_size_t rowbytes = 0;
+  int channels = 0;
+
   //
-  png = png_create_read_struct(PNG_LIBPNG_VER_STRING, 0, 0, 0);
+  png = png_create_read_struct(PNG_LIBPNG_VER_STRING, nullptr, nullptr, nullptr);
   if (png == nullptr) return nullptr;
   //
-  if (setjmp(png->jmpbuf))
+  info = png_create_info_struct(png);
+  if (info == nullptr)
   {
-    if (info) { for (png_uint_32 i = 0; i < info->height; i++) { if (row_pointers[i]) free(row_pointers[i]); } }
+    png_destroy_read_struct(&png, nullptr, nullptr);
+    return nullptr;
+  }
+
+  if (setjmp(png_jmpbuf(png)))
+  {
     if (row_pointers)
     {
+      for (png_uint_32 i = 0; i < height; i++)
+      {
+        if (row_pointers[i]) free(row_pointers[i]);
+      }
       free(row_pointers);
-      row_pointers = 0;
     }
+    png_destroy_read_struct(&png, &info, nullptr);
+    return nullptr;
   }
-  //
-  info = png_create_info_struct(png);
-  png_set_read_fn(png, pStream, PNGReadFunction);
-  // png_init_io( png, file );
-  png_read_info(png, info);
-  //
-  DWORD dwWidth = info->width;
-  DWORD dwHeight = info->height;
-  std::vector<DWORD> image(dwWidth * dwHeight);
 
-  // if ( info->valid & PNG_INFO_gAMA )
-  // fbi->SetGamma(info->gamma);
-  // if ( info->valid & PNG_INFO_pHYs )
-  // fbi->SetAspect((float)info->x_pixels_per_unit / (float)info->y_pixels_per_unit);
-  // else
-  // fbi->SetAspect(1.0f);
-  // fbi->SetFlags(0);
+  png_set_read_fn(png, pStream, PNGReadFunction);
+  png_read_info(png, info);
+
+  // Get image info using accessor functions
+  width = png_get_image_width(png, info);
+  height = png_get_image_height(png, info);
+  bit_depth = png_get_bit_depth(png, info);
+  color_type = png_get_color_type(png, info);
+  interlace_type = png_get_interlace_type(png, info);
+
+  std::vector<DWORD> image(width * height);
 
   // expand grayscale images to the full 8 bits
   // expand images with transparency to full alpha channels
-  // I'm going to ignore lineart and just expand it to 8 bits
-  if ((info->color_type == PNG_COLOR_TYPE_PALETTE && info->bit_depth < 8) ||
-      (info->color_type == PNG_COLOR_TYPE_GRAY && info->bit_depth < 8) ||
-      (info->valid & PNG_INFO_tRNS))
+  if ((color_type == PNG_COLOR_TYPE_PALETTE && bit_depth < 8) ||
+      (color_type == PNG_COLOR_TYPE_GRAY && bit_depth < 8) ||
+      png_get_valid(png, info, PNG_INFO_tRNS))
     png_set_expand(png);
 
   int nNumPasses = 1;
-  if (info->interlace_type) nNumPasses = png_set_interlace_handling(png);
+  if (interlace_type) nNumPasses = png_set_interlace_handling(png);
 
-  if (info->bit_depth == 16) png_set_swap(png);
+  if (bit_depth == 16) png_set_swap(png);
 
   png_read_update_info(png, info);
+
+  // Re-read info after update
+  bit_depth = png_get_bit_depth(png, info);
+  color_type = png_get_color_type(png, info);
+  rowbytes = png_get_rowbytes(png, info);
+  channels = png_get_channels(png, info);
+
   // determine type
   int bmtype = BMM_NO_TYPE;
-  if (info->bit_depth != 1)
+  if (bit_depth != 1)
   {
-    switch (info->color_type)
+    switch (color_type)
     {
       case PNG_COLOR_TYPE_PALETTE:
         bmtype = BMM_PALETTED;
         break;
       case PNG_COLOR_TYPE_RGB:
       case PNG_COLOR_TYPE_RGB_ALPHA:
-        switch (info->bit_depth)
+        switch (bit_depth)
         {
           case 2:
           case 4:
@@ -106,18 +121,17 @@ CImage *NImage::LoadImagePNG(IDataStream *pStream)
             // Not allowed
             break;
           case 8:
-            bmtype = BMM_TRUE_32;// zero alpha for those that don't have it
+            bmtype = BMM_TRUE_32;
             break;
         }
         break;
       case PNG_COLOR_TYPE_GRAY_ALPHA:
       case PNG_COLOR_TYPE_GRAY:
-        switch (info->bit_depth)
+        switch (bit_depth)
         {
           case 2:
           case 4:
           case 16:
-            // we should never get here because of the expand code so drop through
             break;
           case 8:
             bmtype = BMM_GRAY_8;
@@ -128,30 +142,37 @@ CImage *NImage::LoadImagePNG(IDataStream *pStream)
   }
   if (bmtype == BMM_NO_TYPE)
   {
-    png_destroy_read_struct(&png, &info, 0);
+    png_destroy_read_struct(&png, &info, nullptr);
     return nullptr;
   }
-  //
-  row_pointers = static_cast<png_bytep *>(malloc(info->height * sizeof(png_bytep)));
-  for (png_uint_32 i = 0; i < info->height; i++) row_pointers[i] = static_cast<png_bytep>(malloc(info->rowbytes));
-  // now read the image
+
+  row_pointers = static_cast<png_bytep *>(malloc(height * sizeof(png_bytep)));
+  for (png_uint_32 i = 0; i < height; i++)
+    row_pointers[i] = static_cast<png_bytep>(malloc(rowbytes));
+
   png_read_image(png, row_pointers);
+
   // decompress image to the ARGB format
   switch (bmtype)
   {
     case BMM_PALETTED:
     {
-      if (info->bit_depth == 8)
+      if (bit_depth == 8)
       {
-        for (png_uint_32 iy = 0; iy < info->height; iy++)
+        png_colorp palette;
+        int num_palette;
+        png_get_PLTE(png, info, &palette, &num_palette);
+
+        for (png_uint_32 iy = 0; iy < height; iy++)
         {
-          for (png_uint_32 ix = 0; ix < info->width; ix++)
+          for (png_uint_32 ix = 0; ix < width; ix++)
           {
+            int idx = row_pointers[iy][ix];
             DWORD dwColor = 0xFF000000 |
-                            (static_cast<DWORD>(png->palette[row_pointers[iy][ix]].red) << 16) |
-                            (static_cast<DWORD>(png->palette[row_pointers[iy][ix]].green) << 8) |
-                            static_cast<DWORD>(png->palette[row_pointers[iy][ix]].blue);
-            image[iy * info->width + ix] = dwColor;
+                            (static_cast<DWORD>(palette[idx].red) << 16) |
+                            (static_cast<DWORD>(palette[idx].green) << 8) |
+                            static_cast<DWORD>(palette[idx].blue);
+            image[iy * width + ix] = dwColor;
           }
         }
       }
@@ -160,15 +181,15 @@ CImage *NImage::LoadImagePNG(IDataStream *pStream)
     case BMM_TRUE_32:
     {
       DWORD r, g, b, a;
-      for (png_uint_32 iy = 0; iy < info->height; iy++)
+      for (png_uint_32 iy = 0; iy < height; iy++)
       {
-        for (png_uint_32 ix = 0; ix < info->rowbytes;)
+        for (png_uint_32 ix = 0; ix < rowbytes;)
         {
           r = row_pointers[iy][ix++];
           g = row_pointers[iy][ix++];
           b = row_pointers[iy][ix++];
-          a = (info->channels == 4 ? row_pointers[iy][ix++] : 255);
-          image[iy * info->width + (ix / info->channels - 1)] = (a << 24) | (r << 16) | (g << 8) | b;
+          a = (channels == 4 ? row_pointers[iy][ix++] : 255);
+          image[iy * width + (ix / channels - 1)] = (a << 24) | (r << 16) | (g << 8) | b;
         }
       }
     }
@@ -176,13 +197,13 @@ CImage *NImage::LoadImagePNG(IDataStream *pStream)
     case BMM_GRAY_8:
     {
       DWORD color, alpha;
-      for (png_uint_32 iy = 0; iy < info->height; iy++)
+      for (png_uint_32 iy = 0; iy < height; iy++)
       {
-        for (png_uint_32 ix = 0; ix < info->rowbytes;)
+        for (png_uint_32 ix = 0; ix < rowbytes;)
         {
           color = row_pointers[iy][ix++];
-          alpha = info->channels == 2 ? row_pointers[iy][ix++] : 255;
-          image[iy * info->width + (ix / info->channels - 1)] = (alpha << 24) | (color << 16) | (color << 8) | color;
+          alpha = channels == 2 ? row_pointers[iy][ix++] : 255;
+          image[iy * width + (ix / channels - 1)] = (alpha << 24) | (color << 16) | (color << 8) | color;
         }
       }
     }
@@ -191,64 +212,65 @@ CImage *NImage::LoadImagePNG(IDataStream *pStream)
 
   png_read_end(png, info);
 
-  for (png_uint_32 i = 0; i < info->height; i++) free(row_pointers[i]);
+  for (png_uint_32 i = 0; i < height; i++) free(row_pointers[i]);
   free(row_pointers);
-  png_destroy_read_struct(&png, &info, 0);
+  png_destroy_read_struct(&png, &info, nullptr);
 
-  return new CImage(dwWidth, dwHeight, image);
+  return new CImage(width, height, image);
 }
 
 bool NImage::SaveImageAsPNG(IDataStream *pStream, const IImage *pImage)
 {
-  png_struct *png = nullptr;
-  png_info *info = nullptr;
+  png_structp png = nullptr;
+  png_infop info = nullptr;
   png_bytep *row_pointers = nullptr;
 
-  png = png_create_write_struct(PNG_LIBPNG_VER_STRING, 0, 0, 0);
+  png_uint_32 width = pImage->GetSizeX();
+  png_uint_32 height = pImage->GetSizeY();
+  int bit_depth = 8;
+  int color_type = PNG_COLOR_TYPE_RGB_ALPHA;
+  int channels = 4;
+  png_size_t rowbytes = width * channels;
+
+  png = png_create_write_struct(PNG_LIBPNG_VER_STRING, nullptr, nullptr, nullptr);
   if (png == nullptr) return false;
-  //
-  if (setjmp(png->jmpbuf))
+
+  info = png_create_info_struct(png);
+  if (info == nullptr)
   {
-    if (info)
-    {
-      for (png_uint_32 i = 0; i < info->height; i++)
-        if (row_pointers[i]) free(row_pointers[i]);
-    }
-    if (row_pointers)
-    {
-      free(row_pointers);
-      row_pointers = 0;
-    }
-
-    png_destroy_write_struct(&png, &info);
-
+    png_destroy_write_struct(&png, nullptr);
     return false;
   }
-  //
-  info = png_create_info_struct(png);
+
+  if (setjmp(png_jmpbuf(png)))
+  {
+    if (row_pointers)
+    {
+      for (png_uint_32 i = 0; i < height; i++)
+        if (row_pointers[i]) free(row_pointers[i]);
+      free(row_pointers);
+    }
+    png_destroy_write_struct(&png, &info);
+    return false;
+  }
 
   png_set_write_fn(png, pStream, PNGWriteFunction, PNGFlushFunction);
-  // png_init_io( png, file );
 
-  info->color_type = PNG_COLOR_TYPE_RGB_ALPHA;
-  info->channels = 4;
-  info->width = pImage->GetSizeX();
-  info->height = pImage->GetSizeY();
-  info->gamma = 1.0f;
-  info->interlace_type = 1;
-  info->bit_depth = 8;
+  // Set image attributes using png_set_IHDR
+  png_set_IHDR(png, info, width, height, bit_depth, color_type,
+               PNG_INTERLACE_ADAM7, PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
 
-  info->rowbytes = info->width * info->channels * info->bit_depth / 8;
+  row_pointers = static_cast<png_bytep *>(malloc(height * sizeof(png_bytep)));
+  for (png_uint_32 i = 0; i < height; i++)
+    row_pointers[i] = static_cast<png_bytep>(malloc(rowbytes));
 
-  row_pointers = static_cast<png_bytep *>(malloc(info->height * sizeof(png_bytep)));
-  for (png_uint_32 i = 0; i < info->height; i++) row_pointers[i] = static_cast<png_bytep>(malloc(info->rowbytes));
-  // store data inn the PNG structure
+  // store data in the PNG structure
   const SColor *pColors = pImage->GetLFB();
-  for (int iy = 0; iy < info->height; ++iy)
+  for (png_uint_32 iy = 0; iy < height; ++iy)
   {
-    for (int ix = 0; ix < info->rowbytes;)
+    for (png_uint_32 ix = 0; ix < rowbytes;)
     {
-      SColor color = pColors[iy * pImage->GetSizeX() + ix / 4];
+      SColor color = pColors[iy * width + ix / 4];
       row_pointers[iy][ix++] = color.r;
       row_pointers[iy][ix++] = color.g;
       row_pointers[iy][ix++] = color.b;
@@ -257,16 +279,12 @@ bool NImage::SaveImageAsPNG(IDataStream *pStream, const IImage *pImage)
   }
 
   png_write_info(png, info);
-
   png_set_swap(png);
-
   png_write_image(png, row_pointers);
-
   png_write_end(png, info);
 
-  for (png_uint_32 i = 0; i < info->height; ++i) free(row_pointers[i]);
+  for (png_uint_32 i = 0; i < height; ++i) free(row_pointers[i]);
   free(row_pointers);
-
   png_destroy_write_struct(&png, &info);
 
   return true;

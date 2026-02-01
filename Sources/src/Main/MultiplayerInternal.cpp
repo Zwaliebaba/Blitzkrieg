@@ -6,7 +6,6 @@
 #include "Messages.h"
 #include "ChatMessages.h"
 #include "MultiplayerConsts.h"
-#include "GameSpyPeerChat.h"
 #include "ScenarioTracker.h"
 
 #include "../GameTT/MultiplayerCommandManager.h"
@@ -367,7 +366,7 @@ void CMultiplayer::ProcessChat()
     {
       if (pMessage->GetMessageID() == E_CHAT_MESSAGE)
       {
-        const WORD *wpszSentPlayer = checked_cast<CChatMessage *>(pMessage)->GetPlayerNick();
+        const wchar_t *wpszSentPlayer = checked_cast<CChatMessage *>(pMessage)->GetPlayerNick();
         if (GetSingleton<IUserProfile>()->GetChatRelation(wpszSentPlayer) == EPR_IGNORED) continue;
       }
 
@@ -449,7 +448,7 @@ void CMultiplayer::SendClientCommands(IDataStream *pPacket)
   pGamePlaying->SendClientCommands(pPacket);
 }
 
-void CMultiplayer::SendInGameChatMessage(const WORD *pszType, const WORD *pszMessage)
+void CMultiplayer::SendInGameChatMessage(const wchar_t *pszType, const wchar_t *pszMessage)
 {
   if (eState == EMS_PLAYING)
   {
@@ -543,65 +542,6 @@ IServersList *CLanMultiplayer::CreateServersList()
   pServersList->Init();
 
   return pServersList;
-}
-
-// **********************************************************************
-// *CGameSpyMultiplayer*
-// **********************************************************************
-
-CGameSpyMultiplayer::CGameSpyMultiplayer() {}
-
-void CGameSpyMultiplayer::Init()
-{
-  SetChat(new CGameSpyPeerChat());
-
-  std::wstring wszUserName = GetGlobalWVar("Options.Multiplayer.GameSpyPlayerName", L"Noname");
-  if (wszUserName == L"Noname") wszUserName = NStr::ToUnicode(GetGlobalVar("Options.Multiplayer.PlayerName", "Noname"));
-
-  GetChat()->InitGSChat(wszUserName.c_str());
-  GetChat()->UserModeChanged(IChat::EUM_IN_SERVERS_LIST);
-  SetState(EMS_NONE);
-}
-
-IServersList *CGameSpyMultiplayer::CreateServersList()
-{
-  auto pServersList = new CGameSpyServersList();
-  pServersList->Init();
-
-  return pServersList;
-}
-
-bool CGameSpyMultiplayer::InitJoinToServer(const char *pszIPAddress, const int nHostPort, bool bPasswordRequired, const char *pszPassword)
-{
-  auto pServersList = new CGameSpyServersList();
-
-  INetNodeAddress *pAddress = CreateObject<INetNodeAddress>(NET_NODE_ADDRESS);
-  const int nPort = nHostPort == -1 ? SMultiplayerConsts::NET_PORT : nHostPort;
-  if (pAddress->SetInetName(pszIPAddress, nPort))
-  {
-    CPtr<IChat> pChat;
-    CPtr<IGameCreation> pGameCreation = pServersList->JoinToServerByAddress(pAddress, &pChat, nPort, bPasswordRequired, pszPassword);
-    if (pGameCreation)
-    {
-      SetGameCreation(pGameCreation);
-      SetChat(pChat);
-
-      pServersList = nullptr;
-      SetState(EMS_GAME_CREATION);
-
-      return true;
-    }
-    return false;
-  }
-  return false;
-}
-
-void CGameSpyMultiplayer::InitServersList()
-{
-  SetState(EMS_SERVERS_LIST);
-  SetServersList(CreateServersList());
-  GetChat()->DestroyInGameChat();
-  GetChat()->UserModeChanged(IChat::EUM_IN_SERVERS_LIST);
 }
 
 // **********************************************************************

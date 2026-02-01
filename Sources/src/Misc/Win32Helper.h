@@ -136,10 +136,10 @@ namespace NWin32Helper
     // NOTE: 2nd parameter are a fake - just for return template argument resolving (because of MSVC6.0 can't do it)
     // one can pass just a '(TProc)0' here
     template<class TProc>
-    TProc GetProcAddress(const char *pszProcName, TProc) { return IsLoaded() ? static_cast<TProc>(::GetProcAddress(handle, pszProcName)) : static_cast<TProc>(0); }
+    TProc GetProcAddress(const char *pszProcName, TProc) { return IsLoaded() ? reinterpret_cast<TProc>(::GetProcAddress(handle, pszProcName)) : static_cast<TProc>(0); }
 
     template<class TProc>
-    TProc GetProcAddress(int nProcID, TProc) { return IsLoaded() ? static_cast<TProc>(::GetProcAddress(handle, (const char *) nProcID)) : static_cast<TProc>(0); }
+    TProc GetProcAddress(int nProcID, TProc) { return IsLoaded() ? reinterpret_cast<TProc>(::GetProcAddress(handle, (const char *) nProcID)) : static_cast<TProc>(0); }
 
     // access & casting
     HMODULE GetHMdule() const { return handle; }

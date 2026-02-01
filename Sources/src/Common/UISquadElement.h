@@ -126,13 +126,13 @@ public:
 
 
   // text functions
-  void STDCALL SetWindowText(int nState, const WORD *pszText) override;
-  const WORD * STDCALL GetWindowText(int nState) override;
+  void STDCALL SetWindowText(int nState, const wchar_t *pszText) override;
+  const wchar_t *STDCALL GetWindowText(int nState) override;
   void STDCALL SetTextColor(DWORD dwColor) override;
 
   // tool tip functions
   interface IText * STDCALL GetHelpContext(const CVec2 &vPos, CTRect<float> *pRect) override;
-  void STDCALL SetHelpContext(int nState, const WORD *pszToolTipText) override;
+  void STDCALL SetHelpContext(int nState, const wchar_t *pszToolTipText) override;
 
   // state
   void STDCALL SetFocus(bool bFocus) override;

@@ -52,9 +52,9 @@ public:
   // use tempBuffer
   void STDCALL SetSelectionOption(const std::vector<SOptionDropListValue> &szSelections, int nDefault) override;
   void STDCALL SetSliderOption(int nMin, int nMax, int nDefault) override;
-  void STDCALL SetTextOption(const WORD *pszEntry) override;
+  void STDCALL SetTextOption(const wchar_t *pszEntry) override;
   void STDCALL SetTextNumericOption(int nEntry) override;
-  void STDCALL SetTextGameSpyOption(const WORD *pszEntry) override;
+  void STDCALL SetTextGameSpyOption(const wchar_t *pszEntry) override;
 
   void STDCALL ResetSelection() override;
   void STDCALL ResetSlider() override;
@@ -65,8 +65,8 @@ public:
   // interface IUIGetOptionsFromUI
   int STDCALL GetSelectionOption() const override;
   int STDCALL GetSliderOption() const override;
-  const WORD * STDCALL GetTextOption() const override;
-  const WORD * STDCALL GetTextGameSpyOption() const override;
+  const wchar_t * STDCALL GetTextOption() const override;
+  const wchar_t * STDCALL GetTextGameSpyOption() const override;
   const int STDCALL GetTextNumericOption() const override;
 };
 

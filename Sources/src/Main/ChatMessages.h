@@ -17,13 +17,13 @@ public:
 
   //
   CChatMessage() {}
-  CChatMessage(const WORD *pszMessage, const WORD *pszPlayerName, bool _bWhisper) : szPlayerName(pszPlayerName), szMessage(pszMessage), bWhisper(_bWhisper) {}
+  CChatMessage(const wchar_t *pszMessage, const wchar_t *pszPlayerName, bool _bWhisper) : szPlayerName(pszPlayerName), szMessage(pszMessage), bWhisper(_bWhisper) {}
   CChatMessage(const char *pszMessage, const char *pszPlayerName, bool _bWhisper);
 
   const EMultiplayerMessages GetMessageID() const override { return E_CHAT_MESSAGE; }
   void SendToUI() override;
 
-  const WORD *GetPlayerNick() const { return szPlayerName.c_str(); }
+  const wchar_t *GetPlayerNick() const { return szPlayerName.c_str(); }
 };
 
 class CSimpleChatMessage : public IMultiplayerMessage

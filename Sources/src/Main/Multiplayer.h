@@ -51,7 +51,7 @@ interface IMultiplayer : IRefCount
 
   virtual CCommand * STDCALL GetCommand() = 0;
   virtual void STDCALL SendClientCommands(IDataStream *pPacket) = 0;
-  virtual void STDCALL SendInGameChatMessage(const WORD *pszType, const WORD *pszMessage) = 0;
+  virtual void STDCALL SendInGameChatMessage(const wchar_t *pszType, const wchar_t *pszMessage) = 0;
 
   // valid onlye during of the game
   virtual int STDCALL GetNumberOfPlayers() const = 0;

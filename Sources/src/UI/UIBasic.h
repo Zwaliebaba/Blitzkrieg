@@ -105,13 +105,13 @@ public:
   virtual void STDCALL Reposition(const CTRect<float> &rcParent);
 
   // text
-  virtual void STDCALL SetWindowText(int nState, const WORD *pszText);
-  virtual const WORD * STDCALL GetWindowText(int nState);
+  virtual void STDCALL SetWindowText(int nState, const wchar_t *pszText);
+  virtual const wchar_t *STDCALL GetWindowText(int nState);
   virtual void STDCALL SetTextColor(DWORD dwColor);
 
   // tool tip functions
   virtual IText * STDCALL GetHelpContext(const CVec2 &vPos, CTRect<float> *pRect);
-  virtual void STDCALL SetHelpContext(int nState, const WORD *pszToolTipText);
+  virtual void STDCALL SetHelpContext(int nState, const wchar_t *pszToolTipText);
 
   // CRAP set texture
   virtual void STDCALL SetWindowTexture(IGFXTexture *pTexture);
@@ -188,6 +188,81 @@ public:
 
 class CMultipleWindow : public CSimpleWindow
 {
+public:
+  using CMessageList = std::list<SUIMessage>;
+
+  CMultipleWindow() : fMouseWheelMultiplyer(4.375f), bLua(false), bAnimation(false), bAnimationRunning(false), dwLastOpenTime(0),
+                      dwLastCloseTime(0), dwAnimationTime(200), nAnimationCmdShow(0), bModal(false) {}
+
+  // serializing...
+  int STDCALL operator&(IDataTree &ss) override;
+
+  // update
+  bool STDCALL Update(const NTimer::STime &currTime) override;
+  void STDCALL SetFocus(bool bFocus) override;
+  virtual void STDCALL SetFocusedWindow(IUIElement *pNewFocusWindow);
+  void STDCALL Reposition(const CTRect<float> &rcParent) override;
+  void STDCALL EnableWindow(bool bEnable) override;
+
+  // tool tip functions
+  IText *STDCALL GetHelpContext(const CVec2 &vPos, CTRect<float> *pRect) override;
+
+  // drawing
+  void STDCALL Draw(IGFX *pGFX) override;
+  void STDCALL Visit(interface ISceneVisitor *pVisitor) override;
+
+  // cursor and actions
+  bool STDCALL OnLButtonDblClk(const CVec2 &vPos) override;
+  bool STDCALL OnMouseMove(const CVec2 &vPos, EMouseState mouseState) override;
+  bool STDCALL OnLButtonDown(const CVec2 &vPos, EMouseState mouseState) override;
+  bool STDCALL OnLButtonUp(const CVec2 &vPos, EMouseState mouseState) override;
+  bool STDCALL OnRButtonDown(const CVec2 &vPos, EMouseState mouseState) override;
+  bool STDCALL OnRButtonUp(const CVec2 &vPos, EMouseState mouseState) override;
+  bool STDCALL OnMouseWheel(const CVec2 &vPos, EMouseState mouseState, float fDelta) override;
+  bool STDCALL OnChar(int nAsciiCode, int nVirtualKey, bool bPressed, DWORD keyState) override;
+
+  virtual void STDCALL AddChild(IUIElement *pSimple)
+  {
+    childList.push_front(pSimple);
+    auto pContainer = dynamic_cast<IUIContainer *>(this);
+    pSimple->SetParent(pContainer);
+  }
+
+  virtual void STDCALL RemoveChild(IUIElement *pSimple) { childList.remove(pSimple); }
+
+  virtual void STDCALL RemoveAllChildren() { childList.clear(); }
+
+  virtual IUIElement *STDCALL GetChildByID(int nChildID);
+  IUIElement *GetChildByIndex(int nIndex);
+
+  bool STDCALL IsModal() const override { return bModal; }
+
+  virtual void STDCALL MoveWindowUp(IUIElement *pWnd);
+  virtual void STDCALL MoveWindowDown(IUIElement *pWnd);
+  bool STDCALL ProcessMessage(const SUIMessage &msg) override;
+  void STDCALL ShowWindow(int _nCmdShow) override;
+  void STDCALL SetBoundRect(const CTRect<float> &rc) override;
+
+  IUIElement *STDCALL PickElement(const CVec2 &vPos, int nRecursion) override;
+
+  // For LUA work
+  static int AddMessage(lua_State *pLuaState);            // called from script
+  static int SaveLuaValue(lua_State *pLuaState);          // called from script
+  static int IsGameButtonProcessing(lua_State *pLuaState);// called from script
+
+  // for indoor use
+  void SetModalFlag(bool bFlag) { bModal = bFlag; }
+
+  bool GetModalFlag() { return bModal; }
+
+  void SetMouseWheelMultiplyer(float fVal) { fMouseWheelMultiplyer = fVal; }
+
+  float GetMouseWheelMultiplyer() { return fMouseWheelMultiplyer; }
+
+  // duplication
+  void CopyInternals(CMultipleWindow *pWnd);
+
+protected:
   DECLARE_SERIALIZE;
   //
   //
@@ -200,7 +275,6 @@ class CMultipleWindow : public CSimpleWindow
   CPtr<IUIElement> pRPushed;// right-click window
   CPtr<IUIElement> pFocused;// window with focus, when removing focus for an edit box, for example, TEXT_MODE is removed
 
-  using CMessageList = std::list<SUIMessage>;
   CMessageList messageList;
 
   // constant for mouse wheel support
@@ -250,72 +324,6 @@ protected:
   bool IsEmpty() { return childList.empty(); }
 
   CWindowList &GetChildList() { return childList; }
-
-public:
-  CMultipleWindow() : fMouseWheelMultiplyer(4.375f), bLua(false), bAnimation(false), bAnimationRunning(false), dwLastOpenTime(0),
-                      dwLastCloseTime(0), dwAnimationTime(200), nAnimationCmdShow(0), bModal(false) {}
-
-  // serializing...
-  int STDCALL operator&(IDataTree &ss) override;
-
-  // update
-  bool STDCALL Update(const NTimer::STime &currTime) override;
-  void STDCALL SetFocus(bool bFocus) override;
-  virtual void STDCALL SetFocusedWindow(IUIElement *pNewFocusWindow);
-  void STDCALL Reposition(const CTRect<float> &rcParent) override;
-  void STDCALL EnableWindow(bool bEnable) override;
-
-  // tool tip functions
-  IText * STDCALL GetHelpContext(const CVec2 &vPos, CTRect<float> *pRect) override;
-
-  // drawing
-  void STDCALL Draw(IGFX *pGFX) override;
-  void STDCALL Visit(interface ISceneVisitor *pVisitor) override;
-
-  // cursor and actions
-  bool STDCALL OnLButtonDblClk(const CVec2 &vPos) override;
-  bool STDCALL OnMouseMove(const CVec2 &vPos, EMouseState mouseState) override;
-  bool STDCALL OnLButtonDown(const CVec2 &vPos, EMouseState mouseState) override;
-  bool STDCALL OnLButtonUp(const CVec2 &vPos, EMouseState mouseState) override;
-  bool STDCALL OnRButtonDown(const CVec2 &vPos, EMouseState mouseState) override;
-  bool STDCALL OnRButtonUp(const CVec2 &vPos, EMouseState mouseState) override;
-  bool STDCALL OnMouseWheel(const CVec2 &vPos, EMouseState mouseState, float fDelta) override;
-  bool STDCALL OnChar(int nAsciiCode, int nVirtualKey, bool bPressed, DWORD keyState) override;
-
-  virtual void STDCALL AddChild(IUIElement *pSimple)
-  {
-    childList.push_front(pSimple);
-    auto pContainer = dynamic_cast<IUIContainer *>(this);
-    pSimple->SetParent(pContainer);
-  }
-
-  virtual void STDCALL RemoveChild(IUIElement *pSimple) { childList.remove(pSimple); }
-  virtual void STDCALL RemoveAllChildren() { childList.clear(); }
-  virtual IUIElement * STDCALL GetChildByID(int nChildID);
-  IUIElement *GetChildByIndex(int nIndex);
-  bool STDCALL IsModal() const override { return bModal; }
-
-  virtual void STDCALL MoveWindowUp(IUIElement *pWnd);
-  virtual void STDCALL MoveWindowDown(IUIElement *pWnd);
-  bool STDCALL ProcessMessage(const SUIMessage &msg) override;
-  void STDCALL ShowWindow(int _nCmdShow) override;
-  void STDCALL SetBoundRect(const CTRect<float> &rc) override;
-
-  IUIElement * STDCALL PickElement(const CVec2 &vPos, int nRecursion) override;
-
-  // For LUA work
-  static int AddMessage(lua_State *pLuaState);// called from script
-  static int SaveLuaValue(lua_State *pLuaState);// called from script
-  static int IsGameButtonProcessing(lua_State *pLuaState);// called from script
-
-  // for indoor use
-  void SetModalFlag(bool bFlag) { bModal = bFlag; }
-  bool GetModalFlag() { return bModal; }
-  void SetMouseWheelMultiplyer(float fVal) { fMouseWheelMultiplyer = fVal; }
-  float GetMouseWheelMultiplyer() { return fMouseWheelMultiplyer; }
-
-  // duplication
-  void CopyInternals(CMultipleWindow *pWnd);
 };
 
 #endif // __UIBASIC_H__
