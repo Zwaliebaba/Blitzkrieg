@@ -367,7 +367,6 @@ enum EMultiplayerConnectionType
 {
   EMCT_LAN,
   EMCT_INTERNET,
-  EMCT_GAMESPY,
   EMCT_NONE,
 };
 

@@ -20,9 +20,6 @@ void SCheats::Init()
   bTurnOffWarFog = false;
 
   bPasswordOK = false;
-
-  // only for debug purposes!
-  bPasswordOK = (GetGlobalVar("EnableCheats", 0) == 1);
 }
 
 SCheats::SCheats() { Init(); }

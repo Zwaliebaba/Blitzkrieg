@@ -140,12 +140,6 @@ void CInterfaceMPCreateGame::Create(const /* ECreateGameMode */ int eMode)
   pUIScreen->Reposition(pGFX->GetScreenRect());
   pScene->AddUIScreen(pUIScreen);
 
-  if (GetSingleton<IMPToUICommandManager>()->GetConnectionType() == EMCT_GAMESPY)
-  {
-    IUIElement *pGameSpyLogo = pUIScreen->GetChildByID(E_GAMESY_LOGO);
-    if (pGameSpyLogo) pGameSpyLogo->ShowWindow(UI_SW_SHOW);
-  }
-
   if (eMode == E_DELAYED_UPDATE) pCommandManager->SendDelayedNotification();
 }
 

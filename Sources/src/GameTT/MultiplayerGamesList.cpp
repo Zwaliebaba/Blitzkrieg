@@ -100,9 +100,6 @@ void CInterfaceMPGamesList::StartInterface()
     case EMCT_INTERNET:
       SetTutorialNumber(1);
       break;
-    case EMCT_GAMESPY:
-      SetTutorialNumber(2);
-      break;
   }
 
   // set caption:
@@ -121,14 +118,6 @@ void CInterfaceMPGamesList::StartInterface()
   auto pButtonChat = checked_cast<IUIButton *>(pUIScreen->GetChildByID(E_BUTTON_CHAT));
   switch (eConnType)
   {
-    case EMCT_GAMESPY:
-    {
-      IUIElement *pGameSpyLogo = pUIScreen->GetChildByID(E_GAMESY_LOGO);
-      if (pGameSpyLogo) pGameSpyLogo->ShowWindow(UI_SW_SHOW);
-      pButtonChat->ShowWindow(UI_SW_SHOW);
-    }
-
-    break;
     case EMCT_INTERNET:
       pButtonChat->ShowWindow(UI_SW_HIDE);
 

@@ -82,11 +82,6 @@ void CMultiPlayerTransceiver::Init(ISingleton *pSingleton, const int nMultiplaye
       if (GetGlobalVar("History.Playing", 0) == 0) RemoveGlobalVar("Multiplayer.InternetGame");
 
       break;
-    case EMCT_GAMESPY:
-      pMultiplayer = CreateObject<IMultiplayer>(GAMESPY_MULTIPLAYER);
-      if (GetGlobalVar("History.Playing", 0) == 0) SetGlobalVar("Multiplayer.InternetGame", 1);
-
-      break;
     case EMCT_INTERNET:
       pMultiplayer = CreateObject<IMultiplayer>(INTERNET_MULTIPLAYER);
       if (GetGlobalVar("History.Playing", 0) == 0) SetGlobalVar("Multiplayer.InternetGame", 1);

@@ -460,7 +460,7 @@ void ProcessCommandLine(LPSTR lpCmdLine, SCmdParams *pCmdParams)
   pCmdParams->nAutoSavePeriod = 0;
   pCmdParams->eTextureQuality = ITextureManager::TEXTURE_QUALITY_HIGH;
   pCmdParams->szMapName = "";
-  pCmdParams->szModName.c_str();
+  pCmdParams->szModName = "";
   //
   std::vector<std::string> szParams;
   NStr::SplitStringWithMultipleBrackets(lpCmdLine, szParams, ' ');
@@ -552,9 +552,6 @@ void ProcessCommandLine(LPSTR lpCmdLine, SCmdParams *pCmdParams)
       SetGlobalVar("DataDir", szDataDir.c_str());
     }
 #ifndef _FINALRELEASE
-    // for debug purposes!
-    else if (szParams[i].compare(0, 7, "-cheats") == 0) { SetGlobalVar("EnableCheats", 1); }
-    else if (szParams[i].compare(0, 9, "-numsaves") == 0) { SetGlobalVar("NumSaves", 1); }
     //
     else if (szParams[i][0] == '-')
     {

@@ -130,7 +130,7 @@ class CMatchNameFunctional
   const std::string &szMatchName;
 
 public:
-  CMatchNameFunctional(const std::string _szMatchName) : szMatchName(_szMatchName) {}
+  CMatchNameFunctional(const std::string &_szMatchName) : szMatchName(_szMatchName) {}
   //
   bool operator()(const std::string &szVarName) const { return szVarName.compare(0, szMatchName.size(), szMatchName) == 0; }
 };

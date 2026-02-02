@@ -24,7 +24,5 @@ struct SGlobalVarsSorter
 };
 
 using CGlobalVarsIterator = CTVarSystemIterator<CGlobalVars2, CTRefCount<IGlobalVarsIterator>, SGlobalVarsSorter>;
-/* class CGlobalVarsIterator : public CTVarSystemIterator<CGlobalVars2, CTRefCount<IGlobalVarsIterator>, SGlobalVarsSorter>
- */
 
 #endif // __GLOBALVARSINTERNAL_H__

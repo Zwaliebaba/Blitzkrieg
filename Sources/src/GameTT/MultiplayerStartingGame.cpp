@@ -66,18 +66,6 @@ int CICMultyplayerStartingGame::operator&(IStructureSaver &ss)
 }
 
 // /////////////////////////////////////////////////////////////////
-int CICGameSpyClientConnect::operator&(IStructureSaver &ss)
-{
-  CSaverAccessor saver = &ss;
-
-  saver.Add(1, &szIPAdress);
-  saver.Add(2, &bPasswordRequired);
-  saver.Add(3, &szPassword);
-
-  return 0;
-}
-
-// /////////////////////////////////////////////////////////////////
 bool CInterfaceMPStartingGame::Init()
 {
   CInterfaceMultiplayerScreen::Init();
@@ -115,12 +103,6 @@ void CInterfaceMPStartingGame::StartInterface()
   bServerconfiguration = false;
   pUIScreen->Reposition(pGFX->GetScreenRect());
   pScene->AddUIScreen(pUIScreen);
-
-  if (GetSingleton<IMPToUICommandManager>()->GetConnectionType() == EMCT_GAMESPY)
-  {
-    IUIElement *pGameSpyLogo = pUIScreen->GetChildByID(E_GAMESY_LOGO);
-    if (pGameSpyLogo) pGameSpyLogo->ShowWindow(UI_SW_SHOW);
-  }
 }
 
 void CInterfaceMPStartingGame::AddMessageToChat(const SChatMessage *pChatMessage) { chat.AddMessageToChat(pChatMessage); }
