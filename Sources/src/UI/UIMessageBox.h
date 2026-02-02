@@ -18,14 +18,14 @@ public:
   CUIMessageBox() : pOK(nullptr), pCancel(nullptr), pText(nullptr), m_nResult(0), m_nType(0) {}
   ~CUIMessageBox() override {}
 
-  void STDCALL ShowWindow(int _nCmdShow) override;
-  bool STDCALL ProcessMessage(const SUIMessage &msg) override;
+  void ShowWindow(int _nCmdShow) override;
+  bool ProcessMessage(const SUIMessage &msg) override;
 
   // serializing...
-  int STDCALL operator&(IDataTree &ss) override;
+  int operator&(IDataTree &ss) override;
 
   void SetMessageBoxType(int nType);
-  void STDCALL SetWindowText(int nState, const wchar_t *pszText) override;
+  void SetWindowText(int nState, const wchar_t *pszText) override;
 
   int GetResult() { return m_nResult; }
 };
@@ -37,8 +37,8 @@ class CUIMessageBoxBridge : public IUIContainer, public CUIMessageBox
 
 public:
   DEFINE_UICONTAINER_BRIDGE;
-  virtual void STDCALL SetMessageBoxType(int nType) { CSuper::SetMessageBoxType(nType); }
-  virtual int STDCALL GetResult() { return CSuper::GetResult(); }
+  virtual void SetMessageBoxType(int nType) { CSuper::SetMessageBoxType(nType); }
+  virtual int GetResult() { return CSuper::GetResult(); }
 };
 
 #endif		// __UI_MESSAGE_BOX_H__

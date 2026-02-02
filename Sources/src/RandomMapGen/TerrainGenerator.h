@@ -61,7 +61,7 @@ struct SfBmValues
     return *this;
   }
 
-  virtual int STDCALL operator&(IStructureSaver &ss)
+  virtual int operator&(IStructureSaver &ss)
   {
     CSaverAccessor saver = &ss;
 
@@ -78,7 +78,7 @@ struct SfBmValues
     return 0;
   }
 
-  virtual int STDCALL operator&(IDataTree &ss)
+  virtual int operator&(IDataTree &ss)
   {
     CTreeAccessor saver = &ss;
 

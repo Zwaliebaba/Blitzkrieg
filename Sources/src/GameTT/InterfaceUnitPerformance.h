@@ -19,7 +19,7 @@ class CInterfaceUnitPerformance : public CInterfaceInterMission
   int nPlayerUnits;
   int nTotalNumUnits;
   //
-  bool STDCALL ProcessMessage(const SGameMessage &msg) override;
+  bool ProcessMessage(const SGameMessage &msg) override;
   ~CInterfaceUnitPerformance() override {}
 
   void PrepairShortcutBar();
@@ -30,9 +30,9 @@ protected:
                                 /* bDisableGetFocus( true ), */ nPlayerUnits(0), nTotalNumUnits(0) {}
 
 public:
-  bool STDCALL Init() override;
-  void STDCALL StartInterface() override;
-  void STDCALL OnGetFocus(bool bFocus) override;
+  bool Init() override;
+  void StartInterface() override;
+  void OnGetFocus(bool bFocus) override;
 };
 
 class CICUnitPerformance : public CInterfaceCommandBase<CInterfaceUnitPerformance, MISSION_INTERFACE_UNIT_PERFORMANCE>
@@ -51,7 +51,7 @@ class CICUnitPerformance : public CInterfaceCommandBase<CInterfaceUnitPerformanc
   CICUnitPerformance() {}
 
 public:
-  void STDCALL Configure(const char *pszConfig) override {}
+  void Configure(const char *pszConfig) override {}
 };
 
 #endif // __INTERFACEUNITPerformance_H__

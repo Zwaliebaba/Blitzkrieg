@@ -166,10 +166,10 @@ public:
     : pRegister(_pRegister), szRegister(pszRegisterName) {}
 
   //
-  IManipulatorIterator * STDCALL Iterate() override;
-  const SPropertyDesc * STDCALL GetPropertyDesc(const char *pszName) override;
-  bool STDCALL GetValue(const char *pszValueName, variant_t *pValue) override;
-  bool STDCALL SetValue(const char *pszValueName, const variant_t &value) override;
+  IManipulatorIterator * Iterate() override;
+  const SPropertyDesc * GetPropertyDesc(const char *pszName) override;
+  bool GetValue(const char *pszValueName, variant_t *pValue) override;
+  bool SetValue(const char *pszValueName, const variant_t &value) override;
 };
 
 class CManipulatorIterator : public IManipulatorIterator
@@ -217,15 +217,15 @@ public:
     }
   }
 
-  bool STDCALL Next() override
+  bool Next() override
   {
     pDescLocal = GetNextProperty();
     return !IsEnd();
   }
 
-  bool STDCALL IsEnd() const override { return (itProps == pProperties->end()) || (pDescLocal == nullptr); }
+  bool IsEnd() const override { return (itProps == pProperties->end()) || (pDescLocal == nullptr); }
 
-  const SPropertyDesc * STDCALL GetPropertyDesc() const override
+  const SPropertyDesc * GetPropertyDesc() const override
   {
     if ((pProperties == nullptr) || (itProps == pProperties->end())) return nullptr;
     //
@@ -276,9 +276,9 @@ public:
     : bPropsAlreadyBuilt(false) {}
 
   // begin to iterate through all properties
-  IManipulatorIterator * STDCALL Iterate() override;
+  IManipulatorIterator * Iterate() override;
   // get property descriptor by name
-  const SPropertyDesc * STDCALL GetPropertyDesc(const char *pszName) override
+  const SPropertyDesc * GetPropertyDesc(const char *pszName) override
   {
     // CRAP { needs to be done differently...
     CPropsMap::const_iterator pos = propsMap.find(pszName);
@@ -288,23 +288,23 @@ public:
   }
 
   // retrieve value. 
-  bool STDCALL GetValue(const char *pszValueName, variant_t *pValue) override;
+  bool GetValue(const char *pszValueName, variant_t *pValue) override;
   // set value. 
-  bool STDCALL SetValue(const char *pszValueName, const variant_t &value) override
+  bool SetValue(const char *pszValueName, const variant_t &value) override
   {
     for (auto it = manipulators.begin(); it != manipulators.end(); ++it) (*it)->SetValue(pszValueName, value);
     return true;
   }
 
   // remove all manipulators
-  void STDCALL Clear() override
+  void Clear() override
   {
     manipulators.clear();
     propsMap.clear();
   }
 
   // add new manipulator
-  void STDCALL AddManipulator(IManipulator *pMan) override;
+  void AddManipulator(IManipulator *pMan) override;
 };
 
 class CMultiManipulatorIterator : public IManipulatorIterator
@@ -318,16 +318,16 @@ public:
   CMultiManipulatorIterator(CMultiManipulator *_pManipulator)
     : pManipulator(_pManipulator) { if (pManipulator) itProp = pManipulator->propsList.begin(); }
 
-  bool STDCALL Next() override
+  bool Next() override
   {
     if ((pManipulator == nullptr) || (itProp == pManipulator->propsList.end())) return false;
     ++itProp;
     return !IsEnd();
   }
 
-  bool STDCALL IsEnd() const override { return itProp == pManipulator->propsList.end(); }
+  bool IsEnd() const override { return itProp == pManipulator->propsList.end(); }
 
-  const SPropertyDesc * STDCALL GetPropertyDesc() const override
+  const SPropertyDesc * GetPropertyDesc() const override
   {
     propDesc.pszName = (*itProp)->szName.c_str();
     propDesc.ePropType = (*itProp)->ePropType;

@@ -62,7 +62,7 @@
 #include "../GameTT/InterfaceMPAddressBook.h"
 
 CMissionObjectFactory theMissionObjectFactory;
-IObjectFactory * STDCALL GetMissionObjectFactory() { return &theMissionObjectFactory; }
+IObjectFactory * GetMissionObjectFactory() { return &theMissionObjectFactory; }
 
 CMissionObjectFactory::CMissionObjectFactory()
 {
@@ -224,4 +224,4 @@ CMissionObjectFactory::CMissionObjectFactory()
 // ************************************************************************************************************************ //
 
 static SModuleDescriptor theModuleDescriptor("Main game logic", MISSION_BASE_VALUE, 0x0100, &theMissionObjectFactory, nullptr);
-const SModuleDescriptor * STDCALL GetModuleDescriptor() { return &theModuleDescriptor; }
+const SModuleDescriptor * GetModuleDescriptor() { return &theModuleDescriptor; }

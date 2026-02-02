@@ -21,7 +21,7 @@ class CInterfaceOptionsSettings : public CInterfaceInterMission
   // input
   NInput::CCommandRegistrator commandMsgs;
   //
-  bool STDCALL ProcessMessage(const SGameMessage &msg) override;
+  bool ProcessMessage(const SGameMessage &msg) override;
 
   ~CInterfaceOptionsSettings() override {}
   CInterfaceOptionsSettings() : CInterfaceInterMission(/* "InterMission" */"Current"), nActive(-1), nMaxDivision(0) {}
@@ -32,8 +32,8 @@ class CInterfaceOptionsSettings : public CInterfaceInterMission
   bool OpenCurtains() override;
 
 public:
-  void STDCALL Done() override;
-  bool STDCALL Init() override;
+  void Done() override;
+  bool Init() override;
   void Create();
 
 };
@@ -54,7 +54,7 @@ class CICOptionsSettings : public CInterfaceCommandBase<CInterfaceOptionsSetting
   CICOptionsSettings() {}
 
 public:
-  void STDCALL Configure(const char *pszConfig) override {}
+  void Configure(const char *pszConfig) override {}
 };
 
 #endif // __INTERFACEOPTIONSSETTINGS_H__

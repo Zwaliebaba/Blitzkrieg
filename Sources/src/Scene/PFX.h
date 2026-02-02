@@ -44,30 +44,30 @@ struct SSimpleParticle
 interface IParticleSource : IRefCount
 {
   // data retrieving for rendering
-  virtual interface IGFXTexture * STDCALL GetTexture() const = 0;
-  virtual const int STDCALL GetNumParticles() const = 0;
-  virtual void STDCALL FillParticleBuffer(SSimpleParticle *buff) const = 0;
+  virtual interface IGFXTexture * GetTexture() const = 0;
+  virtual const int GetNumParticles() const = 0;
+  virtual void FillParticleBuffer(SSimpleParticle *buff) const = 0;
   // position/direction
-  virtual const CVec3 STDCALL GetPos() const = 0;
-  virtual void STDCALL SetPos(const CVec3 &vPos) = 0;
-  virtual const CVec3 STDCALL GetDirection() const = 0;
-  virtual void STDCALL SetDirection(const SHMatrix &mDir) = 0;
-  virtual void STDCALL SetScale(float _fScale) = 0;
+  virtual const CVec3 GetPos() const = 0;
+  virtual void SetPos(const CVec3 &vPos) = 0;
+  virtual const CVec3 GetDirection() const = 0;
+  virtual void SetDirection(const SHMatrix &mDir) = 0;
+  virtual void SetScale(float _fScale) = 0;
   // update and work with time
-  virtual void STDCALL Update(const NTimer::STime &time) = 0;
-  virtual void STDCALL SetStartTime(const NTimer::STime &time) = 0;
-  virtual const NTimer::STime STDCALL GetStartTime() const = 0;
-  virtual const NTimer::STime STDCALL GetEffectLifeTime() const = 0;
-  virtual bool STDCALL IsFinished() const = 0;
-  virtual float STDCALL GetArea() const = 0;
-  virtual void STDCALL Stop() = 0;
-  virtual int STDCALL GetOptimalUpdateTime() const = 0;
-  virtual void STDCALL SetSuspendedState(bool bState) = 0;
+  virtual void Update(const NTimer::STime &time) = 0;
+  virtual void SetStartTime(const NTimer::STime &time) = 0;
+  virtual const NTimer::STime GetStartTime() const = 0;
+  virtual const NTimer::STime GetEffectLifeTime() const = 0;
+  virtual bool IsFinished() const = 0;
+  virtual float GetArea() const = 0;
+  virtual void Stop() = 0;
+  virtual int GetOptimalUpdateTime() const = 0;
+  virtual void SetSuspendedState(bool bState) = 0;
 };
 
 interface IParticleSourceWithInfo
 {
-  virtual void STDCALL GetInfo(SParticleSourceInfo &info) = 0;
+  virtual void GetInfo(SParticleSourceInfo &info) = 0;
 };
 
 interface IParticleManager : ISharedManager
@@ -76,10 +76,10 @@ interface IParticleManager : ISharedManager
   enum { tidTypeID = PFX_MANAGER };
 
   //
-  virtual IParticleSource * STDCALL GetKeyBasedSource(const char *pszName) = 0;
-  virtual IParticleSource * STDCALL GetSmokinParticleSource(const char *pszName) = 0;
+  virtual IParticleSource * GetKeyBasedSource(const char *pszName) = 0;
+  virtual IParticleSource * GetSmokinParticleSource(const char *pszName) = 0;
   //
-  virtual void STDCALL SetQuality(float fQuality) = 0;
+  virtual void SetQuality(float fQuality) = 0;
 };
 
 #endif // __PFX_H__

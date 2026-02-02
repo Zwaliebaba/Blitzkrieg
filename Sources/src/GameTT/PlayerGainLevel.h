@@ -12,14 +12,14 @@ class CInterfacePlayerGainLevel : public CInterfaceInterMission
   // input
   NInput::CCommandRegistrator commandMsgs;
   //
-  bool STDCALL ProcessMessage(const SGameMessage &msg) override;
+  bool ProcessMessage(const SGameMessage &msg) override;
   // disable explicit destruction
   ~CInterfacePlayerGainLevel() override;
   CInterfacePlayerGainLevel() : CInterfaceInterMission("Current") {}
 
 public:
-  bool STDCALL Init() override;
-  void STDCALL StartInterface() override;
+  bool Init() override;
+  void StartInterface() override;
 };
 
 class CICPlayerGainLevel : public CInterfaceCommandBase<CInterfacePlayerGainLevel, MISSION_INTERFACE_PLAYER_GAIN_LEVEL>

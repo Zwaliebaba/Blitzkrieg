@@ -29,7 +29,7 @@ public:
   //
   bool NeedToBeStored() const override { return true; }
 
-  int STDCALL operator&(IDataTree &ss) override;
+  int operator&(IDataTree &ss) override;
 };
 
 class CUnregisterGroupCommand : public IAILogicCommand
@@ -53,7 +53,7 @@ public:
   //
   bool NeedToBeStored() const override { return true; }
 
-  int STDCALL operator&(IDataTree &ss) override;
+  int operator&(IDataTree &ss) override;
 };
 
 class CGroupCommand : public IAILogicCommand
@@ -80,7 +80,7 @@ public:
   //
   bool NeedToBeStored() const override { return true; }
 
-  int STDCALL operator&(IDataTree &ss) override;
+  int operator&(IDataTree &ss) override;
 };
 
 class CUnitCommand : public IAILogicCommand
@@ -106,7 +106,7 @@ public:
   //
   bool NeedToBeStored() const override { return true; }
 
-  int STDCALL operator&(IDataTree &ss) override;
+  int operator&(IDataTree &ss) override;
 };
 
 class CShowAreasCommand : public IAILogicCommand
@@ -135,7 +135,7 @@ public:
   //
   bool NeedToBeStored() const override { return true; }
 
-  int STDCALL operator&(IDataTree &ss) override;
+  int operator&(IDataTree &ss) override;
 };
 
 class CControlSumCheckCommand : public IAILogicCommand
@@ -170,7 +170,7 @@ public:
   static void Check(int nOurNumber);
   static void Init(WORD wMask);
 
-  int STDCALL operator&(IDataTree &ss) override;
+  int operator&(IDataTree &ss) override;
 };
 
 class CDropPlayerCommand : public IAILogicCommand
@@ -197,7 +197,7 @@ public:
   bool NeedToBeStored() const override { return true; }
 
   // to serialize it in XML
-  int STDCALL operator&(IDataTree &ss) override;
+  int operator&(IDataTree &ss) override;
 };
 
 #endif // __AI_LOGIC_COMMAND_INTERNAL_H__

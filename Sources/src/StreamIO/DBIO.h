@@ -22,34 +22,34 @@ enum EDataBaseType
 interface IDataTable : IRefCount
 {
   // get table row names. 
-  virtual int STDCALL GetRowNames(char *pszBuffer, int nBufferSize) = 0;
+  virtual int GetRowNames(char *pszBuffer, int nBufferSize) = 0;
   // get the names of table columns in a given row. 
-  virtual int STDCALL GetEntryNames(const char *pszRow, char *pszBuffer, int nBufferSize) = 0;
+  virtual int GetEntryNames(const char *pszRow, char *pszBuffer, int nBufferSize) = 0;
   // section cleaning
-  virtual void STDCALL ClearRow(const char *pszRowName) = 0;
+  virtual void ClearRow(const char *pszRowName) = 0;
   // complete element access
   // get
-  virtual int STDCALL GetInt(const char *pszRow, const char *pszEntry, int defval) = 0;
-  virtual double STDCALL GetDouble(const char *pszRow, const char *pszEntry, double defval) = 0;
-  virtual const char * STDCALL GetString(const char *pszRow, const char *pszEntry, const char *defval, char *pszBuffer, int nBufferSize) = 0;
-  virtual int STDCALL GetRawData(const char *pszRow, const char *pszEntry, void *pBuffer, int nBufferSize) = 0;
+  virtual int GetInt(const char *pszRow, const char *pszEntry, int defval) = 0;
+  virtual double GetDouble(const char *pszRow, const char *pszEntry, double defval) = 0;
+  virtual const char * GetString(const char *pszRow, const char *pszEntry, const char *defval, char *pszBuffer, int nBufferSize) = 0;
+  virtual int GetRawData(const char *pszRow, const char *pszEntry, void *pBuffer, int nBufferSize) = 0;
   // set
-  virtual void STDCALL SetInt(const char *pszRow, const char *pszEntry, int val) = 0;
-  virtual void STDCALL SetDouble(const char *pszRow, const char *pszEntry, double val) = 0;
-  virtual void STDCALL SetString(const char *pszRow, const char *pszEntry, const char *val) = 0;
-  virtual void STDCALL SetRawData(const char *pszRow, const char *pszEntry, const void *pBuffer, int nBufferSize) = 0;
+  virtual void SetInt(const char *pszRow, const char *pszEntry, int val) = 0;
+  virtual void SetDouble(const char *pszRow, const char *pszEntry, double val) = 0;
+  virtual void SetString(const char *pszRow, const char *pszEntry, const char *val) = 0;
+  virtual void SetRawData(const char *pszRow, const char *pszEntry, const void *pBuffer, int nBufferSize) = 0;
 };
 
 interface IDataBase : IRefCount
 {
   // create and open a table with the specified name and access rights
-  virtual IDataTable * STDCALL CreateTable(const char *pszName, DWORD dwAccessMode) = 0;
+  virtual IDataTable * CreateTable(const char *pszName, DWORD dwAccessMode) = 0;
   // open an existing table with the specified name and access rights
-  virtual IDataTable * STDCALL OpenTable(const char *pszName, DWORD dwAccessMode) = 0;
+  virtual IDataTable * OpenTable(const char *pszName, DWORD dwAccessMode) = 0;
   // kill storage element
-  virtual bool STDCALL DestroyElement(const char *pszName) = 0;
+  virtual bool DestroyElement(const char *pszName) = 0;
   // rename element
-  virtual bool STDCALL RenameElement(const char *pszOldName, const char *pszNewName) = 0;
+  virtual bool RenameElement(const char *pszOldName, const char *pszNewName) = 0;
 };
 
 

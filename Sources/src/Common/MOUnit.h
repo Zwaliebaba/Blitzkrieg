@@ -100,56 +100,56 @@ protected:
 public:
   CMOUnit();
   //
-  void STDCALL PrepareToRemove() override {}
+  void PrepareToRemove() override {}
   // check, is this object selected?
-  bool STDCALL IsSelected() const override { return pVisObj->GetSelectionState() == SGVOSS_SELECTED; }
+  bool IsSelected() const override { return pVisObj->GetSelectionState() == SGVOSS_SELECTED; }
   // placement
-  void STDCALL SetPlacement(const CVec3 &vPos, const WORD &wDir) override;
-  void STDCALL GetPlacement(CVec3 *pvPos, WORD *pwDir) override;
+  void SetPlacement(const CVec3 &vPos, const WORD &wDir) override;
+  void GetPlacement(CVec3 *pvPos, WORD *pwDir) override;
   // stats functions
-  const SGDBObjectDesc * STDCALL GetDesc() const override { return pDesc; }
-  const SHPObjectRPGStats * STDCALL GetRPG() const override { return pRPG; }
+  const SGDBObjectDesc * GetDesc() const override { return pDesc; }
+  const SHPObjectRPGStats * GetRPG() const override { return pRPG; }
   // AI object retrieving
-  IRefCount * STDCALL GetAIObj() override { return pAIObj; }
-  IRefCount * STDCALL GetParentAIObj() override { return pContainer; }
+  IRefCount * GetAIObj() override { return pAIObj; }
+  IRefCount * GetParentAIObj() override { return pContainer; }
   // get status for mission status bar
-  void STDCALL GetStatus(struct SMissionStatusObject *pStatus) const override;
+  void GetStatus(struct SMissionStatusObject *pStatus) const override;
   // is unit visible?
-  const bool STDCALL IsVisible() const override { return IsVisibleLocal(); }
+  const bool IsVisible() const override { return IsVisibleLocal(); }
   // assign selection group
-  void STDCALL AssignSelectionGroup(int nGroupID) override;
+  void AssignSelectionGroup(int nGroupID) override;
   // load unit onboard or unload it
-  void STDCALL SetContainer(IMOContainer *_pContainer) override
+  void SetContainer(IMOContainer *_pContainer) override
   {
     pContainer = _pContainer;
     if (pContainer == nullptr) static_cast_ptr<IObjVisObj *>(pVisObj)->SetVisible(IsVisibleLocal());
     else static_cast_ptr<IObjVisObj *>(pVisObj)->SetVisible(false);
   }
 
-  IMOContainer * STDCALL GetContainer() const override { return pContainer; }
-  void STDCALL SetSquad(interface IMOSquad *pSquad) override {}
-  interface IMOSquad * STDCALL GetSquad() override { return nullptr; }
+  IMOContainer * GetContainer() const override { return pContainer; }
+  void SetSquad(interface IMOSquad *pSquad) override {}
+  interface IMOSquad * GetSquad() override { return nullptr; }
   // common updates
-  void STDCALL AIUpdatePlacement(const struct SAINotifyPlacement &placement, const NTimer::STime &currTime, IScene *pScene) override;
-  bool STDCALL AIUpdateDiplomacy(const struct SAINotifyDiplomacy &diplomacy) override;
+  void AIUpdatePlacement(const struct SAINotifyPlacement &placement, const NTimer::STime &currTime, IScene *pScene) override;
+  bool AIUpdateDiplomacy(const struct SAINotifyDiplomacy &diplomacy) override;
   // unit's update
-  int STDCALL AIUpdateActions(const struct SAINotifyAction &action, const NTimer::STime &currTime, IVisObjBuilder *pVOB, IScene *pScene, interface IClientAckManager *pAckManager) override;
-  void STDCALL AIUpdateAcknowledgement(EUnitAckType eAck, IClientAckManager *pAckManager, int nSet) override;
-  void STDCALL AIUpdateBoredAcknowledgement(const SAIBoredAcknowledgement &ack, IClientAckManager *pAckManager) override;
-  void STDCALL SendAcknowledgement(interface IClientAckManager *pAckManager, EUnitAckType eAckType, int nSet) override;
+  int AIUpdateActions(const struct SAINotifyAction &action, const NTimer::STime &currTime, IVisObjBuilder *pVOB, IScene *pScene, interface IClientAckManager *pAckManager) override;
+  void AIUpdateAcknowledgement(EUnitAckType eAck, IClientAckManager *pAckManager, int nSet) override;
+  void AIUpdateBoredAcknowledgement(const SAIBoredAcknowledgement &ack, IClientAckManager *pAckManager) override;
+  void SendAcknowledgement(interface IClientAckManager *pAckManager, EUnitAckType eAckType, int nSet) override;
   // general update. 
-  bool STDCALL Update(const NTimer::STime &currTime) override { return true; }
+  bool Update(const NTimer::STime &currTime) override { return true; }
   // unit's updates
-  void STDCALL AIUpdateAiming(const struct AIUpdateAiming &aiming) override {}
+  void AIUpdateAiming(const struct AIUpdateAiming &aiming) override {}
   // CRAP{ for animations testing
-  void STDCALL AddAnimation(const SUnitBaseRPGStats::SAnimDesc *pDesc) override {}
+  void AddAnimation(const SUnitBaseRPGStats::SAnimDesc *pDesc) override {}
   // CRAP}
-  void STDCALL RemoveSounds(interface IScene *pScene) override {}
+  void RemoveSounds(interface IScene *pScene) override {}
   // retrieve localized name
-  interface IText * STDCALL GetLocalName() const override { return GetLocalNameLocal(); }
+  interface IText * GetLocalName() const override { return GetLocalNameLocal(); }
   // set icon update hook
-  void STDCALL SetObserver(IUnitStateObserver *pObserver) override;
-  int STDCALL GetPlayerIndex() const override { return nPlayerIndex; };
+  void SetObserver(IUnitStateObserver *pObserver) override;
+  int GetPlayerIndex() const override { return nPlayerIndex; };
 };
 
 #endif // __MOUNIT_H__

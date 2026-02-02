@@ -26,19 +26,19 @@ extern "C"
 
 /* ----------------------------------------------------------------------
  */
-DWORD STDCALL SetDiagAssertOptions(DWORD dwOpts);
+DWORD SetDiagAssertOptions(DWORD dwOpts);
 
 /* ----------------------------------------------------------------------
  */
-BOOL STDCALL AddDiagAssertModule(HMODULE hMod);
+BOOL AddDiagAssertModule(HMODULE hMod);
 
 /* ----------------------------------------------------------------------
  */
-BOOL STDCALL DiagAssert(DWORD dwOverrideOpts, LPCTSTR szMsg, LPCSTR szFile, DWORD dwLine);
+BOOL DiagAssert(DWORD dwOverrideOpts, LPCTSTR szMsg, LPCSTR szFile, DWORD dwLine);
 
 /* ----------------------------------------------------------------------
  */
-void STDCALL DiagOutput(LPCTSTR szFmt, ...);
+void DiagOutput(LPCTSTR szFmt, ...);
 
 /* ////////////////////////////////////////////////////////////////////
                             */

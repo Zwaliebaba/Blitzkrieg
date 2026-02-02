@@ -50,9 +50,9 @@ struct SGDBObjectDesc : IGDBObject
   EObjVisType eVisType;// visualization type (sprite/mesh/particles/etc.)
   EObjGameType eGameType;// game type (unit/building/object/effect/etc.)
   //
-  const char * STDCALL GetName() const override { return szKey.c_str(); }
-  const char * STDCALL GetParentName() const override { return "Desc"; }
-  const uLong STDCALL GetCheckSum() const override { return 0L; }
+  const char * GetName() const override { return szKey.c_str(); }
+  const char * GetParentName() const override { return "Desc"; }
+  const uLong GetCheckSum() const override { return 0L; }
   //
   bool IsObj() const { return (eGameType == SGVOGT_UNIT) || (eGameType == SGVOGT_BUILDING) || (eGameType == SGVOGT_OBJECT) || (eGameType == SGVOGT_FENCE) || (eGameType == SGVOGT_ENTRENCHMENT) || (eGameType == SGVOGT_FORTIFICATION); }
   bool IsHuman() const { return (eGameType == SGVOGT_UNIT) && (eVisType == SGVOT_SPRITE); }
@@ -87,23 +87,23 @@ interface IObjectsDB : IGDB
   };
 
   //
-  const IGDBObject * STDCALL Get(const char *pszName, const char *pszParentName) override = 0;
-  virtual const SGDBObjectDesc * STDCALL GetDesc(int nIndex) const = 0;
-  virtual const SGDBObjectDesc * STDCALL GetDesc(const char *pszName) const = 0;
-  virtual int STDCALL GetIndex(const SGDBObjectDesc *pObject) const = 0;
-  virtual int STDCALL GetIndex(const char *pszName) const = 0;
-  virtual int STDCALL GetNumDescs() const = 0;
-  virtual const SGDBObjectDesc * STDCALL GetAllDescs() const = 0;
+  const IGDBObject * Get(const char *pszName, const char *pszParentName) override = 0;
+  virtual const SGDBObjectDesc * GetDesc(int nIndex) const = 0;
+  virtual const SGDBObjectDesc * GetDesc(const char *pszName) const = 0;
+  virtual int GetIndex(const SGDBObjectDesc *pObject) const = 0;
+  virtual int GetIndex(const char *pszName) const = 0;
+  virtual int GetNumDescs() const = 0;
+  virtual const SGDBObjectDesc * GetAllDescs() const = 0;
   // additional object info retrieving
-  virtual const IGDBObject * STDCALL GetRPGStats(const IGDBObject *pObject) = 0;
-  virtual const IGDBObject * STDCALL GetAddStats(const char *pszName, EAddStatsType type) = 0;
-  virtual const IGDBObject * STDCALL GetGameStats(const char *pszName, EGameStatsType type) = 0;
-  virtual const IGDBObject * STDCALL GetExpLevels(int nUnitType) const = 0;
+  virtual const IGDBObject * GetRPGStats(const IGDBObject *pObject) = 0;
+  virtual const IGDBObject * GetAddStats(const char *pszName, EAddStatsType type) = 0;
+  virtual const IGDBObject * GetGameStats(const char *pszName, EGameStatsType type) = 0;
+  virtual const IGDBObject * GetExpLevels(int nUnitType) const = 0;
   //
-  virtual bool STDCALL LoadDB() = 0;
+  virtual bool LoadDB() = 0;
 };
 
-IObjectsDB * STDCALL CreateObjectsDB();
+IObjectsDB * CreateObjectsDB();
 
 namespace NGDB
 {

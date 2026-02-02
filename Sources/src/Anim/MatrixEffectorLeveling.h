@@ -20,11 +20,11 @@ class CMatrixEffectorLeveling : public IMatrixEffector
   CMatrixEffectorLeveling();
 
 public:
-  void STDCALL SetupTimes(const NTimer::STime &_timeStart, const NTimer::STime &_timeLife) override {}
-  virtual void STDCALL SetupData(const CVec3 &vNormale, const NTimer::STime &currTime);
-  bool STDCALL Update(const NTimer::STime &time) override;
-  const SHMatrix & STDCALL GetMatrix() const override { return matResult; }
-  virtual const CVec3 & STDCALL GetNormal() const { return vDesiredNormale; }
+  void SetupTimes(const NTimer::STime &_timeStart, const NTimer::STime &_timeLife) override {}
+  virtual void SetupData(const CVec3 &vNormale, const NTimer::STime &currTime);
+  bool Update(const NTimer::STime &time) override;
+  const SHMatrix & GetMatrix() const override { return matResult; }
+  virtual const CVec3 & GetNormal() const { return vDesiredNormale; }
 };
 
 // //////////////////////////////////////////////////////////// 

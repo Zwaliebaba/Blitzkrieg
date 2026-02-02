@@ -15,17 +15,17 @@ class CBasicObjectFactory : public IObjectFactory
 
 public:
   // create an object by its typeID
-  IRefCount * STDCALL CreateObject(int nTypeID) override;
+  IRefCount * CreateObject(int nTypeID) override;
   // register type
-  void STDCALL RegisterType(int nObjectTypeID, ObjectFactoryNewFunc newFunc) override;
+  void RegisterType(int nObjectTypeID, ObjectFactoryNewFunc newFunc) override;
   // aggregate another factory inside this one (re-register its objects to this factory)
-  void STDCALL Aggregate(IObjectFactory *pFactory) override;
+  void Aggregate(IObjectFactory *pFactory) override;
   // get the number of object types that this factory (+ all aggregated in it) can create
-  int STDCALL GetNumKnownTypes() override { return newfuncs.size(); }
+  int GetNumKnownTypes() override { return newfuncs.size(); }
   // get type info of objects that this factory (+ all aggregated in it) can create
-  void STDCALL GetKnownTypes(SObjectFactoryTypeInfo *pInfoBuffer, int nBufferSize) override;
+  void GetKnownTypes(SObjectFactoryTypeInfo *pInfoBuffer, int nBufferSize) override;
   // get the typeID of an object by a pointer to it
-  int STDCALL GetObjectTypeID(IRefCount *pObj) const override
+  int GetObjectTypeID(IRefCount *pObj) const override
   {
     NI_ASSERT_T(pObj != 0, "can't get object type ID from NULL pointer");
     const auto &rtti = typeid(*pObj);

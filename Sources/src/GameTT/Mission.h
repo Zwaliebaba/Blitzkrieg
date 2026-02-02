@@ -14,7 +14,7 @@ class CInterfaceAboutMission : public CInterfaceInterMission
   // input
   NInput::CCommandRegistrator commandMsgs;
   //
-  bool STDCALL ProcessMessage(const SGameMessage &msg) override;
+  bool ProcessMessage(const SGameMessage &msg) override;
   // disable explicit destruction
   ~CInterfaceAboutMission() override;
   CInterfaceAboutMission() : CInterfaceInterMission("InterMission"), m_nActiveObjective(-1) {}
@@ -26,8 +26,8 @@ class CInterfaceAboutMission : public CInterfaceInterMission
   int m_nActiveObjective;
 
 public:
-  bool STDCALL Init() override;
-  void STDCALL StartInterface() override;
+  bool Init() override;
+  void StartInterface() override;
 };
 
 class CICAboutMission : public CInterfaceCommandBase<IInterfaceBase, MISSION_INTERFACE_ABOUT_MISSION>

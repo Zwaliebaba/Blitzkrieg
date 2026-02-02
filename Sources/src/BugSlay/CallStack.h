@@ -56,12 +56,12 @@ namespace NBugSlayer
   void SetModuleHandle(HINSTANCE hInstance);
   HINSTANCE GetModuleHandle();
   // emergency commands
-  void STDCALL ExecuteEmergencyCommands();
+  void ExecuteEmergencyCommands();
 };
 
 // //////////////////////////////////////////////////////////// 
-bool STDCALL GetFirstStackTrace(EXCEPTION_POINTERS *pExPtrs, SCallStackEntry &entry);
-bool STDCALL GetNextStackTrace(EXCEPTION_POINTERS *pExPtrs, SCallStackEntry &entry);
+bool GetFirstStackTrace(EXCEPTION_POINTERS *pExPtrs, SCallStackEntry &entry);
+bool GetNextStackTrace(EXCEPTION_POINTERS *pExPtrs, SCallStackEntry &entry);
 LPCTSTR ConvertSimpleException(DWORD dwExcept);
 // //////////////////////////////////////////////////////////// 
 EBSUReport __cdecl ShowAssertionDlg(HINSTANCE hInstance, HWND hWnd,

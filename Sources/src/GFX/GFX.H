@@ -34,24 +34,24 @@ enum
 interface IGFXVertices : ISharedResource
 {
   // direct data access
-  virtual void * STDCALL Lock() = 0;
-  virtual void STDCALL Unlock() = 0;
+  virtual void * Lock() = 0;
+  virtual void Unlock() = 0;
 };
 
 interface IGFXIndices : ISharedResource
 {
   // direct data access
-  virtual void * STDCALL Lock() = 0;
-  virtual void STDCALL Unlock() = 0;
+  virtual void * Lock() = 0;
+  virtual void Unlock() = 0;
   // set number of vertices, which is addressed by this index set
-  virtual void STDCALL SetNumUsedVertices(int nNumUsedVertices) = 0;
+  virtual void SetNumUsedVertices(int nNumUsedVertices) = 0;
 };
 
 interface IGFXMesh : ISharedResource
 {
-  virtual const SGFXBoundSphere & STDCALL GetBS() = 0;
-  virtual const SGFXAABB & STDCALL GetAABB() = 0;
-  virtual bool STDCALL IsHit(const CVec2 &vPos, const SHMatrix *matrices) = 0;
+  virtual const SGFXBoundSphere & GetBS() = 0;
+  virtual const SGFXAABB & GetAABB() = 0;
+  virtual bool IsHit(const CVec2 &vPos, const SHMatrix *matrices) = 0;
 };
 
 interface IMeshManager : ISharedManager
@@ -59,7 +59,7 @@ interface IMeshManager : ISharedManager
   // type ID
   enum { tidTypeID = GFX_MESH_MANAGER };
 
-  virtual IGFXMesh * STDCALL GetMesh(const char *pszName) = 0;
+  virtual IGFXMesh * GetMesh(const char *pszName) = 0;
 };
 
 // ************************************************************************************************************************ //
@@ -75,32 +75,32 @@ interface IGFXBaseTexture : ISharedResource {};
 interface IGFXTexture : IGFXBaseTexture
 {
   // direct data access through lock
-  virtual bool STDCALL Lock(int nLevel, SSurfaceLockInfo *pLockInfo) = 0;
-  virtual bool STDCALL Unlock(int nLevel) = 0;
+  virtual bool Lock(int nLevel, SSurfaceLockInfo *pLockInfo) = 0;
+  virtual bool Unlock(int nLevel) = 0;
   // add dirty rect for further update
-  virtual bool STDCALL AddDirtyRect(const RECT *pRect) = 0;
+  virtual bool AddDirtyRect(const RECT *pRect) = 0;
   // size access
-  virtual int STDCALL GetSizeX(int nLevel) const = 0;
-  virtual int STDCALL GetSizeY(int nLevel) const = 0;
-  virtual EGFXPixelFormat STDCALL GetFormat() const = 0;
+  virtual int GetSizeX(int nLevel) const = 0;
+  virtual int GetSizeY(int nLevel) const = 0;
+  virtual EGFXPixelFormat GetFormat() const = 0;
 };
 
 interface IGFXRTexture : IGFXBaseTexture
 {
-  virtual int STDCALL GetSizeX(int nLevel) const = 0;
-  virtual int STDCALL GetSizeY(int nLevel) const = 0;
-  virtual EGFXPixelFormat STDCALL GetFormat() const = 0;
+  virtual int GetSizeX(int nLevel) const = 0;
+  virtual int GetSizeY(int nLevel) const = 0;
+  virtual EGFXPixelFormat GetFormat() const = 0;
 };
 
 interface IGFXSurface : IRefCount
 {
   // direct data access through lock
-  virtual bool STDCALL Lock(SSurfaceLockInfo *pLockInfo) = 0;
-  virtual bool STDCALL Unlock() = 0;
+  virtual bool Lock(SSurfaceLockInfo *pLockInfo) = 0;
+  virtual bool Unlock() = 0;
   // size access
-  virtual int STDCALL GetSizeX() const = 0;
-  virtual int STDCALL GetSizeY() const = 0;
-  virtual EGFXPixelFormat STDCALL GetFormat() const = 0;
+  virtual int GetSizeX() const = 0;
+  virtual int GetSizeY() const = 0;
+  virtual EGFXPixelFormat GetFormat() const = 0;
 };
 
 interface ITextureManager : ISharedManager
@@ -117,10 +117,10 @@ interface ITextureManager : ISharedManager
   };
 
   //
-  virtual IGFXTexture * STDCALL GetTexture(const char *pszName) = 0;
-  virtual const char * STDCALL GetTextureName(IGFXTexture *pTexture) = 0;
+  virtual IGFXTexture * GetTexture(const char *pszName) = 0;
+  virtual const char * GetTextureName(IGFXTexture *pTexture) = 0;
   //
-  virtual void STDCALL SetQuality(ETextureQuality eQuality) = 0;
+  virtual void SetQuality(ETextureQuality eQuality) = 0;
 };
 
 // ************************************************************************************************************************ //
@@ -133,31 +133,31 @@ interface ITextureManager : ISharedManager
 
 interface IGFXFont : ISharedResource
 {
-  virtual int STDCALL GetHeight() const = 0;
-  virtual int STDCALL GetLineSpace() const = 0;
-  virtual int STDCALL GetAscent() const = 0;
-  virtual int STDCALL GetDescent() const = 0;
+  virtual int GetHeight() const = 0;
+  virtual int GetLineSpace() const = 0;
+  virtual int GetAscent() const = 0;
+  virtual int GetDescent() const = 0;
   //
-  virtual const struct SFontFormat & STDCALL GetFormat() const = 0;
-  virtual int STDCALL GetTextWidth(const char *pszString, int nCounter = 2000000000) const = 0;
-  virtual int STDCALL GetTextWidth(const wchar_t *pszString, int nCounter = 2000000000) const = 0;
+  virtual const struct SFontFormat & GetFormat() const = 0;
+  virtual int GetTextWidth(const char *pszString, int nCounter = 2000000000) const = 0;
+  virtual int GetTextWidth(const wchar_t *pszString, int nCounter = 2000000000) const = 0;
 };
 
 interface IGFXText : IRefCount
 {
-  virtual void STDCALL SetFont(IGFXFont *pFont) = 0;
-  virtual void STDCALL SetText(interface IText *pText) = 0;
-  virtual interface IText * STDCALL GetText() = 0;
-  virtual void STDCALL SetWidth(int nWidth) = 0;
-  virtual void STDCALL SetColor(DWORD color) = 0;
-  virtual void STDCALL EnableRedLine(bool bEnable) = 0;
-  virtual void STDCALL SetRedLine(int nRedLineIndention) = 0;
+  virtual void SetFont(IGFXFont *pFont) = 0;
+  virtual void SetText(interface IText *pText) = 0;
+  virtual interface IText * GetText() = 0;
+  virtual void SetWidth(int nWidth) = 0;
+  virtual void SetColor(DWORD color) = 0;
+  virtual void EnableRedLine(bool bEnable) = 0;
+  virtual void SetRedLine(int nRedLineIndention) = 0;
   //
-  virtual void STDCALL SetChanged() = 0;
+  virtual void SetChanged() = 0;
   // stats
-  virtual int STDCALL GetNumLines() const = 0;
-  virtual int STDCALL GetLineSpace() const = 0;
-  virtual int STDCALL GetWidth(int nNumCharacters = -1) const = 0;
+  virtual int GetNumLines() const = 0;
+  virtual int GetLineSpace() const = 0;
+  virtual int GetWidth(int nNumCharacters = -1) const = 0;
 };
 
 interface IFontManager : ISharedManager
@@ -166,7 +166,7 @@ interface IFontManager : ISharedManager
   enum { tidTypeID = GFX_FONT_MANAGER };
 
   //
-  virtual IGFXFont * STDCALL GetFont(const char *pszName) = 0;
+  virtual IGFXFont * GetFont(const char *pszName) = 0;
 };
 
 // ************************************************************************************************************************ //
@@ -183,113 +183,113 @@ interface IGFX : IRefCount
   enum { tidTypeID = GFX_GFX };
 
   // initialization and setup
-  virtual bool STDCALL Init(const char *pszAdapterName, HWND hWnd) = 0;
-  virtual bool STDCALL Done() = 0;
+  virtual bool Init(const char *pszAdapterName, HWND hWnd) = 0;
+  virtual bool Done() = 0;
   virtual void Clear() = 0;
-  virtual bool STDCALL SetMode(int nSizeX, int nSizeY, int nBpp, int nStencilBPP, EGFXFullscreen eFullscreen, int nFreq = 0) = 0;
-  virtual EGFXVideoCard STDCALL GetVideoCard() = 0;
+  virtual bool SetMode(int nSizeX, int nSizeY, int nBpp, int nStencilBPP, EGFXFullscreen eFullscreen, int nFreq = 0) = 0;
+  virtual EGFXVideoCard GetVideoCard() = 0;
 
   // move GFX screen to the new position
-  virtual void STDCALL MoveTo(int nX, int nY) = 0;
+  virtual void MoveTo(int nX, int nY) = 0;
 
   // screen and adapter info
-  virtual RECT STDCALL GetScreenRect() const = 0;
-  virtual int STDCALL GetScreenBPP() const = 0;
-  virtual const char * STDCALL GetAdapterName() const = 0;
-  virtual const struct SGFXDisplayMode * STDCALL GetDisplayModes() const = 0;
+  virtual RECT GetScreenRect() const = 0;
+  virtual int GetScreenBPP() const = 0;
+  virtual const char * GetAdapterName() const = 0;
+  virtual const struct SGFXDisplayMode * GetDisplayModes() const = 0;
 
   // T&L setup functions
   // viewport management
-  virtual void STDCALL PushViewport() = 0;
-  virtual bool STDCALL PopViewport() = 0;
-  virtual bool STDCALL ChangeViewport(int nX, int nY, int nWidth, int nHeight, float fMinZ, float fMaxZ) = 0;
-  virtual bool STDCALL ChangeViewport(int nWidth, int nHeight) = 0;
+  virtual void PushViewport() = 0;
+  virtual bool PopViewport() = 0;
+  virtual bool ChangeViewport(int nX, int nY, int nWidth, int nHeight, float fMinZ, float fMaxZ) = 0;
+  virtual bool ChangeViewport(int nWidth, int nHeight) = 0;
   // transforms: view, world, projection, texture
-  virtual bool STDCALL SetWorldTransforms(int nStartIndex, const SHMatrix *pMatrices, int nNumMatrices) = 0;
-  virtual bool STDCALL SetViewTransform(const SHMatrix &matrix) = 0;
-  virtual bool STDCALL SetProjectionTransform(const SHMatrix &matrix) = 0;
-  virtual bool STDCALL SetTextureTransform(int nIndex, const SHMatrix &matrix) = 0;
-  virtual bool STDCALL SetupDirectTransform() = 0;
-  virtual bool STDCALL RestoreTransform() = 0;
+  virtual bool SetWorldTransforms(int nStartIndex, const SHMatrix *pMatrices, int nNumMatrices) = 0;
+  virtual bool SetViewTransform(const SHMatrix &matrix) = 0;
+  virtual bool SetProjectionTransform(const SHMatrix &matrix) = 0;
+  virtual bool SetTextureTransform(int nIndex, const SHMatrix &matrix) = 0;
+  virtual bool SetupDirectTransform() = 0;
+  virtual bool RestoreTransform() = 0;
   //
-  virtual const SHMatrix & STDCALL GetViewMatrix() const = 0;
-  virtual const SHMatrix & STDCALL GetBillboardMatrix() const = 0;
-  virtual const SHMatrix & STDCALL GetInverseViewMatrix() const = 0;
-  virtual const SHMatrix & STDCALL GetProjectionMatrix() const = 0;
-  virtual const SHMatrix & STDCALL GetViewportMatrix() const = 0;
+  virtual const SHMatrix & GetViewMatrix() const = 0;
+  virtual const SHMatrix & GetBillboardMatrix() const = 0;
+  virtual const SHMatrix & GetInverseViewMatrix() const = 0;
+  virtual const SHMatrix & GetProjectionMatrix() const = 0;
+  virtual const SHMatrix & GetViewportMatrix() const = 0;
   // retrieve view volume planes in world space
-  virtual void STDCALL GetViewVolume(SPlane *pPlanes) const = 0;
+  virtual void GetViewVolume(SPlane *pPlanes) const = 0;
   // retrieve intersection points with far and near clip planes
-  virtual void STDCALL GetViewVolumeCrosses(const CVec2 &vPoint, CVec3 *pvNear, CVec3 *pvFar) = 0;
+  virtual void GetViewVolumeCrosses(const CVec2 &vPoint, CVec3 *pvNear, CVec3 *pvFar) = 0;
   // lighting properties
-  virtual void STDCALL SetLight(int nIndex, const SGFXLightDirectional &light) = 0;
-  virtual void STDCALL SetLight(int nIndex, const SGFXLightPoint &light) = 0;
-  virtual void STDCALL SetLight(int nIndex, const SGFXLightSpot &light) = 0;
-  virtual void STDCALL EnableLight(int nIndex, bool bEnable) = 0;
-  virtual void STDCALL SetMaterial(const SGFXMaterial &material) = 0;
+  virtual void SetLight(int nIndex, const SGFXLightDirectional &light) = 0;
+  virtual void SetLight(int nIndex, const SGFXLightPoint &light) = 0;
+  virtual void SetLight(int nIndex, const SGFXLightSpot &light) = 0;
+  virtual void EnableLight(int nIndex, bool bEnable) = 0;
+  virtual void SetMaterial(const SGFXMaterial &material) = 0;
 
   // texture setup
-  virtual bool STDCALL SetTexture(int nStage, IGFXBaseTexture *pTexture) = 0;
+  virtual bool SetTexture(int nStage, IGFXBaseTexture *pTexture) = 0;
 
   // state setup
-  virtual bool STDCALL SetWireframe(bool bWireframe) = 0;
-  virtual bool STDCALL SetCullMode(EGFXCull cull) = 0;
-  virtual bool STDCALL SetDepthBufferMode(EGFXDepthBuffer depth, EGFXCmpFunction cmp = GFXCMP_DEFAULT) = 0;
-  virtual bool STDCALL EnableLighting(bool bLighting) = 0;
-  virtual bool STDCALL EnableSpecular(bool bEnable) = 0;
+  virtual bool SetWireframe(bool bWireframe) = 0;
+  virtual bool SetCullMode(EGFXCull cull) = 0;
+  virtual bool SetDepthBufferMode(EGFXDepthBuffer depth, EGFXCmpFunction cmp = GFXCMP_DEFAULT) = 0;
+  virtual bool EnableLighting(bool bLighting) = 0;
+  virtual bool EnableSpecular(bool bEnable) = 0;
 
   // font setup
-  virtual bool STDCALL SetFont(IGFXFont *pFont) = 0;
+  virtual bool SetFont(IGFXFont *pFont) = 0;
 
   // screen management
-  virtual bool STDCALL IsActive() = 0;
-  virtual bool STDCALL BeginScene() = 0;
-  virtual bool STDCALL EndScene() = 0;
-  virtual bool STDCALL Clear(int nNumRects, RECT *pRects, DWORD dwFlags, DWORD dwColor = 0, float fDepth = 1.0f, DWORD dwStencil = 0) = 0;
-  virtual bool STDCALL Flip() = 0;
-  virtual bool STDCALL SetRenderTarget(IGFXRTexture *pRT) = 0;
+  virtual bool IsActive() = 0;
+  virtual bool BeginScene() = 0;
+  virtual bool EndScene() = 0;
+  virtual bool Clear(int nNumRects, RECT *pRects, DWORD dwFlags, DWORD dwColor = 0, float fDepth = 1.0f, DWORD dwStencil = 0) = 0;
+  virtual bool Flip() = 0;
+  virtual bool SetRenderTarget(IGFXRTexture *pRT) = 0;
 
   // geometry
-  virtual void STDCALL SetOptimizedBuffers(bool bEnable) = 0;
+  virtual void SetOptimizedBuffers(bool bEnable) = 0;
   // vertices/indices
-  virtual IGFXVertices * STDCALL CreateVertices(int nNumElements, DWORD dwFormat, EGFXPrimitiveType type, EGFXDynamic eDynamic, IGFXVertices *pVertices = nullptr) = 0;
-  virtual IGFXIndices * STDCALL CreateIndices(int nNumElements, DWORD dwFormat, EGFXPrimitiveType type, EGFXDynamic eDynamic, IGFXIndices *pIndices = nullptr) = 0;
+  virtual IGFXVertices * CreateVertices(int nNumElements, DWORD dwFormat, EGFXPrimitiveType type, EGFXDynamic eDynamic, IGFXVertices *pVertices = nullptr) = 0;
+  virtual IGFXIndices * CreateIndices(int nNumElements, DWORD dwFormat, EGFXPrimitiveType type, EGFXDynamic eDynamic, IGFXIndices *pIndices = nullptr) = 0;
   // solid blocks
-  virtual bool STDCALL BeginSolidVertexBlock(int nNumElements, DWORD dwFormat, EGFXDynamic eDynamic) = 0;
-  virtual bool STDCALL EndSolidVertexBlock() = 0;
-  virtual bool STDCALL BeginSolidIndexBlock(int nNumElements, DWORD dwFormat, EGFXDynamic eDynamic) = 0;
-  virtual bool STDCALL EndSolidIndexBlock() = 0;
+  virtual bool BeginSolidVertexBlock(int nNumElements, DWORD dwFormat, EGFXDynamic eDynamic) = 0;
+  virtual bool EndSolidVertexBlock() = 0;
+  virtual bool BeginSolidIndexBlock(int nNumElements, DWORD dwFormat, EGFXDynamic eDynamic) = 0;
+  virtual bool EndSolidIndexBlock() = 0;
   // temp geometry
-  virtual void * STDCALL GetTempVertices(int nNumElements, DWORD dwFormat, EGFXPrimitiveType type) = 0;
-  virtual void * STDCALL GetTempIndices(int nNumElements, DWORD dwFormat, EGFXPrimitiveType type) = 0;
+  virtual void * GetTempVertices(int nNumElements, DWORD dwFormat, EGFXPrimitiveType type) = 0;
+  virtual void * GetTempIndices(int nNumElements, DWORD dwFormat, EGFXPrimitiveType type) = 0;
 
   // texture
-  virtual IGFXTexture * STDCALL CreateTexture(int nSizeX, int nSizeY, int nNumMipLevels, EGFXPixelFormat format, EGFXDynamic eDynamic, IGFXTexture *pTexture = nullptr) = 0;
-  virtual IGFXRTexture * STDCALL CreateRTexture(int nSizeX, int nSizeY) = 0;
-  virtual bool STDCALL UpdateTexture(IGFXTexture *pSrc, IGFXTexture *pDst, bool bAsync = true) = 0;
+  virtual IGFXTexture * CreateTexture(int nSizeX, int nSizeY, int nNumMipLevels, EGFXPixelFormat format, EGFXDynamic eDynamic, IGFXTexture *pTexture = nullptr) = 0;
+  virtual IGFXRTexture * CreateRTexture(int nSizeX, int nSizeY) = 0;
+  virtual bool UpdateTexture(IGFXTexture *pSrc, IGFXTexture *pDst, bool bAsync = true) = 0;
 
   // rendering
-  virtual bool STDCALL Draw(IGFXVertices *pVertices, IGFXIndices *pIndices) = 0;
-  virtual bool STDCALL DrawTemp() = 0;
-  virtual bool STDCALL DrawMesh(IGFXMesh *pMesh, const SHMatrix *matrices, int nNumMatrices) = 0;
-  virtual bool STDCALL DrawStringA(const char *pszString, int nX, int nY, DWORD dwColor = 0xFFFFFFFF) = 0;
-  virtual bool STDCALL DrawString(const wchar_t *pszString, int nX, int nY, DWORD dwColor = 0xFFFFFFFF) = 0;
-  virtual bool STDCALL DrawText(IGFXText *pText, const RECT &rect, int nY, DWORD dwFlags = FNT_FORMAT_LEFT) = 0;
-  virtual bool STDCALL DrawRects(const SGFXRect2 *pRects, int nNumRects, bool bSolid = true) = 0;
+  virtual bool Draw(IGFXVertices *pVertices, IGFXIndices *pIndices) = 0;
+  virtual bool DrawTemp() = 0;
+  virtual bool DrawMesh(IGFXMesh *pMesh, const SHMatrix *matrices, int nNumMatrices) = 0;
+  virtual bool DrawStringA(const char *pszString, int nX, int nY, DWORD dwColor = 0xFFFFFFFF) = 0;
+  virtual bool DrawString(const wchar_t *pszString, int nX, int nY, DWORD dwColor = 0xFFFFFFFF) = 0;
+  virtual bool DrawText(IGFXText *pText, const RECT &rect, int nY, DWORD dwFlags = FNT_FORMAT_LEFT) = 0;
+  virtual bool DrawRects(const SGFXRect2 *pRects, int nNumRects, bool bSolid = true) = 0;
 
   // gamma ramp
-  virtual bool STDCALL SetGammaRamp(const SGFXGammaRamp &ramp, bool bCalibrate) = 0;
-  virtual bool STDCALL GetGammaRamp(const SGFXGammaRamp *pRamp) = 0;
-  virtual void STDCALL SetGammaCorrectionValues(float fBrightness, float fContrast, float fGamma) = 0;
-  virtual void STDCALL GetGammaCorrectionValues(float *pfBrightness, float *pfContrast, float *pfGamma) = 0;
+  virtual bool SetGammaRamp(const SGFXGammaRamp &ramp, bool bCalibrate) = 0;
+  virtual bool GetGammaRamp(const SGFXGammaRamp *pRamp) = 0;
+  virtual void SetGammaCorrectionValues(float fBrightness, float fContrast, float fGamma) = 0;
+  virtual void GetGammaCorrectionValues(float *pfBrightness, float *pfContrast, float *pfGamma) = 0;
 
   // screenshot
-  virtual bool STDCALL TakeScreenShot(interface IImage *pImage) = 0;
+  virtual bool TakeScreenShot(interface IImage *pImage) = 0;
 
   // statistics
-  virtual int STDCALL GetNumPassedVertices() const = 0;
-  virtual int STDCALL GetNumPassedPrimitives() const = 0;
+  virtual int GetNumPassedVertices() const = 0;
+  virtual int GetNumPassedPrimitives() const = 0;
 
   // temporal function before shaders
-  virtual bool STDCALL SetShadingEffect(int nEffect) = 0;
+  virtual bool SetShadingEffect(int nEffect) = 0;
 };

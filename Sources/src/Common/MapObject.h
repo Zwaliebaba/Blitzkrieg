@@ -12,28 +12,28 @@
 
 interface IMapObjVisitor
 {
-  virtual void STDCALL VisitSprite(IVisObj *pVO, EObjGameType eGameType, EObjVisType eVisType, bool bOutbound = false) = 0;
-  virtual void STDCALL VisitMesh(IVisObj *pVO, EObjGameType eGameType, EObjVisType eVisType, bool bOutbound = false) = 0;
-  virtual void STDCALL VisitEffect(IVisObj *pVO, EObjGameType eGameType, EObjVisType eVisType, bool bOutbound = false) = 0;
+  virtual void VisitSprite(IVisObj *pVO, EObjGameType eGameType, EObjVisType eVisType, bool bOutbound = false) = 0;
+  virtual void VisitMesh(IVisObj *pVO, EObjGameType eGameType, EObjVisType eVisType, bool bOutbound = false) = 0;
+  virtual void VisitEffect(IVisObj *pVO, EObjGameType eGameType, EObjVisType eVisType, bool bOutbound = false) = 0;
 };
 
 interface ISelectorVisitor
 {
-  virtual void STDCALL VisitMapObject(struct SMapObject *pMO) const = 0;
+  virtual void VisitMapObject(struct SMapObject *pMO) const = 0;
 };
 
 interface ISelector
 {
   // select single map object
-  virtual bool STDCALL Select(struct SMapObject *pMO, bool bSelect, bool bSelectSuper) = 0;
-  virtual bool STDCALL IsSelected(const struct SMapObject *pMO) const = 0;
+  virtual bool Select(struct SMapObject *pMO, bool bSelect, bool bSelectSuper) = 0;
+  virtual bool IsSelected(const struct SMapObject *pMO) const = 0;
   // done multiple selection operation
-  virtual void STDCALL DoneSelection() = 0;
+  virtual void DoneSelection() = 0;
   // register/unregister/access AI group
-  virtual int STDCALL GetAIGroup() = 0;
-  virtual bool STDCALL IsEmpty() const = 0;
+  virtual int GetAIGroup() = 0;
+  virtual bool IsEmpty() const = 0;
   // visiting objects inside
-  virtual void STDCALL Visit(ISelectorVisitor *pVisitor) const = 0;
+  virtual void Visit(ISelectorVisitor *pVisitor) const = 0;
 };
 
 interface IMapObj : IRefCount
@@ -46,29 +46,29 @@ interface IMapObj : IRefCount
   };
 
   //
-  virtual bool STDCALL Create(IRefCount *pAIObj, const SGDBObjectDesc *pDesc, int nSeason, int nFrameIndex, float fHP, interface IVisObjBuilder *pVOB, IObjectsDB *pGDB) = 0;
+  virtual bool Create(IRefCount *pAIObj, const SGDBObjectDesc *pDesc, int nSeason, int nFrameIndex, float fHP, interface IVisObjBuilder *pVOB, IObjectsDB *pGDB) = 0;
   // placement
-  virtual void STDCALL SetPlacement(const CVec3 &vPos, const WORD &wDir) = 0;
-  virtual void STDCALL GetPlacement(CVec3 *pvPos, WORD *pwDir) = 0;
+  virtual void SetPlacement(const CVec3 &vPos, const WORD &wDir) = 0;
+  virtual void GetPlacement(CVec3 *pvPos, WORD *pwDir) = 0;
   // stats functions
-  virtual const SGDBObjectDesc * STDCALL GetDesc() const = 0;
-  virtual const SHPObjectRPGStats * STDCALL GetRPG() const = 0;
+  virtual const SGDBObjectDesc * GetDesc() const = 0;
+  virtual const SHPObjectRPGStats * GetRPG() const = 0;
   // AI object retrieving
-  virtual IRefCount * STDCALL GetAIObj() = 0;
-  virtual IRefCount * STDCALL GetParentAIObj() = 0;
+  virtual IRefCount * GetAIObj() = 0;
+  virtual IRefCount * GetParentAIObj() = 0;
   //
-  virtual bool STDCALL CanSelect() const = 0;
+  virtual bool CanSelect() const = 0;
   // get status for mission status bar
-  virtual void STDCALL GetStatus(struct SMissionStatusObject *pStatus) const = 0;
+  virtual void GetStatus(struct SMissionStatusObject *pStatus) const = 0;
   // get actions, which this object can perform or actions, thi object can be acted with
-  virtual void STDCALL GetActions(CUserActions *pActions, EActionsType eActions) const = 0;
+  virtual void GetActions(CUserActions *pActions, EActionsType eActions) const = 0;
   // common updates
-  virtual void STDCALL AIUpdatePlacement(const struct SAINotifyPlacement &placement, const NTimer::STime &currTime, IScene *pScene) = 0;
-  virtual bool STDCALL AIUpdateRPGStats(const struct SAINotifyRPGStats &stats, IVisObjBuilder *pVOB, IScene *pScene) = 0;
-  virtual void STDCALL AIUpdateHit(const struct SAINotifyHitInfo &hit, const NTimer::STime &currTime, IScene *pScene, IVisObjBuilder *pVOB) = 0;
-  virtual int STDCALL AIUpdateActions(const struct SAINotifyAction &action, const NTimer::STime &currTime, IVisObjBuilder *pVOB, IScene *pScene, interface IClientAckManager *pAckManager) = 0;
+  virtual void AIUpdatePlacement(const struct SAINotifyPlacement &placement, const NTimer::STime &currTime, IScene *pScene) = 0;
+  virtual bool AIUpdateRPGStats(const struct SAINotifyRPGStats &stats, IVisObjBuilder *pVOB, IScene *pScene) = 0;
+  virtual void AIUpdateHit(const struct SAINotifyHitInfo &hit, const NTimer::STime &currTime, IScene *pScene, IVisObjBuilder *pVOB) = 0;
+  virtual int AIUpdateActions(const struct SAINotifyAction &action, const NTimer::STime &currTime, IVisObjBuilder *pVOB, IScene *pScene, interface IClientAckManager *pAckManager) = 0;
   // visiting
-  virtual void STDCALL Visit(IMapObjVisitor *pVisitor) = 0;
+  virtual void Visit(IMapObjVisitor *pVisitor) = 0;
 };
 
 struct SMapObject : IMapObj
@@ -100,7 +100,7 @@ public:
   bool IsFriend() const { return diplomacy == EDI_FRIEND; }
   bool IsNeutral() const { return diplomacy == EDI_NEUTRAL; }
   //
-  bool STDCALL CanSelect() const override { return bCanSelect; }
+  bool CanSelect() const override { return bCanSelect; }
 };
 
 struct SBridgeSpanObject : IMapObj
@@ -140,85 +140,85 @@ using CBridgeSpanObjectsList = std::list<CPtr<SBridgeSpanObject>>;
 
 interface IMOEffect : SMapObject
 {
-  virtual bool STDCALL Create(IRefCount *pAIObj, const char *pszName, interface IVisObjBuilder *pVOB) = 0;
+  virtual bool Create(IRefCount *pAIObj, const char *pszName, interface IVisObjBuilder *pVOB) = 0;
 };
 
 interface IMOSelectable : SMapObject
 {
   // check, is this object selected?
-  virtual bool STDCALL IsSelected() const = 0;
+  virtual bool IsSelected() const = 0;
   //
-  virtual void STDCALL Select(ISelector *pSelector, bool bSelect, bool bSelectSuper) = 0;
+  virtual void Select(ISelector *pSelector, bool bSelect, bool bSelectSuper) = 0;
   //
-  virtual bool STDCALL AIUpdateDiplomacy(const struct SAINotifyDiplomacy &diplomacy) = 0;
+  virtual bool AIUpdateDiplomacy(const struct SAINotifyDiplomacy &diplomacy) = 0;
   // sends selection acknowledgment
-  virtual void STDCALL SendAcknowledgement(interface IClientAckManager *pAckManager, const EUnitAckType eAckType, const int nSet) {}
+  virtual void SendAcknowledgement(interface IClientAckManager *pAckManager, const EUnitAckType eAckType, const int nSet) {}
 };
 
 interface IMOContainer : IMOSelectable
 {
   // load unit onboard or unload it
-  virtual bool STDCALL Load(interface IMOUnit *pMO, bool bEnter) = 0;
+  virtual bool Load(interface IMOUnit *pMO, bool bEnter) = 0;
   // show icons of the passangers
-  virtual void STDCALL UpdatePassangers() = 0;
+  virtual void UpdatePassangers() = 0;
   // get all passangers from container. 
-  virtual int STDCALL GetPassangers(IMOUnit **pBuffer, bool bCanSelectOnly = false) const = 0;
+  virtual int GetPassangers(IMOUnit **pBuffer, bool bCanSelectOnly = false) const = 0;
   // get free places
-  virtual int STDCALL GetFreePlaces() const = 0;
+  virtual int GetFreePlaces() const = 0;
   // firing... (from container of by himself)
-  virtual void STDCALL AIUpdateShot(const struct SAINotifyBaseShot &shot, const NTimer::STime &currTime, IVisObjBuilder *pVOB, IScene *pScene) = 0;
+  virtual void AIUpdateShot(const struct SAINotifyBaseShot &shot, const NTimer::STime &currTime, IVisObjBuilder *pVOB, IScene *pScene) = 0;
 };
 
 interface IUnitStateObserver : IRefCount
 {
-  virtual void STDCALL AddIcon(int nType, interface ISceneIcon *pIcon) = 0;
-  virtual void STDCALL RemoveIcon(int nType) = 0;
-  virtual void STDCALL UpdateHP(float fValue) = 0;
-  virtual void STDCALL RemoveUnit() = 0;
-  virtual IMOUnit * STDCALL GetMOUnit() = 0;
+  virtual void AddIcon(int nType, interface ISceneIcon *pIcon) = 0;
+  virtual void RemoveIcon(int nType) = 0;
+  virtual void UpdateHP(float fValue) = 0;
+  virtual void RemoveUnit() = 0;
+  virtual IMOUnit * GetMOUnit() = 0;
 };
 
 interface IMOUnit : IMOContainer
 {
-  virtual void STDCALL PrepareToRemove() = 0;
+  virtual void PrepareToRemove() = 0;
   //
-  virtual const bool STDCALL IsVisible() const = 0;
+  virtual const bool IsVisible() const = 0;
   //
-  virtual void STDCALL AssignSelectionGroup(int nGroupID) = 0;
+  virtual void AssignSelectionGroup(int nGroupID) = 0;
   //
-  virtual void STDCALL SetContainer(IMOContainer *pContainer) = 0;
-  virtual IMOContainer * STDCALL GetContainer() const = 0;
-  virtual void STDCALL SetSquad(interface IMOSquad *pSquad) = 0;
-  virtual interface IMOSquad * STDCALL GetSquad() = 0;
+  virtual void SetContainer(IMOContainer *pContainer) = 0;
+  virtual IMOContainer * GetContainer() const = 0;
+  virtual void SetSquad(interface IMOSquad *pSquad) = 0;
+  virtual interface IMOSquad * GetSquad() = 0;
   // general update. 
-  virtual bool STDCALL Update(const NTimer::STime &currTime) = 0;
+  virtual bool Update(const NTimer::STime &currTime) = 0;
   // unit's updates
-  virtual void STDCALL AIUpdateAiming(const struct AIUpdateAiming &aiming) = 0;
+  virtual void AIUpdateAiming(const struct AIUpdateAiming &aiming) = 0;
   //
-  virtual IMapObj * STDCALL AIUpdateFireWithProjectile(const struct SAINotifyNewProjectile &projectile, const NTimer::STime &currTime, interface IVisObjBuilder *pVOB) = 0;
+  virtual IMapObj * AIUpdateFireWithProjectile(const struct SAINotifyNewProjectile &projectile, const NTimer::STime &currTime, interface IVisObjBuilder *pVOB) = 0;
   // CRAP{ for animations testing
-  virtual void STDCALL AddAnimation(const SUnitBaseRPGStats::SAnimDesc *pDesc) = 0;
+  virtual void AddAnimation(const SUnitBaseRPGStats::SAnimDesc *pDesc) = 0;
   // CRAP}
   // for asci
-  virtual void STDCALL AIUpdateAcknowledgement(EUnitAckType eAck, interface IClientAckManager *pAckManager, int nSet) = 0;
-  virtual void STDCALL AIUpdateBoredAcknowledgement(const struct SAIBoredAcknowledgement &ack, interface IClientAckManager *pAckManager) = 0;
+  virtual void AIUpdateAcknowledgement(EUnitAckType eAck, interface IClientAckManager *pAckManager, int nSet) = 0;
+  virtual void AIUpdateBoredAcknowledgement(const struct SAIBoredAcknowledgement &ack, interface IClientAckManager *pAckManager) = 0;
   // remove all sounds that attached to this unit
-  virtual void STDCALL RemoveSounds(interface IScene *pScene) = 0;
+  virtual void RemoveSounds(interface IScene *pScene) = 0;
   // retrieve localized name
-  virtual interface IText * STDCALL GetLocalName() const = 0;
+  virtual interface IText * GetLocalName() const = 0;
   // set icon update hook
-  virtual void STDCALL SetObserver(IUnitStateObserver *pObserver) = 0;
-  virtual int STDCALL GetPlayerIndex() const = 0;
+  virtual void SetObserver(IUnitStateObserver *pObserver) = 0;
+  virtual int GetPlayerIndex() const = 0;
   // change look with blood settings
-  virtual bool STDCALL ChangeWithBlood(IVisObjBuilder *pVOB) = 0;
+  virtual bool ChangeWithBlood(IVisObjBuilder *pVOB) = 0;
 };
 
 interface IMOSquad : IMOContainer
 {
   // notify about RPG stats changing fot the single squad member
-  virtual void STDCALL NotifyStatsChanged(IMOUnit *pUnit, float fHP, float fAmmo1, float fAmmo2) = 0;
+  virtual void NotifyStatsChanged(IMOUnit *pUnit, float fHP, float fAmmo1, float fAmmo2) = 0;
   // get selection ID
-  virtual const int STDCALL GetSelectionGroupID() const = 0;
+  virtual const int GetSelectionGroupID() const = 0;
 };
 
 using CMapObjectsList = std::list<CPtr<SMapObject>>;

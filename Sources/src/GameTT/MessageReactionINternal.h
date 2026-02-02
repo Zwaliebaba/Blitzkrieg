@@ -94,7 +94,7 @@ class CLoadHelper : public ILoadHelper, public std::unordered_map<std::string, i
   OBJECT_COMPLETE_METHODS(CLoadHelper);
 
 public:
-  int STDCALL Get(const std::string &szLoaded) override
+  int Get(const std::string &szLoaded) override
   {
     const_iterator it = find(szLoaded);
     if (it != end()) return it->second;
@@ -128,7 +128,7 @@ public:
     szTextKey = reaction.szParam2;
   }
 
-  bool STDCALL Execute() override;
+  bool Execute() override;
 };
 
 // Atom EMART_SET_TEXT_TO_WINDOW
@@ -157,7 +157,7 @@ public:
     szTextKey = reaction.szParam2;
   }
 
-  bool STDCALL Execute() override;
+  bool Execute() override;
 };
 
 // Atom EMART_SET_GLOBAL_VAR
@@ -178,7 +178,7 @@ public:
     szVarValue = reaction.szParam2;
   }
 
-  bool STDCALL Execute() override;
+  bool Execute() override;
 };
 
 // Atom EMART_REMOVE_GLOBAL_VAR
@@ -194,7 +194,7 @@ public:
   // create and transform reaction
   CMessageAtomReactionRemoveGlobalVar(const SMessageAtomReactionForLoad &reaction) { szVarName = reaction.szParam1; }
 
-  bool STDCALL Execute() override;
+  bool Execute() override;
 };
 
 
@@ -223,7 +223,7 @@ public:
     bPause = NStr::ToInt(reaction.szParam2);
   }
 
-  bool STDCALL Execute() override;
+  bool Execute() override;
 };
 
 // Atom EMART_CUSTOM_REACTION
@@ -239,7 +239,7 @@ public:
   // create and transform reaction
   CMessageAtomReactionCustom(const SMessageAtomReactionForLoad &reaction) { szCustomReactionName = reaction.szParam1; }
 
-  bool STDCALL Execute() override;
+  bool Execute() override;
 };
 
 // Atom EMART_NOP
@@ -250,7 +250,7 @@ class CMessageAtomReactionNOP : public IMessageReaction
 
 public:
   CMessageAtomReactionNOP() {}
-  bool STDCALL Execute() override { return true; }
+  bool Execute() override { return true; }
 };
 
 // Atom EMART_MESSAGE_TO_INPUT
@@ -282,7 +282,7 @@ public:
     nParam = pHelper2->Get(reaction.szParam2);
   }
 
-  bool STDCALL Execute() override;
+  bool Execute() override;
 };
 
 // Atom EMART_MESSAGE_TO_MAINLOOP
@@ -312,7 +312,7 @@ public:
     szParam = reaction.szParam2;
   }
 
-  bool STDCALL Execute() override;
+  bool Execute() override;
 };
 
 class CMessageReaction : public IMessageReaction
@@ -336,7 +336,7 @@ class CMessageReaction : public IMessageReaction
 public:
   CMessageReaction() {}
   CMessageReaction(const SMessageReactionForLoad &loaded, IMessageLinkContainer *pHelpers);
-  bool STDCALL Execute() override;
+  bool Execute() override;
 };
 
 // message link. 
@@ -359,7 +359,7 @@ public:
   CMessageLink() {}
 
   void Load(const std::string &szFileName, IMessageLinkContainer *pHelpers);
-  IMessageReaction * STDCALL Configure(int nMessageID, int nParam) override;
+  IMessageReaction * Configure(int nMessageID, int nParam) override;
 };
 
 // contains all messages links
@@ -382,21 +382,21 @@ class CMessageLinkContainer : public IMessageLinkContainer
 public:
   CMessageLinkContainer() {}
 
-  void STDCALL SetInterface(class CInterfaceScreenBase *pInterface) override;
-  bool STDCALL ProcessMessage(const SGameMessage &msg) override;
+  void SetInterface(class CInterfaceScreenBase *pInterface) override;
+  bool ProcessMessage(const SGameMessage &msg) override;
 
   void Clear() override;
   void Init() override;
 
-  IMessageLink * STDCALL GetMessageLink(enum EMessageLink eLinkID) override;
-  void STDCALL RegisterMessageLink(IMessageLink *pMessageLink, enum EMessageLink eLinkID) override;
-  void STDCALL LoadMessageLink(const std::string &szFile, enum EMessageLink eLinkID) override;
+  IMessageLink * GetMessageLink(enum EMessageLink eLinkID) override;
+  void RegisterMessageLink(IMessageLink *pMessageLink, enum EMessageLink eLinkID) override;
+  void LoadMessageLink(const std::string &szFile, enum EMessageLink eLinkID) override;
 
-  ILoadHelper * STDCALL GetLoadHelper(int /* ELoadHelperID */nLoadHelperID) override;
+  ILoadHelper * GetLoadHelper(int /* ELoadHelperID */nLoadHelperID) override;
 
-  int STDCALL CustomCheck(int nCustomCheckKey, const CCustomCheckParams &checkParams) override;
-  void STDCALL CustomReaction(const std::string &szCustomReactionName) override;
-  void STDCALL SetWindowText(int nElementID, const wchar_t *pszText) override;
+  int CustomCheck(int nCustomCheckKey, const CCustomCheckParams &checkParams) override;
+  void CustomReaction(const std::string &szCustomReactionName) override;
+  void SetWindowText(int nElementID, const wchar_t *pszText) override;
 };
 
 #endif // __MESSAGEREACTIONINTERNAL_H__

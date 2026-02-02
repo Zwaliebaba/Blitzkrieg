@@ -132,52 +132,52 @@ class CMultiPlayerTransceiver : public CTRefCount<ITransceiver>
   void SendIAmAlive();
 
 public:
-  void STDCALL Init(ISingleton *pSingleton, int nMultiplayerType) override;
-  void STDCALL PreMissionInit() override {}
+  void Init(ISingleton *pSingleton, int nMultiplayerType) override;
+  void PreMissionInit() override {}
   // destruct
-  void STDCALL Done() override;
+  void Done() override;
   // 
   // set latency for smooth net playing
   void SetLatency(int nSegments) override;
   // perform segments for AI
-  void STDCALL DoSegments() override;
+  void DoSegments() override;
   // register group of units to AI
-  int STDCALL CommandRegisterGroup(IRefCount **pUnitsBuffer, int nLen) override;
+  int CommandRegisterGroup(IRefCount **pUnitsBuffer, int nLen) override;
   // unregistered group
-  void STDCALL CommandUnregisterGroup(WORD wGroup) override;
+  void CommandUnregisterGroup(WORD wGroup) override;
   // send command to group of units
-  void STDCALL CommandGroupCommand(const SAIUnitCmd *pCommand, WORD wGroup, bool bPlaceInQueue) override;
+  void CommandGroupCommand(const SAIUnitCmd *pCommand, WORD wGroup, bool bPlaceInQueue) override;
   // set single command to call planes, reinforcements, etc. 
-  int STDCALL CommandUnitCommand(const struct SAIUnitCmd *pCommand) override;
+  int CommandUnitCommand(const struct SAIUnitCmd *pCommand) override;
   // show different areas... this command actually has been doing only on client, but it needs group to be registered
-  void STDCALL CommandShowAreas(int nGroupID, int nAreaType, bool bShow) override;
+  void CommandShowAreas(int nGroupID, int nAreaType, bool bShow) override;
   // process pCommand received in the current segment
-  void STDCALL AddCommandToSend(IAILogicCommand *pCommand) override;
+  void AddCommandToSend(IAILogicCommand *pCommand) override;
 
   // number of players currently playing
-  int STDCALL GetNumberOfPlayers() const override;
+  int GetNumberOfPlayers() const override;
 
-  bool STDCALL JoinToServer(const char *pszIPAddress, int nPort, bool bPasswordRequired, const char *pszPassword) override;
-  void STDCALL CreateServer() override;
-  void STDCALL InitByCreateServersList() override;
+  bool JoinToServer(const char *pszIPAddress, int nPort, bool bPasswordRequired, const char *pszPassword) override;
+  void CreateServer() override;
+  void InitByCreateServersList() override;
 
   // client commands
-  void STDCALL CommandClientTogglePause() override;
-  void STDCALL CommandClientSpeed(int nChange) override;
-  void STDCALL CommandClientDropPlayer(const wchar_t *pszPlayerNick) override;
+  void CommandClientTogglePause() override;
+  void CommandClientSpeed(int nChange) override;
+  void CommandClientDropPlayer(const wchar_t *pszPlayerNick) override;
 
-  void STDCALL CommandTimeOut(bool bSet) override;
+  void CommandTimeOut(bool bSet) override;
 
-  NTimer::STime STDCALL GetMultiplayerTime() override;
+  NTimer::STime GetMultiplayerTime() override;
 
-  void STDCALL LoadAllGameParameters() override;
+  void LoadAllGameParameters() override;
 
-  void STDCALL SetTotalOutOfSync() override;
+  void SetTotalOutOfSync() override;
 
-  void STDCALL GameFinished() override;
+  void GameFinished() override;
 
   // for debug
-  interface INetDriver * STDCALL GetInGameNetDriver() const override;
+  interface INetDriver * GetInGameNetDriver() const override;
 };
 
 class CChangeTransceiverCommand : public CTRefCount<IInterfaceCommand>
@@ -192,7 +192,7 @@ class CChangeTransceiverCommand : public CTRefCount<IInterfaceCommand>
 public:
   CChangeTransceiverCommand() : nTransceiverTypeID(-1), timeDelayed(0) {}
   //
-  void STDCALL Configure(const char *pszConfig) override
+  void Configure(const char *pszConfig) override
   {
     if (!pszConfig) return;
     std::vector<std::string> szParams;
@@ -212,7 +212,7 @@ public:
   }
 
   //
-  void STDCALL Exec(IMainLoop *pML) override
+  void Exec(IMainLoop *pML) override
   {
     NI_ASSERT_TF(nTransceiverTypeID != -1, "Can't create unknown transceiver", return);
 
@@ -228,10 +228,10 @@ public:
   }
 
   //
-  void STDCALL SetDelayedTime(const NTimer::STime &timeToExecute) override { timeDelayed = timeToExecute; }
-  NTimer::STime STDCALL GetDelayedTime() const override { return timeDelayed; }
+  void SetDelayedTime(const NTimer::STime &timeToExecute) override { timeDelayed = timeToExecute; }
+  NTimer::STime GetDelayedTime() const override { return timeDelayed; }
   //
-  int STDCALL operator&(IStructureSaver &ss) override
+  int operator&(IStructureSaver &ss) override
   {
     CSaverAccessor saver = &ss;
     saver.Add(1, &nTransceiverTypeID);

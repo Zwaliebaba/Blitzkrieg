@@ -18,15 +18,15 @@ class CFontManager : public IFontManager
   CFontShare share;
 
 public:
-  void STDCALL SetSerialMode(ESharedDataSerialMode eSerialMode) override { share.SetSerialMode(eSerialMode); }
+  void SetSerialMode(ESharedDataSerialMode eSerialMode) override { share.SetSerialMode(eSerialMode); }
   // setup sharing mode
-  void STDCALL SetShareMode(ESharedDataSharingMode eShareMode) override { share.SetShareMode(eShareMode); }
+  void SetShareMode(ESharedDataSharingMode eShareMode) override { share.SetShareMode(eShareMode); }
   // remove all shared resource from this manager
-  void STDCALL Clear(EClearMode eMode, int nUsage, int nAmount) override;
+  void Clear(EClearMode eMode, int nUsage, int nAmount) override;
   //
-  bool STDCALL Init() override { return share.Init(); }
+  bool Init() override { return share.Init(); }
   //
-  IGFXFont * STDCALL GetFont(const char *pszName) override { return share.Get(pszName); }
+  IGFXFont * GetFont(const char *pszName) override { return share.Get(pszName); }
 };
 
 #endif // __FONTMANAGER_H__

@@ -29,7 +29,7 @@ class CStatSystem : public IStatSystem
   int nPosX, nPosY;// screen coordinates
 public:
   // add/remove statistics entry
-  void STDCALL AddEntry(const char *pszName) override
+  void AddEntry(const char *pszName) override
   {
     if (entriesMap.find(pszName) == entriesMap.end())
     {
@@ -40,7 +40,7 @@ public:
     }
   }
 
-  void STDCALL RemoveEntry(const char *pszName) override
+  void RemoveEntry(const char *pszName) override
   {
     if (entriesMap.find(pszName) != entriesMap.end())
     {
@@ -59,7 +59,7 @@ public:
   }
 
   // update entry
-  void STDCALL UpdateEntry(const char *pszName, double val) override
+  void UpdateEntry(const char *pszName, double val) override
   {
     CEntriesPtrMap::iterator it = entriesMap.find(pszName);
     // add entry, if still not exist
@@ -73,7 +73,7 @@ public:
     it->second->szValue = NStr::Format("%g", it->second->fCurr);
   }
 
-  void STDCALL UpdateEntry(const char *pszName, const char *pszVal) override
+  void UpdateEntry(const char *pszName, const char *pszVal) override
   {
     CEntriesPtrMap::iterator it = entriesMap.find(pszName);
     // add entry, if still not exist
@@ -86,7 +86,7 @@ public:
     it->second->szValue = pszVal;
   }
 
-  void STDCALL ResetEntry(const char *pszName) override
+  void ResetEntry(const char *pszName) override
   {
     CEntriesPtrMap::iterator it = entriesMap.find(pszName);
     if (it != entriesMap.end())
@@ -97,13 +97,13 @@ public:
   }
 
   //
-  void STDCALL SetPosition(int _nX, int _nY) override { nPosX = _nX, nPosY = _nY; }
+  void SetPosition(int _nX, int _nY) override { nPosX = _nX, nPosY = _nY; }
   // update object
-  bool STDCALL Update(const NTimer::STime &time, bool bForced = false) override { return true; }
+  bool Update(const NTimer::STime &time, bool bForced = false) override { return true; }
   // drawing
-  bool STDCALL Draw(IGFX *pGFX) override;
+  bool Draw(IGFX *pGFX) override;
   // visiting
-  void STDCALL Visit(ISceneVisitor *pVisitor, int nType = -1) override;
+  void Visit(ISceneVisitor *pVisitor, int nType = -1) override;
 };
 
 #endif // __STATSYSTEM_H__

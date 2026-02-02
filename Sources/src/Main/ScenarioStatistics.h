@@ -49,23 +49,23 @@ class CMissionStatistics : public CTRefCount<IMissionStatistics>
 public:
   CMissionStatistics();
   // get mission/chapter/campaign name
-  const std::string & STDCALL GetName() const override;
+  const std::string & GetName() const override;
   // retrieve statistics value by type
-  int STDCALL GetValue(int nType) const override;
+  int GetValue(int nType) const override;
   // add (increment) value
-  void STDCALL AddValue(int nType, int nValue) override;
+  void AddValue(int nType, int nValue) override;
   // set value directly (override)
-  void STDCALL SetValue(int nType, int nValue) override;
+  void SetValue(int nType, int nValue) override;
   // get mission finish status
-  EMissionFinishStatus STDCALL GetFinishStatus() const override;
+  EMissionFinishStatus GetFinishStatus() const override;
   // number of killed in action (KIA)
-  int STDCALL GetNumKIA() const override { return kiaUnits.size(); }
+  int GetNumKIA() const override { return kiaUnits.size(); }
   // KIA name (file name with localized name)
-  const std::string & STDCALL GetKIAName(int nIndex) const override;
+  const std::string & GetKIAName(int nIndex) const override;
   // KIA new name (file name with localized name)
-  const std::string & STDCALL GetKIANewName(int nIndex) const override;
+  const std::string & GetKIANewName(int nIndex) const override;
   // KIA RPG stats
-  const std::string & STDCALL GetKIAStats(int nIndex) const override;
+  const std::string & GetKIAStats(int nIndex) const override;
   //
   // internal management
   //
@@ -92,21 +92,21 @@ class CChapterStatistics : public CTRefCount<IChapterStatistics>
   CMissionStatisticsList missions;// all missions in this chapter
 public:
   // get mission/chapter/campaign name
-  const std::string & STDCALL GetName() const override;
+  const std::string & GetName() const override;
   // retrieve statistics value by type
-  int STDCALL GetValue(int nType) const override;
+  int GetValue(int nType) const override;
   // get num missions, ever started in this chapter
-  int STDCALL GetNumMissions() const override;
+  int GetNumMissions() const override;
   // get particular mission statistics
-  IMissionStatistics * STDCALL GetMission(int nIndex) const override;
+  IMissionStatistics * GetMission(int nIndex) const override;
   // number of killed in action (KIA)
-  int STDCALL GetNumKIA() const override;
+  int GetNumKIA() const override;
   // KIA name (file name with localized name)
-  const std::string & STDCALL GetKIAName(int nIndex) const override;
+  const std::string & GetKIAName(int nIndex) const override;
   // KIA new name (file name with localized name)
-  const std::string & STDCALL GetKIANewName(int nIndex) const override;
+  const std::string & GetKIANewName(int nIndex) const override;
   // KIA RPG stats
-  const std::string & STDCALL GetKIAStats(int nIndex) const override;
+  const std::string & GetKIAStats(int nIndex) const override;
   //
   // internal management
   //
@@ -133,23 +133,23 @@ class CCampaignStatistics : public CTRefCount<ICampaignStatistics>
   ECampaignType eType;// campaign type
 public:
   // get mission/chapter/campaign name
-  const std::string & STDCALL GetName() const override;
+  const std::string & GetName() const override;
   // get campaign type
-  ECampaignType STDCALL GetType() const override;
+  ECampaignType GetType() const override;
   // retrieve statistics value by type
-  int STDCALL GetValue(int nType) const override;
+  int GetValue(int nType) const override;
   // get num chapters, ever started in this campaign
-  int STDCALL GetNumChapters() const override;
+  int GetNumChapters() const override;
   // get particular chapter statistics
-  IChapterStatistics * STDCALL GetChapter(int nIndex) const override;
+  IChapterStatistics * GetChapter(int nIndex) const override;
   // number of killed in action (KIA)
-  int STDCALL GetNumKIA() const override;
+  int GetNumKIA() const override;
   // KIA name (file name with localized name)
-  const std::string & STDCALL GetKIAName(int nIndex) const override;
+  const std::string & GetKIAName(int nIndex) const override;
   // KIA new name (file name with localized name)
-  const std::string & STDCALL GetKIANewName(int nIndex) const override;
+  const std::string & GetKIANewName(int nIndex) const override;
   // KIA RPG stats
-  const std::string & STDCALL GetKIAStats(int nIndex) const override;
+  const std::string & GetKIAStats(int nIndex) const override;
   //
   // internal management
   //

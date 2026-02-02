@@ -14,30 +14,30 @@ class CFrameSelection : public IFrameSelection
 public:
   CFrameSelection() : vBegin(VNULL3), vEnd(VNULL3), bActive(false) {}
   //
-  void STDCALL Begin(const CVec3 &point) override
+  void Begin(const CVec3 &point) override
   {
     vBegin = vEnd = point;
     bActive = true;
   }
 
-  void STDCALL End() override { bActive = false; }
-  void STDCALL Update(const CVec3 &point) override { if (bActive) vEnd = point; }
+  void End() override { bActive = false; }
+  void Update(const CVec3 &point) override { if (bActive) vEnd = point; }
 
-  void STDCALL Reset() override
+  void Reset() override
   {
     vBegin = vEnd = VNULL3;
     bActive = false;
   }
 
-  CVec3 STDCALL GetBeginPoint() override { return vBegin; }
-  CVec3 STDCALL GetEndPoint() override { return vEnd; }
-  bool STDCALL IsActive() override { return bActive; }
+  CVec3 GetBeginPoint() override { return vBegin; }
+  CVec3 GetEndPoint() override { return vEnd; }
+  bool IsActive() override { return bActive; }
   // update object
-  bool STDCALL Update(const NTimer::STime &time, bool bForced = false) override { return true; }
+  bool Update(const NTimer::STime &time, bool bForced = false) override { return true; }
   //
-  bool STDCALL Draw(IGFX *pGFX) override;
+  bool Draw(IGFX *pGFX) override;
   // visiting
-  void STDCALL Visit(ISceneVisitor *pVisitor, int nType = -1) override;
+  void Visit(ISceneVisitor *pVisitor, int nType = -1) override;
 };
 
 #endif // __FRAMESELECTION_H__

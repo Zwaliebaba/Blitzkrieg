@@ -138,7 +138,7 @@ BOOL NT4GetLoadedModules(DWORD dwPID, UINT uiCount, HMODULE *paModArray, LPUINT 
   return TRUE;
 }
 
-DWORD STDCALL NTGetModuleBaseName(HANDLE hProcess, HMODULE hModule, LPTSTR lpBaseName, DWORD nSize)
+DWORD NTGetModuleBaseName(HANDLE hProcess, HMODULE hModule, LPTSTR lpBaseName, DWORD nSize)
 {
   // Initialize PSAPI.DLL, if needed.
   if (FALSE == InitPSAPI())

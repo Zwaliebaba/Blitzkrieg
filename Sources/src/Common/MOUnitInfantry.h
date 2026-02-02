@@ -29,38 +29,38 @@ class CMOUnitInfantry : public CMOUnit
 public:
   CMOUnitInfantry();
   //
-  bool STDCALL Create(IRefCount *pAIObj, const SGDBObjectDesc *pDesc, int nSeason, int nFrameIndex, float fHP, interface IVisObjBuilder *pVOB, IObjectsDB *pGDB) override;
+  bool Create(IRefCount *pAIObj, const SGDBObjectDesc *pDesc, int nSeason, int nFrameIndex, float fHP, interface IVisObjBuilder *pVOB, IObjectsDB *pGDB) override;
   // get status for mission status bar
-  void STDCALL GetStatus(struct SMissionStatusObject *pStatus) const override;
+  void GetStatus(struct SMissionStatusObject *pStatus) const override;
   //
-  void STDCALL SetSquad(interface IMOSquad *_pSquad) override;
-  IMOSquad * STDCALL GetSquad() override { return pSquad; }
+  void SetSquad(interface IMOSquad *_pSquad) override;
+  IMOSquad * GetSquad() override { return pSquad; }
   // change selection state for this object
-  void STDCALL Select(ISelector *pSelector, bool bSelect, bool bSelectSuper) override;
+  void Select(ISelector *pSelector, bool bSelect, bool bSelectSuper) override;
   //
-  void STDCALL SetContainer(IMOContainer *_pContainer) override;
+  void SetContainer(IMOContainer *_pContainer) override;
   //
-  bool STDCALL Load(interface IMOUnit *pMO, bool bEnter) override { return false; }
-  void STDCALL UpdatePassangers() override {}
+  bool Load(interface IMOUnit *pMO, bool bEnter) override { return false; }
+  void UpdatePassangers() override {}
   // get all passangers from container. 
-  int STDCALL GetPassangers(IMOUnit **pBuffer, const bool bCanSelectOnly) const override { return 0; }
+  int GetPassangers(IMOUnit **pBuffer, const bool bCanSelectOnly) const override { return 0; }
   // get free places
-  int STDCALL GetFreePlaces() const override { return 0; }
+  int GetFreePlaces() const override { return 0; }
   // get actions, which this object can perform or actions, thi object can be acted with
-  void STDCALL GetActions(CUserActions *pActions, EActionsType eActions) const override;
+  void GetActions(CUserActions *pActions, EActionsType eActions) const override;
   // common updates
-  void STDCALL AIUpdatePlacement(const struct SAINotifyPlacement &placement, const NTimer::STime &currTime, IScene *pScene) override;
-  bool STDCALL AIUpdateRPGStats(const SAINotifyRPGStats &stats, IVisObjBuilder *pVOB, IScene *pScene) override;
-  void STDCALL AIUpdateHit(const struct SAINotifyHitInfo &hit, const NTimer::STime &currTime, IScene *pScene, IVisObjBuilder *pVOB) override;
+  void AIUpdatePlacement(const struct SAINotifyPlacement &placement, const NTimer::STime &currTime, IScene *pScene) override;
+  bool AIUpdateRPGStats(const SAINotifyRPGStats &stats, IVisObjBuilder *pVOB, IScene *pScene) override;
+  void AIUpdateHit(const struct SAINotifyHitInfo &hit, const NTimer::STime &currTime, IScene *pScene, IVisObjBuilder *pVOB) override;
   //
-  int STDCALL AIUpdateActions(const struct SAINotifyAction &action, const NTimer::STime &currTime, IVisObjBuilder *pVOB, IScene *pScene, interface IClientAckManager *pAckManager) override;
-  IMapObj * STDCALL AIUpdateFireWithProjectile(const SAINotifyNewProjectile &projectile, const NTimer::STime &currTime, interface IVisObjBuilder *pVOB) override;
-  void STDCALL AIUpdateShot(const struct SAINotifyBaseShot &shot, const NTimer::STime &currTime, IVisObjBuilder *pVOB, IScene *pScene) override;
+  int AIUpdateActions(const struct SAINotifyAction &action, const NTimer::STime &currTime, IVisObjBuilder *pVOB, IScene *pScene, interface IClientAckManager *pAckManager) override;
+  IMapObj * AIUpdateFireWithProjectile(const SAINotifyNewProjectile &projectile, const NTimer::STime &currTime, interface IVisObjBuilder *pVOB) override;
+  void AIUpdateShot(const struct SAINotifyBaseShot &shot, const NTimer::STime &currTime, IVisObjBuilder *pVOB, IScene *pScene) override;
   // visiting
-  void STDCALL Visit(IMapObjVisitor *pVisitor) override;
+  void Visit(IMapObjVisitor *pVisitor) override;
   // change look with blood settings
-  bool STDCALL ChangeWithBlood(IVisObjBuilder *pVOB) override;
-  virtual void STDCALL SetHPSimpleBar(bool bSimple = true);
+  bool ChangeWithBlood(IVisObjBuilder *pVOB) override;
+  virtual void SetHPSimpleBar(bool bSimple = true);
 };
 
 #endif // __MOUNITINFANTRY_H__

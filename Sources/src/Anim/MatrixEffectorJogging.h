@@ -33,13 +33,13 @@ class CMatrixEffectorJogging : public IMatrixEffectorJogging
   CMatrixEffectorJogging();
 
 public:
-  void STDCALL SetupTimes(const NTimer::STime &_timeStart, const NTimer::STime &_timeLife) override { timeStart = _timeStart; }
+  void SetupTimes(const NTimer::STime &_timeStart, const NTimer::STime &_timeLife) override { timeStart = _timeStart; }
 
-  void STDCALL SetupData(float fPeriodX1, float fPeriodX2, float fAmpX1, float fAmpX2, float fPhaseX1, float fPhaseX2,
+  void SetupData(float fPeriodX1, float fPeriodX2, float fAmpX1, float fAmpX2, float fPhaseX1, float fPhaseX2,
                          float fPeriodY1, float fPeriodY2, float fAmpY1, float fAmpY2, float fPhaseY1, float fPhaseY2,
                          float fPeriodZ1, float fPeriodZ2, float fAmpZ1, float fAmpZ2, float fPhaseZ1, float fPhaseZ2) override;
-  bool STDCALL Update(const NTimer::STime &time) override;
-  const SHMatrix & STDCALL GetMatrix() const override { return matResult; }
+  bool Update(const NTimer::STime &time) override;
+  const SHMatrix & GetMatrix() const override { return matResult; }
 };
 
 // //////////////////////////////////////////////////////////// 

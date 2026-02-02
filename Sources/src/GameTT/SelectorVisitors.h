@@ -15,7 +15,7 @@ public:
     : eActions(_eActions), pActions(_pActions) {}
 
   //
-  void STDCALL VisitMapObject(struct SMapObject *pMO) const override
+  void VisitMapObject(struct SMapObject *pMO) const override
   {
     CUserActions actions;
     pMO->GetActions(&actions, eActions);
@@ -34,7 +34,7 @@ public:
     : eActions(_eActions), pActions(_pActions), pException(_pException) {}
 
   //
-  void STDCALL VisitMapObject(struct SMapObject *pMO) const override
+  void VisitMapObject(struct SMapObject *pMO) const override
   {
     if (pMO != pException)
     {
@@ -50,7 +50,7 @@ class CCollectObjectsSelectiorVisitor : public ISelectorVisitor
   mutable CMapObjectsList objects;
 
 public:
-  void STDCALL VisitMapObject(struct SMapObject *pMO) const override { objects.push_back(pMO); }
+  void VisitMapObject(struct SMapObject *pMO) const override { objects.push_back(pMO); }
   //
   CMapObjectsList &GetObjects() { return objects; }
 };

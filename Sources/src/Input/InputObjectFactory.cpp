@@ -16,4 +16,4 @@ CInputObjectFactory::CInputObjectFactory()
 }
 
 static SModuleDescriptor theModuleDescriptor("Input (DX8)", INPUT_INPUT, 0x0200, &theInputObjectFactory, nullptr);
-const SModuleDescriptor * STDCALL GetModuleDescriptor() { return &theModuleDescriptor; }
+const SModuleDescriptor * GetModuleDescriptor() { return &theModuleDescriptor; }

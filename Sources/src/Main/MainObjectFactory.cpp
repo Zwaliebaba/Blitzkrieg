@@ -21,7 +21,7 @@
 #include "ScenarioTracker2Internal.h"
 
 CMainObjectFactory theMainObjectFactory;
-IObjectFactory * STDCALL GetMainObjectFactory() { return &theMainObjectFactory; }
+IObjectFactory * GetMainObjectFactory() { return &theMainObjectFactory; }
 
 CMainObjectFactory::CMainObjectFactory()
 {

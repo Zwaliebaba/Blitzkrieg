@@ -7,26 +7,26 @@
 interface IUISetOptionsToUI
 {
   // use tempBuffer
-  virtual void STDCALL SetSelectionOption(const std::vector<SOptionDropListValue> &szSelections, int nDefault) = 0;
-  virtual void STDCALL SetSliderOption(int nMin, int nMax, int nDefault) = 0;
-  virtual void STDCALL SetTextOption(const wchar_t*pszEntry) = 0;
-  virtual void STDCALL SetTextGameSpyOption(const wchar_t*pszEntry) = 0;
-  virtual void STDCALL SetTextNumericOption(int nEnntry) = 0;
+  virtual void SetSelectionOption(const std::vector<SOptionDropListValue> &szSelections, int nDefault) = 0;
+  virtual void SetSliderOption(int nMin, int nMax, int nDefault) = 0;
+  virtual void SetTextOption(const wchar_t*pszEntry) = 0;
+  virtual void SetTextGameSpyOption(const wchar_t*pszEntry) = 0;
+  virtual void SetTextNumericOption(int nEnntry) = 0;
 
-  virtual void STDCALL ResetSelection() = 0;
-  virtual void STDCALL ResetSlider() = 0;
-  virtual void STDCALL ResetTextEntry() = 0;
-  virtual void STDCALL ResetNumericEntry() = 0;
-  virtual void STDCALL ResetTextGameSpyEntry() = 0;
+  virtual void ResetSelection() = 0;
+  virtual void ResetSlider() = 0;
+  virtual void ResetTextEntry() = 0;
+  virtual void ResetNumericEntry() = 0;
+  virtual void ResetTextGameSpyEntry() = 0;
 };
 
 interface IUIGetOptionsFromUI
 {
-  virtual int STDCALL GetSelectionOption() const = 0;
-  virtual int STDCALL GetSliderOption() const = 0;
-  virtual const wchar_t* STDCALL GetTextOption() const = 0;
-  virtual const int STDCALL GetTextNumericOption() const = 0;
-  virtual const wchar_t* STDCALL GetTextGameSpyOption() const = 0;
+  virtual int GetSelectionOption() const = 0;
+  virtual int GetSliderOption() const = 0;
+  virtual const wchar_t* GetTextOption() const = 0;
+  virtual const int GetTextNumericOption() const = 0;
+  virtual const wchar_t* GetTextGameSpyOption() const = 0;
 };
 
 enum EOptionsType
@@ -44,14 +44,14 @@ enum EOptionsType
 // for manipulate with options. 
 interface IOption : IRefCount
 {
-  virtual void STDCALL Set(interface IUISetOptionsToUI *pSet) = 0;
-  virtual void STDCALL Get(interface IUIGetOptionsFromUI *pGet) = 0;
-  virtual EOptionsType STDCALL GetType() const = 0;
-  virtual const char * STDCALL GetName() const = 0;
-  virtual void STDCALL Apply() = 0;
-  virtual void STDCALL CancelChanges(interface IUISetOptionsToUI *pSet) = 0;
-  virtual bool STDCALL IsInstant() const = 0;
-  virtual void STDCALL SetOptionSystem(IOptionSystem *pSystem) = 0;
+  virtual void Set(interface IUISetOptionsToUI *pSet) = 0;
+  virtual void Get(interface IUIGetOptionsFromUI *pGet) = 0;
+  virtual EOptionsType GetType() const = 0;
+  virtual const char * GetName() const = 0;
+  virtual void Apply() = 0;
+  virtual void CancelChanges(interface IUISetOptionsToUI *pSet) = 0;
+  virtual bool IsInstant() const = 0;
+  virtual void SetOptionSystem(IOptionSystem *pSystem) = 0;
 };
 
 // for getting options.
@@ -79,9 +79,9 @@ protected:
   COption(const char *pszName, const bool _bInstant) : szName(pszName), bInstant(_bInstant) {}
 
 public:
-  void STDCALL SetOptionSystem(IOptionSystem *pSystem) override { pOptionSystem = pSystem; }
-  const char * STDCALL GetName() const override { return szName.c_str(); }
-  bool STDCALL IsInstant() const override { return bInstant; }
+  void SetOptionSystem(IOptionSystem *pSystem) override { pOptionSystem = pSystem; }
+  const char * GetName() const override { return szName.c_str(); }
+  bool IsInstant() const override { return bInstant; }
 };
 
 // 
@@ -103,14 +103,14 @@ public:
 
   }
 
-  void STDCALL Set(interface IUISetOptionsToUI *pSet) override { pSet->SetSelectionOption(selections, nSelection); }
+  void Set(interface IUISetOptionsToUI *pSet) override { pSet->SetSelectionOption(selections, nSelection); }
 
-  void STDCALL Get(interface IUIGetOptionsFromUI *pGet) override { nSelection = pGet->GetSelectionOption(); }
-  EOptionsType STDCALL GetType() const override { return EOT_SELECTION; }
+  void Get(interface IUIGetOptionsFromUI *pGet) override { nSelection = pGet->GetSelectionOption(); }
+  EOptionsType GetType() const override { return EOT_SELECTION; }
 
-  void STDCALL CancelChanges(interface IUISetOptionsToUI *pSet) override { pSet->ResetSelection(); }
+  void CancelChanges(interface IUISetOptionsToUI *pSet) override { pSet->ResetSelection(); }
 
-  void STDCALL Apply() override { GetOptionSystem()->Set(GetName(), selections[nSelection].szProgName.c_str()); }
+  void Apply() override { GetOptionSystem()->Set(GetName(), selections[nSelection].szProgName.c_str()); }
 };
 
 class COptionSlider : public COption
@@ -124,14 +124,14 @@ public:
   COptionSlider(const char *pszName, const bool _bInstant, const int _nMin, const int _nMax, const int _nCur)
     : COption(pszName, _bInstant), nMin(_nMin), nMax(_nMax), nCur(_nCur) {}
 
-  void STDCALL Set(interface IUISetOptionsToUI *pSet) override { pSet->SetSliderOption(nMin, nMax, nCur); }
+  void Set(interface IUISetOptionsToUI *pSet) override { pSet->SetSliderOption(nMin, nMax, nCur); }
 
-  void STDCALL Get(interface IUIGetOptionsFromUI *pGet) override { nCur = pGet->GetSliderOption(); }
-  EOptionsType STDCALL GetType() const override { return EOT_SLIDER; }
+  void Get(interface IUIGetOptionsFromUI *pGet) override { nCur = pGet->GetSliderOption(); }
+  EOptionsType GetType() const override { return EOT_SLIDER; }
 
-  void STDCALL CancelChanges(interface IUISetOptionsToUI *pSet) override { pSet->ResetSlider(); }
+  void CancelChanges(interface IUISetOptionsToUI *pSet) override { pSet->ResetSlider(); }
 
-  void STDCALL Apply() override { GetOptionSystem()->Set(GetName(), variant_t(static_cast<long>(nCur))); }
+  void Apply() override { GetOptionSystem()->Set(GetName(), variant_t(static_cast<long>(nCur))); }
 };
 
 // local player name
@@ -144,14 +144,14 @@ public:
   COptionTextEntry() {}
   COptionTextEntry(const char *pszName, const bool _bInstant, const wchar_t*_pszText) : COption(pszName, _bInstant), szText(_pszText) {}
 
-  void STDCALL Set(interface IUISetOptionsToUI *pSet) override { pSet->SetTextOption(szText.c_str()); }
+  void Set(interface IUISetOptionsToUI *pSet) override { pSet->SetTextOption(szText.c_str()); }
 
-  void STDCALL Get(interface IUIGetOptionsFromUI *pGet) override { szText = pGet->GetTextOption(); }
-  EOptionsType STDCALL GetType() const override { return EOT_TEXTENTRY; }
+  void Get(interface IUIGetOptionsFromUI *pGet) override { szText = pGet->GetTextOption(); }
+  EOptionsType GetType() const override { return EOT_TEXTENTRY; }
 
-  void STDCALL CancelChanges(interface IUISetOptionsToUI *pSet) override { pSet->ResetTextEntry(); }
+  void CancelChanges(interface IUISetOptionsToUI *pSet) override { pSet->ResetTextEntry(); }
 
-  void STDCALL Apply() override { GetOptionSystem()->Set(GetName(), szText.c_str()); }
+  void Apply() override { GetOptionSystem()->Set(GetName(), szText.c_str()); }
 };
 
 class COptionTextEntryGameSpyCharacters : public COption
@@ -163,14 +163,14 @@ public:
   COptionTextEntryGameSpyCharacters() {}
   COptionTextEntryGameSpyCharacters(const char *pszName, const bool _bInstant, const wchar_t*_pszText) : COption(pszName, _bInstant), szText(_pszText) {}
 
-  void STDCALL Set(interface IUISetOptionsToUI *pSet) override { pSet->SetTextGameSpyOption(szText.c_str()); }
+  void Set(interface IUISetOptionsToUI *pSet) override { pSet->SetTextGameSpyOption(szText.c_str()); }
 
-  void STDCALL Get(interface IUIGetOptionsFromUI *pGet) override { szText = pGet->GetTextGameSpyOption(); }
-  EOptionsType STDCALL GetType() const override { return EOT_GAMESPY_TEXTENTRY; }
+  void Get(interface IUIGetOptionsFromUI *pGet) override { szText = pGet->GetTextGameSpyOption(); }
+  EOptionsType GetType() const override { return EOT_GAMESPY_TEXTENTRY; }
 
-  void STDCALL CancelChanges(interface IUISetOptionsToUI *pSet) override { pSet->ResetTextGameSpyEntry(); }
+  void CancelChanges(interface IUISetOptionsToUI *pSet) override { pSet->ResetTextGameSpyEntry(); }
 
-  void STDCALL Apply() override { GetOptionSystem()->Set(GetName(), szText.c_str()); }
+  void Apply() override { GetOptionSystem()->Set(GetName(), szText.c_str()); }
 };
 
 class COptionNumericEntry : public COption
@@ -182,12 +182,12 @@ public:
   COptionNumericEntry() {}
   COptionNumericEntry(const char *pszName, const bool _bInstant, const int _nEntry) : COption(pszName, _bInstant), nEntry(_nEntry) {}
 
-  void STDCALL Set(interface IUISetOptionsToUI *pSet) override { pSet->SetTextNumericOption(nEntry); }
+  void Set(interface IUISetOptionsToUI *pSet) override { pSet->SetTextNumericOption(nEntry); }
 
-  void STDCALL Get(interface IUIGetOptionsFromUI *pGet) override { nEntry = pGet->GetTextNumericOption(); }
-  EOptionsType STDCALL GetType() const override { return EOT_NUMERICENTRY; }
+  void Get(interface IUIGetOptionsFromUI *pGet) override { nEntry = pGet->GetTextNumericOption(); }
+  EOptionsType GetType() const override { return EOT_NUMERICENTRY; }
 
-  void STDCALL CancelChanges(interface IUISetOptionsToUI *pSet) override { pSet->ResetNumericEntry(); }
+  void CancelChanges(interface IUISetOptionsToUI *pSet) override { pSet->ResetNumericEntry(); }
 
-  void STDCALL Apply() override { GetOptionSystem()->Set(GetName(), variant_t(static_cast<long>(nEntry))); }
+  void Apply() override { GetOptionSystem()->Set(GetName(), variant_t(static_cast<long>(nEntry))); }
 };

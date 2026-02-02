@@ -34,7 +34,7 @@ public:
   ~CInternalGuard() { bInternal = false; }
 };
 
-void STDCALL NBugSlayer::MemSystemAddIgnoredPath(const char *pszPath)
+void NBugSlayer::MemSystemAddIgnoredPath(const char *pszPath)
 {
   if (bInternal) return;
   CInternalGuard internal(bInternal);
@@ -119,7 +119,7 @@ static bool IsAddressFits(DWORD dwAddress)
   return i->second;
 }
 
-void STDCALL NBugSlayer::MemSystemRegister(size_t nSize, void *ptr)
+void NBugSlayer::MemSystemRegister(size_t nSize, void *ptr)
 {
   if (bInternal) return;
   CInternalGuard internal(bInternal);
@@ -130,7 +130,7 @@ void STDCALL NBugSlayer::MemSystemRegister(size_t nSize, void *ptr)
   GET_CALLSTACK_ADDRS(info.dwAddresses, nNumCallstackEntries);
 }
 
-void STDCALL NBugSlayer::MemSystemFree(void *ptr)
+void NBugSlayer::MemSystemFree(void *ptr)
 {
   if (bInternal) return;
   CInternalGuard internal(bInternal);
@@ -189,7 +189,7 @@ struct SMemStatsSortFunctional
   }
 };
 
-void STDCALL NBugSlayer::MemSystemDumpStats()
+void NBugSlayer::MemSystemDumpStats()
 {
   if (pAllocs == nullptr) return;
   CInternalGuard internal(bInternal);

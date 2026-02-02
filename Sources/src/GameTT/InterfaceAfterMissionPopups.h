@@ -44,7 +44,7 @@ public:
   int GetFinishCommandID() const { return nCommandID; }
   const char *GetFinishCommandParams() const { return (szCommandParams.empty() ? nullptr : szCommandParams.c_str()); }
 
-  virtual void STDCALL OnGetFocus(bool bFocus);
+  virtual void OnGetFocus(bool bFocus);
 };
 
 

@@ -23,12 +23,12 @@ public:
   ~CUITimeCounter() override {}
 
   // serializing...
-  int STDCALL operator&(IDataTree &ss) override;
+  int operator&(IDataTree &ss) override;
 
-  bool STDCALL Update(const NTimer::STime &currTime) override;
-  void STDCALL Draw(IGFX *pGFX) override;
-  void STDCALL Visit(interface ISceneVisitor *pVisitor) override;
-  bool STDCALL ProcessMessage(const SUIMessage &msg) override;
+  bool Update(const NTimer::STime &currTime) override;
+  void Draw(IGFX *pGFX) override;
+  void Visit(interface ISceneVisitor *pVisitor) override;
+  bool ProcessMessage(const SUIMessage &msg) override;
 };
 
 class CUITimeCounterBridge : public IUITimeCounter, public CUITimeCounter

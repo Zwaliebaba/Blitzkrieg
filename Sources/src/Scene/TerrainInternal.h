@@ -195,31 +195,31 @@ class CTerrain : public ITerrain, public ITerrainEditor
 public:
   CTerrain() : bGridOn(false), bEnableNoise(true), terrabuild(tilesetDesc, crossetDesc/* ,roadsetDesc */) {}
   // initialization
-  void STDCALL Init(ISingleton *pSingleton) override;
-  void STDCALL ResetPosition() override { vOldAnchor.Set(-1000000, -1000000, -1000000); }
+  void Init(ISingleton *pSingleton) override;
+  void ResetPosition() override { vOldAnchor.Set(-1000000, -1000000, -1000000); }
   // sizes
-  int STDCALL GetSizeX() const override { return terrainInfo.tiles.GetSizeX(); }
-  int STDCALL GetSizeY() const override { return terrainInfo.tiles.GetSizeY(); }
-  int STDCALL GetPatchesX() const override { return terrainInfo.patches.GetSizeX(); }
-  int STDCALL GetPatchesY() const override { return terrainInfo.patches.GetSizeY(); }
+  int GetSizeX() const override { return terrainInfo.tiles.GetSizeX(); }
+  int GetSizeY() const override { return terrainInfo.tiles.GetSizeY(); }
+  int GetPatchesX() const override { return terrainInfo.patches.GetSizeX(); }
+  int GetPatchesY() const override { return terrainInfo.patches.GetSizeY(); }
   // height in the point
-  float STDCALL GetHeight(const CVec2 &vPos) override;
+  float GetHeight(const CVec2 &vPos) override;
   // drawing
-  bool STDCALL Draw(ICamera *pCamera) override;
-  bool STDCALL DrawWarFog() override;
-  bool STDCALL DrawVectorObjects() override;
-  bool STDCALL DrawMarkers() override;
-  void STDCALL DrawBorder(DWORD dwColor, int nTiles, bool bUseFog) override;
-  void STDCALL SetWarFog(struct SAIVisInfo *vises, int nNumVises) override;
+  bool Draw(ICamera *pCamera) override;
+  bool DrawWarFog() override;
+  bool DrawVectorObjects() override;
+  bool DrawMarkers() override;
+  void DrawBorder(DWORD dwColor, int nTiles, bool bUseFog) override;
+  void SetWarFog(struct SAIVisInfo *vises, int nNumVises) override;
   // enables
-  bool STDCALL EnableGrid(bool _bGridOn) override
+  bool EnableGrid(bool _bGridOn) override
   {
     bool bOld = bGridOn;
     bGridOn = _bGridOn;
     return bOld;
   }
 
-  bool STDCALL EnableNoise(bool bEnable) override
+  bool EnableNoise(bool bEnable) override
   {
     bool bOld = bEnableNoise;
     bEnableNoise = bEnable;
@@ -227,45 +227,45 @@ public:
   }
 
   //
-  bool STDCALL Load(const char *pszName, const struct STerrainInfo &terrainInfo) override;
+  bool Load(const char *pszName, const struct STerrainInfo &terrainInfo) override;
   // markers
-  void STDCALL SetAIMarker(SAIPassabilityInfo *infos, int nNumInfos) override;
+  void SetAIMarker(SAIPassabilityInfo *infos, int nNumInfos) override;
   // import/export to image
-  bool STDCALL Import(interface IImage *pImage) override;
-  interface IImage * STDCALL Export() override;
+  bool Import(interface IImage *pImage) override;
+  interface IImage * Export() override;
   // editor part
-  bool STDCALL GetTileIndex(const CVec3 &point, int *pnX, int *pnY, bool isExact = false) override;
-  bool STDCALL GetAITileIndex(const CVec3 &point, int *pnX, int *pnY, bool isExact = false) override;
-  void STDCALL SetTile(int x, int y, BYTE tile) override;
-  BYTE STDCALL GetTile(int x, int y) override;
+  bool GetTileIndex(const CVec3 &point, int *pnX, int *pnY, bool isExact = false) override;
+  bool GetAITileIndex(const CVec3 &point, int *pnX, int *pnY, bool isExact = false) override;
+  void SetTile(int x, int y, BYTE tile) override;
+  BYTE GetTile(int x, int y) override;
 
-  void STDCALL SetShade(int x, int y, BYTE shade) override;
-  BYTE STDCALL GetShade(int x, int y) override;
+  void SetShade(int x, int y, BYTE shade) override;
+  BYTE GetShade(int x, int y) override;
 
-  void STDCALL Update(const CTRect<int> &rcPatches) override;
-  void STDCALL SetMarker(const CTPoint<int> *pPoints, int nNumPoints) override;
-  // virtual void STDCALL SetRoads( const SRoadItem *pItems, int nNumItems );
+  void Update(const CTRect<int> &rcPatches) override;
+  void SetMarker(const CTPoint<int> *pPoints, int nNumPoints) override;
+  // virtual void SetRoads( const SRoadItem *pItems, int nNumItems );
   // rivers & roads
-  void STDCALL SampleCurve(const CVec3 *plots, int nNumPlots, float fStep,
+  void SampleCurve(const CVec3 *plots, int nNumPlots, float fStep,
                            SVectorStripeObjectPoint **ppSamples, int *pnNumSamples) override;
-  void STDCALL SmoothCurveWidth(SVectorStripeObjectPoint *points, int nNumPoints) override;
-  int STDCALL AddRiver(const SVectorStripeObject &river) override;
-  bool STDCALL UpdateRiver(int nID) override;
-  bool STDCALL RemoveRiver(int nID) override;
-  int STDCALL AddRoad(const struct SVectorStripeObject &road) override;
-  bool STDCALL UpdateRoad(int nID) override;
-  bool STDCALL RemoveRoad(int nID) override;
+  void SmoothCurveWidth(SVectorStripeObjectPoint *points, int nNumPoints) override;
+  int AddRiver(const SVectorStripeObject &river) override;
+  bool UpdateRiver(int nID) override;
+  bool RemoveRiver(int nID) override;
+  int AddRoad(const struct SVectorStripeObject &road) override;
+  bool UpdateRoad(int nID) override;
+  bool RemoveRoad(int nID) override;
   // get the internal terrain descriptor for the editor
-  const struct STerrainInfo & STDCALL GetTerrainInfo() const override { return terrainInfo; }
+  const struct STerrainInfo & GetTerrainInfo() const override { return terrainInfo; }
   // set descriptors
-  const struct STilesetDesc & STDCALL GetTilesetDesc() const override { return tilesetDesc; }
-  const struct SCrossetDesc & STDCALL GetCrossetDesc() const override { return crossetDesc; }
-  // virtual const struct SRoadsetDesc& STDCALL GetRoadsetDesc() const { return roadsetDesc; 
+  const struct STilesetDesc & GetTilesetDesc() const override { return tilesetDesc; }
+  const struct SCrossetDesc & GetCrossetDesc() const override { return crossetDesc; }
+  // virtual const struct SRoadsetDesc& GetRoadsetDesc() const { return roadsetDesc; 
 
-  const char * STDCALL GetTerrainSound(int nTerrainType) override;
-  const char * STDCALL GetTerrainCycleSound(int nTerrainType) override;
-  void STDCALL GetTerrainMassData(SSoundTerrainInfo **ppData, int *pnSize) override;
-  float STDCALL GetSoundVolume(int nTerrainType) const override;
+  const char * GetTerrainSound(int nTerrainType) override;
+  const char * GetTerrainCycleSound(int nTerrainType) override;
+  void GetTerrainMassData(SSoundTerrainInfo **ppData, int *pnSize) override;
+  float GetSoundVolume(int nTerrainType) const override;
 };
 
 #endif // __TERRAININTERNAL_H__

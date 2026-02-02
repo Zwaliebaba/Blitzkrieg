@@ -10,18 +10,18 @@
 class CInterfaceInterMission : public CInterfaceScreenBase
 {
   //
-  void STDCALL DrawAdd() override;
+  void DrawAdd() override;
 
 protected:
   // input
   NInput::CCommandRegistrator intermissionMsgs;
 
-  bool STDCALL StepLocal(bool bAppActive) override;
-  bool STDCALL ProcessMessage(const SGameMessage &msg) override;
+  bool StepLocal(bool bAppActive) override;
+  bool ProcessMessage(const SGameMessage &msg) override;
   CInterfaceInterMission(const std::string &szInterfaceType) : CInterfaceScreenBase(szInterfaceType) {}
 
 public:
-  bool STDCALL Init() override;
+  bool Init() override;
 };
 
 interface IMPToUICommandManager;
@@ -32,10 +32,10 @@ protected:
   CPtr<IMPToUICommandManager> pCommandManager;// singleton shortcut
 
   CInterfaceMultiplayerScreen(const std::string &szInterfaceType) : CInterfaceInterMission(szInterfaceType) {}
-  bool STDCALL StepLocal(bool bAppActive) override;
+  bool StepLocal(bool bAppActive) override;
 
 public:
-  bool STDCALL Init() override;
+  bool Init() override;
 
 };
 

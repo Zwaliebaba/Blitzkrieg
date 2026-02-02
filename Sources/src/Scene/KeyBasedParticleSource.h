@@ -31,29 +31,29 @@ class CKeyBasedParticleSource : public IParticleSource, public IParticleSourceWi
   GetParticlePositionFunction *pfnGPPfunc;// pointer to a function that determines the nature of the particle emission region
 public:
   // data retrieving for rendering
-  interface IGFXTexture * STDCALL GetTexture() const override;
-  const int STDCALL GetNumParticles() const override;
-  void STDCALL FillParticleBuffer(SSimpleParticle *buff) const override;
+  interface IGFXTexture * GetTexture() const override;
+  const int GetNumParticles() const override;
+  void FillParticleBuffer(SSimpleParticle *buff) const override;
   // position/direction
-  const CVec3 STDCALL GetPos() const override;
-  void STDCALL SetPos(const CVec3 &vPos) override;
-  const CVec3 STDCALL GetDirection() const override;
-  void STDCALL SetScale(float _fScale) override;
-  void STDCALL SetDirection(const SHMatrix &mDir) override;
+  const CVec3 GetPos() const override;
+  void SetPos(const CVec3 &vPos) override;
+  const CVec3 GetDirection() const override;
+  void SetScale(float _fScale) override;
+  void SetDirection(const SHMatrix &mDir) override;
   // update and work with time
-  void STDCALL Update(const NTimer::STime &time) override;
-  void STDCALL SetStartTime(const NTimer::STime &time) override;
-  const NTimer::STime STDCALL GetStartTime() const override;
-  const NTimer::STime STDCALL GetEffectLifeTime() const override;
-  bool STDCALL IsFinished() const override;
+  void Update(const NTimer::STime &time) override;
+  void SetStartTime(const NTimer::STime &time) override;
+  const NTimer::STime GetStartTime() const override;
+  const NTimer::STime GetEffectLifeTime() const override;
+  bool IsFinished() const override;
   // statistics
-  void STDCALL GetInfo(SParticleSourceInfo &info) override;
-  float STDCALL GetArea() const override;
-  void STDCALL Stop() override;
+  void GetInfo(SParticleSourceInfo &info) override;
+  float GetArea() const override;
+  void Stop() override;
   //
   virtual void Init(SParticleSourceData *_pData);
-  int STDCALL GetOptimalUpdateTime() const override;
-  void STDCALL SetSuspendedState(bool bState) override;
+  int GetOptimalUpdateTime() const override;
+  void SetSuspendedState(bool bState) override;
 };
 
 class CParticleGenerator

@@ -9,7 +9,7 @@ class CInterfaceIMModsList : public CInterfaceBaseList
 {
   OBJECT_NORMAL_METHODS(CInterfaceIMModsList);
   //
-  bool STDCALL ProcessMessage(const SGameMessage &msg) override;
+  bool ProcessMessage(const SGameMessage &msg) override;
   // disable explicit destruction
   ~CInterfaceIMModsList() override;
 
@@ -22,7 +22,7 @@ protected:
   void PrepareList(std::vector<std::string> *pFiles) override;
 
 public:
-  bool STDCALL Init() override;
+  bool Init() override;
 };
 
 class CICIMModsList : public CInterfaceCommandBase<CInterfaceIMModsList, MISSION_INTERFACE_MODS_LIST>

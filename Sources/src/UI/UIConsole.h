@@ -57,23 +57,23 @@ public:
   ~CUIConsole() override {}
 
   // serializing...
-  int STDCALL operator&(IDataTree &ss) override;
+  int operator&(IDataTree &ss) override;
 
-  bool STDCALL IsVisible() override;
-  void STDCALL ShowWindow(int _nCmdShow) override;
-  virtual bool STDCALL IsAnimationStage() { return bAnimation; }
+  bool IsVisible() override;
+  void ShowWindow(int _nCmdShow) override;
+  virtual bool IsAnimationStage() { return bAnimation; }
 
   // the console always takes up the entire width of the screen
-  void STDCALL Reposition(const CTRect<float> &rcParent) override;
+  void Reposition(const CTRect<float> &rcParent) override;
   // this is needed for console animation, collapsing and expanding
-  bool STDCALL Update(const NTimer::STime &currTime) override;
+  bool Update(const NTimer::STime &currTime) override;
   // in addition to drawing a window, lines should be displayed here
-  void STDCALL Draw(interface IGFX *pGFX) override;
-  void STDCALL Visit(interface ISceneVisitor *pVisitor) override;
+  void Draw(interface IGFX *pGFX) override;
+  void Visit(interface ISceneVisitor *pVisitor) override;
 
-  bool STDCALL OnChar(int nAsciiCode, int nVirtualKey, bool bPressed, DWORD keyState) override;
+  bool OnChar(int nAsciiCode, int nVirtualKey, bool bPressed, DWORD keyState) override;
 
-  virtual void STDCALL RegisterCommand(IConsoleCommandHandler *pHandler);
+  virtual void RegisterCommand(IConsoleCommandHandler *pHandler);
 };
 
 class CUIConsoleBridge : public IUIConsole, public CUIConsole
@@ -82,8 +82,8 @@ class CUIConsoleBridge : public IUIConsole, public CUIConsole
   DECLARE_SUPER(CUIConsole);
   DEFINE_UIELEMENT_BRIDGE;
 
-  void STDCALL RegisterCommand(IConsoleCommandHandler *pHandler) override { CSuper::RegisterCommand(pHandler); }
-  bool STDCALL IsAnimationStage() override { return CSuper::IsAnimationStage(); }
+  void RegisterCommand(IConsoleCommandHandler *pHandler) override { CSuper::RegisterCommand(pHandler); }
+  bool IsAnimationStage() override { return CSuper::IsAnimationStage(); }
 };
 
 #endif		// __UI_CONSOLE_H__

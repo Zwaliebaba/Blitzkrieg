@@ -34,13 +34,13 @@ private:
   std::string szCommandParams;
   bool bSilentSwitch;
   //
-  bool STDCALL ProcessMessage(const SGameMessage &msg) override;
+  bool ProcessMessage(const SGameMessage &msg) override;
   // disable explicit destruction
   ~CInterfaceSwitchModeTo() override;
   CInterfaceSwitchModeTo() : CInterfaceInterMission("InterMission") {}
 
 public:
-  bool STDCALL Init() override;
+  bool Init() override;
   bool Create(const std::string &szModName,
               const std::string &szModVer,
               int nCommandID,
@@ -73,7 +73,7 @@ class CICSwitchModeTo : public CInterfaceCommandBase<CInterfaceSwitchModeTo, MIS
   CICSwitchModeTo() {}
 
 public:
-  void STDCALL Configure(const char *pszConfig) override
+  void Configure(const char *pszConfig) override
   {
     if (pszConfig)
     {

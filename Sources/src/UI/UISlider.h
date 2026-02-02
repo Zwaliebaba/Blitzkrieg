@@ -33,19 +33,19 @@ public:
 
   ~CUISlider() override {}
 
-  bool STDCALL OnChar(int nAsciiCode, int nVirtualKey, bool bPressed, DWORD keyState) override;
-  bool STDCALL ProcessMessage(const SUIMessage &msg) override;
+  bool OnChar(int nAsciiCode, int nVirtualKey, bool bPressed, DWORD keyState) override;
+  bool ProcessMessage(const SUIMessage &msg) override;
 
   // serializing...
-  int STDCALL operator&(IDataTree &ss) override;
+  int operator&(IDataTree &ss) override;
 
-  void STDCALL Draw(IGFX *pGFX) override;
-  void STDCALL Visit(interface ISceneVisitor *pVisitor) override;
+  void Draw(IGFX *pGFX) override;
+  void Visit(interface ISceneVisitor *pVisitor) override;
 
   // cursor and actions
-  bool STDCALL OnMouseMove(const CVec2 &vPos, EMouseState mouseState) override;
-  bool STDCALL OnLButtonDown(const CVec2 &vPos, EMouseState mouseState) override;
-  bool STDCALL OnLButtonUp(const CVec2 &vPos, EMouseState mouseState) override { return true; }
+  bool OnMouseMove(const CVec2 &vPos, EMouseState mouseState) override;
+  bool OnLButtonDown(const CVec2 &vPos, EMouseState mouseState) override;
+  bool OnLButtonUp(const CVec2 &vPos, EMouseState mouseState) override { return true; }
 
   // for¤ ScrollBar
   // here a change in position does not send a message to the top.
@@ -81,11 +81,11 @@ class CUISliderBridge : public IUISlider, public CUISlider
 public:
   DECLARE_SUPER(CUISlider);
   DEFINE_UIELEMENT_BRIDGE;
-  void STDCALL SetMinValue(int nVal) override { CSuper::SetMinValue(nVal); }
-  void STDCALL SetMaxValue(int nVal) override { CSuper::SetMaxValue(nVal); }
-  void STDCALL SetStep(int nVal) override { CSuper::SetStep(nVal); }
-  void STDCALL SetPosition(int nPos) override { CSuper::SetPosition(nPos); }
-  int STDCALL GetPosition() override { return CSuper::GetPosition(); }
+  void SetMinValue(int nVal) override { CSuper::SetMinValue(nVal); }
+  void SetMaxValue(int nVal) override { CSuper::SetMaxValue(nVal); }
+  void SetStep(int nVal) override { CSuper::SetStep(nVal); }
+  void SetPosition(int nPos) override { CSuper::SetPosition(nPos); }
+  int GetPosition() override { return CSuper::GetPosition(); }
 };
 
 // The cat behaves like MultipleWindow in terms of message processing (it just passes them to childs)
@@ -108,15 +108,15 @@ public:
   CUIScrollBar() : pMinButton(nullptr), pMaxButton(nullptr), pSlider(nullptr), m_nButtonStep(1), dwLastUpdateTime(0) {}
   ~CUIScrollBar() override {}
 
-  void STDCALL Reposition(const CTRect<float> &rcParent) override;
+  void Reposition(const CTRect<float> &rcParent) override;
   /* //state
    */
 
-  bool STDCALL ProcessMessage(const SUIMessage &msg) override;
-  bool STDCALL Update(const NTimer::STime &currTime) override;
+  bool ProcessMessage(const SUIMessage &msg) override;
+  bool Update(const NTimer::STime &currTime) override;
 
   // serializing...
-  int STDCALL operator&(IDataTree &ss) override;
+  int operator&(IDataTree &ss) override;
 
   // for¤ internal use¤
   void SetPosition(int nPos) { pSlider->SetPosition(nPos); }
@@ -136,12 +136,12 @@ class CUIScrollBarBridge : public IUIScrollBar, public CUIScrollBar
   OBJECT_NORMAL_METHODS(CUIScrollBarBridge);
   DECLARE_SUPER(CUIScrollBar);
   DEFINE_UICONTAINER_BRIDGE;
-  void STDCALL SetMinValue(int nVal) override { CSuper::SetMinValue(nVal); }
-  void STDCALL SetMaxValue(int nVal) override { CSuper::SetMaxValue(nVal); }
-  void STDCALL SetStep(int nVal) override { CSuper::SetStep(nVal); }
-  void STDCALL SetButtonStep(int nVal) override { CSuper::SetButtonStep(nVal); }
-  void STDCALL SetPosition(int nPos) override { CSuper::SetPosition(nPos); }
-  int STDCALL GetPosition() override { return CSuper::GetPosition(); }
+  void SetMinValue(int nVal) override { CSuper::SetMinValue(nVal); }
+  void SetMaxValue(int nVal) override { CSuper::SetMaxValue(nVal); }
+  void SetStep(int nVal) override { CSuper::SetStep(nVal); }
+  void SetButtonStep(int nVal) override { CSuper::SetButtonStep(nVal); }
+  void SetPosition(int nPos) override { CSuper::SetPosition(nPos); }
+  int GetPosition() override { return CSuper::GetPosition(); }
 };
 
 #endif		// __UI_SLIDER_H__

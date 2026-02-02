@@ -22,13 +22,13 @@ class CPlayersInterface : public CInterfaceInterMission
 
   CPlayersInterface() : CInterfaceInterMission("InterMission") {}
 
-  bool STDCALL ProcessMessage(const SGameMessage &msg) override;
+  bool ProcessMessage(const SGameMessage &msg) override;
   void SetValues(IUIListRow *pRow, float fCurrentVal, float fFormerVal, int nMultiply);
 
 public:
   void Create(bool bAfterMission);
-  bool STDCALL Init() override;
-  void STDCALL OnGetFocus(bool bFocus) override;
+  bool Init() override;
+  void OnGetFocus(bool bFocus) override;
 };
 
 class CICPlayersInterface : public CInterfaceCommandBase<CPlayersInterface, MISSION_INTERFACE_PLAYERS_STATS>
@@ -48,7 +48,7 @@ class CICPlayersInterface : public CInterfaceCommandBase<CPlayersInterface, MISS
 public:
   CICPlayersInterface() : bAfterMission(false) {}
 
-  void STDCALL Configure(const char *pszConfig) override { if (pszConfig) bAfterMission = NStr::ToInt(pszConfig); }
+  void Configure(const char *pszConfig) override { if (pszConfig) bAfterMission = NStr::ToInt(pszConfig); }
 };
 
 #endif // !defined(AFX_PLAYERSINTERFACE_H__9CF28404_2337_40C5_AEFE_480D866078C6__INCLUDED_)

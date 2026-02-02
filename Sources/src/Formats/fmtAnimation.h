@@ -66,7 +66,7 @@ public:
     return nAnim < animations.size() ? &(animations[nAnim]) : nullptr;
   }
 
-  void STDCALL SwapData(ISharedResource *pResource) override
+  void SwapData(ISharedResource *pResource) override
   {
     auto pRes = dynamic_cast<SSpriteAnimationFormat *>(pResource);
     NI_ASSERT_TF(pRes != 0, "shared resource is not a SSpriteAnimationFormat", return);
@@ -76,8 +76,8 @@ public:
   }
 
   // internal container clearing
-  void STDCALL ClearInternalContainer() override {}
-  bool STDCALL Load(bool bPreLoad = false) override;
+  void ClearInternalContainer() override {}
+  bool Load(bool bPreLoad = false) override;
 };
 
 #endif // __FMTSPRITEANIMATION_H__

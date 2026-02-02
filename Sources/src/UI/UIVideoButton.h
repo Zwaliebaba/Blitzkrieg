@@ -18,16 +18,16 @@ public:
   CUIVideoButton() {}
 
   // serializing...
-  int STDCALL operator&(IDataTree &ss) override;
+  int operator&(IDataTree &ss) override;
 
-  void STDCALL Draw(IGFX *pGFX) override;
-  void STDCALL Visit(interface ISceneVisitor *pVisitor) override;
+  void Draw(IGFX *pGFX) override;
+  void Visit(interface ISceneVisitor *pVisitor) override;
 
-  void STDCALL Reposition(const CTRect<float> &rcParent) override;
-  bool STDCALL Update(const NTimer::STime &currTime) override;
+  void Reposition(const CTRect<float> &rcParent) override;
+  bool Update(const NTimer::STime &currTime) override;
 
-  virtual int STDCALL GetCurrentFrame();
-  virtual bool STDCALL SetCurrentFrame(int nFrame);
+  virtual int GetCurrentFrame();
+  virtual bool SetCurrentFrame(int nFrame);
 };
 
 class CUIVideoButtonBridge : public IUIVideoButton, public CUIVideoButton
@@ -36,8 +36,8 @@ class CUIVideoButtonBridge : public IUIVideoButton, public CUIVideoButton
   DECLARE_SUPER(CUIVideoButton);
   DEFINE_UIELEMENT_BRIDGE;
 
-  int STDCALL GetCurrentFrame() override { return CSuper::GetCurrentFrame(); }
-  bool STDCALL SetCurrentFrame(int nFrame) override { return CSuper::SetCurrentFrame(nFrame); }
+  int GetCurrentFrame() override { return CSuper::GetCurrentFrame(); }
+  bool SetCurrentFrame(int nFrame) override { return CSuper::SetCurrentFrame(nFrame); }
 };
 
 

@@ -15,11 +15,11 @@ class CMaterialEffector : ISceneMaterialEffector
 
 public:
   CMaterialEffector() : nStartTime(0), nDuration(1), bAlpha(0xFF), dwSpecular(0xFF000000), fCoeff(0.0f) {}
-  bool STDCALL Update(const NTimer::STime &time) override;
-  void STDCALL SetupTimes(const NTimer::STime &timeStart, const NTimer::STime &timeLife) override;
-  BYTE STDCALL GetAlpha() const override;
-  DWORD STDCALL GetSpecular() const override;
-  void STDCALL SetupData(BYTE bMaxAlpha, DWORD dwMaxSpecular) override;
+  bool Update(const NTimer::STime &time) override;
+  void SetupTimes(const NTimer::STime &timeStart, const NTimer::STime &timeLife) override;
+  BYTE GetAlpha() const override;
+  DWORD GetSpecular() const override;
+  void SetupData(BYTE bMaxAlpha, DWORD dwMaxSpecular) override;
 };
 
 #endif // __MATERIALEFFECTOR_H__

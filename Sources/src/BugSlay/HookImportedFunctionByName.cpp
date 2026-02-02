@@ -44,7 +44,7 @@ static PIMAGE_IMPORT_DESCRIPTOR GetNamedImportDescriptor(HMODULE hModule, LPCSTR
 /* ////////////////////////////////////////////////////////////////////
                               */
 
-BOOL STDCALL HookImportedFunctionsByName(HMODULE hModule,
+BOOL HookImportedFunctionsByName(HMODULE hModule,
                                          LPCSTR szImportMod,
                                          UINT uiCount,
                                          LPHOOKFUNCDESCA paHookArray,

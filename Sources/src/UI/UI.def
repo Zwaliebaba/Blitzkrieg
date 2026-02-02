@@ -1,9 +1,0 @@
-; UI.def : Declares the module parameters for the DLL.
-
-LIBRARY      "UI"
-DESCRIPTION  'User Interface system'
-
-EXPORTS
-    ; Explicit exports can go here
-
-GetModuleDescriptor		@1

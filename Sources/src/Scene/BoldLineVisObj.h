@@ -21,12 +21,12 @@ class CBoldLineVisObj : public IBoldLineVisObj
 public:
   CBoldLineVisObj();
   // update object
-  bool STDCALL Update(const NTimer::STime &time, bool bForced = false) override { return false; }
+  bool Update(const NTimer::STime &time, bool bForced = false) override { return false; }
   //
-  bool STDCALL Draw(interface IGFX *pGFX) override { return false; }
-  void STDCALL Visit(interface ISceneVisitor *pVisitor, int nType = -1) override;
+  bool Draw(interface IGFX *pGFX) override { return false; }
+  void Visit(interface ISceneVisitor *pVisitor, int nType = -1) override;
   //
-  void STDCALL Setup(const CVec3 &vStart, const CVec3 &vEnd, float fWidth, DWORD color) override;
+  void Setup(const CVec3 &vStart, const CVec3 &vEnd, float fWidth, DWORD color) override;
 };
 
 #endif // __BOLDLINEVISOBJ_H__

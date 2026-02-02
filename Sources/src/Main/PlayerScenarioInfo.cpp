@@ -228,7 +228,7 @@ void CPlayerScenarioInfo::SetName(const std::wstring &_wszName)
 
 const std::wstring &CPlayerScenarioInfo::GetName() const { return wszName; }
 
-IText * STDCALL CPlayerScenarioInfo::GetNameObject() const { return pNameObject; }
+IText * CPlayerScenarioInfo::GetNameObject() const { return pNameObject; }
 
 //
 // current player side (USSR, German, Poland, French, GB, etc) and general side (USSR, German, Allies)

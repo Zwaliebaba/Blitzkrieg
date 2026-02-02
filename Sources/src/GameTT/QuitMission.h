@@ -13,9 +13,9 @@ class CInterfaceQuitMission : public CInterfaceScreenBase
   // input
   NInput::CCommandRegistrator quitmissionMsgs;
   //
-  bool STDCALL ProcessMessage(const SGameMessage &msg) override;
-  bool STDCALL StepLocal(bool bAppActive) override;
-  void STDCALL DrawAdd() override;
+  bool ProcessMessage(const SGameMessage &msg) override;
+  bool StepLocal(bool bAppActive) override;
+  void DrawAdd() override;
   // disable explicit destruction
   ~CInterfaceQuitMission() override;
 
@@ -23,8 +23,8 @@ protected:
   CInterfaceQuitMission() : CInterfaceScreenBase("Current") {}
 
 public:
-  bool STDCALL Init() override;
-  void STDCALL StartInterface() override;
+  bool Init() override;
+  void StartInterface() override;
 };
 
 class CICQuitMission : public CInterfaceCommandBase<IInterfaceBase, MISSION_INTERFACE_QUIT_MISSION>

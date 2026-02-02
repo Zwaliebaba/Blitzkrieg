@@ -142,45 +142,45 @@ class CMOUnitMechanical : public CMOUnit
   ~CMOUnitMechanical() override;
 
 public:
-  bool STDCALL Create(IRefCount *pAIObj, const SGDBObjectDesc *pDesc, int nSeason, int nFrameIndex, float fHP, interface IVisObjBuilder *pVOB, IObjectsDB *pGDB) override;
+  bool Create(IRefCount *pAIObj, const SGDBObjectDesc *pDesc, int nSeason, int nFrameIndex, float fHP, interface IVisObjBuilder *pVOB, IObjectsDB *pGDB) override;
   //
-  void STDCALL PrepareToRemove() override;
+  void PrepareToRemove() override;
   // get status for mission status bar
-  void STDCALL GetStatus(struct SMissionStatusObject *pStatus) const override;
+  void GetStatus(struct SMissionStatusObject *pStatus) const override;
   // change selection state for this object
-  void STDCALL Select(ISelector *pSelector, bool bSelect, bool bSelectSuper) override;
+  void Select(ISelector *pSelector, bool bSelect, bool bSelectSuper) override;
   // modified SetPlacement() for proper trace initialization
-  void STDCALL SetPlacement(const CVec3 &vPos, const WORD &wDir) override;
+  void SetPlacement(const CVec3 &vPos, const WORD &wDir) override;
   //
-  bool STDCALL Load(interface IMOUnit *pMO, bool bEnter) override;
+  bool Load(interface IMOUnit *pMO, bool bEnter) override;
   // show icons of the passangers
-  void STDCALL UpdatePassangers() override;
+  void UpdatePassangers() override;
   // get all passangers from container. 
-  int STDCALL GetPassangers(IMOUnit **pBuffer, bool bCanSelectOnly) const override;
+  int GetPassangers(IMOUnit **pBuffer, bool bCanSelectOnly) const override;
   // get free places
-  int STDCALL GetFreePlaces() const override { return 0; }
+  int GetFreePlaces() const override { return 0; }
   // get actions, which this object can perform or actions, thi object can be acted with
-  void STDCALL GetActions(CUserActions *pActions, EActionsType eActions) const override;
+  void GetActions(CUserActions *pActions, EActionsType eActions) const override;
   // general update. 
-  bool STDCALL Update(const NTimer::STime &currTime) override;
+  bool Update(const NTimer::STime &currTime) override;
   // common updates
-  void STDCALL AIUpdatePlacement(const SAINotifyPlacement &placement, const NTimer::STime &currTime, IScene *pScene) override;
-  virtual void STDCALL LeaveTrace(SMechTrace *pTrace, const SAINotifyPlacement &placement, const NTimer::STime &currTime, bool secondTrack, const SMechUnitRPGStats *pStats, const CVec3 &vPos, bool isForward, const CVec3 &dir, IScene *pScene);
-  bool STDCALL AIUpdateRPGStats(const SAINotifyRPGStats &stats, IVisObjBuilder *pVOB, IScene *pScene) override;
-  void STDCALL AIUpdateHit(const struct SAINotifyHitInfo &hit, const NTimer::STime &currTime, IScene *pScene, IVisObjBuilder *pVOB) override;
+  void AIUpdatePlacement(const SAINotifyPlacement &placement, const NTimer::STime &currTime, IScene *pScene) override;
+  virtual void LeaveTrace(SMechTrace *pTrace, const SAINotifyPlacement &placement, const NTimer::STime &currTime, bool secondTrack, const SMechUnitRPGStats *pStats, const CVec3 &vPos, bool isForward, const CVec3 &dir, IScene *pScene);
+  bool AIUpdateRPGStats(const SAINotifyRPGStats &stats, IVisObjBuilder *pVOB, IScene *pScene) override;
+  void AIUpdateHit(const struct SAINotifyHitInfo &hit, const NTimer::STime &currTime, IScene *pScene, IVisObjBuilder *pVOB) override;
   // unit commands
-  IMapObj * STDCALL AIUpdateFireWithProjectile(const SAINotifyNewProjectile &projectile, const NTimer::STime &currTime, interface IVisObjBuilder *pVOB) override;
-  int STDCALL AIUpdateActions(const SAINotifyAction &action, const NTimer::STime &currTime, IVisObjBuilder *pVOB, IScene *pScene, interface IClientAckManager *pAckManager) override;
-  void STDCALL AIUpdateShot(const struct SAINotifyBaseShot &shot, const NTimer::STime &currTime, IVisObjBuilder *pVOB, IScene *pScene) override;
+  IMapObj * AIUpdateFireWithProjectile(const SAINotifyNewProjectile &projectile, const NTimer::STime &currTime, interface IVisObjBuilder *pVOB) override;
+  int AIUpdateActions(const SAINotifyAction &action, const NTimer::STime &currTime, IVisObjBuilder *pVOB, IScene *pScene, interface IClientAckManager *pAckManager) override;
+  void AIUpdateShot(const struct SAINotifyBaseShot &shot, const NTimer::STime &currTime, IVisObjBuilder *pVOB, IScene *pScene) override;
   //
   // visiting
-  void STDCALL Visit(IMapObjVisitor *pVisitor) override;
+  void Visit(IMapObjVisitor *pVisitor) override;
   // CRAP{ for animations testing
-  void STDCALL AddAnimation(const SUnitBaseRPGStats::SAnimDesc *pDesc) override;
+  void AddAnimation(const SUnitBaseRPGStats::SAnimDesc *pDesc) override;
   // CRAP}
-  void STDCALL RemoveSounds(interface IScene *pScene) override;
+  void RemoveSounds(interface IScene *pScene) override;
   // change look with blood settings
-  bool STDCALL ChangeWithBlood(IVisObjBuilder *pVOB) override { return true; }
+  bool ChangeWithBlood(IVisObjBuilder *pVOB) override { return true; }
 };
 
 // //////////////////////////////////////////////////////////// 

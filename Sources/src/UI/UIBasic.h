@@ -98,74 +98,74 @@ public:
   virtual ~CSimpleWindow() {}
 
   // serializing...
-  virtual int STDCALL operator&(IDataTree &ss);
+  virtual int operator&(IDataTree &ss);
 
   // update
-  virtual bool STDCALL Update(const NTimer::STime &currTime);
-  virtual void STDCALL Reposition(const CTRect<float> &rcParent);
+  virtual bool Update(const NTimer::STime &currTime);
+  virtual void Reposition(const CTRect<float> &rcParent);
 
   // text
-  virtual void STDCALL SetWindowText(int nState, const wchar_t *pszText);
-  virtual const wchar_t *STDCALL GetWindowText(int nState);
-  virtual void STDCALL SetTextColor(DWORD dwColor);
+  virtual void SetWindowText(int nState, const wchar_t *pszText);
+  virtual const wchar_t *GetWindowText(int nState);
+  virtual void SetTextColor(DWORD dwColor);
 
   // tool tip functions
-  virtual IText * STDCALL GetHelpContext(const CVec2 &vPos, CTRect<float> *pRect);
-  virtual void STDCALL SetHelpContext(int nState, const wchar_t *pszToolTipText);
+  virtual IText * GetHelpContext(const CVec2 &vPos, CTRect<float> *pRect);
+  virtual void SetHelpContext(int nState, const wchar_t *pszToolTipText);
 
   // CRAP set texture
-  virtual void STDCALL SetWindowTexture(IGFXTexture *pTexture);
-  virtual IGFXTexture * STDCALL GetWindowTexture();
-  virtual void STDCALL SetWindowMap(const CTRect<float> &maps);
-  virtual void STDCALL SetWindowPlacement(const CVec2 *_vPos, const CVec2 *_vSize);// require to call Reposition() next
-  virtual void STDCALL SetWindowID(int _nID);
+  virtual void SetWindowTexture(IGFXTexture *pTexture);
+  virtual IGFXTexture * GetWindowTexture();
+  virtual void SetWindowMap(const CTRect<float> &maps);
+  virtual void SetWindowPlacement(const CVec2 *_vPos, const CVec2 *_vSize);// require to call Reposition() next
+  virtual void SetWindowID(int _nID);
 
-  virtual void STDCALL SetBoundRect(const CTRect<float> &rc)
+  virtual void SetBoundRect(const CTRect<float> &rc)
   {
     bBounded = true;
     rcBound = rc;
   }
 
   // drawing
-  virtual void STDCALL Draw(IGFX *pGFX);
-  virtual void STDCALL Visit(interface ISceneVisitor *pVisitor);
+  virtual void Draw(IGFX *pGFX);
+  virtual void Visit(interface ISceneVisitor *pVisitor);
 
   // cursor and actions
-  virtual bool STDCALL OnLButtonDblClk(const CVec2 &vPos);
-  virtual bool STDCALL OnMouseMove(const CVec2 &vPos, EMouseState mouseState);
-  virtual bool STDCALL OnLButtonDown(const CVec2 &vPos, EMouseState mouseState);
-  virtual bool STDCALL OnLButtonUp(const CVec2 &vPos, EMouseState mouseState);
-  virtual bool STDCALL OnRButtonDown(const CVec2 &vPos, EMouseState mouseState);
-  virtual bool STDCALL OnRButtonUp(const CVec2 &vPos, EMouseState mouseState);
-  virtual bool STDCALL OnMouseWheel(const CVec2 &vPos, EMouseState mouseState, float fDelta);
-  virtual bool STDCALL IsInside(const CVec2 &vPos);
-  virtual bool STDCALL OnChar(int nAsciiCode, int nVirtualKey, bool bPressed, DWORD keyState) { return false; }
-  virtual bool STDCALL IsModal() const { return false; }
+  virtual bool OnLButtonDblClk(const CVec2 &vPos);
+  virtual bool OnMouseMove(const CVec2 &vPos, EMouseState mouseState);
+  virtual bool OnLButtonDown(const CVec2 &vPos, EMouseState mouseState);
+  virtual bool OnLButtonUp(const CVec2 &vPos, EMouseState mouseState);
+  virtual bool OnRButtonDown(const CVec2 &vPos, EMouseState mouseState);
+  virtual bool OnRButtonUp(const CVec2 &vPos, EMouseState mouseState);
+  virtual bool OnMouseWheel(const CVec2 &vPos, EMouseState mouseState, float fDelta);
+  virtual bool IsInside(const CVec2 &vPos);
+  virtual bool OnChar(int nAsciiCode, int nVirtualKey, bool bPressed, DWORD keyState) { return false; }
+  virtual bool IsModal() const { return false; }
 
-  virtual int STDCALL GetWindowID() { return nID; }
-  virtual int STDCALL GetWindowPlacement(CVec2 *pPos, CVec2 *pSize, CTRect<float> *pScreenRect);
-  virtual int STDCALL GetPositionFlag() { return nPositionFlag; }
-  virtual void STDCALL SetParent(interface IUIContainer *pPapa) { pParent = pPapa; }
-  virtual IUIContainer * STDCALL GetParent() { return pParent; }
+  virtual int GetWindowID() { return nID; }
+  virtual int GetWindowPlacement(CVec2 *pPos, CVec2 *pSize, CTRect<float> *pScreenRect);
+  virtual int GetPositionFlag() { return nPositionFlag; }
+  virtual void SetParent(interface IUIContainer *pPapa) { pParent = pPapa; }
+  virtual IUIContainer * GetParent() { return pParent; }
   // state
-  virtual void STDCALL SetFocus(bool bFocus);
-  virtual void STDCALL EnableWindow(bool bEnable);
-  virtual bool STDCALL IsWindowEnabled() { return bWindowActive; }
-  virtual void STDCALL SetState(int nState, bool bNotify);// if bNotify flag is false, then button will not send notification message
-  virtual int STDCALL GetState() { return nCurrentState; }
-  virtual bool STDCALL IsVisible() { return nCmdShow != UI_SW_HIDE && nCmdShow != UI_SW_MINIMIZE; }
-  virtual int STDCALL GetVisibleState() { return nCmdShow; }
-  virtual void STDCALL ShowWindow(int _nCmdShow);
+  virtual void SetFocus(bool bFocus);
+  virtual void EnableWindow(bool bEnable);
+  virtual bool IsWindowEnabled() { return bWindowActive; }
+  virtual void SetState(int nState, bool bNotify);// if bNotify flag is false, then button will not send notification message
+  virtual int GetState() { return nCurrentState; }
+  virtual bool IsVisible() { return nCmdShow != UI_SW_HIDE && nCmdShow != UI_SW_MINIMIZE; }
+  virtual int GetVisibleState() { return nCmdShow; }
+  virtual void ShowWindow(int _nCmdShow);
 
-  virtual bool STDCALL ProcessMessage(const SUIMessage &msg)
+  virtual bool ProcessMessage(const SUIMessage &msg)
   {
     if (IsProcessedMessage(msg)) return pParent->ProcessMessage(msg);
     return false;
   }
 
-  virtual IUIElement * STDCALL PickElement(const CVec2 &vPos, int nRecursion);
-  virtual IManipulator * STDCALL GetManipulator();
-  virtual void STDCALL GetTextSize(int nState, int *pSizeX, int *pSizeY) const;
+  virtual IUIElement * PickElement(const CVec2 &vPos, int nRecursion);
+  virtual IManipulator * GetManipulator();
+  virtual void GetTextSize(int nState, int *pSizeX, int *pSizeY) const;
 
 
   // for internal use only
@@ -195,55 +195,55 @@ public:
                       dwLastCloseTime(0), dwAnimationTime(200), nAnimationCmdShow(0), bModal(false) {}
 
   // serializing...
-  int STDCALL operator&(IDataTree &ss) override;
+  int operator&(IDataTree &ss) override;
 
   // update
-  bool STDCALL Update(const NTimer::STime &currTime) override;
-  void STDCALL SetFocus(bool bFocus) override;
-  virtual void STDCALL SetFocusedWindow(IUIElement *pNewFocusWindow);
-  void STDCALL Reposition(const CTRect<float> &rcParent) override;
-  void STDCALL EnableWindow(bool bEnable) override;
+  bool Update(const NTimer::STime &currTime) override;
+  void SetFocus(bool bFocus) override;
+  virtual void SetFocusedWindow(IUIElement *pNewFocusWindow);
+  void Reposition(const CTRect<float> &rcParent) override;
+  void EnableWindow(bool bEnable) override;
 
   // tool tip functions
-  IText *STDCALL GetHelpContext(const CVec2 &vPos, CTRect<float> *pRect) override;
+  IText *GetHelpContext(const CVec2 &vPos, CTRect<float> *pRect) override;
 
   // drawing
-  void STDCALL Draw(IGFX *pGFX) override;
-  void STDCALL Visit(interface ISceneVisitor *pVisitor) override;
+  void Draw(IGFX *pGFX) override;
+  void Visit(interface ISceneVisitor *pVisitor) override;
 
   // cursor and actions
-  bool STDCALL OnLButtonDblClk(const CVec2 &vPos) override;
-  bool STDCALL OnMouseMove(const CVec2 &vPos, EMouseState mouseState) override;
-  bool STDCALL OnLButtonDown(const CVec2 &vPos, EMouseState mouseState) override;
-  bool STDCALL OnLButtonUp(const CVec2 &vPos, EMouseState mouseState) override;
-  bool STDCALL OnRButtonDown(const CVec2 &vPos, EMouseState mouseState) override;
-  bool STDCALL OnRButtonUp(const CVec2 &vPos, EMouseState mouseState) override;
-  bool STDCALL OnMouseWheel(const CVec2 &vPos, EMouseState mouseState, float fDelta) override;
-  bool STDCALL OnChar(int nAsciiCode, int nVirtualKey, bool bPressed, DWORD keyState) override;
+  bool OnLButtonDblClk(const CVec2 &vPos) override;
+  bool OnMouseMove(const CVec2 &vPos, EMouseState mouseState) override;
+  bool OnLButtonDown(const CVec2 &vPos, EMouseState mouseState) override;
+  bool OnLButtonUp(const CVec2 &vPos, EMouseState mouseState) override;
+  bool OnRButtonDown(const CVec2 &vPos, EMouseState mouseState) override;
+  bool OnRButtonUp(const CVec2 &vPos, EMouseState mouseState) override;
+  bool OnMouseWheel(const CVec2 &vPos, EMouseState mouseState, float fDelta) override;
+  bool OnChar(int nAsciiCode, int nVirtualKey, bool bPressed, DWORD keyState) override;
 
-  virtual void STDCALL AddChild(IUIElement *pSimple)
+  virtual void AddChild(IUIElement *pSimple)
   {
     childList.push_front(pSimple);
     auto pContainer = dynamic_cast<IUIContainer *>(this);
     pSimple->SetParent(pContainer);
   }
 
-  virtual void STDCALL RemoveChild(IUIElement *pSimple) { childList.remove(pSimple); }
+  virtual void RemoveChild(IUIElement *pSimple) { childList.remove(pSimple); }
 
-  virtual void STDCALL RemoveAllChildren() { childList.clear(); }
+  virtual void RemoveAllChildren() { childList.clear(); }
 
-  virtual IUIElement *STDCALL GetChildByID(int nChildID);
+  virtual IUIElement *GetChildByID(int nChildID);
   IUIElement *GetChildByIndex(int nIndex);
 
-  bool STDCALL IsModal() const override { return bModal; }
+  bool IsModal() const override { return bModal; }
 
-  virtual void STDCALL MoveWindowUp(IUIElement *pWnd);
-  virtual void STDCALL MoveWindowDown(IUIElement *pWnd);
-  bool STDCALL ProcessMessage(const SUIMessage &msg) override;
-  void STDCALL ShowWindow(int _nCmdShow) override;
-  void STDCALL SetBoundRect(const CTRect<float> &rc) override;
+  virtual void MoveWindowUp(IUIElement *pWnd);
+  virtual void MoveWindowDown(IUIElement *pWnd);
+  bool ProcessMessage(const SUIMessage &msg) override;
+  void ShowWindow(int _nCmdShow) override;
+  void SetBoundRect(const CTRect<float> &rc) override;
 
-  IUIElement *STDCALL PickElement(const CVec2 &vPos, int nRecursion) override;
+  IUIElement *PickElement(const CVec2 &vPos, int nRecursion) override;
 
   // For LUA work
   static int AddMessage(lua_State *pLuaState);            // called from script

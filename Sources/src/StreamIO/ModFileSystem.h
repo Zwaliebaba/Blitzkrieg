@@ -16,9 +16,9 @@ public:
   CModFileSystemEnumerator() {}
   //
   void AddFile(const std::string &szName, const SStorageElementStats &stats) { files[szName] = stats; }
-  void STDCALL Reset(const char *pszName) override;
-  bool STDCALL Next() override;
-  const SStorageElementStats * STDCALL GetStats() const override { return &stats; }
+  void Reset(const char *pszName) override;
+  bool Next() override;
+  const SStorageElementStats * GetStats() const override { return &stats; }
 };
 
 class CModFileSystem : public IDataStorage
@@ -32,25 +32,25 @@ class CModFileSystem : public IDataStorage
 public:
   CModFileSystem(const char *pszName, DWORD dwAccessMode);
   // check if such thread exists
-  const bool STDCALL IsStreamExist(const char *pszName) override;
+  const bool IsStreamExist(const char *pszName) override;
   // create and open a stream with the specified name and access rights
-  IDataStream * STDCALL CreateStream(const char *pszName, DWORD dwAccessMode) override;
+  IDataStream * CreateStream(const char *pszName, DWORD dwAccessMode) override;
   // open an existing stream with the specified name and permissions
-  IDataStream * STDCALL OpenStream(const char *pszName, DWORD dwAccessMode) override;
+  IDataStream * OpenStream(const char *pszName, DWORD dwAccessMode) override;
   // get stream description
-  bool STDCALL GetStreamStats(const char *pszName, SStorageElementStats *pStats) override;
+  bool GetStreamStats(const char *pszName, SStorageElementStats *pStats) override;
   // kill storage element
-  bool STDCALL DestroyElement(const char *pszName) override;
+  bool DestroyElement(const char *pszName) override;
   // rename element
-  bool STDCALL RenameElement(const char *pszOldName, const char *pszNewName) override;
+  bool RenameElement(const char *pszOldName, const char *pszNewName) override;
   // enumeration of elements
-  IStorageEnumerator * STDCALL CreateEnumerator() override;
+  IStorageEnumerator * CreateEnumerator() override;
   // get the name of this storage
-  const char * STDCALL GetName() const override;
+  const char * GetName() const override;
   // add new MOD
-  bool STDCALL AddStorage(IDataStorage *pStorage, const char *pszName) override;
+  bool AddStorage(IDataStorage *pStorage, const char *pszName) override;
   // remove MOD
-  bool STDCALL RemoveStorage(const char *pszName) override;
+  bool RemoveStorage(const char *pszName) override;
 };
 
 #endif // __MODFILESYSTEM_H__

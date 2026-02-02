@@ -25,25 +25,25 @@ interface IStructureSaver : IRefCount
   };
 
   // start new complex chunk
-  virtual bool STDCALL StartChunk(SSChunkID idChunk) = 0;
+  virtual bool StartChunk(SSChunkID idChunk) = 0;
   // finish complex chunk
-  virtual void STDCALL FinishChunk() = 0;
+  virtual void FinishChunk() = 0;
   // simply raw data chunk
-  virtual void STDCALL DataChunk(SSChunkID idChunk, void *pData, int nSize) = 0;
+  virtual void DataChunk(SSChunkID idChunk, void *pData, int nSize) = 0;
   // data stream as data chunk
-  virtual void STDCALL DataChunk(IDataStream *pStream) = 0;
+  virtual void DataChunk(IDataStream *pStream) = 0;
   // count number of subchunks in the given chunk
-  virtual int STDCALL CountChunks(SSChunkID idChunk) = 0;
+  virtual int CountChunks(SSChunkID idChunk) = 0;
   // set number of subchunks in the given chunk
-  virtual void STDCALL SetChunkCounter(int nCount) = 0;
+  virtual void SetChunkCounter(int nCount) = 0;
   // is structure saver opened in the READ mode?
-  virtual bool STDCALL IsReading() const = 0;
+  virtual bool IsReading() const = 0;
   // loading an object and recreating it
-  virtual IRefCount * STDCALL LoadObject() = 0;
+  virtual IRefCount * LoadObject() = 0;
   // recording the object and data needed to recreate it when loaded
-  virtual void STDCALL StoreObject(IRefCount *pObj) = 0;
+  virtual void StoreObject(IRefCount *pObj) = 0;
   // get a pointer to the game database
-  virtual interface IGDB * STDCALL GetGDB() = 0;
+  virtual interface IGDB * GetGDB() = 0;
 };
 
 // ************************************************************************************************************************ //
@@ -68,23 +68,23 @@ interface IDataTree : IRefCount
   };
 
   // is opened in the READ mode?
-  virtual bool STDCALL IsReading() const = 0;
+  virtual bool IsReading() const = 0;
   // start new complex chunk
-  virtual int STDCALL StartChunk(DTChunkID idChunk) = 0;
+  virtual int StartChunk(DTChunkID idChunk) = 0;
   // finish complex chunk
-  virtual void STDCALL FinishChunk() = 0;
+  virtual void FinishChunk() = 0;
   // simply data chunk: text, integer, fp
-  virtual int STDCALL GetChunkSize() = 0;
-  virtual bool STDCALL RawData(void *pData, int nSize) = 0;
-  virtual bool STDCALL StringData(char *pData) = 0;
-  virtual bool STDCALL StringData(wchar_t*pData) = 0;
-  virtual bool STDCALL DataChunk(DTChunkID idChunk, int *pData) = 0;
-  virtual bool STDCALL DataChunk(DTChunkID idChunk, double *pData) = 0;
+  virtual int GetChunkSize() = 0;
+  virtual bool RawData(void *pData, int nSize) = 0;
+  virtual bool StringData(char *pData) = 0;
+  virtual bool StringData(wchar_t*pData) = 0;
+  virtual bool DataChunk(DTChunkID idChunk, int *pData) = 0;
+  virtual bool DataChunk(DTChunkID idChunk, double *pData) = 0;
   // array data serialization (special case)
-  virtual int STDCALL CountChunks(DTChunkID idChunk) = 0;
-  virtual bool STDCALL SetChunkCounter(int nCount) = 0;
-  virtual int STDCALL StartContainerChunk(DTChunkID idChunk) = 0;
-  virtual void STDCALL FinishContainerChunk() = 0;
+  virtual int CountChunks(DTChunkID idChunk) = 0;
+  virtual bool SetChunkCounter(int nCount) = 0;
+  virtual int StartContainerChunk(DTChunkID idChunk) = 0;
+  virtual void FinishContainerChunk() = 0;
 };
 
 // ************************************************************************************************************************ //
@@ -98,21 +98,21 @@ interface IDataTree : IRefCount
 interface ISaveLoadSystem
 {
   // common factory
-  virtual void STDCALL AddFactory(IObjectFactory *pFactory) = 0;
-  virtual IObjectFactory * STDCALL GetCommonFactory() = 0;
-  virtual void STDCALL SetGDB(IGDB *pGDB) = 0;
+  virtual void AddFactory(IObjectFactory *pFactory) = 0;
+  virtual IObjectFactory * GetCommonFactory() = 0;
+  virtual void SetGDB(IGDB *pGDB) = 0;
   // structure and text tree savers
-  virtual IStructureSaver * STDCALL CreateStructureSaver(IDataStream *pStream, IStructureSaver::EAccessMode eAccessMode,
+  virtual IStructureSaver * CreateStructureSaver(IDataStream *pStream, IStructureSaver::EAccessMode eAccessMode,
                                                          interface IProgressHook *pLoadHook = nullptr) = 0;
-  virtual IDataTree * STDCALL CreateDataTreeSaver(IDataStream *pStream, IDataTree::EAccessMode eAccessMode,
+  virtual IDataTree * CreateDataTreeSaver(IDataStream *pStream, IDataTree::EAccessMode eAccessMode,
                                                   DTChunkID idBaseNode = "base") = 0;
   // storage opening/creating
-  virtual IDataStorage * STDCALL OpenStorage(const char *pszName, DWORD dwAccessMode, DWORD type = STORAGE_TYPE_FILE) = 0;
-  virtual IDataStorage * STDCALL CreateStorage(const char *pszName, DWORD dwAccessMode, DWORD type = STORAGE_TYPE_FILE) = 0;
+  virtual IDataStorage * OpenStorage(const char *pszName, DWORD dwAccessMode, DWORD type = STORAGE_TYPE_FILE) = 0;
+  virtual IDataStorage * CreateStorage(const char *pszName, DWORD dwAccessMode, DWORD type = STORAGE_TYPE_FILE) = 0;
   // database and data table opening
-  virtual IDataBase * STDCALL OpenDataBase(const char *pszName, DWORD dwAccessMode, DWORD type = DB_TYPE_INI) = 0;
-  virtual IDataTable * STDCALL OpenDataTable(IDataStream *pStream, const char *pszBaseNode = "base") = 0;
-  virtual IDataTable * STDCALL OpenIniDataTable(IDataStream *pStream) = 0;
+  virtual IDataBase * OpenDataBase(const char *pszName, DWORD dwAccessMode, DWORD type = DB_TYPE_INI) = 0;
+  virtual IDataTable * OpenDataTable(IDataStream *pStream, const char *pszBaseNode = "base") = 0;
+  virtual IDataTable * OpenIniDataTable(IDataStream *pStream) = 0;
 };
 
 // functions for working with the save/load system and the global factory

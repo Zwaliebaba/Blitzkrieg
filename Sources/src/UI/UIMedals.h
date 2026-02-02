@@ -23,16 +23,16 @@ public:
   ~CUIMedals() override {}
 
   // serializing...
-  int STDCALL operator&(IDataTree &ss) override;
-  void STDCALL Reposition(const CTRect<float> &rcParent) override;
+  int operator&(IDataTree &ss) override;
+  void Reposition(const CTRect<float> &rcParent) override;
 
-  bool STDCALL ProcessMessage(const SUIMessage &msg) override;
+  bool ProcessMessage(const SUIMessage &msg) override;
 
   // drawing
-  void STDCALL Draw(IGFX *pGFX) override;
-  void STDCALL Visit(interface ISceneVisitor *pVisitor) override;
+  void Draw(IGFX *pGFX) override;
+  void Visit(interface ISceneVisitor *pVisitor) override;
 
-  void STDCALL ShowWindow(int _nCmdShow) override;
+  void ShowWindow(int _nCmdShow) override;
 
   void ClearMedals();
   void AddMedal(IGFXTexture *pTexture, const CTRect<float> &mapImageRect, const wchar_t *pszMedalsName);

@@ -35,34 +35,34 @@ class CGamePlaying : public IGamePlaying
 
 public:
   CGamePlaying() {}
-  void STDCALL Init(INetDriver *pInGameNetDriver, INetDriver *pOutGameNetDriver, const CPlayers &players, bool bServer, int nOurID, const std::vector<BYTE> &diplomacies) override;
+  void Init(INetDriver *pInGameNetDriver, INetDriver *pOutGameNetDriver, const CPlayers &players, bool bServer, int nOurID, const std::vector<BYTE> &diplomacies) override;
 
-  IMultiplayer::CCommand * STDCALL GetCommand() override;
-  void STDCALL SendClientCommands(IDataStream *pPacket) override;
+  IMultiplayer::CCommand * GetCommand() override;
+  void SendClientCommands(IDataStream *pPacket) override;
 
-  void STDCALL LeftGame() override;
+  void LeftGame() override;
 
-  void STDCALL Segment() override;
+  void Segment() override;
 
-  const bool STDCALL GetPlayerInfo(const wchar_t *pszPlayerName, SPlayerInfo *pInfo) const override;
-  const bool STDCALL GetOurPlayerInfo(SPlayerInfo *pInfo) const override;
+  const bool GetPlayerInfo(const wchar_t *pszPlayerName, SPlayerInfo *pInfo) const override;
+  const bool GetOurPlayerInfo(SPlayerInfo *pInfo) const override;
 
-  const int STDCALL GetNAllies() const override;
-  const SPlayerInfo & STDCALL GetAlly(int n) const override;
+  const int GetNAllies() const override;
+  const SPlayerInfo & GetAlly(int n) const override;
 
-  int STDCALL GetNumberOfPlayers() const override;
+  int GetNumberOfPlayers() const override;
 
   // client commands
-  void STDCALL TogglePause() override;
-  void STDCALL GameSpeed(int nChange) override;
-  void STDCALL DropPlayer(int nLogicID) override;
+  void TogglePause() override;
+  void GameSpeed(int nChange) override;
+  void DropPlayer(int nLogicID) override;
 
-  void STDCALL CommandTimeOut(bool bSet) override;
+  void CommandTimeOut(bool bSet) override;
 
-  void STDCALL SendAliveMessage() override;
-  void STDCALL FinishGame() override;
+  void SendAliveMessage() override;
+  void FinishGame() override;
 
-  interface INetDriver * STDCALL GetInGameNetDriver() const override { return pInGameNetDriver; }
+  interface INetDriver * GetInGameNetDriver() const override { return pInGameNetDriver; }
 };
 
 #endif // __GAME_PLAYING_H__

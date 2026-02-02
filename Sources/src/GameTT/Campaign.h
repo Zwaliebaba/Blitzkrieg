@@ -18,7 +18,7 @@ class CInterfaceCampaign : public CInterfaceInterMission
   // input
   NInput::CCommandRegistrator commandMsgs;
   //
-  bool STDCALL ProcessMessage(const SGameMessage &msg) override;
+  bool ProcessMessage(const SGameMessage &msg) override;
   // disable explicit destruction
   ~CInterfaceCampaign() override;
   CInterfaceCampaign() : CInterfaceInterMission("InterMission") {}
@@ -28,10 +28,10 @@ class CInterfaceCampaign : public CInterfaceInterMission
 
 public:
   static void PlayCampaignMusic();
-  bool STDCALL Init() override;
-  void STDCALL StartInterface() override;
+  bool Init() override;
+  void StartInterface() override;
   static const SCampaignStats *ReadCampaignStats();
-  void STDCALL OnGetFocus(bool bFocus) override;
+  void OnGetFocus(bool bFocus) override;
 };
 
 class CICCampaign : public CInterfaceCommandBase<IInterfaceBase, MISSION_INTERFACE_CAMPAIGN>

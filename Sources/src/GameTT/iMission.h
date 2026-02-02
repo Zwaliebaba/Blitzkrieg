@@ -296,16 +296,16 @@ interface IClientAckManager : IRefCount
   // type ID
   enum { tidTypeID = GAMETT_CLIENT_ACK_MANAGER };
 
-  virtual void STDCALL AddDeathAcknowledgement(const CVec3 &vPos, const std::string &sound, unsigned int nTimeSiceStart) = 0;
-  virtual void STDCALL AddAcknowledgement(interface IMOUnit *pUnit, enum EUnitAckType eType, const std::string &sound, int nSet, unsigned int nTimeSiceStart = 0) = 0;
-  virtual void STDCALL UnitDead(struct SMapObject *pUnit, interface IScene *pScene) = 0;
-  virtual void STDCALL Update(interface IScene *pScene) = 0;
-  virtual void STDCALL RegisterAsBored(EUnitAckType eBored, interface IMOUnit *pObject) = 0;
-  virtual void STDCALL UnRegisterAsBored(EUnitAckType eBored, interface IMOUnit *pObject) = 0;
+  virtual void AddDeathAcknowledgement(const CVec3 &vPos, const std::string &sound, unsigned int nTimeSiceStart) = 0;
+  virtual void AddAcknowledgement(interface IMOUnit *pUnit, enum EUnitAckType eType, const std::string &sound, int nSet, unsigned int nTimeSiceStart = 0) = 0;
+  virtual void UnitDead(struct SMapObject *pUnit, interface IScene *pScene) = 0;
+  virtual void Update(interface IScene *pScene) = 0;
+  virtual void RegisterAsBored(EUnitAckType eBored, interface IMOUnit *pObject) = 0;
+  virtual void UnRegisterAsBored(EUnitAckType eBored, interface IMOUnit *pObject) = 0;
 
-  virtual void STDCALL Init() = 0;
-  virtual void STDCALL Clear() = 0;
-  virtual bool STDCALL IsNegative(enum EUnitAckType eAck) = 0;
+  virtual void Init() = 0;
+  virtual void Clear() = 0;
+  virtual bool IsNegative(enum EUnitAckType eAck) = 0;
 };
 
 #endif // __IMISSION_H__

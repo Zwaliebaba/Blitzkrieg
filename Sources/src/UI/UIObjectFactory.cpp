@@ -70,4 +70,4 @@ CUIObjectFactory::CUIObjectFactory()
 }
 
 static SModuleDescriptor theModuleDescriptor("UI", UI_BASE_VALUE, 0x0100, &theUIObjectFactory, nullptr);
-const SModuleDescriptor * STDCALL GetModuleDescriptor() { return &theModuleDescriptor; }
+const SModuleDescriptor * GetModuleDescriptor() { return &theModuleDescriptor; }

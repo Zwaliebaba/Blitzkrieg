@@ -25,13 +25,13 @@ class CPlayerScenarioInfoIterator : public CTRefCount<IPlayerScenarioInfoIterato
 public:
   CPlayerScenarioInfoIterator(const CPlayersList &players);
   // move to next player scenario info
-  void STDCALL Next() override;
+  void Next() override;
   // check, if we've reached end?
-  bool STDCALL IsEnd() const override;
+  bool IsEnd() const override;
   // get current iterator's player scenario info
-  IPlayerScenarioInfo * STDCALL Get() const override;
+  IPlayerScenarioInfo * Get() const override;
   // get current iterator's player ID
-  int STDCALL GetID() const override;
+  int GetID() const override;
 };
 
 // ************************************************************************************************************************ //
@@ -138,59 +138,59 @@ class CScenarioTracker2 : public CTRefCount<IScenarioTracker>
 public:
   CScenarioTracker2();
   //
-  bool STDCALL Init(ISingleton *pSingleton) override;
+  bool Init(ISingleton *pSingleton) override;
   //
   // players
   //
   // add new player with 'nPlayerID'. 
-  IPlayerScenarioInfo * STDCALL AddPlayer(int nPlayerID) override;
+  IPlayerScenarioInfo * AddPlayer(int nPlayerID) override;
   // remove player with 'nPlayerID'
-  bool STDCALL RemovePlayer(int nPlayerID) override;
+  bool RemovePlayer(int nPlayerID) override;
   // get player with 'nPlayerID'.
-  IPlayerScenarioInfo * STDCALL GetPlayer(int nPlayerID) const override;
+  IPlayerScenarioInfo * GetPlayer(int nPlayerID) const override;
   // set user player
-  void STDCALL SetUserPlayer(int nPlayerID) override;
+  void SetUserPlayer(int nPlayerID) override;
   // get user player interface
-  IPlayerScenarioInfo * STDCALL GetUserPlayer() const override;
-  int STDCALL GetUserPlayerID() const override;
+  IPlayerScenarioInfo * GetUserPlayer() const override;
+  int GetUserPlayerID() const override;
   // iterate through all players
-  IPlayerScenarioInfoIterator * STDCALL CreatePlayerScenarioInfoIterator() const override;
+  IPlayerScenarioInfoIterator * CreatePlayerScenarioInfoIterator() const override;
   //
   // campaign, chapters, missions
   //
   // start new campaign (for all players)
-  void STDCALL StartCampaign(const std::string &szCampaignName, ECampaignType eType) override;
+  void StartCampaign(const std::string &szCampaignName, ECampaignType eType) override;
   // start new chapter (and finish previous one)
-  bool STDCALL StartChapter(const std::string &szChapterName) override;
+  bool StartChapter(const std::string &szChapterName) override;
   // start new mission
-  void STDCALL StartMission(const std::string &szMissionName) override;
+  void StartMission(const std::string &szMissionName) override;
   // finish mission
-  void STDCALL FinishMission(EMissionFinishStatus eStatus) override;
+  void FinishMission(EMissionFinishStatus eStatus) override;
   // current mission GUID
-  const GUID & STDCALL GetCurrMissionGUID() const override { return guidMission; }
+  const GUID & GetCurrMissionGUID() const override { return guidMission; }
   // 
   // minimum difficulty tracking
   //
-  void STDCALL UpdateMinimumDifficulty() override;
-  const std::string & STDCALL GetMinimumDifficulty() const override;
+  void UpdateMinimumDifficulty() override;
+  const std::string & GetMinimumDifficulty() const override;
   //
   // campaign random mission templates
   //
   // number of available random mission templates
-  int STDCALL GetNumRandomTemplates() const override;
+  int GetNumRandomTemplates() const override;
   // get template by number
-  const std::string & STDCALL GetTemplateName(int nIndex) const override;
+  const std::string & GetTemplateName(int nIndex) const override;
 
   // removes all random bonuses
-  void STDCALL ClearRandomBonuses(int nDifficulty) override;
+  void ClearRandomBonuses(int nDifficulty) override;
   // adds a random bonus
-  bool STDCALL AddRandomBonus(int nDifficulty, const std::string &rszRandomBonus) override;
+  bool AddRandomBonus(int nDifficulty, const std::string &rszRandomBonus) override;
   // returns the random bonus, removing it from the list
-  std::string STDCALL GetRandomBonus(int nDifficulty) override;
+  std::string GetRandomBonus(int nDifficulty) override;
 
   //
-  IScenarioTracker * STDCALL Duplicate() const override;
-  int STDCALL operator&(IDataTree &ss) override;
+  IScenarioTracker * Duplicate() const override;
+  int operator&(IDataTree &ss) override;
 };
 
 #endif // __SCENARIOTRACKER2INTERNAL_H__

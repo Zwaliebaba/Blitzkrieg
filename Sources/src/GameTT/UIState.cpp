@@ -249,12 +249,6 @@ bool CUIMultiplayerState::ProcessMessage(const SGameMessage &msg)
       GetMainInterface()->FinishInterface(MISSION_COMMAND_MULTIPLAYER_GAMESLIST, nullptr);
 
       return true;
-    case IMC_GAMESPY:
-      GetSingleton<IMPToUICommandManager>()->SetConnectionType(EMCT_GAMESPY);
-      GetSingleton<IMainLoop>()->Command(MAIN_COMMAND_CHANGE_TRANSCEIVER, NStr::Format("%d %d 1", MAIN_MP_TRANSCEIVER, GetSingleton<IMPToUICommandManager>()->GetConnectionType()));
-      GetMainInterface()->FinishInterface(MISSION_COMMAND_MULTIPLAYER_GAMESLIST, nullptr);
-
-      return true;
   }
   //
   return false;

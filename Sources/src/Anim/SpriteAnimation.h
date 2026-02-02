@@ -46,13 +46,13 @@ public:
   //
   bool Init(SSpriteAnimationFormat *_pAnimations);
   //
-  void STDCALL Visit(IAnimVisitor *pVisitor) override;
+  void Visit(IAnimVisitor *pVisitor) override;
   // set current time
-  void STDCALL SetTime(DWORD time) override { timer.Update(time); }
+  void SetTime(DWORD time) override { timer.Update(time); }
   // set animation start time
-  void STDCALL SetStartTime(DWORD time) override { timer.Reset(time); }
+  void SetStartTime(DWORD time) override { timer.Reset(time); }
   // set animation time scale coeff
-  void STDCALL SetAnimSpeedCoeff(float fCoeff) override
+  void SetAnimSpeedCoeff(float fCoeff) override
   {
     // CRAP{ can change animation speed only for movement animations (and idle - for projectiles and so on)
     if ((nCurrAnim == ANIMATION_IDLE) || (nCurrAnim == ANIMATION_MOVE) || (nCurrAnim == ANIMATION_CRAWL))
@@ -64,15 +64,15 @@ public:
   }
 
   // change animation
-  bool STDCALL SetAnimation(const int nAnim) override
+  bool SetAnimation(const int nAnim) override
   {
     nCurrAnim = nAnim;
     return ReAcquireAnimation();
   }
 
-  int STDCALL GetAnimation() const override { return nCurrAnim; };
+  int GetAnimation() const override { return nCurrAnim; };
   // get current animation length
-  int STDCALL GetLengthOf(const int nAnim) override
+  int GetLengthOf(const int nAnim) override
   {
     if (pAnimations)
     {
@@ -84,11 +84,11 @@ public:
   }
 
   // set scaling coefficient
-  void STDCALL SetScale(float _fScale) override { fScale = _fScale; }
+  void SetScale(float _fScale) override { fScale = _fScale; }
   // set animation direction
-  void STDCALL SetDirection(int nDirection) override { nCurrDirection = nDirection; }
+  void SetDirection(int nDirection) override { nCurrDirection = nDirection; }
   // get current mapping rect
-  const SSpriteRect & STDCALL GetRect() override
+  const SSpriteRect & GetRect() override
   {
     if ((pAnimation == nullptr) && !ReAcquireAnimation()) return rect;
     if (nFrameIndex == -1) rect = pAnimation->GetRect(nCurrDirection, timer.Get());
@@ -99,16 +99,16 @@ public:
   }
 
   // get translation speed, attached to this animation
-  float STDCALL GetSpeed() const override { return pAnimation ? pAnimation->fSpeed : 1; }
+  float GetSpeed() const override { return pAnimation ? pAnimation->fSpeed : 1; }
   // frame index setup
-  void STDCALL SetFrameIndex(int nIndex) override { nFrameIndex = nIndex; }
-  int STDCALL GetFrameIndex() override { return nFrameIndex; }
+  void SetFrameIndex(int nIndex) override { nFrameIndex = nIndex; }
+  int GetFrameIndex() override { return nFrameIndex; }
   // hit test
-  const bool STDCALL IsHit(const CVec3 &relpos, const CVec2 &point, CVec2 *pShift) const override;
-  const bool STDCALL IsHit(const CVec3 &relpos, const CTRect<float> &rcRect) const override;
+  const bool IsHit(const CVec3 &relpos, const CVec2 &point, CVec2 *pShift) const override;
+  const bool IsHit(const CVec3 &relpos, const CTRect<float> &rcRect) const override;
   // scale timer
-  const CScaleTimer & STDCALL GetScaleTimer() const override { return timer; }
-  void STDCALL SetScaleTimer(const CScaleTimer &_timer) override { timer = _timer; }
+  const CScaleTimer & GetScaleTimer() const override { return timer; }
+  void SetScaleTimer(const CScaleTimer &_timer) override { timer = _timer; }
 };
 
 class CComplexSprite : public CTRefCount<ISpriteAnimation>
@@ -132,24 +132,24 @@ public:
   }
 
   //
-  void STDCALL Visit(IAnimVisitor *pVisitor) override;
+  void Visit(IAnimVisitor *pVisitor) override;
   // set current time
-  void STDCALL SetTime(DWORD time) override { timer.Update(time); }
+  void SetTime(DWORD time) override { timer.Update(time); }
   // set animation start time
-  void STDCALL SetStartTime(DWORD time) override { timer.Reset(time); }
+  void SetStartTime(DWORD time) override { timer.Reset(time); }
   // set animation time scale coeff
-  void STDCALL SetAnimSpeedCoeff(float fCoeff) override { timer.SetScale(fCoeff); }
+  void SetAnimSpeedCoeff(float fCoeff) override { timer.SetScale(fCoeff); }
   // change animation
-  bool STDCALL SetAnimation(const int nAnim) override { return true; }
-  int STDCALL GetAnimation() const override { return 0; };
+  bool SetAnimation(const int nAnim) override { return true; }
+  int GetAnimation() const override { return 0; };
   // get current animation length
-  int STDCALL GetLengthOf(const int nAnim) override { return 1; }
+  int GetLengthOf(const int nAnim) override { return 1; }
   // set scaling coefficient
-  void STDCALL SetScale(float _fScale) override {}
+  void SetScale(float _fScale) override {}
   // set animation direction
-  void STDCALL SetDirection(int nDirection) override {}
+  void SetDirection(int nDirection) override {}
   // get current mapping rect
-  const SSpriteRect & STDCALL GetRect() override
+  const SSpriteRect & GetRect() override
   {
     const int nLocalFrameIndex = nFrameIndex == -1 ? 0 : nFrameIndex;
     const CTRect<float> &rcBoundBox = pSprites->sprites[nLocalFrameIndex].GetBoundBox();
@@ -159,16 +159,16 @@ public:
   }
 
   // get translation speed, attached to this animation
-  float STDCALL GetSpeed() const override { return 1; }
+  float GetSpeed() const override { return 1; }
   // frame index setup
-  void STDCALL SetFrameIndex(int nIndex) override { nFrameIndex = nIndex; }
-  int STDCALL GetFrameIndex() override { return nFrameIndex; }
+  void SetFrameIndex(int nIndex) override { nFrameIndex = nIndex; }
+  int GetFrameIndex() override { return nFrameIndex; }
   // hit test
-  const bool STDCALL IsHit(const CVec3 &relpos, const CVec2 &point, CVec2 *pShift) const override;
-  const bool STDCALL IsHit(const CVec3 &relpos, const CTRect<float> &rcRect) const override;
+  const bool IsHit(const CVec3 &relpos, const CVec2 &point, CVec2 *pShift) const override;
+  const bool IsHit(const CVec3 &relpos, const CTRect<float> &rcRect) const override;
   // scale timer
-  const CScaleTimer & STDCALL GetScaleTimer() const override { return timer; }
-  void STDCALL SetScaleTimer(const CScaleTimer &_timer) override { timer = _timer; }
+  const CScaleTimer & GetScaleTimer() const override { return timer; }
+  void SetScaleTimer(const CScaleTimer &_timer) override { timer = _timer; }
 };
 
 #endif // __SPRITEANIMATION_H__

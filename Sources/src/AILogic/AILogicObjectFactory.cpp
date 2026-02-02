@@ -370,4 +370,4 @@ CAILogicObjectFactory::CAILogicObjectFactory()
 }
 
 static SModuleDescriptor theModuleDescriptor("AI Logic (base)", AI_AI, 0x0100, &theAILogicObjectFactory, nullptr);
-const SModuleDescriptor * STDCALL GetModuleDescriptor() { return &theModuleDescriptor; }
+const SModuleDescriptor * GetModuleDescriptor() { return &theModuleDescriptor; }

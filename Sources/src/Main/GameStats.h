@@ -25,14 +25,14 @@ struct SBasicGameStats : IGDBObject
   SBasicGameStats(const char *pszStatsType) : szStatsType(pszStatsType) {}
   virtual ~SBasicGameStats() {}
   //
-  const char * STDCALL GetName() const override { return szStatsType.c_str(); }
-  virtual const char * STDCALL GetKeyName() const { return szKeyName.c_str(); }
-  const char * STDCALL GetParentName() const override { return szParentName.c_str(); }
+  const char * GetName() const override { return szStatsType.c_str(); }
+  virtual const char * GetKeyName() const { return szKeyName.c_str(); }
+  const char * GetParentName() const override { return szParentName.c_str(); }
   //
-  virtual void STDCALL RetrieveShortcuts(IObjectsDB *pGDB) {}
-  const uLong STDCALL GetCheckSum() const override { return 0L; }
+  virtual void RetrieveShortcuts(IObjectsDB *pGDB) {}
+  const uLong GetCheckSum() const override { return 0L; }
   //
-  virtual int STDCALL operator&(IDataTree &ss);
+  virtual int operator&(IDataTree &ss);
 };
 
 // ************************************************************************************************************************ //
@@ -51,7 +51,7 @@ struct SCommonGameStats : SBasicGameStats
   SCommonGameStats(const char *pszStatsType) : SBasicGameStats(pszStatsType) {}
   ~SCommonGameStats() override {}
   //
-  int STDCALL operator&(IDataTree &ss) override;
+  int operator&(IDataTree &ss) override;
 };
 
 // ************************************************************************************************************************ //
@@ -92,10 +92,10 @@ struct SMissionStats : SCommonGameStats
   SMissionStats() : SCommonGameStats("Mission") {}
   ~SMissionStats() override {}
   //
-  const uLong STDCALL GetCheckSum() const override { return 0L; }
+  const uLong GetCheckSum() const override { return 0L; }
   const bool IsTemplate() const { return !szTemplateMap.empty(); }
   //
-  int STDCALL operator&(IDataTree &ss) override;
+  int operator&(IDataTree &ss) override;
 };
 
 // ************************************************************************************************************************ //
@@ -148,13 +148,13 @@ struct SChapterStats : SCommonGameStats
 
   ~SChapterStats() override {}
   //
-  const uLong STDCALL GetCheckSum() const override { return 0L; }
+  const uLong GetCheckSum() const override { return 0L; }
   //
-  virtual void STDCALL RemoveTemplateMissions();
-  virtual void STDCALL AddMission(const SMission &mission);
+  virtual void RemoveTemplateMissions();
+  virtual void AddMission(const SMission &mission);
 
-  void STDCALL RetrieveShortcuts(IObjectsDB *pGDB) override;
-  int STDCALL operator&(IDataTree &ss) override;
+  void RetrieveShortcuts(IObjectsDB *pGDB) override;
+  int operator&(IDataTree &ss) override;
 };
 
 // ************************************************************************************************************************ //
@@ -197,10 +197,10 @@ struct SCampaignStats : SCommonGameStats
   SCampaignStats() : SCommonGameStats("Campaign") {}
   ~SCampaignStats() override {}
   //
-  const uLong STDCALL GetCheckSum() const override { return 0L; }
+  const uLong GetCheckSum() const override { return 0L; }
   //
-  void STDCALL RetrieveShortcuts(IObjectsDB *pGDB) override;
-  int STDCALL operator&(IDataTree &ss) override;
+  void RetrieveShortcuts(IObjectsDB *pGDB) override;
+  int operator&(IDataTree &ss) override;
 };
 
 // ************************************************************************************************************************ //
@@ -221,9 +221,9 @@ struct SMedalStats : SBasicGameStats
   SMedalStats() : SBasicGameStats("Medal"), vPicturePos(0, 0), vTextCenterPos(0, 0) {}
   ~SMedalStats() override {}
   //
-  const uLong STDCALL GetCheckSum() const override { return 0L; }
+  const uLong GetCheckSum() const override { return 0L; }
   //
-  int STDCALL operator&(IDataTree &ss) override;
+  int operator&(IDataTree &ss) override;
 };
 
 #endif // __GAMESTATS_H__

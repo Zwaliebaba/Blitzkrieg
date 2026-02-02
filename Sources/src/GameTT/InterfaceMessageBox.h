@@ -17,13 +17,13 @@ class CInterfaceMessageBox : public CInterfaceInterMission
   std::string szGlobalVarOnOk;
   bool bDoubleButton;
   //
-  bool STDCALL ProcessMessage(const SGameMessage &msg) override;
+  bool ProcessMessage(const SGameMessage &msg) override;
   // disable explicit destruction
   ~CInterfaceMessageBox() override;
   CInterfaceMessageBox();
 
 public:
-  bool STDCALL Init() override;
+  bool Init() override;
   void Create(const std::string &szCaptionKey, const std::string &szMessageKey, bool _bDoubleButton, const std::string &szGlobalVarOnOk);
 };
 
@@ -46,7 +46,7 @@ class CICMessageBox : public CInterfaceCommandBase<CInterfaceMessageBox, MISSION
 
   //
 public:
-  void STDCALL Configure(const char *pszConfig) override
+  void Configure(const char *pszConfig) override
   {
     NI_ASSERT_T(pszConfig != 0, "MISSION_INTERFACE_MESSAGE_BOX - must exists configuration");
     if (pszConfig)

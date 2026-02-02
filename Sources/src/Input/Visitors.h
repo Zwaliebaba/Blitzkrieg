@@ -14,10 +14,10 @@ class CSetBindSectionVisitor : public IInputVisitor
 public:
   CSetBindSectionVisitor(const std::string &_szBindSection) : szBindSection(_szBindSection) {}
   //
-  bool STDCALL VisitControl(class CControl *pControl) override;
-  bool STDCALL VisitCombo(CCombo *pCombo) override;
-  bool STDCALL VisitBind(class CBind *pBind) override { return false; }
-  bool STDCALL VisitCommand(struct SCommand *pCommand) override { return false; }
+  bool VisitControl(class CControl *pControl) override;
+  bool VisitCombo(CCombo *pCombo) override;
+  bool VisitBind(class CBind *pBind) override { return false; }
+  bool VisitCommand(struct SCommand *pCommand) override { return false; }
 };
 
 class CFindBindVisitor : public IInputVisitor
@@ -48,10 +48,10 @@ public:
   CFindBindVisitor(const SCommand *_pCommand, EInputBindActivationType _eType,
                    const std::vector<const CControl *> &_controls);
   //
-  bool STDCALL VisitControl(class CControl *pControl) override;
-  bool STDCALL VisitCombo(CCombo *pCombo) override;
-  bool STDCALL VisitBind(class CBind *pBind) override;
-  bool STDCALL VisitCommand(struct SCommand *pCommand) override;
+  bool VisitControl(class CControl *pControl) override;
+  bool VisitCombo(CCombo *pCombo) override;
+  bool VisitBind(class CBind *pBind) override;
+  bool VisitCommand(struct SCommand *pCommand) override;
   //
   void FinalCheck() const;
 
@@ -75,10 +75,10 @@ class CRemoveComboVisitor : public IInputVisitor
 public:
   CRemoveComboVisitor(CCombo *_pCombo) : pCombo2Remove(_pCombo) {}
   //
-  bool STDCALL VisitControl(class CControl *pControl) override;
-  bool STDCALL VisitCombo(CCombo *pCombo) override;
-  bool STDCALL VisitBind(class CBind *pBind) override { return true; }
-  bool STDCALL VisitCommand(struct SCommand *pCommand) override { return false; }
+  bool VisitControl(class CControl *pControl) override;
+  bool VisitCombo(CCombo *pCombo) override;
+  bool VisitBind(class CBind *pBind) override { return true; }
+  bool VisitCommand(struct SCommand *pCommand) override { return false; }
 };
 
 #endif // __VISITORS_H__

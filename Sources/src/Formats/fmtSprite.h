@@ -298,7 +298,7 @@ public:
   using CSpritesList = std::vector<SSprite>;
   CSpritesList sprites;
   //
-  void STDCALL SwapData(ISharedResource *pResource) override
+  void SwapData(ISharedResource *pResource) override
   {
     auto pRes = dynamic_cast<SSpritesPack *>(pResource);
     NI_ASSERT_TF(pRes != 0, "shared resource is not a SSpritesPack", return);
@@ -306,8 +306,8 @@ public:
   }
 
   // internal container clearing
-  void STDCALL ClearInternalContainer() override {}
-  bool STDCALL Load(bool bPreLoad = false) override;
+  void ClearInternalContainer() override {}
+  bool Load(bool bPreLoad = false) override;
 };
 
 //

@@ -10,77 +10,77 @@ interface IChat;
 
 interface IServersList : IRefCount
 {
-  virtual interface IGameCreation * STDCALL CreateServer(const struct SGameInfo &gameInfo, const struct SQuickLoadMapInfo &mapInfo, CPtr<IChat> *pChat) = 0;
-  virtual bool STDCALL CanJoinToServerByID(WORD wServerID) = 0;
-  virtual bool STDCALL IsNeedPassword(WORD wServerID) const = 0;
-  virtual interface IGameCreation * STDCALL JoinToServerByID(WORD wServerID, CPtr<IChat> *pChat, bool bPasswordRequired, const std::string &szPassword) = 0;
-  virtual interface IGameCreation * STDCALL JoinToServerByAddress(interface INetNodeAddress *pAddress, CPtr<IChat> *pChat, int nPort, bool bPasswordRequired, const std::string &szPassword) = 0;
+  virtual interface IGameCreation * CreateServer(const struct SGameInfo &gameInfo, const struct SQuickLoadMapInfo &mapInfo, CPtr<IChat> *pChat) = 0;
+  virtual bool CanJoinToServerByID(WORD wServerID) = 0;
+  virtual bool IsNeedPassword(WORD wServerID) const = 0;
+  virtual interface IGameCreation * JoinToServerByID(WORD wServerID, CPtr<IChat> *pChat, bool bPasswordRequired, const std::string &szPassword) = 0;
+  virtual interface IGameCreation * JoinToServerByAddress(interface INetNodeAddress *pAddress, CPtr<IChat> *pChat, int nPort, bool bPasswordRequired, const std::string &szPassword) = 0;
 
-  virtual interface IMultiplayerMessage * STDCALL GetMessage() = 0;
-  virtual void STDCALL Segment() = 0;
-  virtual void STDCALL Refresh() = 0;
+  virtual interface IMultiplayerMessage * GetMessage() = 0;
+  virtual void Segment() = 0;
+  virtual void Refresh() = 0;
 
-  virtual interface INetDriver * STDCALL GetInGameNetDriver() const = 0;
+  virtual interface INetDriver * GetInGameNetDriver() const = 0;
 };
 
 interface IGameCreation : IRefCount
 {
   enum EPlayerSettings { EPS_READY, EPS_SIDE, EPS_NAME, EPS_MAP_LOAD_PROGRESS };
 
-  virtual void STDCALL LeftGame() = 0;
-  virtual void STDCALL KickPlayer(int nLogicID) = 0;
-  virtual void STDCALL ChangeGameSettings() = 0;
-  virtual void STDCALL ChangePlayerSettings(const struct SPlayerInfo &info, const EPlayerSettings &eSettingsType) = 0;
+  virtual void LeftGame() = 0;
+  virtual void KickPlayer(int nLogicID) = 0;
+  virtual void ChangeGameSettings() = 0;
+  virtual void ChangePlayerSettings(const struct SPlayerInfo &info, const EPlayerSettings &eSettingsType) = 0;
 
-  virtual void STDCALL Launch() = 0;
+  virtual void Launch() = 0;
 
-  virtual interface IMultiplayerMessage * STDCALL GetMessage() = 0;
-  virtual void STDCALL Segment() = 0;
+  virtual interface IMultiplayerMessage * GetMessage() = 0;
+  virtual void Segment() = 0;
 
-  virtual bool STDCALL CanStartGame() const = 0;
-  virtual bool STDCALL IsAllPlayersInOneParty() const = 0;
-  virtual interface IGamePlaying * STDCALL CreateGamePlaying() = 0;
+  virtual bool CanStartGame() const = 0;
+  virtual bool IsAllPlayersInOneParty() const = 0;
+  virtual interface IGamePlaying * CreateGamePlaying() = 0;
 
-  virtual const bool STDCALL GetPlayerInfo(const wchar_t *pszPlayerName, SPlayerInfo *pInfo) const = 0;
-  virtual const bool STDCALL GetOurPlayerInfo(SPlayerInfo *pInfo) const = 0;
-  virtual void STDCALL SetNewGameSettings(const SMultiplayerGameSettings &settings) = 0;
-  virtual void STDCALL ModChanged() {}
+  virtual const bool GetPlayerInfo(const wchar_t *pszPlayerName, SPlayerInfo *pInfo) const = 0;
+  virtual const bool GetOurPlayerInfo(SPlayerInfo *pInfo) const = 0;
+  virtual void SetNewGameSettings(const SMultiplayerGameSettings &settings) = 0;
+  virtual void ModChanged() {}
 
-  virtual interface INetDriver * STDCALL GetInGameNetDriver() const = 0;
+  virtual interface INetDriver * GetInGameNetDriver() const = 0;
 };
 
 interface IAILogicCommand;
 interface IGamePlaying : IRefCount
 {
-  virtual void STDCALL Init(interface INetDriver *pInGameNetDriver, interface INetDriver *pOutGameNetDriver,
+  virtual void Init(interface INetDriver *pInGameNetDriver, interface INetDriver *pOutGameNetDriver,
                             const CPlayers &players, bool bServer, int nOurID,
                             const std::vector<BYTE> &diplomacies) = 0;
 
-  virtual IMultiplayer::CCommand * STDCALL GetCommand() = 0;
-  virtual void STDCALL SendClientCommands(IDataStream *pPacket) = 0;
-  virtual void STDCALL LeftGame() = 0;
+  virtual IMultiplayer::CCommand * GetCommand() = 0;
+  virtual void SendClientCommands(IDataStream *pPacket) = 0;
+  virtual void LeftGame() = 0;
 
-  virtual void STDCALL Segment() = 0;
+  virtual void Segment() = 0;
 
-  virtual const bool STDCALL GetPlayerInfo(const wchar_t *pszPlayerName, SPlayerInfo *pInfo) const = 0;
-  virtual const bool STDCALL GetOurPlayerInfo(SPlayerInfo *pInfo) const = 0;
+  virtual const bool GetPlayerInfo(const wchar_t *pszPlayerName, SPlayerInfo *pInfo) const = 0;
+  virtual const bool GetOurPlayerInfo(SPlayerInfo *pInfo) const = 0;
 
-  virtual const int STDCALL GetNAllies() const = 0;
-  virtual const SPlayerInfo & STDCALL GetAlly(int n) const = 0;
+  virtual const int GetNAllies() const = 0;
+  virtual const SPlayerInfo & GetAlly(int n) const = 0;
 
-  virtual int STDCALL GetNumberOfPlayers() const = 0;
+  virtual int GetNumberOfPlayers() const = 0;
 
   // client commands
-  virtual void STDCALL TogglePause() = 0;
-  virtual void STDCALL GameSpeed(int nChange) = 0;
-  virtual void STDCALL DropPlayer(int nLogicID) = 0;
+  virtual void TogglePause() = 0;
+  virtual void GameSpeed(int nChange) = 0;
+  virtual void DropPlayer(int nLogicID) = 0;
 
-  virtual void STDCALL CommandTimeOut(bool bSet) = 0;
+  virtual void CommandTimeOut(bool bSet) = 0;
 
-  virtual void STDCALL SendAliveMessage() = 0;
-  virtual void STDCALL FinishGame() = 0;
+  virtual void SendAliveMessage() = 0;
+  virtual void FinishGame() = 0;
 
-  virtual interface INetDriver * STDCALL GetInGameNetDriver() const = 0;
+  virtual interface INetDriver * GetInGameNetDriver() const = 0;
 };
 
 interface IChat : IRefCount
@@ -96,20 +96,20 @@ interface IChat : IRefCount
     EUM_IN_GAME_PLAYING,
   };
 
-  virtual void STDCALL InitGSChat(const wchar_t *pszUserName) = 0;
-  virtual void STDCALL InitInGameChat(INetDriver *pNetDriver) = 0;
-  virtual void STDCALL DestroyInGameChat() = 0;
+  virtual void InitGSChat(const wchar_t *pszUserName) = 0;
+  virtual void InitInGameChat(INetDriver *pNetDriver) = 0;
+  virtual void DestroyInGameChat() = 0;
 
-  virtual void STDCALL SendMessage(const wchar_t *pszMessage, const SPlayerInfo &ourPlayer) = 0;
-  virtual void STDCALL SendWhisperMessage(const wchar_t *pszMessage, const SPlayerInfo &toPlayer, const SPlayerInfo &ourPlayer) = 0;
+  virtual void SendMessage(const wchar_t *pszMessage, const SPlayerInfo &ourPlayer) = 0;
+  virtual void SendWhisperMessage(const wchar_t *pszMessage, const SPlayerInfo &toPlayer, const SPlayerInfo &ourPlayer) = 0;
   // for gamespy messages
-  virtual void STDCALL SendMessage(const wchar_t *pszMessage, const wchar_t *wszToPlayer, bool bWhisper) = 0;
+  virtual void SendMessage(const wchar_t *pszMessage, const wchar_t *wszToPlayer, bool bWhisper) = 0;
 
-  virtual void STDCALL Segment() = 0;
+  virtual void Segment() = 0;
 
-  virtual interface IMultiplayerMessage * STDCALL GetMessage() = 0;
+  virtual interface IMultiplayerMessage * GetMessage() = 0;
 
-  virtual void STDCALL UserModeChanged(EUserMode eMode) = 0;
+  virtual void UserModeChanged(EUserMode eMode) = 0;
 };
 
 #endif // __GAME_CREATION_INTERFACES_H__

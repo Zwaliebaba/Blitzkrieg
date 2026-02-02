@@ -25,26 +25,26 @@ enum ESFXOutputType
 interface ISound : IRefCount
 {
   // visiting
-  virtual int STDCALL Visit(interface ISFXVisitor *pVisitor) = 0;
+  virtual int Visit(interface ISFXVisitor *pVisitor) = 0;
   // position
-  virtual void STDCALL SetPosition(const CVec3 &vPos3) = 0;
-  virtual const CVec3 STDCALL GetPosition() = 0;
+  virtual void SetPosition(const CVec3 &vPos3) = 0;
+  virtual const CVec3 GetPosition() = 0;
   // min distance (in world points /* see. fWorldCellSize */)
-  virtual void STDCALL SetMinDistance(float fDistance) = 0;
+  virtual void SetMinDistance(float fDistance) = 0;
   // looping
-  virtual void STDCALL SetLooping(bool bEnable, int nStart = -1, int nEnd = -1) = 0;
+  virtual void SetLooping(bool bEnable, int nStart = -1, int nEnd = -1) = 0;
 
   // 0.0f...1.0f
-  virtual void STDCALL SetVolume(float nVolume) =0;
-  virtual float STDCALL GetVolume() const =0;
+  virtual void SetVolume(float nVolume) =0;
+  virtual float GetVolume() const =0;
 
   // -1.0f...1.0f
-  virtual void STDCALL SetPan(float nPan) =0;
-  virtual float STDCALL GetPan() const =0;
+  virtual void SetPan(float nPan) =0;
+  virtual float GetPan() const =0;
 
   // sound duration in samples
-  virtual unsigned int STDCALL GetLenght() =0;
-  virtual unsigned int STDCALL GetSampleRate() =0;
+  virtual unsigned int GetLenght() =0;
+  virtual unsigned int GetSampleRate() =0;
 
 };
 
@@ -53,13 +53,13 @@ interface IPlayList : IRefCount
   enum { ORDER_SEQUENTIAL, ORDER_RANDOM, ORDER_CYCLE };
 
   // clear all melodies
-  virtual void STDCALL Clear() = 0;
+  virtual void Clear() = 0;
   // sequence order
-  virtual void STDCALL SetSequenceOrder(int nOrder) = 0;
+  virtual void SetSequenceOrder(int nOrder) = 0;
   // add new melody to the end of the play list
-  virtual void STDCALL AddMelody(const char *pszFileName) = 0;
+  virtual void AddMelody(const char *pszFileName) = 0;
   // get next melody for playing
-  virtual const char * STDCALL GetNextMelody() = 0;
+  virtual const char * GetNextMelody() = 0;
 };
 
 interface ISoundManager : ISharedManager
@@ -68,10 +68,10 @@ interface ISoundManager : ISharedManager
   enum { tidTypeID = SFX_SOUND_MANAGER };
 
   //
-  virtual ISound * STDCALL GetSound2D(const char *pszName) = 0;
-  virtual ISound * STDCALL GetSound3D(const char *pszName) = 0;
+  virtual ISound * GetSound2D(const char *pszName) = 0;
+  virtual ISound * GetSound3D(const char *pszName) = 0;
   //
-  virtual const char * STDCALL GetSoundName(ISound *pSound) = 0;
+  virtual const char * GetSoundName(ISound *pSound) = 0;
 };
 
 interface ISFX : IRefCount
@@ -79,53 +79,53 @@ interface ISFX : IRefCount
   enum { tidTypeID = SFX_SFX };
 
   //
-  IRefCount * STDCALL QI(int nInterfaceTypeID) override = 0;
+  IRefCount * QI(int nInterfaceTypeID) override = 0;
   // Init and close sound system
-  virtual bool STDCALL IsInitialized() = 0;
-  virtual bool STDCALL Init(HWND hWnd, int nDriver, ESFXOutputType output, int nMixRate, int nMaxChannels) = 0;
-  virtual void STDCALL Done() = 0;
+  virtual bool IsInitialized() = 0;
+  virtual bool Init(HWND hWnd, int nDriver, ESFXOutputType output, int nMixRate, int nMaxChannels) = 0;
+  virtual void Done() = 0;
   //
   // enable SFXes and streaming
-  virtual void STDCALL EnableSFX(bool bEnable) = 0;
-  virtual void STDCALL EnableStreaming(bool bEnable) = 0;
-  virtual bool STDCALL IsSFXEnabled() const =0;
-  virtual bool STDCALL IsStreamingEnabled() const =0;
+  virtual void EnableSFX(bool bEnable) = 0;
+  virtual void EnableStreaming(bool bEnable) = 0;
+  virtual bool IsSFXEnabled() const =0;
+  virtual bool IsStreamingEnabled() const =0;
   //
   // setup
-  virtual void STDCALL SetDistanceFactor(float fFactor) = 0;
-  virtual void STDCALL SetRolloffFactor(float fFactor) = 0;
+  virtual void SetDistanceFactor(float fFactor) = 0;
+  virtual void SetRolloffFactor(float fFactor) = 0;
   // set SFX master volume. 
-  virtual void STDCALL SetSFXMasterVolume(float fVolume) = 0;
-  virtual BYTE STDCALL GetSFXMasterVolume() const = 0;
+  virtual void SetSFXMasterVolume(float fVolume) = 0;
+  virtual BYTE GetSFXMasterVolume() const = 0;
   // set streams master volume. 
-  virtual void STDCALL SetStreamMasterVolume(float fVolume) = 0;
+  virtual void SetStreamMasterVolume(float fVolume) = 0;
   //
   // streaming sound
-  virtual void STDCALL PlayStream(const char *pszFileName, bool bLooped = false, unsigned int nTimeToFadePrevious = 0) = 0;
-  virtual void STDCALL StopStream(unsigned int nTimeToFade = 0) = 0;
-  virtual bool STDCALL IsStreamPlaying() const =0;
-  virtual void STDCALL SetStreamVolume(float fVolume) = 0;
-  virtual float STDCALL GetStreamVolume() const = 0;
+  virtual void PlayStream(const char *pszFileName, bool bLooped = false, unsigned int nTimeToFadePrevious = 0) = 0;
+  virtual void StopStream(unsigned int nTimeToFade = 0) = 0;
+  virtual bool IsStreamPlaying() const =0;
+  virtual void SetStreamVolume(float fVolume) = 0;
+  virtual float GetStreamVolume() const = 0;
   //
   // sample sounds
-  virtual int STDCALL PlaySample(ISound *pSound, bool bLooped = false, unsigned int nStartPos = 0) = 0;
+  virtual int PlaySample(ISound *pSound, bool bLooped = false, unsigned int nStartPos = 0) = 0;
   // update sound acording to internal parameters
-  virtual void STDCALL UpdateSample(ISound *pSound) = 0;
-  virtual void STDCALL StopSample(ISound *pSound) = 0;
-  virtual void STDCALL StopChannel(int nChannel) = 0;
+  virtual void UpdateSample(ISound *pSound) = 0;
+  virtual void StopSample(ISound *pSound) = 0;
+  virtual void StopChannel(int nChannel) = 0;
   //
   // Update sounds ( that is needed for 3D sounds )
-  virtual void STDCALL Update(interface ICamera *pCamera) = 0;
+  virtual void Update(interface ICamera *pCamera) = 0;
   //
-  virtual bool STDCALL Pause(bool bPause) = 0;
-  virtual bool STDCALL PauseStreaming(bool bPause) = 0;
-  virtual bool STDCALL IsPaused() = 0;
+  virtual bool Pause(bool bPause) = 0;
+  virtual bool PauseStreaming(bool bPause) = 0;
+  virtual bool IsPaused() = 0;
 
-  virtual bool STDCALL IsPlaying(ISound *pSound) =0;
+  virtual bool IsPlaying(ISound *pSound) =0;
 
   // current position of the slot
-  virtual unsigned int STDCALL GetCurrentPosition(ISound *pSound) =0;
-  virtual void STDCALL SetCurrentPosition(ISound *pSound, unsigned int pos) =0;
+  virtual unsigned int GetCurrentPosition(ISound *pSound) =0;
+  virtual void SetCurrentPosition(ISound *pSound, unsigned int pos) =0;
 };
 
 #endif // __SFX_H__

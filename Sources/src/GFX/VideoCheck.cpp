@@ -7,7 +7,7 @@
 
 using DIRECTDRAWCREATEEX = HRESULT(WINAPI *)(GUID *, VOID **, REFIID, IUnknown *);
 
-const wchar_t * STDCALL NVideoCheck::GetAPIName() { return L"DirectX"; }
+const wchar_t * NVideoCheck::GetAPIName() { return L"DirectX"; }
 
 // ************************************************************************************************************************ //
 // **
@@ -17,7 +17,7 @@ const wchar_t * STDCALL NVideoCheck::GetAPIName() { return L"DirectX"; }
 // **
 // ************************************************************************************************************************ //
 
-bool STDCALL NVideoCheck::GetVideoMemory(SVideoMemory *pMemory)
+bool NVideoCheck::GetVideoMemory(SVideoMemory *pMemory)
 {
   // create DirectDraw7 object to get available video memory
   NWin32Helper::CDLLHandle handle("ddraw.dll");

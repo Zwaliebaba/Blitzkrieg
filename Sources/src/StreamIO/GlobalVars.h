@@ -13,17 +13,17 @@ class CGlobalVars : public IGlobalVars
   CWValuesMap wValues;
 
 public:
-  const char * STDCALL GetVar(const char *pszValueName) const override
+  const char * GetVar(const char *pszValueName) const override
   {
     CValuesMap::const_iterator pos = values.find(pszValueName);
     return pos == values.end() ? nullptr : pos->second.c_str();
   }
 
-  void STDCALL SetVar(const char *pszValueName, const char *pszValue) override { values[pszValueName] = pszValue; }
+  void SetVar(const char *pszValueName, const char *pszValue) override { values[pszValueName] = pszValue; }
 
-  void STDCALL RemoveVar(const char *pszValueName) override { values.erase(pszValueName); }
+  void RemoveVar(const char *pszValueName) override { values.erase(pszValueName); }
 
-  void STDCALL RemoveVarsByMatch(const char *pszValueMatch) override
+  void RemoveVarsByMatch(const char *pszValueMatch) override
   {
     const int nMatchLen = strlen(pszValueMatch);
     // search in values
@@ -40,7 +40,7 @@ public:
     }
   }
 
-  void STDCALL SerializeVarsByMatch(IDataTree *pSS, const char *pszValueMatch) override
+  void SerializeVarsByMatch(IDataTree *pSS, const char *pszValueMatch) override
   {
     CTreeAccessor saver = pSS;
 
@@ -73,17 +73,17 @@ public:
   }
 
   //
-  void STDCALL SetVar(const char *pszValueName, const wchar_t*pszValue) override { wValues[pszValueName] = pszValue; }
+  void SetVar(const char *pszValueName, const wchar_t*pszValue) override { wValues[pszValueName] = pszValue; }
 
-  const wchar_t* STDCALL GetWVar(const char *pszValueName) const override
+  const wchar_t* GetWVar(const char *pszValueName) const override
   {
     CWValuesMap::const_iterator pos = wValues.find(pszValueName);
     return pos == wValues.end() ? nullptr : pos->second.c_str();
   }
 
-  void STDCALL RemoveWVar(const char *pszValueName) override { wValues.erase(pszValueName); }
+  void RemoveWVar(const char *pszValueName) override { wValues.erase(pszValueName); }
 
-  bool STDCALL DumpVars(const char *pszFileName) override
+  bool DumpVars(const char *pszFileName) override
   {
     NFile::CFile file;
     if (file.Open(pszFileName, NFile::CFile::modeWrite | NFile::CFile::modeCreate))
@@ -101,7 +101,7 @@ public:
   }
 
   //
-  int STDCALL operator&(IStructureSaver &ss) override
+  int operator&(IStructureSaver &ss) override
   {
     CSaverAccessor saver = &ss;
     // CRAP{ do not save video mode in save and options

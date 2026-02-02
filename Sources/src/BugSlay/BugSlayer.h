@@ -17,51 +17,51 @@ enum EBSUReport
 namespace NBugSlayer
 {
   // assert dialog notification function
-  EBSUReport STDCALL ReportAssert(const char *pszCondition, const char *pszDescription,
+  EBSUReport ReportAssert(const char *pszCondition, const char *pszDescription,
                                   const char *pszFileName, int nLineNumber, bool bForceMode);
-  EBSUReport STDCALL ReportAssertHR(HRESULT result, const char *pszDescription,
+  EBSUReport ReportAssertHR(HRESULT result, const char *pszDescription,
                                     const char *pszFileName, int nLineNumber, bool bForceMode);
   // memory tracking system
-  void STDCALL MemSystemRegister(size_t nSize, void *ptr);
-  void STDCALL MemSystemFree(void *ptr);
-  void STDCALL MemSystemAddIgnoredPath(const char *pszPath);
-  void STDCALL MemSystemDumpStats();
+  void MemSystemRegister(size_t nSize, void *ptr);
+  void MemSystemFree(void *ptr);
+  void MemSystemAddIgnoredPath(const char *pszPath);
+  void MemSystemDumpStats();
   //
   void * __cdecl FastDumbAlloc(int _nSize);
   bool __cdecl FastDumbFree(void *pData);
   // emergency commands
-  void STDCALL AddEmergencyCommand(interface IBaseCommand *pCommand);
-  void STDCALL RemoveAllEmergencyCommands();
+  void AddEmergencyCommand(interface IBaseCommand *pCommand);
+  void RemoveAllEmergencyCommands();
 };
 
 // For the specified process id, this function returns the HMODULES for all modules loaded into
 // that process address space.  
-BOOL STDCALL GetLoadedModules(DWORD dwPID, UINT uiCount, HMODULE *paModArray, LPUINT puiRealCount);
+BOOL GetLoadedModules(DWORD dwPID, UINT uiCount, HMODULE *paModArray, LPUINT puiRealCount);
 
 // Returns the base name of the specified module in a manner that is portable between
 // NT and Win95/98.
-DWORD STDCALL BSUGetModuleBaseName(HANDLE hProcess, HMODULE hModule, LPTSTR lpBaseName, DWORD nSize);
+DWORD BSUGetModuleBaseName(HANDLE hProcess, HMODULE hModule, LPTSTR lpBaseName, DWORD nSize);
 // Returns TRUE if the operating system is NT.  
 // GetVersionEx each time I needed to check. 
 // loops so this function caches the results so it is faster.
-BOOL STDCALL IsNT();
+BOOL IsNT();
 
 // The type for the filter function called by the Crash Handler API.
-using PFNCHFILTFN = LONG(STDCALL *)(EXCEPTION_POINTERS *pExPtrs);
+using PFNCHFILTFN = LONG(*)(EXCEPTION_POINTERS *pExPtrs);
 // Sets the filter function that will be called when there is a fatal crash.  
 // will only be called if the crash is one of the modules passed to AddCrashHandlerLimitModule.  
 // modules have been added to narrow down the interested modules then the callback filter function
 // will always be called.
-BOOL STDCALL SetCrashHandlerFilter(PFNCHFILTFN pFn);
-LONG STDCALL CrashHandlerFilter(EXCEPTION_POINTERS *pExPtrs);
+BOOL SetCrashHandlerFilter(PFNCHFILTFN pFn);
+LONG CrashHandlerFilter(EXCEPTION_POINTERS *pExPtrs);
 
 // Adds a module to the list of modules that CrashHandler will call the callbeack function for.
 // If no modules are added, then the callback is called for all crashes.  
 // allows the crash handler to be installed for just the modules you are responsible for.
-BOOL STDCALL AddCrashHandlerLimitModule(HMODULE hMod);
+BOOL AddCrashHandlerLimitModule(HMODULE hMod);
 
 // Returns the number of limit modules for the crash handler.
-UINT STDCALL GetLimitModuleCount();
+UINT GetLimitModuleCount();
 
 // Returns the limit modules currently active.
 enum
@@ -72,12 +72,12 @@ enum
   GLMA_FAILURE = 0
 };
 
-int STDCALL GetLimitModulesArray(HMODULE *pahMod, UINT uiSize);
+int GetLimitModulesArray(HMODULE *pahMod, UINT uiSize);
 
 // Returns a string that describes the fault that occurs.  
 // string returned by Win95's fault dialog. 
 // This function can only be called from the callback.
-LPCTSTR STDCALL GetFaultReason(EXCEPTION_POINTERS *pExPtrs);
+LPCTSTR GetFaultReason(EXCEPTION_POINTERS *pExPtrs);
 
 // These functions allow you to get the stack trace information for a crash.
 // Call GetFirstStackTraceString and then GetNextStackTraceString to get the entire stack trace for a crash.
@@ -89,14 +89,14 @@ enum
   GSTSO_SRCLINE = 0x08
 };
 
-LPCTSTR STDCALL GetFirstStackTraceString(DWORD dwOpts, EXCEPTION_POINTERS *pExPtrs);
-LPCTSTR STDCALL GetNextStackTraceString(DWORD dwOpts, EXCEPTION_POINTERS *pExPtrs);
+LPCTSTR GetFirstStackTraceString(DWORD dwOpts, EXCEPTION_POINTERS *pExPtrs);
+LPCTSTR GetNextStackTraceString(DWORD dwOpts, EXCEPTION_POINTERS *pExPtrs);
 
 // Returns a string with all the registers and their values.  
-LPCTSTR STDCALL GetRegisterString(EXCEPTION_POINTERS *pExPtrs);
+LPCTSTR GetRegisterString(EXCEPTION_POINTERS *pExPtrs);
 
 // get source filename and line number at the requested depth
-bool STDCALL GetSourceLine(DWORD pointer, const char * &pszFileName, int &nLineNumber);
+bool GetSourceLine(DWORD pointer, const char * &pszFileName, int &nLineNumber);
 
 // STLport debug message system
 #if defined( __STL_DEBUG_MESSAGE )

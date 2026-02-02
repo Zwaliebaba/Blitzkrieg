@@ -53,7 +53,7 @@ class CPlayMovieInterface : public CInterfaceScreenBase
   //
   bool PlayMovie();
   void StartNextInterface();
-  bool STDCALL ProcessMessage(const SGameMessage &msg) override;
+  bool ProcessMessage(const SGameMessage &msg) override;
   bool OpenCurtains() override { return false; }
 
 public:
@@ -63,10 +63,10 @@ public:
   void LoadMovieSequence(const std::string &szFileName);
   void SetNextInterface(int nTypeID, const std::string &szConfig);
   //
-  bool STDCALL Init() override;
-  void STDCALL Done() override;
-  void STDCALL Step(bool bAppActive) override;
-  void STDCALL OnGetFocus(bool bFocus) override;
+  bool Init() override;
+  void Done() override;
+  void Step(bool bAppActive) override;
+  void OnGetFocus(bool bFocus) override;
 };
 
 class CICPlayMovie : public CInterfaceCommandBase<CPlayMovieInterface, MISSION_INTERFACE_VIDEO>
@@ -84,7 +84,7 @@ class CICPlayMovie : public CInterfaceCommandBase<CPlayMovieInterface, MISSION_I
   CICPlayMovie() {}
 
 public:
-  void STDCALL Configure(const char *pszConfig) override;
+  void Configure(const char *pszConfig) override;
 };
 
 #endif // __PLAYMOVIEINTERFACE_H__

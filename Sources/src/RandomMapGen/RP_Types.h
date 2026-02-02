@@ -62,8 +62,8 @@ struct SRoadPoint : CTPoint<int>
   }
 
   // serializing...
-  virtual int STDCALL operator&(IStructureSaver &ss);
-  virtual int STDCALL operator&(IDataTree &ss);
+  virtual int operator&(IStructureSaver &ss);
+  virtual int operator&(IDataTree &ss);
 
   // To create roads roads - direction
   bool HasHorizontalDirection() const
@@ -146,8 +146,8 @@ struct SRoadMakeParameter
   }
 
   // serializing...
-  virtual int STDCALL operator&(IStructureSaver &ss);
-  virtual int STDCALL operator&(IDataTree &ss);
+  virtual int operator&(IStructureSaver &ss);
+  virtual int operator&(IDataTree &ss);
 };
 
 #endif // #if !defined(__RoadPoints__Types__)

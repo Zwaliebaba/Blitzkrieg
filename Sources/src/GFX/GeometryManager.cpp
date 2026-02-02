@@ -1,9 +1,5 @@
 #include "StdAfx.h"
-
 #include "GeometryManager.h"
-
-#include "GeometryMesh.h"
-#include "GFXHelper.h"
 
 // remove all shared resource from this manager
 void CMeshManager::Clear(const EClearMode eMode, const int nUsage, const int nAmount)

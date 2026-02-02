@@ -35,38 +35,38 @@ public:
   ~CUIEditBox() override {}
 
   // mouse actions
-  bool STDCALL OnMouseMove(const CVec2 &vPos, EMouseState mouseState) override;
-  bool STDCALL OnLButtonDown(const CVec2 &vPos, EMouseState mouseState) override;
-  bool STDCALL OnRButtonDown(const CVec2 &vPos, EMouseState mouseState) override;
-  // virtual bool STDCALL OnLButtonUp( const CVec2 &vPos, EMouseState mouseState ) { return true; 
+  bool OnMouseMove(const CVec2 &vPos, EMouseState mouseState) override;
+  bool OnLButtonDown(const CVec2 &vPos, EMouseState mouseState) override;
+  bool OnRButtonDown(const CVec2 &vPos, EMouseState mouseState) override;
+  // virtual bool OnLButtonUp( const CVec2 &vPos, EMouseState mouseState ) { return true; 
 
   //
-  void STDCALL SetWindowText(int nState, const wchar_t *pszText) override;
-  void STDCALL SetFocus(bool bFocus) override;
-  virtual void STDCALL SetCursor(int nPos);
-  virtual int STDCALL GetCursor() { return nCursorPos; }
-  void STDCALL Draw(IGFX *pGFX) override;
-  void STDCALL Visit(interface ISceneVisitor *pVisitor) override;
-  bool STDCALL Update(const NTimer::STime &currTime) override;
+  void SetWindowText(int nState, const wchar_t *pszText) override;
+  void SetFocus(bool bFocus) override;
+  virtual void SetCursor(int nPos);
+  virtual int GetCursor() { return nCursorPos; }
+  void Draw(IGFX *pGFX) override;
+  void Visit(interface ISceneVisitor *pVisitor) override;
+  bool Update(const NTimer::STime &currTime) override;
 
-  virtual void STDCALL SetSel(int nBegin, int nEnd)
+  virtual void SetSel(int nBegin, int nEnd)
   {
     m_nBeginSel = nBegin;
     m_nEndSel = nEnd;
   }
 
-  virtual void STDCALL GetSel(int *nBegin, int *nEnd)
+  virtual void GetSel(int *nBegin, int *nEnd)
   {
     *nBegin = m_nBeginSel;
     *nEnd = m_nEndSel;
   }
 
-  virtual void STDCALL SetMaxLength(const int nLength) { nMaxLength = nLength; }
+  virtual void SetMaxLength(const int nLength) { nMaxLength = nLength; }
 
   // serializing...
-  int STDCALL operator&(IDataTree &ss) override;
-  bool STDCALL OnChar(int nAsciiCode, int nVirtualKey, bool bPressed, DWORD keyState) override;
-  bool STDCALL ProcessMessage(const SUIMessage &msg) override;
+  int operator&(IDataTree &ss) override;
+  bool OnChar(int nAsciiCode, int nVirtualKey, bool bPressed, DWORD keyState) override;
+  bool ProcessMessage(const SUIMessage &msg) override;
 
 private:
   bool DeleteSelection();
@@ -83,11 +83,11 @@ class CUIEditBoxBridge : public IUIEditBox, public CUIEditBox
   DECLARE_SUPER(CUIEditBox);
   DEFINE_UIELEMENT_BRIDGE;
 
-  void STDCALL SetCursor(int nPos) override { CSuper::SetCursor(nPos); }
-  int STDCALL GetCursor() override { return CSuper::GetCursor(); }
-  void STDCALL SetSel(int nBegin, int nEnd) override { CSuper::SetSel(nBegin, nEnd); }
-  void STDCALL GetSel(int *nBegin, int *nEnd) override { CSuper::GetSel(nBegin, nEnd); }
-  void STDCALL SetMaxLength(const int nLength) override { CSuper::SetMaxLength(nLength); }
+  void SetCursor(int nPos) override { CSuper::SetCursor(nPos); }
+  int GetCursor() override { return CSuper::GetCursor(); }
+  void SetSel(int nBegin, int nEnd) override { CSuper::SetSel(nBegin, nEnd); }
+  void GetSel(int *nBegin, int *nEnd) override { CSuper::GetSel(nBegin, nEnd); }
+  void SetMaxLength(const int nLength) override { CSuper::SetMaxLength(nLength); }
 };
 
 #endif // __UI_EDIT_BOX_H__

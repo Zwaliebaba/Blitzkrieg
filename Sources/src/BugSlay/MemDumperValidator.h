@@ -62,11 +62,11 @@ typedef struct tag_DVINFO
 
 /* ----------------------------------------------------------------------
  */
-int STDCALL AddClientDV(LPDVINFO lpDVInfo);
+int AddClientDV(LPDVINFO lpDVInfo);
 
 /* ----------------------------------------------------------------------
  */
-void STDCALL ValidateAllBlocks(void *pContext);
+void ValidateAllBlocks(void *pContext);
 
 #ifdef __cplusplus
 // ////////////////////////////////////////////////////////////////////

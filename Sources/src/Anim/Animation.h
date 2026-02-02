@@ -82,90 +82,90 @@ struct SSpriteRect
 
 interface IMatrixEffector : IRefCount
 {
-  virtual bool STDCALL Update(const NTimer::STime &time) = 0;
-  virtual void STDCALL SetupTimes(const NTimer::STime &timeStart, const NTimer::STime &timeLife) = 0;
-  virtual const SHMatrix & STDCALL GetMatrix() const = 0;
+  virtual bool Update(const NTimer::STime &time) = 0;
+  virtual void SetupTimes(const NTimer::STime &timeStart, const NTimer::STime &timeLife) = 0;
+  virtual const SHMatrix & GetMatrix() const = 0;
 };
 
 interface IMatrixEffectorJogging : IMatrixEffector
 {
-  virtual void STDCALL SetupData(float fPeriodX1, float fPeriodX2, float fAmpX1, float fAmpX2, float fPhaseX1, float fPhaseX2,
+  virtual void SetupData(float fPeriodX1, float fPeriodX2, float fAmpX1, float fAmpX2, float fPhaseX1, float fPhaseX2,
                                  float fPeriodY1, float fPeriodY2, float fAmpY1, float fAmpY2, float fPhaseY1, float fPhaseY2,
                                  float fPeriodZ1, float fPeriodZ2, float fAmpZ1, float fAmpZ2, float fPhaseZ1, float fPhaseZ2) = 0;
 };
 
 interface IMatrixEffectorLeveling : IMatrixEffector
 {
-  virtual void STDCALL SetupData(const CVec3 &vNormale, const NTimer::STime &currTime) = 0;
-  virtual const CVec3 & STDCALL GetNormal() const = 0;
+  virtual void SetupData(const CVec3 &vNormale, const NTimer::STime &currTime) = 0;
+  virtual const CVec3 & GetNormal() const = 0;
 };
 
 interface IAnimVisitor : IRefCount
 {
-  virtual void STDCALL VisitSprite(const SSpriteRect *pSprite) = 0;
-  virtual void STDCALL VisitSprite(const SSpritesPack::SSprite *pSprite) = 0;
-  virtual void STDCALL VisitMesh(const SHMatrix *matrices, int nNumMatrices) = 0;
+  virtual void VisitSprite(const SSpriteRect *pSprite) = 0;
+  virtual void VisitSprite(const SSpritesPack::SSprite *pSprite) = 0;
+  virtual void VisitMesh(const SHMatrix *matrices, int nNumMatrices) = 0;
 };
 
 interface IAnimation : IRefCount
 {
-  virtual void STDCALL Visit(IAnimVisitor *pVisitor) = 0;
+  virtual void Visit(IAnimVisitor *pVisitor) = 0;
   // set current time
-  virtual void STDCALL SetTime(DWORD time) = 0;
+  virtual void SetTime(DWORD time) = 0;
   // set animation start time
-  virtual void STDCALL SetStartTime(DWORD time) = 0;
+  virtual void SetStartTime(DWORD time) = 0;
   // set animation time scale coeff
-  virtual void STDCALL SetAnimSpeedCoeff(float fCoeff) = 0;
+  virtual void SetAnimSpeedCoeff(float fCoeff) = 0;
   // set/get new animation
-  virtual bool STDCALL SetAnimation(int nAnim) = 0;
-  virtual int STDCALL GetAnimation() const = 0;
+  virtual bool SetAnimation(int nAnim) = 0;
+  virtual int GetAnimation() const = 0;
   // get length of the animation
-  virtual int STDCALL GetLengthOf(int nAnim) = 0;
+  virtual int GetLengthOf(int nAnim) = 0;
 };
 
 interface ISpriteAnimation : IAnimation
 {
-  virtual void STDCALL SetDirection(int nDirection) = 0;
-  virtual void STDCALL SetScale(float fScale) = 0;
-  virtual const SSpriteRect & STDCALL GetRect() = 0;
+  virtual void SetDirection(int nDirection) = 0;
+  virtual void SetScale(float fScale) = 0;
+  virtual const SSpriteRect & GetRect() = 0;
   // get translation speed, attached to this animation
-  virtual float STDCALL GetSpeed() const = 0;
+  virtual float GetSpeed() const = 0;
   // frame index
-  virtual void STDCALL SetFrameIndex(int nIndex) = 0;
-  virtual int STDCALL GetFrameIndex() = 0;
+  virtual void SetFrameIndex(int nIndex) = 0;
+  virtual int GetFrameIndex() = 0;
   // hit test
-  virtual const bool STDCALL IsHit(const CVec3 &relpos, const CVec2 &point, CVec2 *pShift) const = 0;
-  virtual const bool STDCALL IsHit(const CVec3 &relpos, const CTRect<float> &rcRect) const = 0;
+  virtual const bool IsHit(const CVec3 &relpos, const CVec2 &point, CVec2 *pShift) const = 0;
+  virtual const bool IsHit(const CVec3 &relpos, const CTRect<float> &rcRect) const = 0;
   // scale timer
-  virtual const CScaleTimer & STDCALL GetScaleTimer() const = 0;
-  virtual void STDCALL SetScaleTimer(const CScaleTimer &timer) = 0;
+  virtual const CScaleTimer & GetScaleTimer() const = 0;
+  virtual void SetScaleTimer(const CScaleTimer &timer) = 0;
 };
 
 interface IMeshAnimation : IAnimation
 {
   // transformation access
-  virtual int STDCALL GetNumNodes() const = 0;
-  virtual const SHMatrix * STDCALL GetMatrices(const SHMatrix &matBase) = 0;
-  virtual void STDCALL GetBaseMatrix(const SHMatrix &matBase, SHMatrix *pResult) = 0;
-  virtual const SHMatrix * STDCALL GetCurrMatrices() const = 0;
+  virtual int GetNumNodes() const = 0;
+  virtual const SHMatrix * GetMatrices(const SHMatrix &matBase) = 0;
+  virtual void GetBaseMatrix(const SHMatrix &matBase, SHMatrix *pResult) = 0;
+  virtual const SHMatrix * GetCurrMatrices() const = 0;
   // "manual" animation
-  virtual void STDCALL AddProceduralNode(int nNodeIdx, DWORD currTime, DWORD startTime, DWORD endTime, float fValue) = 0;
-  virtual void STDCALL CutProceduralAnimation(const NTimer::STime &time, int nModelPart = -1) = 0;
+  virtual void AddProceduralNode(int nNodeIdx, DWORD currTime, DWORD startTime, DWORD endTime, float fValue) = 0;
+  virtual void CutProceduralAnimation(const NTimer::STime &time, int nModelPart = -1) = 0;
   // effectors
-  virtual void STDCALL AddEffector(IMatrixEffector *pEffector, int nID, int nPart) = 0;
-  virtual void STDCALL RemoveEffector(int nID, int nPart) = 0;
-  virtual IMatrixEffector * STDCALL GetEffector(int nID, int nPart) = 0;
+  virtual void AddEffector(IMatrixEffector *pEffector, int nID, int nPart) = 0;
+  virtual void RemoveEffector(int nID, int nPart) = 0;
+  virtual IMatrixEffector * GetEffector(int nID, int nPart) = 0;
 };
 
 // special interface for editor. 
 interface IMeshAnimationEdit
 {
   // all nodes access
-  virtual void STDCALL GetAllNodeNames(const char **ppBuffer, int nBufferSize) const = 0;
+  virtual void GetAllNodeNames(const char **ppBuffer, int nBufferSize) const = 0;
   // locators access
-  virtual int STDCALL GetNumLocators() const = 0;
-  virtual const int * STDCALL GetAllLocatorIndices() const = 0;
-  virtual void STDCALL GetAllLocatorNames(const char **ppBuffer, int nBufferSize) const = 0;
+  virtual int GetNumLocators() const = 0;
+  virtual const int * GetAllLocatorIndices() const = 0;
+  virtual void GetAllLocatorNames(const char **ppBuffer, int nBufferSize) const = 0;
 };
 
 interface IAnimationManager : ISharedManager
@@ -174,8 +174,8 @@ interface IAnimationManager : ISharedManager
   enum { tidTypeID = ANIM_ANIMATION_MANAGER };
 
   //
-  virtual ISpriteAnimation * STDCALL GetSpriteAnimation(const char *pszName) = 0;
-  virtual IMeshAnimation * STDCALL GetMeshAnimation(const char *pszName) = 0;
+  virtual ISpriteAnimation * GetSpriteAnimation(const char *pszName) = 0;
+  virtual IMeshAnimation * GetMeshAnimation(const char *pszName) = 0;
 };
 
 #endif // __ANIMATION_H__

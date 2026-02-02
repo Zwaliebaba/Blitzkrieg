@@ -42,31 +42,31 @@ interface IMultiplayer : IRefCount
       : eCommandType(_eCommandType), pAILogicCommand(_pAILogicCommand), nPlayer(_nPlayer), nParam(_nParam) {}
   };
 
-  virtual void STDCALL Init() = 0;
-  virtual void STDCALL Segment() = 0;
-  virtual void STDCALL InitServersList() = 0;
-  virtual bool STDCALL InitJoinToServer(const char *pszIPAddress, int nPort, bool bPasswordRequired, const char *pszPassword) = 0;
+  virtual void Init() = 0;
+  virtual void Segment() = 0;
+  virtual void InitServersList() = 0;
+  virtual bool InitJoinToServer(const char *pszIPAddress, int nPort, bool bPasswordRequired, const char *pszPassword) = 0;
 
   virtual const EMultiplayerStates GetState() = 0;
 
-  virtual CCommand * STDCALL GetCommand() = 0;
-  virtual void STDCALL SendClientCommands(IDataStream *pPacket) = 0;
-  virtual void STDCALL SendInGameChatMessage(const wchar_t *pszType, const wchar_t *pszMessage) = 0;
+  virtual CCommand * GetCommand() = 0;
+  virtual void SendClientCommands(IDataStream *pPacket) = 0;
+  virtual void SendInGameChatMessage(const wchar_t *pszType, const wchar_t *pszMessage) = 0;
 
   // valid onlye during of the game
-  virtual int STDCALL GetNumberOfPlayers() const = 0;
+  virtual int GetNumberOfPlayers() const = 0;
 
   // client commands
-  virtual void STDCALL TogglePause() = 0;
-  virtual void STDCALL GameSpeed(int nChange) = 0;
-  virtual void STDCALL DropPlayer(int nLogicID) = 0;
+  virtual void TogglePause() = 0;
+  virtual void GameSpeed(int nChange) = 0;
+  virtual void DropPlayer(int nLogicID) = 0;
 
-  virtual void STDCALL CommandTimeOut(bool bSet) = 0;
+  virtual void CommandTimeOut(bool bSet) = 0;
 
-  virtual void STDCALL SendAliveMessage() = 0;
-  virtual void STDCALL FinishGame() = 0;
+  virtual void SendAliveMessage() = 0;
+  virtual void FinishGame() = 0;
 
-  virtual interface INetDriver * STDCALL GetInGameNetDriver() const = 0;
+  virtual interface INetDriver * GetInGameNetDriver() const = 0;
 };
 
 #endif // __MULTIPLAYER_H__

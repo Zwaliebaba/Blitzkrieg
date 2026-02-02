@@ -22,7 +22,7 @@ class CAnimationManager : public IAnimationManager
   CMeshAnimationShare meshanims;
 
 public:
-  void STDCALL SetSerialMode(ESharedDataSerialMode eSerialMode) override
+  void SetSerialMode(ESharedDataSerialMode eSerialMode) override
   {
     sprites.SetSerialMode(eSerialMode);
     complexsprites.SetSerialMode(eSerialMode);
@@ -31,7 +31,7 @@ public:
   }
 
   // setup sharing mode
-  void STDCALL SetShareMode(ESharedDataSharingMode eShareMode) override
+  void SetShareMode(ESharedDataSharingMode eShareMode) override
   {
     sprites.SetShareMode(eShareMode);
     complexsprites.SetShareMode(eShareMode);
@@ -40,9 +40,9 @@ public:
   }
 
   // remove all shared resource from this manager
-  void STDCALL Clear(EClearMode eMode, int nUsage, int nAmount) override;
+  void Clear(EClearMode eMode, int nUsage, int nAmount) override;
   //
-  bool STDCALL Init() override
+  bool Init() override
   {
     sprites.Init();
     complexsprites.Init();
@@ -52,8 +52,8 @@ public:
   }
 
   //
-  ISpriteAnimation * STDCALL GetSpriteAnimation(const char *pszName) override;
-  IMeshAnimation * STDCALL GetMeshAnimation(const char *pszName) override;
+  ISpriteAnimation * GetSpriteAnimation(const char *pszName) override;
+  IMeshAnimation * GetMeshAnimation(const char *pszName) override;
 };
 
 #endif // __ANIMATIONMANAGER_H__

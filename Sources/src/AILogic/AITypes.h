@@ -117,7 +117,7 @@ struct SShootAreas
   // output - sequentially, overlapping each other, first areas[0], then areas[1], etc.
   std::list<SShootArea> areas;
 
-  virtual int STDCALL operator&(interface IStructureSaver &ss)
+  virtual int operator&(interface IStructureSaver &ss)
   {
     CSaverAccessor saver = &ss;
     saver.Add(1, &areas);

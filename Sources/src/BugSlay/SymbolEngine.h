@@ -55,25 +55,25 @@ typedef struct _IMAGEHLP_LINE
  */
 // //////////////////////////////////////////////////////////// 
 #ifdef SYMENG_NEEDDECLS
-BOOL STDCALL SymGetLineFromAddr(IN HANDLE hProcess,
+BOOL SymGetLineFromAddr(IN HANDLE hProcess,
                                 IN DWORD  dwAddr,
                                 OUT PDWORD pdwDisplacement,
                                 OUT PIMAGEHLP_LINE Line);
 
-BOOL STDCALL SymGetLineFromName(IN HANDLE hProcess,
+BOOL SymGetLineFromName(IN HANDLE hProcess,
                                 IN LPSTR ModuleName,
                                 IN LPSTR FileName,
                                 IN DWORD dwLineNumber,
                                 OUT PLONG plDisplacement,
                                 IN OUT PIMAGEHLP_LINE Line);
 
-BOOL STDCALL SymGetLineNext(IN HANDLE hProcess,
+BOOL SymGetLineNext(IN HANDLE hProcess,
                             IN OUT PIMAGEHLP_LINE Line);
 
-BOOL STDCALL SymGetLinePrev(IN HANDLE hProcess,
+BOOL SymGetLinePrev(IN HANDLE hProcess,
                             IN OUT PIMAGEHLP_LINE Line);
 
-BOOL STDCALL SymMatchFileName(IN LPSTR FileName,
+BOOL SymMatchFileName(IN LPSTR FileName,
                               IN LPSTR Match,
                               OUT LPSTR *FileNameStop,
                               OUT LPSTR *MatchStop);
@@ -109,25 +109,25 @@ struct CImageHlp_Line : IMAGEHLP_LINE
 
 // //////////////////////////////////////////////////////////// 
 // Typedefs for the new source and line functions.
-using PFNSYMGETLINEFROMADDR = BOOL(STDCALL *)(IN HANDLE hProcess,
+using PFNSYMGETLINEFROMADDR = BOOL(*)(IN HANDLE hProcess,
                                               IN DWORD dwAddr,
                                               OUT PDWORD pdwDisplacement,
                                               OUT PIMAGEHLP_LINE Line);
 
-using PFNSYMGETLINEFROMNAME = BOOL(STDCALL *)(IN HANDLE hProcess,
+using PFNSYMGETLINEFROMNAME = BOOL(*)(IN HANDLE hProcess,
                                               IN LPSTR ModuleName,
                                               IN LPSTR FileName,
                                               IN DWORD dwLineNumber,
                                               OUT PLONG plDisplacement,
                                               IN OUT PIMAGEHLP_LINE Line);
 
-using PFNSYMGETLINENEXT = BOOL(STDCALL *)(IN HANDLE hProcess,
+using PFNSYMGETLINENEXT = BOOL(*)(IN HANDLE hProcess,
                                           IN OUT PIMAGEHLP_LINE Line);
 
-using PFNSYMGETLINEPREV = BOOL(STDCALL *)(IN HANDLE hProcess,
+using PFNSYMGETLINEPREV = BOOL(*)(IN HANDLE hProcess,
                                           IN OUT PIMAGEHLP_LINE Line);
 
-using PFNSYMMATCHFILENAME = BOOL(STDCALL *)(IN LPSTR FileName,
+using PFNSYMMATCHFILENAME = BOOL(*)(IN LPSTR FileName,
                                             IN LPSTR Match,
                                             OUT LPSTR *FileNameStop,
                                             OUT LPSTR *MatchStop);

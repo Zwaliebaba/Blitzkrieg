@@ -18,29 +18,29 @@ class CMOBridgeSpan : public CTRefCount<SBridgeSpanObject>
   void UpdateModelWithHP(float fNewHP, const NTimer::STime &currTime, IVisObjBuilder *pVOB) const;
 
 public:
-  bool STDCALL Create(IRefCount *pAIObj, const SGDBObjectDesc *pDesc, int nSeason, int nFrameIndex, float fHP, interface IVisObjBuilder *pVOB, IObjectsDB *pGDB) override;
+  bool Create(IRefCount *pAIObj, const SGDBObjectDesc *pDesc, int nSeason, int nFrameIndex, float fHP, interface IVisObjBuilder *pVOB, IObjectsDB *pGDB) override;
   // placement
-  void STDCALL SetPlacement(const CVec3 &vPos, const WORD &wDir) override;
-  void STDCALL GetPlacement(CVec3 *pvPos, WORD *pwDir) override;
+  void SetPlacement(const CVec3 &vPos, const WORD &wDir) override;
+  void GetPlacement(CVec3 *pvPos, WORD *pwDir) override;
   // stats functions
-  const SGDBObjectDesc * STDCALL GetDesc() const override;
-  const SHPObjectRPGStats * STDCALL GetRPG() const override;
+  const SGDBObjectDesc * GetDesc() const override;
+  const SHPObjectRPGStats * GetRPG() const override;
   // AI object retrieving
-  IRefCount * STDCALL GetAIObj() override;
-  IRefCount * STDCALL GetParentAIObj() override;
+  IRefCount * GetAIObj() override;
+  IRefCount * GetParentAIObj() override;
   //
-  bool STDCALL CanSelect() const override;
+  bool CanSelect() const override;
   // get status for mission status bar
-  void STDCALL GetStatus(struct SMissionStatusObject *pStatus) const override;
+  void GetStatus(struct SMissionStatusObject *pStatus) const override;
   // get actions, which this object can perform or actions, thi object can be acted with
-  void STDCALL GetActions(CUserActions *pActions, EActionsType eActions) const override;
+  void GetActions(CUserActions *pActions, EActionsType eActions) const override;
   // common updates
-  void STDCALL AIUpdatePlacement(const struct SAINotifyPlacement &placement, const NTimer::STime &currTime, IScene *pScene) override;
-  bool STDCALL AIUpdateRPGStats(const struct SAINotifyRPGStats &stats, IVisObjBuilder *pVOB, IScene *pScene) override;
-  void STDCALL AIUpdateHit(const struct SAINotifyHitInfo &hit, const NTimer::STime &currTime, IScene *pScene, IVisObjBuilder *pVOB) override;
-  int STDCALL AIUpdateActions(const struct SAINotifyAction &action, const NTimer::STime &currTime, IVisObjBuilder *pVOB, IScene *pScene, interface IClientAckManager *pAckManager) override { return 0; }
+  void AIUpdatePlacement(const struct SAINotifyPlacement &placement, const NTimer::STime &currTime, IScene *pScene) override;
+  bool AIUpdateRPGStats(const struct SAINotifyRPGStats &stats, IVisObjBuilder *pVOB, IScene *pScene) override;
+  void AIUpdateHit(const struct SAINotifyHitInfo &hit, const NTimer::STime &currTime, IScene *pScene, IVisObjBuilder *pVOB) override;
+  int AIUpdateActions(const struct SAINotifyAction &action, const NTimer::STime &currTime, IVisObjBuilder *pVOB, IScene *pScene, interface IClientAckManager *pAckManager) override { return 0; }
   // visiting
-  void STDCALL Visit(IMapObjVisitor *pVisitor) override;
+  void Visit(IMapObjVisitor *pVisitor) override;
 };
 
 // //////////////////////////////////////////////////////////// 

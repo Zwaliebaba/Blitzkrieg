@@ -12,12 +12,12 @@ class CUIMask : public IUIMask
 
   friend class CMaskObjectLoader;// to load a mask directly into an object
 public:
-  void STDCALL SwapData(ISharedResource *pResource) override;
+  void SwapData(ISharedResource *pResource) override;
   // internal container clearing
-  void STDCALL ClearInternalContainer() override {}
-  bool STDCALL Load(bool bPreLoad = false) override;
+  void ClearInternalContainer() override {}
+  bool Load(bool bPreLoad = false) override;
   //
-  const CArray2D<BYTE> * STDCALL GetMask() override { return &data; }
+  const CArray2D<BYTE> * GetMask() override { return &data; }
 };
 
 #endif		// __UI_MASK_H__

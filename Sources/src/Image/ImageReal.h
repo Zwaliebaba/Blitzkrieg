@@ -25,15 +25,15 @@ public:
   CImage(int _nSizeX, int _nSizeY, const std::vector<DWORD> &_data);
   CImage(int _nSizeX, int _nSizeY) : data(_nSizeX * _nSizeY), nSizeX(_nSizeX), nSizeY(_nSizeY) {}
   // access: set/get color values
-  int STDCALL GetSizeX() const override { return nSizeX; }
-  int STDCALL GetSizeY() const override { return nSizeY; }
-  void STDCALL Set(SColor color) override;
+  int GetSizeX() const override { return nSizeX; }
+  int GetSizeY() const override { return nSizeY; }
+  void Set(SColor color) override;
   // set alpha components
-  void STDCALL SetAlpha(BYTE alpha) override;
-  bool STDCALL SetAlpha(const IImage *pAlpha) override;
+  void SetAlpha(BYTE alpha) override;
+  bool SetAlpha(const IImage *pAlpha) override;
   // set r,g,b components
-  void STDCALL SetColor(DWORD color) override;
-  bool STDCALL SetColor(const IImage *pColor) override;
+  void SetColor(DWORD color) override;
+  bool SetColor(const IImage *pColor) override;
 
   SColor Get(int nX, int nY) const { return data[nY * nSizeX + nX]; }
   void Set(int nX, int nY, DWORD dwColor) { data[nY * nSizeX + nX].color = dwColor; }
@@ -45,23 +45,23 @@ public:
   const SColor *operator[](int nY) const { return &(data[nY * nSizeX]); }
   SColor *operator[](int nY) { return &(data[nY * nSizeX]); }
   // access to the image as a Linear Frame Buffer (LFB)
-  const SColor * STDCALL GetLFB() const override { return &(data[0]); }
-  SColor * STDCALL GetLFB() override { return &(data[0]); }
-  const SColor * STDCALL GetLine(int nLine) const override { return &(data[nLine * nSizeX]); }
-  SColor * STDCALL GetLine(int nLine) override { return &(data[nLine * nSizeX]); }
+  const SColor * GetLFB() const override { return &(data[0]); }
+  SColor * GetLFB() override { return &(data[0]); }
+  const SColor * GetLine(int nLine) const override { return &(data[nLine * nSizeX]); }
+  SColor * GetLine(int nLine) override { return &(data[nLine * nSizeX]); }
   // duplication
-  IImage * STDCALL Duplicate() const override;
+  IImage * Duplicate() const override;
   // subimage copying
-  bool STDCALL CopyFrom(IImage *pSrc, const RECT *pSrcRect, int nPosX, int nPosY) override;
-  bool STDCALL CopyFromAB(IImage *pSrc, const RECT *pSrcRect, int nPosX, int nPosY) override;
+  bool CopyFrom(IImage *pSrc, const RECT *pSrcRect, int nPosX, int nPosY) override;
+  bool CopyFromAB(IImage *pSrc, const RECT *pSrcRect, int nPosX, int nPosY) override;
   // modulation
-  bool STDCALL ModulateAlphaFrom(IImage *pSrc, const RECT *pSrcRect, int nPosX, int nPosY) override;
-  bool STDCALL ModulateColorFrom(IImage *pSrc, const RECT *pSrcRect, int nPosX, int nPosY) override;
+  bool ModulateAlphaFrom(IImage *pSrc, const RECT *pSrcRect, int nPosX, int nPosY) override;
+  bool ModulateColorFrom(IImage *pSrc, const RECT *pSrcRect, int nPosX, int nPosY) override;
   // some usefull operations
-  void STDCALL FlipY() override;
-  void STDCALL Invert() override;
-  void STDCALL InvertAlpha() override;
-  void STDCALL SharpenAlpha(BYTE ref) override;
+  void FlipY() override;
+  void Invert() override;
+  void InvertAlpha() override;
+  void SharpenAlpha(BYTE ref) override;
 };
 
 // ************************************************************************************************************************ //

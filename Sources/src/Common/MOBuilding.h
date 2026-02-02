@@ -48,43 +48,43 @@ class CMOBuilding : public CTRefCount<IMOContainer>
   void UpdateGunTraces(const CVec3 &vStart, const CVec3 &vEnd, float fSpeed, NTimer::STime nCurrTime, IScene *pScene);
 
 public:
-  bool STDCALL Create(IRefCount *pAIObj, const SGDBObjectDesc *pDesc, int nSeason, int nFrameIndex, float fHP, interface IVisObjBuilder *pVOB, IObjectsDB *pGDB) override;
+  bool Create(IRefCount *pAIObj, const SGDBObjectDesc *pDesc, int nSeason, int nFrameIndex, float fHP, interface IVisObjBuilder *pVOB, IObjectsDB *pGDB) override;
   // placement
-  void STDCALL SetPlacement(const CVec3 &vPos, const WORD &wDir) override;
-  void STDCALL GetPlacement(CVec3 *pvPos, WORD *pwDir) override;
+  void SetPlacement(const CVec3 &vPos, const WORD &wDir) override;
+  void GetPlacement(CVec3 *pvPos, WORD *pwDir) override;
   // stats functions
-  const SGDBObjectDesc * STDCALL GetDesc() const override { return pDesc; }
-  const SHPObjectRPGStats * STDCALL GetRPG() const override { return pRPG; }
+  const SGDBObjectDesc * GetDesc() const override { return pDesc; }
+  const SHPObjectRPGStats * GetRPG() const override { return pRPG; }
   // AI object retrieving
-  IRefCount * STDCALL GetAIObj() override { return pAIObj; }
-  IRefCount * STDCALL GetParentAIObj() override { return nullptr; }
+  IRefCount * GetAIObj() override { return pAIObj; }
+  IRefCount * GetParentAIObj() override { return nullptr; }
   // get status for mission status bar
-  void STDCALL GetStatus(struct SMissionStatusObject *pStatus) const override;
+  void GetStatus(struct SMissionStatusObject *pStatus) const override;
   // check, is this object selected?
-  bool STDCALL IsSelected() const override { return pVisObj->GetSelectionState() == SGVOSS_SELECTED; }
+  bool IsSelected() const override { return pVisObj->GetSelectionState() == SGVOSS_SELECTED; }
   // change selection state for this object
-  void STDCALL Select(ISelector *pSelector, bool bSelect, bool bSelectSuper) override;
-  virtual void STDCALL Select(int nSelectionState) { pVisObj->Select(static_cast<EVisObjSelectionState>(nSelectionState)); }
+  void Select(ISelector *pSelector, bool bSelect, bool bSelectSuper) override;
+  virtual void Select(int nSelectionState) { pVisObj->Select(static_cast<EVisObjSelectionState>(nSelectionState)); }
   //
-  bool STDCALL Load(interface IMOUnit *pMO, bool bEnter) override;
+  bool Load(interface IMOUnit *pMO, bool bEnter) override;
   // show icons of the passangers
-  void STDCALL UpdatePassangers() override;
+  void UpdatePassangers() override;
   // get all passangers from container. 
-  int STDCALL GetPassangers(IMOUnit **pBuffer, bool bCanSelectOnly) const override;
+  int GetPassangers(IMOUnit **pBuffer, bool bCanSelectOnly) const override;
   // get free places
-  int STDCALL GetFreePlaces() const override { return GetNumFreeSlots(); }
+  int GetFreePlaces() const override { return GetNumFreeSlots(); }
   // get actions, which this object can perform or actions, thi object can be acted with
-  void STDCALL GetActions(CUserActions *pActions, EActionsType eActions) const override;
+  void GetActions(CUserActions *pActions, EActionsType eActions) const override;
   // common updates
-  int STDCALL AIUpdateActions(const struct SAINotifyAction &action, const NTimer::STime &currTime, IVisObjBuilder *pVOB, IScene *pScene, interface IClientAckManager *pAckManager) override;
-  void STDCALL AIUpdatePlacement(const SAINotifyPlacement &placement, const NTimer::STime &currTime, IScene *pScene) override;
-  bool STDCALL AIUpdateRPGStats(const SAINotifyRPGStats &stats, IVisObjBuilder *pVOB, IScene *pScene) override;
-  bool STDCALL AIUpdateDiplomacy(const SAINotifyDiplomacy &diplomacy) override;
-  void STDCALL AIUpdateHit(const struct SAINotifyHitInfo &hit, const NTimer::STime &currTime, IScene *pScene, IVisObjBuilder *pVOB) override;
+  int AIUpdateActions(const struct SAINotifyAction &action, const NTimer::STime &currTime, IVisObjBuilder *pVOB, IScene *pScene, interface IClientAckManager *pAckManager) override;
+  void AIUpdatePlacement(const SAINotifyPlacement &placement, const NTimer::STime &currTime, IScene *pScene) override;
+  bool AIUpdateRPGStats(const SAINotifyRPGStats &stats, IVisObjBuilder *pVOB, IScene *pScene) override;
+  bool AIUpdateDiplomacy(const SAINotifyDiplomacy &diplomacy) override;
+  void AIUpdateHit(const struct SAINotifyHitInfo &hit, const NTimer::STime &currTime, IScene *pScene, IVisObjBuilder *pVOB) override;
   // firing... (from container of by himself)
-  void STDCALL AIUpdateShot(const struct SAINotifyBaseShot &shot, const NTimer::STime &currTime, IVisObjBuilder *pVOB, IScene *pScene) override;
+  void AIUpdateShot(const struct SAINotifyBaseShot &shot, const NTimer::STime &currTime, IVisObjBuilder *pVOB, IScene *pScene) override;
   // visiting
-  void STDCALL Visit(IMapObjVisitor *pVisitor) override;
+  void Visit(IMapObjVisitor *pVisitor) override;
 };
 
 #endif // __MOBUILDING_H__

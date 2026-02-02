@@ -241,36 +241,36 @@ public:
   CInputAPI();
   ~CInputAPI() override;
   //
-  bool STDCALL Init(HWND _hWindow) override;
-  bool STDCALL Done() override;
+  bool Init(HWND _hWindow) override;
+  bool Done() override;
   // emulation
-  void STDCALL SetDeviceEmulationStatus(enum EDeviceType eDeviceType, bool bEmulate) override;
-  bool STDCALL IsEmulated(enum EDeviceType eDeviceType) const override;
-  void STDCALL EmulateInput(enum EDeviceType eDeviceType, int nControlID,
+  void SetDeviceEmulationStatus(enum EDeviceType eDeviceType, bool bEmulate) override;
+  bool IsEmulated(enum EDeviceType eDeviceType) const override;
+  void EmulateInput(enum EDeviceType eDeviceType, int nControlID,
                             int nValue, DWORD time, int nParam) override;
   // messages
-  void STDCALL PumpMessages(const bool bFocus) override { PumpMessagesLocal(bFocus); }
-  void STDCALL AddMessage(const SGameMessage &msg) override { messages.push_back(msg); }
-  bool STDCALL GetMessage(SGameMessage *pMsg) override;
-  bool STDCALL GetTextMessage(STextMessage *pMsg) override;
-  void STDCALL ClearMessages() override;
+  void PumpMessages(const bool bFocus) override { PumpMessagesLocal(bFocus); }
+  void AddMessage(const SGameMessage &msg) override { messages.push_back(msg); }
+  bool GetMessage(SGameMessage *pMsg) override;
+  bool GetTextMessage(STextMessage *pMsg) override;
+  void ClearMessages() override;
   // text typing mode
-  EInputTextMode STDCALL GetTextMode() override { return eTextMode; }
+  EInputTextMode GetTextMode() override { return eTextMode; }
 
-  bool STDCALL SetTextMode(const EInputTextMode eMode) override
+  bool SetTextMode(const EInputTextMode eMode) override
   {
     eTextMode = eMode == INPUT_TEXT_MODE_TEXTONLY ? INPUT_TEXT_MODE_SYSKEYS : eMode;
     return true;
   }
 
-  void STDCALL SetCodePage(const int _nCodePage) override { nCodePage = _nCodePage; }
+  void SetCodePage(const int _nCodePage) override { nCodePage = _nCodePage; }
   //
   //
   const DWORD GetCurrentTime() const { return dwLastPumpingTime; }
   void AddEventLocal(const int nEventID, const int nParam) { messages.push_back(SGameMessage(nEventID, nParam)); }
   EInputTextMode GetTextModeLocal() const { return eTextMode; }
   //
-  int STDCALL operator&(IStructureSaver &ss) override;
+  int operator&(IStructureSaver &ss) override;
 };
 
 #endif // __INPUTAPI_H__

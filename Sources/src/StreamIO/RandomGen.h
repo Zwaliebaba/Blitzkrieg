@@ -6,13 +6,13 @@
 interface IRandomGenSeed : IRefCount
 {
   // re-initialize random seed
-  virtual void STDCALL Init() = 0;
-  virtual void STDCALL InitByZeroSeed() = 0;
+  virtual void Init() = 0;
+  virtual void InitByZeroSeed() = 0;
   // serialize to text
-  virtual int STDCALL operator&(IDataTree &ss) = 0;
+  virtual int operator&(IDataTree &ss) = 0;
   // store and restore binary data in the stream form (for non-structure-saver usage)
-  virtual void STDCALL Store(IDataStream *pStream) = 0;
-  virtual void STDCALL Restore(IDataStream *pStream) = 0;
+  virtual void Store(IDataStream *pStream) = 0;
+  virtual void Restore(IDataStream *pStream) = 0;
 };
 
 interface IRandomGen : IRefCount
@@ -20,14 +20,14 @@ interface IRandomGen : IRefCount
   enum { tidTypeID = -3 };
 
   // initialization and random seed
-  virtual void STDCALL Init() = 0;
-  virtual void STDCALL SetSeed(IRandomGenSeed *pSeed) = 0;
-  virtual IRandomGenSeed * STDCALL GetSeed() = 0;
+  virtual void Init() = 0;
+  virtual void SetSeed(IRandomGenSeed *pSeed) = 0;
+  virtual IRandomGenSeed * GetSeed() = 0;
   //
-  virtual unsigned int STDCALL Get() = 0;
+  virtual unsigned int Get() = 0;
   // writing and reading from the stream - for forwarding over the network (for synchronization)
-  virtual void STDCALL Store(IDataStream *pStream) = 0;
-  virtual void STDCALL Restore(IDataStream *pStream) = 0;
+  virtual void Store(IDataStream *pStream) = 0;
+  virtual void Restore(IDataStream *pStream) = 0;
 };
 
 extern IRandomGen *g_pGlobalRandomGen;

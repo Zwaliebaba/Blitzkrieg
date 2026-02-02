@@ -15,7 +15,7 @@ class CUIDialogBridge : public IUIDialog, public CUIDialog
   DECLARE_SUPER(CUIDialog);
   DEFINE_UICONTAINER_BRIDGE;
 
-  IUIElement * STDCALL Duplicate() override
+  IUIElement * Duplicate() override
   {
     auto pWnd = new CUIDialogBridge;
     CopyInternals(pWnd);

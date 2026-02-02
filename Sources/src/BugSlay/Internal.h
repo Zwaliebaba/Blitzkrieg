@@ -11,6 +11,6 @@ BOOL NT4GetLoadedModules(DWORD dwPID, UINT uiCount, HMODULE *paModArray, LPUINT 
 // The TOOLHELP32 specific version of GetLoadedModules.
 BOOL TLHELPGetLoadedModules(DWORD dwPID, UINT uiCount, HMODULE *paModArray, LPUINT puiRealCount);
 // The NT version of GetModuleBaseName.
-DWORD STDCALL NTGetModuleBaseName(HANDLE hProcess, HMODULE hModule, LPTSTR lpBaseName, DWORD nSize);
+DWORD NTGetModuleBaseName(HANDLE hProcess, HMODULE hModule, LPTSTR lpBaseName, DWORD nSize);
 // //////////////////////////////////////////////////////////// 
 #endif  // _INTERNAL_H

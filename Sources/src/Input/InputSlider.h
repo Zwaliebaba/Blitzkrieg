@@ -19,9 +19,9 @@ public:
   CInputSlider(CInputBinder *_pInput, SCommand *_pCommand, float _fCoeff);
   ~CInputSlider() override;
   //
-  float STDCALL GetDelta() override;
-  // virtual float STDCALL GetSpeed() const;
-  void STDCALL Reset() override;
+  float GetDelta() override;
+  // virtual float GetSpeed() const;
+  void Reset() override;
 };
 
 #endif // __INPUTSLIDER_H__

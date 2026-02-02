@@ -238,16 +238,16 @@ private:
 
 public:
   CClientAckManager();
-  void STDCALL Init() override;
-  void STDCALL Clear() override;
-  bool STDCALL IsNegative(enum EUnitAckType eAck) override;
+  void Init() override;
+  void Clear() override;
+  bool IsNegative(enum EUnitAckType eAck) override;
 
-  void STDCALL AddDeathAcknowledgement(const CVec3 &vPos, const std::string &sound, unsigned int nTimeSinceStart) override;
-  void STDCALL AddAcknowledgement(interface IMOUnit *pUnit, enum EUnitAckType eAck, const std::string &sound, int nSet, unsigned int nTimeSinceStart = 0) override;
-  void STDCALL UnitDead(struct SMapObject *pUnit, interface IScene *pScene) override;
-  void STDCALL Update(interface IScene *pScene) override;
-  void STDCALL RegisterAsBored(EUnitAckType eBored, interface IMOUnit *pObject) override;
-  void STDCALL UnRegisterAsBored(EUnitAckType eBored, interface IMOUnit *pObject) override;
+  void AddDeathAcknowledgement(const CVec3 &vPos, const std::string &sound, unsigned int nTimeSinceStart) override;
+  void AddAcknowledgement(interface IMOUnit *pUnit, enum EUnitAckType eAck, const std::string &sound, int nSet, unsigned int nTimeSinceStart = 0) override;
+  void UnitDead(struct SMapObject *pUnit, interface IScene *pScene) override;
+  void Update(interface IScene *pScene) override;
+  void RegisterAsBored(EUnitAckType eBored, interface IMOUnit *pObject) override;
+  void UnRegisterAsBored(EUnitAckType eBored, interface IMOUnit *pObject) override;
 };
 
 #endif // __CLIENTACKMANAGERINTERNAL_H__

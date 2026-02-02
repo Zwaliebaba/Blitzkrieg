@@ -53,7 +53,7 @@ public:
   //
   void SetAABB(const CVec3 &vCenter, const CVec3 &vHalfSize);
   //
-  void STDCALL SwapData(ISharedResource *pResource) override
+  void SwapData(ISharedResource *pResource) override
   {
     auto pRes = dynamic_cast<CGeometryMesh *>(pResource);
     NI_ASSERT_TF(pRes != 0, "shared resource is not a CGeometryMesh", return);
@@ -64,12 +64,12 @@ public:
   }
 
   // internal container clearing
-  void STDCALL ClearInternalContainer() override { figures.clear(); }
-  bool STDCALL Load(bool bPreLoad = false) override;
+  void ClearInternalContainer() override { figures.clear(); }
+  bool Load(bool bPreLoad = false) override;
   // bounding volume checks
-  const SGFXBoundSphere & STDCALL GetBS() override { return sphere; }
-  const SGFXAABB & STDCALL GetAABB() override { return aabb; }
-  bool STDCALL IsHit(const CVec2 &vPos, const SHMatrix *matrices) override;
+  const SGFXBoundSphere & GetBS() override { return sphere; }
+  const SGFXAABB & GetAABB() override { return aabb; }
+  bool IsHit(const CVec2 &vPos, const SHMatrix *matrices) override;
 };
 
 #endif // __GEOMETRYMESH_H__

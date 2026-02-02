@@ -29,7 +29,7 @@ class CInterfaceMPGamesList : public CInterfaceMultiplayerScreen
   CPtr<COptionsListWrapper> pOptions;
 
   CInterfaceMPGamesList();
-  bool STDCALL ProcessMessage(const SGameMessage &msg) override;
+  bool ProcessMessage(const SGameMessage &msg) override;
 
   void EnableButtonsByServerInfo(const SUIServerInfo *pInfo = nullptr);
   void EnableButton(int nButtonID, bool bEnable);
@@ -49,9 +49,9 @@ class CInterfaceMPGamesList : public CInterfaceMultiplayerScreen
   void ShowServerInfo(SUIServerInfo *pServerInfo);
 
 public:
-  void STDCALL Done() override;
-  bool STDCALL Init() override;
-  void STDCALL StartInterface() override;
+  void Done() override;
+  bool Init() override;
+  void StartInterface() override;
   void Configure(WORD wServerID);
 };
 
@@ -72,7 +72,7 @@ class CICMultyplayerGamesList : public CInterfaceCommandBase<CInterfaceMPGamesLi
   }
 
 public:
-  void STDCALL Configure(const char *pszConfig) override
+  void Configure(const char *pszConfig) override
   {
     if (pszConfig)
     {

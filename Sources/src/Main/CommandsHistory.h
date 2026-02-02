@@ -56,22 +56,22 @@ class CCommandsHistory : public ICommandsHistory
 public:
   CCommandsHistory() : startMapCheckSum(0), bLoadedFromCommandLine(false), bLoadedHistory(false), bStored(false) {}
 
-  void STDCALL PrepareToStartMission() override;
-  bool STDCALL LoadCommandLineHistory() override;
-  bool STDCALL Load(const char *pszFileName) override;
-  void STDCALL Save(const char *pszFileName) override;
-  void STDCALL Clear() override;
+  void PrepareToStartMission() override;
+  bool LoadCommandLineHistory() override;
+  bool Load(const char *pszFileName) override;
+  void Save(const char *pszFileName) override;
+  void Clear() override;
 
-  void STDCALL AddCommand(int nSegment, interface IAILogicCommand *pCmd) override;
-  void STDCALL ExecuteSegmentCommands(int nSegment, interface ITransceiver *pTranceiver) override;
-  void STDCALL CheckStartMapCheckSum(int nCheckSum) override;
+  void AddCommand(int nSegment, interface IAILogicCommand *pCmd) override;
+  void ExecuteSegmentCommands(int nSegment, interface ITransceiver *pTranceiver) override;
+  void CheckStartMapCheckSum(int nCheckSum) override;
 
   const int GetNumPlayersInMPGame() const override { return players.size(); }
   const int GetMPPlayerLogicID(int nPlayer) const override;
   const int GetMPPlayerSide(int nPlayer) const override;
 
-  const char * STDCALL GetModName() const override { return szModName.c_str(); }
-  const char * STDCALL GetModVersion() const override { return szModVersion.c_str(); }
+  const char * GetModName() const override { return szModName.c_str(); }
+  const char * GetModVersion() const override { return szModVersion.c_str(); }
 };
 
 #endif __COMMANDS_HISTORY_H__

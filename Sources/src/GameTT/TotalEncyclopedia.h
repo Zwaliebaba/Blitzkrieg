@@ -45,7 +45,7 @@ class CInterfaceTotalEncyclopedia : public CInterfaceInterMission, protected CIn
   bool bFinished;
   NInput::CCommandRegistrator commandMsgs;
   //
-  bool STDCALL ProcessMessage(const SGameMessage &msg) override;
+  bool ProcessMessage(const SGameMessage &msg) override;
   // disable explicit destruction
   ~CInterfaceTotalEncyclopedia() override;
   CInterfaceTotalEncyclopedia() : CInterfaceInterMission("InterMission"), CInterfaceUnitsEncyclopediaBase(3), bFinished(false) {}
@@ -54,8 +54,8 @@ class CInterfaceTotalEncyclopedia : public CInterfaceInterMission, protected CIn
   void InitUnitLists();
 
 public:
-  bool STDCALL Init() override;
-  void STDCALL StartInterface() override;
+  bool Init() override;
+  void StartInterface() override;
 };
 
 class CICTotalEncyclopedia : public CInterfaceCommandBase<CInterfaceTotalEncyclopedia, MISSION_INTERFACE_TOTAL_ENCYCLOPEDIA>
@@ -180,15 +180,15 @@ private:
   CPlayerUnitsPane playerPane;
   CDepotUnitsPane depotPane;
 
-  bool STDCALL ProcessMessage(const SGameMessage &msg) override;
+  bool ProcessMessage(const SGameMessage &msg) override;
   // disable explicit destruction
   ~CInterfaceWarehouse() override;
   CInterfaceWarehouse() : CInterfaceInterMission("InterMission"), CInterfaceUnitsEncyclopediaBase(2) {}
   void EnableButton(int nButtonID, bool bEnable) const;
 
 public:
-  bool STDCALL Init() override;
-  void STDCALL StartInterface() override;
+  bool Init() override;
+  void StartInterface() override;
 };
 
 class CICWarehouse : public CInterfaceCommandBase<CInterfaceWarehouse, MISSION_INTERFACE_WAREHOUSE>

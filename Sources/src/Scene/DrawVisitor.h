@@ -141,25 +141,25 @@ public:
   void Clear();
   void Sort();
   // billboard sprite object
-  void STDCALL VisitSprite(const SBasicSpriteInfo *pObj, int nType, int nPriority) override;
+  void VisitSprite(const SBasicSpriteInfo *pObj, int nType, int nPriority) override;
   // mesh object
-  void STDCALL VisitMeshObject(IMeshVisObj *pObj, int nType, int nPriority) override;
+  void VisitMeshObject(IMeshVisObj *pObj, int nType, int nPriority) override;
   // particles
-  void STDCALL VisitParticles(IParticleSource *pObj) override;
+  void VisitParticles(IParticleSource *pObj) override;
   // unknown scene object
-  void STDCALL VisitSceneObject(ISceneObject *pObj) override;
+  void VisitSceneObject(ISceneObject *pObj) override;
   // text object
-  void STDCALL VisitText(const CVec3 &vPos, const char *pszText, IGFXFont *pFont, DWORD color) override;
+  void VisitText(const CVec3 &vPos, const char *pszText, IGFXFont *pFont, DWORD color) override;
   // bold line object
-  void STDCALL VisitBoldLine(CVec3 *corners, float fWidth, DWORD color) override;
+  void VisitBoldLine(CVec3 *corners, float fWidth, DWORD color) override;
   // mech trace object
-  void STDCALL VisitMechTrace(const SMechTrace &trace) override;
+  void VisitMechTrace(const SMechTrace &trace) override;
   // gun trace object
-  void STDCALL VisitGunTrace(const SGunTrace &trace) override;
+  void VisitGunTrace(const SGunTrace &trace) override;
   // UI elements visiting
-  void STDCALL VisitUIRects(IGFXTexture *pTexture, int nShadingEffect, SGFXRect2 *rects, int nNumRects) override;
-  void STDCALL VisitUIText(IGFXText *pText, const CTRect<float> &rcRect, int nY, DWORD dwColor, DWORD dwFlags) override;
-  void STDCALL VisitUICustom(interface IUIElement *pElement) override;
+  void VisitUIRects(IGFXTexture *pTexture, int nShadingEffect, SGFXRect2 *rects, int nNumRects) override;
+  void VisitUIText(IGFXText *pText, const CTRect<float> &rcRect, int nY, DWORD dwColor, DWORD dwFlags) override;
+  void VisitUICustom(interface IUIElement *pElement) override;
 };
 
 #endif // __DRAWVISITOR_H__

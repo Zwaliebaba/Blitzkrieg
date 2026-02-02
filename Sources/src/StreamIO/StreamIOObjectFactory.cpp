@@ -24,4 +24,4 @@ CStreamIOObjectFactory::CStreamIOObjectFactory()
 // ************************************************************************************************************************ //
 
 static SModuleDescriptor theModuleDescriptor("StreamIO", STREAMIO_STREAMIO, 0x0100, &theStreamIOObjectFactory, nullptr);
-const SModuleDescriptor * STDCALL GetModuleDescriptor() { return &theModuleDescriptor; }
+const SModuleDescriptor * GetModuleDescriptor() { return &theModuleDescriptor; }

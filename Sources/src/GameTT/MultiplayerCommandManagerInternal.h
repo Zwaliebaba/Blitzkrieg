@@ -38,31 +38,31 @@ class CMPToUICommandManager : public IMPToUICommandManager
 
 public:
   // adding
-  void STDCALL AddCommandToUI(SToUICommand &cmd) override;
-  void STDCALL AddNotificationFromUI(SFromUINotification &notify) override;
+  void AddCommandToUI(SToUICommand &cmd) override;
+  void AddNotificationFromUI(SFromUINotification &notify) override;
 
   // recieveing. 
   // returns false;
-  bool STDCALL GetCommandToUI(SToUICommand *pCmd) override;
-  bool STDCALL GetNotificationFromUI(SFromUINotification *pNotify) override;
+  bool GetCommandToUI(SToUICommand *pCmd) override;
+  bool GetNotificationFromUI(SFromUINotification *pNotify) override;
 
-  bool STDCALL PeekCommandToUI(SToUICommand *pCmd) override;
-  bool STDCALL PeekNotificationFromUI(SFromUINotification *pNotify) override;
+  bool PeekCommandToUI(SToUICommand *pCmd) override;
+  bool PeekNotificationFromUI(SFromUINotification *pNotify) override;
 
   // chat
-  SChatMessage * STDCALL GetChatMessageFromUI() override;
-  SChatMessage * STDCALL GetChatMessageToUI() override;
-  SChatMessage * STDCALL PeekChatMessageToUI() override;
-  void STDCALL AddChatMessageToUI(SChatMessage *pMessage) override;
-  void STDCALL AddChatMessageFromUI(SChatMessage *pMessage) override;
+  SChatMessage * GetChatMessageFromUI() override;
+  SChatMessage * GetChatMessageToUI() override;
+  SChatMessage * PeekChatMessageToUI() override;
+  void AddChatMessageToUI(SChatMessage *pMessage) override;
+  void AddChatMessageFromUI(SChatMessage *pMessage) override;
 
-  void STDCALL InitUISide() override;
+  void InitUISide() override;
 
-  void STDCALL SetConnectionType(const enum EMultiplayerConnectionType eType) override { eConnectionType = eType; }
-  enum EMultiplayerConnectionType STDCALL GetConnectionType() const override { return eConnectionType; }
+  void SetConnectionType(const enum EMultiplayerConnectionType eType) override { eConnectionType = eType; }
+  enum EMultiplayerConnectionType GetConnectionType() const override { return eConnectionType; }
 
-  void STDCALL DelayedNotification(SFromUINotification &notify) override;
-  void STDCALL SendDelayedNotification() override;
+  void DelayedNotification(SFromUINotification &notify) override;
+  void SendDelayedNotification() override;
 };
 
 #endif // !defined(AFX_MULTIPLAYERCOMMANDMANAGERINTERNAL_H__9EC0CE88_5727_4A04_BE2F_8F45320AD784__INCLUDED_)

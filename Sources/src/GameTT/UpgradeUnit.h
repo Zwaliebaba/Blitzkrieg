@@ -13,7 +13,7 @@ class CInterfaceUpgradeUnit : public CInterfaceInterMission
   NInput::CCommandRegistrator commandMsgs;
   bool bToChapter;
   //
-  bool STDCALL ProcessMessage(const SGameMessage &msg) override;
+  bool ProcessMessage(const SGameMessage &msg) override;
   // disable explicit destruction
   ~CInterfaceUpgradeUnit() override;
   CInterfaceUpgradeUnit() : CInterfaceInterMission("InterMission") {}
@@ -22,9 +22,9 @@ class CInterfaceUpgradeUnit : public CInterfaceInterMission
 
 public:
   void SetToChapter(const bool _bToChapter) { bToChapter = _bToChapter; }
-  bool STDCALL Init() override;
-  void STDCALL StartInterface() override;
-  void STDCALL OnGetFocus(bool bFocus) override;
+  bool Init() override;
+  void StartInterface() override;
+  void OnGetFocus(bool bFocus) override;
 };
 
 class CICUpgradeUnit : public CInterfaceCommandBase<CInterfaceUpgradeUnit, MISSION_INTERFACE_UPGRADE_UNIT>
@@ -44,7 +44,7 @@ class CICUpgradeUnit : public CInterfaceCommandBase<CInterfaceUpgradeUnit, MISSI
   CICUpgradeUnit() : bToChapter(false) {}
 
 public:
-  void STDCALL Configure(const char *pszConfig) override { if (pszConfig) { bToChapter = NStr::ToInt(pszConfig); } }
+  void Configure(const char *pszConfig) override { if (pszConfig) { bToChapter = NStr::ToInt(pszConfig); } }
 
 };
 

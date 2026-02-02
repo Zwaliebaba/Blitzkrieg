@@ -16,7 +16,7 @@
 #include "IniFile.h"
 
 CSaveLoadSystem theSaveLoadSystem;
-ISaveLoadSystem * STDCALL GetSLS_Hook() { return &theSaveLoadSystem; }
+ISaveLoadSystem * GetSLS_Hook() { return &theSaveLoadSystem; }
 
 CSaveLoadSystem::CSaveLoadSystem() {}
 CSaveLoadSystem::~CSaveLoadSystem() { if (pFactory) delete pFactory; }

@@ -30,17 +30,17 @@ class CRandomGenSeed : public CTRefCount<IRandomGenSeed>
   void InitVariables();
 
 public:
-  void STDCALL Init() override;
-  void STDCALL InitByZeroSeed() override;
+  void Init() override;
+  void InitByZeroSeed() override;
 
   //
   const SRandData &GetRandData() const { return rnd; }
   void SetRandData(const SRandData &_rnd) { rnd = _rnd; }
   //
-  int STDCALL operator&(IDataTree &ss) override;
+  int operator&(IDataTree &ss) override;
   //
-  void STDCALL Store(IDataStream *pStream) override;
-  void STDCALL Restore(IDataStream *pStream) override;
+  void Store(IDataStream *pStream) override;
+  void Restore(IDataStream *pStream) override;
 };
 
 void Isaac(SRandData *pRnd);
@@ -56,11 +56,11 @@ class CRandomGenerator : public CTRefCount<IRandomGen>
 public:
   CRandomGenerator() { bIsReady = FALSE; }
   // Initialization 
-  void STDCALL Init() override;
-  void STDCALL SetSeed(IRandomGenSeed *pSeed) override;
-  IRandomGenSeed * STDCALL GetSeed() override;
+  void Init() override;
+  void SetSeed(IRandomGenSeed *pSeed) override;
+  IRandomGenSeed * GetSeed() override;
   //
-  unsigned int STDCALL Get() override
+  unsigned int Get() override
   {
     if (rnd.randcnt-- == 0)
     {
@@ -70,8 +70,8 @@ public:
     return rnd.randrsl[rnd.randcnt];
   }
 
-  void STDCALL Store(IDataStream *pStream) override;
-  void STDCALL Restore(IDataStream *pStream) override;
+  void Store(IDataStream *pStream) override;
+  void Restore(IDataStream *pStream) override;
 
   unsigned _int32 Get(unsigned _int32 nMax) { return Get() % (nMax + 1); }
   unsigned _int32 Get(unsigned _int32 nMin, unsigned _int32 nMax) { return Get(nMax - nMin) + nMin; }

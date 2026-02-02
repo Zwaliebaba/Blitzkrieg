@@ -26,7 +26,7 @@ public:
   CTimeSlider() : timeLastTime(0) {}
   CTimeSlider(ISingleTimer *_pTimer) : pTimer(_pTimer) { Reset(); }
 
-  NTimer::STime STDCALL GetDelta() override
+  NTimer::STime GetDelta() override
   {
     NTimer::STime timeCurrTime = pTimer->Get();
     NTimer::STime timeDiffTime = timeCurrTime - timeLastTime;
@@ -34,7 +34,7 @@ public:
     return timeDiffTime;
   }
 
-  void STDCALL Reset() override { timeLastTime = pTimer->Get(); }
+  void Reset() override { timeLastTime = pTimer->Get(); }
 };
 
 // ************************************************************************************************************************ //
@@ -59,13 +59,13 @@ public:
     : prevTime(INITIAL_TIME), currTime(INITIAL_TIME), tSegmentTime(SAIConsts::AI_SEGMENT_DURATION), nSegment(0) {}
 
   //
-  NTimer::STime STDCALL Get() override { return prevTime; }
-  void STDCALL Set(const NTimer::STime &time) override { prevTime = time - (time % tSegmentTime); }
+  NTimer::STime Get() override { return prevTime; }
+  void Set(const NTimer::STime &time) override { prevTime = time - (time % tSegmentTime); }
   //
-  void STDCALL SetSegmentTime(const NTimer::STime &time) override { tSegmentTime = time; }
-  NTimer::STime STDCALL GetSegmentTime() override { return tSegmentTime; }
+  void SetSegmentTime(const NTimer::STime &time) override { tSegmentTime = time; }
+  NTimer::STime GetSegmentTime() override { return tSegmentTime; }
 
-  bool STDCALL BeginSegments(const NTimer::STime &time) override
+  bool BeginSegments(const NTimer::STime &time) override
   {
     if (prevTime > time) Set(time);
     //
@@ -73,7 +73,7 @@ public:
     return currTime - prevTime >= tSegmentTime;
   }
 
-  bool STDCALL NextSegment() override
+  bool NextSegment() override
   {
     NI_ASSERT_TF(currTime >= prevTime, "currrent segment time less then previous!!!", return false);
     NTimer::STime tDiff = currTime - prevTime;
@@ -86,8 +86,8 @@ public:
     return false;
   }
 
-  int STDCALL GetSegment() override { return nSegment; }
-  void STDCALL SetSegment(int _nSegment) override { nSegment = _nSegment; }
+  int GetSegment() override { return nSegment; }
+  void SetSegment(int _nSegment) override { nSegment = _nSegment; }
 };
 
 // ************************************************************************************************************************ //
@@ -117,24 +117,24 @@ public:
       fGuarantieFPS(0), nGuarantieTimeStep(0) {}
 
   //
-  NTimer::STime STDCALL Get() override { return currTime; }
-  void STDCALL Set(const NTimer::STime &time) override { currTime = time; }
+  NTimer::STime Get() override { return currTime; }
+  void Set(const NTimer::STime &time) override { currTime = time; }
 
-  void STDCALL Reset() override
+  void Reset() override
   {
     prevTime = 0;
     currTime = INITIAL_TIME;
   }
 
-  void STDCALL Pause(bool bPause) override { bPaused = bPause; }
-  ITimeSlider * STDCALL CreateSlider() override { return new CTimeSlider(this); }
-  void STDCALL Update(const NTimer::STime &time) override;
-  bool STDCALL IsPaused() const override { return bPaused; }
+  void Pause(bool bPause) override { bPaused = bPause; }
+  ITimeSlider * CreateSlider() override { return new CTimeSlider(this); }
+  void Update(const NTimer::STime &time) override;
+  bool IsPaused() const override { return bPaused; }
   // guarantee FPS (for movie sequence capturing)
-  void STDCALL SetGuarantieFPS(float fFPS) override;
-  const float STDCALL GetGuarantieFPS() const override { return fGuarantieFPS; }
+  void SetGuarantieFPS(float fFPS) override;
+  const float GetGuarantieFPS() const override { return fGuarantieFPS; }
   //
-  void STDCALL SetTimeScale(float scale) override { fTimeScale = scale; }
+  void SetTimeScale(float scale) override { fTimeScale = scale; }
 };
 
 // ************************************************************************************************************************ //
@@ -172,33 +172,33 @@ class CGameTimer : public IGameTimer
   void DoPause(bool bPause, int nType, ISingleTimer *pTimer, CPausesMap &pauses);
 
 public:
-  void STDCALL Init() override;
+  void Init() override;
   // timers
-  ISingleTimer * STDCALL GetGameTimer() override { return pGameTimer; }
-  ISingleTimer * STDCALL GetSyncTimer() override { return pSyncTimer; }
-  ISingleTimer * STDCALL GetAbsTimer() override { return pAbsTimer; }
+  ISingleTimer * GetGameTimer() override { return pGameTimer; }
+  ISingleTimer * GetSyncTimer() override { return pSyncTimer; }
+  ISingleTimer * GetAbsTimer() override { return pAbsTimer; }
   // times
-  NTimer::STime STDCALL GetGameTime() override { return pGameTimer->Get(); }
-  NTimer::STime STDCALL GetSyncTime() override { return pSyncTimer->Get(); }
-  NTimer::STime STDCALL GetAbsTime() override { return pAbsTimer->Get(); }
+  NTimer::STime GetGameTime() override { return pGameTimer->Get(); }
+  NTimer::STime GetSyncTime() override { return pSyncTimer->Get(); }
+  NTimer::STime GetAbsTime() override { return pAbsTimer->Get(); }
   // segment timers
-  ISegmentTimer * STDCALL GetGameSegmentTimer() override { return pGameSegmentTimer; }
-  ISegmentTimer * STDCALL GetSyncSegmentTimer() override { return pSyncSegmentTimer; }
+  ISegmentTimer * GetGameSegmentTimer() override { return pGameSegmentTimer; }
+  ISegmentTimer * GetSyncSegmentTimer() override { return pSyncSegmentTimer; }
   // segments
-  NTimer::STime STDCALL GetGameSegmentTime() override { return pGameSegmentTimer->Get(); }
-  NTimer::STime STDCALL GetSyncSegmentTime() override { return pSyncSegmentTimer->Get(); }
+  NTimer::STime GetGameSegmentTime() override { return pGameSegmentTimer->Get(); }
+  NTimer::STime GetSyncSegmentTime() override { return pSyncSegmentTimer->Get(); }
   // pause
-  void STDCALL PauseGame(bool bPause, int nType = 0) override;
-  void STDCALL PauseSync(bool bPause, int nType = 0) override;
-  int STDCALL GetPauseReason() const override { return nPauseReason; }
-  bool STDCALL HasPause(int nReason) const override;
+  void PauseGame(bool bPause, int nType = 0) override;
+  void PauseSync(bool bPause, int nType = 0) override;
+  int GetPauseReason() const override { return nPauseReason; }
+  bool HasPause(int nReason) const override;
   // guarantee FPS
-  void STDCALL SetGuarantieFPS(float fFPS) override;
+  void SetGuarantieFPS(float fFPS) override;
   //
-  void STDCALL Update(const NTimer::STime &time) override;
+  void Update(const NTimer::STime &time) override;
   // time speed increase/decrease
-  int STDCALL SetSpeed(int nSpeed) override;
-  int STDCALL GetSpeed() const override { return nTimeCoeff; }
+  int SetSpeed(int nSpeed) override;
+  int GetSpeed() const override { return nTimeCoeff; }
 };
 
 #endif // __GAMETIMERINTERNAL_H__

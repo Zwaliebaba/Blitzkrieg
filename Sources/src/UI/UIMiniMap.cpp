@@ -614,7 +614,7 @@ void CUIMiniMap::AddCircle(const CVec2 &vCenter, const float fRadius, int nStyle
 }
 
 
-int STDCALL CUIMiniMap::AddMarker(const std::string &rszName, const CVec2 &vPos, bool _bActive, int _nID, const NTimer::STime &rStart, const NTimer::STime &rDuration, bool bRelative)
+int CUIMiniMap::AddMarker(const std::string &rszName, const CVec2 &vPos, bool _bActive, int _nID, const NTimer::STime &rStart, const NTimer::STime &rDuration, bool bRelative)
 {
   if (markersTypes.find(rszName) == markersTypes.end()) { return (-1); }
   if (bRelative) { markers.push_back(SMiniMapMarker(markersTypes[rszName], rszName, CVec2(vPos.x * terrainSize.x * fWorldCellSize, vPos.y * terrainSize.y * fWorldCellSize), _bActive, _nID, rStart, rDuration)); }
@@ -623,7 +623,7 @@ int STDCALL CUIMiniMap::AddMarker(const std::string &rszName, const CVec2 &vPos,
 }
 
 
-void STDCALL CUIMiniMap::ActivateMarker(int _nID, bool _bActive)
+void CUIMiniMap::ActivateMarker(int _nID, bool _bActive)
 {
   for (auto markerIterator = markers.begin(); markerIterator != markers.end(); ++markerIterator)
   {
@@ -636,7 +636,7 @@ void STDCALL CUIMiniMap::ActivateMarker(int _nID, bool _bActive)
 }
 
 
-void STDCALL CUIMiniMap::ActivateMarker(const std::string &rszName, bool _bActive)
+void CUIMiniMap::ActivateMarker(const std::string &rszName, bool _bActive)
 {
   for (auto markerIterator = markers.begin(); markerIterator != markers.end(); ++markerIterator)
   {
@@ -649,7 +649,7 @@ void STDCALL CUIMiniMap::ActivateMarker(const std::string &rszName, bool _bActiv
 }
 
 
-void STDCALL CUIMiniMap::RemoveMarker(int _nID)
+void CUIMiniMap::RemoveMarker(int _nID)
 {
   for (auto markerIterator = markers.begin(); markerIterator != markers.end();)
   {
@@ -659,7 +659,7 @@ void STDCALL CUIMiniMap::RemoveMarker(int _nID)
 }
 
 
-void STDCALL CUIMiniMap::RemoveMarker(const std::string &rszName)
+void CUIMiniMap::RemoveMarker(const std::string &rszName)
 {
   for (auto markerIterator = markers.begin(); markerIterator != markers.end();)
   {

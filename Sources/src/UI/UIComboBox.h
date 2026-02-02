@@ -26,25 +26,25 @@ class CUIComboBox : public CMultipleWindow
 public:
   CUIComboBox() : nVSubSpace(2), nItemLeftSpace(0), bComboShown(false), nSelItem(-1) {}
 
-  void STDCALL Reposition(const CTRect<float> &rcParent) override;
-  // virtual void STDCALL SetFocus( bool bFocus );
+  void Reposition(const CTRect<float> &rcParent) override;
+  // virtual void SetFocus( bool bFocus );
 
   // serializing...
-  int STDCALL operator&(IDataTree &ss) override;
+  int operator&(IDataTree &ss) override;
 
   // drawing
-  void STDCALL Draw(IGFX *pGFX) override;
-  void STDCALL Visit(interface ISceneVisitor *pVisitor) override;
+  void Draw(IGFX *pGFX) override;
+  void Visit(interface ISceneVisitor *pVisitor) override;
 
-  bool STDCALL OnLButtonDown(const CVec2 &vPos, EMouseState mouseState) override;
+  bool OnLButtonDown(const CVec2 &vPos, EMouseState mouseState) override;
 
   // Public interface
-  virtual void STDCALL AddItem(IUIElement *pElement);
-  virtual int STDCALL GetSelectionItem() { return nSelItem; }
-  virtual void STDCALL SetSelectionItem(int nItem);
-  virtual int STDCALL GetNumberOfItems() { return items.size(); }
-  virtual IUIElement * STDCALL GetItem(int nItem);
-  virtual void STDCALL Clear();
+  virtual void AddItem(IUIElement *pElement);
+  virtual int GetSelectionItem() { return nSelItem; }
+  virtual void SetSelectionItem(int nItem);
+  virtual int GetNumberOfItems() { return items.size(); }
+  virtual IUIElement * GetItem(int nItem);
+  virtual void Clear();
 };
 
 class CUIComboBoxBridge : public IUIComboBox, public CUIComboBox
@@ -53,12 +53,12 @@ class CUIComboBoxBridge : public IUIComboBox, public CUIComboBox
   DECLARE_SUPER(CUIComboBox);
   DEFINE_UICONTAINER_BRIDGE;
 
-  void STDCALL AddItem(IUIElement *pElement) override { CSuper::AddItem(pElement); }
-  int STDCALL GetSelectionItem() override { return CSuper::GetSelectionItem(); }
-  void STDCALL SetSelectionItem(int nItem) override { CSuper::SetSelectionItem(nItem); }
-  int STDCALL GetNumberOfItems() override { return CSuper::GetNumberOfItems(); }
-  IUIElement * STDCALL GetItem(int nItem) override { return CSuper::GetItem(nItem); }
-  void STDCALL Clear() override { CSuper::Clear(); }
+  void AddItem(IUIElement *pElement) override { CSuper::AddItem(pElement); }
+  int GetSelectionItem() override { return CSuper::GetSelectionItem(); }
+  void SetSelectionItem(int nItem) override { CSuper::SetSelectionItem(nItem); }
+  int GetNumberOfItems() override { return CSuper::GetNumberOfItems(); }
+  IUIElement * GetItem(int nItem) override { return CSuper::GetItem(nItem); }
+  void Clear() override { CSuper::Clear(); }
 };
 
 #endif // __UI_COMBOBOX_H__

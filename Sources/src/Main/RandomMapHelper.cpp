@@ -9,7 +9,7 @@
 #include "../RandomMapGen/Resource_Types.h"
 #include "../Misc/FileUtils.h"
 
-void STDCALL StoreRandomMap(const std::string &szMissionName, NSaveLoad::SRandomHeader *pRndHdr, CPtr<IRandomGenSeed> *ppSeed)
+void StoreRandomMap(const std::string &szMissionName, NSaveLoad::SRandomHeader *pRndHdr, CPtr<IRandomGenSeed> *ppSeed)
 {
   const SMissionStats *pMission = NGDB::GetGameStats<SMissionStats>(szMissionName.c_str(), IObjectsDB::MISSION);
   CPtr<IDataStream> pRGStream = GetSingleton<IDataStorage>()->OpenStream(("maps\\" + pMission->szFinalMap + ".seed").c_str(), STREAM_ACCESS_READ);
@@ -29,7 +29,7 @@ void STDCALL StoreRandomMap(const std::string &szMissionName, NSaveLoad::SRandom
   (*ppSeed)->Restore(pRGStream);
 };
 
-void STDCALL RestoreRandomMap(const std::string &szMissionName, const NSaveLoad::SRandomHeader &rndhdr, IRandomGenSeed *pSeed)
+void RestoreRandomMap(const std::string &szMissionName, const NSaveLoad::SRandomHeader &rndhdr, IRandomGenSeed *pSeed)
 {
   if (const SMissionStats *pMission = NGDB::GetGameStats<SMissionStats>(szMissionName.c_str(), IObjectsDB::MISSION))
   {

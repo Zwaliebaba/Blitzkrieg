@@ -29,7 +29,7 @@ class CSuspendedUpdates
   // for each eAction all recalled updates
   struct SRecalledUpdate
   {
-    virtual int STDCALL operator&(IStructureSaver &ss)
+    virtual int operator&(IStructureSaver &ss)
     {
       CSaverAccessor saver = &ss;
       saver.Add(1, &pObj);

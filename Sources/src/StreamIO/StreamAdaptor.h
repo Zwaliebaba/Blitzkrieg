@@ -31,7 +31,7 @@ public:
   }
 
   // read/write data
-  int STDCALL Read(void *pBuffer, int nLength) override
+  int Read(void *pBuffer, int nLength) override
   {
     const int nLastPos = pStream->GetPos();
     pStream->Seek(nBeginPos + nSeekPos, STREAM_SEEK_SET);
@@ -42,7 +42,7 @@ public:
     return nLengthToRead;
   }
 
-  int STDCALL Write(const void *pBuffer, int nLength) override
+  int Write(const void *pBuffer, int nLength) override
   {
     const int nLastPos = pStream->GetPos();
     pStream->Seek(nBeginPos + nSeekPos, STREAM_SEEK_SET);
@@ -53,13 +53,13 @@ public:
   }
 
   // declare the current position in the stream as the beginning of the stream
-  int STDCALL LockBegin() override { return -1; }
+  int LockBegin() override { return -1; }
   // return the start of the stream to the zero position
-  int STDCALL UnlockBegin() override { return -1; }
+  int UnlockBegin() override { return -1; }
   // current position in the stream
-  int STDCALL GetPos() const override { return pStream->GetPos() - nBeginPos; }
+  int GetPos() const override { return pStream->GetPos() - nBeginPos; }
   // set the current position in the stream
-  int STDCALL Seek(int offset, STREAM_SEEK from) override
+  int Seek(int offset, STREAM_SEEK from) override
   {
     switch (from)
     {
@@ -77,11 +77,11 @@ public:
   }
 
   // get stream size
-  int STDCALL GetSize() const override { return nEndPos - nBeginPos; }
+  int GetSize() const override { return nEndPos - nBeginPos; }
   // change stream size
-  bool STDCALL SetSize(int nSize) override { return false; }
+  bool SetSize(int nSize) override { return false; }
   // copy 'nLength' byte from current stream position to current 'pDstStream' stream position
-  int STDCALL CopyTo(IDataStream *pDstStream, int nLength) override
+  int CopyTo(IDataStream *pDstStream, int nLength) override
   {
     if (nLength == 0) return 0;
     //
@@ -91,9 +91,9 @@ public:
   }
 
   // reset all cached data
-  void STDCALL Flush() override {}
+  void Flush() override {}
   // get information about the stream
-  void STDCALL GetStats(SStorageElementStats *pStats) override
+  void GetStats(SStorageElementStats *pStats) override
   {
     if (bHasOwnStats) *pStats = stats;
     else
@@ -113,7 +113,7 @@ class CStreamCOMAdaptor : public IStream
 public:
   CStreamCOMAdaptor(IDataStream *_pStream) : nRefCount(1), pStream(_pStream) {}
   // IUnknown
-  HRESULT STDCALL QueryInterface(REFIID iid, void **ppvObject) override
+  HRESULT STDMETHODCALLTYPE QueryInterface(REFIID iid, void **ppvObject) override
   {
     if (iid == IID_IUnknown) *ppvObject = static_cast<IUnknown *>(this);
     else if (iid == IID_IStream) *ppvObject = static_cast<IStream *>(this);
@@ -126,9 +126,9 @@ public:
     return S_OK;
   }
 
-  ULONG STDCALL AddRef() override { return ++nRefCount; }
+  ULONG STDMETHODCALLTYPE AddRef() override { return ++nRefCount; }
 
-  ULONG STDCALL Release() override
+  ULONG STDMETHODCALLTYPE Release() override
   {
     int nRef = --nRefCount;
     if (nRefCount == 0) delete this;
@@ -136,14 +136,14 @@ public:
   }
 
   // ISequentialStream
-  HRESULT STDCALL Read(void *pv, ULONG cb, ULONG *pcbRead) override
+  HRESULT STDMETHODCALLTYPE Read(void *pv, ULONG cb, ULONG *pcbRead) override
   {
     int nLength = pStream->Read(pv, cb);
     if (pcbRead) *pcbRead = nLength;
     return S_OK;
   }
 
-  HRESULT STDCALL Write(const void *pv, ULONG cb, ULONG *pcbWritten) override
+  HRESULT STDMETHODCALLTYPE Write(const void *pv, ULONG cb, ULONG *pcbWritten) override
   {
     int nLength = pStream->Write(pv, cb);
     if (pcbWritten) *pcbWritten = nLength;
@@ -151,20 +151,20 @@ public:
   }
 
   // IStream itself
-  HRESULT STDCALL Seek(LARGE_INTEGER dlibMove, DWORD dwOrigin, ULARGE_INTEGER *plibNewPosition) override
+  HRESULT STDMETHODCALLTYPE Seek(LARGE_INTEGER dlibMove, DWORD dwOrigin, ULARGE_INTEGER *plibNewPosition) override
   {
     int nPos = pStream->Seek(static_cast<int>(dlibMove.QuadPart), static_cast<STREAM_SEEK>(dwOrigin));
     if (plibNewPosition) plibNewPosition->QuadPart = nPos;
     return S_OK;
   }
 
-  HRESULT STDCALL SetSize(ULARGE_INTEGER libNewSize) override
+  HRESULT STDMETHODCALLTYPE SetSize(ULARGE_INTEGER libNewSize) override
   {
     pStream->SetSize(static_cast<int>(libNewSize.QuadPart));
     return S_OK;
   }
 
-  HRESULT STDCALL CopyTo(IStream *pDst, ULARGE_INTEGER cb, ULARGE_INTEGER *pcbRead, ULARGE_INTEGER *pcbWritten) override
+  HRESULT STDMETHODCALLTYPE CopyTo(IStream *pDst, ULARGE_INTEGER cb, ULARGE_INTEGER *pcbRead, ULARGE_INTEGER *pcbWritten) override
   {
     std::vector<BYTE> buffer(static_cast<int>(cb.QuadPart));
     int nRead = pStream->Read(&(buffer[0]), buffer.size());
@@ -175,21 +175,21 @@ public:
     return S_OK;
   }
 
-  HRESULT STDCALL Commit(DWORD grfCommitFlags) override
+  HRESULT STDMETHODCALLTYPE Commit(DWORD grfCommitFlags) override
   {
     pStream->Flush();
     return S_OK;
   }
 
-  HRESULT STDCALL Revert() override { return S_OK; }
+  HRESULT STDMETHODCALLTYPE Revert() override { return S_OK; }
 
-  HRESULT STDCALL LockRegion(ULARGE_INTEGER libOffset, ULARGE_INTEGER cb, DWORD dwLockType) override { return STG_E_INVALIDFUNCTION; }
+  HRESULT STDMETHODCALLTYPE LockRegion(ULARGE_INTEGER libOffset, ULARGE_INTEGER cb, DWORD dwLockType) override { return STG_E_INVALIDFUNCTION; }
 
-  HRESULT STDCALL UnlockRegion(ULARGE_INTEGER libOffset, ULARGE_INTEGER cb, DWORD dwLockType) override { return STG_E_INVALIDFUNCTION; }
+  HRESULT STDMETHODCALLTYPE UnlockRegion(ULARGE_INTEGER libOffset, ULARGE_INTEGER cb, DWORD dwLockType) override { return STG_E_INVALIDFUNCTION; }
 
-  HRESULT STDCALL Stat(STATSTG *pStats, DWORD grfStatFlag) override { return STG_E_ACCESSDENIED; }
+  HRESULT STDMETHODCALLTYPE Stat(STATSTG *pStats, DWORD grfStatFlag) override { return STG_E_ACCESSDENIED; }
 
-  HRESULT STDCALL Clone(IStream **ppstm) override { return S_OK; }
+  HRESULT STDMETHODCALLTYPE Clone(IStream **ppstm) override { return S_OK; }
 };
 
 #endif // __STREAM_ADAPTOR_H__

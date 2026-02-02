@@ -25,7 +25,7 @@ class CUIStaticBridge : public IUIStatic, public CUIStatic
 public:
   DEFINE_UIELEMENT_BRIDGE;
 
-  IUIElement * STDCALL Duplicate() override
+  IUIElement * Duplicate() override
   {
     auto pWnd = new CUIStaticBridge;
     CopyInternals(pWnd);

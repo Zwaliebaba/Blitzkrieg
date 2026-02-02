@@ -1,5 +1,4 @@
 #include "StdAfx.h"
-
 #include "../Misc/Win32Helper.h"
 #include "../Misc/FileUtils.h"
 #include "../RandomMapGen/Registry_Types.h"
@@ -34,7 +33,7 @@ namespace NMain
   using CModulesList = std::list<SDllModule>;
   CModulesList modules;
   // get module descriptor
-  const SModuleDescriptor * STDCALL GetModuleDesc(int nType)
+  const SModuleDescriptor * GetModuleDesc(int nType)
   {
     for (CModulesList::const_iterator it = modules.begin(); it != modules.end(); ++it) { if (it->pDesc->nType == nType) return it->pDesc; }
     NI_ASSERT_T(false, NStr::Format("can't find module of type 0x%.8x", nType));
@@ -42,7 +41,7 @@ namespace NMain
   }
 
   // load libraries
-  int STDCALL LoadAllModules(const char *pszPath)
+  int LoadAllModules(const char *pszPath)
   {
     std::string szPath = pszPath;
     if (szPath.empty()) szPath = ".\\";
@@ -88,7 +87,7 @@ namespace NMain
   }
 
   // 
-  void STDCALL UnloadAllModules()
+  void UnloadAllModules()
   {
     GetSingletonGlobal()->Done();
     //
@@ -186,5 +185,3 @@ public:
   //
   ~CModuleLoadAutoMagic() { NMain::UnloadAllModules(); }
 };
-
-static CModuleLoadAutoMagic moduleLoadAutoMagic;

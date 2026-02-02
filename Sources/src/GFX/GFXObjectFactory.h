@@ -17,9 +17,9 @@ class CGFXModuleChecker : public IModuleChecker
 {
 public:
   // check module functionality - return some kind of 'grade' for this module
-  int STDCALL CheckFunctionality() const override;
+  int CheckFunctionality() const override;
   // set module functionality limits
-  void STDCALL SetModuleFunctionalityLimits() const override;
+  void SetModuleFunctionalityLimits() const override;
 };
 
 #endif // __GFXOBJECTFACTORY_H__

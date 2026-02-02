@@ -18,7 +18,7 @@ protected:
   bool FillListItem(IUIListRow *pRow, const std::string &szFullFileName, bool *pSelectedItem = nullptr) override;// fill the current line in the list
   bool OnOk(const std::string &szFullFileName) override;// the user has selected a file, let's process the selection
 public:
-  bool STDCALL Init() override;
+  bool Init() override;
 };
 
 class CICCustomMission : public CInterfaceCommandBase<CInterfaceCustomMission, MISSION_INTERFACE_CUSTOM_MISSION>

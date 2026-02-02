@@ -293,7 +293,7 @@ class CGlobalWarFog
     CObjectsList removedObjects;
     CObjectsList addedObjects;
 
-    virtual int STDCALL operator&(interface IStructureSaver &ss)
+    virtual int operator&(interface IStructureSaver &ss)
     {
       CSaverAccessor saver = &ss;
 

@@ -22,17 +22,17 @@ class CInterfacePlayerProfile : public CInterfaceScreenBase
   CPtr<COptionsListWrapper> pOptions;
   bool bEnableCancel;
 
-  bool STDCALL ProcessMessage(const SGameMessage &msg) override;
+  bool ProcessMessage(const SGameMessage &msg) override;
   ~CInterfacePlayerProfile() override {}
-  bool STDCALL StepLocal(bool bAppActive) override;
+  bool StepLocal(bool bAppActive) override;
 
 protected:
   CInterfacePlayerProfile() : CInterfaceScreenBase("Current") {}
 
 public:
-  void STDCALL OnGetFocus(bool bFocus) override;
-  bool STDCALL Init() override;
-  void STDCALL StartInterface() override;
+  void OnGetFocus(bool bFocus) override;
+  bool Init() override;
+  void StartInterface() override;
 };
 
 class CICPlayerProfile : public CInterfaceCommandBase<IInterfaceBase, MISSION_INTERFACE_PLAYER_PROFILE>

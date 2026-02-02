@@ -14,6 +14,7 @@
 //
 #ifndef __AFX__
 #define WIN32_LEAN_AND_MEAN							// Exclude rarely-used stuff from Windows headers
+#include <windows.h>
 
 
 #include <comutil.h>
@@ -54,12 +55,7 @@
 //
 using int64 = __int64;// due to lack of 'long long' type support
 using QWORD = unsigned __int64;// quadra word
-#define for if(false); else for					// to achieve standard variable scope resolving, declared inside 'for'
-#define STDCALL __stdcall								// to use with interface function calls
-// define 'interface' keyword
-#ifndef interface
-#define interface struct
-#endif // interface
+
 // define pragma once
 #if _MSC_VER > 1000
 #define ONCE once

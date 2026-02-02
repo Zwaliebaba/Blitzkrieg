@@ -20,28 +20,28 @@ class CParticleDataManager : public IParticleManager
   CSmokinParticleDataShare shareSmokin;
 
 public:
-  void STDCALL SetSerialMode(ESharedDataSerialMode eSerialMode) override
+  void SetSerialMode(ESharedDataSerialMode eSerialMode) override
   {
     shareKeyBased.SetSerialMode(eSerialMode);
     shareSmokin.SetSerialMode(eSerialMode);
   }
 
   // setup sharing mode
-  void STDCALL SetShareMode(ESharedDataSharingMode eShareMode) override
+  void SetShareMode(ESharedDataSharingMode eShareMode) override
   {
     shareKeyBased.SetShareMode(eShareMode);
     shareSmokin.SetShareMode(eShareMode);
   }
 
   // remove all shared resource from this manager
-  void STDCALL Clear(EClearMode eMode, int nUsage, int nAmount) override;
+  void Clear(EClearMode eMode, int nUsage, int nAmount) override;
   //
-  bool STDCALL Init() override { return shareKeyBased.Init() && shareSmokin.Init(); }
+  bool Init() override { return shareKeyBased.Init() && shareSmokin.Init(); }
   //
-  IParticleSource * STDCALL GetKeyBasedSource(const char *pszName) override;
-  IParticleSource * STDCALL GetSmokinParticleSource(const char *pszName) override;
+  IParticleSource * GetKeyBasedSource(const char *pszName) override;
+  IParticleSource * GetSmokinParticleSource(const char *pszName) override;
   //
-  void STDCALL SetQuality(float fQuality) override;
+  void SetQuality(float fQuality) override;
 };
 
 #endif

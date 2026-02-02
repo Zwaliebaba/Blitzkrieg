@@ -54,9 +54,9 @@ struct SOptionDropListValue
 interface IOptionSystemIterator : IVarIterator
 {
   // get option descriptor
-  virtual const SOptionDesc * STDCALL GetDesc() const = 0;
+  virtual const SOptionDesc * GetDesc() const = 0;
   // get values ​​for option droplist editor type
-  virtual const std::vector<SOptionDropListValue> & STDCALL GetDropValues() const = 0;
+  virtual const std::vector<SOptionDropListValue> & GetDropValues() const = 0;
 };
 
 interface IOptionSystem : IVarSystem
@@ -64,15 +64,15 @@ interface IOptionSystem : IVarSystem
   enum { tidTypeID = -4 };
 
   // get option descriptor
-  virtual const SOptionDesc * STDCALL GetDesc(const std::string &szVarName) const = 0;
+  virtual const SOptionDesc * GetDesc(const std::string &szVarName) const = 0;
   // get values ​​for option droplist editor type
-  virtual const std::vector<SOptionDropListValue> & STDCALL GetDropValues(const std::string &szVarName) const = 0;
+  virtual const std::vector<SOptionDropListValue> & GetDropValues(const std::string &szVarName) const = 0;
   // begin to iterate through all variables
-  virtual IOptionSystemIterator * STDCALL CreateIterator(DWORD dwMask = 0xffffffff) = 0;
+  virtual IOptionSystemIterator * CreateIterator(DWORD dwMask = 0xffffffff) = 0;
   // serialize to configuration file
-  virtual bool STDCALL SerializeConfig(IDataTree *pSS) = 0;
-  virtual void STDCALL Init() = 0;
-  virtual void STDCALL Repair(IDataTree *pSS, bool bToDefault) = 0;
+  virtual bool SerializeConfig(IDataTree *pSS) = 0;
+  virtual void Init() = 0;
+  virtual void Repair(IDataTree *pSS, bool bToDefault) = 0;
 };
 
 #endif // __OPTIONSSYSTEM_H__

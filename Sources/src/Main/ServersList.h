@@ -46,18 +46,18 @@ protected:
 public:
   CServersList() {}
 
-  IMultiplayerMessage * STDCALL GetMessage() override;
-  void STDCALL Segment() override;
+  IMultiplayerMessage * GetMessage() override;
+  void Segment() override;
 
-  bool STDCALL CanJoinToServerByID(WORD wServerID) override;
-  bool STDCALL IsNeedPassword(WORD wServerID) const override;
-  interface IGameCreation * STDCALL JoinToServerByID(WORD wServerID, CPtr<IChat> *pChat, bool bPasswordRequired, const std::string &szPassword) override;
+  bool CanJoinToServerByID(WORD wServerID) override;
+  bool IsNeedPassword(WORD wServerID) const override;
+  interface IGameCreation * JoinToServerByID(WORD wServerID, CPtr<IChat> *pChat, bool bPasswordRequired, const std::string &szPassword) override;
 
-  interface IGameCreation * STDCALL JoinToServerByAddress(INetNodeAddress *pAddress, CPtr<IChat> *pChat, int nPort, bool bPasswordRequired, const std::string &szPassword) override;
+  interface IGameCreation * JoinToServerByAddress(INetNodeAddress *pAddress, CPtr<IChat> *pChat, int nPort, bool bPasswordRequired, const std::string &szPassword) override;
 
-  void STDCALL Refresh() override;
+  void Refresh() override;
 
-  interface INetDriver * STDCALL GetInGameNetDriver() const override { return nullptr; }
+  interface INetDriver * GetInGameNetDriver() const override { return nullptr; }
 };
 
 class CLanServersList : public CServersList
@@ -72,7 +72,7 @@ public:
   CLanServersList() {}
   void Init();
 
-  interface IGameCreation * STDCALL CreateServer(const SGameInfo &gameInfo, const SQuickLoadMapInfo &mapInfo, CPtr<IChat> *pChat) override;
+  interface IGameCreation * CreateServer(const SGameInfo &gameInfo, const SQuickLoadMapInfo &mapInfo, CPtr<IChat> *pChat) override;
 };
 
 class CInternetServersList : public CServersList
@@ -87,7 +87,7 @@ public:
   CInternetServersList() {}
   void Init();
 
-  interface IGameCreation * STDCALL CreateServer(const struct SGameInfo &gameInfo, const struct SQuickLoadMapInfo &mapInfo, CPtr<IChat> *pChat) override;
+  interface IGameCreation * CreateServer(const struct SGameInfo &gameInfo, const struct SQuickLoadMapInfo &mapInfo, CPtr<IChat> *pChat) override;
 };
 
 #endif // __SERVERS_LIST_H__

@@ -60,7 +60,7 @@ const SPropertyDesc *CManipulator::FillTempProps(const char *pszName, const SBas
   return &tempPropDesc;
 }
 
-const SPropertyDesc * STDCALL CManipulator::GetPropertyDesc(const char *pszName)
+const SPropertyDesc * CManipulator::GetPropertyDesc(const char *pszName)
 {
   std::string szRestName;
   int nIndex = -1;

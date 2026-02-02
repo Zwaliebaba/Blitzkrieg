@@ -28,4 +28,4 @@ CAnimObjectFactory::CAnimObjectFactory()
 }
 
 static SModuleDescriptor theModuleDescriptor("Animation", ANIM_ANIM, 0x0100, &theAnimObjectFactory, nullptr);
-const SModuleDescriptor * STDCALL GetModuleDescriptor() { return &theModuleDescriptor; }
+const SModuleDescriptor * GetModuleDescriptor() { return &theModuleDescriptor; }

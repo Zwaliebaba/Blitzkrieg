@@ -15,17 +15,17 @@ class CMaskManager : public IMaskManager
   CUIMaskShare maskShare;
 
 public:
-  void STDCALL SetSerialMode(ESharedDataSerialMode eSerialMode) override { maskShare.SetSerialMode(eSerialMode); }
+  void SetSerialMode(ESharedDataSerialMode eSerialMode) override { maskShare.SetSerialMode(eSerialMode); }
   // setup sharing mode
-  void STDCALL SetShareMode(ESharedDataSharingMode eShareMode) override { maskShare.SetShareMode(eShareMode); }
+  void SetShareMode(ESharedDataSharingMode eShareMode) override { maskShare.SetShareMode(eShareMode); }
   // remove all shared resource from this manager
-  void STDCALL Clear(EClearMode eMode, int nUsage, int nAmount) override;
+  void Clear(EClearMode eMode, int nUsage, int nAmount) override;
   //
-  bool STDCALL Init() override;
+  bool Init() override;
   //
-  IUIMask * STDCALL GetMask(const char *pszKey) override { return maskShare.Get(pszKey); }
+  IUIMask * GetMask(const char *pszKey) override { return maskShare.Get(pszKey); }
 
-  const char * STDCALL GetMaskName(IUIMask *pMask) override
+  const char * GetMaskName(IUIMask *pMask) override
   {
     const std::string *pName = maskShare.GetKey(checked_cast<CUIMask *>(pMask));
     return pName != nullptr ? pName->c_str() : "";

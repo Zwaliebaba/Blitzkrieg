@@ -13,10 +13,10 @@ public:
   CUIObjMap() {}
   ~CUIObjMap() override {}
 
-  virtual void STDCALL Init();
-  void STDCALL Draw(IGFX *pGFX) override;
-  void STDCALL Visit(interface ISceneVisitor *pVisitor) override;
-  virtual void STDCALL SetMapTexture(IGFXTexture *p) { pMapTexture = p; }
+  virtual void Init();
+  void Draw(IGFX *pGFX) override;
+  void Visit(interface ISceneVisitor *pVisitor) override;
+  virtual void SetMapTexture(IGFXTexture *p) { pMapTexture = p; }
 };
 
 class CUIObjMapBridge : public IUIObjMap, public CUIObjMap
@@ -26,8 +26,8 @@ class CUIObjMapBridge : public IUIObjMap, public CUIObjMap
 public:
   DECLARE_SUPER(CUIObjMap);
   DEFINE_UICONTAINER_BRIDGE;
-  void STDCALL Init() override { CSuper::Init(); }
-  void STDCALL SetMapTexture(IGFXTexture *p) override { CSuper::SetMapTexture(p); }
+  void Init() override { CSuper::Init(); }
+  void SetMapTexture(IGFXTexture *p) override { CSuper::SetMapTexture(p); }
 };
 
 

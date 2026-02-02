@@ -15,22 +15,22 @@ class CTextString : public ITextString
   bool bChanged;
 
 public:
-  void STDCALL SwapData(ISharedResource *pResource) override;
-  const wchar_t * STDCALL GetString() const override { return szString.c_str(); }
-  const int STDCALL GetLength() const override { return szString.size(); }
+  void SwapData(ISharedResource *pResource) override;
+  const wchar_t * GetString() const override { return szString.c_str(); }
+  const int GetLength() const override { return szString.size(); }
 
-  void STDCALL SetText(const wchar_t *pszText) override
+  void SetText(const wchar_t *pszText) override
   {
     szString = pszText == nullptr ? L"" : pszText;
     bChanged = true;
   }
 
   //
-  bool STDCALL IsChanged() const override { return bChanged; }
-  void STDCALL ResetChanged() override { bChanged = false; }
+  bool IsChanged() const override { return bChanged; }
+  void ResetChanged() override { bChanged = false; }
   // internal container clearing
-  void STDCALL ClearInternalContainer() override {}
-  bool STDCALL Load(const bool bPreLoad = false) override { return false; }
+  void ClearInternalContainer() override {}
+  bool Load(const bool bPreLoad = false) override { return false; }
 };
 
 class CTextDialog : public ITextDialog
@@ -42,16 +42,16 @@ class CTextDialog : public ITextDialog
   bool bChanged;
 
 public:
-  void STDCALL SwapData(ISharedResource *pResource) override;
-  const wchar_t * STDCALL GetString() const override { return szString.c_str(); };
-  const int STDCALL GetLength() const override { return szString.size(); }
-  void STDCALL SetText(const wchar_t *pszText) override;
+  void SwapData(ISharedResource *pResource) override;
+  const wchar_t * GetString() const override { return szString.c_str(); };
+  const int GetLength() const override { return szString.size(); }
+  void SetText(const wchar_t *pszText) override;
   //
-  bool STDCALL IsChanged() const override { return bChanged; }
-  void STDCALL ResetChanged() override { bChanged = false; }
+  bool IsChanged() const override { return bChanged; }
+  void ResetChanged() override { bChanged = false; }
   // internal container clearing
-  void STDCALL ClearInternalContainer() override {}
-  bool STDCALL Load(bool bPreLoad = false) override;
+  void ClearInternalContainer() override {}
+  bool Load(bool bPreLoad = false) override;
 };
 
 #endif		// __TEXT_OBJECT_H__

@@ -31,7 +31,7 @@ public:
     bool operator==(const SSimpleUpdate &simpleUpdate) const { return pObj == simpleUpdate.pObj; }
     // const int GetUniqueId() const;
 
-    virtual int STDCALL operator&(interface IStructureSaver &ss)
+    virtual int operator&(interface IStructureSaver &ss)
     {
       CSaverAccessor saver = &ss;
       saver.Add(1, &pObj);

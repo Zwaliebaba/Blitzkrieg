@@ -52,10 +52,10 @@ CGFXObjectFactory::CGFXObjectFactory()
 static CGFXModuleChecker theGFXModuleChecker;
 
 // check module functionality - return some kind of 'grade' for this module
-int STDCALL CGFXModuleChecker::CheckFunctionality() const { return 0; }
+int CGFXModuleChecker::CheckFunctionality() const { return 0; }
 
 // set module functionality limits
-void STDCALL CGFXModuleChecker::SetModuleFunctionalityLimits() const
+void CGFXModuleChecker::SetModuleFunctionalityLimits() const
 {
   NVideoCheck::SVideoMemory memory;
   NVideoCheck::GetVideoMemory(&memory);
@@ -100,4 +100,4 @@ void STDCALL CGFXModuleChecker::SetModuleFunctionalityLimits() const
 // ************************************************************************************************************************ //
 
 static SModuleDescriptor theModuleDescriptor("Graphics (DX8)", GFX_GFX, 0x0100, &theGFXObjectFactory, &theGFXModuleChecker);
-const SModuleDescriptor * STDCALL GetModuleDescriptor() { return &theModuleDescriptor; }
+const SModuleDescriptor * GetModuleDescriptor() { return &theModuleDescriptor; }

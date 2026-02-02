@@ -19,4 +19,4 @@ CImageObjectFactory::CImageObjectFactory() { REGISTER_CLASS(this, IMAGE_PROCESSO
 // ************************************************************************************************************************ //
 
 static SModuleDescriptor theModuleDescriptor("Image", IMAGE_IMAGE, 0x0100, &theImageObjectFactory, nullptr);
-const SModuleDescriptor * STDCALL GetModuleDescriptor() { return &theModuleDescriptor; }
+const SModuleDescriptor * GetModuleDescriptor() { return &theModuleDescriptor; }

@@ -28,19 +28,19 @@ class CTextManager : public ITextManager
   CTextDialogShare shareDialog;
 
 public:
-  void STDCALL SetSerialMode(ESharedDataSerialMode eSerialMode) override { shareDialog.SetSerialMode(eSerialMode); }
+  void SetSerialMode(ESharedDataSerialMode eSerialMode) override { shareDialog.SetSerialMode(eSerialMode); }
   // setup sharing mode
-  void STDCALL SetShareMode(ESharedDataSharingMode eShareMode) override { shareDialog.SetShareMode(eShareMode); }
+  void SetShareMode(ESharedDataSharingMode eShareMode) override { shareDialog.SetShareMode(eShareMode); }
   // remove all shared resource from this manager
-  void STDCALL Clear(EClearMode eMode, int nUsage, int nAmount) override;
+  void Clear(EClearMode eMode, int nUsage, int nAmount) override;
   //
-  bool STDCALL Init() override;
-  bool STDCALL AddTextFile(const char *pszFileName) override;
+  bool Init() override;
+  bool AddTextFile(const char *pszFileName) override;
   //
-  IText * STDCALL GetString(const char *pszKey) override;
-  IText * STDCALL GetDialog(const char *pszKey) override { return shareDialog.Get(pszKey); }
+  IText * GetString(const char *pszKey) override;
+  IText * GetDialog(const char *pszKey) override { return shareDialog.Get(pszKey); }
   //
-  const char * STDCALL GetTextName(IText *pText) override
+  const char * GetTextName(IText *pText) override
   {
     if (auto pDlg = dynamic_cast<CTextDialog *>(pText))
     {

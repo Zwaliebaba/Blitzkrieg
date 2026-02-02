@@ -14,16 +14,16 @@ class CImageDDS : public IDDSImage
 public:
   CImageDDS(int nSizeX, int nSizeY, const SDDSPixelFormat &_format);
   // size(x, y, z:)
-  int STDCALL GetSizeX(const int nMipLevel) const override { return nSizeX >> nMipLevel; }
-  int STDCALL GetSizeY(const int nMipLevel) const override { return nSizeY >> nMipLevel; }
-  int STDCALL GetNumMipLevels() const override { return mips.size(); }
+  int GetSizeX(const int nMipLevel) const override { return nSizeX >> nMipLevel; }
+  int GetSizeY(const int nMipLevel) const override { return nSizeY >> nMipLevel; }
+  int GetNumMipLevels() const override { return mips.size(); }
   // format...
-  const struct SDDSPixelFormat * STDCALL GetDDSFormat() const override { return &format; }
-  EGFXPixelFormat STDCALL GetGFXFormat() const override;
-  int STDCALL GetBPP() const override { return ::GetBPP(GetGFXFormat()); }
+  const struct SDDSPixelFormat * GetDDSFormat() const override { return &format; }
+  EGFXPixelFormat GetGFXFormat() const override;
+  int GetBPP() const override { return ::GetBPP(GetGFXFormat()); }
   //
-  const void * STDCALL GetLFB(const int nMipLevel) const override { return &(mips[nMipLevel][0]); }
-  void * STDCALL GetLFB(const int nMipLevel = 0) override { return &(mips[nMipLevel][0]); }
+  const void * GetLFB(const int nMipLevel) const override { return &(mips[nMipLevel][0]); }
+  void * GetLFB(const int nMipLevel = 0) override { return &(mips[nMipLevel][0]); }
   // add next mip level
   bool AddMipLevel(const void *pData, int nLength);
   bool AddMipLevels(const IDDSImage *pImage);

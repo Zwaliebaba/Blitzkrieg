@@ -12,14 +12,14 @@ class CInterfaceIMTutorial : public CInterfaceInterMission
   // input
   NInput::CCommandRegistrator commandMsgs;
   //
-  bool STDCALL ProcessMessage(const SGameMessage &msg) override;
+  bool ProcessMessage(const SGameMessage &msg) override;
   // disable explicit destruction
   ~CInterfaceIMTutorial() override;
   CInterfaceIMTutorial();
 
 public:
-  bool STDCALL Init() override;
-  void STDCALL StartInterface() override;
+  bool Init() override;
+  void StartInterface() override;
 };
 
 class CICIMTutorial : public CInterfaceCommandBase<IInterfaceBase, MISSION_INTERFACE_IM_TUTORIAL>

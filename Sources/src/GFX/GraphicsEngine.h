@@ -250,113 +250,113 @@ public:
   virtual ~CGraphicsEngine() { CGraphicsEngine::Done(); }
 
   // initialization and setup
-  bool STDCALL Init(const char *pszAdapterName, HWND hWnd) override;
-  bool STDCALL Done() override;
+  bool Init(const char *pszAdapterName, HWND hWnd) override;
+  bool Done() override;
   void Clear() override;
-  bool STDCALL SetMode(int nSizeX, int nSizeY, int nBpp, int nStencilBPP, EGFXFullscreen eFullscreen, int nFreq) override;
-  EGFXVideoCard STDCALL GetVideoCard() override;
+  bool SetMode(int nSizeX, int nSizeY, int nBpp, int nStencilBPP, EGFXFullscreen eFullscreen, int nFreq) override;
+  EGFXVideoCard GetVideoCard() override;
 
   // move GFX screen to the new position
-  void STDCALL MoveTo(int nX, int nY) override;
+  void MoveTo(int nX, int nY) override;
 
   // screen and adapter info
-  RECT STDCALL GetScreenRect() const override { return rcScreen; }
-  int STDCALL GetScreenBPP() const override { return GetBPP(displaymode.Format); }
-  const char * STDCALL GetAdapterName() const override { return adapter.szDescription.c_str(); }
-  const struct SGFXDisplayMode * STDCALL GetDisplayModes() const override;
+  RECT GetScreenRect() const override { return rcScreen; }
+  int GetScreenBPP() const override { return GetBPP(displaymode.Format); }
+  const char * GetAdapterName() const override { return adapter.szDescription.c_str(); }
+  const struct SGFXDisplayMode * GetDisplayModes() const override;
 
   // T&L setup functions
   // viewport management
-  void STDCALL PushViewport() override;
-  bool STDCALL PopViewport() override;
-  bool STDCALL ChangeViewport(int nX, int nY, int nWidth, int nHeight, float fMinZ, float fMaxZ) override;
-  bool STDCALL ChangeViewport(int nWidth, int nHeight) override;
+  void PushViewport() override;
+  bool PopViewport() override;
+  bool ChangeViewport(int nX, int nY, int nWidth, int nHeight, float fMinZ, float fMaxZ) override;
+  bool ChangeViewport(int nWidth, int nHeight) override;
   // transforms: view, world, projection, texture
-  bool STDCALL SetWorldTransforms(int nStartIndex, const SHMatrix *pMatrices, int nNumMatrices) override;
-  bool STDCALL SetViewTransform(const SHMatrix &matrix) override;
-  bool STDCALL SetProjectionTransform(const SHMatrix &matrix) override;
-  bool STDCALL SetTextureTransform(int nIndex, const SHMatrix &matrix) override;
-  bool STDCALL SetupDirectTransform() override;
-  bool STDCALL RestoreTransform() override;
+  bool SetWorldTransforms(int nStartIndex, const SHMatrix *pMatrices, int nNumMatrices) override;
+  bool SetViewTransform(const SHMatrix &matrix) override;
+  bool SetProjectionTransform(const SHMatrix &matrix) override;
+  bool SetTextureTransform(int nIndex, const SHMatrix &matrix) override;
+  bool SetupDirectTransform() override;
+  bool RestoreTransform() override;
   //
-  const SHMatrix & STDCALL GetViewMatrix() const override;
-  const SHMatrix & STDCALL GetBillboardMatrix() const override;
-  const SHMatrix & STDCALL GetInverseViewMatrix() const override;
-  const SHMatrix & STDCALL GetProjectionMatrix() const override;
-  const SHMatrix & STDCALL GetViewportMatrix() const override;
-  void STDCALL GetViewVolume(SPlane *pPlanes) const override;
-  void STDCALL GetViewVolumeCrosses(const CVec2 &vPoint, CVec3 *pvNear, CVec3 *pvFar) override;
+  const SHMatrix & GetViewMatrix() const override;
+  const SHMatrix & GetBillboardMatrix() const override;
+  const SHMatrix & GetInverseViewMatrix() const override;
+  const SHMatrix & GetProjectionMatrix() const override;
+  const SHMatrix & GetViewportMatrix() const override;
+  void GetViewVolume(SPlane *pPlanes) const override;
+  void GetViewVolumeCrosses(const CVec2 &vPoint, CVec3 *pvNear, CVec3 *pvFar) override;
   // lighting properties
-  void STDCALL SetLight(int nIndex, const SGFXLightDirectional &light) override;
-  void STDCALL SetLight(int nIndex, const SGFXLightPoint &light) override;
-  void STDCALL SetLight(int nIndex, const SGFXLightSpot &light) override;
-  void STDCALL EnableLight(int nIndex, bool bEnable) override;
-  void STDCALL SetMaterial(const SGFXMaterial &material) override;
+  void SetLight(int nIndex, const SGFXLightDirectional &light) override;
+  void SetLight(int nIndex, const SGFXLightPoint &light) override;
+  void SetLight(int nIndex, const SGFXLightSpot &light) override;
+  void EnableLight(int nIndex, bool bEnable) override;
+  void SetMaterial(const SGFXMaterial &material) override;
 
   // texture setup
-  bool STDCALL SetTexture(int nStage, IGFXBaseTexture *pTexture) override;
+  bool SetTexture(int nStage, IGFXBaseTexture *pTexture) override;
 
   // state setup
-  bool STDCALL SetWireframe(bool bWireframe) override;
-  bool STDCALL SetCullMode(EGFXCull cull) override;
-  bool STDCALL SetDepthBufferMode(EGFXDepthBuffer depth, EGFXCmpFunction cmp) override;
-  bool STDCALL EnableLighting(bool bLighting) override;
-  bool STDCALL EnableSpecular(bool bEnable) override;
+  bool SetWireframe(bool bWireframe) override;
+  bool SetCullMode(EGFXCull cull) override;
+  bool SetDepthBufferMode(EGFXDepthBuffer depth, EGFXCmpFunction cmp) override;
+  bool EnableLighting(bool bLighting) override;
+  bool EnableSpecular(bool bEnable) override;
 
   // font setup
-  bool STDCALL SetFont(IGFXFont *pFont) override;
+  bool SetFont(IGFXFont *pFont) override;
 
   // screen management
-  bool STDCALL IsActive() override;
-  bool STDCALL BeginScene() override;
-  bool STDCALL EndScene() override;
-  bool STDCALL Clear(int nNumRects, RECT *pRects, DWORD dwFlags, DWORD dwColor, float fDepth, DWORD dwStencil) override;
-  bool STDCALL Flip() override;
-  bool STDCALL SetRenderTarget(IGFXRTexture *pRT) override;
+  bool IsActive() override;
+  bool BeginScene() override;
+  bool EndScene() override;
+  bool Clear(int nNumRects, RECT *pRects, DWORD dwFlags, DWORD dwColor, float fDepth, DWORD dwStencil) override;
+  bool Flip() override;
+  bool SetRenderTarget(IGFXRTexture *pRT) override;
 
   // geometry
-  void STDCALL SetOptimizedBuffers(bool bEnable) override;
+  void SetOptimizedBuffers(bool bEnable) override;
   // vertices/indices
-  IGFXVertices * STDCALL CreateVertices(int nNumElements, DWORD dwFormat, EGFXPrimitiveType type, EGFXDynamic eDynamic, IGFXVertices *pVertices = nullptr) override;
-  IGFXIndices * STDCALL CreateIndices(int nNumElements, DWORD dwFormat, EGFXPrimitiveType type, EGFXDynamic eDynamic, IGFXIndices *pIndices = nullptr) override;
+  IGFXVertices * CreateVertices(int nNumElements, DWORD dwFormat, EGFXPrimitiveType type, EGFXDynamic eDynamic, IGFXVertices *pVertices = nullptr) override;
+  IGFXIndices * CreateIndices(int nNumElements, DWORD dwFormat, EGFXPrimitiveType type, EGFXDynamic eDynamic, IGFXIndices *pIndices = nullptr) override;
   // solid blocks
-  bool STDCALL BeginSolidVertexBlock(int nNumElements, DWORD dwFormat, EGFXDynamic eDynamic) override;
-  bool STDCALL EndSolidVertexBlock() override;
-  bool STDCALL BeginSolidIndexBlock(int nNumElements, DWORD dwFormat, EGFXDynamic eDynamic) override;
-  bool STDCALL EndSolidIndexBlock() override;
+  bool BeginSolidVertexBlock(int nNumElements, DWORD dwFormat, EGFXDynamic eDynamic) override;
+  bool EndSolidVertexBlock() override;
+  bool BeginSolidIndexBlock(int nNumElements, DWORD dwFormat, EGFXDynamic eDynamic) override;
+  bool EndSolidIndexBlock() override;
   // temp geometry
-  void * STDCALL GetTempVertices(int nNumElements, DWORD dwFormat, EGFXPrimitiveType type) override;
-  void * STDCALL GetTempIndices(int nNumElements, DWORD dwFormat, EGFXPrimitiveType type) override;
+  void * GetTempVertices(int nNumElements, DWORD dwFormat, EGFXPrimitiveType type) override;
+  void * GetTempIndices(int nNumElements, DWORD dwFormat, EGFXPrimitiveType type) override;
 
   // texture
-  IGFXTexture * STDCALL CreateTexture(int nSizeX, int nSizeY, int nNumMipLevels, EGFXPixelFormat format, EGFXDynamic eDynamic, IGFXTexture *pTexture = nullptr) override;
-  IGFXRTexture * STDCALL CreateRTexture(int nSizeX, int nSizeY) override;
-  bool STDCALL UpdateTexture(IGFXTexture *pSrc, IGFXTexture *pDst, bool bAsync = true) override;
+  IGFXTexture * CreateTexture(int nSizeX, int nSizeY, int nNumMipLevels, EGFXPixelFormat format, EGFXDynamic eDynamic, IGFXTexture *pTexture = nullptr) override;
+  IGFXRTexture * CreateRTexture(int nSizeX, int nSizeY) override;
+  bool UpdateTexture(IGFXTexture *pSrc, IGFXTexture *pDst, bool bAsync = true) override;
 
   // rendering
-  bool STDCALL Draw(IGFXVertices *pVertices, IGFXIndices *pIndices) override;
-  bool STDCALL DrawTemp() override;
-  bool STDCALL DrawMesh(IGFXMesh *pMesh, const SHMatrix *matrices, int nNumMatrices) override;
-  bool STDCALL DrawStringA(const char *pszString, int nX, int nY, DWORD dwColor) override;
-  bool STDCALL DrawString(const wchar_t *pszString, int nX, int nY, DWORD dwColor) override;
-  bool STDCALL DrawText(IGFXText *pText, const RECT &rect, int nY, DWORD dwFlags = FNT_FORMAT_LEFT) override;
-  bool STDCALL DrawRects(const SGFXRect2 *pRects, int nNumRects, bool bSolid) override;
+  bool Draw(IGFXVertices *pVertices, IGFXIndices *pIndices) override;
+  bool DrawTemp() override;
+  bool DrawMesh(IGFXMesh *pMesh, const SHMatrix *matrices, int nNumMatrices) override;
+  bool DrawStringA(const char *pszString, int nX, int nY, DWORD dwColor) override;
+  bool DrawString(const wchar_t *pszString, int nX, int nY, DWORD dwColor) override;
+  bool DrawText(IGFXText *pText, const RECT &rect, int nY, DWORD dwFlags = FNT_FORMAT_LEFT) override;
+  bool DrawRects(const SGFXRect2 *pRects, int nNumRects, bool bSolid) override;
 
   // gamma ramp
-  bool STDCALL SetGammaRamp(const SGFXGammaRamp &ramp, bool bCalibrate) override;
-  bool STDCALL GetGammaRamp(const SGFXGammaRamp *pRamp) override;
-  void STDCALL SetGammaCorrectionValues(float fBrightness, float fContrast, float fGamma) override;
-  void STDCALL GetGammaCorrectionValues(float *pfBrightness, float *pfContrast, float *pfGamma) override;
+  bool SetGammaRamp(const SGFXGammaRamp &ramp, bool bCalibrate) override;
+  bool GetGammaRamp(const SGFXGammaRamp *pRamp) override;
+  void SetGammaCorrectionValues(float fBrightness, float fContrast, float fGamma) override;
+  void GetGammaCorrectionValues(float *pfBrightness, float *pfContrast, float *pfGamma) override;
 
   // screenshot
-  bool STDCALL TakeScreenShot(interface IImage *pImage) override;
+  bool TakeScreenShot(interface IImage *pImage) override;
 
   // statistics
-  int STDCALL GetNumPassedVertices() const override { return nNumPassedVertices; }
-  int STDCALL GetNumPassedPrimitives() const override { return nNumPassedPrimitives; }
+  int GetNumPassedVertices() const override { return nNumPassedVertices; }
+  int GetNumPassedPrimitives() const override { return nNumPassedPrimitives; }
 
   // temporal function before shaders
-  bool STDCALL SetShadingEffect(int nEffect) override;
+  bool SetShadingEffect(int nEffect) override;
 };
 
 #endif // __GRAPHICSENGINE_H__

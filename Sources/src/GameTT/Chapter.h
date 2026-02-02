@@ -21,7 +21,7 @@ class CInterfaceChapter : public CInterfaceInterMission
   int nSelected;// current selected mission
 
   //
-  bool STDCALL ProcessMessage(const SGameMessage &msg) override;
+  bool ProcessMessage(const SGameMessage &msg) override;
   // disable explicit destruction
   ~CInterfaceChapter() override;
   CInterfaceChapter() : CInterfaceInterMission("InterMission"), nSelected(-1) {}
@@ -33,8 +33,8 @@ class CInterfaceChapter : public CInterfaceInterMission
   void InitWindow();
 
 public:
-  bool STDCALL Init() override;
-  void STDCALL StartInterface() override;
+  bool Init() override;
+  void StartInterface() override;
 
   static const SChapterStats *ReadChapterStats();
 };

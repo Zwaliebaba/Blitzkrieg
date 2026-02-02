@@ -158,10 +158,10 @@ public:
 
 interface IInputVisitor
 {
-  virtual bool STDCALL VisitControl(class CControl *pControl) = 0;
-  virtual bool STDCALL VisitCombo(class CCombo *pCombo) = 0;
-  virtual bool STDCALL VisitBind(class CBind *pBind) = 0;
-  virtual bool STDCALL VisitCommand(struct SCommand *pCommand) = 0;
+  virtual bool VisitControl(class CControl *pControl) = 0;
+  virtual bool VisitCombo(class CCombo *pCombo) = 0;
+  virtual bool VisitBind(class CBind *pBind) = 0;
+  virtual bool VisitCommand(struct SCommand *pCommand) = 0;
 };
 
 #endif // __INPUT_TYPES_H__

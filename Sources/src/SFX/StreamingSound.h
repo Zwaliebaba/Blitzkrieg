@@ -16,18 +16,18 @@ class CPlayList : public IPlayList
 public:
   CPlayList() : nCurrentStream(-1), nSequenceOrder(ORDER_CYCLE) {}
   // clear all melodies
-  void STDCALL Clear() override
+  void Clear() override
   {
     szMelodies.clear();
     nCurrentStream = -1;
   }
 
   // sequence order
-  void STDCALL SetSequenceOrder(int nOrder) override { nSequenceOrder = nOrder; }
+  void SetSequenceOrder(int nOrder) override { nSequenceOrder = nOrder; }
   // add new melody to the end of the play list
-  void STDCALL AddMelody(const char *pszFileName) override { szMelodies.push_back(pszFileName); }
+  void AddMelody(const char *pszFileName) override { szMelodies.push_back(pszFileName); }
   // get next melody for playing
-  const char * STDCALL GetNextMelody() override;
+  const char * GetNextMelody() override;
 };
 
 #endif // __STREAMINGSOUND_H__

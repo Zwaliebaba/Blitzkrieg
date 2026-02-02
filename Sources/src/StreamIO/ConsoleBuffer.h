@@ -28,17 +28,17 @@ class CConsoleBuffer : public IConsoleBuffer
 
 public:
   // configure console buffer
-  bool STDCALL Configure(const char *pszConfigure) override;
+  bool Configure(const char *pszConfigure) override;
   // write string to console's stream
-  void STDCALL Write(int nStreamID, const wchar_t *pszString, DWORD color = 0xffffffff, bool bBackupLog = false) override;
+  void Write(int nStreamID, const wchar_t *pszString, DWORD color = 0xffffffff, bool bBackupLog = false) override;
   // write string to console's stream. 
-  void STDCALL WriteASCII(int nStreamID, const char *pszString, DWORD color = 0xffffffff, bool bBackupLog = false) override;
+  void WriteASCII(int nStreamID, const char *pszString, DWORD color = 0xffffffff, bool bBackupLog = false) override;
   // read string from console's stream
-  const wchar_t * STDCALL Read(int nStreamID, DWORD *pColor = nullptr) override;
+  const wchar_t * Read(int nStreamID, DWORD *pColor = nullptr) override;
   // read string from console's stream. 
-  const char * STDCALL ReadASCII(int nStreamID, DWORD *pColor = nullptr) override;
+  const char * ReadASCII(int nStreamID, DWORD *pColor = nullptr) override;
   // dump console's stream log to the previously configured output devices
-  bool STDCALL DumpLog(int nStreamID) override;
+  bool DumpLog(int nStreamID) override;
 };
 
 #endif // __CONSOLE_BUFFER_H__
