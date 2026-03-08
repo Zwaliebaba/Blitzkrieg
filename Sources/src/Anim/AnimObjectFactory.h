@@ -10,5 +10,7 @@ public:
   CAnimObjectFactory();
 };
 
+IObjectFactory * STDCALL GetAnimObjectFactory();
+
 // //////////////////////////////////////////////////////////// 
 #endif // __ANIMOBJECTFACTORY_H__

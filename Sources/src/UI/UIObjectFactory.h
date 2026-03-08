@@ -9,4 +9,6 @@ public:
   CUIObjectFactory();
 };
 
+IObjectFactory * STDCALL GetUIObjectFactory();
+
 #endif // __UIOBJECTFACTORY_H__

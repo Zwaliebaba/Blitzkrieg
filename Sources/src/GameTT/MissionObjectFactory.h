@@ -11,4 +11,6 @@ public:
   CMissionObjectFactory();
 };
 
+IObjectFactory * STDCALL GetMissionObjectFactory();
+
 #endif // __MISSIONOBJECTFACTORY_H__

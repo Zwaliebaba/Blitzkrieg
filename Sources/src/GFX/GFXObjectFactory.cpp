@@ -90,14 +90,4 @@ void STDCALL CGFXModuleChecker::SetModuleFunctionalityLimits() const
   else if (memory.texture.dwTotal > 12 * MB) SetGlobalVar("GFX.Limit.TextureQuality", 1);
 }
 
-// ************************************************************************************************************************ //
-// **
-// ** module descriptor and additional procedures
-// **
-// **
-// **
-// **
-// ************************************************************************************************************************ //
-
-static SModuleDescriptor theModuleDescriptor("Graphics (DX8)", GFX_GFX, 0x0100, &theGFXObjectFactory, &theGFXModuleChecker);
-const SModuleDescriptor * STDCALL GetModuleDescriptor() { return &theModuleDescriptor; }
+IObjectFactory * STDCALL GetGFXObjectFactory() { return &theGFXObjectFactory; }

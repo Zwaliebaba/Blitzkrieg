@@ -369,5 +369,4 @@ CAILogicObjectFactory::CAILogicObjectFactory()
   REGISTER_CLASS(this, AI_MOVE_TO_GRID_STATE, CCommonMoveToGridState);
 }
 
-static SModuleDescriptor theModuleDescriptor("AI Logic (base)", AI_AI, 0x0100, &theAILogicObjectFactory, nullptr);
-const SModuleDescriptor * STDCALL GetModuleDescriptor() { return &theModuleDescriptor; }
+IObjectFactory * STDCALL GetAILogicObjectFactory() { return &theAILogicObjectFactory; }

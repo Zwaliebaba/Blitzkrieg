@@ -209,7 +209,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
     RegisterSingleton(IObjectsDB::tidTypeID, pGDB);
     GetSLS()->SetGDB(pGDB);
   }
-  // create and register net driver
+  // set net global vars (before Initialize, so they're available during init)
   {
     SetGlobalVar("GameSpyGameName", "blitzkrieg");
     SetGlobalVar("GameSpyEngineName", "blitzkrieg");
@@ -218,9 +218,6 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
     CTableAccessor constsTbl = NDB::OpenDataTable("consts.xml");
     const int nNetGameVersion = constsTbl.GetInt("Net", "GameVersion", 1);
     SetGlobalVar("NetGameVersion", nNetGameVersion);
-
-    INetDriver *pNetDriver = CreateObject<INetDriver>(INetDriver::tidTypeID);
-    RegisterSingleton(INetDriver::tidTypeID, pNetDriver);
   }
   // initialize all game system
   timeMeter.Reset();
@@ -231,6 +228,11 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
     return 0xDEAD;
   }
   timeMeter.Sample("game system init");
+  // create and register net driver (must be after Initialize — Net factory registered there)
+  {
+    INetDriver *pNetDriver = CreateObject<INetDriver>(INetDriver::tidTypeID);
+    RegisterSingleton(INetDriver::tidTypeID, pNetDriver);
+  }
   // CRAP{ load game database
   if (GetSingleton<IObjectsDB>()->LoadDB() == false)
   {
@@ -271,7 +273,9 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
   }
   timeMeter.Sample("inspecting storage");
   // hide splash screen
+  OutputDebugString("*** [DIAG] Hiding splash screen...\n");
   NWinFrame::ShowSplashScreen(hInstance, false);
+  OutputDebugString("*** [DIAG] Splash screen hidden.\n");
   timeMeter.Reset();
   // init graphics
   {
@@ -282,8 +286,10 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
     cmdp.eFullscreenMode = static_cast<EGFXFullscreen>(GetGlobalVar("GFX.Mode.InterMission.FullScreen", int(cmdp.eFullscreenMode)));
     cmdp.nFreq = GetGlobalVar("GFX.Mode.InterMission.Frequency", cmdp.nFreq);
     // mode
+    OutputDebugString(NStr::Format("*** [DIAG] GFX.SetMode(%dx%d, bpp=%d, stencil=%d, fs=%d, freq=%d)...\n", cmdp.nScreenSizeX, cmdp.nScreenSizeY, cmdp.nScreenBPP, cmdp.nStencilBPP, int(cmdp.eFullscreenMode), cmdp.nFreq));
     IGFX *pGFX = GetSingleton<IGFX>();
     if (pGFX->SetMode(cmdp.nScreenSizeX, cmdp.nScreenSizeY, cmdp.nScreenBPP, cmdp.nStencilBPP, cmdp.eFullscreenMode, cmdp.nFreq) == false) return 0xDEAD;
+    OutputDebugString("*** [DIAG] GFX.SetMode succeeded.\n");
     // some GFX setup
     pGFX->SetCullMode(GFXC_CW);// setup right-handed coordinate system
     SHMatrix matrix;
@@ -291,7 +297,9 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
     pGFX->SetProjectionTransform(matrix);
     pGFX->EnableLighting(false);
     // texture quality
+    OutputDebugString("*** [DIAG] Setting texture quality...\n");
     GetSingleton<ITextureManager>()->SetQuality(cmdp.eTextureQuality);
+    OutputDebugString("*** [DIAG] Texture quality set.\n");
   }
   timeMeter.Sample("graphics init");
   // 
@@ -313,6 +321,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
     if (!szGameSpyServer.empty()) GetSingleton<IOptionSystem>()->Set("Multiplayer.ServerName", szGameSpyServer.c_str());
   }
   timeMeter.Sample("serialize config");
+  OutputDebugString("*** [DIAG] Setting up cursor...\n");
   // cursor - set bounds and default mode
   {
     CPtr<ICursor> pCursor = GetSingleton<ICursor>();
@@ -321,10 +330,12 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
     // pCursor->SetSensitivity( float(cmdp.nScreenSizeX) / 800.0f );
   }
   // create and set main general purpose font
+  OutputDebugString("*** [DIAG] Loading main font...\n");
   {
     CPtr<IGFXFont> pFont = GetSingleton<IFontManager>()->GetFont("fonts\\medium");
     GetSingleton<IGFX>()->SetFont(pFont);
   }
+  OutputDebugString("*** [DIAG] Font loaded. Setting up sounds...\n");
   //
   // setup sounds
   {
@@ -335,8 +346,10 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
     pSFX->EnableStreaming(GetGlobalVar("Sound.EnableStream", 1));
   }
   // execute autoexec.cfg
+  OutputDebugString("*** [DIAG] Executing autoexec.cfg...\n");
   GetSingleton<IConsoleBuffer>()->WriteASCII(CONSOLE_STREAM_COMMAND, "Exec( \"autoexec.cfg\" )", 0xff0000ff);
   // load and apply options
+  OutputDebugString("*** [DIAG] Initializing options...\n");
   timeMeter.Reset();
   {
     IOptionSystem *pOptionSystem = GetSingleton<IOptionSystem>();
@@ -350,10 +363,13 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 #ifdef _FINALRELEASE
   try { 
 #endif // _FINALRELEASE
+  OutputDebugString("*** [DIAG] Checking beta key...\n");
   if (NMain::CheckBetaKey())
   {
+    OutputDebugString("*** [DIAG] Creating main loop...\n");
     IMainLoop *pMainLoop = CreateMainLoop();
     RegisterSingleton(IMainLoop::tidTypeID, pMainLoop);
+    OutputDebugString("*** [DIAG] Main loop created. Acquiring cursor...\n");
     //
     GetSingleton<ICursor>()->Acquire(true);
     // MOD support
@@ -364,9 +380,11 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
     //
     IInput *pInput = GetSingleton<IInput>();
 
+    OutputDebugString("*** [DIAG] Dispatching initial command...\n");
     if (!cmdp.szSaveFile.empty()) pMainLoop->Command(MAIN_COMMAND_LOAD, cmdp.szSaveFile.c_str());
     else if (cmdp.szMapName.empty() || cmdp.bMultiplayer)
     {
+      OutputDebugString("*** [DIAG] Starting intro video -> main menu...\n");
       pMainLoop->Command(MISSION_COMMAND_VIDEO, NStr::Format("%s;%d", "movies\\intro", MISSION_COMMAND_MAIN_MENU));
       NCutScenes::AddCutScene("movies\\intro_only");
     }
@@ -377,6 +395,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
       pMainLoop->Command(MISSION_COMMAND_MISSION, NStr::Format("%s;%d", cmdp.szMapName.c_str(), cmdp.bCycledLaunch));
     }
     //
+    OutputDebugString("*** [DIAG] Entering main loop...\n");
     for (;;)
     {
       if (!cmdp.szMovieDir.empty()) SetGlobalVar("MovieDir", cmdp.szMovieDir.c_str());
@@ -414,6 +433,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
   //
   NMain::Finalize();
 
+  // Release all singleton-registered objects before static destruction
+  GetSingletonGlobal()->Done();
   //
 #if defined( _DO_SEH ) && !defined( _DEBUG )
   // reset StructuredExceptionHandler
@@ -448,7 +469,7 @@ void ProcessCommandLine(LPSTR lpCmdLine, SCmdParams *pCmdParams)
 {
   pCmdParams->nScreenSizeX = 1024;
   pCmdParams->nScreenSizeY = 768;
-  pCmdParams->nScreenBPP = 16;
+  pCmdParams->nScreenBPP = 32;
   pCmdParams->nStencilBPP = 0;
   pCmdParams->nFreq = 0;
   pCmdParams->bUseDXT = false;

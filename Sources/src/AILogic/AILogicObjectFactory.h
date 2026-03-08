@@ -9,4 +9,6 @@ public:
   CAILogicObjectFactory();
 };
 
+IObjectFactory * STDCALL GetAILogicObjectFactory();
+
 #endif // __AI_LOGIC_OBJECT_FACTORY__

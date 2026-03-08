@@ -37,13 +37,12 @@ inline unsigned int Random()
 #if !defined(_FINALRELEASE) && !defined(_BETARELEASE)
   if (GetGlobalVar("lograndom", 0) != 0)
   {
-    GetSingleton<IConsoleBuffer>()->WriteASCII(10,
-                                               NStr::Format("r"),
-                                               0, true
-        );
+    if (IConsoleBuffer *pCB = GetSingleton<IConsoleBuffer>())
+      pCB->WriteASCII(10, NStr::Format("r"), 0, true);
   }
 #endif // #if !defined(_FINALRELEASE) && !defined(_BETARELEASE)
 
+  NI_ASSERT(g_pGlobalRandomGen != nullptr, "Random() called before g_pGlobalRandomGen initialized");
   return g_pGlobalRandomGen->Get();
 }
 
@@ -54,10 +53,8 @@ inline unsigned int Random(unsigned int uMax)
 #if !defined(_FINALRELEASE) && !defined(_BETARELEASE)
   if (GetGlobalVar("lograndom", 0) != 0)
   {
-    GetSingleton<IConsoleBuffer>()->WriteASCII(10,
-                                               NStr::Format("r %d = %d", uMax, nResult),
-                                               0, true
-        );
+    if (IConsoleBuffer *pCB = GetSingleton<IConsoleBuffer>())
+      pCB->WriteASCII(10, NStr::Format("r %d = %d", uMax, nResult), 0, true);
   }
 #endif // #if !defined(_FINALRELEASE) && !defined(_BETARELEASE)
 
@@ -71,10 +68,8 @@ inline int Random(int nMin, int nMax)
 #if !defined(_FINALRELEASE) && !defined(_BETARELEASE)
   if (GetGlobalVar("lograndom", 0) != 0)
   {
-    GetSingleton<IConsoleBuffer>()->WriteASCII(10,
-                                               NStr::Format("int r %d, %d = %d", nMin, nMax, nResult),
-                                               0, true
-        );
+    if (IConsoleBuffer *pCB = GetSingleton<IConsoleBuffer>())
+      pCB->WriteASCII(10, NStr::Format("int r %d, %d = %d", nMin, nMax, nResult), 0, true);
   }
 #endif // #if !defined(_FINALRELEASE) && !defined(_BETARELEASE)
 
@@ -88,10 +83,8 @@ inline float Random(float fMin, float fMax)
 #if !defined(_FINALRELEASE) && !defined(_BETARELEASE)
   if (GetGlobalVar("lograndom", 0) != 0)
   {
-    GetSingleton<IConsoleBuffer>()->WriteASCII(10,
-                                               NStr::Format("f r %g, %g = %g", fMin, fMax, fResult),
-                                               0, true
-        );
+    if (IConsoleBuffer *pCB = GetSingleton<IConsoleBuffer>())
+      pCB->WriteASCII(10, NStr::Format("f r %g, %g = %g", fMin, fMax, fResult), 0, true);
   }
 #endif // #if !defined(_FINALRELEASE) && !defined(_BETARELEASE)
 

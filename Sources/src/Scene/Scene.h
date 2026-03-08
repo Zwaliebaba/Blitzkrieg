@@ -22,7 +22,6 @@ enum
   SCENE_VISOBJ_SQUAD = SCENE_BASE_VALUE + 12,
   SCENE_ICON_HP_BAR = SCENE_BASE_VALUE + 13,
   SCENE_VISOBJ_FLASH = SCENE_BASE_VALUE + 14,
-  SCENE_VIDEO_PLAYER = SCENE_BASE_VALUE + 15,
   SCENE_TRANSITION = SCENE_BASE_VALUE + 16,
   SCENE_GAMMA_EFFECT = SCENE_BASE_VALUE + 17,
   SCENE_GAMMA_FADER = SCENE_BASE_VALUE + 18,
@@ -529,50 +528,7 @@ interface ICursor : ISceneObject
   virtual void STDCALL SetSensitivity(float fSensitivity) = 0;
 };
 
-// ************************************************************************************************************************ //
-// **
-// **video player
-// **
-// **
-// **
-// ************************************************************************************************************************ //
-
-interface IVideoPlayer : ISceneObject
-{
-  enum
-  {
-    PLAY_FROM_MEMORY = 0x00000001,
-    PLAY_FROM_HANDLE = 0x00000002,
-    PLAY_WITH_ALPHA = 0x00000004,
-    PLAY_INFINITE = 0x00000008,
-    PLAY_LOOPED = 0x00000010,
-    COPY_ALL = 0x00000020
-  };
-
-  // setup target to render video to. 
-  virtual void STDCALL SetTarget(interface IGFXTexture *pTexture, interface IGFX *pGFX) = 0;
-  // set destination rect to render to
-  virtual void STDCALL SetDstRect(const RECT &rcDstRect, bool bMaintainAspect) = 0;
-  // set loop mode
-  virtual void STDCALL SetLoopMode(bool bLooped) = 0;
-  // playing position
-  virtual int STDCALL GetCurrentFrame() const = 0;
-  virtual bool STDCALL SetCurrentFrame(int nFrame) = 0;
-  // shading effect
-  virtual void SetShadingEffect(int nEffect, bool bStart) = 0;
-  // playing capabilities
-  // function Play returns movie length in milliseconds
-  virtual int STDCALL Play(const char *pszFileName, DWORD dwFlags, interface IGFX *pGFX, interface ISFX *pSFX) = 0;
-  virtual bool STDCALL Stop() = 0;
-  virtual bool STDCALL Pause(bool bPause) = 0;
-  virtual bool STDCALL IsPlaying() const = 0;
-  // movie statistics:
-  virtual int STDCALL GetLength() const = 0;
-  virtual int STDCALL GetNumFrames() const = 0;
-  virtual bool STDCALL GetMovieSize(CVec2 *pSize) const = 0;
-};
-
-// ************************************************************************************************************************ //
+// ************************************************************************************************************************
 // **
 // ** transition screen
 // **

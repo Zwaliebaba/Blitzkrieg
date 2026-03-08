@@ -124,15 +124,8 @@ namespace NMain
   bool STDCALL IsInitialized();
   bool STDCALL CanLaunch();
   void SetupGlobalVarConsts(class CTableAccessor &table);
-  const SModuleDescriptor * STDCALL GetModuleDesc(int nType);
-  int STDCALL LoadAllModules(const char *pszPath);
-  void STDCALL UnloadAllModules();
   //
   bool STDCALL SwitchGame(bool bOn);
-  // modules iterating
-  const SModuleDescriptor *GetFirstModuleDesc();
-  const SModuleDescriptor *GetNextModuleDesc();
-  const std::string GetModuleFileNameByDesc(const SModuleDescriptor *pModule);
   bool SetGameDirectory();
   bool CheckBetaKey();
 };

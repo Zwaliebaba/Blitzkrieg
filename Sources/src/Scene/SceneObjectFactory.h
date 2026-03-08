@@ -11,4 +11,6 @@ public:
   CSceneObjectFactory();
 };
 
+IObjectFactory * STDCALL GetSceneObjectFactory();
+
 #endif // __SCENEOBJECTFACTORY_H__

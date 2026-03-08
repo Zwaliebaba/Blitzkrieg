@@ -116,7 +116,7 @@ inline void ReadPtrData( const unsigned char *pData, void *pDst, int &nPos, cons
 // should copy data from start
 void WritePtrData( unsigned char *pDst, const void *pSrc, int *nPos, int nSize )
 {
-	memcpy( pDst + *nPos, pSrc, nSize );
+	memmove( pDst + *nPos, pSrc, nSize );
 	*nPos += nSize;
 }
 // //////////////////////////////////////////////////////////// 
@@ -307,6 +307,10 @@ void CStructureSaver::FinishChunk()
 	{
 		CChunkLevelReverseIterator it = chunks.rbegin(), it1;
 		it1 = it; ++it1;
+		// Pre-size the buffer before taking a pointer into it.
+		// WriteShortChunk calls data.SetSize() which may reallocate the buffer,
+		// invalidating any pointer obtained from data.GetBuffer() beforehand.
+		data.SetSize( it1->nStart + it1->nLength + 1 + 4 + it->nLength );
 		WriteShortChunk( *it1, it->idChunk, data.GetBuffer() + it->nStart, it->nLength );
 		chunks.pop_back();
 		AlignDataFileSize();

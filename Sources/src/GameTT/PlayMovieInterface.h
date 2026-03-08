@@ -44,14 +44,12 @@ class CPlayMovieInterface : public CInterfaceScreenBase
   // input
   NInput::CCommandRegistrator movieMsgs;
   //
-  CPtr<IVideoPlayer> pPlayer;// video player with current bink video
   std::vector<SMovie> movies;// all movies to play
   int nCurrMovie;// current movie to play
   // next interface
   int nNextInterfaceCommandTypeID;
   std::string szNextInterfaceCommandConfig;
   //
-  bool PlayMovie();
   void StartNextInterface();
   bool STDCALL ProcessMessage(const SGameMessage &msg) override;
   bool OpenCurtains() override { return false; }

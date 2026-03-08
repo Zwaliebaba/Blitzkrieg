@@ -15,5 +15,4 @@ CInputObjectFactory::CInputObjectFactory()
   REGISTER_CLASS(this, INPUT_SLIDER, CInputSlider);
 }
 
-static SModuleDescriptor theModuleDescriptor("Input (DX8)", INPUT_INPUT, 0x0200, &theInputObjectFactory, nullptr);
-const SModuleDescriptor * STDCALL GetModuleDescriptor() { return &theModuleDescriptor; }
+IObjectFactory * STDCALL GetInputObjectFactory() { return &theInputObjectFactory; }

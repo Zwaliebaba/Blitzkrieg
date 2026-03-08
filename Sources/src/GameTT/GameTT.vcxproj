@@ -38,27 +38,27 @@
     <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <PlatformToolset>v145</PlatformToolset>
     <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='FastDebug|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <PlatformToolset>v145</PlatformToolset>
     <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='BetaRelease|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <PlatformToolset>v145</PlatformToolset>
     <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Profiler|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <PlatformToolset>v145</PlatformToolset>
     <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <PlatformToolset>v145</PlatformToolset>
     <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
@@ -166,9 +166,7 @@
       <SubSystem>Windows</SubSystem>
       <OutputFile>.\Release\GameTT.dll</OutputFile>
       <ImportLibrary>.\Release\GameTT.lib</ImportLibrary>
-      <AdditionalDependencies>version.lib;winmm.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <ModuleDefinitionFile>.\GameTT.def</ModuleDefinitionFile>
-    </Link>
+      <AdditionalDependencies>version.lib;winmm.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Profiler|Win32'">
     <ClCompile>
@@ -211,9 +209,7 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <LinkDLL>true</LinkDLL>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Windows</SubSystem>
-      <ModuleDefinitionFile>.\GameTT.def</ModuleDefinitionFile>
-      <OutputFile>.\Profiler\GameTT.dll</OutputFile>
+      <SubSystem>Windows</SubSystem>      <OutputFile>.\Profiler\GameTT.dll</OutputFile>
       <ImportLibrary>.\Profiler\GameTT.lib</ImportLibrary>
       <AdditionalOptions> /FIXED:NO</AdditionalOptions>
       <AdditionalDependencies>vtuneapi.lib;version.lib;winmm.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -262,9 +258,7 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <LinkDLL>true</LinkDLL>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Windows</SubSystem>
-      <ModuleDefinitionFile>.\GameTT.def</ModuleDefinitionFile>
-      <OutputFile>.\BetaRelease\GameTT.dll</OutputFile>
+      <SubSystem>Windows</SubSystem>      <OutputFile>.\BetaRelease\GameTT.dll</OutputFile>
       <ImportLibrary>.\BetaRelease\GameTT.lib</ImportLibrary>
       <AdditionalOptions> /FIXED:NO</AdditionalOptions>
       <AdditionalDependencies>version.lib;winmm.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -314,9 +308,7 @@
       <SubSystem>Windows</SubSystem>
       <OutputFile>.\FastDebug\GameTT.dll</OutputFile>
       <ImportLibrary>.\FastDebug\GameTT.lib</ImportLibrary>
-      <AdditionalDependencies>version.lib;winmm.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <ModuleDefinitionFile>.\GameTT.def</ModuleDefinitionFile>
-    </Link>
+      <AdditionalDependencies>version.lib;winmm.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -367,9 +359,7 @@
       <SubSystem>Windows</SubSystem>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <ImportLibrary>.\Debug\GameTT.lib</ImportLibrary>
-      <AdditionalDependencies>version.lib;winmm.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <ModuleDefinitionFile>.\GameTT.def</ModuleDefinitionFile>
-    </Link>
+      <AdditionalDependencies>version.lib;winmm.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>    </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AckManager.cpp">
@@ -470,14 +460,7 @@
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='FastDebug|Win32'"> /Zm200   /Zm200 </AdditionalOptions>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'"> /Zm300   /Zm300 </AdditionalOptions>
     </ClCompile>
-    <ClCompile Include="GlobalsLoader.cpp">
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'"> /Zm200   /Zm200 </AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Profiler|Win32'"> /Zm200   /Zm200 </AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='BetaRelease|Win32'"> /Zm200   /Zm200 </AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='FastDebug|Win32'"> /Zm200   /Zm200 </AdditionalOptions>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'"> /Zm300   /Zm300 </AdditionalOptions>
-    </ClCompile>
-    <ClCompile Include="iMissionInternal.cpp">
+<ClCompile Include="iMissionInternal.cpp">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'"> /Zm200   /Zm200 </AdditionalOptions>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Profiler|Win32'"> /Zm200   /Zm200 </AdditionalOptions>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='BetaRelease|Win32'"> /Zm200   /Zm200 </AdditionalOptions>
@@ -916,10 +899,6 @@
     <ClInclude Include="WorldClient.h" />
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="GameTT.def">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Profiler|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='BetaRelease|Win32'">true</ExcludedFromBuild>
-    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BugSlay\BugSlay.vcxproj">

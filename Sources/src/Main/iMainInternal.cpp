@@ -616,14 +616,6 @@ void GetFileVersionString(const std::string &szFileName, std::string *pVersion)
   else *pVersion = "\"UNKNOWN\"";
 }
 
-void ReportDesc(const SModuleDescriptor *pDesc, IConsoleBuffer *pCB)
-{
-  const std::string szModuleFileName = NMain::GetModuleFileNameByDesc(pDesc);
-  std::string szVersion;
-  GetFileVersionString(szModuleFileName, &szVersion);
-  pCB->WriteASCII(CONSOLE_STREAM_CHAT, NStr::Format("Module \"%s\"of version %s", pDesc->pszName, szVersion.c_str()), 0xffffffff, true);
-}
-
 void ReportMainModuleVersion(IConsoleBuffer *pCB)
 {
   char buffer[2048];
@@ -644,12 +636,6 @@ void ParseWorldStreamCommands()
     NStr::SplitString(szCommand, szStrings, ' ');
     if (szStrings[0] == "version")
     {
-      if (const SModuleDescriptor *pDesc = NMain::GetFirstModuleDesc())
-      {
-        pCB->WriteASCII(CONSOLE_STREAM_CHAT, "Loaded Modules:", 0xffffffff, true);
-        ReportDesc(pDesc, pCB);
-        while (const SModuleDescriptor *pDesc = NMain::GetNextModuleDesc()) ReportDesc(pDesc, pCB);
-      }
       // main build version
       ReportMainModuleVersion(pCB);
     }
@@ -849,19 +835,13 @@ void CProgressScreen::Init(EProgressType nType)
 void CProgressScreen::Init(const std::string &szMovieName)
 {
   pGFX = GetSingleton<IGFX>();
-  // pGFX->Clear( 0, 0, GFXCLEAR_TARGET | GFXCLEAR_ZBUFFER | GFXCLEAR_STENCIL, 0 );
-  pVP = CreateObject<IVideoPlayer>(SCENE_VIDEO_PLAYER);
-  pVP->Play(szMovieName.c_str(), IVideoPlayer::PLAY_FROM_MEMORY, pGFX, GetSingleton<ISFX>());
-  nNumFrames = pVP->GetNumFrames();
-  CTRect<long> rcScreenRect = pGFX->GetScreenRect();
-  pVP->SetDstRect(rcScreenRect, false);
+  nNumFrames = 0;
   nCurrFrame = 0;
   GetSingleton<ICursor>()->Show(false);
 }
 
 void CProgressScreen::Stop()
 {
-  pVP->Stop();
   GetSingleton<ICursor>()->Show(true);
 }
 
@@ -904,41 +884,34 @@ int CProgressScreen::GetCurrPos() const { return nCurrentStep; }
 
 void CProgressScreen::Draw()
 {
-  if (pVP != nullptr)
+  if (pGFX != nullptr)
   {
-    int nNextFrame = Clamp(static_cast<int>((nCurrentStep / static_cast<float>(nNumSteps)) * nMaxFrame + 1), 1, nMaxFrame);
-    if (nNextFrame > nCurrFrame)
+    pGFX->Clear(0, nullptr, GFXCLEAR_ALL, 0);
+    pGFX->BeginScene();
+    pGFX->SetupDirectTransform();
+    pGFX->SetDepthBufferMode(GFXDB_NONE);
+    if (pGFXText)
     {
-      nCurrFrame = nNextFrame;
-      pVP->SetCurrentFrame(nCurrFrame);
-      pGFX->Clear(0, nullptr, GFXCLEAR_ALL, 0);
-      pGFX->BeginScene();
-      pGFX->SetupDirectTransform();
-      pGFX->SetDepthBufferMode(GFXDB_NONE);
-      pVP->Draw(pGFX);
-      if (pGFXText)
-      {
-        CTRect<float> currRect = wndRect;
-        CTRect<long> rcScreenRect = pGFX->GetScreenRect();
-        currRect.x1 = currRect.x1 * (rcScreenRect.x2 - rcScreenRect.x1) + rcScreenRect.x1;
-        currRect.x2 = currRect.x2 * (rcScreenRect.x2 - rcScreenRect.x1) + rcScreenRect.x1;
-        currRect.y1 = currRect.y1 * (rcScreenRect.y2 - rcScreenRect.y1) + rcScreenRect.y1;
-        currRect.y2 = currRect.y2 * (rcScreenRect.y2 - rcScreenRect.y1) + rcScreenRect.y1;
-        pGFX->SetShadingEffect(3);
-        pGFXText->SetColor(0xff000000);
-        currRect.x1 += 2;
-        currRect.x2 += 2;
-        pGFX->DrawText(pGFXText, currRect, 2, nTextAlign);
-        pGFXText->SetColor(dwTextColor);
-        currRect.x1 -= 2;
-        currRect.x2 -= 2;
-        pGFX->DrawText(pGFXText, currRect, 0, nTextAlign);
-      }
-      pGFX->SetDepthBufferMode(GFXDB_USE_Z);
-      pGFX->RestoreTransform();
-      pGFX->EndScene();
-      pGFX->Flip();
+      CTRect<float> currRect = wndRect;
+      CTRect<long> rcScreenRect = pGFX->GetScreenRect();
+      currRect.x1 = currRect.x1 * (rcScreenRect.x2 - rcScreenRect.x1) + rcScreenRect.x1;
+      currRect.x2 = currRect.x2 * (rcScreenRect.x2 - rcScreenRect.x1) + rcScreenRect.x1;
+      currRect.y1 = currRect.y1 * (rcScreenRect.y2 - rcScreenRect.y1) + rcScreenRect.y1;
+      currRect.y2 = currRect.y2 * (rcScreenRect.y2 - rcScreenRect.y1) + rcScreenRect.y1;
+      pGFX->SetShadingEffect(3);
+      pGFXText->SetColor(0xff000000);
+      currRect.x1 += 2;
+      currRect.x2 += 2;
+      pGFX->DrawText(pGFXText, currRect, 2, nTextAlign);
+      pGFXText->SetColor(dwTextColor);
+      currRect.x1 -= 2;
+      currRect.x2 -= 2;
+      pGFX->DrawText(pGFXText, currRect, 0, nTextAlign);
     }
+    pGFX->SetDepthBufferMode(GFXDB_USE_Z);
+    pGFX->RestoreTransform();
+    pGFX->EndScene();
+    pGFX->Flip();
   }
 }
 

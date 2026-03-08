@@ -400,7 +400,7 @@ class CSaverAccessor
   }
 
 public:
-  CSaverAccessor() {}
+  CSaverAccessor() : pSS(nullptr) {}
 
   CSaverAccessor(const CSaverAccessor &accessor)
     : pSS(accessor.pSS) {}

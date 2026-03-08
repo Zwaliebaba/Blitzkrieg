@@ -22,7 +22,7 @@ BASIC_REGISTER_CLASS(CUISquadElement);
 void CUIUnitObserver::AddIcon(const int nType, ISceneIcon *pIcon)
 {
   RemoveIcon(nType);
-  icons.push_back(SIconDesc(nType, pIcon));
+  icons.push_back(SSquadIconDesc(nType, pIcon));
 }
 
 void CUIUnitObserver::RemoveIcon(const int nType)
@@ -145,7 +145,7 @@ void CUISquadElement::Visit(interface ISceneVisitor *pVisitor)
   int iconHeight = (rcWindow.Height() - 4) / ICONS_IN_COLUMN;
   for (CPassangersList::const_iterator it = passangers.begin(); it != passangers.end(); ++it)
   {
-    const std::list<SIconDesc> &icons = (*it)->GetIcons();
+    const std::list<SSquadIconDesc> &icons = (*it)->GetIcons();
     int i = 0;
     for (auto icon = icons.begin(); icon != icons.end(); ++icon)
     {

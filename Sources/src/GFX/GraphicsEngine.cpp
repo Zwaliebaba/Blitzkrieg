@@ -252,14 +252,19 @@ EGFXVideoCard CGraphicsEngine::GetVideoCard()
 
 bool CGraphicsEngine::SetMode(int nSizeX, int nSizeY, int nBpp, int nStencilBPP, EGFXFullscreen eFullscreen, int nFreq)
 {
+  OutputDebugString("*** [DIAG] SetMode: getting adapter display mode...\n");
   if ((pD3D != 0) && (pD3DDevice == 0))
   {
     HRESULT dxrval = pD3D->GetAdapterDisplayMode(adapter.nIndex, &desktopmode);
     if (FAILED(dxrval)) Zero(desktopmode);
   }
-  if (!FillPresentationParams(nSizeX, nSizeY, nBpp, nStencilBPP, eFullscreen, nFreq)) return false;
+  OutputDebugString("*** [DIAG] SetMode: calling FillPresentationParams...\n");
+  if (!FillPresentationParams(nSizeX, nSizeY, nBpp, nStencilBPP, eFullscreen, nFreq)) { OutputDebugString("*** [DIAG] SetMode: FillPresentationParams FAILED\n"); return false; }
+  OutputDebugString(NStr::Format("*** [DIAG] SetMode: FillPresentationParams OK (backbuf=%dx%d, fmt=%d, windowed=%d, refresh=%d)\n", pp.BackBufferWidth, pp.BackBufferHeight, pp.BackBufferFormat, pp.Windowed, pp.FullScreen_RefreshRateInHz));
   SetRect(&rcScreen, 0, 0, displaymode.Width, displaymode.Height);
+  OutputDebugString("*** [DIAG] SetMode: calling ResetDevice...\n");
   ResetDevice();
+  OutputDebugString("*** [DIAG] SetMode: ResetDevice done.\n");
   return true;
 }
 
@@ -617,14 +622,17 @@ static const SNameFormat formatsDXT[] =
 
 bool CGraphicsEngine::ResetDevice()
 {
+  OutputDebugString("*** [DIAG] ResetDevice: entering...\n");
   pScreenColor = 0;
   pScreenDepth = 0;
   //
   if ((pD3D != 0) && (pD3DDevice == 0))
   {
     // create new device
+    OutputDebugString(NStr::Format("*** [DIAG] ResetDevice: calling CreateDevice (adapter=%d, devtype=%d, behavior=0x%X)...\n", adapter.nIndex, adapter.capsHWDevice.DeviceType, adapter.dwBehavior));
     HRESULT dxrval = pD3D->CreateDevice(adapter.nIndex, adapter.capsHWDevice.DeviceType, hWindow,
                                         adapter.dwBehavior, &pp, pD3DDevice.GetAddr());
+    OutputDebugString(NStr::Format("*** [DIAG] ResetDevice: CreateDevice returned 0x%08X\n", dxrval));
     NI_ASSERTHR_TF(dxrval, "Can't create D3D device", return false);
     // 
     {
@@ -676,8 +684,10 @@ bool CGraphicsEngine::ResetDevice()
   else
   {
     // reset old device
+    OutputDebugString("*** [DIAG] ResetDevice: resetting existing device...\n");
     DestroyAllObjects();
     HRESULT dxrval = pD3DDevice->Reset(&pp);
+    OutputDebugString(NStr::Format("*** [DIAG] ResetDevice: Reset returned 0x%08X\n", dxrval));
     if (FAILED(dxrval)) return false;
     // NI_ASSERTHR_TF( dxrval, "Can't reset D3D device", return false );
     // initial setup

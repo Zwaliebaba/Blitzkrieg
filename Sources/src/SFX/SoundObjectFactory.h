@@ -9,4 +9,6 @@ public:
   CSoundObjectFactory();
 };
 
+IObjectFactory * STDCALL GetSFXObjectFactory();
+
 #endif // __SOUNDOBJECTFACTORY_H__

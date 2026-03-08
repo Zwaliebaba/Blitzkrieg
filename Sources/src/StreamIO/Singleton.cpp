@@ -1,35 +1,23 @@
 #include "StdAfx.h"
 
-#ifndef __REDUCED_SINGLETON__
 #include "OptionSystemInternal.h"
 #include "GlobalVars.h"
 #include "ConsoleBuffer.h"
 #include "RandomGenInternal.h"
-#endif // __REDUCED_SINGLETON__
 
 // temp buffer
 static std::vector<BYTE> tempbuffers[10];
 
-struct STempBufferAutomatic
-{
-  STempBufferAutomatic()
-  {
-    for (int i = 0; i < 10; ++i) tempbuffers[i].resize(32);
-  }
-};
-
-static STempBufferAutomatic tempinitautomagic;
-
 void * STDCALL GetTempRawBuffer_Hook(int nSize, int nIndex)
 {
+  static bool initialized = []() {
+    for (int i = 0; i < 10; ++i) tempbuffers[i].resize(32);
+    return true;
+  }();
   NI_ASSERT_SLOW_TF(nIndex < 10, "Can use only 10 temp buffers", return 0);
   tempbuffers[nIndex].reserve(nSize);
   return &(tempbuffers[nIndex][0]);
 }
-#ifdef __REDUCED_SINGLETON__
-typedef void * (STDCALL *GETTEMPRAWBUFFER_HOOK)(int nAmount, int nBufferIndex);
-GETTEMPRAWBUFFER_HOOK g_pfnGlobalGetTempRawBuffer = GetTempRawBuffer_Hook;
-#endif // __REDUCED_SINGLETON__
 
 class CSingleton : public ISingleton
 {
@@ -38,6 +26,7 @@ class CSingleton : public ISingleton
 
 public:
   CSingleton();
+  ~CSingleton();
   // register singleton object for global access
   bool STDCALL Register(int nID, IRefCount *pObj) override;
   // unregister singleton object by ID
@@ -54,7 +43,6 @@ public:
 
 CSingleton::CSingleton()
 {
-#ifndef __REDUCED_SINGLETON__
   // create and register options system
   Register(IOptionSystem::tidTypeID, new COptionSystem());
   // create and register global vars system
@@ -66,15 +54,20 @@ CSingleton::CSingleton()
     auto pRandomGen = new CRandomGenerator();
     Register(IRandomGen::tidTypeID, pRandomGen);
   }
-#endif // __REDUCED_SINGLETON__
 }
 
-CSingleton theSingleton;
-ISingleton * STDCALL GetSingletonGlobal_Hook() { return &theSingleton; }
+CSingleton::~CSingleton()
+{
+  Done();
+}
 
-#ifdef __REDUCED_SINGLETON__
-ISingleton *g_pGlobalSingleton = &theSingleton;
-#endif // __REDUCED_SINGLETON__
+// Construct On First Use (Meyers' Singleton) — guarantees theSingleton is fully
+// constructed before any code accesses it, regardless of static init order.
+ISingleton * STDCALL GetSingletonGlobal_Hook()
+{
+  static CSingleton theSingleton;
+  return &theSingleton;
+}
 
 bool CSingleton::Register(int nID, IRefCount *pObj)
 {

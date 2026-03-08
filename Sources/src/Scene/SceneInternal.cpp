@@ -12,15 +12,11 @@
 
 HINSTANCE hDLLInstance = nullptr;
 
-BOOL WINAPI DllMain(
-    HINSTANCE hinstDLL,// handle to DLL module
-    DWORD fdwReason,// reason for calling function
-    LPVOID lpvReserved// reserved
-    )
+struct SSceneInstanceInit
 {
-  if (fdwReason == DLL_PROCESS_ATTACH) hDLLInstance = hinstDLL;
-  return true;
-}
+  SSceneInstanceInit() { hDLLInstance = GetModuleHandle(nullptr); }
+};
+static SSceneInstanceInit sceneInstanceInit;
 
 // ************************************************************************************************************************ //
 // **

@@ -58,7 +58,7 @@
     <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <PlatformToolset>v145</PlatformToolset>
     <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
@@ -164,7 +164,8 @@ call s:\soft\copydll.bat $(SolutionDir) Release</Command>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OutputFile>.\Release\Game.dll</OutputFile>
-      <AdditionalDependencies>version.lib;winmm.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d8.lib;dxguid.lib;dinput8.lib;ws2_32.lib;version.lib;winmm.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)DX9\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -189,8 +190,8 @@ call s:\soft\copydll.bat $(SolutionDir) Release</Command>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
     </ClCompile>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>xcopy /Y /D "$(OutDir)*.dll" "$(SolutionDir)..\..\Versions\Current\*"
+xcopy /Y /D "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)..\..\Versions\Current\*"</Command>
     </PostBuildEvent>
     <Midl>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -212,7 +213,8 @@ call s:\soft\copydll.bat $(SolutionDir) Release</Command>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalDependencies>version.lib;winmm.lib;odbc32.lib;odbccp32.lib;comsupp.lib;Shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d8.lib;dxguid.lib;dinput8.lib;ws2_32.lib;version.lib;winmm.lib;odbc32.lib;odbccp32.lib;comsupp.lib;Shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)DX9\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='FastDebug|Win32'">
@@ -258,7 +260,8 @@ call s:\soft\copydll.bat $(SolutionDir) FastDebug</Command>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OutputFile>.\FastDebug\Game.exe</OutputFile>
-      <AdditionalDependencies>d3dx8.lib;version.lib;winmm.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d8.lib;dxguid.lib;dinput8.lib;ws2_32.lib;d3dx8.lib;version.lib;winmm.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)DX9\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Profiler|Win32'">
@@ -305,7 +308,8 @@ call s:\soft\copydll.bat $(SolutionDir) Profiler</Command>
       <SubSystem>Windows</SubSystem>
       <OutputFile>.\Profiler\Game.exe</OutputFile>
       <AdditionalOptions> /FIXED:NO</AdditionalOptions>
-      <AdditionalDependencies>vtuneapi.lib;d3dx8.lib;version.lib;winmm.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d8.lib;dxguid.lib;dinput8.lib;ws2_32.lib;vtuneapi.lib;d3dx8.lib;version.lib;winmm.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)DX9\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='BetaRelease|Win32'">
@@ -353,7 +357,8 @@ call s:\soft\copydll.bat $(SolutionDir) BetaRelease</Command>
       <SubSystem>Windows</SubSystem>
       <OutputFile>.\BetaRelease\Game.exe</OutputFile>
       <AdditionalOptions> /FIXED:NO</AdditionalOptions>
-      <AdditionalDependencies>version.lib;winmm.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d8.lib;dxguid.lib;dinput8.lib;ws2_32.lib;version.lib;winmm.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)DX9\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -439,6 +444,42 @@ call s:\soft\copydll.bat $(SolutionDir) BetaRelease</Command>
     </ProjectReference>
     <ProjectReference Include="..\StreamIO\StreamIO.vcxproj">
       <Project>{6ba635ec-36bc-4d5d-8995-78ac0a0e9684}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\AILogic\AILogic.vcxproj">
+      <Project>{590BAE45-DF7C-4DFE-9F28-E378758A0CE9}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\Anim\Anim.vcxproj">
+      <Project>{FDFE5022-C047-4DFC-AB06-6219E88540DC}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\Common.vcxproj">
+      <Project>{CDA44ACE-C3DA-49AE-8C25-B771B2C40EC0}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\GFX\GFX.vcxproj">
+      <Project>{131D326E-EA83-4CAA-B33D-EE67A458FC38}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\Image\Image.vcxproj">
+      <Project>{E1CD1BE1-0AE2-4F06-83AB-31D604F652CE}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\Input\Input.vcxproj">
+      <Project>{1F98A211-FA00-4223-AEC0-B857C3C0A20D}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\Scene\Scene.vcxproj">
+      <Project>{1117FABF-A2D6-4D58-B9B2-47631629D8A4}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\SFX\SFX.vcxproj">
+      <Project>{CAB31E32-D43E-4A0C-9EA1-4E13FE3E105B}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\UI\UI.vcxproj">
+      <Project>{FC094CB3-9FED-444C-9E08-E66FF6948A4C}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>

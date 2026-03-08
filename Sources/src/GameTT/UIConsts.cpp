@@ -47,9 +47,6 @@ const wchar_t *CUIConsts::GetGamesListTitle(const enum EMultiplayerConnectionTyp
     case EMCT_INTERNET:
       pText = pTM->GetDialog("Textes\\UI\\Intermission\\Multiplayer\\GamesList\\caption_internet");
       break;
-    case EMCT_GAMESPY:
-      pText = pTM->GetDialog("Textes\\UI\\Intermission\\Multiplayer\\GamesList\\caption_gamespy");
-      break;
   }
 
   if (pText) return pText->GetString();

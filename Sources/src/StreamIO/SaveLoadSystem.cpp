@@ -15,8 +15,13 @@
 #include "DataBase.h"
 #include "IniFile.h"
 
-CSaveLoadSystem theSaveLoadSystem;
-ISaveLoadSystem * STDCALL GetSLS_Hook() { return &theSaveLoadSystem; }
+// Construct On First Use (Meyers' Singleton) — guarantees theSaveLoadSystem is fully
+// constructed before any code accesses it, regardless of static init order.
+ISaveLoadSystem * STDCALL GetSLS_Hook()
+{
+  static CSaveLoadSystem theSaveLoadSystem;
+  return &theSaveLoadSystem;
+}
 
 CSaveLoadSystem::CSaveLoadSystem() {}
 CSaveLoadSystem::~CSaveLoadSystem() { if (pFactory) delete pFactory; }

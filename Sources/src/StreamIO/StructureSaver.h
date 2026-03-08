@@ -117,7 +117,11 @@ interface ISaveLoadSystem
 
 // functions for working with the save/load system and the global factory
 extern ISaveLoadSystem *g_pGlobalSaveLoadSystem;
-inline ISaveLoadSystem *GetSLS() { return g_pGlobalSaveLoadSystem; }
+inline ISaveLoadSystem *GetSLS()
+{
+  NI_ASSERT(g_pGlobalSaveLoadSystem != nullptr, "GetSLS() called before globals initialized");
+  return g_pGlobalSaveLoadSystem;
+}
 // save/load system
 inline IStructureSaver *CreateStructureSaver(IDataStream *pStream, IStructureSaver::EAccessMode eAccessMode,
                                              interface IProgressHook *pLoadHook = nullptr) { return GetSLS()->CreateStructureSaver(pStream, eAccessMode, pLoadHook); }

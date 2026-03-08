@@ -3,7 +3,6 @@
 #include "PlayMovieInterface.h"
 
 #include "iMission.h"
-#include "../Misc/HPTimer.h"
 
 // ************************************************************************************************************************ //
 // **
@@ -125,7 +124,6 @@ bool CPlayMovieInterface::Init()
 void CPlayMovieInterface::Done()
 {
   CInterfaceScreenBase::Done();
-  pScene->RemoveSceneObject(pPlayer);
   GetSingleton<ICursor>()->Show(true);
 }
 
@@ -134,14 +132,9 @@ bool CPlayMovieInterface::ProcessMessage(const SGameMessage &msg)
   switch (msg.nEventID)
   {
     case MC_MOVIE_SKIP_SEQUENCE:
-      if (pPlayer && ((nCurrMovie >= 0) && (nCurrMovie < movies.size())) && movies[nCurrMovie].bCanInterupt)
-      {
-        pPlayer->Stop();
-        nCurrMovie = 1000000000;
-      }
+      nCurrMovie = 1000000000;
       break;
     case MC_MOVIE_SKIP_MOVIE:
-      if (pPlayer && ((nCurrMovie >= 0) && (nCurrMovie < movies.size())) && movies[nCurrMovie].bCanInterupt) pPlayer->Stop();
       break;
     default:
       AddMessage(msg);
@@ -153,42 +146,13 @@ bool CPlayMovieInterface::ProcessMessage(const SGameMessage &msg)
 void CPlayMovieInterface::Step(bool bAppActive)
 {
   CInterfaceScreenBase::Step(bAppActive);
-  if (pPlayer)
-  {
-    if (!pPlayer->IsPlaying())
-    {
-      pScene->RemoveSceneObject(pPlayer);
-      ++nCurrMovie;
-      if (PlayMovie() == false) StartNextInterface();// exit this screen...
-    }
-  }
-  else if (PlayMovie() == false) StartNextInterface();// exit this screen...
+  StartNextInterface();
 }
 
 void CPlayMovieInterface::StartNextInterface()
 {
   if (nNextInterfaceCommandTypeID != 0) GetSingleton<IMainLoop>()->Command(nNextInterfaceCommandTypeID, szNextInterfaceCommandConfig.c_str());
   else GetSingleton<IMainLoop>()->Command(MAIN_COMMAND_EXIT_GAME, nullptr);
-}
-
-bool CPlayMovieInterface::PlayMovie()
-{
-  if ((nCurrMovie < 0) || (nCurrMovie >= movies.size())) return false;
-  //
-  pPlayer = CreateObject<IVideoPlayer>(SCENE_VIDEO_PLAYER);
-  const CTRect<long> rcScreen = pGFX->GetScreenRect();
-  pPlayer->SetDstRect(rcScreen, true);
-  const double fClockRate = NHPTimer::GetClockRate();
-  const std::string szMovieName = movies[nCurrMovie].szFileName + (fClockRate > 900000000 ? ".bik" : "_l.bik");
-  int nMovieLength = pPlayer->Play(szMovieName.c_str(), 0, pGFX, GetSingleton<ISFX>());
-  if (nMovieLength == 0) nMovieLength = pPlayer->Play((movies[nCurrMovie].szFileName + ".bik").c_str(), 0, pGFX, GetSingleton<ISFX>());
-  if (nMovieLength == 0)
-  {
-    pPlayer = nullptr;
-    return false;
-  }
-  pScene->AddSceneObject(pPlayer);
-  return true;
 }
 
 void CPlayMovieInterface::OnGetFocus(bool bFocus)
@@ -204,6 +168,5 @@ int CPlayMovieInterface::operator&(IStructureSaver &ss)
   saver.AddTypedSuper(1, static_cast<CInterfaceScreenBase *>(this));
   saver.Add(2, &movies);
   saver.Add(3, &nCurrMovie);
-  saver.Add(4, &pPlayer);
   return 0;
 }

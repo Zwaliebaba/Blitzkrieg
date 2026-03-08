@@ -2,17 +2,12 @@
 #define __UIVIDEO_BUTTON_H__
 
 #include "UIBasic.h"
-#include "../Scene/Scene.h"
 
 
 class CUIVideoButton : public CSimpleWindow
 {
   DECLARE_SERIALIZE;
   std::string szBinkFile;
-  CPtr<IVideoPlayer> pVideoPlayer;
-
-  void InitVideoPlayer();
-  void Play();
 
 public:
   CUIVideoButton() {}

@@ -38,27 +38,27 @@
     <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <PlatformToolset>v145</PlatformToolset>
     <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Profiler|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <PlatformToolset>v145</PlatformToolset>
     <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='BetaRelease|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <PlatformToolset>v145</PlatformToolset>
     <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='FastDebug|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <PlatformToolset>v145</PlatformToolset>
     <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <PlatformToolset>v145</PlatformToolset>
     <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
@@ -165,9 +165,7 @@
       <SubSystem>Windows</SubSystem>
       <OutputFile>.\Release\SFX.dll</OutputFile>
       <ImportLibrary>.\Release\SFX.lib</ImportLibrary>
-      <AdditionalDependencies>fmodvc.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <ModuleDefinitionFile>.\Sound.def</ModuleDefinitionFile>
-    </Link>
+      <AdditionalDependencies>fmodvc.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='FastDebug|Win32'">
     <ClCompile>
@@ -212,9 +210,7 @@
       <SubSystem>Windows</SubSystem>
       <OutputFile>.\FastDebug\SFX.dll</OutputFile>
       <ImportLibrary>.\FastDebug\SFX.lib</ImportLibrary>
-      <AdditionalDependencies>fmodvc.lib;odbc32.lib;odbccp32.lib;comsupp.lib;Winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <ModuleDefinitionFile>.\Sound.def</ModuleDefinitionFile>
-    </Link>
+      <AdditionalDependencies>fmodvc.lib;odbc32.lib;odbccp32.lib;comsupp.lib;Winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='BetaRelease|Win32'">
     <ClCompile>
@@ -258,9 +254,7 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <LinkDLL>true</LinkDLL>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Windows</SubSystem>
-      <ModuleDefinitionFile>.\Sound.def</ModuleDefinitionFile>
-      <OutputFile>.\BetaRelease\SFX.dll</OutputFile>
+      <SubSystem>Windows</SubSystem>      <OutputFile>.\BetaRelease\SFX.dll</OutputFile>
       <ImportLibrary>.\BetaRelease\SFX.lib</ImportLibrary>
       <AdditionalOptions> /FIXED:NO</AdditionalOptions>
       <AdditionalDependencies>fmodvc.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -306,9 +300,7 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <LinkDLL>true</LinkDLL>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Windows</SubSystem>
-      <ModuleDefinitionFile>.\Sound.def</ModuleDefinitionFile>
-      <OutputFile>.\Profiler\SFX.dll</OutputFile>
+      <SubSystem>Windows</SubSystem>      <OutputFile>.\Profiler\SFX.dll</OutputFile>
       <ImportLibrary>.\Profiler\SFX.lib</ImportLibrary>
       <AdditionalOptions> /FIXED:NO</AdditionalOptions>
       <AdditionalDependencies>fmodvc.lib;odbc32.lib;odbccp32.lib;comsupp.lib;Winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -361,13 +353,10 @@
       <SubSystem>Windows</SubSystem>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <ImportLibrary>.\Debug\SFX.lib</ImportLibrary>
-      <AdditionalDependencies>odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <ModuleDefinitionFile>.\Sound.def</ModuleDefinitionFile>
-    </Link>
+      <AdditionalDependencies>odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>    </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="GlobalsLoader.cpp" />
-    <ClCompile Include="SampleSounds.cpp" />
+<ClCompile Include="SampleSounds.cpp" />
     <ClCompile Include="SoundEngine.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="SoundObjectFactory.cpp" />
@@ -400,10 +389,6 @@
     <ClInclude Include="StreamingSound.h" />
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="Sound.def">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='BetaRelease|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Profiler|Win32'">true</ExcludedFromBuild>
-    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BugSlay\BugSlay.vcxproj">

@@ -126,7 +126,6 @@ class CProgressScreen : public IMovieProgressHook
   int nCurrFrame;// current frame
   int nMaxFrame;// max frame to play
   CPtr<IGFX> pGFX;// where do we draw?
-  CPtr<IVideoPlayer> pVP;// what we draw with
   CPtr<IGFXText> pGFXText;// text to draw on top of the cartoon
   DWORD dwTextColor;// text color
   CTRect<float> wndRect;

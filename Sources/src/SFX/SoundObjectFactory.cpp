@@ -19,5 +19,4 @@ CSoundObjectFactory::CSoundObjectFactory()
   REGISTER_CLASS(this, SFX_PLAY_LIST, CPlayList);
 }
 
-static SModuleDescriptor theModuleDescriptor("Sound (FMOD)", SFX_SFX, 0x0100, &theSoundObjectFactory, nullptr);
-const SModuleDescriptor * STDCALL GetModuleDescriptor() { return &theModuleDescriptor; }
+IObjectFactory * STDCALL GetSFXObjectFactory() { return &theSoundObjectFactory; }

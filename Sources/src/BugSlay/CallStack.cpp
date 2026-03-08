@@ -158,6 +158,16 @@ EBSUReport STDCALL NBugSlayer::ReportAssert(const char *pszCondition, const char
   // first, check for ignore
   if (IsIgnore(pszFileName, nLineNumber)) return BSU_IGNORE;
   //
+
+  // trace debug info
+  OutputDebugString("*********************************************************************************************************\n");
+  OutputDebugString(pszCondition);
+  OutputDebugString("\n");
+  OutputDebugString(pszDescription);
+  OutputDebugString("\n");
+
+  __debugbreak();
+
   CCallStackEntryList entries;
   UpdateCallStackInformation(entries);
   // pop 3 entries - this function, UpdateCallStackInformation and RaiseException
@@ -172,12 +182,6 @@ EBSUReport STDCALL NBugSlayer::ReportAssert(const char *pszCondition, const char
     entries.front().szFileName = pszFileName;
     entries.front().nLineNumber = nLineNumber;
   }
-  // trace debug info
-  OutputDebugString("*********************************************************************************************************\n");
-  OutputDebugString(pszCondition);
-  OutputDebugString("\n");
-  OutputDebugString(pszDescription);
-  OutputDebugString("\n");
   OutputDebugString("CallStack entries dump:\n");
   for (CCallStackEntryList::const_iterator pos = entries.begin(); pos != entries.end(); ++pos)
   {

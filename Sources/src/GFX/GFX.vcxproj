@@ -38,27 +38,27 @@
     <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <PlatformToolset>v145</PlatformToolset>
     <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='BetaRelease|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <PlatformToolset>v145</PlatformToolset>
     <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <PlatformToolset>v145</PlatformToolset>
     <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='FastDebug|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <PlatformToolset>v145</PlatformToolset>
     <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Profiler|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <PlatformToolset>v145</PlatformToolset>
     <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
@@ -162,9 +162,7 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <LinkDLL>true</LinkDLL>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Windows</SubSystem>
-      <ModuleDefinitionFile>.\GFX.def</ModuleDefinitionFile>
-      <OutputFile>.\Profiler\GFX.dll</OutputFile>
+      <SubSystem>Windows</SubSystem>      <OutputFile>.\Profiler\GFX.dll</OutputFile>
       <ImportLibrary>.\Profiler\GFX.lib</ImportLibrary>
       <AdditionalOptions> /FIXED:NO</AdditionalOptions>
       <AdditionalDependencies>d3d8.lib;dxguid.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -213,9 +211,7 @@
       <SubSystem>Windows</SubSystem>
       <OutputFile>.\FastDebug\GFX.dll</OutputFile>
       <ImportLibrary>.\FastDebug\GFX.lib</ImportLibrary>
-      <AdditionalDependencies>d3d8.lib;dxguid.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <ModuleDefinitionFile>.\GFX.def</ModuleDefinitionFile>
-    </Link>
+      <AdditionalDependencies>d3d8.lib;dxguid.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -265,9 +261,7 @@
       <SubSystem>Windows</SubSystem>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <ImportLibrary>.\Debug\GFX.lib</ImportLibrary>
-      <AdditionalDependencies>dxguid.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <ModuleDefinitionFile>.\GFX.def</ModuleDefinitionFile>
-    </Link>
+      <AdditionalDependencies>dxguid.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='BetaRelease|Win32'">
     <ClCompile>
@@ -311,9 +305,7 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <LinkDLL>true</LinkDLL>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Windows</SubSystem>
-      <ModuleDefinitionFile>.\GFX.def</ModuleDefinitionFile>
-      <OutputFile>.\BetaRelease\GFX.dll</OutputFile>
+      <SubSystem>Windows</SubSystem>      <OutputFile>.\BetaRelease\GFX.dll</OutputFile>
       <ImportLibrary>.\BetaRelease\GFX.lib</ImportLibrary>
       <AdditionalOptions> /FIXED:NO</AdditionalOptions>
       <AdditionalDependencies>d3d8.lib;dxguid.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -362,9 +354,7 @@
       <SubSystem>Windows</SubSystem>
       <OutputFile>.\Release\GFX.dll</OutputFile>
       <ImportLibrary>.\Release\GFX.lib</ImportLibrary>
-      <AdditionalDependencies>d3d8.lib;dxguid.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <ModuleDefinitionFile>.\GFX.def</ModuleDefinitionFile>
-    </Link>
+      <AdditionalDependencies>d3d8.lib;dxguid.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>    </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Clipping.cpp">
@@ -391,10 +381,7 @@
     <ClCompile Include="GFXTextVisitors.cpp">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'"> /Zm150   /Zm150 </AdditionalOptions>
     </ClCompile>
-    <ClCompile Include="GlobalsLoader.cpp">
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'"> /Zm150   /Zm150 </AdditionalOptions>
-    </ClCompile>
-    <ClCompile Include="GraphicsEngine.cpp">
+<ClCompile Include="GraphicsEngine.cpp">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'"> /Zm150   /Zm150 </AdditionalOptions>
     </ClCompile>
     <ClCompile Include="RangeAllocs.cpp">
@@ -453,10 +440,6 @@
     <ClInclude Include="VideoCheck.h" />
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="GFX.def">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Profiler|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='BetaRelease|Win32'">true</ExcludedFromBuild>
-    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BugSlay\BugSlay.vcxproj">

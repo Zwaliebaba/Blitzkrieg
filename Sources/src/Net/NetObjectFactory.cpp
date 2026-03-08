@@ -19,5 +19,4 @@ CNetObjectFactory::CNetObjectFactory()
 // **
 // ************************************************************************************************************************ //
 
-static SModuleDescriptor theModuleDescriptor("Network", NET_NET, 0x0100, &theNetObjectFactory, nullptr);
-const SModuleDescriptor * STDCALL GetModuleDescriptor() { return &theModuleDescriptor; }
+IObjectFactory * STDCALL GetNetObjectFactory() { return &theNetObjectFactory; }

@@ -69,5 +69,4 @@ CUIObjectFactory::CUIObjectFactory()
   REGISTER_CLASS(this, UI_COLOR_TEXT_ENTRY, CUIColorTextScroll::CColorTextEntry);
 }
 
-static SModuleDescriptor theModuleDescriptor("UI", UI_BASE_VALUE, 0x0100, &theUIObjectFactory, nullptr);
-const SModuleDescriptor * STDCALL GetModuleDescriptor() { return &theModuleDescriptor; }
+IObjectFactory * STDCALL GetUIObjectFactory() { return &theUIObjectFactory; }

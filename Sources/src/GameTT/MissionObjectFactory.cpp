@@ -213,15 +213,3 @@ CMissionObjectFactory::CMissionObjectFactory()
   REGISTER_CLASS(this, MISSION_SCORES_STATE_GAME, CInterfaceMission::CMultiplayerScoresSmall::CGameScoresState);
   REGISTER_CLASS(this, MISSION_SCORES_STATE_REPLAY, CInterfaceMission::CMultiplayerScoresSmall::CReplayScoresState)
 }
-
-// ************************************************************************************************************************ //
-// **
-// ** module descriptor and additional procedures
-// **
-// **
-// **
-// **
-// ************************************************************************************************************************ //
-
-static SModuleDescriptor theModuleDescriptor("Main game logic", MISSION_BASE_VALUE, 0x0100, &theMissionObjectFactory, nullptr);
-const SModuleDescriptor * STDCALL GetModuleDescriptor() { return &theModuleDescriptor; }

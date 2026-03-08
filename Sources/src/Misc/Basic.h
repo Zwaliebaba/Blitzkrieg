@@ -146,7 +146,7 @@ interface IObjectLoader
 
 // ************************************************************************************************************************ //
 // **
-// ** module descriptor
+// ** module checker interface
 // **
 // **
 // **
@@ -159,23 +159,6 @@ interface IModuleChecker
   // set module functionality limits
   virtual void STDCALL SetModuleFunctionalityLimits() const = 0;
 };
-
-struct SModuleDescriptor
-{
-  // main module information
-  const char *pszName;// module name
-  int nType;// type (gfx, input, sound, etc. - see constants)
-  int nVersion;// version (0xXXYY, where XX - primary version, YY - subversion)
-  // factory and loader
-  IObjectFactory *pFactory;// object factory (for all module's objects creating (can't be NULL))
-  // checker
-  IModuleChecker *pChecker;// module checker...
-  //
-  SModuleDescriptor(const char *_pszName, int _nType, int _nVersion, IObjectFactory *_pFactory, IModuleChecker *_pChecker)
-    : pszName(_pszName), nType(_nType), nVersion(_nVersion), pFactory(_pFactory), pChecker(_pChecker) {}
-};
-
-using GETMODULEDESCRIPTOR = const SModuleDescriptor* (STDCALL *)();
 
 // ************************************************************************************************************************ //
 // **

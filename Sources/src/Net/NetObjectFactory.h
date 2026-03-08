@@ -11,4 +11,6 @@ public:
   CNetObjectFactory();
 };
 
+IObjectFactory * STDCALL GetNetObjectFactory();
+
 #endif // __NETOBJECTFACTORY_H__

@@ -27,5 +27,4 @@ CAnimObjectFactory::CAnimObjectFactory()
   REGISTER_CLASS(this, ANIM_EFFECTOR_LEVELING, CMatrixEffectorLeveling);
 }
 
-static SModuleDescriptor theModuleDescriptor("Animation", ANIM_ANIM, 0x0100, &theAnimObjectFactory, nullptr);
-const SModuleDescriptor * STDCALL GetModuleDescriptor() { return &theModuleDescriptor; }
+IObjectFactory * STDCALL GetAnimObjectFactory() { return &theAnimObjectFactory; }

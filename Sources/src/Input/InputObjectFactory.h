@@ -9,4 +9,6 @@ public:
   CInputObjectFactory();
 };
 
+IObjectFactory * STDCALL GetInputObjectFactory();
+
 #endif // __INPUTOBJECTFACTORY_H__

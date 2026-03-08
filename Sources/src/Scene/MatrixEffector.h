@@ -35,25 +35,4 @@ public:
   const SHMatrix & STDCALL GetMatrix() const override { return matResult; }
 };
 
-class CMatrixEffectorJogging : public ISceneEffectorJogging
-{
-  OBJECT_NORMAL_METHODS(CMatrixEffectorJogging);
-  DECLARE_SERIALIZE;
-  //
-  SHMatrix matResult;// result matrix
-  NTimer::STime timeStart;// effect start time
-  NTimer::STime lastUpdateTime;// last update time
-  // jogging params
-  float fWeightCoeff;// weight of the techniques for jogging
-public:
-  CMatrixEffectorJogging() : matResult(MONE), lastUpdateTime(0), fWeightCoeff(1.0f) {}
-  //
-  void STDCALL SetupTimes(const NTimer::STime &_timeStart, const NTimer::STime &_timeLife) override { timeStart = _timeStart; }
-
-  void STDCALL SetupData(float _fWeightCoeff) override { fWeightCoeff = _fWeightCoeff; }
-
-  bool STDCALL Update(const NTimer::STime &time) override;
-  const SHMatrix & STDCALL GetMatrix() const override { return matResult; }
-};
-
 #endif // __MATRIXEFFECTOR_H__

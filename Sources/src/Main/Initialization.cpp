@@ -5,16 +5,24 @@
 #include "../StreamIO/OptionSystem.h"
 #include "../GFX/GFX.h"
 #include "../GFX/GFXHelper.h"
+#include "../GFX/GFXObjectFactory.h"
 #include "../SFX/SFX.h"
+#include "../SFX/SoundObjectFactory.h"
 #include "../Input/Input.h"
+#include "../Input/InputObjectFactory.h"
 #include "../Anim/Animation.h"
+#include "../Anim/AnimObjectFactory.h"
 #include "../Scene/Scene.h"
 #include "../Scene/Terrain.h"
 #include "../Scene/PFX.h"
+#include "../Scene/SceneObjectFactory.h"
 #include "../AILogic/AILogic.h"
 #include "../AILogic/DifficultyLevel.h"
+#include "../AILogic/AILogicObjectFactory.h"
 #include "../UI/UI.h"
+#include "../UI/UIObjectFactory.h"
 #include "../Image/Image.h"
+#include "../Image/ImageObjectFactory.h"
 #include "../Formats/fmtTerrain.h"
 #include "../Main/TextSystem.h"
 #include "../UI/MaskSystem.h"
@@ -22,9 +30,13 @@
 #include "../GameTT/AckManager.h"
 #include "../Main/ScenarioTracker.h"
 #include "../GameTT/MultiplayerCommandManager.h"
+#include "../GameTT/MissionObjectFactory.h"
 #include "../Common/PauseGame.h"
 #include "../Main/CommandsHistoryInterface.h"
 #include "../GameTT/MessageReaction.h"
+#include "../StreamIO/StreamIOObjectFactory.h"
+#include "../Net/NetObjectFactory.h"
+#include "../StreamIO/RandomGen.h"
 
 namespace NMain
 {
@@ -67,8 +79,22 @@ bool STDCALL NMain::SwitchGame(bool bOn)
 
 bool STDCALL NMain::Initialize(HWND hWnd3D, HWND nWndInput, HWND hWndSound, bool bGame)
 {
-  // register main object factory
+  // register all module object factories
   GetSLS()->AddFactory(GetMainObjectFactory());
+  GetSLS()->AddFactory(GetImageObjectFactory());
+  GetSLS()->AddFactory(GetInputObjectFactory());
+  GetSLS()->AddFactory(GetGFXObjectFactory());
+  GetSLS()->AddFactory(GetSFXObjectFactory());
+  GetSLS()->AddFactory(GetAnimObjectFactory());
+  GetSLS()->AddFactory(GetSceneObjectFactory());
+  GetSLS()->AddFactory(GetAILogicObjectFactory());
+  GetSLS()->AddFactory(GetStreamIOObjectFactory());
+  GetSLS()->AddFactory(GetUIObjectFactory());
+  GetSLS()->AddFactory(GetNetObjectFactory());
+  GetSLS()->AddFactory(GetMissionObjectFactory());
+  // initialize cached global random generator pointer (must be after singleton
+  // registry is populated, not during static init — see Phase 6.5 of SingletonPlan)
+  g_pGlobalRandomGen = GetSingleton<IRandomGen>();
   // files inspector
   {
     IFilesInspector *pFI = CreateObject<IFilesInspector>(MAIN_FILES_INSPECTOR);
@@ -76,8 +102,7 @@ bool STDCALL NMain::Initialize(HWND hWnd3D, HWND nWndInput, HWND hWndSound, bool
   }
   // create and register image processing
   {
-    const SModuleDescriptor *pDesc = GetModuleDesc(IMAGE_IMAGE);
-    CPtr<IImageProcessor> pIP = CreateObject<IImageProcessor>(pDesc->pFactory, IMAGE_PROCESSOR);
+    CPtr<IImageProcessor> pIP = CreateObject<IImageProcessor>(IMAGE_PROCESSOR);
     RegisterSingleton(IImageProcessor::tidTypeID, pIP);
   }
   // create and register game timer
@@ -88,79 +113,72 @@ bool STDCALL NMain::Initialize(HWND hWnd3D, HWND nWndInput, HWND hWndSound, bool
   }
   // create and init input
   {
-    const SModuleDescriptor *pDesc = GetModuleDesc(INPUT_INPUT);
-    CPtr<IInput> pInput = CreateObject<IInput>(pDesc->pFactory, INPUT_INPUT);
+    CPtr<IInput> pInput = CreateObject<IInput>(INPUT_INPUT);
     RegisterSingleton(IInput::tidTypeID, pInput);
     pInput->Init(nWndInput);
   }
   // create and init graphics
   {
-    const SModuleDescriptor *pDesc = GetModuleDesc(GFX_GFX);
-    IObjectFactory *pFactory = pDesc->pFactory;
-    CPtr<IGFX> pGFX = CreateObject<IGFX>(pFactory, GFX_GFX);
+    // apply GFX video memory limits (previously called by CModuleLoadAutoMagic)
+    CGFXModuleChecker gfxChecker;
+    gfxChecker.SetModuleFunctionalityLimits();
+    //
+    CPtr<IGFX> pGFX = CreateObject<IGFX>(GFX_GFX);
     if (pGFX->Init(nullptr, hWnd3D) != true) return false;
     RegisterSingleton(IGFX::tidTypeID, pGFX);// register GFX to singleton
     // GFX managers
-    CPtr<ITextureManager> pTM = CreateObject<ITextureManager>(pFactory, GFX_TEXTURE_MANAGER);
+    CPtr<ITextureManager> pTM = CreateObject<ITextureManager>(GFX_TEXTURE_MANAGER);
     RegisterSingleton(ITextureManager::tidTypeID, pTM);// register texture manager to singleton
     pTM->Init();
-    CPtr<IMeshManager> pMM = CreateObject<IMeshManager>(pFactory, GFX_MESH_MANAGER);
+    CPtr<IMeshManager> pMM = CreateObject<IMeshManager>(GFX_MESH_MANAGER);
     RegisterSingleton(IMeshManager::tidTypeID, pMM);// register mesh manager to singleton
     pMM->Init();
     //
-    CPtr<IFontManager> pFM = CreateObject<IFontManager>(pFactory, GFX_FONT_MANAGER);
+    CPtr<IFontManager> pFM = CreateObject<IFontManager>(GFX_FONT_MANAGER);
     RegisterSingleton(IFontManager::tidTypeID, pFM);// register font manager to singleton
     pFM->Init();
   }
   // create and init sound
   {
-    const SModuleDescriptor *pDesc = GetModuleDesc(SFX_SFX);
-    IObjectFactory *pFactory = pDesc->pFactory;
-    CPtr<ISFX> pSFX = CreateObject<ISFX>(pFactory, SFX_SFX);
-    RegisterSingleton(ISFX::tidTypeID, pSFX);// register GFX to singleton
+    CPtr<ISFX> pSFX = CreateObject<ISFX>(SFX_SFX);
+    RegisterSingleton(ISFX::tidTypeID, pSFX);// register SFX to singleton
     pSFX->Init(hWndSound, 0, SFX_OUTPUT_DSOUND, 44100, 32);
     pSFX->SetDistanceFactor(fWorldCellSize / 2.0f);
     pSFX->SetRolloffFactor(GetGlobalVar("Sound.RolloffFactor", 1.0f));
     //
-    CPtr<ISoundManager> pSM = CreateObject<ISoundManager>(pFactory, SFX_SOUND_MANAGER);
-    RegisterSingleton(ISoundManager::tidTypeID, pSM);// register mesh manager to singleton
+    CPtr<ISoundManager> pSM = CreateObject<ISoundManager>(SFX_SOUND_MANAGER);
+    RegisterSingleton(ISoundManager::tidTypeID, pSM);// register sound manager to singleton
     pSM->Init();
   }
   // create animation manager
   {
-    const SModuleDescriptor *pDesc = GetModuleDesc(ANIM_ANIM);
-    IObjectFactory *pFactory = pDesc->pFactory;
-    CPtr<IAnimationManager> pAM = CreateObject<IAnimationManager>(pFactory, ANIM_ANIMATION_MANAGER);
+    CPtr<IAnimationManager> pAM = CreateObject<IAnimationManager>(ANIM_ANIMATION_MANAGER);
     RegisterSingleton(IAnimationManager::tidTypeID, pAM);// register animation manager to singleton
     pAM->Init();
   }
   // create camera & cursor
   {
-    const SModuleDescriptor *pDesc = GetModuleDesc(SCENE_SCENE);
     // camera
-    IObjectFactory *pFactory = pDesc->pFactory;
-    CPtr<ICamera> pCamera = CreateObject<ICamera>(pFactory, SCENE_CAMERA);
+    CPtr<ICamera> pCamera = CreateObject<ICamera>(SCENE_CAMERA);
     pCamera->Init(GetSingletonGlobal());
     RegisterSingleton(ICamera::tidTypeID, pCamera);// register camera to singleton
     // cursor
-    CPtr<ICursor> pCursor = CreateObject<ICursor>(pFactory, SCENE_CURSOR);
+    CPtr<ICursor> pCursor = CreateObject<ICursor>(SCENE_CURSOR);
     RegisterSingleton(ICursor::tidTypeID, pCursor);// register cursor to singleton
     pCursor->Init(GetSingletonGlobal());
     pCursor->SetPos(0, 0);
     // particles
-    CPtr<IParticleManager> pPM = CreateObject<IParticleManager>(pFactory, PFX_MANAGER);
+    CPtr<IParticleManager> pPM = CreateObject<IParticleManager>(PFX_MANAGER);
     RegisterSingleton(IParticleManager::tidTypeID, pPM);// register ParticleManger to singleton
     pPM->Init();
   }
   // create AI part
   {
-    const SModuleDescriptor *pDesc = GetModuleDesc(AI_AI);
-    IObjectFactory *pFactory = pDesc->pFactory;
-    CPtr<IAILogic> pAILogic = CreateObject<IAILogic>(pFactory, AI_LOGIC);
+    CPtr<IAILogic> pAILogic = CreateObject<IAILogic>(AI_LOGIC);
     RegisterSingleton(IAILogic::tidTypeID, pAILogic);
     const_cast<CDifficultyLevel *>(pAILogic->GetDifficultyLevel())->Init();
 
-    CPtr<IAIEditor> pAIEditor = CreateObject<IAIEditor>(pFactory, AI_EDITOR);
+    CPtr<IAIEditor> pAIEditor = CreateObject<IAIEditor>(AI_EDITOR);
     RegisterSingleton(IAIEditor::tidTypeID, pAIEditor);
   }
   // create and init text managing system
@@ -175,20 +193,17 @@ bool STDCALL NMain::Initialize(HWND hWnd3D, HWND nWndInput, HWND hWndSound, bool
   //
   // create scene objects
   {
-    const SModuleDescriptor *pDesc = GetModuleDesc(SCENE_SCENE);
-    IObjectFactory *pFactory = pDesc->pFactory;
     // scene
-    CPtr<IScene> pScene = CreateObject<IScene>(pFactory, SCENE_SCENE);
+    CPtr<IScene> pScene = CreateObject<IScene>(SCENE_SCENE);
     pScene->Init(GetSingletonGlobal());
     RegisterSingleton(IScene::tidTypeID, pScene);// register scene graph to singleton
     // vis obj builder
-    CPtr<IVisObjBuilder> pVOB = CreateObject<IVisObjBuilder>(pFactory, SCENE_VISOBJ_BUILDER);
+    CPtr<IVisObjBuilder> pVOB = CreateObject<IVisObjBuilder>(SCENE_VISOBJ_BUILDER);
     pVOB->Init(GetSingletonGlobal());
     RegisterSingleton(IVisObjBuilder::tidTypeID, pVOB);
   }
   // create and init UI system
   {
-    const SModuleDescriptor *pDesc = GetModuleDesc(UI_BASE_VALUE);
     CPtr<IMaskManager> pMM = CreateObject<IMaskManager>(MASK_MANAGER);
     RegisterSingleton(IMaskManager::tidTypeID, pMM);
     pMM->Init();
@@ -235,7 +250,7 @@ bool STDCALL NMain::Finalize()
   GetSingleton<ISFX>()->Done();
   GetSingleton<ITransceiver>()->Done();
 
-  UnloadAllModules();
+  GetSingletonGlobal()->Done();
   //
   return false;
 }

@@ -16,14 +16,14 @@ class CUISquadElement;
 // **
 // ************************************************************************************************************************ //
 
-struct SIconDesc
+struct SSquadIconDesc
 {
   int nType;// icon type
   CPtr<ISceneIcon> pIcon;// icon itself
   //
-  SIconDesc() {}
+  SSquadIconDesc() {}
 
-  SIconDesc(const int _nType, ISceneIcon *_pIcon)
+  SSquadIconDesc(const int _nType, ISceneIcon *_pIcon)
     : nType(_nType), pIcon(_pIcon) {}
 
   //
@@ -42,7 +42,7 @@ class CUIUnitObserver : public CTRefCount<IUnitStateObserver>
   DECLARE_SERIALIZE;
   //
   float fHP;// HP of this passanger
-  std::list<SIconDesc> icons;// icons of this passanger
+  std::list<SSquadIconDesc> icons;// icons of this passanger
   CPtr<CUISquadElement> pSquad;// squad to report about unit changes
   CPtr<IMOUnit> pMOUnit;// corresponding map object
 public:
@@ -57,7 +57,7 @@ public:
   //
   void SetSquad(CUISquadElement *_pSquad) { pSquad = _pSquad; }
   //
-  const std::list<SIconDesc> &GetIcons() const { return icons; }
+  const std::list<SSquadIconDesc> &GetIcons() const { return icons; }
   const float GetHP() const { return fHP; }
 };
 

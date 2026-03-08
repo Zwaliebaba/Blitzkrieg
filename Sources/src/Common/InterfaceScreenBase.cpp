@@ -193,7 +193,7 @@ int CInterfaceScreenBase::FinishInterface(IInterfaceCommand *pCmdNextInterface)
   {
     SetGlobalVar("CurtainsClosed", 1);
     GetSingleton<IMainLoop>()->EnableMessageProcessing(false);
-    const int nLength = PlayOverInterface("movies\\transition\\close.bik", IVideoPlayer::PLAY_INFINITE, true);
+    const int nLength = PlayOverInterface("movies\\transition\\close.bik", 0x00000008, true);
     const int nTime = timeGetTime();
     EnableMessageProcessingDelayed(true, nTime + nLength);
     if (pCmdNextInterface) AddDelayedCommand(pCmdNextInterface, nTime + nLength);

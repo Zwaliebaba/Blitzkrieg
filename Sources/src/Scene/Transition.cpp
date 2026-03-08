@@ -49,7 +49,7 @@ int CTransition::Start(const char *pszVideoName, const DWORD dwAddFlags, const N
     fAlphaStart = ALPHA_MAX;
     fAlphaEnd = ALPHA_MIN;
   }
-  bInfinite = (dwAddFlags & IVideoPlayer::PLAY_INFINITE) != 0;
+  bInfinite = (dwAddFlags & 0x00000008) != 0;
   //
   return DURATION + 150;
 }

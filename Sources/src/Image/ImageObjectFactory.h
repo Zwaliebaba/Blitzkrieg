@@ -9,4 +9,6 @@ public:
   CImageObjectFactory();
 };
 
+IObjectFactory * STDCALL GetImageObjectFactory();
+
 #endif // __IMAGEOBJECTFACTORY_H__

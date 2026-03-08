@@ -9,4 +9,6 @@ public:
   CStreamIOObjectFactory();
 };
 
+IObjectFactory * STDCALL GetStreamIOObjectFactory();
+
 #endif // __STREAMIOOBJECTFACTORY_H__

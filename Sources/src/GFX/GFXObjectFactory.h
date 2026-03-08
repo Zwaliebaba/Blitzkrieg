@@ -22,4 +22,6 @@ public:
   void STDCALL SetModuleFunctionalityLimits() const override;
 };
 
+IObjectFactory * STDCALL GetGFXObjectFactory();
+
 #endif // __GFXOBJECTFACTORY_H__

@@ -50,7 +50,6 @@ CSceneObjectFactory::CSceneObjectFactory()
   REGISTER_CLASS(this, SCENE_BOLD_LINE, CBoldLineVisObj);
 
   REGISTER_CLASS(this, SCENE_EFFECTOR_RECOIL, CMatrixEffectorRecoil);
-  REGISTER_CLASS(this, SCENE_EFFECTOR_JOGGING, CMatrixEffectorJogging);
   REGISTER_CLASS(this, SCENE_EFFECTOR_MATERIAL, CMaterialEffector);
 
   REGISTER_CLASS(this, SCENE_SOUNDSCENE, CSoundScene);
@@ -72,5 +71,4 @@ CSceneObjectFactory::CSceneObjectFactory()
   REGISTER_CLASS(this, TERRAIN_TERRAIN, CTerrain);
 }
 
-static SModuleDescriptor theModuleDescriptor("Scene", SCENE_SCENE, 0x0100, &theSceneObjectFactory, nullptr);
-const SModuleDescriptor * STDCALL GetModuleDescriptor() { return &theModuleDescriptor; }
+IObjectFactory * STDCALL GetSceneObjectFactory() { return &theSceneObjectFactory; }

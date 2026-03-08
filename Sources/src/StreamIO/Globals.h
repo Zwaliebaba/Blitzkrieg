@@ -28,7 +28,11 @@ interface ISingleton
 };
 
 extern ISingleton *g_pGlobalSingleton;
-inline ISingleton *GetSingletonGlobal() { return g_pGlobalSingleton; }
+inline ISingleton *GetSingletonGlobal()
+{
+  NI_ASSERT(g_pGlobalSingleton != nullptr, "GetSingletonGlobal() called before globals initialized");
+  return g_pGlobalSingleton;
+}
 
 // helper functions for working with the repository of "global" (public) objects
 // register singleton with global storage
@@ -39,7 +43,7 @@ inline bool UnRegisterSingleton(IRefCount *pObj) { return GetSingletonGlobal()->
 // singleton must have an enum with one field 'tidTypeID' which contains its constant
 // and under this constant it is already registered in the global storage
 template<class TYPE>
-TYPE *GetSingleton(ISingleton *pSingleton) { return static_cast<TYPE *>(pSingleton->Get(TYPE::tidTypeID)); }
+TYPE *GetSingleton(ISingleton *pSingleton) { return pSingleton ? static_cast<TYPE *>(pSingleton->Get(TYPE::tidTypeID)) : nullptr; }
 
 template<class TYPE>
 TYPE *GetSingleton() { return GetSingleton<TYPE>(GetSingletonGlobal()); }
@@ -73,25 +77,33 @@ interface IGlobalVars : IRefCount
 
 inline const char *GetGlobalVar(const char *pszValueName, const char *defval = "")
 {
-  const char *pszVal = GetSingleton<IGlobalVars>()->GetVar(pszValueName);
+  IGlobalVars *pGlobalVars = GetSingleton<IGlobalVars>();
+  if (pGlobalVars == nullptr) return defval;
+  const char *pszVal = pGlobalVars->GetVar(pszValueName);
   return pszVal == nullptr ? defval : pszVal;
 }
 
 inline int GetGlobalVar(const char *pszValueName, int defval)
 {
-  const char *pszVal = GetSingleton<IGlobalVars>()->GetVar(pszValueName);
+  IGlobalVars *pGlobalVars = GetSingleton<IGlobalVars>();
+  if (pGlobalVars == nullptr) return defval;
+  const char *pszVal = pGlobalVars->GetVar(pszValueName);
   return pszVal == nullptr ? defval : NStr::ToInt(pszVal);
 }
 
 inline float GetGlobalVar(const char *pszValueName, float defval)
 {
-  const char *pszVal = GetSingleton<IGlobalVars>()->GetVar(pszValueName);
+  IGlobalVars *pGlobalVars = GetSingleton<IGlobalVars>();
+  if (pGlobalVars == nullptr) return defval;
+  const char *pszVal = pGlobalVars->GetVar(pszValueName);
   return pszVal == nullptr ? defval : NStr::ToFloat(pszVal);
 }
 
 inline unsigned long GetGlobalVar(const char *pszValueName, unsigned long defval)
 {
-  const char *pszVal = GetSingleton<IGlobalVars>()->GetVar(pszValueName);
+  IGlobalVars *pGlobalVars = GetSingleton<IGlobalVars>();
+  if (pGlobalVars == nullptr) return defval;
+  const char *pszVal = pGlobalVars->GetVar(pszValueName);
   return pszVal == nullptr ? defval : NStr::ToULong(pszVal);
 }
 
