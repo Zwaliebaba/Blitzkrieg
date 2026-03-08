@@ -95,7 +95,7 @@ bool SerializeConfig(const bool bRead, const DWORD dwSerialize)
 // **
 // ************************************************************************************************************************ //
 
-IMainLoop * CreateMainLoop()
+IMainLoop * STDCALL CreateMainLoop()
 {
   IBaseCommand *pCommand = new CSaveCommandsHistoryCommand(GetSingleton<ICommandsHistory>());
   NBugSlayer::AddEmergencyCommand(pCommand);

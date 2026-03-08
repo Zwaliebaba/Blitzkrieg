@@ -14,13 +14,13 @@ class CInterfaceUnitsPool : public CInterfaceInterMission
   std::vector<std::vector<int>> units;
   std::vector<std::vector<int>> depot;
   //
-  bool ProcessMessage(const SGameMessage &msg) override;
+  bool STDCALL ProcessMessage(const SGameMessage &msg) override;
   // disable explicit destruction
   ~CInterfaceUnitsPool() override;
   CInterfaceUnitsPool() : CInterfaceInterMission("InterMission") {}
 
 public:
-  bool Init() override;
+  bool STDCALL Init() override;
   void Create(int nNewUnits);
 };
 
@@ -36,7 +36,7 @@ class CICUnitsPool : public CInterfaceCommandBase<CInterfaceUnitsPool, MISSION_I
   CICUnitsPool() {}
 
 public:
-  void Configure(const char *pszConfig) override;
+  void STDCALL Configure(const char *pszConfig) override;
 };
 
 #endif		// __IM_UNITS_POOL_H__

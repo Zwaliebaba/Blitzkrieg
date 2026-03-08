@@ -58,8 +58,8 @@ struct SRMLevelVSOParameter
   }
 
   // serializing...
-  virtual int operator&(IStructureSaver &ss);
-  virtual int operator&(IDataTree &ss);
+  virtual int STDCALL operator&(IStructureSaver &ss);
+  virtual int STDCALL operator&(IDataTree &ss);
 };
 
 
@@ -86,8 +86,8 @@ struct SRMPatch
   }
 
   // serializing...
-  virtual int operator&(IStructureSaver &ss);
-  virtual int operator&(IDataTree &ss);
+  virtual int STDCALL operator&(IStructureSaver &ss);
+  virtual int STDCALL operator&(IDataTree &ss);
 };
 
 using CRMPatchesList = std::vector<SRMPatch>;
@@ -151,8 +151,8 @@ struct SRMContainer
   }
 
   // serializing...
-  virtual int operator&(IStructureSaver &ss);
-  virtual int operator&(IDataTree &ss);
+  virtual int STDCALL operator&(IStructureSaver &ss);
+  virtual int STDCALL operator&(IDataTree &ss);
 
   int GetIndices(int nDirection, const std::string &rszPlace, std::vector<int> *pIndices) const;
   int GetSupportedSettings(std::list<std::string> *pSupportedSettingsList) const;
@@ -183,8 +183,8 @@ struct SRMGraphNode
   }
 
   // serializing...
-  virtual int operator&(IStructureSaver &ss);
-  virtual int operator&(IDataTree &ss);
+  virtual int STDCALL operator&(IStructureSaver &ss);
+  virtual int STDCALL operator&(IDataTree &ss);
 };
 
 
@@ -243,8 +243,8 @@ struct SRMGraphLink
   }
 
   // serializing...
-  virtual int operator&(IStructureSaver &ss);
-  virtual int operator&(IDataTree &ss);
+  virtual int STDCALL operator&(IStructureSaver &ss);
+  virtual int STDCALL operator&(IDataTree &ss);
 };
 
 
@@ -292,8 +292,8 @@ struct SRMGraph
   }
 
   // serializing...
-  virtual int operator&(IStructureSaver &ss);
-  virtual int operator&(IDataTree &ss);
+  virtual int STDCALL operator&(IStructureSaver &ss);
+  virtual int STDCALL operator&(IDataTree &ss);
 
   int GetSupportedSettings(std::list<std::string> *pSupportedSettingsList) const;
   bool IsSupportedSetting(const std::string &rszSettingName) const;
@@ -327,8 +327,8 @@ struct SRMObjectSetShell
   }
 
   // serializing...
-  virtual int operator&(IStructureSaver &ss);
-  virtual int operator&(IDataTree &ss);
+  virtual int STDCALL operator&(IStructureSaver &ss);
+  virtual int STDCALL operator&(IDataTree &ss);
 };
 
 
@@ -352,8 +352,8 @@ struct SRMTileSetShell
   }
 
   // serializing...
-  virtual int operator&(IStructureSaver &ss);
-  virtual int operator&(IDataTree &ss);
+  virtual int STDCALL operator&(IStructureSaver &ss);
+  virtual int STDCALL operator&(IDataTree &ss);
 };
 
 
@@ -409,8 +409,8 @@ struct SRMFieldSet
   }
 
   // serializing...
-  virtual int operator&(IStructureSaver &ss);
-  virtual int operator&(IDataTree &ss);
+  virtual int STDCALL operator&(IStructureSaver &ss);
+  virtual int STDCALL operator&(IDataTree &ss);
 };
 
 using CRMFieldSetsHashMap = std::unordered_map<std::string, SRMFieldSet>;
@@ -441,8 +441,8 @@ struct SRMVSODesc
   }
 
   // serializing...
-  virtual int operator&(IStructureSaver &ss);
-  virtual int operator&(IDataTree &ss);
+  virtual int STDCALL operator&(IStructureSaver &ss);
+  virtual int STDCALL operator&(IDataTree &ss);
 };
 
 
@@ -540,8 +540,8 @@ struct SRMTemplate
   }
 
   // serializing...
-  virtual int operator&(IStructureSaver &ss);
-  virtual int operator&(IDataTree &ss);
+  virtual int STDCALL operator&(IStructureSaver &ss);
+  virtual int STDCALL operator&(IDataTree &ss);
 
   void FillDefaultDiplomacies();
 
@@ -773,8 +773,8 @@ public:
   }
 
   // serializing...
-  virtual int operator&(IStructureSaver &ss);
-  virtual int operator&(IDataTree &ss);
+  virtual int STDCALL operator&(IStructureSaver &ss);
+  virtual int STDCALL operator&(IDataTree &ss);
 };
 
 
@@ -821,8 +821,8 @@ struct SRMContext
   }
 
   // serializing...
-  virtual int operator&(IStructureSaver &ss);
-  virtual int operator&(IDataTree &ss);
+  virtual int STDCALL operator&(IStructureSaver &ss);
+  virtual int STDCALL operator&(IDataTree &ss);
   bool IsValid(int nLevelsCount, int nPlayersCount);
 };
 
@@ -832,8 +832,8 @@ struct SRMSetting
   CRMFieldSetWeightVector fields;// Information on filling empty spaces
 
   // serializing...
-  virtual int operator&(IStructureSaver &ss);
-  virtual int operator&(IDataTree &ss);
+  virtual int STDCALL operator&(IStructureSaver &ss);
+  virtual int STDCALL operator&(IDataTree &ss);
 };
 
 

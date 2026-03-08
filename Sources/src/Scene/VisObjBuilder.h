@@ -26,14 +26,14 @@ class CVisObjBuilder : public IVisObjBuilder
   class CEffectVisObj *CreateEffectVisObj(const std::string &szName);
 
 public:
-  bool Init(ISingleton *pSingleton) override;
+  bool STDCALL Init(ISingleton *pSingleton) override;
   //
-  IVisObj * BuildObject(const char *pszModelName, const char *pszTextureName, EObjVisType type) override;
-  ISceneObject * BuildSceneObject(const char *pszName, ESceneObjectType eType, int nSubtype = -1) override;
-  const char * GetEffectSound(const std::string &szName) override;
-  bool ChangeObject(IVisObj *pObj, const char *pszModelName, const char *pszTextureName, EObjVisType type) override;
-  bool ChangeSceneObject(ISceneObject *pObj, const char *pszName, ESceneObjectType eType, int nSubtype = -1) override;
-  void Clear() override { effectDescs.clear(); }
+  IVisObj * STDCALL BuildObject(const char *pszModelName, const char *pszTextureName, EObjVisType type) override;
+  ISceneObject * STDCALL BuildSceneObject(const char *pszName, ESceneObjectType eType, int nSubtype = -1) override;
+  const char * STDCALL GetEffectSound(const std::string &szName) override;
+  bool STDCALL ChangeObject(IVisObj *pObj, const char *pszModelName, const char *pszTextureName, EObjVisType type) override;
+  bool STDCALL ChangeSceneObject(ISceneObject *pObj, const char *pszName, ESceneObjectType eType, int nSubtype = -1) override;
+  void STDCALL Clear() override { effectDescs.clear(); }
 };
 
 #endif // __VISOBJBUILDER_H__

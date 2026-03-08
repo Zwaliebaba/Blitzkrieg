@@ -67,14 +67,14 @@ public:
   CTrack trackIntegralMass;// antiderivative of g*m(t), multiplied by the speed coefficient (without its randomness) (no need to save, calculated as you go)
   float fDensityCoeff;// coefficient for density, taken from the setting
   //
-  virtual void Init();
-  virtual void InitIntegrals();
-  void SwapData(ISharedResource *pResource) override;
+  virtual void STDCALL Init();
+  virtual void STDCALL InitIntegrals();
+  void STDCALL SwapData(ISharedResource *pResource) override;
   // internal container clearing
-  void ClearInternalContainer() override {}
-  bool Load(bool bPreLoad = false) override;
+  void STDCALL ClearInternalContainer() override {}
+  bool STDCALL Load(bool bPreLoad = false) override;
   //
-  virtual int operator&(IDataTree &ss);
+  virtual int STDCALL operator&(IDataTree &ss);
 };
 
 #endif // __PARTICLESOURCEDATA_H__

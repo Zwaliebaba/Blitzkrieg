@@ -15,13 +15,13 @@ class CFilesInspector : public CTRefCount<IFilesInspector>
   CEntriesList entries;
 
 public:
-  bool AddEntry(const std::string &szName, IFilesInspectorEntry *pEntry) override;
-  bool RemoveEntry(const std::string &szName) override;
-  IFilesInspectorEntry * GetEntry(const std::string &szName) override;
+  bool STDCALL AddEntry(const std::string &szName, IFilesInspectorEntry *pEntry) override;
+  bool STDCALL RemoveEntry(const std::string &szName) override;
+  IFilesInspectorEntry * STDCALL GetEntry(const std::string &szName) override;
   //
-  bool InspectStorage(IDataStorage *pStorage) override;
+  bool STDCALL InspectStorage(IDataStorage *pStorage) override;
   // clear all entries
-  void Clear() override;
+  void STDCALL Clear() override;
 };
 
 class CFilesInspectorEntryGDB : public CTRefCount<IFilesInspectorEntry>
@@ -29,8 +29,8 @@ class CFilesInspectorEntryGDB : public CTRefCount<IFilesInspectorEntry>
   OBJECT_SERVICE_METHODS(CFilesInspectorEntryGDB);
   //
 public:
-  void InspectStream(const std::string &szName) override {}
-  void Clear() override {}
+  void STDCALL InspectStream(const std::string &szName) override {}
+  void STDCALL Clear() override {}
 };
 
 class CFilesInspectorEntryCollector : public CTRefCount<IFilesInspectorEntryCollector>
@@ -56,11 +56,11 @@ public:
     : pfnAddIfMatched(nullptr), nMatchType(-1) {}
 
   //
-  void Configure(const char *pszConfig) override;
-  const std::vector<std::string> & GetCollected() const override { return szNames; }
-  void InspectStream(const std::string &szName) override;
+  void STDCALL Configure(const char *pszConfig) override;
+  const std::vector<std::string> & STDCALL GetCollected() const override { return szNames; }
+  void STDCALL InspectStream(const std::string &szName) override;
   // clear entry
-  void Clear() override { szNames.clear(); }
+  void STDCALL Clear() override { szNames.clear(); }
 };
 
 #endif // __FILESINSPECTOR_H__

@@ -21,9 +21,9 @@ namespace NVideoCheck
   };
 
   // get API name (DirectX)
-  const wchar_t * GetAPIName();
+  const wchar_t * STDCALL GetAPIName();
   // get video memory amount
-  bool GetVideoMemory(SVideoMemory *pMemory);
+  bool STDCALL GetVideoMemory(SVideoMemory *pMemory);
 
 };
 

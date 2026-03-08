@@ -12,14 +12,14 @@
 interface IProgressHook : IRefCount
 {
   // set total num steps
-  virtual void SetNumSteps(int nRange, float fPercentage = 1.0f) = 0;
+  virtual void STDCALL SetNumSteps(int nRange, float fPercentage = 1.0f) = 0;
   // do one step
-  virtual void Step() = 0;
+  virtual void STDCALL Step() = 0;
   // recover during loading
-  virtual void Recover() = 0;
+  virtual void STDCALL Recover() = 0;
   // get/set current position
-  virtual void SetCurrPos(int nPos) = 0;
-  virtual int GetCurrPos() const = 0;
+  virtual void STDCALL SetCurrPos(int nPos) = 0;
+  virtual int STDCALL GetCurrPos() const = 0;
   // initialization/deinitialization
   virtual void Stop() = 0;
 };

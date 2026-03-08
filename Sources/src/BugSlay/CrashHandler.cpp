@@ -55,7 +55,7 @@ static std::list<std::string> ignoremodules;
 // //////////////////////////////////////////////////////////// 
 inline int MSVCMustDie_tolower(int a) { return tolower(a); }
 
-void AddIgnoreModule(const char *pszModuleName)
+void STDCALL AddIgnoreModule(const char *pszModuleName)
 {
   ignoremodules.push_back(pszModuleName);
   std::string &szString = ignoremodules.back();
@@ -65,13 +65,13 @@ void AddIgnoreModule(const char *pszModuleName)
 /* ////////////////////////////////////////////////////////////////////
                      */
 // The exception handler.
-LONG WINAPI CrashHandlerExceptionFilter(EXCEPTION_POINTERS *pExPtrs);
+LONG STDCALL CrashHandlerExceptionFilter(EXCEPTION_POINTERS *pExPtrs);
 
 // Converts a simple exception to a string value.
 LPCTSTR ConvertSimpleException(DWORD dwExcept);
 
 // The internal function that does all the stack walking.
-LPCTSTR InternalGetStackTraceString(DWORD dwOpts, EXCEPTION_POINTERS *pExPtrs);
+LPCTSTR STDCALL InternalGetStackTraceString(DWORD dwOpts, EXCEPTION_POINTERS *pExPtrs);
 
 // The internal SymGetLineFromAddr function.
 BOOL InternalSymGetLineFromAddr(IN HANDLE hProcess,
@@ -114,7 +114,7 @@ static CleanUpCrashHandler g_cBeforeAndAfter;
 // //////////////////////////////////////////////////////////// 
 /* ////////////////////////////////////////////////////////////////////
                   */
-BOOL SetCrashHandlerFilter(PFNCHFILTFN pFn)
+BOOL STDCALL SetCrashHandlerFilter(PFNCHFILTFN pFn)
 {
   // It's OK to have a 0 parameter because this will unhook the
   // callback.
@@ -146,7 +146,7 @@ BOOL SetCrashHandlerFilter(PFNCHFILTFN pFn)
 }
 
 // //////////////////////////////////////////////////////////// 
-BOOL AddCrashHandlerLimitModule(HMODULE hMod)
+BOOL STDCALL AddCrashHandlerLimitModule(HMODULE hMod)
 {
   // Check the obvious cases.
   ASSERT(0 != hMod);
@@ -187,9 +187,9 @@ BOOL AddCrashHandlerLimitModule(HMODULE hMod)
 }
 
 // //////////////////////////////////////////////////////////// 
-UINT GetLimitModuleCount() { return g_uiModCount; }
+UINT STDCALL GetLimitModuleCount() { return g_uiModCount; }
 // //////////////////////////////////////////////////////////// 
-int GetLimitModulesArray(HMODULE *pahMod, UINT uiSize)
+int STDCALL GetLimitModulesArray(HMODULE *pahMod, UINT uiSize)
 {
   int iRet;
 
@@ -217,7 +217,7 @@ int GetLimitModulesArray(HMODULE *pahMod, UINT uiSize)
 }
 
 // //////////////////////////////////////////////////////////// 
-LONG WINAPI CrashHandlerExceptionFilter(EXCEPTION_POINTERS *pExPtrs)
+LONG STDCALL CrashHandlerExceptionFilter(EXCEPTION_POINTERS *pExPtrs)
 {
   LONG lRet = EXCEPTION_CONTINUE_SEARCH;
 
@@ -277,7 +277,7 @@ LONG WINAPI CrashHandlerExceptionFilter(EXCEPTION_POINTERS *pExPtrs)
 /* ////////////////////////////////////////////////////////////////////
           */
 
-LPCTSTR GetFaultReason(EXCEPTION_POINTERS *pExPtrs)
+LPCTSTR STDCALL GetFaultReason(EXCEPTION_POINTERS *pExPtrs)
 {
   ASSERT(FALSE == IsBadReadPtr( pExPtrs, sizeof(EXCEPTION_POINTERS) )) ;
   if (TRUE == IsBadReadPtr(pExPtrs, sizeof(EXCEPTION_POINTERS)))
@@ -403,7 +403,7 @@ LPCTSTR GetFaultReason(EXCEPTION_POINTERS *pExPtrs)
 }
 
 // //////////////////////////////////////////////////////////// 
-BOOL GetFaultReasonVB(EXCEPTION_POINTERS *pExPtrs, LPTSTR szBuff, UINT uiSize)
+BOOL STDCALL GetFaultReasonVB(EXCEPTION_POINTERS *pExPtrs, LPTSTR szBuff, UINT uiSize)
 {
   ASSERT(FALSE == IsBadWritePtr(szBuff, uiSize));
   if (TRUE == IsBadWritePtr(szBuff, uiSize)) return FALSE;
@@ -423,7 +423,7 @@ BOOL GetFaultReasonVB(EXCEPTION_POINTERS *pExPtrs, LPTSTR szBuff, UINT uiSize)
 }
 
 // //////////////////////////////////////////////////////////// 
-LPCTSTR GetFirstStackTraceString(DWORD dwOpts, EXCEPTION_POINTERS *pExPtrs)
+LPCTSTR STDCALL GetFirstStackTraceString(DWORD dwOpts, EXCEPTION_POINTERS *pExPtrs)
 {
   // All of the error checking is in the InternalGetStackTraceString
   // function.
@@ -453,7 +453,7 @@ LPCTSTR GetFirstStackTraceString(DWORD dwOpts, EXCEPTION_POINTERS *pExPtrs)
 }
 
 // //////////////////////////////////////////////////////////// 
-LPCTSTR GetNextStackTraceString(DWORD dwOpts, EXCEPTION_POINTERS *pExPtrs)
+LPCTSTR STDCALL GetNextStackTraceString(DWORD dwOpts, EXCEPTION_POINTERS *pExPtrs)
 {
   // All error checking is in InternalGetStackTraceString.
   // Assume that GetFirstStackTraceString has already initialized the
@@ -462,12 +462,12 @@ LPCTSTR GetNextStackTraceString(DWORD dwOpts, EXCEPTION_POINTERS *pExPtrs)
 }
 
 // //////////////////////////////////////////////////////////// 
-BOOL CH_ReadProcessMemory(HANDLE, LPCVOID lpBaseAddress, LPVOID lpBuffer,
+BOOL STDCALL CH_ReadProcessMemory(HANDLE, LPCVOID lpBaseAddress, LPVOID lpBuffer,
                                   DWORD nSize, LPDWORD lpNumberOfBytesRead) { return ReadProcessMemory(GetCurrentProcess(), lpBaseAddress, lpBuffer, nSize, lpNumberOfBytesRead); }
 
 // //////////////////////////////////////////////////////////// 
 // The internal function that does all the stack walking.
-bool GetStackTrace(EXCEPTION_POINTERS *pExPtrs, SCallStackEntry &entry)
+bool STDCALL GetStackTrace(EXCEPTION_POINTERS *pExPtrs, SCallStackEntry &entry)
 {
   ASSERT(FALSE == IsBadReadPtr(pExPtrs, sizeof(EXCEPTION_POINTERS)));
   if (TRUE == IsBadReadPtr(pExPtrs, sizeof(EXCEPTION_POINTERS)))
@@ -579,7 +579,7 @@ bool GetStackTrace(EXCEPTION_POINTERS *pExPtrs, SCallStackEntry &entry)
 }
 
 // //////////////////////////////////////////////////////////// 
-bool GetFirstStackTrace(EXCEPTION_POINTERS *pExPtrs, SCallStackEntry &entry)
+bool STDCALL GetFirstStackTrace(EXCEPTION_POINTERS *pExPtrs, SCallStackEntry &entry)
 {
   // All of the error checking is in the GetStackTrace function.
   // Initialize the STACKFRAME structure.
@@ -606,7 +606,7 @@ bool GetFirstStackTrace(EXCEPTION_POINTERS *pExPtrs, SCallStackEntry &entry)
 }
 
 // //////////////////////////////////////////////////////////// 
-bool GetNextStackTrace(EXCEPTION_POINTERS *pExPtrs, SCallStackEntry &entry)
+bool STDCALL GetNextStackTrace(EXCEPTION_POINTERS *pExPtrs, SCallStackEntry &entry)
 {
   // All error checking is in GetStackTrace.
   // Assume that GetFirstStackTrace has already initialized the stack frame information.
@@ -614,7 +614,7 @@ bool GetNextStackTrace(EXCEPTION_POINTERS *pExPtrs, SCallStackEntry &entry)
 }
 
 // //////////////////////////////////////////////////////////// 
-LPCTSTR InternalGetStackTraceString(DWORD dwOpts, EXCEPTION_POINTERS *pExPtrs)
+LPCTSTR STDCALL InternalGetStackTraceString(DWORD dwOpts, EXCEPTION_POINTERS *pExPtrs)
 {
   ASSERT(FALSE == IsBadReadPtr(pExPtrs, sizeof(EXCEPTION_POINTERS)));
   if (TRUE == IsBadReadPtr(pExPtrs, sizeof(EXCEPTION_POINTERS)))
@@ -763,7 +763,7 @@ LPCTSTR InternalGetStackTraceString(DWORD dwOpts, EXCEPTION_POINTERS *pExPtrs)
 }
 
 // //////////////////////////////////////////////////////////// 
-bool GetSourceLine(DWORD pointer, const char * &pszFileName, int &nLineNumber)
+bool STDCALL GetSourceLine(DWORD pointer, const char * &pszFileName, int &nLineNumber)
 {
   ASSERT(FALSE == IsBadCodePtr(FARPROC(pointer)));
 
@@ -793,7 +793,7 @@ bool GetSourceLine(DWORD pointer, const char * &pszFileName, int &nLineNumber)
 }
 
 // //////////////////////////////////////////////////////////// 
-BOOL GetFirstStackTraceStringVB(DWORD dwOpts,
+BOOL STDCALL GetFirstStackTraceStringVB(DWORD dwOpts,
                                         EXCEPTION_POINTERS *pExPtrs,
                                         LPTSTR szBuff,
                                         UINT uiSize)
@@ -814,7 +814,7 @@ BOOL GetFirstStackTraceStringVB(DWORD dwOpts,
 }
 
 // //////////////////////////////////////////////////////////// 
-BOOL GetNextStackTraceStringVB(DWORD dwOpts,
+BOOL STDCALL GetNextStackTraceStringVB(DWORD dwOpts,
                                        EXCEPTION_POINTERS *pExPtrs,
                                        LPTSTR szBuff,
                                        UINT uiSize)
@@ -835,7 +835,7 @@ BOOL GetNextStackTraceStringVB(DWORD dwOpts,
 }
 
 // //////////////////////////////////////////////////////////// 
-LPCTSTR GetRegisterString(EXCEPTION_POINTERS *pExPtrs)
+LPCTSTR STDCALL GetRegisterString(EXCEPTION_POINTERS *pExPtrs)
 {
   // Check the parameter.
   ASSERT(FALSE == IsBadReadPtr(pExPtrs, sizeof(EXCEPTION_POINTERS)));
@@ -878,7 +878,7 @@ LPCTSTR GetRegisterString(EXCEPTION_POINTERS *pExPtrs)
 }
 
 // //////////////////////////////////////////////////////////// 
-BOOL GetRegisterStringVB(EXCEPTION_POINTERS *pExPtrs,
+BOOL STDCALL GetRegisterStringVB(EXCEPTION_POINTERS *pExPtrs,
                                  LPTSTR szBuff,
                                  UINT uiSize)
 {

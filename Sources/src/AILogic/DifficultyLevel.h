@@ -31,7 +31,7 @@ public:
   CDifficultyLevel() : nLevel(1), nCheatLevel(255) {}
   void Clear() { nCheatLevel = 255; }
 
-  virtual void Init();
+  virtual void STDCALL Init();
   void SetLevel(int _nLevel);
   void SetCheatLevel(const int _nCheatLevel) { nCheatLevel = _nCheatLevel; }
 

@@ -12,7 +12,7 @@ struct SSerialVariantT : variant_t
   const variant_t &Get() const { return *(static_cast<const variant_t *>(this)); }
   variant_t &Get() { return *(static_cast<variant_t *>(this)); }
   //
-  virtual int operator&(IStructureSaver &ss)
+  virtual int STDCALL operator&(IStructureSaver &ss)
   {
     CSaverAccessor saver = &ss;
     const VARTYPE oldvt = vt;
@@ -68,7 +68,7 @@ struct SSerialVariantT : variant_t
     return 0;
   }
 
-  virtual int operator&(IDataTree &ss)
+  virtual int STDCALL operator&(IDataTree &ss)
   {
     CTreeAccessor saver = &ss;
     const VARTYPE oldvt = vt;
@@ -196,7 +196,7 @@ private:
     const TVar &Get() const { return *(static_cast<const TVar *>(this)); }
     void Set(const TVar &var) { *(static_cast<TVar *>(this)) = var; }
     //
-    virtual int operator&(IDataTree &ss)
+    virtual int STDCALL operator&(IDataTree &ss)
     {
       CTreeAccessor saver = &ss;
       saver.AddTypedSuper(static_cast<TVar *>(this));
@@ -238,9 +238,9 @@ public:
   CTVarSystem() : bVarsChanged(false) {}
   virtual ~CTVarSystem() {}
   //
-  virtual bool IsChanged() const { return bVarsChanged; }
+  virtual bool STDCALL IsChanged() const { return bVarsChanged; }
   // get/set variable by name
-  virtual bool Get(const std::string &szVarName, variant_t *pVar) const
+  virtual bool STDCALL Get(const std::string &szVarName, variant_t *pVar) const
   {
     CVarsMap::const_iterator pos = variables.find(szVarName);
     if (pos == variables.end()) return false;
@@ -248,7 +248,7 @@ public:
     return true;
   }
 
-  virtual bool Set(const std::string &szVarName, const variant_t &var)
+  virtual bool STDCALL Set(const std::string &szVarName, const variant_t &var)
   {
     CVarsMap::iterator pos = variables.find(szVarName);
     if (pos == variables.end())
@@ -265,7 +265,7 @@ public:
   }
 
   // remove variable by name or by match
-  virtual bool Remove(const std::string &szVarName)
+  virtual bool STDCALL Remove(const std::string &szVarName)
   {
     CVarsMap::iterator pos = variables.find(szVarName);
     if (pos == variables.end()) return false;
@@ -274,14 +274,14 @@ public:
     return true;
   }
 
-  virtual bool RemoveByMatch(const std::string &szVarMatch)
+  virtual bool STDCALL RemoveByMatch(const std::string &szVarMatch)
   {
     if (RemoveVars(variables, CMatchNameFunctional(szVarMatch))) bVarsChanged = true;
     return true;
   }
 
   // include/exclude variable by match to serialize
-  virtual bool ChangeSerialize(const std::string &szVarMatch, bool bInclude)
+  virtual bool STDCALL ChangeSerialize(const std::string &szVarMatch, bool bInclude)
   {
     if (bInclude) serialIncludes.push_back(szVarMatch);
     else serialExcludes.push_back(szVarMatch);
@@ -289,7 +289,7 @@ public:
   }
 
   // serialization
-  virtual int operator&(IStructureSaver &ss)
+  virtual int STDCALL operator&(IStructureSaver &ss)
   {
     CSaverAccessor saver = &ss;
     if (saver.IsReading())
@@ -313,7 +313,7 @@ public:
     return 0;
   }
 
-  virtual int operator&(IDataTree &ss)
+  virtual int STDCALL operator&(IDataTree &ss)
   {
     CTreeAccessor saver = &ss;
     if (saver.IsReading())
@@ -381,16 +381,16 @@ public:
 
   virtual ~CTVarSystemIterator() {}
   // go to the next item
-  virtual bool Next()
+  virtual bool STDCALL Next()
   {
     ++pos;
     return !IsEnd();
   }
 
   // was all items already iterated?
-  virtual bool IsEnd() const { return pos == positions.end(); }
+  virtual bool STDCALL IsEnd() const { return pos == positions.end(); }
   // get current variable
-  virtual bool Get(variant_t *pVarName, variant_t *pVar = nullptr) const
+  virtual bool STDCALL Get(variant_t *pVarName, variant_t *pVar = nullptr) const
   {
     if (IsEnd()) return false;
     //

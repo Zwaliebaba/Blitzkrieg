@@ -20,7 +20,7 @@ struct SGetVisObjesVisitor : IMapObjVisitor
   //
   void Clear() { objects.clear(); }
   //
-  void VisitSprite(IVisObj *pVO, EObjGameType eGameType, EObjVisType eVisType, bool bOutbound = false) override
+  void STDCALL VisitSprite(IVisObj *pVO, EObjGameType eGameType, EObjVisType eVisType, bool bOutbound = false) override
   {
     SVisObjDesc desc;
     desc.pVisObj = pVO;
@@ -30,7 +30,7 @@ struct SGetVisObjesVisitor : IMapObjVisitor
     objects.push_back(desc);
   }
 
-  void VisitMesh(IVisObj *pVO, EObjGameType eGameType, EObjVisType eVisType, bool bOutbound = false) override
+  void STDCALL VisitMesh(IVisObj *pVO, EObjGameType eGameType, EObjVisType eVisType, bool bOutbound = false) override
   {
     SVisObjDesc desc;
     desc.pVisObj = pVO;
@@ -40,7 +40,7 @@ struct SGetVisObjesVisitor : IMapObjVisitor
     objects.push_back(desc);
   }
 
-  void VisitEffect(IVisObj *pVO, EObjGameType eGameType, EObjVisType eVisType, bool bOutbound = false) override
+  void STDCALL VisitEffect(IVisObj *pVO, EObjGameType eGameType, EObjVisType eVisType, bool bOutbound = false) override
   {
     SVisObjDesc desc;
     desc.pVisObj = pVO;

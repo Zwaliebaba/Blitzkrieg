@@ -20,7 +20,7 @@ class CInterfaceReplayList : public CInterfaceBaseList
 
   bool bInstantLoad;
   //
-  bool ProcessMessage(const SGameMessage &msg) override;
+  bool STDCALL ProcessMessage(const SGameMessage &msg) override;
   // disable explicit destruction
   ~CInterfaceReplayList() override;
   void DisplayError();
@@ -32,9 +32,9 @@ protected:
   bool FillListItem(IUIListRow *pRow, const std::string &szFullFileName, bool *pSelectedItem = nullptr) override;// fill the current line in the list
   bool OnOk(const std::string &szFullFileName) override;// the user has selected a file, let's process the selection
 public:
-  bool Init() override;
+  bool STDCALL Init() override;
   void SetFileName(const char *pszFileName);
-  void StartInterface() override;
+  void STDCALL StartInterface() override;
 };
 
 class CReplayList : public CInterfaceCommandBase<CInterfaceReplayList, MISSION_INTERFACE_REPLAY_LIST>
@@ -48,7 +48,7 @@ class CReplayList : public CInterfaceCommandBase<CInterfaceReplayList, MISSION_I
   CReplayList() {}
 
 public:
-  void Configure(const char *pszConfig) override { if (pszConfig) szFileNameToLoad = pszConfig; }
+  void STDCALL Configure(const char *pszConfig) override { if (pszConfig) szFileNameToLoad = pszConfig; }
 };
 
 #endif // __IM_REPLAY_LIST_H__

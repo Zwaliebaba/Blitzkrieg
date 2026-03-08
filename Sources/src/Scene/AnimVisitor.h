@@ -25,23 +25,23 @@ public:
   const SSpriteRect *GetSpriteRect() const { return pSpriteRect; }
   const SSpritesPack::SSprite *GetComplexSprite() const { return pComplexSprite; }
   //
-  void VisitSprite(const SSpriteRect *pSprite) override
+  void STDCALL VisitSprite(const SSpriteRect *pSprite) override
   {
     pSpriteRect = pSprite;
     pComplexSprite = nullptr;
   }
 
-  void VisitSprite(const SSpritesPack::SSprite *pSprite) override
+  void STDCALL VisitSprite(const SSpritesPack::SSprite *pSprite) override
   {
     pComplexSprite = pSprite;
     pSpriteRect = nullptr;
   }
 
-  void VisitMesh(const SHMatrix *matrices, int nNumMatrices) override {}
+  void STDCALL VisitMesh(const SHMatrix *matrices, int nNumMatrices) override {}
   // UI elements visiting
-  virtual void VisitUIRects(IGFXTexture *pTexture, const int nShadingEffect, SGFXRect2 *rects, const int nNumRects) {}
-  virtual void VisitUIText(IGFXText *pText, const CTRect<float> &rcRect, const int nY, const DWORD dwColor, const DWORD dwFlags) {}
-  virtual void VisitUICustom(interface IUIElement *pElement) {}
+  virtual void STDCALL VisitUIRects(IGFXTexture *pTexture, const int nShadingEffect, SGFXRect2 *rects, const int nNumRects) {}
+  virtual void STDCALL VisitUIText(IGFXText *pText, const CTRect<float> &rcRect, const int nY, const DWORD dwColor, const DWORD dwFlags) {}
+  virtual void STDCALL VisitUICustom(interface IUIElement *pElement) {}
 };
 
 #endif // __ANIMVISITOR_H__

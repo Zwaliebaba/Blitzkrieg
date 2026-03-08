@@ -11,7 +11,7 @@ class CInterfaceIMLoadMission : public CInterfaceBaseList
 {
   OBJECT_NORMAL_METHODS(CInterfaceIMLoadMission);
   //
-  bool ProcessMessage(const SGameMessage &msg) override;
+  bool STDCALL ProcessMessage(const SGameMessage &msg) override;
   // disable explicit destruction
   ~CInterfaceIMLoadMission() override;
 
@@ -22,7 +22,7 @@ protected:
   bool FillListItem(IUIListRow *pRow, const std::string &szFullFileName, bool *pSelectedItem = nullptr) override;// fill the current line in the list
   bool OnOk(const std::string &szFullFileName) override;// the user has selected a file, let's process the selection
 public:
-  bool Init() override;
+  bool STDCALL Init() override;
 };
 
 class CICIMLoadMission : public CInterfaceCommandBase<CInterfaceIMLoadMission, MISSION_INTERFACE_IM_LOAD_MISSION>

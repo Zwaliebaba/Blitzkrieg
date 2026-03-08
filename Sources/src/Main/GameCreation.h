@@ -86,7 +86,7 @@ const bool GetPlayerInfo(const wchar_t *pszPlayerName, SPlayerInfo *pInfo) const
   bool CanStartGame() const;
   bool IsAllPlayersInOneParty() const;
 
-  virtual IMultiplayerMessage * GetMessage() { return messages.GetMessage(); }
+  virtual IMultiplayerMessage * STDCALL GetMessage() { return messages.GetMessage(); }
 
   void LoadSidesInformation();
   bool LoadMapInfo(bool bServer, bool bNeedCheckSums);
@@ -127,27 +127,27 @@ public:
   void Init(INetDriver *pInGameNetDriver, INetDriver *pOutGameNetDriver,
             const SGameInfo &gameInfo, const SQuickLoadMapInfo &mapInfo);
 
-  void LeftGame() override;
-  void KickPlayer(int nLogicID) override;
-  void ChangeGameSettings() override {}
-  void ChangePlayerSettings(const struct SPlayerInfo &info, const EPlayerSettings &eSettingsType) override;
-  void Launch() override {}
+  void STDCALL LeftGame() override;
+  void STDCALL KickPlayer(int nLogicID) override;
+  void STDCALL ChangeGameSettings() override {}
+  void STDCALL ChangePlayerSettings(const struct SPlayerInfo &info, const EPlayerSettings &eSettingsType) override;
+  void STDCALL Launch() override {}
 
-  void Segment() override;
+  void STDCALL Segment() override;
 
-  interface IGamePlaying * CreateGamePlaying() override;
+  interface IGamePlaying * STDCALL CreateGamePlaying() override;
 
-  bool CanStartGame() const override { return CCommonGameCreationInfo::CanStartGame(); }
-  bool IsAllPlayersInOneParty() const override { return CCommonGameCreationInfo::IsAllPlayersInOneParty(); }
-  IMultiplayerMessage * GetMessage() override { return CCommonGameCreationInfo::GetMessage(); }
+  bool STDCALL CanStartGame() const override { return CCommonGameCreationInfo::CanStartGame(); }
+  bool STDCALL IsAllPlayersInOneParty() const override { return CCommonGameCreationInfo::IsAllPlayersInOneParty(); }
+  IMultiplayerMessage * STDCALL GetMessage() override { return CCommonGameCreationInfo::GetMessage(); }
 
-  const bool GetPlayerInfo(const wchar_t *pszPlayerName, SPlayerInfo *pInfo) const override { return CCommonGameCreationInfo::GetPlayerInfo(pszPlayerName, pInfo); }
+  const bool STDCALL GetPlayerInfo(const wchar_t *pszPlayerName, SPlayerInfo *pInfo) const override { return CCommonGameCreationInfo::GetPlayerInfo(pszPlayerName, pInfo); }
 
-  const bool GetOurPlayerInfo(SPlayerInfo *pInfo) const override { return CCommonGameCreationInfo::GetOurPlayerInfo(pInfo, 0); }
+  const bool STDCALL GetOurPlayerInfo(SPlayerInfo *pInfo) const override { return CCommonGameCreationInfo::GetOurPlayerInfo(pInfo, 0); }
 
-  void SetNewGameSettings(const SMultiplayerGameSettings &settings) override;
+  void STDCALL SetNewGameSettings(const SMultiplayerGameSettings &settings) override;
 
-  interface INetDriver * GetInGameNetDriver() const override { return CCommonGameCreationInfo::GetInGameNetDriver(); }
+  interface INetDriver * STDCALL GetInGameNetDriver() const override { return CCommonGameCreationInfo::GetInGameNetDriver(); }
 };
 
 class CClientGameCreation : public IGameCreation, protected CCommonGameCreationInfo
@@ -224,29 +224,29 @@ public:
 
   void Init(INetDriver *pInGameNetDriver, bool bPasswordRequired, const std::string &szPassword);
 
-  void LeftGame() override {}
-  void KickPlayer(int nLogicID) override;
-  void ChangeGameSettings() override {}
-  void ChangePlayerSettings(const struct SPlayerInfo &info, const EPlayerSettings &eSettingsType) override;
-  void Launch() override {}
+  void STDCALL LeftGame() override {}
+  void STDCALL KickPlayer(int nLogicID) override;
+  void STDCALL ChangeGameSettings() override {}
+  void STDCALL ChangePlayerSettings(const struct SPlayerInfo &info, const EPlayerSettings &eSettingsType) override;
+  void STDCALL Launch() override {}
 
-  void Segment() override;
+  void STDCALL Segment() override;
 
-  IMultiplayerMessage * GetMessage() override { return CCommonGameCreationInfo::GetMessage(); }
+  IMultiplayerMessage * STDCALL GetMessage() override { return CCommonGameCreationInfo::GetMessage(); }
 
-  bool CanStartGame() const override { return CCommonGameCreationInfo::CanStartGame(); }
-  bool IsAllPlayersInOneParty() const override { return CCommonGameCreationInfo::IsAllPlayersInOneParty(); }
-  interface IGamePlaying * CreateGamePlaying() override;
+  bool STDCALL CanStartGame() const override { return CCommonGameCreationInfo::CanStartGame(); }
+  bool STDCALL IsAllPlayersInOneParty() const override { return CCommonGameCreationInfo::IsAllPlayersInOneParty(); }
+  interface IGamePlaying * STDCALL CreateGamePlaying() override;
 
-  const bool GetPlayerInfo(const wchar_t *pszPlayerName, SPlayerInfo *pInfo) const override { return CCommonGameCreationInfo::GetPlayerInfo(pszPlayerName, pInfo); }
+  const bool STDCALL GetPlayerInfo(const wchar_t *pszPlayerName, SPlayerInfo *pInfo) const override { return CCommonGameCreationInfo::GetPlayerInfo(pszPlayerName, pInfo); }
 
-  const bool GetOurPlayerInfo(SPlayerInfo *pInfo) const override { return CCommonGameCreationInfo::GetOurPlayerInfo(pInfo, nOurLogicID); }
+  const bool STDCALL GetOurPlayerInfo(SPlayerInfo *pInfo) const override { return CCommonGameCreationInfo::GetOurPlayerInfo(pInfo, nOurLogicID); }
 
-  void SetNewGameSettings(const SMultiplayerGameSettings &settings) override {}
+  void STDCALL SetNewGameSettings(const SMultiplayerGameSettings &settings) override {}
 
-  void ModChanged() override { bModChanged = true; }
+  void STDCALL ModChanged() override { bModChanged = true; }
 
-  interface INetDriver * GetInGameNetDriver() const override { return CCommonGameCreationInfo::GetInGameNetDriver(); }
+  interface INetDriver * STDCALL GetInGameNetDriver() const override { return CCommonGameCreationInfo::GetInGameNetDriver(); }
 
   void MapLoaded();
 };

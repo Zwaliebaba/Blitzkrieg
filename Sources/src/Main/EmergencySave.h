@@ -16,7 +16,7 @@ public:
     : pMainLoop(_pMainLoop), pSS(_pSS) {}
 
   // execute command
-  void Do() override
+  void STDCALL Do() override
   {
     try
     {
@@ -27,9 +27,9 @@ public:
   }
 
   // un-execute command
-  void UnDo() override {}
+  void STDCALL UnDo() override {}
   // can this command be un-executed
-  bool CanUnDo() override { return false; }
+  bool STDCALL CanUnDo() override { return false; }
 };
 
 #endif // __EMERGENCYSAVE_H__

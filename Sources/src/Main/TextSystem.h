@@ -10,12 +10,12 @@ enum
 
 interface IText : ISharedResource
 {
-  virtual const wchar_t * GetString() const = 0;
-  virtual const int GetLength() const = 0;
-  virtual void SetText(const wchar_t*pszText) = 0;
+  virtual const wchar_t * STDCALL GetString() const = 0;
+  virtual const int STDCALL GetLength() const = 0;
+  virtual void STDCALL SetText(const wchar_t*pszText) = 0;
   //
-  virtual bool IsChanged() const = 0;
-  virtual void ResetChanged() = 0;
+  virtual bool STDCALL IsChanged() const = 0;
+  virtual void STDCALL ResetChanged() = 0;
 };
 
 interface ITextString : IText {};
@@ -28,11 +28,11 @@ interface ITextManager : ISharedManager
   enum { tidTypeID = TEXT_MANAGER };
 
   //
-  virtual bool AddTextFile(const char *pszFileName) = 0;
-  virtual IText * GetString(const char *pszKey) = 0;
-  virtual IText * GetDialog(const char *pszKey) = 0;
-  virtual const char * GetTextName(IText *pText) = 0;
+  virtual bool STDCALL AddTextFile(const char *pszFileName) = 0;
+  virtual IText * STDCALL GetString(const char *pszKey) = 0;
+  virtual IText * STDCALL GetDialog(const char *pszKey) = 0;
+  virtual const char * STDCALL GetTextName(IText *pText) = 0;
 };
 
-IObjectLoader * GetTextLoader();
+IObjectLoader * STDCALL GetTextLoader();
 

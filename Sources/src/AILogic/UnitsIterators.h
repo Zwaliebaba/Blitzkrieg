@@ -41,7 +41,7 @@ class CIter
   std::vector<BYTE> parties;
 
 public:
-  virtual int operator&(IStructureSaver &ss)
+  virtual int STDCALL operator&(IStructureSaver &ss)
   {
     CSaverAccessor saver = &ss;
     saver.Add(1, &geomIter);

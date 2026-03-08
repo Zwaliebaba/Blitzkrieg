@@ -26,15 +26,15 @@ private:
 public:
   SUITreeItem() : nData(0) {}
 
-  virtual IUITreeItem * AddTreeItem(IUIElement *_pIcon, IUIElement *_pInfo, int nUserData);
-  virtual IUITreeItem * GetParentTreeItem() { return pParent; }
+  virtual IUITreeItem * STDCALL AddTreeItem(IUIElement *_pIcon, IUIElement *_pInfo, int nUserData);
+  virtual IUITreeItem * STDCALL GetParentTreeItem() { return pParent; }
 
-  virtual IUITreeIterator GetBegin() { return treeItems.begin(); }
-  virtual IUITreeIterator GetEnd() { return treeItems.end(); }
-  virtual int GetUserData() { return nData; }
+  virtual IUITreeIterator STDCALL GetBegin() { return treeItems.begin(); }
+  virtual IUITreeIterator STDCALL GetEnd() { return treeItems.end(); }
+  virtual int STDCALL GetUserData() { return nData; }
 
   // serializing...
-  virtual int operator&(IDataTree &ss);
+  virtual int STDCALL operator&(IDataTree &ss);
 };
 
 class CUITree : public CMultipleWindow
@@ -69,25 +69,25 @@ public:
 
   virtual ~CUITree();
 
-  virtual void Reposition(const CTRect<float> &rcParent);
+  virtual void STDCALL Reposition(const CTRect<float> &rcParent);
 
-  virtual bool ProcessMessage(const SUIMessage &msg);
+  virtual bool STDCALL ProcessMessage(const SUIMessage &msg);
 
   // serializing...
-  virtual int operator&(IDataTree &ss);
+  virtual int STDCALL operator&(IDataTree &ss);
 
   // drawing
-  virtual void Draw(IGFX *pGFX);
-  virtual void Visit(interface ISceneVisitor *pVisitor);
+  virtual void STDCALL Draw(IGFX *pGFX);
+  virtual void STDCALL Visit(interface ISceneVisitor *pVisitor);
 
-  virtual bool OnLButtonDown(const CVec2 &vPos, EMouseState mouseState);
+  virtual bool STDCALL OnLButtonDown(const CVec2 &vPos, EMouseState mouseState);
 
   // Public interface
-  virtual SUITreeItem * GetRootTreeItem() { return pRoot; }
-  // virtual SUITreeItem* Get
+  virtual SUITreeItem * STDCALL GetRootTreeItem() { return pRoot; }
+  // virtual SUITreeItem* STDCALL Get
   // selection operations
-  virtual void SetSelectionItem(SUITreeItem *pTreeItem);
-  virtual SUITreeItem * GetSelectionItem() { return pSelection; }
+  virtual void STDCALL SetSelectionItem(SUITreeItem *pTreeItem);
+  virtual SUITreeItem * STDCALL GetSelectionItem() { return pSelection; }
 };
 
 class CUITreeBridge : public IUITreeControl, public CUITree

@@ -10,7 +10,7 @@ enum
 
 interface IUIMask : ISharedResource
 {
-  virtual const CArray2D<BYTE> * GetMask() = 0;
+  virtual const CArray2D<BYTE> * STDCALL GetMask() = 0;
 };
 
 interface IMaskManager : ISharedManager
@@ -19,10 +19,10 @@ interface IMaskManager : ISharedManager
   enum { tidTypeID = MASK_MANAGER };
 
   //
-  virtual IUIMask * GetMask(const char *pszKey) = 0;
-  virtual const char * GetMaskName(IUIMask *pMask) = 0;
+  virtual IUIMask * STDCALL GetMask(const char *pszKey) = 0;
+  virtual const char * STDCALL GetMaskName(IUIMask *pMask) = 0;
 };
 
-IObjectLoader * GetMaskLoader();
+IObjectLoader * STDCALL GetMaskLoader();
 
 #endif		// __MASK_MANAGER_H__

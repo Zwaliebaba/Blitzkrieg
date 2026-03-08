@@ -19,7 +19,7 @@ public:
   //
   D3DRESOURCETYPE GetType() const { return D3DRTYPE_TEXTURE; }
   // internal container
-  virtual void SwapData(ISharedResource *pResource)
+  virtual void STDCALL SwapData(ISharedResource *pResource)
   {
     CBaseTexture<TBase> *pRes = dynamic_cast<CBaseTexture<TBase> *>(pResource);
     NI_ASSERT_TF(pRes != 0, NStr::Format("shared resource is not a %s", typeid(*this).name()), return);
@@ -31,7 +31,7 @@ public:
     std::swap(nMemUsage, pRes->nMemUsage);
   }
 
-  virtual void ClearInternalContainer()
+  virtual void STDCALL ClearInternalContainer()
   {
     pTexture = 0;
     nMemUsage = 0;
@@ -39,9 +39,9 @@ public:
 
   virtual IDirect3DTexture9 *GetInternalContainer() = 0;
   //
-  int GetSizeX(int nLevel) const { return nSizeX >> nLevel; }
-  int GetSizeY(int nLevel) const { return nSizeY >> nLevel; }
-  EGFXPixelFormat GetFormat() const { return format; }
+  int STDCALL GetSizeX(int nLevel) const { return nSizeX >> nLevel; }
+  int STDCALL GetSizeY(int nLevel) const { return nSizeY >> nLevel; }
+  EGFXPixelFormat STDCALL GetFormat() const { return format; }
 };
 
 class CTexture : public CBaseTexture<IGFXTexture>
@@ -61,16 +61,16 @@ public:
   IDirect3DTexture9 *GetInternalContainer() override;
   //
   // internal container clearing
-  bool Load(bool bPreLoad = false) override;
+  bool STDCALL Load(bool bPreLoad = false) override;
   // direct data access through lock
-  bool Lock(int nLevel, SSurfaceLockInfo *pLockInfo) override;
-  bool Unlock(int nLevel) override;
+  bool STDCALL Lock(int nLevel, SSurfaceLockInfo *pLockInfo) override;
+  bool STDCALL Unlock(int nLevel) override;
   // add dirty rect for further update
-  bool AddDirtyRect(const RECT *pRect) override;
+  bool STDCALL AddDirtyRect(const RECT *pRect) override;
   //
-  int GetSizeX(int nLevel) const override { return nSizeX >> nLevel; }
-  int GetSizeY(int nLevel) const override { return nSizeY >> nLevel; }
-  EGFXPixelFormat GetFormat() const override { return format; }
+  int STDCALL GetSizeX(int nLevel) const override { return nSizeX >> nLevel; }
+  int STDCALL GetSizeY(int nLevel) const override { return nSizeY >> nLevel; }
+  EGFXPixelFormat STDCALL GetFormat() const override { return format; }
 };
 
 class CRenderTargetTexture : public CBaseTexture<IGFXRTexture>
@@ -91,16 +91,16 @@ public:
   IDirect3DSurface9 *GetDepthSurface() const { return pDepth; }
   //
   IDirect3DTexture9 *GetInternalContainer() override { return pTexture; }
-  void SwapData(ISharedResource *pResource) override {}
+  void STDCALL SwapData(ISharedResource *pResource) override {}
 
-  void ClearInternalContainer() override
+  void STDCALL ClearInternalContainer() override
   {
     pColor = 0;
     pDepth = 0;
     pTexture = 0;
   }
 
-  bool Load(const bool bPreLoad = false) override
+  bool STDCALL Load(const bool bPreLoad = false) override
   {
     NI_ASSERT_T(false, "This method can't be implemented for RT");
     return false;
@@ -121,14 +121,14 @@ CSurface(IDirect3DSurface9 *_pSurface) { Init(_pSurface); }
 //
 void Init(IDirect3DSurface9 *_pSurface);
   // direct data access through lock
-  bool Lock(SSurfaceLockInfo *pLockInfo) override;
-  bool Unlock() override;
+  bool STDCALL Lock(SSurfaceLockInfo *pLockInfo) override;
+  bool STDCALL Unlock() override;
   // size access
-  int GetSizeX() const override { return nSizeX; }
-  int GetSizeY() const override { return nSizeY; }
-  EGFXPixelFormat GetFormat() const override { return format; }
+  int STDCALL GetSizeX() const override { return nSizeX; }
+  int STDCALL GetSizeY() const override { return nSizeY; }
+  EGFXPixelFormat STDCALL GetFormat() const override { return format; }
   // internal container clearing
-  virtual void ClearInternalContainer() { pSurface = 0; }
+  virtual void STDCALL ClearInternalContainer() { pSurface = 0; }
 };
 
 #endif // __TEXTURE_H__

@@ -7,7 +7,7 @@
 #include "Internal.h"
 // //////////////////////////////////////////////////////////// 
 // The documentation for this function is in BugSlayer.h.
-BOOL GetLoadedModules(DWORD dwPID, UINT uiCount, HMODULE *paModArray, LPUINT puiRealCount)
+BOOL STDCALL GetLoadedModules(DWORD dwPID, UINT uiCount, HMODULE *paModArray, LPUINT puiRealCount)
 {
   // Do the debug checking.
   ASSERT(NULL != puiRealCount);

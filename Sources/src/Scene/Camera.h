@@ -46,29 +46,29 @@ class CCamera : public ICamera
 public:
   CCamera();
   //
-  void Init(ISingleton *pSingleton) override;
-  void SetBounds(int x1, int y1, int x2, int y2) override { rcBounds.Set(x1, y1, x2, y2); }
+  void STDCALL Init(ISingleton *pSingleton) override;
+  void STDCALL SetBounds(int x1, int y1, int x2, int y2) override { rcBounds.Set(x1, y1, x2, y2); }
   // placement functions
-  void SetPlacement(const CVec3 &vAnchor, float fDist, float fPitch, float fYaw) override;
-  void SetAnchor(const CVec3 &_vAnchor) override { vAnchor = _vAnchor; }
-  const SHMatrix GetPlacement() const override;
-  const CVec3 GetPos() const override { return vPos; }
-  const CVec3 GetAnchor() override { return vAnchor1; }
+  void STDCALL SetPlacement(const CVec3 &vAnchor, float fDist, float fPitch, float fYaw) override;
+  void STDCALL SetAnchor(const CVec3 &_vAnchor) override { vAnchor = _vAnchor; }
+  const SHMatrix STDCALL GetPlacement() const override;
+  const CVec3 STDCALL GetPos() const override { return vPos; }
+  const CVec3 STDCALL GetAnchor() override { return vAnchor1; }
   // last unchanged position
-  void GetLastPos(CVec3 *pvAnchor, NTimer::STime *pTime) const override
+  void STDCALL GetLastPos(CVec3 *pvAnchor, NTimer::STime *pTime) const override
   {
     *pvAnchor = vLastAnchor;
     *pTime = timeLast;
   }
 
   // scrolling
-  void ResetSliders() override;
-  void SetScrollSpeedX(float fSpeed) override { vScrollSpeed.x = fSpeed; }
-  void SetScrollSpeedY(float fSpeed) override { vScrollSpeed.y = fSpeed; }
+  void STDCALL ResetSliders() override;
+  void STDCALL SetScrollSpeedX(float fSpeed) override { vScrollSpeed.x = fSpeed; }
+  void STDCALL SetScrollSpeedY(float fSpeed) override { vScrollSpeed.y = fSpeed; }
   // eqrthquake
-  void AddEarthquake(const CVec3 &vPos, float fPower) override;
+  void STDCALL AddEarthquake(const CVec3 &vPos, float fPower) override;
   //
-  void Update() override;
+  void STDCALL Update() override;
 };
 
 #endif // __CAMERA_H__

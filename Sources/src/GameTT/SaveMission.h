@@ -16,9 +16,9 @@ class CInterfaceSaveMission : public CInterfaceScreenBase
   // input
   NInput::CCommandRegistrator savemissionMsgs;
   //
-  bool ProcessMessage(const SGameMessage &msg) override;
-  bool StepLocal(bool bAppActive) override;
-  void DrawAdd() override;
+  bool STDCALL ProcessMessage(const SGameMessage &msg) override;
+  bool STDCALL StepLocal(bool bAppActive) override;
+  void STDCALL DrawAdd() override;
   // disable explicit destruction
   ~CInterfaceSaveMission() override;
 
@@ -28,9 +28,9 @@ protected:
   CInterfaceSaveMission() : CInterfaceScreenBase("Current") {}
 
 public:
-  bool Init() override;
-  void StartInterface() override;
-  void OnGetFocus(bool bFocus) override;
+  bool STDCALL Init() override;
+  void STDCALL StartInterface() override;
+  void STDCALL OnGetFocus(bool bFocus) override;
 
   void Configure(int nMode);
 };
@@ -53,7 +53,7 @@ class CICSaveMission : public CInterfaceCommandBase<CInterfaceSaveMission, MISSI
   CICSaveMission() {}
 
 public:
-  void Configure(const char *pszConfig) override
+  void STDCALL Configure(const char *pszConfig) override
   {
     if (!pszConfig) nType = 0;
     else nType = NStr::ToInt(pszConfig);

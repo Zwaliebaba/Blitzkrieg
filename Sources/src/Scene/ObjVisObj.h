@@ -25,22 +25,22 @@ public:
   //
   // placement
   //
-  virtual void SetPlacement(const CVec3 &_vPos, const int _nDir)
+  virtual void STDCALL SetPlacement(const CVec3 &_vPos, const int _nDir)
   {
     SetPosition(_vPos);
     SetDirection(_nDir);
   }
 
-  virtual const CVec3 &GetPosition() const { return vPos; }
+  virtual const CVec3 &STDCALL GetPosition() const { return vPos; }
 
-  virtual int GetDirection() const { return nDirection; }
+  virtual int STDCALL GetDirection() const { return nDirection; }
 
   //
   // selection
   //
-  virtual EVisObjSelectionState GetSelectionState() const { return selectionState; }
+  virtual EVisObjSelectionState STDCALL GetSelectionState() const { return selectionState; }
 
-  virtual void Select(EVisObjSelectionState state)
+  virtual void STDCALL Select(EVisObjSelectionState state)
   {
     selectionState = state;
     for (auto it = icons.begin(); it != icons.end(); ++it)
@@ -50,18 +50,18 @@ public:
   //
   // visibility, priority, game type
   //
-  virtual bool IsVisible() const { return bVisible; }
+  virtual bool STDCALL IsVisible() const { return bVisible; }
 
-  virtual void SetVisible(const bool _bVisible) { bVisible = _bVisible; }
+  virtual void STDCALL SetVisible(const bool _bVisible) { bVisible = _bVisible; }
 
-  virtual void SetPriority(const int _nPriority) { nPriority = _nPriority; }
+  virtual void STDCALL SetPriority(const int _nPriority) { nPriority = _nPriority; }
 
-  virtual void SetGameType(const DWORD dwType) { dwGameType = dwType; }
+  virtual void STDCALL SetGameType(const DWORD dwType) { dwGameType = dwType; }
 
   //
   // icons
   //
-  virtual void AddIcon(ISceneIcon *pIcon, int nID, const CVec3 &vAddValue, const CVec3 &vAddStep,
+  virtual void STDCALL AddIcon(ISceneIcon *pIcon, int nID, const CVec3 &vAddValue, const CVec3 &vAddStep,
                                int nPriority, DWORD placement, bool bReposition = true)
   {
     if (pIcon)
@@ -89,7 +89,7 @@ public:
     if (bReposition) RepositionIcons();
   }
 
-  virtual void RemoveIcon(int nID, bool bReposition = true)
+  virtual void STDCALL RemoveIcon(int nID, bool bReposition = true)
   {
     if (nID == -1) icons.clear();
     else
@@ -107,7 +107,7 @@ public:
     if (bReposition) RepositionIcons();
   }
 
-  virtual ISceneIcon *GetIcon(int nID) const
+  virtual ISceneIcon *STDCALL GetIcon(int nID) const
   {
     for (auto it = icons.begin(); it != icons.end(); ++it)
       if (it->nID == nID) return it->pIcon;
@@ -117,7 +117,7 @@ public:
   //
   // serialization
   //
-  virtual int operator&(IStructureSaver &ss)
+  virtual int STDCALL operator&(IStructureSaver &ss)
   {
     CSaverAccessor saver = &ss;
     saver.Add(3, &dwGameType);

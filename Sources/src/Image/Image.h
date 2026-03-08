@@ -62,48 +62,48 @@ struct SColor
 
 interface IImage : IRefCount
 {
-  virtual int GetSizeX() const = 0;
-  virtual int GetSizeY() const = 0;
-  virtual void Set(SColor color) = 0;
+  virtual int STDCALL GetSizeX() const = 0;
+  virtual int STDCALL GetSizeY() const = 0;
+  virtual void STDCALL Set(SColor color) = 0;
   // set alpha components
-  virtual void SetAlpha(BYTE alpha) = 0;
-  virtual bool SetAlpha(const IImage *pAlpha) = 0;
+  virtual void STDCALL SetAlpha(BYTE alpha) = 0;
+  virtual bool STDCALL SetAlpha(const IImage *pAlpha) = 0;
   // set r,g,b components
-  virtual void SetColor(DWORD color) = 0;
-  virtual bool SetColor(const IImage *pColor) = 0;
+  virtual void STDCALL SetColor(DWORD color) = 0;
+  virtual bool STDCALL SetColor(const IImage *pColor) = 0;
   //
-  virtual const SColor * GetLFB() const = 0;
-  virtual SColor * GetLFB() = 0;
-  virtual const SColor * GetLine(int nLine) const = 0;
-  virtual SColor * GetLine(int nLine) = 0;
+  virtual const SColor * STDCALL GetLFB() const = 0;
+  virtual SColor * STDCALL GetLFB() = 0;
+  virtual const SColor * STDCALL GetLine(int nLine) const = 0;
+  virtual SColor * STDCALL GetLine(int nLine) = 0;
   // duplication
-  virtual IImage * Duplicate() const = 0;
+  virtual IImage * STDCALL Duplicate() const = 0;
   // subimage copying
-  virtual bool CopyFrom(IImage *pSrc, const RECT *pSrcRect, int nPosX, int nPosY) = 0;
-  virtual bool CopyFromAB(IImage *pSrc, const RECT *pSrcRect, int nPosX, int nPosY) = 0;
+  virtual bool STDCALL CopyFrom(IImage *pSrc, const RECT *pSrcRect, int nPosX, int nPosY) = 0;
+  virtual bool STDCALL CopyFromAB(IImage *pSrc, const RECT *pSrcRect, int nPosX, int nPosY) = 0;
   // modulation
-  virtual bool ModulateAlphaFrom(IImage *pSrc, const RECT *pSrcRect, int nPosX, int nPosY) = 0;
-  virtual bool ModulateColorFrom(IImage *pSrc, const RECT *pSrcRect, int nPosX, int nPosY) = 0;
+  virtual bool STDCALL ModulateAlphaFrom(IImage *pSrc, const RECT *pSrcRect, int nPosX, int nPosY) = 0;
+  virtual bool STDCALL ModulateColorFrom(IImage *pSrc, const RECT *pSrcRect, int nPosX, int nPosY) = 0;
   //
-  virtual void FlipY() = 0;
-  virtual void Invert() = 0;
-  virtual void InvertAlpha() = 0;
-  virtual void SharpenAlpha(BYTE ref) = 0;
+  virtual void STDCALL FlipY() = 0;
+  virtual void STDCALL Invert() = 0;
+  virtual void STDCALL InvertAlpha() = 0;
+  virtual void STDCALL SharpenAlpha(BYTE ref) = 0;
 };
 
 interface IDDSImage : IRefCount
 {
   // size(x, y, z:)
-  virtual int GetSizeX(int nMipLevel = 0) const = 0;
-  virtual int GetSizeY(int nMipLevel = 0) const = 0;
-  virtual int GetNumMipLevels() const = 0;
+  virtual int STDCALL GetSizeX(int nMipLevel = 0) const = 0;
+  virtual int STDCALL GetSizeY(int nMipLevel = 0) const = 0;
+  virtual int STDCALL GetNumMipLevels() const = 0;
   // format...
-  virtual const struct SDDSPixelFormat * GetDDSFormat() const = 0;
-  virtual EGFXPixelFormat GetGFXFormat() const = 0;
-  virtual int GetBPP() const = 0;
+  virtual const struct SDDSPixelFormat * STDCALL GetDDSFormat() const = 0;
+  virtual EGFXPixelFormat STDCALL GetGFXFormat() const = 0;
+  virtual int STDCALL GetBPP() const = 0;
   //
-  virtual const void * GetLFB(int nMipLevel = 0) const = 0;
-  virtual void * GetLFB(int nMipLevel = 0) = 0;
+  virtual const void * STDCALL GetLFB(int nMipLevel = 0) const = 0;
+  virtual void * STDCALL GetLFB(int nMipLevel = 0) = 0;
 };
 
 interface IImageProcessor : IRefCount
@@ -111,31 +111,31 @@ interface IImageProcessor : IRefCount
   enum { tidTypeID = IMAGE_PROCESSOR };
 
   // image loading from the stream
-  virtual IImage * LoadImage(IDataStream *pStream) const = 0;
-  virtual IDDSImage * LoadDDSImage(IDataStream *pStream) const = 0;
-  virtual bool SaveImageAsPNG(IDataStream *pStream, const IImage *pImage) const = 0;
-  virtual bool SaveImageAsTGA(IDataStream *pStream, const IImage *pImage) const = 0;
-  virtual bool SaveImageAsDDS(IDataStream *pStream, const IDDSImage *pImage) const = 0;
+  virtual IImage * STDCALL LoadImage(IDataStream *pStream) const = 0;
+  virtual IDDSImage * STDCALL LoadDDSImage(IDataStream *pStream) const = 0;
+  virtual bool STDCALL SaveImageAsPNG(IDataStream *pStream, const IImage *pImage) const = 0;
+  virtual bool STDCALL SaveImageAsTGA(IDataStream *pStream, const IImage *pImage) const = 0;
+  virtual bool STDCALL SaveImageAsDDS(IDataStream *pStream, const IDDSImage *pImage) const = 0;
   // image creation
-  virtual IImage * CreateImage(int nSizeX, int nSizeY) = 0;
-  virtual IImage * CreateImage(int nSizeX, int nSizeY, void *pData) = 0;
+  virtual IImage * STDCALL CreateImage(int nSizeX, int nSizeY) = 0;
+  virtual IImage * STDCALL CreateImage(int nSizeX, int nSizeY, void *pData) = 0;
   // image manipulation
-  virtual IImage * CreateScale(const IImage *pImage, float fScaleFactor, EImageScaleMethod method) const = 0;
-  virtual IImage * CreateScale(const IImage *pImage, float fScaleX, float fScaleY, EImageScaleMethod method) const = 0;
-  virtual IImage * CreateScaleBySize(const IImage *pImage, int nSizeX, int nSizeY, EImageScaleMethod method) const = 0;
-  virtual IImage * CreateMip(const IImage *pImage, int nLevel) const = 0;
-  virtual IImage * CreateGammaCorrection(IImage *pSrc, float fBrightness, float fContrast, float fGamma) = 0;
+  virtual IImage * STDCALL CreateScale(const IImage *pImage, float fScaleFactor, EImageScaleMethod method) const = 0;
+  virtual IImage * STDCALL CreateScale(const IImage *pImage, float fScaleX, float fScaleY, EImageScaleMethod method) const = 0;
+  virtual IImage * STDCALL CreateScaleBySize(const IImage *pImage, int nSizeX, int nSizeY, EImageScaleMethod method) const = 0;
+  virtual IImage * STDCALL CreateMip(const IImage *pImage, int nLevel) const = 0;
+  virtual IImage * STDCALL CreateGammaCorrection(IImage *pSrc, float fBrightness, float fContrast, float fGamma) = 0;
   // image conversion
-  virtual IDDSImage * Compress(const IImage *pSrcImage, EGFXPixelFormat format) const = 0;
-  virtual IImage * Decompress(const IDDSImage *pSrcImage) const = 0;
+  virtual IDDSImage * STDCALL Compress(const IImage *pSrcImage, EGFXPixelFormat format) const = 0;
+  virtual IImage * STDCALL Decompress(const IDDSImage *pSrcImage) const = 0;
   // generate mip-levels and compress
-  virtual IDDSImage * GenerateAndCompress(const IImage *pSrcImage, EGFXPixelFormat format, int nNumMipLevels) const = 0;
+  virtual IDDSImage * STDCALL GenerateAndCompress(const IImage *pSrcImage, EGFXPixelFormat format, int nNumMipLevels) const = 0;
   // pre-multiplied alpha restoration
-  virtual void RestoreImage(IImage *pImage, const SColor &bg) = 0;
+  virtual void STDCALL RestoreImage(IImage *pImage, const SColor &bg) = 0;
   // compose nNumImages to the one image. 
-  virtual IImage * ComposeImages(IImage **pImages, RECT *pRects, RECT *pRectsMain, int nNumImages, int nSizeX = 0, int nSizeY = 0) const = 0;
+  virtual IImage * STDCALL ComposeImages(IImage **pImages, RECT *pRects, RECT *pRectsMain, int nNumImages, int nSizeX = 0, int nSizeY = 0) const = 0;
   // generate image
-  virtual IImage * GenerateImage(int nSizeX, int nSizeY, int nType) = 0;
+  virtual IImage * STDCALL GenerateImage(int nSizeX, int nSizeY, int nType) = 0;
 };
 
 inline IImageProcessor *GetImageProcessor() { return GetSingleton<IImageProcessor>(); }

@@ -26,7 +26,7 @@ protected:
   virtual void PostCreate(IMainLoop *pML, TInterface *pInterface) {}
 
 public:
-  void Exec(IMainLoop *pML) override
+  void STDCALL Exec(IMainLoop *pML) override
   {
     PreCreate(pML);
     //
@@ -39,8 +39,8 @@ public:
   }
 
   //
-  void SetDelayedTime(const NTimer::STime &timeToExecute) override { timeDelayed = timeToExecute; }
-  NTimer::STime GetDelayedTime() const override { return timeDelayed; }
+  void STDCALL SetDelayedTime(const NTimer::STime &timeToExecute) override { timeDelayed = timeToExecute; }
+  NTimer::STime STDCALL GetDelayedTime() const override { return timeDelayed; }
 };
 
 class CInterfaceScreenBase : public IInterfaceBase
@@ -121,10 +121,10 @@ protected:
   //
   virtual void SuspendAILogic(bool bSuspend);
   //
-  virtual bool StepLocal(bool bAppActive) { return bAppActive; }
-  virtual void DrawAdd() {}
-  virtual bool ProcessMessage(const SGameMessage &msg) = 0;
-  virtual bool OnCursorMove(const CVec2 &vPos);
+  virtual bool STDCALL StepLocal(bool bAppActive) { return bAppActive; }
+  virtual void STDCALL DrawAdd() {}
+  virtual bool STDCALL ProcessMessage(const SGameMessage &msg) = 0;
+  virtual bool STDCALL OnCursorMove(const CVec2 &vPos);
   // tutorial
   void SetTutorialNumber(const int _nHelpContext) { nHelpContextNumber = _nHelpContext; }
   void ShowTutorialIfNotShown();
@@ -136,19 +136,19 @@ protected:
 public:
   CInterfaceScreenBase(const std::string &_szInterfaceType);
   //
-  bool Init() override;
-  void Done() override;
-  void Step(bool bAppActive) override;
-  bool ProcessUIMessage(const SGameMessage &msg) override;
-  bool ProcessTextMessage(const STextMessage &msg) override;
-  bool GetMessage(SGameMessage *pMsg) override;
-  void OnGetFocus(bool bFocus) override;
-  void StartInterface() override;
+  bool STDCALL Init() override;
+  void STDCALL Done() override;
+  void STDCALL Step(bool bAppActive) override;
+  bool STDCALL ProcessUIMessage(const SGameMessage &msg) override;
+  bool STDCALL ProcessTextMessage(const STextMessage &msg) override;
+  bool STDCALL GetMessage(SGameMessage *pMsg) override;
+  void STDCALL OnGetFocus(bool bFocus) override;
+  void STDCALL StartInterface() override;
   // finish interface with transition to the next one
-  virtual int FinishInterface(IInterfaceCommand *pCmdNextInterface);
-  virtual int FinishInterface(int nInterfaceCommandTypeID, const char *pszCommandConfig);
-  virtual void SetWindowText(int nElementID, IText *pText);
-  virtual void SetWindowText(int nElementID, const wchar_t *pszText);
+  virtual int STDCALL FinishInterface(IInterfaceCommand *pCmdNextInterface);
+  virtual int STDCALL FinishInterface(int nInterfaceCommandTypeID, const char *pszCommandConfig);
+  virtual void STDCALL SetWindowText(int nElementID, IText *pText);
+  virtual void STDCALL SetWindowText(int nElementID, const wchar_t *pszText);
 };
 
 #endif // __INTERFACESCREENBASE_H__

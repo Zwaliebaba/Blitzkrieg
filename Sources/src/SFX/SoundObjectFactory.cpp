@@ -20,4 +20,4 @@ CSoundObjectFactory::CSoundObjectFactory()
 }
 
 static SModuleDescriptor theModuleDescriptor("Sound (FMOD)", SFX_SFX, 0x0100, &theSoundObjectFactory, nullptr);
-const SModuleDescriptor * GetModuleDescriptor() { return &theModuleDescriptor; }
+const SModuleDescriptor * STDCALL GetModuleDescriptor() { return &theModuleDescriptor; }

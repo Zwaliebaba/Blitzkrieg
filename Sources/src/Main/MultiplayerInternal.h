@@ -46,29 +46,29 @@ protected:
 public:
   CMultiplayer() : eState(EMS_NONE), bInGSChat(false) {}
 
-  void InitServersList() override;
-  void Segment() override;
+  void STDCALL InitServersList() override;
+  void STDCALL Segment() override;
 
   const EMultiplayerStates GetState() override { return eState; }
 
-  CCommand * GetCommand() override;
-  void SendClientCommands(IDataStream *pPacket) override;
-  void SendInGameChatMessage(const wchar_t *pszType, const wchar_t *pszMessage) override;
+  CCommand * STDCALL GetCommand() override;
+  void STDCALL SendClientCommands(IDataStream *pPacket) override;
+  void STDCALL SendInGameChatMessage(const wchar_t *pszType, const wchar_t *pszMessage) override;
 
   // valid onlye during of the game
-  int GetNumberOfPlayers() const override;
+  int STDCALL GetNumberOfPlayers() const override;
 
   // client commands
-  void TogglePause() override;
-  void GameSpeed(int nChange) override;
-  void DropPlayer(int nLogicID) override;
+  void STDCALL TogglePause() override;
+  void STDCALL GameSpeed(int nChange) override;
+  void STDCALL DropPlayer(int nLogicID) override;
 
-  void CommandTimeOut(bool bSet) override;
+  void STDCALL CommandTimeOut(bool bSet) override;
 
-  void SendAliveMessage() override;
-  void FinishGame() override;
+  void STDCALL SendAliveMessage() override;
+  void STDCALL FinishGame() override;
 
-  interface INetDriver * GetInGameNetDriver() const override;
+  interface INetDriver * STDCALL GetInGameNetDriver() const override;
 };
 
 class CLanMultiplayer : public CMultiplayer
@@ -79,8 +79,8 @@ protected:
   IServersList *CreateServersList() override;
 
 public:
-  void Init() override {}
-  bool InitJoinToServer(const char *pszIPAddress, const int nPort, bool bPasswordRequired, const char *pszPassword) override { return true; }
+  void STDCALL Init() override {}
+  bool STDCALL InitJoinToServer(const char *pszIPAddress, const int nPort, bool bPasswordRequired, const char *pszPassword) override { return true; }
 };
 
 class CInternetMultiplayer : public CMultiplayer
@@ -92,8 +92,8 @@ protected:
 
 public:
   CInternetMultiplayer() {}
-  void Init() override {}
-  bool InitJoinToServer(const char *pszIPAddress, const int nPort, bool bPasswordRequired, const char *pszPassword) override { return true; }
+  void STDCALL Init() override {}
+  bool STDCALL InitJoinToServer(const char *pszIPAddress, const int nPort, bool bPasswordRequired, const char *pszPassword) override { return true; }
 };
 
 

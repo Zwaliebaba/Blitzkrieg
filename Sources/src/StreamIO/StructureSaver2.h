@@ -118,25 +118,25 @@ public:
   ~CStructureSaver2();
   //
   // start new complex chunk
-  bool StartChunk(SSChunkID idChunk) override;
+  bool STDCALL StartChunk(SSChunkID idChunk) override;
   // finish complex chunk
-  void FinishChunk() override;
+  void STDCALL FinishChunk() override;
   // simply raw data chunk
-  void DataChunk(SSChunkID idChunk, void *pData, int nSize) override;
+  void STDCALL DataChunk(SSChunkID idChunk, void *pData, int nSize) override;
   // data stream as data chunk
-  void DataChunk(IDataStream *pStream) override;
+  void STDCALL DataChunk(IDataStream *pStream) override;
   // count number of subchunks in the given chunk
-  int CountChunks(SSChunkID idChunk) override;
+  int STDCALL CountChunks(SSChunkID idChunk) override;
   // set subchunks number in the given chunk
-  void SetChunkCounter(int nCount) override { chunks.back().nChunkNumber = nCount; }
+  void STDCALL SetChunkCounter(int nCount) override { chunks.back().nChunkNumber = nCount; }
   // is structure saver opened in the READ mode?
-  bool IsReading() const override { return bIsReading; }
+  bool STDCALL IsReading() const override { return bIsReading; }
   // loading an object and recreating it
-  IRefCount * LoadObject() override;
+  IRefCount * STDCALL LoadObject() override;
   // recording the object and data needed to recreate it when loaded
-  void StoreObject(IRefCount *pObj) override;
+  void STDCALL StoreObject(IRefCount *pObj) override;
   // get a pointer to the game database
-  interface IGDB * GetGDB() override { return pGDB; }
+  interface IGDB * STDCALL GetGDB() override { return pGDB; }
 };
 
 #endif

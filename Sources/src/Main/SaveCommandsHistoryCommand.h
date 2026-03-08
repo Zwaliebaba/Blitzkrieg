@@ -15,11 +15,11 @@ class CSaveCommandsHistoryCommand : public IBaseCommand
 public:
   CSaveCommandsHistoryCommand(ICommandsHistory *_pHistory) : pHistory(_pHistory) {}
   // execute command
-  void Do() override { pHistory->Save(); }
+  void STDCALL Do() override { pHistory->Save(); }
   // un-execute command
-  void UnDo() override {}
+  void STDCALL UnDo() override {}
   // can this command be un-executed
-  bool CanUnDo() override { return false; }
+  bool STDCALL CanUnDo() override { return false; }
 };
 
 #endif // __SAVE_COMMANDS_HISTORY_COMMAND_H__

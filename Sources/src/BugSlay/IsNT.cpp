@@ -12,7 +12,7 @@ static BOOL g_bHasVersion = FALSE;
 // Indicates NT or 95/98.
 static BOOL g_bIsNT = TRUE;
 
-BOOL IsNT()
+BOOL STDCALL IsNT()
 {
   if (TRUE == g_bHasVersion) return (TRUE == g_bIsNT);
 

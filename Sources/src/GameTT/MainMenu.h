@@ -13,7 +13,7 @@ class CInterfaceMainMenu : public CInterfaceInterMission
   // input
   NInput::CCommandRegistrator commandMsgs;
   //
-  bool ProcessMessage(const SGameMessage &msg) override;
+  bool STDCALL ProcessMessage(const SGameMessage &msg) override;
   // disable explicit destruction
   ~CInterfaceMainMenu() override;
   CInterfaceMainMenu();
@@ -31,10 +31,10 @@ class CInterfaceMainMenu : public CInterfaceInterMission
   std::vector<IUIState *> states;
 
 public:
-  bool Init() override;
+  bool STDCALL Init() override;
   static void PlayIntermissionSound();
 
-  void OnGetFocus(bool bFocus) override;
+  void STDCALL OnGetFocus(bool bFocus) override;
 
   enum EUIState
   {
@@ -71,7 +71,7 @@ class CICMainMenu : public CInterfaceCommandBase<CInterfaceMainMenu, MISSION_INT
   CICMainMenu() : nState(0), nNextIC(-1) {}
 
 public:
-  void Configure(const char *pszConfig) override;
+  void STDCALL Configure(const char *pszConfig) override;
 };
 
 #endif		// __SELECT_MAIN_MENU_H__

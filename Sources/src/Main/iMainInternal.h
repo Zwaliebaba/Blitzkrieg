@@ -62,35 +62,35 @@ class CMainLoop : public IMainLoop
 public:
   CMainLoop();
   //
-  const char * GetBaseDir() const override { return szBaseDir.c_str(); }
+  const char * STDCALL GetBaseDir() const override { return szBaseDir.c_str(); }
   //
-  void ConfigureNet(const int nAppID, const int nPort) override
+  void STDCALL ConfigureNet(const int nAppID, const int nPort) override
   {
     nNetAppID = nAppID;
     nNetPort = nPort;
   }
 
   //
-  bool StepApp(bool bActive) override;
-  void Command(IInterfaceCommand *pCommand) override;
-  void Command(int nCommandID, const char *pszConfiguration) override;
+  bool STDCALL StepApp(bool bActive) override;
+  void STDCALL Command(IInterfaceCommand *pCommand) override;
+  void STDCALL Command(int nCommandID, const char *pszConfiguration) override;
   // work with interfaces
-  void ResetStack() override;
-  void SetInterface(IInterfaceBase *pNewInterface) override;
-  void PushInterface(IInterfaceBase *pNewInterface) override;
-  void PopInterface() override;
-  IInterfaceBase * GetInterface() const override;
+  void STDCALL ResetStack() override;
+  void STDCALL SetInterface(IInterfaceBase *pNewInterface) override;
+  void STDCALL PushInterface(IInterfaceBase *pNewInterface) override;
+  void STDCALL PopInterface() override;
+  IInterfaceBase * STDCALL GetInterface() const override;
   //
-  void Pause(bool _bPause, int _nPauseReason) override;
-  bool IsPaused() const override { return bPaused; }
-  void EnableMessageProcessing(bool bEnable) override;
+  void STDCALL Pause(bool _bPause, int _nPauseReason) override;
+  bool STDCALL IsPaused() const override { return bPaused; }
+  void STDCALL EnableMessageProcessing(bool bEnable) override;
   // clear all unreferenced resources
-  void ClearResources(bool bClearAll) override;
+  void STDCALL ClearResources(bool bClearAll) override;
   //
-  void StoreScenarioTracker() override;
-  void RestoreScenarioTracker() override;
-  void SerializeConfig(bool bRead, DWORD dwSerialize) override;
-  void Serialize(IStructureSaver *pSS, interface IProgressHook *pHook) override;
+  void STDCALL StoreScenarioTracker() override;
+  void STDCALL RestoreScenarioTracker() override;
+  void STDCALL SerializeConfig(bool bRead, DWORD dwSerialize) override;
+  void STDCALL Serialize(IStructureSaver *pSS, interface IProgressHook *pHook) override;
 };
 
 struct SProgressMovieInfo
@@ -144,14 +144,14 @@ public:
   void Init(const std::string &szMovieName) override;
   void Stop() override;
   // set total num steps
-  void SetNumSteps(int nRange, float fPercentage = 1.0f) override;
+  void STDCALL SetNumSteps(int nRange, float fPercentage = 1.0f) override;
   // do one step
-  void Step() override;
+  void STDCALL Step() override;
   // recover during loading
-  void Recover() override;
+  void STDCALL Recover() override;
   // get/set current position
-  void SetCurrPos(int nPos) override;
-  int GetCurrPos() const override;
+  void STDCALL SetCurrPos(int nPos) override;
+  int STDCALL GetCurrPos() const override;
 };
 
 #endif // __IMAININTERNAL_H__

@@ -52,6 +52,7 @@ enum ECommands
   // multiplayer
   IMC_LAN = 10003,
   IMC_INTERNET = 10002,
+  IMC_GAMESPY = 10004,
 
   // custom games
   IMC_CUSTOM_CAMPAIGNS = 10003,

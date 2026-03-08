@@ -286,11 +286,11 @@ private:
   //
   void VisualizeFeedback(int nFeedBack, int nParam);
   //
-  bool ProcessMessage(const SGameMessage &msg) override;
-  virtual bool ProcessMessageLocal(const SGameMessage &msg);
-  bool StepLocal(bool bAppActive) override;
-  void DrawAdd() override;
-  bool OnCursorMove(const CVec2 &vPos) override;
+  bool STDCALL ProcessMessage(const SGameMessage &msg) override;
+  virtual bool STDCALL ProcessMessageLocal(const SGameMessage &msg);
+  bool STDCALL StepLocal(bool bAppActive) override;
+  void STDCALL DrawAdd() override;
+  bool STDCALL OnCursorMove(const CVec2 &vPos) override;
   void SetMissionStatusObject(bool bStatus);
   //
   bool MakeMapShot();
@@ -300,9 +300,9 @@ private:
 public:
   CInterfaceMission();
   //
-  bool Init() override;
-  void Done() override;
-  void OnGetFocus(bool bFocus) override;
+  bool STDCALL Init() override;
+  void STDCALL Done() override;
+  void STDCALL OnGetFocus(bool bFocus) override;
   bool NewMission(const std::string &_szMapName, bool _bCycledLaunch);
   void CheckResolution();
   void ConfigureInterfacePreferences();
@@ -322,7 +322,7 @@ class CICMission : public CInterfaceCommandBase<CInterfaceMission, MISSION_INTER
   CICMission() : bCycledLaunch(false) {}
 
 public:
-  void Configure(const char *pszConfig) override;
+  void STDCALL Configure(const char *pszConfig) override;
 };
 
 #endif // __IMISSIONINTERNAL_H__

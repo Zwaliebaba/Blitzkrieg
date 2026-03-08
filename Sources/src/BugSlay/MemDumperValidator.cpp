@@ -98,7 +98,7 @@ static AutoMatic g_cBeforeAndAfter;
 // Public Implementation starts here.
 // ////////////////////////////////////////////////////////////////////
 
-int AddClientDV(LPDVINFO lpDVInfo)
+int STDCALL AddClientDV(LPDVINFO lpDVInfo)
 {
   BOOL bRet = TRUE;
 
@@ -232,7 +232,7 @@ int AddClientDV(LPDVINFO lpDVInfo)
   return bRet;
 }
 
-void ValidateAllBlocks(void *pContext)
+void STDCALL ValidateAllBlocks(void *pContext)
 {
   __try
   {
@@ -434,9 +434,9 @@ static LPDVINFO FindRegisteredBlockType(void *pData)
 
 // This is a release build so put in two stub functions to keep the
 // exports happy.
-int AddClientDV(void *) { return 0; }
+int STDCALL AddClientDV(void *) { return 0; }
 
-void ValidateAllBlocks(void *) {}
+void STDCALL ValidateAllBlocks(void *) {}
 
 #endif
 

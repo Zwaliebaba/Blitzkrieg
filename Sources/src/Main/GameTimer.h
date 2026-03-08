@@ -62,40 +62,40 @@ public:
 
 interface ITimeSlider : IRefCount
 {
-  virtual NTimer::STime GetDelta() = 0;
-  virtual void Reset() = 0;
+  virtual NTimer::STime STDCALL GetDelta() = 0;
+  virtual void STDCALL Reset() = 0;
 };
 
 interface IBaseTimer : IRefCount
 {
-  virtual NTimer::STime Get() = 0;
-  virtual void Set(const NTimer::STime &time) = 0;
+  virtual NTimer::STime STDCALL Get() = 0;
+  virtual void STDCALL Set(const NTimer::STime &time) = 0;
 };
 
 interface ISingleTimer : IBaseTimer
 {
-  virtual void Reset() = 0;
-  virtual void Pause(bool bPause) = 0;
-  virtual ITimeSlider * CreateSlider() = 0;
-  virtual void Update(const NTimer::STime &time) = 0;
-  virtual bool IsPaused() const = 0;
+  virtual void STDCALL Reset() = 0;
+  virtual void STDCALL Pause(bool bPause) = 0;
+  virtual ITimeSlider * STDCALL CreateSlider() = 0;
+  virtual void STDCALL Update(const NTimer::STime &time) = 0;
+  virtual bool STDCALL IsPaused() const = 0;
   // guarantee FPS (for movie sequence capturing)
-  virtual void SetGuarantieFPS(float fFPS) = 0;
-  virtual const float GetGuarantieFPS() const = 0;
+  virtual void STDCALL SetGuarantieFPS(float fFPS) = 0;
+  virtual const float STDCALL GetGuarantieFPS() const = 0;
   //
-  virtual void SetTimeScale(float scale) = 0;
+  virtual void STDCALL SetTimeScale(float scale) = 0;
 };
 
 interface ISegmentTimer : IBaseTimer
 {
   // segment time kduration
-  virtual void SetSegmentTime(const NTimer::STime &time) = 0;
-  virtual NTimer::STime GetSegmentTime() = 0;
+  virtual void STDCALL SetSegmentTime(const NTimer::STime &time) = 0;
+  virtual NTimer::STime STDCALL GetSegmentTime() = 0;
   // segments
-  virtual bool BeginSegments(const NTimer::STime &time) = 0;
-  virtual bool NextSegment() = 0;
-  virtual int GetSegment() = 0;
-  virtual void SetSegment(int nSegment) = 0;
+  virtual bool STDCALL BeginSegments(const NTimer::STime &time) = 0;
+  virtual bool STDCALL NextSegment() = 0;
+  virtual int STDCALL GetSegment() = 0;
+  virtual void STDCALL SetSegment(int nSegment) = 0;
 };
 
 interface IGameTimer : IRefCount
@@ -104,33 +104,33 @@ interface IGameTimer : IRefCount
   enum { tidTypeID = TIMER_GAME_TIMER };
 
   //
-  virtual void Init() = 0;
+  virtual void STDCALL Init() = 0;
   // timers
-  virtual ISingleTimer * GetGameTimer() = 0;
-  virtual ISingleTimer * GetSyncTimer() = 0;
-  virtual ISingleTimer * GetAbsTimer() = 0;
+  virtual ISingleTimer * STDCALL GetGameTimer() = 0;
+  virtual ISingleTimer * STDCALL GetSyncTimer() = 0;
+  virtual ISingleTimer * STDCALL GetAbsTimer() = 0;
   // times
-  virtual NTimer::STime GetGameTime() = 0;
-  virtual NTimer::STime GetSyncTime() = 0;
-  virtual NTimer::STime GetAbsTime() = 0;
+  virtual NTimer::STime STDCALL GetGameTime() = 0;
+  virtual NTimer::STime STDCALL GetSyncTime() = 0;
+  virtual NTimer::STime STDCALL GetAbsTime() = 0;
   // segment timers
-  virtual ISegmentTimer * GetGameSegmentTimer() = 0;
-  virtual ISegmentTimer * GetSyncSegmentTimer() = 0;
+  virtual ISegmentTimer * STDCALL GetGameSegmentTimer() = 0;
+  virtual ISegmentTimer * STDCALL GetSyncSegmentTimer() = 0;
   // segments
-  virtual NTimer::STime GetGameSegmentTime() = 0;
-  virtual NTimer::STime GetSyncSegmentTime() = 0;
+  virtual NTimer::STime STDCALL GetGameSegmentTime() = 0;
+  virtual NTimer::STime STDCALL GetSyncSegmentTime() = 0;
   // pause
-  virtual void PauseGame(bool bPause, int nType = 0) = 0;
-  virtual void PauseSync(bool bPause, int nType = 0) = 0;
-  virtual int GetPauseReason() const = 0;
-  virtual bool HasPause(int nReason) const = 0;
+  virtual void STDCALL PauseGame(bool bPause, int nType = 0) = 0;
+  virtual void STDCALL PauseSync(bool bPause, int nType = 0) = 0;
+  virtual int STDCALL GetPauseReason() const = 0;
+  virtual bool STDCALL HasPause(int nReason) const = 0;
   // guarantee FPS (for movie sequence capturing)
-  virtual void SetGuarantieFPS(float fFPS) = 0;
+  virtual void STDCALL SetGuarantieFPS(float fFPS) = 0;
   // update
-  virtual void Update(const NTimer::STime &time) = 0;
+  virtual void STDCALL Update(const NTimer::STime &time) = 0;
   // time speed increase/decrease
-  virtual int SetSpeed(int nSpeed) = 0;
-  virtual int GetSpeed() const = 0;
+  virtual int STDCALL SetSpeed(int nSpeed) = 0;
+  virtual int STDCALL GetSpeed() const = 0;
 };
 
 #endif // __GAMETIMER_H__

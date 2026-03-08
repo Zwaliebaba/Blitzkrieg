@@ -53,8 +53,8 @@ struct SQuickLoadMapInfo
   void FillFromRMTemplate(const SRMTemplate &rRMTemplate);
 
   // serializing...
-  virtual int operator&(IStructureSaver &ss);
-  virtual int operator&(IDataTree &ss);
+  virtual int STDCALL operator&(IStructureSaver &ss);
+  virtual int STDCALL operator&(IDataTree &ss);
 };
 
 template<class TRPGStats>
@@ -178,8 +178,8 @@ public:
   bool Load(const char *pszMapName);
   // ------------------------------------------------------------------------------------------------------------------
   // serializing...
-  virtual int operator&(IStructureSaver &ss);
-  virtual int operator&(IDataTree &ss);
+  virtual int STDCALL operator&(IStructureSaver &ss);
+  virtual int STDCALL operator&(IDataTree &ss);
 
   // all coordinates are measured from the left corner
   // ------------------------------------------------------------------------------------------------------------------

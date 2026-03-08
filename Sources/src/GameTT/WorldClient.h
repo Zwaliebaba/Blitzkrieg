@@ -234,22 +234,22 @@ public:
   //
   void SetTransceiver(ITransceiver *pTrans) { pTransceiver = pTrans; }
   // select single map object
-  bool Select(struct SMapObject *pMO, bool bSelect, bool bSelectSuper) override;
-  bool IsSelected(const SMapObject *pMO) const override { return objset.find(const_cast<SMapObject *>(pMO)) != objset.end(); }
+  bool STDCALL Select(struct SMapObject *pMO, bool bSelect, bool bSelectSuper) override;
+  bool STDCALL IsSelected(const SMapObject *pMO) const override { return objset.find(const_cast<SMapObject *>(pMO)) != objset.end(); }
   // done multiple selection operation
-  void DoneSelection() override;
+  void STDCALL DoneSelection() override;
   // register/unregister group
-  int GetAIGroup() override { return Register(); }
-  bool IsEmpty() const override { return objects.empty(); }
+  int STDCALL GetAIGroup() override { return Register(); }
+  bool STDCALL IsEmpty() const override { return objects.empty(); }
 
-  void Invalidate()
+  void STDCALL Invalidate()
   {
     UnRegister();
     bValid = false;
   }
 
   // visiting objects inside
-  void Visit(ISelectorVisitor *pVisitor) const override;
+  void STDCALL Visit(ISelectorVisitor *pVisitor) const override;
   //	
   void SendAcknowledgement(interface IAILogic *pAILogic);
   void UpdateSelection(IMOContainer *pContainer);
@@ -561,7 +561,7 @@ class CWorldClient : public CWorldBase
 public:
   CWorldClient();
   // startup initialization
-  void Init(ISingleton *pSingleton) override;
+  void STDCALL Init(ISingleton *pSingleton) override;
   // selection
   void Select(const CVec2 &vPos);
   int Select(IVisObj **objects, int nNumObjects);
@@ -572,13 +572,13 @@ public:
   void PreSelect(IVisObj **objects, int nNumObjects);
   void ResetPreSelection(IVisObj *pObj = nullptr);
   // action...
-  virtual void OnMouseMove(const CVec2 &vPos, interface IUIElement *pUIPickElement);
+  virtual void STDCALL OnMouseMove(const CVec2 &vPos, interface IUIElement *pUIPickElement);
   void BeginAction(const SGameMessage &msg);
   void DoAction(const SGameMessage &msg);
   // message processing
   bool ProcessMessage(const SGameMessage &msg);
   void GetAviationCircles(interface IUIMiniMap *pMInimap, NTimer::STime curTime);
-  void Update(const NTimer::STime &currTime) override;
+  void STDCALL Update(const NTimer::STime &currTime) override;
 };
 
 class CWorldClientBridge : public IWorldClient, CWorldClient
@@ -586,33 +586,33 @@ class CWorldClientBridge : public IWorldClient, CWorldClient
   OBJECT_NORMAL_METHODS(CWorldClientBridge);
   DECLARE_SUPER(CWorldClient);
   // serialization
-  int operator&(IStructureSaver &ss) override { return CSuper::operator&(ss); }
+  int STDCALL operator&(IStructureSaver &ss) override { return CSuper::operator&(ss); }
   // set climate-geographical zone settings
-  void SetSeason(int _nSeason) override { CSuper::SetSeason(_nSeason); }
+  void STDCALL SetSeason(int _nSeason) override { CSuper::SetSeason(_nSeason); }
   // startup initialization (mission begin)
-  void Init(ISingleton *pSingleton) override { CSuper::Init(pSingleton); }
+  void STDCALL Init(ISingleton *pSingleton) override { CSuper::Init(pSingleton); }
   // remove all from all!!!
-  void Clear() override { CSuper::Clear(); }
+  void STDCALL Clear() override { CSuper::Clear(); }
   // general world update from AI
-  void Update(const NTimer::STime &currTime) override { CSuper::Update(currTime); }
+  void STDCALL Update(const NTimer::STime &currTime) override { CSuper::Update(currTime); }
   // message processing
-  bool ProcessMessage(const SGameMessage &msg) override { return CSuper::ProcessMessage(msg); }
-  bool GetMessage(SGameMessage *pMsg) override { return CSuper::GetMessage(pMsg); }
+  bool STDCALL ProcessMessage(const SGameMessage &msg) override { return CSuper::ProcessMessage(msg); }
+  bool STDCALL GetMessage(SGameMessage *pMsg) override { return CSuper::GetMessage(pMsg); }
   // mission start
-  void Start() override { CSuper::Start(); }
+  void STDCALL Start() override { CSuper::Start(); }
   // selection
-  void Select(const CVec2 &vPos) override { CSuper::Select(vPos); }
-  int Select(IVisObj **objects, int nNumObjects) override { return CSuper::Select(objects, nNumObjects); }
-  void ResetSelection(IVisObj *pObj = nullptr) override { CSuper::ResetSelection(pObj); }
-  void PreSelect(IVisObj **objects, int nNumObjects) override { CSuper::PreSelect(objects, nNumObjects); }
-  void ResetPreSelection(IVisObj *pObj = nullptr) override { CSuper::ResetPreSelection(pObj); }
+  void STDCALL Select(const CVec2 &vPos) override { CSuper::Select(vPos); }
+  int STDCALL Select(IVisObj **objects, int nNumObjects) override { return CSuper::Select(objects, nNumObjects); }
+  void STDCALL ResetSelection(IVisObj *pObj = nullptr) override { CSuper::ResetSelection(pObj); }
+  void STDCALL PreSelect(IVisObj **objects, int nNumObjects) override { CSuper::PreSelect(objects, nNumObjects); }
+  void STDCALL ResetPreSelection(IVisObj *pObj = nullptr) override { CSuper::ResetPreSelection(pObj); }
   // manipulation
-  void MoveObject(IVisObj *pObj, const CVec3 &vPos) override { CSuper::MoveObject(pObj, vPos); }
+  void STDCALL MoveObject(IVisObj *pObj, const CVec3 &vPos) override { CSuper::MoveObject(pObj, vPos); }
   // action...
-  void OnMouseMove(const CVec2 &vPos, interface IUIElement *pUIPickElement) override { CSuper::OnMouseMove(vPos, pUIPickElement); }
-  void BeginAction(const SGameMessage &msg) override { CSuper::BeginAction(msg); }
-  void DoAction(const SGameMessage &msg) override { CSuper::DoAction(msg); }
-  void GetAviationCircles(interface IUIMiniMap *pMinimap, const NTimer::STime curTime) override { CSuper::GetAviationCircles(pMinimap, curTime); }
+  void STDCALL OnMouseMove(const CVec2 &vPos, interface IUIElement *pUIPickElement) override { CSuper::OnMouseMove(vPos, pUIPickElement); }
+  void STDCALL BeginAction(const SGameMessage &msg) override { CSuper::BeginAction(msg); }
+  void STDCALL DoAction(const SGameMessage &msg) override { CSuper::DoAction(msg); }
+  void STDCALL GetAviationCircles(interface IUIMiniMap *pMinimap, const NTimer::STime curTime) override { CSuper::GetAviationCircles(pMinimap, curTime); }
 };
 
 #endif // __WORLDCLIENT_H__

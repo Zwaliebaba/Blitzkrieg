@@ -20,7 +20,7 @@ class CUIListTextSorter : public IUIListSorter
   OBJECT_NORMAL_METHODS(CUIListTextSorter);
 
 public:
-  bool operator()(int nSortColumn, const IUIListRow *pRow1, const IUIListRow *pRow2, bool bForward) const override;
+  bool STDCALL operator()(int nSortColumn, const IUIListRow *pRow1, const IUIListRow *pRow2, bool bForward) const override;
 };
 
 class CUIListNumberSorter : public IUIListSorter
@@ -28,7 +28,7 @@ class CUIListNumberSorter : public IUIListSorter
   OBJECT_NORMAL_METHODS(CUIListNumberSorter);
 
 public:
-  bool operator()(int nSortColumn, const IUIListRow *pRow1, const IUIListRow *pRow2, bool bForward) const override;
+  bool STDCALL operator()(int nSortColumn, const IUIListRow *pRow1, const IUIListRow *pRow2, bool bForward) const override;
 };
 
 class CUIListUserDataSorter : public IUIListSorter
@@ -36,7 +36,7 @@ class CUIListUserDataSorter : public IUIListSorter
   OBJECT_NORMAL_METHODS(CUIListUserDataSorter);
 
 public:
-  bool operator()(int nSortColumn, const IUIListRow *pRow1, const IUIListRow *pRow2, bool bForward) const override;
+  bool STDCALL operator()(int nSortColumn, const IUIListRow *pRow1, const IUIListRow *pRow2, bool bForward) const override;
 };
 
 #endif		// __UI_LIST_SORTER_H__

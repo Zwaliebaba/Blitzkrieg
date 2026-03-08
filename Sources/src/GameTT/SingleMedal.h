@@ -13,13 +13,13 @@ class CInterfaceSingleMedal : public CInterfaceInterMission
   // input
   NInput::CCommandRegistrator commandMsgs;
   //
-  bool ProcessMessage(const SGameMessage &msg) override;
+  bool STDCALL ProcessMessage(const SGameMessage &msg) override;
   // disable explicit destruction
   ~CInterfaceSingleMedal() override;
   CInterfaceSingleMedal() : CInterfaceInterMission("Current") {}
 
 public:
-  bool Init() override;
+  bool STDCALL Init() override;
   void Create(const char *pszName);
 };
 
@@ -34,7 +34,7 @@ class CICSingleMedal : public CInterfaceCommandBase<CInterfaceSingleMedal, MISSI
   CICSingleMedal() {}
 
 public:
-  void Configure(const char *pszConfig) override;
+  void STDCALL Configure(const char *pszConfig) override;
 };
 
 #endif		// __IM_SINGLE_MEDAL_H__

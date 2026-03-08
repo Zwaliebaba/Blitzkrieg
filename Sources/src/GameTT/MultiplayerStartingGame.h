@@ -23,7 +23,7 @@ class CInterfaceMPStartingGame : public CInterfaceMultiplayerScreen, public IWhi
   bool bStarted;// game launched
 
   CInterfaceMPStartingGame() : CInterfaceMultiplayerScreen("InterMission") {}
-  bool ProcessMessage(const SGameMessage &msg) override;
+  bool STDCALL ProcessMessage(const SGameMessage &msg) override;
 
   // return true if need process commands further
   bool ProcessMPCommand(const SToUICommand &cmd);
@@ -38,15 +38,15 @@ class CInterfaceMPStartingGame : public CInterfaceMultiplayerScreen, public IWhi
 
   void AddMessageToChat(const SChatMessage *pChatMessage);
 
-  void OnGetFocus(bool bFocus) override;
+  void STDCALL OnGetFocus(bool bFocus) override;
   void OnStart(bool bForced);
   void NotifyOptionsChanged();
 
 public:
-  bool Init() override;
-  void StartInterface() override;
-  virtual void SetParams(const char *pszParams);
-  void Done() override;
+  bool STDCALL Init() override;
+  void STDCALL StartInterface() override;
+  virtual void STDCALL SetParams(const char *pszParams);
+  void STDCALL Done() override;
   // IWhisper
   const wchar_t *GetDestinationName() override;
 };
@@ -67,5 +67,5 @@ class CICMultyplayerStartingGame : public CInterfaceCommandBase<CInterfaceMPStar
   }
 
 public:
-  void Configure(const char *pszConfig) override { if (pszConfig) szParams = pszConfig; }
+  void STDCALL Configure(const char *pszConfig) override { if (pszConfig) szParams = pszConfig; }
 };

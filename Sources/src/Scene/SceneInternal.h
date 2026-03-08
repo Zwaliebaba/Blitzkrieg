@@ -355,26 +355,26 @@ class CScene : public IScene
 public:
   CScene();
   //
-  bool Init(ISingleton *pSingleton) override;
+  bool STDCALL Init(ISingleton *pSingleton) override;
   //
-  void SetSeason(int nSeason) override;
-  void InitMapSounds(const struct CMapSoundInfo *pSound, int nElements) override;
-  void InitMusic(const std::string &szPartyName) override;
-  void InitTerrainSound(interface ITerrain *pTerrain) override;
+  void STDCALL SetSeason(int nSeason) override;
+  void STDCALL InitMapSounds(const struct CMapSoundInfo *pSound, int nElements) override;
+  void STDCALL InitMusic(const std::string &szPartyName) override;
+  void STDCALL InitTerrainSound(interface ITerrain *pTerrain) override;
   //
-  void SetTerrain(ITerrain *pTerrain) override;
-  interface ITerrain * GetTerrain() override { return pTerrain; }
+  void STDCALL SetTerrain(ITerrain *pTerrain) override;
+  interface ITerrain * STDCALL GetTerrain() override { return pTerrain; }
   // add/remove/change position of the object
-  bool AddObject(IVisObj *pObject, EObjGameType eGameType, const SGDBObjectDesc *pDesc) override;
-  bool AddCraterObject(IVisObj *pObject, EObjGameType eGameType) override;
-  bool AddOutboundObject(IVisObj *pObject, EObjGameType eGameType) override;
+  bool STDCALL AddObject(IVisObj *pObject, EObjGameType eGameType, const SGDBObjectDesc *pDesc) override;
+  bool STDCALL AddCraterObject(IVisObj *pObject, EObjGameType eGameType) override;
+  bool STDCALL AddOutboundObject(IVisObj *pObject, EObjGameType eGameType) override;
   // CRAP { this is such crap because of coastal artillery
-  bool AddOutboundObject2(IVisObj *pObject, EObjGameType eGameType) override;
+  bool STDCALL AddOutboundObject2(IVisObj *pObject, EObjGameType eGameType) override;
   // CRAP}
-  void AddMechTrace(const SMechTrace &trace) override;
-  void AddGunTrace(const SGunTrace &trace) override;
+  void STDCALL AddMechTrace(const SMechTrace &trace) override;
+  void STDCALL AddGunTrace(const SGunTrace &trace) override;
 
-  bool AddSceneObject(ISceneObject *pObject) override
+  bool STDCALL AddSceneObject(ISceneObject *pObject) override
   {
     CPtr<ISceneObject> pObj = pObject;
     RemoveSceneObject(pObject);
@@ -382,45 +382,45 @@ public:
     return true;
   }
 
-  bool RemoveObject(IVisObj *pObject) override;
+  bool STDCALL RemoveObject(IVisObj *pObject) override;
 
-  bool RemoveSceneObject(ISceneObject *pObject) override
+  bool STDCALL RemoveSceneObject(ISceneObject *pObject) override
   {
     if (pObject) alwaysObjects.remove(pObject);
     else alwaysObjects.clear();
     return true;
   }
 
-  bool MoveObject(IVisObj *pObject, const CVec3 &vPos) override;
+  bool STDCALL MoveObject(IVisObj *pObject, const CVec3 &vPos) override;
   //
-  bool AddLine(IBoldLineVisObj *pLine) override
+  bool STDCALL AddLine(IBoldLineVisObj *pLine) override
   {
     boldLines.push_back(pLine);
     return true;
   }
 
-  bool RemoveLine(IBoldLineVisObj *pLine) override
+  bool STDCALL RemoveLine(IBoldLineVisObj *pLine) override
   {
     boldLines.remove(pLine);
     return true;
   }
 
   // set areas for fire ranges, zeroing, etc. 
-  void SetAreas(const SShootAreas *areas, int nNumAreas) override;
-  void GetAreas(struct SShootAreas **areas, int *pnNumAreas) override;
+  void STDCALL SetAreas(const SShootAreas *areas, int nNumAreas) override;
+  void STDCALL GetAreas(struct SShootAreas **areas, int *pnNumAreas) override;
   // UI screen
-  bool AddUIScreen(interface IUIScreen *pUIScreen) override;
-  bool RemoveUIScreen(interface IUIScreen *pUIScreen) override;
-  interface IUIScreen * GetUIScreen() override;
-  void SetMissionScreen(interface IUIScreen *pMissionScreen) override;
-  interface IUIScreen * GetMissionScreen() override;
+  bool STDCALL AddUIScreen(interface IUIScreen *pUIScreen) override;
+  bool STDCALL RemoveUIScreen(interface IUIScreen *pUIScreen) override;
+  interface IUIScreen * STDCALL GetUIScreen() override;
+  void STDCALL SetMissionScreen(interface IUIScreen *pMissionScreen) override;
+  interface IUIScreen * STDCALL GetMissionScreen() override;
 
   // add/remove sound object
 
-  void SetSoundPos(WORD wID, const CVec3 &vPos) override;
-  bool IsSoundFinished(WORD wID) override;
-  void RemoveSound(WORD wID) override;
-  WORD AddSound(const char *pszName,
+  void STDCALL SetSoundPos(WORD wID, const CVec3 &vPos) override;
+  bool STDCALL IsSoundFinished(WORD wID) override;
+  void STDCALL RemoveSound(WORD wID) override;
+  WORD STDCALL AddSound(const char *pszName,
                         const CVec3 &vPos,
                         ESoundMixType eMixType,
                         ESoundAddMode eAddMode,
@@ -429,21 +429,21 @@ public:
                         int nMaxRadius = 0,
                         unsigned int nTimeAfterStart = 0) override;
 
-  WORD AddSoundToMap(const char *pszName, const CVec3 &vPos) override;
-  void RemoveSoundFromMap(WORD wInstanceID) override;
+  WORD STDCALL AddSoundToMap(const char *pszName, const CVec3 &vPos) override;
+  void STDCALL RemoveSoundFromMap(WORD wInstanceID) override;
 
-  void SetSoundSceneMode(enum ESoundSceneMode eSoundSceneMode) override;
-  void UpdateSound(interface ICamera *pCamera) override;
-  void CombatNotify() override;
+  void STDCALL SetSoundSceneMode(enum ESoundSceneMode eSoundSceneMode) override;
+  void STDCALL UpdateSound(interface ICamera *pCamera) override;
+  void STDCALL CombatNotify() override;
 
   // additional objects
-  int AddMeshPair(IGFXVertices *pVertices, IGFXIndices *pIndices, IGFXTexture *pTexture, int nShadingEffect, bool bTemporary) override;
-  int AddMeshPair2(void *vertices, int nNumVertices, int nVertexSize, DWORD dwFormat,
+  int STDCALL AddMeshPair(IGFXVertices *pVertices, IGFXIndices *pIndices, IGFXTexture *pTexture, int nShadingEffect, bool bTemporary) override;
+  int STDCALL AddMeshPair2(void *vertices, int nNumVertices, int nVertexSize, DWORD dwFormat,
                            WORD *indices, int nNumIndices, EGFXPrimitiveType ePrimitiveType,
                            IGFXTexture *pTexture, int nShadingEffect, bool bTemporary) override;
-  bool RemoveMeshPair(int nID) override;
+  bool STDCALL RemoveMeshPair(int nID) override;
   // CRAP{ fake object - circle for artillery reveal - remove, then minimap will be
-  void AddCircle(const CVec3 &vCenter, const float fRadius, const NTimer::STime &start, const NTimer::STime &duration) override
+  void STDCALL AddCircle(const CVec3 &vCenter, const float fRadius, const NTimer::STime &start, const NTimer::STime &duration) override
   {
     circles.push_back(SCircle());
     SCircle &circle = circles.back();
@@ -455,31 +455,31 @@ public:
 
   // CRAP}
   // tooltip
-  void SetToolTip(interface IText *pText, const CVec2 &vPos, const CTRect<float> &rcOut, DWORD dwColor = 0) override;
+  void STDCALL SetToolTip(interface IText *pText, const CVec2 &vPos, const CTRect<float> &rcOut, DWORD dwColor = 0) override;
   // transfer UNIT to graveyard
-  bool TransferToGraveyard(IVisObj *pObject) override;
+  bool STDCALL TransferToGraveyard(IVisObj *pObject) override;
   // set visible objects
-  void SetVisibleObjects(IVisObj **ppObjects, int nNumObjects) override;
-  void SetWarFog(struct SAIVisInfo *pObjects, int nNumObjects) override;
+  void STDCALL SetVisibleObjects(IVisObj **ppObjects, int nNumObjects) override;
+  void STDCALL SetWarFog(struct SAIVisInfo *pObjects, int nNumObjects) override;
   // remove all visual objects - clear scene
-  void Clear() override;
+  void STDCALL Clear() override;
   // retrieve all objects from scene
-  int GetNumSceneObjects() const override;
-  int GetAllSceneObjects(std::pair<const SGDBObjectDesc *, CVec3> *pBuffer) const override;
+  int STDCALL GetNumSceneObjects() const override;
+  int STDCALL GetAllSceneObjects(std::pair<const SGDBObjectDesc *, CVec3> *pBuffer) const override;
   //
-  IFrameSelection * GetFrameSelection() override { return pFrameSelection; }
-  IStatSystem * GetStatSystem() override { return pStatSystem; }
+  IFrameSelection * STDCALL GetFrameSelection() override { return pFrameSelection; }
+  IStatSystem * STDCALL GetStatSystem() override { return pStatSystem; }
   //
-  void Draw(ICamera *pCamera) override;
+  void STDCALL Draw(ICamera *pCamera) override;
   // enables
-  bool ToggleShow(int nTypeID) override;
+  bool STDCALL ToggleShow(int nTypeID) override;
   // picking objects
-  void Pick(const CVec2 &point, std::pair<IVisObj *, CVec2> **ppObjects, int *pnNumObjects, EObjGameType type, bool bVisible) override;
-  void Pick(const CTRect<float> &rcRect, std::pair<IVisObj *, CVec2> **ppObjects, int *pnNumObjects, EObjGameType type, bool bVisible) override;
+  void STDCALL Pick(const CVec2 &point, std::pair<IVisObj *, CVec2> **ppObjects, int *pnNumObjects, EObjGameType type, bool bVisible) override;
+  void STDCALL Pick(const CTRect<float> &rcRect, std::pair<IVisObj *, CVec2> **ppObjects, int *pnNumObjects, EObjGameType type, bool bVisible) override;
   // 3D <=> 2D position transforms
-  void GetPos3(CVec3 *pPos, const CVec2 &pos, bool bOnZero = false) override;
-  void GetPos2(CVec2 *pPos, const CVec3 &pos) override;
-  void GetScreenCoords(const CVec3 &pos, CVec3 *vScreen) override;
+  void STDCALL GetPos3(CVec3 *pPos, const CVec2 &pos, bool bOnZero = false) override;
+  void STDCALL GetPos2(CVec2 *pPos, const CVec3 &pos) override;
+  void STDCALL GetScreenCoords(const CVec3 &pos, CVec3 *vScreen) override;
   // check object visibility
   bool IsVisible(IObjVisObj *pObj) const
   {
@@ -493,16 +493,16 @@ public:
     return pos == objdescs.end() ? nullptr : &(pos->second);
   }
 
-  void SetDirectionalArrow(const CVec3 &vStart, const CVec3 &vEnd, bool bDraw) override;
-  void SetClickMarker(const CVec3 &vPos) override;
-  void SetPosMarker(const CVec3 &vPos) override;
-  void SetRotationStartAngle(float fAngle, bool bRotate = true) override;
-  void FlashPosMarkers() override;
-  void ResetPosMarkers() override;
-  void SwitchWeather(bool bOn) override;
-  bool IsRaining() override;
-  void SetWeatherQuality(float fCoeff) override;
-  void Reposition() override;
+  void STDCALL SetDirectionalArrow(const CVec3 &vStart, const CVec3 &vEnd, bool bDraw) override;
+  void STDCALL SetClickMarker(const CVec3 &vPos) override;
+  void STDCALL SetPosMarker(const CVec3 &vPos) override;
+  void STDCALL SetRotationStartAngle(float fAngle, bool bRotate = true) override;
+  void STDCALL FlashPosMarkers() override;
+  void STDCALL ResetPosMarkers() override;
+  void STDCALL SwitchWeather(bool bOn) override;
+  bool STDCALL IsRaining() override;
+  void STDCALL SetWeatherQuality(float fCoeff) override;
+  void STDCALL Reposition() override;
 };
 
 float Sin(float fAngle);

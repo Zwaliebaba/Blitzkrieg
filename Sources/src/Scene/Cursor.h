@@ -51,50 +51,50 @@ class CCursor : public ICursor
 public:
   CCursor();
   //
-  void Init(ISingleton *pSingleton) override;
-  void Done() override;
-  void Clear() override;
-  void SetUpdateMode(EUpdateMode _eUpdateMode) override;
-  void OnSetCursor() override;
+  void STDCALL Init(ISingleton *pSingleton) override;
+  void STDCALL Done() override;
+  void STDCALL Clear() override;
+  void STDCALL SetUpdateMode(EUpdateMode _eUpdateMode) override;
+  void STDCALL OnSetCursor() override;
   //
-  void RegisterMode(int nMode, const char *pszPictureName, int nSizeX, int nSizeY, int hotX, int hotY, WORD wResourceID) override;
-  bool SetMode(int nMode) override;
-  bool SetModifier(int nMode) override;
-  void Show(bool _bShow) override;
-  bool IsShown() const override { return bShow; }
+  void STDCALL RegisterMode(int nMode, const char *pszPictureName, int nSizeX, int nSizeY, int hotX, int hotY, WORD wResourceID) override;
+  bool STDCALL SetMode(int nMode) override;
+  bool STDCALL SetModifier(int nMode) override;
+  void STDCALL Show(bool _bShow) override;
+  bool STDCALL IsShown() const override { return bShow; }
 
-  void SetBounds(int x1, int y1, int x2, int y2) override;
-  void Acquire(bool bAcqire) override;
-  void LockPos(bool bLock) override;
-  void SetPos(int nX, int nY) override;
+  void STDCALL SetBounds(int x1, int y1, int x2, int y2) override;
+  void STDCALL Acquire(bool bAcqire) override;
+  void STDCALL LockPos(bool bLock) override;
+  void STDCALL SetPos(int nX, int nY) override;
 
-  const CVec2 GetPos() override
+  const CVec2 STDCALL GetPos() override
   {
     Update();
     return vPos;
   }
 
-  void ResetSliders() override
+  void STDCALL ResetSliders() override
   {
     pScrollX->Reset();
     pScrollY->Reset();
   }
 
   // last unchanged position
-  void GetLastPos(CVec2 *pvPos, NTimer::STime *pTime) const override
+  void STDCALL GetLastPos(CVec2 *pvPos, NTimer::STime *pTime) const override
   {
     *pvPos = vLastPos;
     *pTime = timeLast;
   }
 
   // update object
-  bool Update(const NTimer::STime &time, bool bForced = false) override { return false; }
+  bool STDCALL Update(const NTimer::STime &time, bool bForced = false) override { return false; }
   //
-  bool Draw(IGFX *pGFX) override;
+  bool STDCALL Draw(IGFX *pGFX) override;
   // visiting
-  void Visit(ISceneVisitor *pVisitor, int nType = -1) override;
+  void STDCALL Visit(ISceneVisitor *pVisitor, int nType = -1) override;
   //
-  void SetSensitivity(float _fSensitivity) override { fSensitivity = _fSensitivity; }
+  void STDCALL SetSensitivity(float _fSensitivity) override { fSensitivity = _fSensitivity; }
 };
 
 #endif // __CURSOR_H__

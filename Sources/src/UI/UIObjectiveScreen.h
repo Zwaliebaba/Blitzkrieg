@@ -14,10 +14,10 @@ public:
   CUIObjectiveScreen() : pSB(nullptr), bShowAllObjectives(false) {}
   ~CUIObjectiveScreen() override {}
 
-  bool OnMouseWheel(const CVec2 &vPos, EMouseState mouseState, float fDelta) override { return pSB->OnMouseWheel(vPos, mouseState, fDelta); }
+  bool STDCALL OnMouseWheel(const CVec2 &vPos, EMouseState mouseState, float fDelta) override { return pSB->OnMouseWheel(vPos, mouseState, fDelta); }
   // serializing...
-  int operator&(IDataTree &ss) override;
-  void ShowWindow(int _nCmdShow) override;
+  int STDCALL operator&(IDataTree &ss) override;
+  void STDCALL ShowWindow(int _nCmdShow) override;
 };
 
 class CUIObjectiveScreenBridge : public IUIContainer, public CUIObjectiveScreen

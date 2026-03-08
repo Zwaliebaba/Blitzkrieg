@@ -16,15 +16,15 @@ class CMeshManager : public IMeshManager
   CMeshShare share;
 
 public:
-  void SetSerialMode(ESharedDataSerialMode eSerialMode) override { share.SetSerialMode(eSerialMode); }
+  void STDCALL SetSerialMode(ESharedDataSerialMode eSerialMode) override { share.SetSerialMode(eSerialMode); }
   // setup sharing mode
-  void SetShareMode(ESharedDataSharingMode eShareMode) override { share.SetShareMode(eShareMode); }
+  void STDCALL SetShareMode(ESharedDataSharingMode eShareMode) override { share.SetShareMode(eShareMode); }
   // remove all shared resource from this manager
-  void Clear(EClearMode eMode, int nUsage, int nAmount) override;
+  void STDCALL Clear(EClearMode eMode, int nUsage, int nAmount) override;
   //
-  bool Init() override { return share.Init(); }
+  bool STDCALL Init() override { return share.Init(); }
   //
-  IGFXMesh * GetMesh(const char *pszName) override { return share.Get(pszName); }
+  IGFXMesh * STDCALL GetMesh(const char *pszName) override { return share.Get(pszName); }
   //
   void ClearContainers() { share.ClearContainers(); }
   void ReloadAllData() { share.ReloadAllData(); }

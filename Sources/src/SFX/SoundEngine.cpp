@@ -32,7 +32,7 @@ public:
   //
   void Init(class CSoundEngine *_pSFX) { pSFX = _pSFX; }
   //
-  int VisitSound2D(CSound2D *pSound) override
+  int STDCALL VisitSound2D(CSound2D *pSound) override
   {
     FSOUND_SAMPLE *sample = pSound->GetSample()->GetInternalContainer();
     if (sample == nullptr) return -1;
@@ -40,7 +40,7 @@ public:
     return RegisterSound(pSound, nChannel);
   }
 
-  int VisitSound3D(CSound3D *pSound, const CVec3 &vPos) override
+  int STDCALL VisitSound3D(CSound3D *pSound, const CVec3 &vPos) override
   {
     FSOUND_SAMPLE *sample = pSound->GetSample()->GetInternalContainer();
     if (sample == nullptr) return -1;

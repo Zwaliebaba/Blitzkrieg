@@ -33,61 +33,61 @@ public:
   //
   bool Init(IGFXTexture *_pTexture, ISpriteAnimation *_pAnimation);
   // update state
-  bool Update(const NTimer::STime &time, bool bForced = false) override;
+  bool STDCALL Update(const NTimer::STime &time, bool bForced = false) override;
   // scale
-  void SetScale(float sx, float sy, float sz) override {}
+  void STDCALL SetScale(float sx, float sy, float sz) override {}
   // placement
-  void SetDirection(const int _nDirection) override
+  void STDCALL SetDirection(const int _nDirection) override
   {
     SetDir(_nDirection);
     pAnim->SetDirection(GetDir());
   }
 
-  void SetPosition(const CVec3 &_pos) override
+  void STDCALL SetPosition(const CVec3 &_pos) override
   {
     SetPos(_pos);
     info.pos = _pos;
   }
 
-  void SetPlacement(const CVec3 &pos, const int nDir) override
+  void STDCALL SetPlacement(const CVec3 &pos, const int nDir) override
   {
     SetPosition(pos);
     SetDirection(nDir);
   }
 
   // opacity
-  void SetOpacity(BYTE opacity) override
+  void STDCALL SetOpacity(BYTE opacity) override
   {
     info.color = ::SetOpacity(info.color, opacity);
     info2.color = ::SetOpacity(info2.color, opacity);
   }
 
-  void SetColor(DWORD color) override
+  void STDCALL SetColor(DWORD color) override
   {
     info.color = ::SetColor(info.color, color);
     info2.color = ::SetColor(info2.color, color);
   }
 
-  void SetSpecular(DWORD color) override
+  void STDCALL SetSpecular(DWORD color) override
   {
     info.specular = ::SetColor(info.specular, color);
     info2.specular = ::SetColor(info2.specular, color);
   }
 
   // animation
-  void SetAnimation(const int nAnim) override { pAnim->SetAnimation(nAnim); }
+  void STDCALL SetAnimation(const int nAnim) override { pAnim->SetAnimation(nAnim); }
 
-  IAnimation * GetAnimation() override { return pAnim; }
+  IAnimation * STDCALL GetAnimation() override { return pAnim; }
   // selection / selection test
-  bool IsHit(const SHMatrix &matTransform, const CVec2 &point, CVec2 *pShift) override;
-  bool IsHit(const SHMatrix &matTransform, const RECT &rect) override;
+  bool STDCALL IsHit(const SHMatrix &matTransform, const CVec2 &point, CVec2 *pShift) override;
+  bool STDCALL IsHit(const SHMatrix &matTransform, const RECT &rect) override;
   // drawing
-  bool Draw(IGFX *pGFX) override;
+  bool STDCALL Draw(IGFX *pGFX) override;
   // visiting
-  void Visit(ISceneVisitor *pVisitor, int nType = -1) override;
+  void STDCALL Visit(ISceneVisitor *pVisitor, int nType = -1) override;
   //
-  const SSpriteInfo * GetSpriteInfo() const override { return &info; }
-  IGFXTexture * GetTexture() const override { return pTexture; }
+  const SSpriteInfo * STDCALL GetSpriteInfo() const override { return &info; }
+  IGFXTexture * STDCALL GetTexture() const override { return pTexture; }
 };
 
 #endif // __SPRITEVISOBJ_H__

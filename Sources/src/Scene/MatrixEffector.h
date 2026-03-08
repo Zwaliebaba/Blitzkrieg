@@ -19,20 +19,20 @@ class CMatrixEffectorRecoil : public ISceneEffectorRecoil
 public:
   CMatrixEffectorRecoil() : matResult(MONE), lastUpdateTime(0), vAxis(V3_AXIS_X), fAngle(0) {}
   //
-  void SetupTimes(const NTimer::STime &_timeStart, const NTimer::STime &_timeLife) override
+  void STDCALL SetupTimes(const NTimer::STime &_timeStart, const NTimer::STime &_timeLife) override
   {
     timeStart = _timeStart;
     timeLife = _timeLife;
   }
 
-  void SetupData(float _fAngle, const CVec3 &_vAxis) override
+  void STDCALL SetupData(float _fAngle, const CVec3 &_vAxis) override
   {
     fAngle = _fAngle;
     vAxis = _vAxis;
   }
 
-  bool Update(const NTimer::STime &time) override;
-  const SHMatrix & GetMatrix() const override { return matResult; }
+  bool STDCALL Update(const NTimer::STime &time) override;
+  const SHMatrix & STDCALL GetMatrix() const override { return matResult; }
 };
 
 class CMatrixEffectorJogging : public ISceneEffectorJogging
@@ -48,12 +48,12 @@ class CMatrixEffectorJogging : public ISceneEffectorJogging
 public:
   CMatrixEffectorJogging() : matResult(MONE), lastUpdateTime(0), fWeightCoeff(1.0f) {}
   //
-  void SetupTimes(const NTimer::STime &_timeStart, const NTimer::STime &_timeLife) override { timeStart = _timeStart; }
+  void STDCALL SetupTimes(const NTimer::STime &_timeStart, const NTimer::STime &_timeLife) override { timeStart = _timeStart; }
 
-  void SetupData(float _fWeightCoeff) override { fWeightCoeff = _fWeightCoeff; }
+  void STDCALL SetupData(float _fWeightCoeff) override { fWeightCoeff = _fWeightCoeff; }
 
-  bool Update(const NTimer::STime &time) override;
-  const SHMatrix & GetMatrix() const override { return matResult; }
+  bool STDCALL Update(const NTimer::STime &time) override;
+  const SHMatrix & STDCALL GetMatrix() const override { return matResult; }
 };
 
 #endif // __MATRIXEFFECTOR_H__

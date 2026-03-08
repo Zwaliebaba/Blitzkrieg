@@ -15,10 +15,10 @@ class CUICreditsScroller : public CSimpleWindow
 
 public:
   CUICreditsScroller();
-  void Draw(IGFX *pGFX) override;
-  void Visit(interface ISceneVisitor *pVisitor) override;
-  bool Update(const NTimer::STime &currTime) override;
-  void ShowWindow(int _nCmdShow) override;
+  void STDCALL Draw(IGFX *pGFX) override;
+  void STDCALL Visit(interface ISceneVisitor *pVisitor) override;
+  bool STDCALL Update(const NTimer::STime &currTime) override;
+  void STDCALL ShowWindow(int _nCmdShow) override;
 };
 
 class CUICreditsScrollerBridge : public IUICreditsScroller, public CUICreditsScroller

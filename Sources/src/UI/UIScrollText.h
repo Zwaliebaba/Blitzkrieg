@@ -26,21 +26,21 @@ public:
   ~CUIScrollTextBox() override {}
 
   // mouse wheel
-  bool OnMouseWheel(const CVec2 &vPos, EMouseState mouseState, float fDelta) override = 0;
+  bool STDCALL OnMouseWheel(const CVec2 &vPos, EMouseState mouseState, float fDelta) override = 0;
 
   // text
-  void SetWindowText(int nState, const wchar_t *pszText) override;
-  virtual void AppendText(const wchar_t *pszText);
+  void STDCALL SetWindowText(int nState, const wchar_t *pszText) override;
+  virtual void STDCALL AppendText(const wchar_t *pszText);
 
   // serializing...
-  int operator&(IDataTree &ss) override;
-  void Reposition(const CTRect<float> &rcParent) override;
+  int STDCALL operator&(IDataTree &ss) override;
+  void STDCALL Reposition(const CTRect<float> &rcParent) override;
 
-  bool ProcessMessage(const SUIMessage &msg) override;
+  bool STDCALL ProcessMessage(const SUIMessage &msg) override;
 
   // drawing
-  void Draw(IGFX *pGFX) override;
-  void Visit(interface ISceneVisitor *pVisitor) override;
+  void STDCALL Draw(IGFX *pGFX) override;
+  void STDCALL Visit(interface ISceneVisitor *pVisitor) override;
 };
 
 class CUIScrollTextBoxBridge : public IUIScrollTextBox, public CUIScrollTextBox
@@ -49,7 +49,7 @@ class CUIScrollTextBoxBridge : public IUIScrollTextBox, public CUIScrollTextBox
   DECLARE_SUPER(CUIScrollTextBox);
   DEFINE_UICONTAINER_BRIDGE;
 
-  void AppendText(const wchar_t *pszText) override { CSuper::AppendText(pszText); }
+  void STDCALL AppendText(const wchar_t *pszText) override { CSuper::AppendText(pszText); }
 };
 
 #endif // __UI_SCROLL_TEXT_H__

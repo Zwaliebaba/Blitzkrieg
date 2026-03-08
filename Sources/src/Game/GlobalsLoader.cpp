@@ -2,10 +2,18 @@
 
 #include "../StreamIO/RandomGen.h"
 #include "../Misc/Win32Helper.h"
+#include "../Misc/FileUtils.h"
+#include "../StreamIO/StreamIOTypes.h"
 
-using GETSLS_HOOK = ISaveLoadSystem* (*)();
-using GETSINGLETONGLOBAL_HOOK = ISingleton* (*)();
-using GETTEMPRAWBUFFER_HOOK = void* (*)(int nAmount, int nBufferIndex);
+using GETSLS_HOOK = ISaveLoadSystem* (STDCALL *)();
+using GETSINGLETONGLOBAL_HOOK = ISingleton* (STDCALL *)();
+using GETTEMPRAWBUFFER_HOOK = void* (STDCALL *)(int nAmount, int nBufferIndex);
+
+#ifdef _STREAMIO_DLL
+ISaveLoadSystem * STDCALL GetSLS_Hook();
+ISingleton * STDCALL GetSingletonGlobal_Hook();
+void * STDCALL GetTempRawBuffer_Hook(int nSize, int nIndex);
+#endif // _STREAMIO_DLL
 
 IRandomGen *g_pGlobalRandomGen = nullptr;
 ISaveLoadSystem *g_pGlobalSaveLoadSystem = nullptr;
@@ -65,3 +73,5 @@ public:
     dllhandles.clear();
   }
 };
+
+static CGlobalsLoader theGlobalsLoader;

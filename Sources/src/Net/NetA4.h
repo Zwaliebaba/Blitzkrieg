@@ -159,62 +159,62 @@ namespace NNet
     void ResizeArrays(int nNewSize);
     void StepMultiChannel();
 
-    virtual void StartGameInfoSend(IDataStream *pData);
+    virtual void STDCALL StartGameInfoSend(IDataStream *pData);
 
   public:
     CNetDriver();
     ~CNetDriver();
     //
-    bool Init(APPLICATION_ID _nApplicationID, int _nGamePort, bool _bClientOnly) override;
+    bool STDCALL Init(APPLICATION_ID _nApplicationID, int _nGamePort, bool _bClientOnly) override;
     // get current state (active/inactive/connecting)
-    EState GetState() const override { return state; }
+    EState STDCALL GetState() const override { return state; }
     // get reject reason (then)
-    EReject GetRejectReason() const override { return lastReject; }
+    EReject STDCALL GetRejectReason() const override { return lastReject; }
     // connect to the game with particular address
-    void ConnectGame(const INetNodeAddress *pAddr, IDataStream *pPwd) override;
+    void STDCALL ConnectGame(const INetNodeAddress *pAddr, IDataStream *pPwd) override;
     // start game (server)
-    void StartGame() override;
+    void STDCALL StartGame() override;
     // sending start game info (for server), should be compatible with gamespy
-    void StartGameInfoSend(const SGameInfo &gameInfo) override;
+    void STDCALL StartGameInfoSend(const SGameInfo &gameInfo) override;
     // stop sending game info (for server)
-    void StopGameInfoSend() override;
+    void STDCALL StopGameInfoSend() override;
     // start accepting new players (for server)
-    void StartNewPlayerAccept() override;
+    void STDCALL StartNewPlayerAccept() override;
     // stop accepting new players (for server)
-    void StopNewPlayerAccept() override;
+    void STDCALL StopNewPlayerAccept() override;
     // get game info (for client)
-    bool GetGameInfo(int nIdx, INetNodeAddress *pAddr, bool *pWrongVersion, float *pPing, SGameInfo *pGameInfo) override;
+    bool STDCALL GetGameInfo(int nIdx, INetNodeAddress *pAddr, bool *pWrongVersion, float *pPing, SGameInfo *pGameInfo) override;
     // refresh servers list ( for client )
-    void RefreshServersList() override {}
+    void STDCALL RefreshServersList() override {}
     // send broadcast message for all
-    bool SendBroadcast(IDataStream *pPkt) override;
+    bool STDCALL SendBroadcast(IDataStream *pPkt) override;
     // send direct message for client 'nClient'
-    bool SendDirect(int nClient, IDataStream *pPkt) override;
+    bool STDCALL SendDirect(int nClient, IDataStream *pPkt) override;
     // kick player 'nClient'
-    void Kick(int nClient) override;
+    void STDCALL Kick(int nClient) override;
     // get next message
-    bool GetMessage(EMessage *pMsg, int *pClientID, int *received, IDataStream *pPkt) override;
+    bool STDCALL GetMessage(EMessage *pMsg, int *pClientID, int *received, IDataStream *pPkt) override;
     // ping of the client, -1 if client doesn't exist
-    const float GetPing(int nClientID) override;
+    const float STDCALL GetPing(int nClientID) override;
     // time since last message was received from this client
-    const float GetTimeSinceLastRecv(int nClientID) override;
+    const float STDCALL GetTimeSinceLastRecv(int nClientID) override;
     // 
     // CRAP functions to work with GameSpy
     //
-    SOCKET GetSocket() override;
-    sockaddr * GetSockAddr() override;
+    SOCKET STDCALL GetSocket() override;
+    sockaddr * STDCALL GetSockAddr() override;
 
     //
-    void AddChannel(int nChannelID, const std::unordered_set<BYTE> &channelMessages) override;
-    void RemoveChannel(int nChannelID) override;
+    void STDCALL AddChannel(int nChannelID, const std::unordered_set<BYTE> &channelMessages) override;
+    void STDCALL RemoveChannel(int nChannelID) override;
     // received is not filled in!
-    bool GetChannelMessage(EMessage *pMsg, int *pClientID, int *received, IDataStream *pPkt, int nChannel) override;
+    bool STDCALL GetChannelMessage(EMessage *pMsg, int *pClientID, int *received, IDataStream *pPkt, int nChannel) override;
     // for debug
-    const char * GetAddressByClientID(int nClientID) const override;
+    const char * STDCALL GetAddressByClientID(int nClientID) const override;
 
-    void PauseNet() override;
-    void UnpauseNet() override;
-    void SetLag(NTimer::STime period) override;
+    void STDCALL PauseNet() override;
+    void STDCALL UnpauseNet() override;
+    void STDCALL SetLag(NTimer::STime period) override;
 
     // thread functions
     friend DWORD WINAPI TheThreadProc(LPVOID lpParameter);

@@ -38,7 +38,7 @@ public:
   int nTopNode;// top node index
   std::vector<int> locators;// locator indexes;
   //
-  void SwapData(ISharedResource *pResource) override
+  void STDCALL SwapData(ISharedResource *pResource) override
   {
     auto pRes = dynamic_cast<SMeshSkeletonData *>(pResource);
     NI_ASSERT_TF(pRes != 0, NStr::Format("shared resource is not a \"%s\"", typeid(*this).name()), return);
@@ -49,8 +49,8 @@ public:
   }
 
   // internal container clearing
-  void ClearInternalContainer() override {}
-  bool Load(bool bPreLoad = false) override;
+  void STDCALL ClearInternalContainer() override {}
+  bool STDCALL Load(bool bPreLoad = false) override;
   // initialization
   void CreateFrom(const SSkeletonFormat &skeleton);
   //
@@ -338,9 +338,9 @@ public:
   }
 
   //
-  int operator&(IStructureSaver &ss) override { return 0; }
+  int STDCALL operator&(IStructureSaver &ss) override { return 0; }
   //
-  void SwapData(ISharedResource *pResource) override
+  void STDCALL SwapData(ISharedResource *pResource) override
   {
     auto pRes = dynamic_cast<SMeshAnimationData *>(pResource);
     NI_ASSERT_TF(pRes != 0, NStr::Format("shared resource is not a \"%s\"", typeid(*this).name()), return);
@@ -348,8 +348,8 @@ public:
   }
 
   // internal container clearing
-  void ClearInternalContainer() override {}
-  bool Load(bool bPreLoad = false) override;
+  void STDCALL ClearInternalContainer() override {}
+  bool STDCALL Load(bool bPreLoad = false) override;
 };
 
 // //////////////////////////////////////////////////////////// 
@@ -392,13 +392,13 @@ public:
   //
   void Update(const NTimer::STime &time);
   //
-  void Visit(IAnimVisitor *pVisitor) override;
+  void STDCALL Visit(IAnimVisitor *pVisitor) override;
   //
-  void SetTime(DWORD time) override { dwCurrTime = time; }
-  void SetStartTime(DWORD time) override { dwStartTime = time; }
-  void SetAnimSpeedCoeff(float fCoeff) override { fSpeedCoeff = fCoeff; }
+  void STDCALL SetTime(DWORD time) override { dwCurrTime = time; }
+  void STDCALL SetStartTime(DWORD time) override { dwStartTime = time; }
+  void STDCALL SetAnimSpeedCoeff(float fCoeff) override { fSpeedCoeff = fCoeff; }
 
-  bool SetAnimation(const int nAnim) override
+  bool STDCALL SetAnimation(const int nAnim) override
   {
     if (nCurrAnim == nAnim) return ReAcquireAnimation();
     nCurrAnim = nAnim;
@@ -408,25 +408,25 @@ public:
     return bRetVal;
   }
 
-  int GetAnimation() const override { return nCurrAnim; };
-  int GetLengthOf(const int nAnim) override { return 1; }
-  int GetNumNodes() const override { return matrices.size(); }
-  const SHMatrix * GetMatrices(const SHMatrix &matBase) override;
-  const SHMatrix * GetCurrMatrices() const override { return &(matrices[0]); }
-  void GetBaseMatrix(const SHMatrix &matBase, SHMatrix *pResult) override;
+  int STDCALL GetAnimation() const override { return nCurrAnim; };
+  int STDCALL GetLengthOf(const int nAnim) override { return 1; }
+  int STDCALL GetNumNodes() const override { return matrices.size(); }
+  const SHMatrix * STDCALL GetMatrices(const SHMatrix &matBase) override;
+  const SHMatrix * STDCALL GetCurrMatrices() const override { return &(matrices[0]); }
+  void STDCALL GetBaseMatrix(const SHMatrix &matBase, SHMatrix *pResult) override;
   // "manual" animation
-  void AddProceduralNode(int nNodeIdx, DWORD currTime, DWORD startTime, DWORD endTime, float fValue) override;
-  void CutProceduralAnimation(const NTimer::STime &time, int nModelPart = -1) override;
+  void STDCALL AddProceduralNode(int nNodeIdx, DWORD currTime, DWORD startTime, DWORD endTime, float fValue) override;
+  void STDCALL CutProceduralAnimation(const NTimer::STime &time, int nModelPart = -1) override;
   // effectors
-  void AddEffector(IMatrixEffector *pEffector, int nID, int nPart) override;
-  void RemoveEffector(int nID, int nPart) override;
-  IMatrixEffector * GetEffector(int nID, int nPart) override;
+  void STDCALL AddEffector(IMatrixEffector *pEffector, int nID, int nPart) override;
+  void STDCALL RemoveEffector(int nID, int nPart) override;
+  IMatrixEffector * STDCALL GetEffector(int nID, int nPart) override;
   // all nodes access
-  void GetAllNodeNames(const char **ppBuffer, int nBufferSize) const override { pSkeleton->GetAllNodeNames(ppBuffer, nBufferSize); }
+  void STDCALL GetAllNodeNames(const char **ppBuffer, int nBufferSize) const override { pSkeleton->GetAllNodeNames(ppBuffer, nBufferSize); }
   // locators access
-  int GetNumLocators() const override { return pSkeleton->GetNumLocators(); }
-  const int * GetAllLocatorIndices() const override { return pSkeleton->GetAllLocatorIndices(); }
-  void GetAllLocatorNames(const char **ppBuffer, int nBufferSize) const override { pSkeleton->GetAllLocatorNames(ppBuffer, nBufferSize); }
+  int STDCALL GetNumLocators() const override { return pSkeleton->GetNumLocators(); }
+  const int * STDCALL GetAllLocatorIndices() const override { return pSkeleton->GetAllLocatorIndices(); }
+  void STDCALL GetAllLocatorNames(const char **ppBuffer, int nBufferSize) const override { pSkeleton->GetAllLocatorNames(ppBuffer, nBufferSize); }
   //
   void Init(CMeshSkeleton *_pSkeleton, SMeshAnimationData *_animations)
   {

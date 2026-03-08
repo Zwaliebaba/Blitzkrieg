@@ -75,22 +75,22 @@ public:
   //
   bool Open(IDataStream* pStream, const char* pszBaseNode);
   // get table row names. each name ends with '\0', the entire string ends with '\0\0'
-  int GetRowNames(char* pszBuffer, int nBufferSize) override;
+  int STDCALL GetRowNames(char* pszBuffer, int nBufferSize) override;
   // get table column names in the given row. each name ends with '\0', the entire string ends with '\0\0'
-  int GetEntryNames(const char* pszRow, char* pszBuffer, int nBufferSize) override;
+  int STDCALL GetEntryNames(const char* pszRow, char* pszBuffer, int nBufferSize) override;
   // clear section
-  void ClearRow(const char* pszRowName) override {}
+  void STDCALL ClearRow(const char* pszRowName) override {}
   // complete element access
   // get
-  int GetInt(const char* pszRow, const char* pszEntry, int defval) override;
-  double GetDouble(const char* pszRow, const char* pszEntry, double defval) override;
-  const char* GetString(const char* pszRow, const char* pszEntry, const char* defval, char* pszBuffer, int nBufferSize) override;
-  int GetRawData(const char* pszRow, const char* pszEntry, void* pBuffer, int nBufferSize) override;
+  int STDCALL GetInt(const char* pszRow, const char* pszEntry, int defval) override;
+  double STDCALL GetDouble(const char* pszRow, const char* pszEntry, double defval) override;
+  const char* STDCALL GetString(const char* pszRow, const char* pszEntry, const char* defval, char* pszBuffer, int nBufferSize) override;
+  int STDCALL GetRawData(const char* pszRow, const char* pszEntry, void* pBuffer, int nBufferSize) override;
   // set
-  void SetInt(const char* pszRow, const char* pszEntry, int val) override;
-  void SetDouble(const char* pszRow, const char* pszEntry, double val) override;
-  void SetString(const char* pszRow, const char* pszEntry, const char* val) override;
-  void SetRawData(const char* pszRow, const char* pszEntry, const void* pBuffer, int nBufferSize) override;
+  void STDCALL SetInt(const char* pszRow, const char* pszEntry, int val) override;
+  void STDCALL SetDouble(const char* pszRow, const char* pszEntry, double val) override;
+  void STDCALL SetString(const char* pszRow, const char* pszEntry, const char* val) override;
+  void STDCALL SetRawData(const char* pszRow, const char* pszEntry, const void* pBuffer, int nBufferSize) override;
 };
 
 #endif // __DATATABLEXML_H__

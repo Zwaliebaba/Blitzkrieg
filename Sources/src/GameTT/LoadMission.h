@@ -17,9 +17,9 @@ class CInterfaceLoadMission : public CInterfaceScreenBase
   // input
   NInput::CCommandRegistrator loadmissionMsgs;
   //
-  bool ProcessMessage(const SGameMessage &msg) override;
-  bool StepLocal(bool bAppActive) override;
-  void DrawAdd() override;
+  bool STDCALL ProcessMessage(const SGameMessage &msg) override;
+  bool STDCALL StepLocal(bool bAppActive) override;
+  void STDCALL DrawAdd() override;
   // disable explicit destruction
   ~CInterfaceLoadMission() override;
 
@@ -27,8 +27,8 @@ protected:
   CInterfaceLoadMission() : CInterfaceScreenBase("Current") {}
 
 public:
-  bool Init() override;
-  void StartInterface() override;
+  bool STDCALL Init() override;
+  void STDCALL StartInterface() override;
 };
 
 class CICLoadMission : public CInterfaceCommandBase<CInterfaceLoadMission, MISSION_INTERFACE_LOAD_MISSION>

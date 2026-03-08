@@ -79,23 +79,23 @@ public:
 
   bool Open(IDataStream* pStream, DTChunkID idBaseNode);
   // is opened in the READ mode?
-  bool IsReading() const override { return eMode == READ; }
+  bool STDCALL IsReading() const override { return eMode == READ; }
   // start new complex chunk
-  int StartChunk(DTChunkID idChunk) override;
+  int STDCALL StartChunk(DTChunkID idChunk) override;
   // finish complex chunk
-  void FinishChunk() override;
+  void STDCALL FinishChunk() override;
   // simply data chunk: text, integer, fp
-  int GetChunkSize() override;
-  bool RawData(void* pData, int nSize) override;
-  bool StringData(char* pData) override;
-  bool StringData(wchar_t* pData) override;
-  bool DataChunk(DTChunkID idChunk, int* pData) override;
-  bool DataChunk(DTChunkID idChunk, double* pData) override;
+  int STDCALL GetChunkSize() override;
+  bool STDCALL RawData(void* pData, int nSize) override;
+  bool STDCALL StringData(char* pData) override;
+  bool STDCALL StringData(wchar_t* pData) override;
+  bool STDCALL DataChunk(DTChunkID idChunk, int* pData) override;
+  bool STDCALL DataChunk(DTChunkID idChunk, double* pData) override;
   // array data serialization (special case)
-  int CountChunks(DTChunkID idChunk) override;
-  bool SetChunkCounter(int nCount) override;
-  int StartContainerChunk(DTChunkID idChunk) override;
-  void FinishContainerChunk() override;
+  int STDCALL CountChunks(DTChunkID idChunk) override;
+  bool STDCALL SetChunkCounter(int nCount) override;
+  int STDCALL StartContainerChunk(DTChunkID idChunk) override;
+  void STDCALL FinishContainerChunk() override;
 };
 
 void InitCOM();

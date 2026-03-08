@@ -12,7 +12,7 @@ class CInterfaceAddUnitToMission : public CInterfaceInterMission
   // input
   NInput::CCommandRegistrator commandMsgs;
   //
-  bool ProcessMessage(const SGameMessage &msg) override;
+  bool STDCALL ProcessMessage(const SGameMessage &msg) override;
   // disable explicit destruction
   ~CInterfaceAddUnitToMission() override;
   CInterfaceAddUnitToMission();
@@ -27,8 +27,8 @@ class CInterfaceAddUnitToMission : public CInterfaceInterMission
   static std::vector<std::vector<int>> m_missionSlots;
 
 public:
-  bool Init() override;
-  void StartInterface() override;
+  bool STDCALL Init() override;
+  void STDCALL StartInterface() override;
 
   // this function reads slots from the map and fills them with the first available units of this class
   // information is immediately loaded into ScenarioTracker

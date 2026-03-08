@@ -30,20 +30,20 @@ public:
   CUIComplexScroll();
   ~CUIComplexScroll() override {}
 
-  int operator&(IDataTree &ss) override;
-  void Reposition(const CTRect<float> &rcParent) override;
-  bool ProcessMessage(const SUIMessage &msg) override;
+  int STDCALL operator&(IDataTree &ss) override;
+  void STDCALL Reposition(const CTRect<float> &rcParent) override;
+  bool STDCALL ProcessMessage(const SUIMessage &msg) override;
 
   // mouse wheel
-  bool OnMouseWheel(const CVec2 &vPos, EMouseState mouseState, float fDelta) override = 0;
+  bool STDCALL OnMouseWheel(const CVec2 &vPos, EMouseState mouseState, float fDelta) override = 0;
 
   // drawing
-  void Draw(IGFX *pGFX) override;
-  void Visit(interface ISceneVisitor *pVisitor) override;
+  void STDCALL Draw(IGFX *pGFX) override;
+  void STDCALL Visit(interface ISceneVisitor *pVisitor) override;
 
   // adding item window
-  virtual void AddItem(IUIElement *pElement, bool bResizeToFitText);
-  virtual void Clear();
+  virtual void STDCALL AddItem(IUIElement *pElement, bool bResizeToFitText);
+  virtual void STDCALL Clear();
 };
 
 class CUIComplexScrollBridge : public IUIComplexScroll, public CUIComplexScroll
@@ -52,8 +52,8 @@ class CUIComplexScrollBridge : public IUIComplexScroll, public CUIComplexScroll
   DECLARE_SUPER(CUIComplexScroll);
   DEFINE_UICONTAINER_BRIDGE;
 
-  void AddItem(IUIElement *pElement, const bool bResizeToFitText) override { CSuper::AddItem(pElement, bResizeToFitText); }
-  void Clear() override { CSuper::Clear(); }
+  void STDCALL AddItem(IUIElement *pElement, const bool bResizeToFitText) override { CSuper::AddItem(pElement, bResizeToFitText); }
+  void STDCALL Clear() override { CSuper::Clear(); }
 };
 
 #endif // __UICOMPLEXSCROLL_H__

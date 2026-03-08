@@ -53,52 +53,52 @@ public:
   CEffectVisObj() : dwStartTime(0), dwDuration(0), bStopped(false), bSuspended(false) {}
   CEffectVisObj(const std::string &_szSoundName) : szSoundName(_szSoundName), dwStartTime(0), dwDuration(0), bStopped(false), bSuspended(false) {}
   // update state
-  bool Update(const NTimer::STime &time, bool bForced = false) override;
+  bool STDCALL Update(const NTimer::STime &time, bool bForced = false) override;
   // placement
-  void SetDirection(int nDir) override;
-  void SetPosition(const CVec3 &pos) override { vPos = pos; }
+  void STDCALL SetDirection(int nDir) override;
+  void STDCALL SetPosition(const CVec3 &pos) override { vPos = pos; }
 
-  void SetPlacement(const CVec3 &pos, const int nDir) override
+  void STDCALL SetPlacement(const CVec3 &pos, const int nDir) override
   {
     SetPosition(pos);
     SetDirection(nDir);
   }
 
-  const CVec3 & GetPosition() const override { return vPos; }
-  int GetDirection() const override { return 0; }
+  const CVec3 & STDCALL GetPosition() const override { return vPos; }
+  int STDCALL GetDirection() const override { return 0; }
   // selection / selection test
-  void Select(EVisObjSelectionState state) override { selectionState = state; }
-  EVisObjSelectionState GetSelectionState() const override { return selectionState; }
-  bool IsHit(const SHMatrix &matTransform, const CVec2 &point, CVec2 *pShift) override { return false; }
-  bool IsHit(const SHMatrix &matTransform, const RECT &rect) override { return false; }
+  void STDCALL Select(EVisObjSelectionState state) override { selectionState = state; }
+  EVisObjSelectionState STDCALL GetSelectionState() const override { return selectionState; }
+  bool STDCALL IsHit(const SHMatrix &matTransform, const CVec2 &point, CVec2 *pShift) override { return false; }
+  bool STDCALL IsHit(const SHMatrix &matTransform, const RECT &rect) override { return false; }
   // opacity
-  void SetOpacity(BYTE opacity) override
+  void STDCALL SetOpacity(BYTE opacity) override
   {
     for (auto it = sprites.begin(); it != sprites.end(); ++it) it->pObj->SetOpacity(opacity);
     /* for ( std::vector<SParticleEffect>::iterator it = particles.begin(); it != particles.end(); ++it )
        */
   }
 
-  void SetColor(DWORD color) override {}
-  void SetSpecular(DWORD color) override {}
+  void STDCALL SetColor(DWORD color) override {}
+  void STDCALL SetSpecular(DWORD color) override {}
   // scale
-  void SetScale(float fScale) override;
+  void STDCALL SetScale(float fScale) override;
   // drawing
-  bool Draw(IGFX *pGFX) override;
+  bool STDCALL Draw(IGFX *pGFX) override;
   // visiting
-  void Visit(ISceneVisitor *pVisitor, int nType = -1) override;
+  void STDCALL Visit(ISceneVisitor *pVisitor, int nType = -1) override;
   // data retrieving.
-  const std::string & GetSoundEffect() const override { return szSoundName; }
+  const std::string & STDCALL GetSoundEffect() const override { return szSoundName; }
   // NOTE: this function uses temp buffer 0
-  void GetSpriteEffects(const SSpriteInfo ***ppEffects, int *pnNumEffects, bool bAll) override;
-  void GetParticleEffects(IParticleSource ***ppEffects, int *pnNumEffects, bool bAll) override;
+  void STDCALL GetSpriteEffects(const SSpriteInfo ***ppEffects, int *pnNumEffects, bool bAll) override;
+  void STDCALL GetParticleEffects(IParticleSource ***ppEffects, int *pnNumEffects, bool bAll) override;
   //
-  void SetStartTime(DWORD time) override { dwStartTime = time; }
-  void SetEffectDirection(const SHMatrix &matrix) override;
-  bool IsFinished(const NTimer::STime &time) override;
-  void CalibrateDuration(const NTimer::STime &timeDuration) override;
-  void Stop() override;
-  void SetSuspendedState(bool bState) override;
+  void STDCALL SetStartTime(DWORD time) override { dwStartTime = time; }
+  void STDCALL SetEffectDirection(const SHMatrix &matrix) override;
+  bool STDCALL IsFinished(const NTimer::STime &time) override;
+  void STDCALL CalibrateDuration(const NTimer::STime &timeDuration) override;
+  void STDCALL Stop() override;
+  void STDCALL SetSuspendedState(bool bState) override;
   //
   void AddSpriteEffect(ISpriteVisObj *pObj, DWORD dwStart, int nRepeat, const CVec3 &vPos);
   void AddParticleEffect(IParticleSource *pObj, DWORD dwStart, int nDuration, const CVec3 &vPos);

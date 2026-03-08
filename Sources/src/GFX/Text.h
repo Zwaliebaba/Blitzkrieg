@@ -170,22 +170,22 @@ class CGFXText : public IGFXText
                                std::vector<SGFXLVertex> &vertices, std::vector<WORD> &indices) const;
 
 public:
-  void SetFont(IGFXFont *_pFont) override
+  void STDCALL SetFont(IGFXFont *_pFont) override
   {
     pFont = _pFont;
     SetupRedLine();
     SetPreFormatted(false);
   }
 
-  void SetText(interface IText *_pText) override
+  void STDCALL SetText(interface IText *_pText) override
   {
     pText = _pText;
     SetPreFormatted(false);
   }
 
-  interface IText * GetText() override { return pText; }
+  interface IText * STDCALL GetText() override { return pText; }
 
-  void SetWidth(int nWidth) override
+  void STDCALL SetWidth(int nWidth) override
   {
     if (fWidth != nWidth)
     {
@@ -194,9 +194,9 @@ public:
     }
   }
 
-  void SetColor(DWORD color) override { dwDefColor = color; }
+  void STDCALL SetColor(DWORD color) override { dwDefColor = color; }
 
-  void EnableRedLine(bool bEnable) override
+  void STDCALL EnableRedLine(bool bEnable) override
   {
     if (bEnable != bRedLine)
     {
@@ -206,17 +206,17 @@ public:
     }
   }
 
-  void SetRedLine(const int nRedLineIndention) override { fRedLineSize = nRedLineIndention; }
+  void STDCALL SetRedLine(const int nRedLineIndention) override { fRedLineSize = nRedLineIndention; }
   //
-  void SetChanged() override { SetPreFormatted(false); }
+  void STDCALL SetChanged() override { SetPreFormatted(false); }
   //
   bool FillGeometryData(DWORD dwFlags, const RECT &rect, float sy, DWORD dwColor, DWORD dwSpecular,
                         std::vector<SGFXLVertex> &vertices, std::vector<WORD> &indices) const;
   IGFXFont *GetFont() { return pFont; }
   // stats
-  int GetNumLines() const override;
-  int GetLineSpace() const override;
-  int GetWidth(int nNumCharacters = -1) const override;
+  int STDCALL GetNumLines() const override;
+  int STDCALL GetLineSpace() const override;
+  int STDCALL GetWidth(int nNumCharacters = -1) const override;
 };
 
 #endif // __TEXT_H__

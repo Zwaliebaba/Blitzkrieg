@@ -162,33 +162,33 @@ public:
   SCommonRPGStats(const std::string &_szStatsType) : bCheckSumInitialized(false), szStatsType(_szStatsType) {}
   virtual ~SCommonRPGStats() {}
 
-  const char * GetName() const override { return szStatsType.c_str(); }
-  const char * GetParentName() const override { return szParentName.c_str(); }
+  const char * STDCALL GetName() const override { return szStatsType.c_str(); }
+  const char * STDCALL GetParentName() const override { return szParentName.c_str(); }
 
   // convert from human units to AI
-  virtual void ToAIUnits() {}
+  virtual void STDCALL ToAIUnits() {}
   //
-  virtual void RetrieveShortcuts(IObjectsDB *pGDB) {}
+  virtual void STDCALL RetrieveShortcuts(IObjectsDB *pGDB) {}
   // checking stats for correctness
-  virtual bool Validate() { return true; }
+  virtual bool STDCALL Validate() { return true; }
   //
-  const uLong GetCheckSum() const override
+  const uLong STDCALL GetCheckSum() const override
   {
     NI_ASSERT_T(bCheckSumInitialized, "Check sum hasn't been initialized");
     return checkSum;
   }
 
   //
-  virtual const uLong GetCheckSum()
+  virtual const uLong STDCALL GetCheckSum()
   {
     if (bCheckSumInitialized) return checkSum;
     bCheckSumInitialized = true;
     return (checkSum = CalculateCheckSum());
   }
 
-  virtual int operator&(IDataTree &ss);
+  virtual int STDCALL operator&(IDataTree &ss);
 
-  virtual const uLong CalculateCheckSum() const = 0;
+  virtual const uLong STDCALL CalculateCheckSum() const = 0;
 };
 
 // ************************************************************************************************************************ //
@@ -235,7 +235,7 @@ struct SHPObjectRPGStats : SCommonRPGStats
   ~SHPObjectRPGStats() override {}
 
   //
-  void ToAIUnits() override;
+  void STDCALL ToAIUnits() override;
   //
   float GetMapHP() const { return fMaxHP; }
   float GetHP(const float fHPPercentage) const { return fMaxHP * fHPPercentage; }
@@ -254,10 +254,10 @@ struct SHPObjectRPGStats : SCommonRPGStats
   //
   virtual const CUserActions *GetUserActions(bool bActionsBy) const { return nullptr; }
   //
-  int operator&(IDataTree &ss) override;
+  int STDCALL operator&(IDataTree &ss) override;
 
   //
-  const uLong CalculateCheckSum() const override;
+  const uLong STDCALL CalculateCheckSum() const override;
 };
 
 enum EAIClass
@@ -283,16 +283,16 @@ struct SStaticObjectRPGStats : SHPObjectRPGStats
   SStaticObjectRPGStats(const char *pszType);
   ~SStaticObjectRPGStats() override {}
   //
-  virtual const CVec2 & GetOrigin(int nIndex = -1) const = 0;
-  virtual const CArray2D<BYTE> & GetPassability(int nIndex = -1) const = 0;
-  virtual const CVec2 & GetVisOrigin(int nIndex = -1) const = 0;
-  virtual const CArray2D<BYTE> & GetVisibility(int nIndex = -1) const = 0;
+  virtual const CVec2 & STDCALL GetOrigin(int nIndex = -1) const = 0;
+  virtual const CArray2D<BYTE> & STDCALL GetPassability(int nIndex = -1) const = 0;
+  virtual const CVec2 & STDCALL GetVisOrigin(int nIndex = -1) const = 0;
+  virtual const CArray2D<BYTE> & STDCALL GetVisibility(int nIndex = -1) const = 0;
   //
-  void ToAIUnits() override;
-  int operator&(IDataTree &ss) override;
+  void STDCALL ToAIUnits() override;
+  int STDCALL operator&(IDataTree &ss) override;
 
   //
-  const uLong CalculateCheckSum() const override;
+  const uLong STDCALL CalculateCheckSum() const override;
 };
 
 // ************************************************************************************************************************ //
@@ -404,12 +404,12 @@ struct SWeaponRPGStats : SCommonRPGStats
   SWeaponRPGStats();
   ~SWeaponRPGStats() override {}
 
-  void ToAIUnits() override;
+  void STDCALL ToAIUnits() override;
   //
-  int operator&(IDataTree &ss) override;
+  int STDCALL operator&(IDataTree &ss) override;
 
   //
-  const uLong CalculateCheckSum() const override;
+  const uLong STDCALL CalculateCheckSum() const override;
 };
 
 struct SBaseGunRPGStats
@@ -425,13 +425,13 @@ struct SBaseGunRPGStats
   //
   SBaseGunRPGStats();
   //
-  virtual bool RetrieveShortcuts(IObjectsDB *pGDB);
+  virtual bool STDCALL RetrieveShortcuts(IObjectsDB *pGDB);
 
   //
-  virtual int operator&(IDataTree &ss);
+  virtual int STDCALL operator&(IDataTree &ss);
 
   //
-  virtual const uLong CalculateCheckSum() const;
+  virtual const uLong STDCALL CalculateCheckSum() const;
 };
 
 // ************************************************************************************************************************ //
@@ -456,18 +456,18 @@ struct SObjectBaseRPGStats : SStaticObjectRPGStats
   SObjectBaseRPGStats(const char *pszType);
   ~SObjectBaseRPGStats() override {}
   //
-  void ToAIUnits() override;
+  void STDCALL ToAIUnits() override;
   //
-  const CVec2 & GetOrigin(const int nIndex = -1) const override { return vOrigin; }
-  const CArray2D<BYTE> & GetPassability(const int nIndex = -1) const override { return passability; }
+  const CVec2 & STDCALL GetOrigin(const int nIndex = -1) const override { return vOrigin; }
+  const CArray2D<BYTE> & STDCALL GetPassability(const int nIndex = -1) const override { return passability; }
 
-  const CVec2 & GetVisOrigin(const int nIndex = -1) const override { return vVisOrigin; }
-  const CArray2D<BYTE> & GetVisibility(const int nIndex = -1) const override { return visibility; }
+  const CVec2 & STDCALL GetVisOrigin(const int nIndex = -1) const override { return vVisOrigin; }
+  const CArray2D<BYTE> & STDCALL GetVisibility(const int nIndex = -1) const override { return visibility; }
   //
-  int operator&(IDataTree &ss) override;
+  int STDCALL operator&(IDataTree &ss) override;
 
   //
-  const uLong CalculateCheckSum() const override;
+  const uLong STDCALL CalculateCheckSum() const override;
 };
 
 struct STerraObjSetRPGStats : SStaticObjectRPGStats
@@ -494,18 +494,18 @@ struct STerraObjSetRPGStats : SStaticObjectRPGStats
   STerraObjSetRPGStats() : SStaticObjectRPGStats("TerraObj") {}
   ~STerraObjSetRPGStats() override {}
   //
-  void ToAIUnits() override;
+  void STDCALL ToAIUnits() override;
   //
-  const CVec2 & GetOrigin(const int nIndex = -1) const override { return segments[nIndex].vOrigin; }
-  const CArray2D<BYTE> & GetPassability(const int nIndex = -1) const override { return segments[nIndex].passability; }
+  const CVec2 & STDCALL GetOrigin(const int nIndex = -1) const override { return segments[nIndex].vOrigin; }
+  const CArray2D<BYTE> & STDCALL GetPassability(const int nIndex = -1) const override { return segments[nIndex].passability; }
 
-  const CVec2 & GetVisOrigin(const int nIndex = -1) const override { return segments[nIndex].vVisOrigin; }
-  const CArray2D<BYTE> & GetVisibility(const int nIndex = -1) const override { return segments[nIndex].visibility; }
+  const CVec2 & STDCALL GetVisOrigin(const int nIndex = -1) const override { return segments[nIndex].vVisOrigin; }
+  const CArray2D<BYTE> & STDCALL GetVisibility(const int nIndex = -1) const override { return segments[nIndex].visibility; }
   //
-  int operator&(IDataTree &ss) override;
+  int STDCALL operator&(IDataTree &ss) override;
 
   //
-  const uLong CalculateCheckSum() const override;
+  const uLong STDCALL CalculateCheckSum() const override;
 };
 
 struct SObjectRPGStats : SObjectBaseRPGStats
@@ -513,7 +513,7 @@ struct SObjectRPGStats : SObjectBaseRPGStats
   SObjectRPGStats() : SObjectBaseRPGStats("ObjDesc") {}
   ~SObjectRPGStats() override {}
   //
-  int operator&(IDataTree &ss) override;
+  int STDCALL operator&(IDataTree &ss) override;
 };
 
 struct SBuildingRPGStats : SObjectBaseRPGStats
@@ -646,14 +646,14 @@ struct SBuildingRPGStats : SObjectBaseRPGStats
   SBuildingRPGStats();
   ~SBuildingRPGStats() override {}
   //
-  void ToAIUnits() override;
-  bool Validate() override;
-  void RetrieveShortcuts(IObjectsDB *pGDB) override;
+  void STDCALL ToAIUnits() override;
+  bool STDCALL Validate() override;
+  void STDCALL RetrieveShortcuts(IObjectsDB *pGDB) override;
 
-  int operator&(IDataTree &ss) override;
+  int STDCALL operator&(IDataTree &ss) override;
 
   //
-  const uLong CalculateCheckSum() const override;
+  const uLong STDCALL CalculateCheckSum() const override;
 };
 
 // ************************************************************************************************************************ //
@@ -778,24 +778,24 @@ class CRPGStatsAutomagic : public IRPGStatsAutomagic
 public:
   CRPGStatsAutomagic();
   //
-  const char * ToStr(const int nVal) const override
+  const char * STDCALL ToStr(const int nVal) const override
   {
     CI2SMap::const_iterator it = i2s.find(nVal);
     return it != i2s.end() ? it->second.c_str() : szUnknown.c_str();
   }
 
-  const int ToInt(const char *pszVal) const override
+  const int STDCALL ToInt(const char *pszVal) const override
   {
     CS2IMap::const_iterator it = s2i.find(pszVal);
     return it != s2i.end() ? it->second : -1;
   }
 
-  const char * GetFirstStr() const override;
-  const int GetFirstInt() const override;
-  bool IsLastStr(const char *pszVal) const override;
-  bool IsLastInt(int nVal) const override;
-  const char * GetNextStr(const char *pszVal) override;
-  const int GetNextInt(int nVal) override;
+  const char * STDCALL GetFirstStr() const override;
+  const int STDCALL GetFirstInt() const override;
+  bool STDCALL IsLastStr(const char *pszVal) const override;
+  bool STDCALL IsLastInt(int nVal) const override;
+  const char * STDCALL GetNextStr(const char *pszVal) override;
+  const int STDCALL GetNextInt(int nVal) override;
 };
 
 // ************************************************************************************************************************ //
@@ -935,13 +935,13 @@ struct SAckRPGStats : SCommonRPGStats
   SAckRPGStats();
   ~SAckRPGStats() override;
   //
-  void ToAIUnits() override;
+  void STDCALL ToAIUnits() override;
   //
   bool ChooseAcknowledgement(float fRandom, EUnitAckType type, std::string *pResult) const;
   //
-  int operator&(IDataTree &ss) override;
+  int STDCALL operator&(IDataTree &ss) override;
 
-  const uLong CalculateCheckSum() const override { return 0; }
+  const uLong STDCALL CalculateCheckSum() const override { return 0; }
 };
 
 // ************************************************************************************************************************ //
@@ -1050,13 +1050,13 @@ struct SUnitBaseRPGStats : SHPObjectRPGStats
   SUnitBaseRPGStats(const char *pszType);
   ~SUnitBaseRPGStats() override {}
   //
-  void ToAIUnits() override;
+  void STDCALL ToAIUnits() override;
   //	
   int GetAnimTime(int nAnim) const { return nAnim >= animdescs.size() || animdescs[nAnim].empty() ? 0 : animdescs[nAnim][0].nLength; }
   int GetAnimActionTime(int nAnim) const { return nAnim >= animdescs.size() || animdescs[nAnim].empty() ? 0 : animdescs[nAnim][0].nAction; }
   // chooses sound for given ack type and writes it to passed string
   // returns false if no acknowledgement is chosen
-  virtual bool ChooseAcknowledgement(float fRandom, EUnitAckType type, std::string *str, int nSet) const;
+  virtual bool STDCALL ChooseAcknowledgement(float fRandom, EUnitAckType type, std::string *str, int nSet) const;
   const EUnitRPGClass GetRPGClass() const { return ::GetRPGClass(type); }
   EUnitRPGType GetMainType() const { return ::GetMainType(type); }
   int IsInfantry() const { return ::IsInfantry(type); }
@@ -1147,12 +1147,12 @@ struct SUnitBaseRPGStats : SHPObjectRPGStats
   //
   const CUserActions *GetUserActions(bool bActionsBy) const override { return bActionsBy ? &availUserActions : &availUserExposures; }
   //
-  void RetrieveShortcuts(IObjectsDB *pGDB) override;
+  void STDCALL RetrieveShortcuts(IObjectsDB *pGDB) override;
   //
-  int operator&(IDataTree &ss) override;
+  int STDCALL operator&(IDataTree &ss) override;
 
   //
-  const uLong CalculateCheckSum() const override;
+  const uLong STDCALL CalculateCheckSum() const override;
 };
 
 // ************************************************************************************************************************ //
@@ -1196,10 +1196,10 @@ struct SMechUnitRPGStats : SUnitBaseRPGStats
     float fRecoilShakeAngle;// flinch angle (radian)
     //
     SGun();
-    int operator&(IDataTree &ss) override;
+    int STDCALL operator&(IDataTree &ss) override;
 
     //
-    const uLong CalculateCheckSum() const override;
+    const uLong STDCALL CalculateCheckSum() const override;
   };
 
   struct SPlatform
@@ -1340,11 +1340,11 @@ struct SMechUnitRPGStats : SUnitBaseRPGStats
   SMechUnitRPGStats();
   ~SMechUnitRPGStats() override {}
   //
-  void RetrieveShortcuts(IObjectsDB *pGDB) override;
+  void STDCALL RetrieveShortcuts(IObjectsDB *pGDB) override;
   // convert from human units to AI
-  void ToAIUnits() override;
+  void STDCALL ToAIUnits() override;
   // checking stats for correctness
-  bool Validate() override;
+  bool STDCALL Validate() override;
   //
   int GetArmor(const int n) const override { return (armors[n].nMin + armors[n].nMax) / 2; }
   int GetMinPossibleArmor(const int n) const override { return armors[n].nMin; }
@@ -1360,10 +1360,10 @@ struct SMechUnitRPGStats : SUnitBaseRPGStats
   //
   const std::vector<CVec2> *GetGunners(const int nMode) const { return nMode < vGunners.size() ? &(vGunners[nMode]) : nullptr; }
   //
-  int operator&(IDataTree &ss) override;
+  int STDCALL operator&(IDataTree &ss) override;
 
   //
-  const uLong CalculateCheckSum() const override;
+  const uLong STDCALL CalculateCheckSum() const override;
 };
 
 // ************************************************************************************************************************ //
@@ -1378,7 +1378,7 @@ struct SInfantryRPGStats : SUnitBaseRPGStats
 {
   struct SGun : SBaseGunRPGStats
   {
-    int operator&(IDataTree &ss) override;
+    int STDCALL operator&(IDataTree &ss) override;
   };
 
   //
@@ -1397,9 +1397,9 @@ struct SInfantryRPGStats : SUnitBaseRPGStats
   SInfantryRPGStats();
   ~SInfantryRPGStats() override {}
 
-  void RetrieveShortcuts(IObjectsDB *pGDB) override;
+  void STDCALL RetrieveShortcuts(IObjectsDB *pGDB) override;
   //
-  void ToAIUnits() override;
+  void STDCALL ToAIUnits() override;
   //
   int GetArmor(const int n) const override { return 0; }
   int GetMinPossibleArmor(const int n) const override { return 0; }
@@ -1407,10 +1407,10 @@ struct SInfantryRPGStats : SUnitBaseRPGStats
   int GetRandomArmor(const int n) const override { return 0; }
   const SBaseGunRPGStats &GetGun(const int n) const override { return guns[n]; }
   //
-  int operator&(IDataTree &ss) override;
+  int STDCALL operator&(IDataTree &ss) override;
 
   //
-  const uLong CalculateCheckSum() const override;
+  const uLong STDCALL CalculateCheckSum() const override;
 };
 
 // ************************************************************************************************************************ //
@@ -1506,15 +1506,15 @@ struct SEntrenchmentRPGStats : SHPObjectRPGStats
   }
 
   //
-  void ToAIUnits() override;
+  void STDCALL ToAIUnits() override;
   //
-  virtual const int GetTypeFromIndex(int nIndex) const;
-  virtual const int GetIndexFromType(int nType, int *pCurRandomSeed = nullptr) const;
+  virtual const int STDCALL GetTypeFromIndex(int nIndex) const;
+  virtual const int STDCALL GetIndexFromType(int nType, int *pCurRandomSeed = nullptr) const;
   //
-  int operator&(IDataTree &ss) override;
+  int STDCALL operator&(IDataTree &ss) override;
 
   //
-  const uLong CalculateCheckSum() const override;
+  const uLong STDCALL CalculateCheckSum() const override;
 };
 
 // ************************************************************************************************************************ //
@@ -1577,27 +1577,27 @@ struct SFenceRPGStats : SStaticObjectRPGStats
   SFenceRPGStats() : SStaticObjectRPGStats("Fence") {}
   ~SFenceRPGStats() override {}
   //
-  void ToAIUnits() override;
+  void STDCALL ToAIUnits() override;
   //
-  const CVec2 & GetOrigin(const int nIndex = -1) const override
+  const CVec2 & STDCALL GetOrigin(const int nIndex = -1) const override
   {
     NI_ASSERT_SLOW_T(nIndex > -1 && nIndex < stats.size(), NStr::Format("Index %d for the \"%s\"must be in the range [0..%d]", nIndex, szKeyName.c_str(), stats.size()));
     return stats[nIndex].vOrigin;
   }
 
-  const CArray2D<BYTE> & GetPassability(const int nIndex = -1) const override
+  const CArray2D<BYTE> & STDCALL GetPassability(const int nIndex = -1) const override
   {
     NI_ASSERT_SLOW_T(nIndex > -1 && nIndex < stats.size(), NStr::Format("Index %d for the \"%s\"must be in the range [0..%d]", nIndex, szKeyName.c_str(), stats.size()));
     return stats[nIndex].passability;
   }
 
-  const CVec2 & GetVisOrigin(const int nIndex = -1) const override
+  const CVec2 & STDCALL GetVisOrigin(const int nIndex = -1) const override
   {
     NI_ASSERT_SLOW_T(nIndex > -1 && nIndex < stats.size(), NStr::Format("Index %d for the \"%s\"must be in the range [0..%d]", nIndex, szKeyName.c_str(), stats.size()));
     return stats[nIndex].vVisOrigin;
   }
 
-  const CArray2D<BYTE> & GetVisibility(const int nIndex = -1) const override
+  const CArray2D<BYTE> & STDCALL GetVisibility(const int nIndex = -1) const override
   {
     NI_ASSERT_SLOW_T(nIndex > -1 && nIndex < stats.size(), NStr::Format("Index %d for the \"%s\"must be in the range [0..%d]", nIndex, szKeyName.c_str(), stats.size()));
     return stats[nIndex].visibility;
@@ -1676,13 +1676,13 @@ struct SFenceRPGStats : SStaticObjectRPGStats
   }
 
   //
-  virtual const int GetTypeFromIndex(int nIndex) const;
-  virtual const int GetIndexFromType(int nType, int *pCurRandomSeed = nullptr) const;
+  virtual const int STDCALL GetTypeFromIndex(int nIndex) const;
+  virtual const int STDCALL GetIndexFromType(int nType, int *pCurRandomSeed = nullptr) const;
   //
-  int operator&(IDataTree &ss) override;
+  int STDCALL operator&(IDataTree &ss) override;
 
   //
-  const uLong CalculateCheckSum() const override;
+  const uLong STDCALL CalculateCheckSum() const override;
 };
 
 // ************************************************************************************************************************ //
@@ -1781,18 +1781,18 @@ struct SSquadRPGStats : SHPObjectRPGStats
   SSquadRPGStats() : SHPObjectRPGStats("Squad") {}
   ~SSquadRPGStats() override {}
   //
-  void RetrieveShortcuts(IObjectsDB *pGDB) override;
+  void STDCALL RetrieveShortcuts(IObjectsDB *pGDB) override;
   //
-  void ToAIUnits() override;
+  void STDCALL ToAIUnits() override;
   //
-  bool Validate() override;
+  bool STDCALL Validate() override;
   //
   const CUserActions *GetUserActions(bool bActionsBy) const override { return bActionsBy ? &availActions : &availExposures; }
   //
-  int operator&(IDataTree &ss) override;
+  int STDCALL operator&(IDataTree &ss) override;
 
   //
-  const uLong CalculateCheckSum() const override;
+  const uLong STDCALL CalculateCheckSum() const override;
 };
 
 // ************************************************************************************************************************ //
@@ -1822,12 +1822,12 @@ struct SMineRPGStats : SObjectBaseRPGStats
   SMineRPGStats();
   ~SMineRPGStats() override {}
   //
-  void RetrieveShortcuts(IObjectsDB *pGDB) override;
+  void STDCALL RetrieveShortcuts(IObjectsDB *pGDB) override;
   //
-  int operator&(IDataTree &ss) override;
+  int STDCALL operator&(IDataTree &ss) override;
 
   //
-  const uLong CalculateCheckSum() const override;
+  const uLong STDCALL CalculateCheckSum() const override;
 };
 
 // ************************************************************************************************************************ //
@@ -1842,7 +1842,7 @@ struct SMineRPGStats : SObjectBaseRPGStats
 struct SBridgeRPGStats : SStaticObjectRPGStats
 {
 private:
-  virtual const int GetIndexFromTypeLocal(int nType, int nDamageState, int *pCurRandomSeed) const;
+  virtual const int STDCALL GetIndexFromTypeLocal(int nType, int nDamageState, int *pCurRandomSeed) const;
 
 public:
   enum
@@ -2029,42 +2029,42 @@ public:
   }
 
   // in the next four functions 'nIndex' does not mean 'segment', but 'span', from which you need to pull out the 'nSlab' segment and return its data
-  const CVec2 & GetOrigin(const int nIndex = -1) const override
+  const CVec2 & STDCALL GetOrigin(const int nIndex = -1) const override
   {
     const int nSegment = GetSpanStats(nIndex).nSlab;
     return GetSegmentStats(nSegment).vOrigin;
   }
 
-  const CArray2D<BYTE> & GetPassability(const int nIndex = -1) const override
+  const CArray2D<BYTE> & STDCALL GetPassability(const int nIndex = -1) const override
   {
     const int nSegment = GetSpanStats(nIndex).nSlab;
     return GetSegmentStats(nSegment).passability;
   }
 
-  const CVec2 & GetVisOrigin(const int nIndex = -1) const override
+  const CVec2 & STDCALL GetVisOrigin(const int nIndex = -1) const override
   {
     const int nSegment = GetSpanStats(nIndex).nSlab;
     return GetSegmentStats(nSegment).vVisOrigin;
   }
 
-  const CArray2D<BYTE> & GetVisibility(const int nIndex = -1) const override
+  const CArray2D<BYTE> & STDCALL GetVisibility(const int nIndex = -1) const override
   {
     const int nSegment = GetSpanStats(nIndex).nSlab;
     return GetSegmentStats(nSegment).visibility;
   }
 
   //
-  void ToAIUnits() override;
+  void STDCALL ToAIUnits() override;
   //
 
-  virtual const int GetTypeFromIndex(int nIndex, int nDamageState = 0) const;
-  virtual const int GetIndexFromType(const int nType, const int nDamageState = 0) const { return GetIndexFromTypeLocal(nType, nDamageState, nullptr); }
-  virtual const int GetIndexFromType(const int nType, int *pCurRandomSeed) const { return GetIndexFromTypeLocal(nType, 0, pCurRandomSeed); }
+  virtual const int STDCALL GetTypeFromIndex(int nIndex, int nDamageState = 0) const;
+  virtual const int STDCALL GetIndexFromType(const int nType, const int nDamageState = 0) const { return GetIndexFromTypeLocal(nType, nDamageState, nullptr); }
+  virtual const int STDCALL GetIndexFromType(const int nType, int *pCurRandomSeed) const { return GetIndexFromTypeLocal(nType, 0, pCurRandomSeed); }
   //
-  int operator&(IDataTree &ss) override;
+  int STDCALL operator&(IDataTree &ss) override;
 
   //
-  const uLong CalculateCheckSum() const override;
+  const uLong STDCALL CalculateCheckSum() const override;
 };
 
 // ************************************************************************************************************************ //
@@ -2099,10 +2099,10 @@ struct SSoundRPGStats : SCommonRPGStats
   SSoundRPGStats();
   ~SSoundRPGStats() override;
   //
-  void ToAIUnits() override;
-  int operator&(IDataTree &ss) override;
+  void STDCALL ToAIUnits() override;
+  int STDCALL operator&(IDataTree &ss) override;
 
-  const uLong CalculateCheckSum() const override { return 0; }
+  const uLong STDCALL CalculateCheckSum() const override { return 0; }
 };
 
 // ************************************************************************************************************************ //
@@ -2151,11 +2151,11 @@ struct SAIExpLevel : IGDBObject
   //
   SAIExpLevel() : levels(1) {}
 
-  const char * GetName() const override { return "AIExpLevel"; }
-  const char * GetParentName() const override { return szTypeName.c_str(); }
-  const uLong GetCheckSum() const override { return 0L; }
+  const char * STDCALL GetName() const override { return "AIExpLevel"; }
+  const char * STDCALL GetParentName() const override { return szTypeName.c_str(); }
+  const uLong STDCALL GetCheckSum() const override { return 0L; }
   //
-  virtual int operator&(IDataTree &ss);
+  virtual int STDCALL operator&(IDataTree &ss);
 };
 
 #endif // __RPGSTATS_H__

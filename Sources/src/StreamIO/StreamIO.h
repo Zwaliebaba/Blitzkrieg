@@ -73,34 +73,34 @@ struct SStorageElementStats
 
 interface IStorageEnumerator : IRefCount
 {
-  virtual void Reset(const char *pszName) = 0;
-  virtual bool Next() = 0;
-  virtual const SStorageElementStats * GetStats() const = 0;
+  virtual void STDCALL Reset(const char *pszName) = 0;
+  virtual bool STDCALL Next() = 0;
+  virtual const SStorageElementStats * STDCALL GetStats() const = 0;
 };
 
 interface IDataStream : IRefCount
 {
   // read/write data
-  virtual int Read(void *pBuffer, int nLength) = 0;
-  virtual int Write(const void *pBuffer, int nLength) = 0;
+  virtual int STDCALL Read(void *pBuffer, int nLength) = 0;
+  virtual int STDCALL Write(const void *pBuffer, int nLength) = 0;
   // declare the current position in the stream as the beginning of the stream
-  virtual int LockBegin() = 0;
+  virtual int STDCALL LockBegin() = 0;
   // return the start of the stream to the zero position
-  virtual int UnlockBegin() = 0;
+  virtual int STDCALL UnlockBegin() = 0;
   // current position in the stream
-  virtual int GetPos() const = 0;
+  virtual int STDCALL GetPos() const = 0;
   // set the current position in the stream
-  virtual int Seek(int offset, STREAM_SEEK from) = 0;
+  virtual int STDCALL Seek(int offset, STREAM_SEEK from) = 0;
   // get stream size
-  virtual int GetSize() const = 0;
+  virtual int STDCALL GetSize() const = 0;
   // change stream size
-  virtual bool SetSize(int nSize) = 0;
+  virtual bool STDCALL SetSize(int nSize) = 0;
   // copy 'nLength' byte from current stream position to current 'pDstStream' stream position
-  virtual int CopyTo(IDataStream *pDstStream, int nLength) = 0;
+  virtual int STDCALL CopyTo(IDataStream *pDstStream, int nLength) = 0;
   // reset all cached data
-  virtual void Flush() = 0;
+  virtual void STDCALL Flush() = 0;
   // get information about the stream
-  virtual void GetStats(SStorageElementStats *pStats) = 0;
+  virtual void STDCALL GetStats(SStorageElementStats *pStats) = 0;
 };
 
 interface IDataStorage : IRefCount
@@ -109,25 +109,25 @@ interface IDataStorage : IRefCount
   enum { tidTypeID = 0 };
 
   // check if such thread exists
-  virtual const bool IsStreamExist(const char *pszName) = 0;
+  virtual const bool STDCALL IsStreamExist(const char *pszName) = 0;
   // create and open a stream with the specified name and access rights
-  virtual IDataStream * CreateStream(const char *pszName, DWORD dwAccessMode) = 0;
+  virtual IDataStream * STDCALL CreateStream(const char *pszName, DWORD dwAccessMode) = 0;
   // open an existing stream with the specified name and permissions
-  virtual IDataStream * OpenStream(const char *pszName, DWORD dwAccessMode) = 0;
+  virtual IDataStream * STDCALL OpenStream(const char *pszName, DWORD dwAccessMode) = 0;
   // get stream description
-  virtual bool GetStreamStats(const char *pszName, SStorageElementStats *pStats) = 0;
+  virtual bool STDCALL GetStreamStats(const char *pszName, SStorageElementStats *pStats) = 0;
   // kill storage element
-  virtual bool DestroyElement(const char *pszName) = 0;
+  virtual bool STDCALL DestroyElement(const char *pszName) = 0;
   // rename element
-  virtual bool RenameElement(const char *pszOldName, const char *pszNewName) = 0;
+  virtual bool STDCALL RenameElement(const char *pszOldName, const char *pszNewName) = 0;
   // enumeration of elements
-  virtual IStorageEnumerator * CreateEnumerator() = 0;
+  virtual IStorageEnumerator * STDCALL CreateEnumerator() = 0;
   // get the name of this storage
-  virtual const char * GetName() const = 0;
+  virtual const char * STDCALL GetName() const = 0;
   // add new MOD by name
-  virtual bool AddStorage(IDataStorage *pStorage, const char *pszName) = 0;
+  virtual bool STDCALL AddStorage(IDataStorage *pStorage, const char *pszName) = 0;
   // remove MOD by name
-  virtual bool RemoveStorage(const char *pszName) = 0;
+  virtual bool STDCALL RemoveStorage(const char *pszName) = 0;
 };
 
 inline std::string GetStreamName(IDataStream *pStream)

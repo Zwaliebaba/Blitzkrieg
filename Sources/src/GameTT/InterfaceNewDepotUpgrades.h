@@ -12,13 +12,13 @@ class CInterfaceNewDepotUpgrades : public CInterfaceInterMission
   // input
   NInput::CCommandRegistrator commandMsgs;
   //
-  bool ProcessMessage(const SGameMessage &msg) override;
+  bool STDCALL ProcessMessage(const SGameMessage &msg) override;
   // disable explicit destruction
   ~CInterfaceNewDepotUpgrades() override;
   CInterfaceNewDepotUpgrades();
 
 public:
-  void StartInterface() override;
+  void STDCALL StartInterface() override;
 };
 
 class CICNewDepotUpgrades : public CInterfaceCommandBase<IInterfaceBase, MISSION_INTERFACE_NEW_DEPOTUPGRADES>

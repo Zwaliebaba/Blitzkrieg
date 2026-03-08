@@ -14,17 +14,17 @@
 interface ISingleton
 {
   // register singleton object for global access
-  virtual bool Register(int nID, IRefCount *pObj) = 0;
+  virtual bool STDCALL Register(int nID, IRefCount *pObj) = 0;
   // unregister singleton object by ID
-  virtual bool UnRegister(int nID) = 0;
+  virtual bool STDCALL UnRegister(int nID) = 0;
   // unregister singleton object by pointer
-  virtual bool UnRegister(IRefCount *pObj) = 0;
+  virtual bool STDCALL UnRegister(IRefCount *pObj) = 0;
   // get singleton object by ID
-  virtual IRefCount * Get(int nID) = 0;
+  virtual IRefCount * STDCALL Get(int nID) = 0;
   // get all registered objects. 
-  virtual int GetAllObjects(IRefCount ***pBuffer, int *pnBufferSize) = 0;
+  virtual int STDCALL GetAllObjects(IRefCount ***pBuffer, int *pnBufferSize) = 0;
   // done - release all objects
-  virtual void Done() = 0;
+  virtual void STDCALL Done() = 0;
 };
 
 extern ISingleton *g_pGlobalSingleton;
@@ -57,18 +57,18 @@ interface IGlobalVars : IRefCount
   enum { tidTypeID = -1 };
 
   //
-  virtual const char * GetVar(const char *pszValueName) const = 0;
-  virtual void SetVar(const char *pszValueName, const char *pszValue) = 0;
-  virtual void RemoveVar(const char *pszValueName) = 0;
-  virtual void RemoveVarsByMatch(const char *pszValueMatch) = 0;
+  virtual const char * STDCALL GetVar(const char *pszValueName) const = 0;
+  virtual void STDCALL SetVar(const char *pszValueName, const char *pszValue) = 0;
+  virtual void STDCALL RemoveVar(const char *pszValueName) = 0;
+  virtual void STDCALL RemoveVarsByMatch(const char *pszValueMatch) = 0;
   //
-  virtual const wchar_t* GetWVar(const char *pszValueName) const = 0;
-  virtual void SetVar(const char *pszValueName, const wchar_t*pszValue) = 0;
-  virtual void RemoveWVar(const char *pszValueName) = 0;
+  virtual const wchar_t* STDCALL GetWVar(const char *pszValueName) const = 0;
+  virtual void STDCALL SetVar(const char *pszValueName, const wchar_t*pszValue) = 0;
+  virtual void STDCALL RemoveWVar(const char *pszValueName) = 0;
   // dump vars
-  virtual bool DumpVars(const char *pszFileName) = 0;
+  virtual bool STDCALL DumpVars(const char *pszFileName) = 0;
 
-  virtual void SerializeVarsByMatch(interface IDataTree *pSS, const char *pszValueMatch) = 0;
+  virtual void STDCALL SerializeVarsByMatch(interface IDataTree *pSS, const char *pszValueMatch) = 0;
 };
 
 inline const char *GetGlobalVar(const char *pszValueName, const char *defval = "")
@@ -140,17 +140,17 @@ interface IConsoleBuffer : IRefCount
   enum { tidTypeID = -2 };
 
   // configure console buffer
-  virtual bool Configure(const char *pszConfigure) = 0;
+  virtual bool STDCALL Configure(const char *pszConfigure) = 0;
   // write string to console's stream
-  virtual void Write(int nStreamID, const wchar_t *pszString, DWORD color = 0xffffffff, bool bBackupLog = false) = 0;
+  virtual void STDCALL Write(int nStreamID, const wchar_t *pszString, DWORD color = 0xffffffff, bool bBackupLog = false) = 0;
   // write string to console's stream. 
-  virtual void WriteASCII(int nStreamID, const char *pszString, DWORD color = 0xffffffff, bool bBackupLog = false) = 0;
+  virtual void STDCALL WriteASCII(int nStreamID, const char *pszString, DWORD color = 0xffffffff, bool bBackupLog = false) = 0;
   // read string from console's stream
-  virtual const wchar_t * Read(int nStreamID, DWORD *pColor = nullptr) = 0;
+  virtual const wchar_t * STDCALL Read(int nStreamID, DWORD *pColor = nullptr) = 0;
   // read string from console's stream. 
-  virtual const char * ReadASCII(int nStreamID, DWORD *pColor = nullptr) = 0;
+  virtual const char * STDCALL ReadASCII(int nStreamID, DWORD *pColor = nullptr) = 0;
   // dump console's stream log to the previously configured output devices
-  virtual bool DumpLog(int nStreamID) = 0;
+  virtual bool STDCALL DumpLog(int nStreamID) = 0;
 };
 
 // ************************************************************************************************************************ //
@@ -161,7 +161,7 @@ interface IConsoleBuffer : IRefCount
 // **
 // ************************************************************************************************************************ //
 
-extern void * (*g_pfnGlobalGetTempRawBuffer)(int nAmount, int nBufferIndex);
+extern void * (STDCALL *g_pfnGlobalGetTempRawBuffer)(int nAmount, int nBufferIndex);
 
 template<class TYPE>
 TYPE *GetTempBufferN(int nAmount, int nIndex) { return reinterpret_cast<TYPE *>((*g_pfnGlobalGetTempRawBuffer)(nAmount * sizeof(TYPE), nIndex)); }

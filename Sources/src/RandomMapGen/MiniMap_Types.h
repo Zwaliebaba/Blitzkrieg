@@ -64,8 +64,8 @@ struct SRMImageCreateParameter
   }
 
   // serializing...
-  virtual int operator&(IStructureSaver &ss);
-  virtual int operator&(IDataTree &ss);
+  virtual int STDCALL operator&(IStructureSaver &ss);
+  virtual int STDCALL operator&(IDataTree &ss);
 };
 
 using CRMImageCreateParameterList = std::vector<SRMImageCreateParameter>;
@@ -107,8 +107,8 @@ struct SRMMiniMapCreateParameter
     EImageScaleMethod scaleMethod;
 
     // serializing...
-    virtual int operator&(IStructureSaver &ss);
-    virtual int operator&(IDataTree &ss);
+    virtual int STDCALL operator&(IStructureSaver &ss);
+    virtual int STDCALL operator&(IDataTree &ss);
   };
 
   std::vector<SMiniMapLayer> layers;
@@ -120,8 +120,8 @@ struct SRMMiniMapCreateParameter
   DWORD dwBridgeWidth;
 
   // serializing...
-  virtual int operator&(IStructureSaver &ss);
-  virtual int operator&(IDataTree &ss);
+  virtual int STDCALL operator&(IStructureSaver &ss);
+  virtual int STDCALL operator&(IDataTree &ss);
 };
 
 #endif // #if !defined(__MiniMap__Types__)

@@ -16,9 +16,9 @@ class CICSave : public IInterfaceCommand
   CICSave() : timeDelayed(0), bAutoSave(false) {}
 
 public:
-  void Exec(IMainLoop *pML) override;
+  void STDCALL Exec(IMainLoop *pML) override;
 
-  void Configure(const char *pszConfig) override
+  void STDCALL Configure(const char *pszConfig) override
   {
     if (!pszConfig) return;
     std::vector<std::string> strings;
@@ -33,10 +33,10 @@ public:
   }
 
   //
-  void SetDelayedTime(const NTimer::STime &timeToExecute) override { timeDelayed = timeToExecute; }
-  NTimer::STime GetDelayedTime() const override { return timeDelayed; }
+  void STDCALL SetDelayedTime(const NTimer::STime &timeToExecute) override { timeDelayed = timeToExecute; }
+  NTimer::STime STDCALL GetDelayedTime() const override { return timeDelayed; }
   //
-  int operator&(IStructureSaver &ss) override
+  int STDCALL operator&(IStructureSaver &ss) override
   {
     CSaverAccessor saver = &ss;
     saver.Add(1, &szFileName);
@@ -55,19 +55,19 @@ class CICLoad : public IInterfaceCommand
   CICLoad() : timeDelayed(0) {}
 
 public:
-  void Exec(IMainLoop *pML) override;
+  void STDCALL Exec(IMainLoop *pML) override;
 
-  void Configure(const char *pszConfig) override
+  void STDCALL Configure(const char *pszConfig) override
   {
     if (!pszConfig) return;
     szFileName = pszConfig;
   }
 
   //
-  void SetDelayedTime(const NTimer::STime &timeToExecute) override { timeDelayed = timeToExecute; }
-  NTimer::STime GetDelayedTime() const override { return timeDelayed; }
+  void STDCALL SetDelayedTime(const NTimer::STime &timeToExecute) override { timeDelayed = timeToExecute; }
+  NTimer::STime STDCALL GetDelayedTime() const override { return timeDelayed; }
   //
-  int operator&(IStructureSaver &ss) override
+  int STDCALL operator&(IStructureSaver &ss) override
   {
     CSaverAccessor saver = &ss;
     saver.Add(1, &szFileName);
@@ -84,10 +84,10 @@ class CICPopInterface : public IInterfaceCommand
   CICPopInterface() : timeDelayed(0) {}
 
 public:
-  void Exec(IMainLoop *pML) override { pML->PopInterface(); }
-  void SetDelayedTime(const NTimer::STime &timeToExecute) override { timeDelayed = timeToExecute; }
-  NTimer::STime GetDelayedTime() const override { return timeDelayed; }
-  int operator&(IStructureSaver &ss) override { return 0; }
+  void STDCALL Exec(IMainLoop *pML) override { pML->PopInterface(); }
+  void STDCALL SetDelayedTime(const NTimer::STime &timeToExecute) override { timeDelayed = timeToExecute; }
+  NTimer::STime STDCALL GetDelayedTime() const override { return timeDelayed; }
+  int STDCALL operator&(IStructureSaver &ss) override { return 0; }
 };
 
 class CICSendCommand : public IInterfaceCommand
@@ -100,12 +100,12 @@ class CICSendCommand : public IInterfaceCommand
   CICSendCommand() : nCommand(-1), nParam(-1), timeDelayed(0) {}
 
 public:
-  void Exec(IMainLoop *pML) override;
-  void Configure(const char *pszConfig) override;
-  void SetDelayedTime(const NTimer::STime &timeToExecute) override { timeDelayed = timeToExecute; }
-  NTimer::STime GetDelayedTime() const override { return timeDelayed; }
+  void STDCALL Exec(IMainLoop *pML) override;
+  void STDCALL Configure(const char *pszConfig) override;
+  void STDCALL SetDelayedTime(const NTimer::STime &timeToExecute) override { timeDelayed = timeToExecute; }
+  NTimer::STime STDCALL GetDelayedTime() const override { return timeDelayed; }
 
-  int operator&(IStructureSaver &ss) override
+  int STDCALL operator&(IStructureSaver &ss) override
   {
     CSaverAccessor saver = &ss;
     saver.Add(1, &nCommand);
@@ -124,18 +124,18 @@ class CICEnableMessageProcessing : public IInterfaceCommand
   CICEnableMessageProcessing() : bEnable(true), timeDelayed(0) {}
 
 public:
-  void Exec(IMainLoop *pML) override { pML->EnableMessageProcessing(bEnable); }
+  void STDCALL Exec(IMainLoop *pML) override { pML->EnableMessageProcessing(bEnable); }
 
-  void Configure(const char *pszConfig) override
+  void STDCALL Configure(const char *pszConfig) override
   {
     if (!pszConfig) return;
     bEnable = NStr::ToInt(pszConfig) != 0;
   }
 
-  void SetDelayedTime(const NTimer::STime &timeToExecute) override { timeDelayed = timeToExecute; }
-  NTimer::STime GetDelayedTime() const override { return timeDelayed; }
+  void STDCALL SetDelayedTime(const NTimer::STime &timeToExecute) override { timeDelayed = timeToExecute; }
+  NTimer::STime STDCALL GetDelayedTime() const override { return timeDelayed; }
 
-  int operator&(IStructureSaver &ss) override
+  int STDCALL operator&(IStructureSaver &ss) override
   {
     CSaverAccessor saver = &ss;
     saver.Add(1, &bEnable);
@@ -152,9 +152,9 @@ class CICExitGame : public IInterfaceCommand
   CICExitGame() : timeDelayed(0) {}
 
 public:
-  void Exec(IMainLoop *pML) override;
-  void SetDelayedTime(const NTimer::STime &timeToExecute) override { timeDelayed = timeToExecute; }
-  NTimer::STime GetDelayedTime() const override { return timeDelayed; }
+  void STDCALL Exec(IMainLoop *pML) override;
+  void STDCALL SetDelayedTime(const NTimer::STime &timeToExecute) override { timeDelayed = timeToExecute; }
+  NTimer::STime STDCALL GetDelayedTime() const override { return timeDelayed; }
 };
 
 class CICChangeMOD : public IInterfaceCommand
@@ -167,12 +167,12 @@ class CICChangeMOD : public IInterfaceCommand
   CICChangeMOD() : timeDelayed(0) {}
 
 public:
-  void Exec(IMainLoop *pML) override;
-  void Configure(const char *pszConfig) override;
-  void SetDelayedTime(const NTimer::STime &timeToExecute) override { timeDelayed = timeToExecute; }
-  NTimer::STime GetDelayedTime() const override { return timeDelayed; }
+  void STDCALL Exec(IMainLoop *pML) override;
+  void STDCALL Configure(const char *pszConfig) override;
+  void STDCALL SetDelayedTime(const NTimer::STime &timeToExecute) override { timeDelayed = timeToExecute; }
+  NTimer::STime STDCALL GetDelayedTime() const override { return timeDelayed; }
 
-  int operator&(IStructureSaver &ss) override
+  int STDCALL operator&(IStructureSaver &ss) override
   {
     CSaverAccessor saver = &ss;
     saver.Add(1, &szMOD);
@@ -191,12 +191,12 @@ class CICPauseGame : public IInterfaceCommand
   CICPauseGame() : timeDelayed(0), nPauseReason(0), bSetPause(false) {}
 
 public:
-  void Exec(IMainLoop *pML) override;
-  void Configure(const char *pszConfig) override;
-  void SetDelayedTime(const NTimer::STime &timeToExecute) override { timeDelayed = timeToExecute; }
-  NTimer::STime GetDelayedTime() const override { return timeDelayed; }
+  void STDCALL Exec(IMainLoop *pML) override;
+  void STDCALL Configure(const char *pszConfig) override;
+  void STDCALL SetDelayedTime(const NTimer::STime &timeToExecute) override { timeDelayed = timeToExecute; }
+  NTimer::STime STDCALL GetDelayedTime() const override { return timeDelayed; }
 
-  int operator&(IStructureSaver &ss) override
+  int STDCALL operator&(IStructureSaver &ss) override
   {
     CSaverAccessor saver = &ss;
     saver.Add(1, &nPauseReason);

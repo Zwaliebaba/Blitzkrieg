@@ -39,29 +39,29 @@ class CSmokinParticleSource : public IParticleSource, public IParticleSourceWith
 
 public:
   // data retrieving for rendering
-  interface IGFXTexture * GetTexture() const override;
-  const int GetNumParticles() const override;
-  void FillParticleBuffer(SSimpleParticle *buff) const override;
+  interface IGFXTexture * STDCALL GetTexture() const override;
+  const int STDCALL GetNumParticles() const override;
+  void STDCALL FillParticleBuffer(SSimpleParticle *buff) const override;
   // position/direction
-  const CVec3 GetPos() const override;
-  void SetPos(const CVec3 &vPos) override;
-  const CVec3 GetDirection() const override;
-  void SetDirection(const SHMatrix &mDir) override;
-  void SetScale(float _fScale) override;
+  const CVec3 STDCALL GetPos() const override;
+  void STDCALL SetPos(const CVec3 &vPos) override;
+  const CVec3 STDCALL GetDirection() const override;
+  void STDCALL SetDirection(const SHMatrix &mDir) override;
+  void STDCALL SetScale(float _fScale) override;
   // update and work with time
-  void Update(const NTimer::STime &time) override;
-  void SetStartTime(const NTimer::STime &time) override;
-  const NTimer::STime GetStartTime() const override;
-  const NTimer::STime GetEffectLifeTime() const override;
-  bool IsFinished() const override;
+  void STDCALL Update(const NTimer::STime &time) override;
+  void STDCALL SetStartTime(const NTimer::STime &time) override;
+  const NTimer::STime STDCALL GetStartTime() const override;
+  const NTimer::STime STDCALL GetEffectLifeTime() const override;
+  bool STDCALL IsFinished() const override;
   // statistics
-  void GetInfo(SParticleSourceInfo &info) override;
-  float GetArea() const override;
-  void Stop() override;
+  void STDCALL GetInfo(SParticleSourceInfo &info) override;
+  float STDCALL GetArea() const override;
+  void STDCALL Stop() override;
   //
   virtual void Init(SSmokinParticleSourceData *_pData);
-  int GetOptimalUpdateTime() const override;
-  void SetSuspendedState(bool bState) override;
+  int STDCALL GetOptimalUpdateTime() const override;
+  void STDCALL SetSuspendedState(bool bState) override;
 };
 
 #endif

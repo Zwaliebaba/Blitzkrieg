@@ -6,7 +6,7 @@
 // The project internal header file.
 #include "Internal.h"
 // //////////////////////////////////////////////////////////// 
-HMODULE * AllocAndFillProcessModuleList(HANDLE hHeap, LPUINT puiCount)
+HMODULE * STDCALL AllocAndFillProcessModuleList(HANDLE hHeap, LPUINT puiCount)
 {
   ASSERT(FALSE == IsBadWritePtr(puiCount , sizeof(LPUINT)));
   if (TRUE == IsBadWritePtr(puiCount, sizeof(LPUINT)))

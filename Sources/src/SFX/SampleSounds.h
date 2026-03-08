@@ -58,10 +58,10 @@ public:
   }
 
   //
-  void SwapData(ISharedResource *pResource) override;
+  void STDCALL SwapData(ISharedResource *pResource) override;
   // internal container clearing
-  void ClearInternalContainer() override {}
-  bool Load(bool bPreLoad = false) override;
+  void STDCALL ClearInternalContainer() override {}
+  bool STDCALL Load(bool bPreLoad = false) override;
 };
 
 // ************************************************************************************************************************ //
@@ -95,27 +95,27 @@ public:
   }
 
   // distance
-  void SetMinDistance(float fDistance) override { pSample->SetMinDistance(fDistance); }
+  void STDCALL SetMinDistance(float fDistance) override { pSample->SetMinDistance(fDistance); }
   // looping
-  void SetLooping(bool bEnable, int nStart = -1, int nEnd = -1) override
+  void STDCALL SetLooping(bool bEnable, int nStart = -1, int nEnd = -1) override
   {
     FSOUND_Sample_SetLoopMode(pSample->GetInternalContainer(), bEnable ? FSOUND_LOOP_NORMAL : FSOUND_LOOP_OFF);
     if ((nStart != -1) && (nEnd != -1)) FSOUND_Sample_SetLoopPoints(pSample->GetInternalContainer(), nStart, nEnd);
   }
 
-  unsigned int GetLenght() override { return FSOUND_Sample_GetLength(pSample->GetInternalContainer()); }
+  unsigned int STDCALL GetLenght() override { return FSOUND_Sample_GetLength(pSample->GetInternalContainer()); }
 
-  unsigned int GetSampleRate() override
+  unsigned int STDCALL GetSampleRate() override
   {
     int freq = 44000;
     FSOUND_Sample_GetDefaults(pSample->GetInternalContainer(), &freq, 0, 0, 0);
     return freq;
   }
 
-  void SetVolume(float nVolume) override {}
-  float GetVolume() const override { return 1.0f; }
-  void SetPan(float nPan) override {}
-  float GetPan() const override { return 0.0f; }
+  void STDCALL SetVolume(float nVolume) override {}
+  float STDCALL GetVolume() const override { return 1.0f; }
+  void STDCALL SetPan(float nPan) override {}
+  float STDCALL GetPan() const override { return 0.0f; }
 };
 
 class CSound2D : public CBaseSound
@@ -130,22 +130,22 @@ public:
   CSound2D() : fVolume(1.0f), fPan(0.0f) {}
   ~CSound2D() override {}
   // visiting
-  int Visit(interface ISFXVisitor *pVisitor) override;
+  int STDCALL Visit(interface ISFXVisitor *pVisitor) override;
   //
-  int Play()
+  int STDCALL Play()
   {
     int nChannel = FSOUND_PlaySound(FSOUND_FREE, GetSample()->GetInternalContainer());
     SetChannel(nChannel);
     return nChannel;
   }
 
-  void SetPosition(const CVec3 &vPos3) override {}
-  const CVec3 GetPosition() override { return VNULL3; }
+  void STDCALL SetPosition(const CVec3 &vPos3) override {}
+  const CVec3 STDCALL GetPosition() override { return VNULL3; }
 
-  void SetVolume(float _fVolume) override { fVolume = _fVolume; }
-  float GetVolume() const override { return fVolume; }
-  void SetPan(float _fPan) override { fPan = _fPan; }
-  float GetPan() const override { return fPan; }
+  void STDCALL SetVolume(float _fVolume) override { fVolume = _fVolume; }
+  float STDCALL GetVolume() const override { return fVolume; }
+  void STDCALL SetPan(float _fPan) override { fPan = _fPan; }
+  float STDCALL GetPan() const override { return fPan; }
 
 };
 
@@ -163,12 +163,12 @@ public:
   CSound3D() : bDopplerFlag(false), lastUpdateTime(0), vLastPos(VNULL3) {}
   ~CSound3D() override {}
   // visiting
-  int Visit(interface ISFXVisitor *pVisitor) override;
+  int STDCALL Visit(interface ISFXVisitor *pVisitor) override;
   //
-  int Play();
-  void SetDopplerFlag(bool bDoppler) { bDopplerFlag = bDoppler; }
-  void SetPosition(const CVec3 &vPos3) override;
-  const CVec3 GetPosition() override { return vPos; }
+  int STDCALL Play();
+  void STDCALL SetDopplerFlag(bool bDoppler) { bDopplerFlag = bDoppler; }
+  void STDCALL SetPosition(const CVec3 &vPos3) override;
+  const CVec3 STDCALL GetPosition() override { return vPos; }
 };
 
 #endif // __SAMPLESOUNDS_H__

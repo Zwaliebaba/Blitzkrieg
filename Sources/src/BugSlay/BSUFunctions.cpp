@@ -6,12 +6,12 @@
 #include "Internal.h"
 // //////////////////////////////////////////////////////////// 
 // The Win95 version of GetModuleBaseName.
-static DWORD Win95GetModuleBaseName(HANDLE hProcess, HMODULE hModule,
+static DWORD STDCALL Win95GetModuleBaseName(HANDLE hProcess, HMODULE hModule,
                                             LPSTR lpBaseName, DWORD nSize);
 // //////////////////////////////////////////////////////////// 
 /* ////////////////////////////////////////////////////////////////////
                          */
-DWORD BSUGetModuleBaseName(HANDLE hProcess, HMODULE hModule, LPTSTR lpBaseName, DWORD nSize)
+DWORD STDCALL BSUGetModuleBaseName(HANDLE hProcess, HMODULE hModule, LPTSTR lpBaseName, DWORD nSize)
 {
   // Call the NT version.  
   // where all the PSAPI wrappers are kept.
@@ -20,7 +20,7 @@ DWORD BSUGetModuleBaseName(HANDLE hProcess, HMODULE hModule, LPTSTR lpBaseName, 
 }
 
 // //////////////////////////////////////////////////////////// 
-static DWORD Win95GetModuleBaseName(HANDLE /* hProcess */, HMODULE hModule,
+static DWORD STDCALL Win95GetModuleBaseName(HANDLE /* hProcess */, HMODULE hModule,
                                             LPSTR lpBaseName, DWORD nSize)
 {
   ASSERT(FALSE == IsBadWritePtr(lpBaseName, nSize));

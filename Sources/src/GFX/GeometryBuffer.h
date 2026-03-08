@@ -125,7 +125,7 @@ public:
   int GetRangeStart() const { return range.first; }
   int GetNumElements() const { return range.second; }
   //
-  void SwapData(ISharedResource *pResource) override
+  void STDCALL SwapData(ISharedResource *pResource) override
   {
     auto pRes = dynamic_cast<CVertices *>(pResource);
     NI_ASSERT_TF(pRes != 0, "shared resource is not a CVertices", return;);
@@ -135,11 +135,11 @@ public:
   }
 
   // internal container clearing
-  void ClearInternalContainer() override { pData = 0; }
-  bool Load(const bool bPreLoad = false) override { return false; }
+  void STDCALL ClearInternalContainer() override { pData = 0; }
+  bool STDCALL Load(const bool bPreLoad = false) override { return false; }
   // direct data access
-  void * Lock() override { return pData->Lock(range.first, range.second); }
-  void Unlock() override { pData->Unlock(); }
+  void * STDCALL Lock() override { return pData->Lock(range.first, range.second); }
+  void STDCALL Unlock() override { pData->Unlock(); }
 };
 
 class CIndices : public IGFXIndices
@@ -178,7 +178,7 @@ public:
   int GetRangeStart() const { return range.first; }
   int GetNumElements() const { return range.second; }
   //
-  void SwapData(ISharedResource *pResource) override
+  void STDCALL SwapData(ISharedResource *pResource) override
   {
     auto pRes = dynamic_cast<CIndices *>(pResource);
     NI_ASSERT_TF(pRes != 0, "shared resource is not a CIndices", return;);
@@ -189,13 +189,13 @@ public:
   }
 
   // internal container clearing
-  void ClearInternalContainer() override { pData = 0; }
-  bool Load(const bool bPreLoad = false) override { return false; }
+  void STDCALL ClearInternalContainer() override { pData = 0; }
+  bool STDCALL Load(const bool bPreLoad = false) override { return false; }
   // direct data access
-  void * Lock() override { return pData->Lock(range.first, range.second); }
-  void Unlock() override { pData->Unlock(); }
+  void * STDCALL Lock() override { return pData->Lock(range.first, range.second); }
+  void STDCALL Unlock() override { pData->Unlock(); }
   // set number of vertices, which is addressed by this index set
-  void SetNumUsedVertices(int _nNumUsedVertices) override { nNumUsedVertices = _nNumUsedVertices; }
+  void STDCALL SetNumUsedVertices(int _nNumUsedVertices) override { nNumUsedVertices = _nNumUsedVertices; }
   int GetNumUsedVertices() const { return nNumUsedVertices; }
 };
 

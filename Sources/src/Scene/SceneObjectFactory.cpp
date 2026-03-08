@@ -73,4 +73,4 @@ CSceneObjectFactory::CSceneObjectFactory()
 }
 
 static SModuleDescriptor theModuleDescriptor("Scene", SCENE_SCENE, 0x0100, &theSceneObjectFactory, nullptr);
-const SModuleDescriptor * GetModuleDescriptor() { return &theModuleDescriptor; }
+const SModuleDescriptor * STDCALL GetModuleDescriptor() { return &theModuleDescriptor; }

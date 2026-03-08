@@ -329,20 +329,20 @@ public:
   CInputBinder();
   ~CInputBinder() override {}
   //
-  bool SerializeConfig(IDataTree *pSS) override;
-  bool IsChanged() const override { return bMappingChanged; }
-  void Repair(IDataTree *pSS, bool bToDefault) override;
+  bool STDCALL SerializeConfig(IDataTree *pSS) override;
+  bool STDCALL IsChanged() const override { return bMappingChanged; }
+  void STDCALL Repair(IDataTree *pSS, bool bToDefault) override;
   // binds
-  void AddBind(const IInputBind *pBind) override;
-  void RemoveBind(const IInputBind *pBind) override;
-  void SetBindSection(const char *pszSectionName) override;
+  void STDCALL AddBind(const IInputBind *pBind) override;
+  void STDCALL RemoveBind(const IInputBind *pBind) override;
+  void STDCALL SetBindSection(const char *pszSectionName) override;
   // sliders
-  IInputSlider * CreateSlider(const char *pszName, float fPower = 1.0f) override;
+  IInputSlider * STDCALL CreateSlider(const char *pszName, float fPower = 1.0f) override;
   // commands registration
-  void RegisterCommand(const char *pszName, int nEventID) override;
-  void UnRegisterCommand(const char *pszName) override;
+  void STDCALL RegisterCommand(const char *pszName, int nEventID) override;
+  void STDCALL UnRegisterCommand(const char *pszName) override;
   //
-  int operator&(IStructureSaver &ss) override;
+  int STDCALL operator&(IStructureSaver &ss) override;
 };
 
 #endif // __INPUTBINDER_H__

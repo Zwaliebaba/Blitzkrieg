@@ -175,7 +175,7 @@ float CAIEditor::GetObjectHP(IRefCount *pObject)
   return 0;
 }
 
-int CAIEditor::GetObjectScriptID(IRefCount *pObject) { return pAILogic->GetScriptID(dynamic_cast<IUpdatableObj *>(pObject)); }
+int STDCALL CAIEditor::GetObjectScriptID(IRefCount *pObject) { return pAILogic->GetScriptID(dynamic_cast<IUpdatableObj *>(pObject)); }
 
 void CAIEditor::HandOutLinks()
 {

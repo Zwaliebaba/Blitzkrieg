@@ -48,8 +48,8 @@ public:
   }
 
   // serializing...
-  virtual int operator&(IStructureSaver &ss);
-  virtual int operator&(IDataTree &ss);
+  virtual int STDCALL operator&(IStructureSaver &ss);
+  virtual int STDCALL operator&(IDataTree &ss);
 
   void UpdateHeightRanges();
   bool CreateFromImage(IImage *pImage, const CTPoint<float> &rRange, const CTPoint<float> &rHeightRange);
@@ -92,8 +92,8 @@ struct SVAPattern
   float GetAverageHeight(const STerrainInfo::TVertexAltitudeArray2D &rAltidude);
 
   // serializing...
-  virtual int operator&(IStructureSaver &ss);
-  virtual int operator&(IDataTree &ss);
+  virtual int STDCALL operator&(IStructureSaver &ss);
+  virtual int STDCALL operator&(IDataTree &ss);
 };
 
 

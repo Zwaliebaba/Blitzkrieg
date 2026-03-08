@@ -22,15 +22,15 @@ class CInterfaceMPMapSettings : public CInterfaceScreenBase
   CPtr<CMapSettingsWrapper> pMapSettingsWrapper;
   CPtr<COptionsListWrapper> pOptions;
 
-  bool ProcessMessage(const SGameMessage &msg) override;
+  bool STDCALL ProcessMessage(const SGameMessage &msg) override;
   ~CInterfaceMPMapSettings() override {}
-  bool StepLocal(bool bAppActive) override;
+  bool STDCALL StepLocal(bool bAppActive) override;
 
 protected:
   CInterfaceMPMapSettings() : CInterfaceScreenBase("Current"), bDisableChanges(false) {}
 
 public:
-  bool Init() override;
+  bool STDCALL Init() override;
   void Create(bool bDisableChanges, bool bStagingRoom);
 };
 
@@ -51,7 +51,7 @@ class CICMPMapSettings : public CInterfaceCommandBase<CInterfaceMPMapSettings, M
   CICMPMapSettings() : bDisableChange(false), bStagingRoom(false) {}
 
 public:
-  void Configure(const char *pszConfig) override
+  void STDCALL Configure(const char *pszConfig) override
   {
     if (!pszConfig) return;
     const std::string szConfig = pszConfig;

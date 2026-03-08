@@ -55,35 +55,35 @@ class CObjectsDB : public IObjectsDB
 public:
   CObjectsDB() {}
   ~CObjectsDB();
-  virtual const char * GetName() { return "ObjectsDB"; }
-  virtual const char * GetParentName() { return "Game"; }
+  virtual const char * STDCALL GetName() { return "ObjectsDB"; }
+  virtual const char * STDCALL GetParentName() { return "Game"; }
   //
-  const IGDBObject * Get(const char *pszName, const char *pszParentName) override;
-  const SGDBObjectDesc * GetDesc(int nIndex) const override { return &(objects[nIndex]); }
+  const IGDBObject * STDCALL Get(const char *pszName, const char *pszParentName) override;
+  const SGDBObjectDesc * STDCALL GetDesc(int nIndex) const override { return &(objects[nIndex]); }
 
-  const SGDBObjectDesc * GetDesc(const char *pszName) const override
+  const SGDBObjectDesc * STDCALL GetDesc(const char *pszName) const override
   {
     std::unordered_map<std::string, const SGDBObjectDesc *>::const_iterator pos = objmap.find(pszName);
     return pos != objmap.end() ? pos->second : nullptr;
   }
 
   //
-  int GetIndex(const SGDBObjectDesc *pObject) const override { return ((pObject == nullptr) ? -1 : (pObject - &(objects[0]))); }
+  int STDCALL GetIndex(const SGDBObjectDesc *pObject) const override { return ((pObject == nullptr) ? -1 : (pObject - &(objects[0]))); }
 
-  int GetIndex(const char *pszName) const override { return GetIndex(GetDesc(pszName)); }
+  int STDCALL GetIndex(const char *pszName) const override { return GetIndex(GetDesc(pszName)); }
 
-  int GetNumDescs() const override { return objects.size(); }
-  const SGDBObjectDesc * GetAllDescs() const override { return &(objects[0]); }
+  int STDCALL GetNumDescs() const override { return objects.size(); }
+  const SGDBObjectDesc * STDCALL GetAllDescs() const override { return &(objects[0]); }
   // additional object info retrieving
-  const IGDBObject * GetRPGStats(const IGDBObject *pObject) override;
-  const IGDBObject * GetAddStats(const char *pszName, EAddStatsType type) override;
-  const IGDBObject * GetGameStats(const char *pszName, EGameStatsType type) override;
-  const IGDBObject * GetExpLevels(int nUnitType) const override;
+  const IGDBObject * STDCALL GetRPGStats(const IGDBObject *pObject) override;
+  const IGDBObject * STDCALL GetAddStats(const char *pszName, EAddStatsType type) override;
+  const IGDBObject * STDCALL GetGameStats(const char *pszName, EGameStatsType type) override;
+  const IGDBObject * STDCALL GetExpLevels(int nUnitType) const override;
   //
-  bool LoadDB() override;
+  bool STDCALL LoadDB() override;
 };
 
-IObjectsDB * CreateObjectsDB() { return new CObjectsDB(); }
+IObjectsDB * STDCALL CreateObjectsDB() { return new CObjectsDB(); }
 
 CObjectsDB::~CObjectsDB()
 {

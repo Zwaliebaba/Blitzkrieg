@@ -37,8 +37,8 @@ struct STextureMarker
   }
 
   // serializing...
-  virtual int operator&(IDataTree &ss);
-  virtual int operator&(IStructureSaver &ss);
+  virtual int STDCALL operator&(IDataTree &ss);
+  virtual int STDCALL operator&(IStructureSaver &ss);
 };
 
 
@@ -76,7 +76,7 @@ struct SMiniMapMarker : STextureMarker
     return *this;
   }
 
-  int operator&(IStructureSaver &ss) override;
+  int STDCALL operator&(IStructureSaver &ss) override;
 };
 
 
@@ -308,41 +308,41 @@ public:
 
   // set the field size to receive information on fog of war, fog textures will be created based on these sizes
   // size in VIS tiles
-  virtual void SetTerrainSize(int nXTerrainSize, int nYTerrainSize, int _nPlayersCount);
+  virtual void STDCALL SetTerrainSize(int nXTerrainSize, int nYTerrainSize, int _nPlayersCount);
   // set map texture
-  virtual void SetBackgroundTexture(IGFXTexture *_pBackgroundTexture) { pBackgroundTexture = _pBackgroundTexture; }
+  virtual void STDCALL SetBackgroundTexture(IGFXTexture *_pBackgroundTexture) { pBackgroundTexture = _pBackgroundTexture; }
 
   // add information about fog of war, taken from AILogic by calling the method:
   // if the last piece of information is received, true is returned
   // otherwise, false is returned
-  virtual bool AddWarFogData(const BYTE *pVizBuffer, int nLength);
+  virtual bool STDCALL AddWarFogData(const BYTE *pVizBuffer, int nLength);
   // add information about units, taken from AILogic by calling the method:
-  virtual void AddUnitsData(const struct SMiniMapUnitInfo *pUnitsBuffer, int nUnitsCount);
+  virtual void STDCALL AddUnitsData(const struct SMiniMapUnitInfo *pUnitsBuffer, int nUnitsCount);
   // add information about displayed radii and firing angles
-  virtual void AddFireRangeAreas(const struct SShootAreas *pShootAreasBuffer, int nShootAreasCount);
+  virtual void STDCALL AddFireRangeAreas(const struct SShootAreas *pShootAreasBuffer, int nShootAreasCount);
   //
-  virtual void AddCircle(const CVec2 &vCenter, float fRadius, int nStyle, WORD wColor, const NTimer::STime &rStart, const NTimer::STime &rDuration, bool bRelative, LPARAM lParam);
-  virtual int AddMarker(const std::string &rszName, const CVec2 &vPos, bool _bActive, int _nID, const NTimer::STime &rStart, const NTimer::STime &rDuration, bool bRelative);
-  virtual void ActivateMarker(int _nID, bool _bActive);
-  virtual void ActivateMarker(const std::string &rszName, bool _bActive);
-  virtual void RemoveMarker(int _nID);
-  virtual void RemoveMarker(const std::string &rszName);
+  virtual void STDCALL AddCircle(const CVec2 &vCenter, float fRadius, int nStyle, WORD wColor, const NTimer::STime &rStart, const NTimer::STime &rDuration, bool bRelative, LPARAM lParam);
+  virtual int STDCALL AddMarker(const std::string &rszName, const CVec2 &vPos, bool _bActive, int _nID, const NTimer::STime &rStart, const NTimer::STime &rDuration, bool bRelative);
+  virtual void STDCALL ActivateMarker(int _nID, bool _bActive);
+  virtual void STDCALL ActivateMarker(const std::string &rszName, bool _bActive);
+  virtual void STDCALL RemoveMarker(int _nID);
+  virtual void STDCALL RemoveMarker(const std::string &rszName);
 
   // from UIControl interface
   // serializing...
-  int operator&(IDataTree &ss) override;
+  int STDCALL operator&(IDataTree &ss) override;
 
   // Mouse moving
-  bool IsInside(const CVec2 &vPos) override;
-  bool OnLButtonDown(const CVec2 &vPos, EMouseState mouseState) override;
-  bool OnLButtonUp(const CVec2 &vPos, EMouseState mouseState) override;
-  bool OnMouseMove(const CVec2 &vPos, EMouseState mouseState) override;
-  bool OnRButtonUp(const CVec2 &vPos, EMouseState mouseState) override;
+  bool STDCALL IsInside(const CVec2 &vPos) override;
+  bool STDCALL OnLButtonDown(const CVec2 &vPos, EMouseState mouseState) override;
+  bool STDCALL OnLButtonUp(const CVec2 &vPos, EMouseState mouseState) override;
+  bool STDCALL OnMouseMove(const CVec2 &vPos, EMouseState mouseState) override;
+  bool STDCALL OnRButtonUp(const CVec2 &vPos, EMouseState mouseState) override;
   // update
-  bool Update(const NTimer::STime &currTime) override;
+  bool STDCALL Update(const NTimer::STime &currTime) override;
   // drawing
-  void Draw(interface IGFX *_pGFX) override = 0;
-  void Visit(interface ISceneVisitor *pVisitor) override;
+  void STDCALL Draw(interface IGFX *_pGFX) override = 0;
+  void STDCALL Visit(interface ISceneVisitor *pVisitor) override;
 };
 
 
@@ -352,17 +352,17 @@ class CUIMiniMapBridge : public IUIMiniMap, public CUIMiniMap
   DECLARE_SUPER(CUIMiniMap);
   DEFINE_UIELEMENT_BRIDGE;
 
-  void SetTerrainSize(int nXTerrainSize, int nYTerrainSize, int _nPlayersCount) override { CSuper::SetTerrainSize(nXTerrainSize, nYTerrainSize, _nPlayersCount); }
-  void SetBackgroundTexture(IGFXTexture *_pBackgroundTexture) override { CSuper::SetBackgroundTexture(_pBackgroundTexture); }
-  bool AddWarFogData(const BYTE *pVizBuffer, int nLength) override { return CSuper::AddWarFogData(pVizBuffer, nLength); }
-  void AddUnitsData(const struct SMiniMapUnitInfo *pUnitsBuffer, int nUnitsCount) override { CSuper::AddUnitsData(pUnitsBuffer, nUnitsCount); }
-  void AddFireRangeAreas(const struct SShootAreas *pShootAreasBuffer, int nShootAreasCount) override { CSuper::AddFireRangeAreas(pShootAreasBuffer, nShootAreasCount); }
-  void AddCircle(const CVec2 &vCenter, const float fRadius, int nStyle, WORD wColor, const NTimer::STime &rStart, const NTimer::STime &rDuration, bool bRelative, LPARAM lParam) override { CSuper::AddCircle(vCenter, fRadius, nStyle, wColor, rStart, rDuration, bRelative, lParam); }
+  void STDCALL SetTerrainSize(int nXTerrainSize, int nYTerrainSize, int _nPlayersCount) override { CSuper::SetTerrainSize(nXTerrainSize, nYTerrainSize, _nPlayersCount); }
+  void STDCALL SetBackgroundTexture(IGFXTexture *_pBackgroundTexture) override { CSuper::SetBackgroundTexture(_pBackgroundTexture); }
+  bool STDCALL AddWarFogData(const BYTE *pVizBuffer, int nLength) override { return CSuper::AddWarFogData(pVizBuffer, nLength); }
+  void STDCALL AddUnitsData(const struct SMiniMapUnitInfo *pUnitsBuffer, int nUnitsCount) override { CSuper::AddUnitsData(pUnitsBuffer, nUnitsCount); }
+  void STDCALL AddFireRangeAreas(const struct SShootAreas *pShootAreasBuffer, int nShootAreasCount) override { CSuper::AddFireRangeAreas(pShootAreasBuffer, nShootAreasCount); }
+  void STDCALL AddCircle(const CVec2 &vCenter, const float fRadius, int nStyle, WORD wColor, const NTimer::STime &rStart, const NTimer::STime &rDuration, bool bRelative, LPARAM lParam) override { CSuper::AddCircle(vCenter, fRadius, nStyle, wColor, rStart, rDuration, bRelative, lParam); }
   //
-  int AddMarker(const std::string &rszName, const CVec2 &vPos, bool _bActive, int _nID, const NTimer::STime &rStart, const NTimer::STime &rDuration, bool bRelative) override { return CSuper::AddMarker(rszName, vPos, _bActive, _nID, rStart, rDuration, bRelative); }
-  void ActivateMarker(int _nID, bool _bActive) override { CSuper::ActivateMarker(_nID, _bActive); }
-  void ActivateMarker(const std::string &rszName, bool _bActive) override { CSuper::ActivateMarker(rszName, _bActive); }
-  void RemoveMarker(int _nID) override { CSuper::RemoveMarker(_nID); }
-  void RemoveMarker(const std::string &rszName) override { CSuper::RemoveMarker(rszName); }
+  int STDCALL AddMarker(const std::string &rszName, const CVec2 &vPos, bool _bActive, int _nID, const NTimer::STime &rStart, const NTimer::STime &rDuration, bool bRelative) override { return CSuper::AddMarker(rszName, vPos, _bActive, _nID, rStart, rDuration, bRelative); }
+  void STDCALL ActivateMarker(int _nID, bool _bActive) override { CSuper::ActivateMarker(_nID, _bActive); }
+  void STDCALL ActivateMarker(const std::string &rszName, bool _bActive) override { CSuper::ActivateMarker(rszName, _bActive); }
+  void STDCALL RemoveMarker(int _nID) override { CSuper::RemoveMarker(_nID); }
+  void STDCALL RemoveMarker(const std::string &rszName) override { CSuper::RemoveMarker(rszName); }
 };
 #endif // #if !defined(__UIMiniMap__)

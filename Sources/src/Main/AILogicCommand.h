@@ -6,7 +6,7 @@
 interface IAILogicCommand : IRefCount
 {
   // to serialize it in XML
-  virtual int operator&(IDataTree &ss) = 0;
+  virtual int STDCALL operator&(IDataTree &ss) = 0;
   //
   virtual void Execute(interface IAILogic *pAILogic) = 0;
   //

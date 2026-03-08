@@ -11,7 +11,7 @@ class CInterfaceIMSaveMission : public CInterfaceBaseList
   bool bClosed;
   std::string szProspectiveFileName;
   //
-  bool ProcessMessage(const SGameMessage &msg) override;
+  bool STDCALL ProcessMessage(const SGameMessage &msg) override;
   // disable explicit destruction
   ~CInterfaceIMSaveMission() override;
 
@@ -29,11 +29,11 @@ protected:
 
   bool IsIgnoreSelection() const override { return true; }// user may not select, but enter to edit box
   bool OnOk() override;
-  void OnGetFocus(bool bFocus) override;
+  void STDCALL OnGetFocus(bool bFocus) override;
 
 public:
-  bool Init() override;
-  void StartInterface() override;
+  bool STDCALL Init() override;
+  void STDCALL StartInterface() override;
 };
 
 class CICIMSaveMission : public CInterfaceCommandBase<CInterfaceIMSaveMission, MISSION_INTERFACE_IM_SAVE_MISSION>

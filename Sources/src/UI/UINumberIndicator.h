@@ -12,7 +12,7 @@ class CUINumberIndicator : public CSimpleWindow
     DECLARE_SERIALIZE;
 
   public:
-    virtual int operator&(IDataTree &ss);
+    virtual int STDCALL operator&(IDataTree &ss);
     bool operator <(const SValueColor &v) const { return fVal < v.fVal; }
     float fVal;
     DWORD dwColor;
@@ -28,14 +28,14 @@ public:
   ~CUINumberIndicator() override {}
 
   //
-  void Draw(interface IGFX *pGFX) override;
-  void Visit(interface ISceneVisitor *pVisitor) override;
+  void STDCALL Draw(interface IGFX *pGFX) override;
+  void STDCALL Visit(interface ISceneVisitor *pVisitor) override;
   // serializing...
-  int operator&(IDataTree &ss) override;
+  int STDCALL operator&(IDataTree &ss) override;
   //
-  virtual void SetValue(float fVal);
-  virtual void ClearColors() { valueColors.clear(); }
-  virtual void SetColor(float fVal, DWORD dwColor);
+  virtual void STDCALL SetValue(float fVal);
+  virtual void STDCALL ClearColors() { valueColors.clear(); }
+  virtual void STDCALL SetColor(float fVal, DWORD dwColor);
 };
 
 class CUINumberIndicatorBridge : public IUINumberIndicator, public CUINumberIndicator
@@ -43,9 +43,9 @@ class CUINumberIndicatorBridge : public IUINumberIndicator, public CUINumberIndi
   OBJECT_NORMAL_METHODS(CUINumberIndicatorBridge);
   DECLARE_SUPER(CUINumberIndicator);
   DEFINE_UIELEMENT_BRIDGE;
-  void SetValue(float fVal) override { CSuper::SetValue(fVal); }
-  void ClearColors() override { CSuper::ClearColors(); }
-  void SetColor(float fVal, DWORD dwColor) override { CSuper::SetColor(fVal, dwColor); }
+  void STDCALL SetValue(float fVal) override { CSuper::SetValue(fVal); }
+  void STDCALL ClearColors() override { CSuper::ClearColors(); }
+  void STDCALL SetColor(float fVal, DWORD dwColor) override { CSuper::SetColor(fVal, dwColor); }
 };
 
 #endif // __UI_NUMBER_INDICATOR_H__

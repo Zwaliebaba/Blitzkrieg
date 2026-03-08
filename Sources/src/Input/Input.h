@@ -42,20 +42,20 @@ interface IInputBind : IRefCount
   virtual void Clear() = 0;
   // setup data
   // add control to bind
-  virtual void AddControl(const char *pszControl) = 0;
+  virtual void STDCALL AddControl(const char *pszControl) = 0;
   // set command to bind
-  virtual void SetCommand(const char *pszCommand, EInputBindActivationType eType) = 0;
+  virtual void STDCALL SetCommand(const char *pszCommand, EInputBindActivationType eType) = 0;
 
   // retrieve data
   //
   // retrieve number of controls in this bind
-  virtual int GetNumControls() const = 0;
+  virtual int STDCALL GetNumControls() const = 0;
   // retrieve control name
-  virtual const char * GetControl(int nIndex) const = 0;
+  virtual const char * STDCALL GetControl(int nIndex) const = 0;
   // retrieve command name
-  virtual const char * GetCommand() const = 0;
+  virtual const char * STDCALL GetCommand() const = 0;
   // retrieve bind activation type
-  virtual EInputBindActivationType GetActivationType() const = 0;
+  virtual EInputBindActivationType STDCALL GetActivationType() const = 0;
 };
 
 // ************************************************************************************************************************ //
@@ -68,9 +68,9 @@ interface IInputBind : IRefCount
 
 interface IInputSlider : IRefCount
 {
-  virtual float GetDelta() = 0;
-  // virtual float GetSpeed() const = 0;
-  virtual void Reset() = 0;
+  virtual float STDCALL GetDelta() = 0;
+  // virtual float STDCALL GetSpeed() const = 0;
+  virtual void STDCALL Reset() = 0;
 };
 
 // ************************************************************************************************************************ //
@@ -87,36 +87,36 @@ interface IInput : IRefCount
   enum { tidTypeID = INPUT_INPUT };
 
   //
-  virtual bool Init(HWND hWnd) = 0;
-  virtual bool Done() = 0;
+  virtual bool STDCALL Init(HWND hWnd) = 0;
+  virtual bool STDCALL Done() = 0;
   // serialization
-  int operator&(IStructureSaver &ss) override = 0;
-  virtual bool SerializeConfig(IDataTree *pSS) = 0;
-  virtual bool IsChanged() const = 0;
-  virtual void Repair(IDataTree *pSS, bool bToDefault) = 0;
+  int STDCALL operator&(IStructureSaver &ss) override = 0;
+  virtual bool STDCALL SerializeConfig(IDataTree *pSS) = 0;
+  virtual bool STDCALL IsChanged() const = 0;
+  virtual void STDCALL Repair(IDataTree *pSS, bool bToDefault) = 0;
   // emulation
-  virtual void SetDeviceEmulationStatus(enum EDeviceType eDeviceType, bool bEmulate) = 0;
-  virtual bool IsEmulated(enum EDeviceType eDeviceType) const = 0;
-  virtual void EmulateInput(enum EDeviceType eDeviceType, int nControlID,
+  virtual void STDCALL SetDeviceEmulationStatus(enum EDeviceType eDeviceType, bool bEmulate) = 0;
+  virtual bool STDCALL IsEmulated(enum EDeviceType eDeviceType) const = 0;
+  virtual void STDCALL EmulateInput(enum EDeviceType eDeviceType, int nControlID,
                                     int nValue, DWORD time, int nParam) = 0;
   // messages and sliders
-  virtual void PumpMessages(bool bFocus) = 0;
-  virtual void AddMessage(const SGameMessage &msg) = 0;
-  virtual bool GetMessage(SGameMessage *pMsg) = 0;
-  virtual bool GetTextMessage(STextMessage *pMsg) = 0;
-  virtual IInputSlider * CreateSlider(const char *pszName, float fPower = 1.0f) = 0;
-  virtual void ClearMessages() = 0;
+  virtual void STDCALL PumpMessages(bool bFocus) = 0;
+  virtual void STDCALL AddMessage(const SGameMessage &msg) = 0;
+  virtual bool STDCALL GetMessage(SGameMessage *pMsg) = 0;
+  virtual bool STDCALL GetTextMessage(STextMessage *pMsg) = 0;
+  virtual IInputSlider * STDCALL CreateSlider(const char *pszName, float fPower = 1.0f) = 0;
+  virtual void STDCALL ClearMessages() = 0;
   // binds. 
-  virtual void SetBindSection(const char *pszSectionName) = 0;
-  virtual void AddBind(const IInputBind *pBind) = 0;
-  virtual void RemoveBind(const IInputBind *pBind) = 0;
+  virtual void STDCALL SetBindSection(const char *pszSectionName) = 0;
+  virtual void STDCALL AddBind(const IInputBind *pBind) = 0;
+  virtual void STDCALL RemoveBind(const IInputBind *pBind) = 0;
   // commands registration
-  virtual void RegisterCommand(const char *pszName, int nEventID) = 0;
-  virtual void UnRegisterCommand(const char *pszName) = 0;
+  virtual void STDCALL RegisterCommand(const char *pszName, int nEventID) = 0;
+  virtual void STDCALL UnRegisterCommand(const char *pszName) = 0;
   // text typing mode
-  virtual EInputTextMode GetTextMode() = 0;
-  virtual bool SetTextMode(EInputTextMode eMode) = 0;
-  virtual void SetCodePage(int nCodePage) = 0;
+  virtual EInputTextMode STDCALL GetTextMode() = 0;
+  virtual bool STDCALL SetTextMode(EInputTextMode eMode) = 0;
+  virtual void STDCALL SetCodePage(int nCodePage) = 0;
 };
 
 #endif // __INPUT_H__

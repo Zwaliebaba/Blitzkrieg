@@ -21,7 +21,7 @@ struct SOption : SSerialVariantT
   void Set(const variant_t &var) { *(static_cast<SSerialVariantT *>(this)) = var; }
   const variant_t &Get() const { return *(static_cast<const variant_t *>(this)); }
   //
-  int operator&(IStructureSaver &ss) override
+  int STDCALL operator&(IStructureSaver &ss) override
   {
     CSaverAccessor saver = &ss;
     saver.AddTypedSuper(1, static_cast<SSerialVariantT *>(this));
@@ -35,7 +35,7 @@ struct SOption : SSerialVariantT
     return 0;
   }
 
-  int operator&(IDataTree &ss) override
+  int STDCALL operator&(IDataTree &ss) override
   {
     CTreeAccessor saver = &ss;
     saver.Add("EditorType", &nEditorType);
@@ -67,17 +67,17 @@ public:
 
   ~COptionSystem() override {}
   //
-  bool Set(const std::string &szVarName, const variant_t &var) override;
+  bool STDCALL Set(const std::string &szVarName, const variant_t &var) override;
   // get option descriptor
-  const SOptionDesc * GetDesc(const std::string &szVarName) const override;
+  const SOptionDesc * STDCALL GetDesc(const std::string &szVarName) const override;
   // get values ​​for option droplist editor type
-  const std::vector<SOptionDropListValue> & GetDropValues(const std::string &szVarName) const override;
+  const std::vector<SOptionDropListValue> & STDCALL GetDropValues(const std::string &szVarName) const override;
   // begin to iterate through all variables
-  IOptionSystemIterator * CreateIterator(DWORD dwMask = 0xffffffff) override;
+  IOptionSystemIterator * STDCALL CreateIterator(DWORD dwMask = 0xffffffff) override;
   // serialize to configuration file
-  bool SerializeConfig(IDataTree *pSS) override;
-  void Init() override;
-  void Repair(IDataTree *pSS, bool bToDefault) override;
+  bool STDCALL SerializeConfig(IDataTree *pSS) override;
+  void STDCALL Init() override;
+  void STDCALL Repair(IDataTree *pSS, bool bToDefault) override;
 };
 
 struct SOptionSorter
@@ -105,9 +105,9 @@ public:
   COptionSystemIterator(COptionSystem *pOS, DWORD dwMask);
   ~COptionSystemIterator() override {}
   // get option descriptor
-  const SOptionDesc * GetDesc() const override;
+  const SOptionDesc * STDCALL GetDesc() const override;
   // get values ​​for option droplist editor type
-  const std::vector<SOptionDropListValue> & GetDropValues() const override;
+  const std::vector<SOptionDropListValue> & STDCALL GetDropValues() const override;
 };
 
 #endif // __OPTIONSSYSTEMINTERNAL_H__

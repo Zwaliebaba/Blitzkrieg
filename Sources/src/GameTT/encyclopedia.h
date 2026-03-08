@@ -16,7 +16,7 @@ class CInterfaceEncyclopedia : public CInterfaceInterMission
   NInput::CCommandRegistrator commandMsgs;
   bool bFinished;
   //
-  bool ProcessMessage(const SGameMessage &msg) override;
+  bool STDCALL ProcessMessage(const SGameMessage &msg) override;
   // disable explicit destruction
   ~CInterfaceEncyclopedia() override;
   CInterfaceEncyclopedia() : CInterfaceInterMission("InterMission"), bFinished(false) {}
@@ -25,8 +25,8 @@ class CInterfaceEncyclopedia : public CInterfaceInterMission
   void LoadUnitInfo(const SUnitBaseRPGStats *pUnitStats, std::string *pszTextureFileName, std::wstring *pszTitle, std::wstring *pDesc, std::wstring *pStatistics);
 
 public:
-  bool Init() override;
-  void Done() override;
+  bool STDCALL Init() override;
+  void STDCALL Done() override;
   void Create(int nType, const char *pszName);
 };
 
@@ -43,7 +43,7 @@ class CICEncyclopedia : public CInterfaceCommandBase<CInterfaceEncyclopedia, MIS
   CICEncyclopedia() {}
 
 public:
-  void Configure(const char *pszConfig) override;
+  void STDCALL Configure(const char *pszConfig) override;
 };
 
 #endif		// __IM_ENCYCLOPEDIA_H__

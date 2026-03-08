@@ -42,26 +42,26 @@ public:
 
   //
   // read/write data
-  int Read(void *pBuffer, int nLength) override;
-  int Write(const void *pBuffer, int nLength) override;
+  int STDCALL Read(void *pBuffer, int nLength) override;
+  int STDCALL Write(const void *pBuffer, int nLength) override;
   // declare the current position in the stream as the beginning of the stream
-  int LockBegin() override;
+  int STDCALL LockBegin() override;
   // return the start of the stream to the zero position
-  int UnlockBegin() override;
+  int STDCALL UnlockBegin() override;
   // current position in the stream
-  int GetPos() const override;
+  int STDCALL GetPos() const override;
   // set the current position in the stream
-  int Seek(int offset, STREAM_SEEK from) override;
+  int STDCALL Seek(int offset, STREAM_SEEK from) override;
   // get stream size
-  int GetSize() const override;
+  int STDCALL GetSize() const override;
   // change stream size
-  bool SetSize(int nSize) override;
+  bool STDCALL SetSize(int nSize) override;
   // copy 'nLength' byte from current stream position to current 'pDstStream' stream position
-  int CopyTo(IDataStream *pDstStream, int nLength) override;
+  int STDCALL CopyTo(IDataStream *pDstStream, int nLength) override;
   // reset all cached data
-  void Flush() override;
+  void STDCALL Flush() override;
   // get information about the stream
-  void GetStats(SStorageElementStats *pStats) override;
+  void STDCALL GetStats(SStorageElementStats *pStats) override;
 };
 
 class CMemFileSystem : public IDataStorage
@@ -75,25 +75,25 @@ class CMemFileSystem : public IDataStorage
 public:
   CMemFileSystem(DWORD dwAccessMode);
   // check if such thread exists
-  const bool IsStreamExist(const char *pszName) override;
+  const bool STDCALL IsStreamExist(const char *pszName) override;
   // create and open a stream with the specified name and access rights
-  IDataStream * CreateStream(const char *pszName, DWORD dwAccessMode) override;
+  IDataStream * STDCALL CreateStream(const char *pszName, DWORD dwAccessMode) override;
   // open an existing stream with the specified name and permissions
-  IDataStream * OpenStream(const char *pszName, DWORD dwAccessMode) override;
+  IDataStream * STDCALL OpenStream(const char *pszName, DWORD dwAccessMode) override;
   // get stream description
-  bool GetStreamStats(const char *pszName, SStorageElementStats *pStats) override;
+  bool STDCALL GetStreamStats(const char *pszName, SStorageElementStats *pStats) override;
   // kill storage element
-  bool DestroyElement(const char *pszName) override;
+  bool STDCALL DestroyElement(const char *pszName) override;
   // rename element
-  bool RenameElement(const char *pszOldName, const char *pszNewName) override;
+  bool STDCALL RenameElement(const char *pszOldName, const char *pszNewName) override;
   // enumeration of elements
-  IStorageEnumerator * CreateEnumerator() override;
+  IStorageEnumerator * STDCALL CreateEnumerator() override;
   // get the name of this storage
-  const char * GetName() const override { return szBase.c_str(); }
+  const char * STDCALL GetName() const override { return szBase.c_str(); }
   // add new MOD
-  bool AddStorage(IDataStorage *pStorage, const char *pszName) override;
+  bool STDCALL AddStorage(IDataStorage *pStorage, const char *pszName) override;
   // remove MOD
-  bool RemoveStorage(const char *pszName) override;
+  bool STDCALL RemoveStorage(const char *pszName) override;
 };
 
 #endif // __MEMFILESYSTEM_H__

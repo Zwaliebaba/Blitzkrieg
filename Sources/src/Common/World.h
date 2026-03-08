@@ -23,36 +23,36 @@ enum ESeason
 interface IWorld : IRefCount
 {
   // set climate-geographical zone settings
-  virtual void SetSeason(int nSeason) = 0;
+  virtual void STDCALL SetSeason(int nSeason) = 0;
   // startup initialization (mission begin)
-  virtual void Init(interface ISingleton *pSingleton) = 0;
+  virtual void STDCALL Init(interface ISingleton *pSingleton) = 0;
   // remove all from all!!!
-  virtual void Clear() = 0;
+  virtual void STDCALL Clear() = 0;
   // general world update from AI
-  virtual void Update(const NTimer::STime &currTime) = 0;
+  virtual void STDCALL Update(const NTimer::STime &currTime) = 0;
   // message processing
-  virtual bool ProcessMessage(const SGameMessage &msg) = 0;
-  virtual bool GetMessage(SGameMessage *pMsg) = 0;
+  virtual bool STDCALL ProcessMessage(const SGameMessage &msg) = 0;
+  virtual bool STDCALL GetMessage(SGameMessage *pMsg) = 0;
 
-  virtual void GetAviationCircles(interface IUIMiniMap *pMinimap, NTimer::STime curTime) = 0;
+  virtual void STDCALL GetAviationCircles(interface IUIMiniMap *pMinimap, NTimer::STime curTime) = 0;
 };
 
 // //////////////////////////////////////////////////////////// 
 interface IWorldClient : IWorld
 {
   // mission start
-  virtual void Start() = 0;
+  virtual void STDCALL Start() = 0;
   // selection
-  virtual void Select(const CVec2 &vPos) = 0;
-  virtual int Select(interface IVisObj **objects, int nNumObjects) = 0;
-  virtual void ResetSelection(interface IVisObj *pObj = nullptr) = 0;
-  virtual void PreSelect(interface IVisObj **objects, int nNumObjects) = 0;
-  virtual void ResetPreSelection(interface IVisObj *pObj = nullptr) = 0;
+  virtual void STDCALL Select(const CVec2 &vPos) = 0;
+  virtual int STDCALL Select(interface IVisObj **objects, int nNumObjects) = 0;
+  virtual void STDCALL ResetSelection(interface IVisObj *pObj = nullptr) = 0;
+  virtual void STDCALL PreSelect(interface IVisObj **objects, int nNumObjects) = 0;
+  virtual void STDCALL ResetPreSelection(interface IVisObj *pObj = nullptr) = 0;
   // manipulation
-  virtual void MoveObject(interface IVisObj *pObj, const CVec3 &vPos) = 0;
+  virtual void STDCALL MoveObject(interface IVisObj *pObj, const CVec3 &vPos) = 0;
   // action...
-  virtual void OnMouseMove(const CVec2 &vPos, interface IUIElement *pElement) = 0;
-  virtual void BeginAction(const SGameMessage &msg) {}
-  virtual void DoAction(const SGameMessage &msg) = 0;
+  virtual void STDCALL OnMouseMove(const CVec2 &vPos, interface IUIElement *pElement) = 0;
+  virtual void STDCALL BeginAction(const SGameMessage &msg) {}
+  virtual void STDCALL DoAction(const SGameMessage &msg) = 0;
 };
 

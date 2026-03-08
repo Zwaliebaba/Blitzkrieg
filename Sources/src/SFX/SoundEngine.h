@@ -87,68 +87,68 @@ public:
   void NotifyMelodyFinished();
   void MapSound(ISound *pSound, int nChannel);
   //
-  BYTE GetSFXMasterVolume() const override { return cSFXMasterVolume; }
-  virtual BYTE GetStreamMasterVolume() const { return cStreamMasterVolume; }
+  BYTE STDCALL GetSFXMasterVolume() const override { return cSFXMasterVolume; }
+  virtual BYTE STDCALL GetStreamMasterVolume() const { return cStreamMasterVolume; }
   //
-  IRefCount * QI(int nInterfaceTypeID) override;
+  IRefCount * STDCALL QI(int nInterfaceTypeID) override;
   // init and close sound system
-  bool IsInitialized() override;
-  bool Init(HWND hWnd, int nDriver, ESFXOutputType output, int nMixRate, int nMaxChannels) override;
-  void Done() override;
+  bool STDCALL IsInitialized() override;
+  bool STDCALL Init(HWND hWnd, int nDriver, ESFXOutputType output, int nMixRate, int nMaxChannels) override;
+  void STDCALL Done() override;
   //
   // enable SFXes and streaming
-  void EnableSFX(bool bEnable) override
+  void STDCALL EnableSFX(bool bEnable) override
   {
     bEnableSFX = bEnable;
     ReEnableSounds();
   }
 
-  void EnableStreaming(bool bEnable) override
+  void STDCALL EnableStreaming(bool bEnable) override
   {
     bEnableStreaming = bEnable;
     ReEnableSounds();
   }
 
-  bool IsSFXEnabled() const override { return bEnableSFX && bSoundCardPresent; }
-  bool IsStreamingEnabled() const override { return bEnableStreaming && bSoundCardPresent; }
+  bool STDCALL IsSFXEnabled() const override { return bEnableSFX && bSoundCardPresent; }
+  bool STDCALL IsStreamingEnabled() const override { return bEnableStreaming && bSoundCardPresent; }
   //
   // setup
-  void SetDistanceFactor(float fFactor) override;
-  void SetRolloffFactor(float fFactor) override;
+  void STDCALL SetDistanceFactor(float fFactor) override;
+  void STDCALL SetRolloffFactor(float fFactor) override;
   // set SFX master volume. 
-  void SetSFXMasterVolume(float fVolume) override
+  void STDCALL SetSFXMasterVolume(float fVolume) override
   {
     Clamp(fVolume, 0.0f, 1.0f);
     cSFXMasterVolume = static_cast<BYTE>(fVolume * 255.0f);
   }
 
   // set streams master volume. 
-  void SetStreamMasterVolume(float fVolume) override;
+  void STDCALL SetStreamMasterVolume(float fVolume) override;
   //
   // streaming sound
-  void PlayStream(const char *pszFileName, bool bLooped = false, unsigned int nTimeToFadePrevious = 0) override;
-  void StopStream(unsigned int nTimeToFade = 0) override;
-  bool IsStreamPlaying() const override;
-  void SetStreamVolume(float fVolume) override;
-  float GetStreamVolume() const override;
+  void STDCALL PlayStream(const char *pszFileName, bool bLooped = false, unsigned int nTimeToFadePrevious = 0) override;
+  void STDCALL StopStream(unsigned int nTimeToFade = 0) override;
+  bool STDCALL IsStreamPlaying() const override;
+  void STDCALL SetStreamVolume(float fVolume) override;
+  float STDCALL GetStreamVolume() const override;
 
   //
   // sample sounds
-  int PlaySample(ISound *pSound, bool bLooped = false, unsigned int nStartPos = 0) override;
-  void StopSample(ISound *pSound) override;
-  void UpdateSample(ISound *pSound) override;
-  void StopChannel(int nChannel) override;
+  int STDCALL PlaySample(ISound *pSound, bool bLooped = false, unsigned int nStartPos = 0) override;
+  void STDCALL StopSample(ISound *pSound) override;
+  void STDCALL UpdateSample(ISound *pSound) override;
+  void STDCALL StopChannel(int nChannel) override;
 
   // Update sounds ( that is needed for 3D sounds )
-  void Update(interface ICamera *pCamera) override;
+  void STDCALL Update(interface ICamera *pCamera) override;
   //
-  bool Pause(bool bPause) override;
-  bool PauseStreaming(bool bPause) override;
-  bool IsPaused() override;
-  bool IsPlaying(ISound *pSound) override;
+  bool STDCALL Pause(bool bPause) override;
+  bool STDCALL PauseStreaming(bool bPause) override;
+  bool STDCALL IsPaused() override;
+  bool STDCALL IsPlaying(ISound *pSound) override;
 
-  unsigned int GetCurrentPosition(ISound *pSound) override;
-  void SetCurrentPosition(ISound *pSound, unsigned int pos) override;
+  unsigned int STDCALL GetCurrentPosition(ISound *pSound) override;
+  void STDCALL SetCurrentPosition(ISound *pSound, unsigned int pos) override;
 
 };
 

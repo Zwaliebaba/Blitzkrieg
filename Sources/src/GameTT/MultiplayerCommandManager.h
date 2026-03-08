@@ -175,7 +175,7 @@ public:
   int nLocalPlayerID;// id of local player
   SMultiplayerGameSettings serverSettings;// settings of server
 
-  int operator&(interface IStructureSaver &ss) override
+  int STDCALL operator&(interface IStructureSaver &ss) override
   {
     CSaverAccessor saver = &ss;
 
@@ -202,7 +202,7 @@ public:
   SChatMessage(const wchar_t *pszMessageText, bool _bWhisper) : bWhisper(_bWhisper), szMessageText(pszMessageText) {}
   SChatMessage(const wchar_t *pszMessageText, const wchar_t *pszPlayerName, bool _bWhisper) : bWhisper(_bWhisper), szPlayerName(pszPlayerName), szMessageText(pszMessageText) {}
 
-  int operator&(interface IStructureSaver &ss) override
+  int STDCALL operator&(interface IStructureSaver &ss) override
   {
     CSaverAccessor saver = &ss;
 
@@ -241,7 +241,7 @@ public:
   const int GetID() const { return wServerID; }
   SUIServerInfo() {}
 
-  int operator&(interface IStructureSaver &ss) override
+  int STDCALL operator&(interface IStructureSaver &ss) override
   {
     CSaverAccessor saver = &ss;
     saver.Add(1, &wServerID);
@@ -282,7 +282,7 @@ public:
   EPlayerRelation eRelation;
   std::wstring szName;// this player
 
-  int operator&(interface IStructureSaver &ss) override
+  int STDCALL operator&(interface IStructureSaver &ss) override
   {
     CSaverAccessor saver = &ss;
     saver.Add(1, &eRelation);
@@ -375,35 +375,35 @@ interface IMPToUICommandManager : IRefCount
   enum { tidTypeID = GAMETT_MULTIPLAYER_TO_UI_COMMANDS };
 
   // adding
-  virtual void AddCommandToUI(SToUICommand &cmd) = 0;
-  virtual void AddNotificationFromUI(SFromUINotification &notify) = 0;
+  virtual void STDCALL AddCommandToUI(SToUICommand &cmd) = 0;
+  virtual void STDCALL AddNotificationFromUI(SFromUINotification &notify) = 0;
 
   // recieveing. 
   // returns false;
-  virtual bool GetCommandToUI(SToUICommand *pCmd) = 0;
-  virtual bool GetNotificationFromUI(SFromUINotification *pNotify) = 0;
+  virtual bool STDCALL GetCommandToUI(SToUICommand *pCmd) = 0;
+  virtual bool STDCALL GetNotificationFromUI(SFromUINotification *pNotify) = 0;
 
-  virtual bool PeekCommandToUI(SToUICommand *pCmd) = 0;
-  virtual bool PeekNotificationFromUI(SFromUINotification *pNotify) = 0;
+  virtual bool STDCALL PeekCommandToUI(SToUICommand *pCmd) = 0;
+  virtual bool STDCALL PeekNotificationFromUI(SFromUINotification *pNotify) = 0;
 
   // chat
-  virtual SChatMessage * GetChatMessageFromUI() = 0;
-  virtual SChatMessage * GetChatMessageToUI() = 0;
-  virtual SChatMessage * PeekChatMessageToUI() = 0;
+  virtual SChatMessage * STDCALL GetChatMessageFromUI() = 0;
+  virtual SChatMessage * STDCALL GetChatMessageToUI() = 0;
+  virtual SChatMessage * STDCALL PeekChatMessageToUI() = 0;
 
-  virtual void AddChatMessageToUI(SChatMessage *pMessage) = 0;
-  virtual void AddChatMessageFromUI(SChatMessage *pMessage) = 0;
+  virtual void STDCALL AddChatMessageToUI(SChatMessage *pMessage) = 0;
+  virtual void STDCALL AddChatMessageFromUI(SChatMessage *pMessage) = 0;
 
   // to init from UI side.
-  virtual void InitUISide() = 0;
+  virtual void STDCALL InitUISide() = 0;
 
   // manipulation with connection type
-  virtual void SetConnectionType(enum EMultiplayerConnectionType) = 0;
-  virtual enum EMultiplayerConnectionType GetConnectionType() const = 0;
+  virtual void STDCALL SetConnectionType(enum EMultiplayerConnectionType) = 0;
+  virtual enum EMultiplayerConnectionType STDCALL GetConnectionType() const = 0;
 
   // delayed notifications to MP
-  virtual void DelayedNotification(SFromUINotification &notify) = 0;
-  virtual void SendDelayedNotification() = 0;
+  virtual void STDCALL DelayedNotification(SFromUINotification &notify) = 0;
+  virtual void STDCALL SendDelayedNotification() = 0;
 };
 
 #endif // _MULTIPLAYER_COMMAND_MANAGER_

@@ -322,7 +322,7 @@ struct SAINotifyPlacement : SSuspendedUpdate
   }
 
   // for use in AILogic
-  virtual int operator&(IStructureSaver &ss)
+  virtual int STDCALL operator&(IStructureSaver &ss)
   {
     CSaverAccessor saver = &ss;
 

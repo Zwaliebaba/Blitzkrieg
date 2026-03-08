@@ -15,7 +15,7 @@ public:
   SColumnProperties() : nWidth(0), nSorterType(0) {}
 
   // serializing...
-  virtual int operator&(IDataTree &ss);
+  virtual int STDCALL operator&(IDataTree &ss);
 };
 
 using CVectorOfColumnProperties = std::vector<SColumnProperties>;
@@ -31,13 +31,13 @@ public:
   int nUserData;
 
   SUIListRow() : nUserData(0) {}
-  int GetNumberOfElements() const override { return subItems.size(); }
-  IUIElement * GetElement(int nIndex) const override;
-  void SetUserData(int nData) override { nUserData = nData; }
-  int GetUserData() const override { return nUserData; }
+  int STDCALL GetNumberOfElements() const override { return subItems.size(); }
+  IUIElement * STDCALL GetElement(int nIndex) const override;
+  void STDCALL SetUserData(int nData) override { nUserData = nData; }
+  int STDCALL GetUserData() const override { return nUserData; }
 
   // serializing...
-  // virtual int operator&( IDataTree &ss );
+  // virtual int STDCALL operator&( IDataTree &ss );
 };
 
 using CUIListItems = std::vector<CPtr<SUIListRow>>;
@@ -67,10 +67,10 @@ public:
   int nUserData;
 
   SUIListHeader() : nUserData(0) {}
-  int GetNumberOfElements() const override { return subItems.size(); }
-  IUIElement * GetElement(int nIndex) const override;
-  void SetUserData(int nData) override { nUserData = nData; }
-  int GetUserData() const override { return nUserData; }
+  int STDCALL GetNumberOfElements() const override { return subItems.size(); }
+  IUIElement * STDCALL GetElement(int nIndex) const override;
+  void STDCALL SetUserData(int nData) override { nUserData = nData; }
+  int STDCALL GetUserData() const override { return nUserData; }
 };
 
 // The window behaves like MultipleWindow in terms of processing messages (it simply passes them to childs)
@@ -125,41 +125,41 @@ public:
   ~CUIList() override;
 
   // mouse wheel
-  bool OnMouseWheel(const CVec2 &vPos, EMouseState mouseState, float fDelta) override = 0;
+  bool STDCALL OnMouseWheel(const CVec2 &vPos, EMouseState mouseState, float fDelta) override = 0;
 
-  void Reposition(const CTRect<float> &rcParent) override;
+  void STDCALL Reposition(const CTRect<float> &rcParent) override;
 
-  bool OnChar(int nAsciiCode, int nVirtualKey, bool bPressed, DWORD keyState) override;
-  bool ProcessMessage(const SUIMessage &msg) override;
+  bool STDCALL OnChar(int nAsciiCode, int nVirtualKey, bool bPressed, DWORD keyState) override;
+  bool STDCALL ProcessMessage(const SUIMessage &msg) override;
 
   // serializing...
-  int operator&(IDataTree &ss) override;
+  int STDCALL operator&(IDataTree &ss) override;
 
   // drawing
-  void Draw(IGFX *pGFX) override;
-  void Visit(interface ISceneVisitor *pVisitor) override;
+  void STDCALL Draw(IGFX *pGFX) override;
+  void STDCALL Visit(interface ISceneVisitor *pVisitor) override;
 
-  bool OnLButtonDblClk(const CVec2 &vPos) override;
-  bool OnLButtonDown(const CVec2 &vPos, EMouseState mouseState) override;
+  bool STDCALL OnLButtonDblClk(const CVec2 &vPos) override;
+  bool STDCALL OnLButtonDown(const CVec2 &vPos, EMouseState mouseState) override;
 
   // Public interface
   // Get number of items
-  virtual int GetNumberOfItems() { return listItems.size(); }
+  virtual int STDCALL GetNumberOfItems() { return listItems.size(); }
   // Add new line of items
-  virtual void AddItem(int nData = 0);// adds a new line VectorElements to the end of the list
+  virtual void STDCALL AddItem(int nData = 0);// adds a new line VectorElements to the end of the list
   // Remove last line of items
-  virtual void RemoveItem(int nIndex);// removes a line from the end of the list
+  virtual void STDCALL RemoveItem(int nIndex);// removes a line from the end of the list
   // Get line
-  virtual IUIListRow * GetItem(int nIndex);
+  virtual IUIListRow * STDCALL GetItem(int nIndex);
   // Get index of item by user data, if no such nID then returns -1
-  virtual int GetItemByID(int nID);
+  virtual int STDCALL GetItemByID(int nID);
   // selection operations
-  virtual void SetSelectionItem(int nSel);
-  virtual int GetSelectionItem() { return nSelection; }
-  virtual void InitialUpdate();
-  virtual void SetSortFunctor(int nColumn, IUIListSorter *pSorter);
-  virtual bool Sort(int nColumn, int nSortType = 0);
-  virtual bool ReSort();
+  virtual void STDCALL SetSelectionItem(int nSel);
+  virtual int STDCALL GetSelectionItem() { return nSelection; }
+  virtual void STDCALL InitialUpdate();
+  virtual void STDCALL SetSortFunctor(int nColumn, IUIListSorter *pSorter);
+  virtual bool STDCALL Sort(int nColumn, int nSortType = 0);
+  virtual bool STDCALL ReSort();
 
   /* int GetNumberOfItems() { return listItems.size();  */
 };
@@ -170,22 +170,22 @@ class CUIListBridge : public IUIListControl, public CUIList
   DECLARE_SUPER(CUIList);
   DEFINE_UICONTAINER_BRIDGE;
   // Get number of items
-  int GetNumberOfItems() override { return CSuper::GetNumberOfItems(); }
+  int STDCALL GetNumberOfItems() override { return CSuper::GetNumberOfItems(); }
   // Add new line of items
-  void AddItem(int nData = 0) override { CSuper::AddItem(nData); }
+  void STDCALL AddItem(int nData = 0) override { CSuper::AddItem(nData); }
   // Remove last line of items
-  void RemoveItem(int nIndex) override { CSuper::RemoveItem(nIndex); }
+  void STDCALL RemoveItem(int nIndex) override { CSuper::RemoveItem(nIndex); }
   // Get line
-  IUIListRow * GetItem(int nIndex) override { return CSuper::GetItem(nIndex); }
+  IUIListRow * STDCALL GetItem(int nIndex) override { return CSuper::GetItem(nIndex); }
   // Get index of item by user data, if no such nID then returns -1
-  int GetItemByID(int nID) override { return CSuper::GetItemByID(nID); }
+  int STDCALL GetItemByID(int nID) override { return CSuper::GetItemByID(nID); }
   // selection operations
-  void SetSelectionItem(int nSel) override { CSuper::SetSelectionItem(nSel); }
-  int GetSelectionItem() override { return CSuper::GetSelectionItem(); }
-  void InitialUpdate() override { CSuper::InitialUpdate(); }
-  void SetSortFunctor(int nColumn, IUIListSorter *pSorter) override { CSuper::SetSortFunctor(nColumn, pSorter); }
-  bool Sort(int nColumn, const int nSortType) override { return CSuper::Sort(nColumn, nSortType); }
-  bool ReSort() override { return CSuper::ReSort(); }
+  void STDCALL SetSelectionItem(int nSel) override { CSuper::SetSelectionItem(nSel); }
+  int STDCALL GetSelectionItem() override { return CSuper::GetSelectionItem(); }
+  void STDCALL InitialUpdate() override { CSuper::InitialUpdate(); }
+  void STDCALL SetSortFunctor(int nColumn, IUIListSorter *pSorter) override { CSuper::SetSortFunctor(nColumn, pSorter); }
+  bool STDCALL Sort(int nColumn, const int nSortType) override { return CSuper::Sort(nColumn, nSortType); }
+  bool STDCALL ReSort() override { return CSuper::ReSort(); }
 };
 
 #endif // __UI_LIST_H__

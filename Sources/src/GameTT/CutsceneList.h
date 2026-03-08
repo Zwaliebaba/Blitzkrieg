@@ -15,14 +15,14 @@ class CInterfaceCutsceneList : public CInterfaceInterMission
   NInput::CCommandRegistrator commandMsgs;
   std::vector<std::string> cutscenesList;// list of video files
   //
-  bool ProcessMessage(const SGameMessage &msg) override;
+  bool STDCALL ProcessMessage(const SGameMessage &msg) override;
   // disable explicit destruction
   ~CInterfaceCutsceneList() override;
   CInterfaceCutsceneList() : CInterfaceInterMission("InterMission") {}
 
 public:
-  bool Init() override;
-  void StartInterface() override;
+  bool STDCALL Init() override;
+  void STDCALL StartInterface() override;
 };
 
 class CCutsceneList : public CInterfaceCommandBase<CInterfaceCutsceneList, MISSION_INTERFACE_CUTSCENE_LIST>

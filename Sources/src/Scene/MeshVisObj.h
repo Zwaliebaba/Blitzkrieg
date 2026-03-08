@@ -82,33 +82,33 @@ public:
 
   void SetTexture(IGFXTexture *_pTexture) { pTexture = _pTexture; }
   // update state
-  bool Update(const NTimer::STime &time, bool bForced = false) override;
+  bool STDCALL Update(const NTimer::STime &time, bool bForced = false) override;
   // scale
-  void SetScale(float sx, float sy, float sz) override
+  void STDCALL SetScale(float sx, float sy, float sz) override
   {
     vScale.Set(sx, sy, sz);
     bHasScale = (sx != 1.0f) || (sy != 1.0f) || (sz != 1.0f);
   }
 
   // placement
-  void SetDirection(const int _nDirection) override
+  void STDCALL SetDirection(const int _nDirection) override
   {
     SetDir(_nDirection);
     quat.FromAngleAxis(ToRadian(static_cast<float>(GetDir()) / 65536.0f * 360.0f), 0, 0, 1);
   }
 
-  void SetPosition(const CVec3 &_pos) override { SetPos(_pos); }
+  void STDCALL SetPosition(const CVec3 &_pos) override { SetPos(_pos); }
 
-  void SetPlacement(const CVec3 &pos, const int nDir) override
+  void STDCALL SetPlacement(const CVec3 &pos, const int nDir) override
   {
     SetPosition(pos);
     SetDirection(nDir);
   }
 
   // opacity
-  void SetOpacity(BYTE opacity) override { material.vDiffuse.a = static_cast<float>(opacity) / 255.0f; }
+  void STDCALL SetOpacity(BYTE opacity) override { material.vDiffuse.a = static_cast<float>(opacity) / 255.0f; }
 
-  void SetColor(DWORD color) override
+  void STDCALL SetColor(DWORD color) override
   {
     material.vDiffuse.Set(material.vDiffuse.a,
                           static_cast<float>((color >> 16) & 0xff) / 255.0f,
@@ -116,7 +116,7 @@ public:
                           static_cast<float>((color) & 0xff) / 255.0f);
   }
 
-  void SetSpecular(DWORD color) override
+  void STDCALL SetSpecular(DWORD color) override
   {
     material.vSpecular.Set(1.0f,
                            static_cast<float>((color >> 16) & 0xff) / 255.0f,
@@ -125,33 +125,33 @@ public:
   }
 
   // hit test
-  bool IsHit(const SHMatrix &matTransform, const CVec2 &point, CVec2 *pShift) override;
-  bool IsHit(const SHMatrix &matTransform, const RECT &rect) override;
+  bool STDCALL IsHit(const SHMatrix &matTransform, const CVec2 &point, CVec2 *pShift) override;
+  bool STDCALL IsHit(const SHMatrix &matTransform, const RECT &rect) override;
   // drawing
-  bool Draw(IGFX *pGFX) override;
-  bool DrawBB(IGFX *pGFX) override;
-  bool DrawShadow(IGFX *pGFX, const SHMatrix *pMatShadow, const CVec3 &vSunDir) override;
+  bool STDCALL Draw(IGFX *pGFX) override;
+  bool STDCALL DrawBB(IGFX *pGFX) override;
+  bool STDCALL DrawShadow(IGFX *pGFX, const SHMatrix *pMatShadow, const CVec3 &vSunDir) override;
   // visiting
-  void Visit(ISceneVisitor *pVisitor, int nType = -1) override;
+  void STDCALL Visit(ISceneVisitor *pVisitor, int nType = -1) override;
   // animation
-  void SetAnimation(const int nAnim) override { pAnim->SetAnimation(nAnim); }
-  IAnimation * GetAnimation() override { return pAnim; }
+  void STDCALL SetAnimation(const int nAnim) override { pAnim->SetAnimation(nAnim); }
+  IAnimation * STDCALL GetAnimation() override { return pAnim; }
   //
-  void SetAnim(interface IAnimation *_pAnim) override { pAnim = dynamic_cast<IMeshAnimation *>(_pAnim); }
-  IGFXMesh * GetMesh() const override { return pMesh; }
-  IGFXTexture * GetTexture() const override { return pTexture; }
-  const SHMatrix & GetPlacement() const override { return matPlacement; }
-  const SHMatrix & GetPlacement1() const override { return matPlacement1; }
-  const SHMatrix GetBasePlacement() override;
-  const SHMatrix * GetMatrices() override { return pAnim->GetMatrices(matPlacement1); }
-  const SHMatrix * GetExtMatrices(const SHMatrix &matExternal) override;
+  void STDCALL SetAnim(interface IAnimation *_pAnim) override { pAnim = dynamic_cast<IMeshAnimation *>(_pAnim); }
+  IGFXMesh * STDCALL GetMesh() const override { return pMesh; }
+  IGFXTexture * STDCALL GetTexture() const override { return pTexture; }
+  const SHMatrix & STDCALL GetPlacement() const override { return matPlacement; }
+  const SHMatrix & STDCALL GetPlacement1() const override { return matPlacement1; }
+  const SHMatrix STDCALL GetBasePlacement() override;
+  const SHMatrix * STDCALL GetMatrices() override { return pAnim->GetMatrices(matPlacement1); }
+  const SHMatrix * STDCALL GetExtMatrices(const SHMatrix &matExternal) override;
   //
-  DWORD CheckForViewVolume(const SPlane *pViewVolumePlanes) override;
+  DWORD STDCALL CheckForViewVolume(const SPlane *pViewVolumePlanes) override;
   //
-  void AddEffector(int nID, ISceneMatrixEffector *pEffector, int nPart = -1) override;
-  void RemoveEffector(int nID, int nPart = -1) override;
-  void AddMaterialEffector(ISceneMaterialEffector *pEffector) override;
-  void RemoveMaterialEffector() override;
+  void STDCALL AddEffector(int nID, ISceneMatrixEffector *pEffector, int nPart = -1) override;
+  void STDCALL RemoveEffector(int nID, int nPart = -1) override;
+  void STDCALL AddMaterialEffector(ISceneMaterialEffector *pEffector) override;
+  void STDCALL RemoveMaterialEffector() override;
 };
 
 #endif // __MESHVISOBJ_H__

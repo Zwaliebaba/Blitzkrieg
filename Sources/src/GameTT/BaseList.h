@@ -49,8 +49,8 @@ protected:
   // disable explicit destruction
   ~CInterfaceBaseList() override;
 
-  bool StepLocal(bool bAppActive) override;
-  bool ProcessMessage(const SGameMessage &msg) override;
+  bool STDCALL StepLocal(bool bAppActive) override;
+  bool STDCALL ProcessMessage(const SGameMessage &msg) override;
   // functions I overload
   virtual bool FillListItem(IUIListRow *pRow, const std::string &szFullFileName, bool *pSelectedItem = nullptr);// fill the current line in the list
   virtual bool OnOk(const std::string &szFullFileName);// the user has selected a file, let's process the selection
@@ -58,8 +58,8 @@ protected:
   virtual bool OnOk() { return false; }// no selection, use edit box input.
   virtual void PrepareList(std::vector<std::string> *pFiles) {}// inspects list (may add something)
 public:
-  bool Init() override;
-  void StartInterface() override;
+  bool STDCALL Init() override;
+  void STDCALL StartInterface() override;
 };
 
 /* class CICBaseList : public CInterfaceCommandBase<CInterfaceBaseList, MISSION_INTERFACE_BASE_LIST>

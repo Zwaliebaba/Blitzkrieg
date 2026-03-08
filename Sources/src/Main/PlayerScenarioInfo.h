@@ -31,19 +31,19 @@ class CScenarioUnit : public CTRefCount<IScenarioUnit>
 public:
   CScenarioUnit();
   // unit's values
-  void SetValue(int nType, int nValue) override;
-  void AddValue(int nType, int nValue) override;
-  int GetValue(int nType) const override;
-  int GetValueDiff(int nType) const override;
+  void STDCALL SetValue(int nType, int nValue) override;
+  void STDCALL AddValue(int nType, int nValue) override;
+  int STDCALL GetValue(int nType) const override;
+  int STDCALL GetValueDiff(int nType) const override;
   // kill
-  void Kill() override { bKilled = true; }
+  void STDCALL Kill() override { bKilled = true; }
   // personal name
-  interface IText * GetName() const override;
+  interface IText * STDCALL GetName() const override;
   // RPG stats
-  void ChangeRPGStats(const std::string &szStatsName) override;
-  const std::string & GetRPGStats() const override;
+  void STDCALL ChangeRPGStats(const std::string &szStatsName) override;
+  const std::string & STDCALL GetRPGStats() const override;
   // scenario ID
-  int GetScenarioID() const override { return nScenarioID; }
+  int STDCALL GetScenarioID() const override { return nScenarioID; }
   //
   // internal management
   //
@@ -106,71 +106,71 @@ public:
   CPlayerScenarioInfo();
   void Init();
   // player's name
-  void SetName(const std::wstring &wszName) override;
-  const std::wstring & GetName() const override;
-  IText * GetNameObject() const override;
+  void STDCALL SetName(const std::wstring &wszName) override;
+  const std::wstring & STDCALL GetName() const override;
+  IText * STDCALL GetNameObject() const override;
   //
   // current player side (USSR, German, Poland, French, GB, etc) and general side (USSR, German, Allies)
   //
   // side/general side
-  void SetSide(const std::string &szSideName) override;
-  const std::string & GetSide() const override;
-  const std::string & GetGeneralSide() const override;
-  interface IText * GetSideName() const override;
+  void STDCALL SetSide(const std::string &szSideName) override;
+  const std::string & STDCALL GetSide() const override;
+  const std::string & STDCALL GetGeneralSide() const override;
+  interface IText * STDCALL GetSideName() const override;
   // diplomacy side [0..2] (0 <=> 1 opponents, 2 - neutral)
-  void SetDiplomacySide(int nDiplomacySide) override;
-  const int GetDiplomacySide() const override;
+  void STDCALL SetDiplomacySide(int nDiplomacySide) override;
+  const int STDCALL GetDiplomacySide() const override;
   // player color
-  void SetColor(DWORD dwColor) override;
-  DWORD GetColor() const override;
+  void STDCALL SetColor(DWORD dwColor) override;
+  DWORD STDCALL GetColor() const override;
   //
   // rank & skills
   //
-  const struct SPlayerSkill & GetSkill(int nSkill) const override;
-  void SetSkill(int nSkill, float fVal) override;
+  const struct SPlayerSkill & STDCALL GetSkill(int nSkill) const override;
+  void STDCALL SetSkill(int nSkill, float fVal) override;
   // player's rank
-  const struct SPlayerRank & GetRankInfo() const override;
-  void ClearLevelGain() override;
-  bool IsGainLevel() const override;
+  const struct SPlayerRank & STDCALL GetRankInfo() const override;
+  void STDCALL ClearLevelGain() override;
+  bool STDCALL IsGainLevel() const override;
   // set player's experience. 
-  bool SetExperience(double fExperience) override;
+  bool STDCALL SetExperience(double fExperience) override;
   //
   // units
   //
-  int GetNumUnits() const override;
-  IScenarioUnit * GetUnit(int nIndex) const override;
-  int GetNumNewUnits() const override;
-  IScenarioUnit * GetNewUnit(int nIndex) const override;
+  int STDCALL GetNumUnits() const override;
+  IScenarioUnit * STDCALL GetUnit(int nIndex) const override;
+  int STDCALL GetNumNewUnits() const override;
+  IScenarioUnit * STDCALL GetNewUnit(int nIndex) const override;
   //
   // medals
   //
   // get medal in purticular slot or return 0 if this slot are empty
-  const std::string & GetMedalInSlot(int nSlot) const override;
-  bool HasMedal(const std::string &szName) const override;
+  const std::string & STDCALL GetMedalInSlot(int nSlot) const override;
+  bool STDCALL HasMedal(const std::string &szName) const override;
   // new medals
-  int GetNumNewMedals() const override;
-  const std::string & GetNewMedal(int nIndex) const override;
+  int STDCALL GetNumNewMedals() const override;
+  const std::string & STDCALL GetNewMedal(int nIndex) const override;
   //
   // upgrade and depot
   //
   // get available upgrade (can be empty)
-  const std::string & GetUpgrade() const override;
+  const std::string & STDCALL GetUpgrade() const override;
   // depot (unlimited) upgrades
-  int GetNumDepotUpgrades() const override;
-  const std::string & GetDepotUpgrade(int nIndex) const override;
-  void OrderDepotUpgrade(int nUpgradeIndex) override;
-  int GetNumNewDepotUpgrades() const override;
-  const std::string & GetNewDepotUpgrade(int nIndex) const override;
-  void ClearNewDepotUpgrade() override;
+  int STDCALL GetNumDepotUpgrades() const override;
+  const std::string & STDCALL GetDepotUpgrade(int nIndex) const override;
+  void STDCALL OrderDepotUpgrade(int nUpgradeIndex) override;
+  int STDCALL GetNumNewDepotUpgrades() const override;
+  const std::string & STDCALL GetNewDepotUpgrade(int nIndex) const override;
+  void STDCALL ClearNewDepotUpgrade() override;
   //
   // statistics
   //
   // get current campaign stats
-  ICampaignStatistics * GetCampaignStats() const override;
+  ICampaignStatistics * STDCALL GetCampaignStats() const override;
   // get current chapter stats
-  IChapterStatistics * GetChapterStats() const override;
+  IChapterStatistics * STDCALL GetChapterStats() const override;
   // get current mission stats
-  IMissionStatistics * GetMissionStats() const override;
+  IMissionStatistics * STDCALL GetMissionStats() const override;
   //
   // internal management
   //

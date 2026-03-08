@@ -16,18 +16,18 @@ class CLanChat : public IChat
   CMessagesStore messages;
 
 public:
-void InitGSChat(const wchar_t *pszUserName) override {}
-void InitInGameChat(INetDriver *pNetDriver) override;
-void DestroyInGameChat() override {}
+void STDCALL InitGSChat(const wchar_t *pszUserName) override {}
+void STDCALL InitInGameChat(INetDriver *pNetDriver) override;
+void STDCALL DestroyInGameChat() override {}
 
-void SendMessage(const wchar_t *pszMessage, const SPlayerInfo &ourPlayer) override;
-void SendWhisperMessage(const wchar_t *pszMessage, const SPlayerInfo &toPlayer, const SPlayerInfo &ourPlayer) override;
-void SendMessage(const wchar_t *pszMessage, const wchar_t *wszToPlayer, const bool bWhisper) override {}
-void Segment() override;
+void STDCALL SendMessage(const wchar_t *pszMessage, const SPlayerInfo &ourPlayer) override;
+void STDCALL SendWhisperMessage(const wchar_t *pszMessage, const SPlayerInfo &toPlayer, const SPlayerInfo &ourPlayer) override;
+void STDCALL SendMessage(const wchar_t *pszMessage, const wchar_t *wszToPlayer, const bool bWhisper) override {}
+void STDCALL Segment() override;
 
-  IMultiplayerMessage * GetMessage() override;
+  IMultiplayerMessage * STDCALL GetMessage() override;
 
-  void UserModeChanged(const EUserMode eMode) override {};
+  void STDCALL UserModeChanged(const EUserMode eMode) override {};
 };
 
 #endif // __LAN_CHAT_H__

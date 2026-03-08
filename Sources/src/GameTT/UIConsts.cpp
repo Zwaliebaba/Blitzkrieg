@@ -30,7 +30,7 @@ const wchar_t *CUIConsts::GetLocalPartyName(const char *pszPartyKey)
   szPath += pszPartyKey;
 
   IText *pText = pTextM->GetDialog(szPath.c_str());
-  NI_ASSERT_T(pText != nullptr, NStr::Format( "unknown party %s", szPath.c_str()));
+  NI_ASSERT_T(pText != 0, NStr::Format( "unknown party %s", szPath.c_str()));
   return pText->GetString();
 }
 
@@ -46,6 +46,9 @@ const wchar_t *CUIConsts::GetGamesListTitle(const enum EMultiplayerConnectionTyp
       break;
     case EMCT_INTERNET:
       pText = pTM->GetDialog("Textes\\UI\\Intermission\\Multiplayer\\GamesList\\caption_internet");
+      break;
+    case EMCT_GAMESPY:
+      pText = pTM->GetDialog("Textes\\UI\\Intermission\\Multiplayer\\GamesList\\caption_gamespy");
       break;
   }
 

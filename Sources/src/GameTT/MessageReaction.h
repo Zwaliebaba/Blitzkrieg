@@ -9,14 +9,14 @@
 interface IMessageReaction : IRefCount
 {
   // return 0 means that message should be considered not processed
-  virtual bool Execute() = 0;
+  virtual bool STDCALL Execute() = 0;
 };
 
 // container, encapsulate logic of messages reaction for some object
 
 interface IMessageLink : IRefCount
 {
-  virtual IMessageReaction * Configure(int nMessageID, int nParam) = 0;
+  virtual IMessageReaction * STDCALL Configure(int nMessageID, int nParam) = 0;
 };
 
 enum EMessageLink
@@ -31,7 +31,7 @@ enum EMessageLink
 
 interface ILoadHelper : IRefCount
 {
-  virtual int Get(const std::string &szLoaded) = 0;
+  virtual int STDCALL Get(const std::string &szLoaded) = 0;
 };
 
 
@@ -61,29 +61,29 @@ interface IMessageLinkContainer : IRefCount
   // type ID
   enum { tidTypeID = GAMETT_MESSAGELINK_CONTAINER };
 
-  virtual void SetInterface(class CInterfaceScreenBase *pInterface) = 0;
+  virtual void STDCALL SetInterface(class CInterfaceScreenBase *pInterface) = 0;
   // tries to process messages via all message links. 
   // implements reaction by self
-  virtual bool ProcessMessage(const SGameMessage &msg) = 0;
+  virtual bool STDCALL ProcessMessage(const SGameMessage &msg) = 0;
 
   virtual void Init() = 0;
   virtual void Clear() = 0;
   // access to message links by specific ID
-  virtual IMessageLink * GetMessageLink(enum EMessageLink eLinkID) = 0;
+  virtual IMessageLink * STDCALL GetMessageLink(enum EMessageLink eLinkID) = 0;
 
   // creation and registration of messages links
-  virtual void RegisterMessageLink(IMessageLink *pMessageLink, enum EMessageLink eLinkID) = 0;
-  virtual void LoadMessageLink(const std::string &szFile, enum EMessageLink eLinkID) = 0;
+  virtual void STDCALL RegisterMessageLink(IMessageLink *pMessageLink, enum EMessageLink eLinkID) = 0;
+  virtual void STDCALL LoadMessageLink(const std::string &szFile, enum EMessageLink eLinkID) = 0;
 
   // access to load helper
-  virtual ILoadHelper * GetLoadHelper(int /* ELoadHelperID */nLoadHelperID) = 0;
+  virtual ILoadHelper * STDCALL GetLoadHelper(int /* ELoadHelperID */nLoadHelperID) = 0;
 
   // custom check call
-  virtual int CustomCheck(int nCustomCheckKey, const CCustomCheckParams &checkParams) = 0;
+  virtual int STDCALL CustomCheck(int nCustomCheckKey, const CCustomCheckParams &checkParams) = 0;
 
   // custom reaction launch
-  virtual void CustomReaction(const std::string &szCustomReactionName) = 0;
+  virtual void STDCALL CustomReaction(const std::string &szCustomReactionName) = 0;
 
   // set text to desider window
-  virtual void SetWindowText(int nElementID, const wchar_t *pszText) = 0;
+  virtual void STDCALL SetWindowText(int nElementID, const wchar_t *pszText) = 0;
 };

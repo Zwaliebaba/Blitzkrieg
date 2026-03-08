@@ -23,12 +23,12 @@ interface IRefCount
 {
   virtual ~IRefCount() = default;
   // refcounting
-  virtual void AddRef(int nRef = 1, int nMask = 0x7fffffff) = 0;
-  virtual void Release(int nRef = 1, int nMask = 0x7fffffff) = 0;
-  virtual bool IsValid() const = 0;
+  virtual void STDCALL AddRef(int nRef = 1, int nMask = 0x7fffffff) = 0;
+  virtual void STDCALL Release(int nRef = 1, int nMask = 0x7fffffff) = 0;
+  virtual bool STDCALL IsValid() const = 0;
   // service
-  virtual IRefCount * QI(int nInterfaceTypeID) { return nullptr; }
-  virtual int operator&(interface IStructureSaver &ss) { return 0; }
+  virtual IRefCount * STDCALL QI(int nInterfaceTypeID) { return nullptr; }
+  virtual int STDCALL operator&(interface IStructureSaver &ss) { return 0; }
 };
 
 #ifdef _DO_ASSERT_SLOW
@@ -48,7 +48,7 @@ protected:
   void DecRef(int nRef) { nRefData -= nRef; }
   // function should clear contents of object, easy to implement via consequent calls to
   // destructor and constructor, this function should not be called directly, use Clear()
-  virtual void DestroyContents() {}
+  virtual void STDCALL DestroyContents() {}
   // reset data in class to default values, saves RefCount from destruction
   void InternalClear()
   {
@@ -62,14 +62,14 @@ protected:
   virtual ~CTRefCount() {}
 
 public:
-  virtual void AddRef(int nRef = 1, int nMask = 0x7fffffff)
+  virtual void STDCALL AddRef(int nRef = 1, int nMask = 0x7fffffff)
   {
     ADD_REF_PREGUARD(nRefData);
     nRefData += nRef;
     ADD_REF_POSTGUARD(nRefData);
   }
 
-  virtual void Release(int nRef = 1, int nMask = 0x7fffffff)
+  virtual void STDCALL Release(int nRef = 1, int nMask = 0x7fffffff)
   {
     DecRef(nRef);
     if ((nRefData & 0x7fffffff) == 0) delete this;
@@ -82,7 +82,7 @@ public:
     }
   }
 
-  virtual bool IsValid() const { return (nRefData & 0x80000000) == 0; }
+  virtual bool STDCALL IsValid() const { return (nRefData & 0x80000000) == 0; }
   // non-virtual service functions for internal use
   // check for self-validity
   bool IsSelfValid() const { return this != nullptr && !IsValid(); }
@@ -91,8 +91,8 @@ public:
 // this MACRO defines some usefull functions for the class implementation
 #define OBJECT_SERVICE_METHODS( classname )	\
 public:																			\
-	virtual void DestroyContents() { classname::~classname(); int nHoldRefs = nRefData; ::new(this) classname; nRefData += nHoldRefs; } \
-	static IRefCount* CreateNewClassInstanceInternal() { return new classname(); }	\
+	virtual void STDCALL DestroyContents() { classname::~classname(); int nHoldRefs = nRefData; ::new(this) classname; nRefData += nHoldRefs; } \
+	static IRefCount* STDCALL CreateNewClassInstanceInternal() { return new classname(); }	\
 private:
 
 // ************************************************************************************************************************ //
@@ -103,7 +103,7 @@ private:
 // **
 // ************************************************************************************************************************ //
 
-using ObjectFactoryNewFunc = IRefCount* (*)();// function to create a new object
+using ObjectFactoryNewFunc = IRefCount* (STDCALL *)();// function to create a new object
 struct SObjectFactoryTypeInfo
 {
   int nTypeID;// user-defined typeID
@@ -114,17 +114,17 @@ struct SObjectFactoryTypeInfo
 interface IObjectFactory
 {
   // create an object by its typeID
-  virtual IRefCount * CreateObject(int nTypeID) = 0;
+  virtual IRefCount * STDCALL CreateObject(int nTypeID) = 0;
   // register type
-  virtual void RegisterType(int nObjectTypeID, ObjectFactoryNewFunc newFunc) = 0;
+  virtual void STDCALL RegisterType(int nObjectTypeID, ObjectFactoryNewFunc newFunc) = 0;
   // aggregate another factory inside this one (re-register its objects to this factory)
-  virtual void Aggregate(IObjectFactory *pFactory) = 0;
+  virtual void STDCALL Aggregate(IObjectFactory *pFactory) = 0;
   // get the number of object types that this factory (+ all aggregated into it) can create
-  virtual int GetNumKnownTypes() = 0;
+  virtual int STDCALL GetNumKnownTypes() = 0;
   // get type info of objects that this factory (+ all aggregated into it) can create
-  virtual void GetKnownTypes(SObjectFactoryTypeInfo *pInfoBuffer, int nBufferSize) = 0;
+  virtual void STDCALL GetKnownTypes(SObjectFactoryTypeInfo *pInfoBuffer, int nBufferSize) = 0;
   // get the typeID of an object by a pointer to it
-  virtual int GetObjectTypeID(IRefCount *pObj) const = 0;
+  virtual int STDCALL GetObjectTypeID(IRefCount *pObj) const = 0;
 };
 
 // ************************************************************************************************************************ //
@@ -137,11 +137,11 @@ interface IObjectFactory
 
 interface IObjectLoader
 {
-  virtual bool Init(interface ISingleton *pSingleton) = 0;
+  virtual bool STDCALL Init(interface ISingleton *pSingleton) = 0;
   // complete all work with Loader
-  virtual void Done() = 0;
+  virtual void STDCALL Done() = 0;
   // load data into a pre-created object
-  virtual bool LoadObject(const char *pszKey, IRefCount *pObject) = 0;
+  virtual bool STDCALL LoadObject(const char *pszKey, IRefCount *pObject) = 0;
 };
 
 // ************************************************************************************************************************ //
@@ -155,9 +155,9 @@ interface IObjectLoader
 interface IModuleChecker
 {
   // check module functionality - return some kind of 'grade' for this module
-  virtual int CheckFunctionality() const = 0;
+  virtual int STDCALL CheckFunctionality() const = 0;
   // set module functionality limits
-  virtual void SetModuleFunctionalityLimits() const = 0;
+  virtual void STDCALL SetModuleFunctionalityLimits() const = 0;
 };
 
 struct SModuleDescriptor
@@ -175,7 +175,7 @@ struct SModuleDescriptor
     : pszName(_pszName), nType(_nType), nVersion(_nVersion), pFactory(_pFactory), pChecker(_pChecker) {}
 };
 
-using GETMODULEDESCRIPTOR = const SModuleDescriptor* (*)();
+using GETMODULEDESCRIPTOR = const SModuleDescriptor* (STDCALL *)();
 
 // ************************************************************************************************************************ //
 // **
@@ -202,17 +202,17 @@ enum ESharedDataSharingMode
 interface ISharedResource : IRefCount
 {
   // swap own data with resource's one
-  virtual void SwapData(ISharedResource *pResource) = 0;
+  virtual void STDCALL SwapData(ISharedResource *pResource) = 0;
   // check, is this resource referenced by anybody, except shared manager?
-  virtual int GetRefCounter() const = 0;
+  virtual int STDCALL GetRefCounter() const = 0;
   // shared resource name
-  virtual const char * GetSharedResourceName() const = 0;
-  virtual void SetSharedResourceName(const std::string &szName) = 0;
+  virtual const char * STDCALL GetSharedResourceName() const = 0;
+  virtual void STDCALL SetSharedResourceName(const std::string &szName) = 0;
   // internal container load/clear
-  virtual bool Load(bool bPreLoad = false) = 0;
-  virtual void ClearInternalContainer() = 0;
+  virtual bool STDCALL Load(bool bPreLoad = false) = 0;
+  virtual void STDCALL ClearInternalContainer() = 0;
   // shared resource usage (for LRU/MRU data management)
-  virtual int GetResourceConsumption() const { return 0; }
+  virtual int STDCALL GetResourceConsumption() const { return 0; }
 };
 
 interface ISharedManager : IRefCount
@@ -225,20 +225,20 @@ interface ISharedManager : IRefCount
   };
 
   // initialize
-  virtual bool Init() = 0;
+  virtual bool STDCALL Init() = 0;
   // setup serializing mode
-  virtual void SetSerialMode(ESharedDataSerialMode eSerialMode) = 0;
+  virtual void STDCALL SetSerialMode(ESharedDataSerialMode eSerialMode) = 0;
   // setup sharing mode
-  virtual void SetShareMode(ESharedDataSharingMode eShareMode) = 0;
+  virtual void STDCALL SetShareMode(ESharedDataSharingMode eShareMode) = 0;
   // remove all shared resource from this manager
-  virtual void Clear(EClearMode eClearMode = CLEAR_ALL, int nUsage = 0, int nAmount = 0) = 0;
+  virtual void STDCALL Clear(EClearMode eClearMode = CLEAR_ALL, int nUsage = 0, int nAmount = 0) = 0;
 };
 
 #define SHARED_RESOURCE_METHODS( refcounter, extvarname )																							\
 public:																																																\
-	virtual int GetRefCounter() const { return (refcounter); }																	\
-	virtual const char* GetSharedResourceName() const { return szSharedResourceName.c_str(); }	\
-	virtual void SetSharedResourceName( const std::string &szName ) { szSharedResourceName = szName; } \
+	virtual int STDCALL GetRefCounter() const { return (refcounter); }																	\
+	virtual const char* STDCALL GetSharedResourceName() const { return szSharedResourceName.c_str(); }	\
+	virtual void STDCALL SetSharedResourceName( const std::string &szName ) { szSharedResourceName = szName; } \
 	static const char* GetSharedResourceExtVarName() { return "SharedResource."extvarname".Ext"; }			\
 	void SetSharedResourceLastUsage( const int nUsage ) { nSharedResourceLastUsage.a = nUsage; }				\
 	int GetSharedResourceLastUsage() const { return nSharedResourceLastUsage.a; }												\
@@ -257,14 +257,14 @@ private:																																															\
 
 interface IGDBObject
 {
-  virtual const char * GetName() const = 0;
-  virtual const char * GetParentName() const = 0;
-  virtual const uLong GetCheckSum() const = 0;
+  virtual const char * STDCALL GetName() const = 0;
+  virtual const char * STDCALL GetParentName() const = 0;
+  virtual const uLong STDCALL GetCheckSum() const = 0;
 };
 
 interface IGDB : IRefCount
 {
-  virtual const IGDBObject * Get(const char *pszObjectName, const char *pszParentName) = 0;
+  virtual const IGDBObject * STDCALL Get(const char *pszObjectName, const char *pszParentName) = 0;
 };
 
 // ************************************************************************************************************************ //
@@ -278,11 +278,11 @@ interface IGDB : IRefCount
 interface IBaseCommand : IRefCount
 {
   // execute command
-  virtual void Do() = 0;
+  virtual void STDCALL Do() = 0;
   // un-execute command
-  virtual void UnDo() = 0;
+  virtual void STDCALL UnDo() = 0;
   // can this command be un-executed
-  virtual bool CanUnDo() = 0;
+  virtual bool STDCALL CanUnDo() = 0;
 };
 
 // ************************************************************************************************************************ //
@@ -317,35 +317,35 @@ struct SPropertyDesc
 interface IManipulatorIterator : IRefCount
 {
   // go to the next property
-  virtual bool Next() = 0;
+  virtual bool STDCALL Next() = 0;
   // is all properties already iterated?
-  virtual bool IsEnd() const = 0;
+  virtual bool STDCALL IsEnd() const = 0;
   // get current property descriptor
-  virtual const SPropertyDesc * GetPropertyDesc() const = 0;
+  virtual const SPropertyDesc * STDCALL GetPropertyDesc() const = 0;
 };
 
 // manipulator
 interface IManipulator : IRefCount
 {
   // configure manipulator
-  virtual void Configure(const char *pszName, const variant_t &value) {}
+  virtual void STDCALL Configure(const char *pszName, const variant_t &value) {}
   // begin to iterate through all properties
-  virtual IManipulatorIterator * Iterate() = 0;
+  virtual IManipulatorIterator * STDCALL Iterate() = 0;
   // get property descriptor by name
-  virtual const SPropertyDesc * GetPropertyDesc(const char *pszName) = 0;
+  virtual const SPropertyDesc * STDCALL GetPropertyDesc(const char *pszName) = 0;
   // retrieve value. 
-  virtual bool GetValue(const char *pszValueName, variant_t *pValue) = 0;
+  virtual bool STDCALL GetValue(const char *pszValueName, variant_t *pValue) = 0;
   // set value. 
-  virtual bool SetValue(const char *pszValueName, const variant_t &value) = 0;
+  virtual bool STDCALL SetValue(const char *pszValueName, const variant_t &value) = 0;
 };
 
 // multimanipulator
 interface IMultiManipulator : IManipulator
 {
   // remove all manipulators
-  virtual void Clear() = 0;
+  virtual void STDCALL Clear() = 0;
   // add new manipulator
-  virtual void AddManipulator(IManipulator *pManipulator) = 0;
+  virtual void STDCALL AddManipulator(IManipulator *pManipulator) = 0;
 };
 
 // ************************************************************************************************************************ //
@@ -374,13 +374,13 @@ public:
 // macro that helps to create neccessary members for proper operation of refcount system
 #define OBJECT_MINIMAL_METHODS(classname)                                           \
 public:                                                                             \
-	virtual void AddRef( int nRef = 1, int nMask = 0x7fffffff )								\
+	virtual void STDCALL AddRef( int nRef = 1, int nMask = 0x7fffffff )								\
 	{																																									\
 		ADD_REF_PREGUARD( nRefData.a );																									\
 		nRefData.a += nRef;																															\
 		ADD_REF_POSTGUARD( nRefData.a );																								\
 	}																																									\
-	virtual void Release( int nRef = 1, int nMask = 0x7fffffff )							\
+	virtual void STDCALL Release( int nRef = 1, int nMask = 0x7fffffff )							\
 	{																																									\
 		nRefData.a -= nRef;																															\
 		if ( (nRefData.a & 0x7fffffff) == 0 )																						\
@@ -388,7 +388,7 @@ public:                                                                         
 		else if ( (nRefData.a & nMask) == 0 )																						\
 			nRefData.a |= 0x80000000;																											\
 	}																																									\
-	virtual bool IsValid() const { return (nRefData.a & 0x80000000) == 0; }   \
+	virtual bool STDCALL IsValid() const { return (nRefData.a & 0x80000000) == 0; }   \
 private:                                                                            \
   SInt nRefData;
 
@@ -396,14 +396,14 @@ private:                                                                        
 // we need, taking into account the release of cross-references, so after the constructor we reassign it
 #define OBJECT_NORMAL_METHODS(classname)                                            \
 public:                                                                             \
-	static IRefCount* CreateNewClassInstanceInternal() { return new classname(); }    \
-	virtual void AddRef( int nRef = 1, int nMask = 0x7fffffff )								\
+	static IRefCount* STDCALL CreateNewClassInstanceInternal() { return new classname(); }    \
+	virtual void STDCALL AddRef( int nRef = 1, int nMask = 0x7fffffff )								\
 	{																																									\
 		ADD_REF_PREGUARD( nRefData.a );																									\
 		nRefData.a += nRef;																															\
 		ADD_REF_POSTGUARD( nRefData.a );																								\
 	}																																									\
-	virtual void Release( int nRef = 1, int nMask = 0x7fffffff )							\
+	virtual void STDCALL Release( int nRef = 1, int nMask = 0x7fffffff )							\
 	{																																									\
 		nRefData.a -= nRef;																															\
 		if ( (nRefData.a & 0x7fffffff) == 0 )																						\
@@ -416,7 +416,7 @@ public:                                                                         
 			Release();																																		\
 		}																																								\
 	}																																									\
-	virtual bool IsValid() const { return (nRefData.a & 0x80000000) == 0; }   \
+	virtual bool STDCALL IsValid() const { return (nRefData.a & 0x80000000) == 0; }   \
 protected:                                                                          \
 	void DestroyContents() { classname::~classname(); int nOldRef = nRefData.a; ::new(this) classname; nRefData.a += nOldRef; } \
 private:                                                                            \
@@ -431,7 +431,7 @@ private:
 
 #define DECLARE_SERIALIZE                                         \
 public:                                                           \
-	virtual int operator&( interface IStructureSaver &ss );	\
+	virtual int STDCALL operator&( interface IStructureSaver &ss );	\
 private:
 
 #define DECLARE_SUPER( classname ) typedef classname CSuper;

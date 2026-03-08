@@ -29,31 +29,31 @@ public:
   CSoundManager() : share2(109, false), share3(110, true) {}
   virtual ~CSoundManager();
   // remove all shared resource from this manager
-  void Clear(EClearMode eMode, int nUsage, int nAmount) override;
+  void STDCALL Clear(EClearMode eMode, int nUsage, int nAmount) override;
   //
-  void SetSerialMode(ESharedDataSerialMode eSerialMode) override
+  void STDCALL SetSerialMode(ESharedDataSerialMode eSerialMode) override
   {
     share2.SetSerialMode(eSerialMode);
     share3.SetSerialMode(eSerialMode);
   }
 
   // setup sharing mode
-  void SetShareMode(ESharedDataSharingMode eShareMode) override
+  void STDCALL SetShareMode(ESharedDataSharingMode eShareMode) override
   {
     share2.SetShareMode(eShareMode);
     share3.SetShareMode(eShareMode);
   }
 
   //
-  bool Init() override;
+  bool STDCALL Init() override;
   //
   CSoundSample *GetSample2D(const char *pszName) { return share2.Get(pszName); }
   CSoundSample *GetSample3D(const char *pszName) { return share3.Get(pszName); }
   //
-  ISound * GetSound2D(const char *pszName) override;
-  ISound * GetSound3D(const char *pszName) override;
+  ISound * STDCALL GetSound2D(const char *pszName) override;
+  ISound * STDCALL GetSound3D(const char *pszName) override;
   //
-  const char * GetSoundName(ISound *pSound) override;
+  const char * STDCALL GetSoundName(ISound *pSound) override;
 };
 
 #endif // __SOUNDMANAGER_H__

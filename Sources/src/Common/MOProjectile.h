@@ -27,28 +27,28 @@ public:
   //
   void Init(const NTimer::STime &_timeStart, const NTimer::STime &_timeDuration, const CVec3 &_delta);
   //
-  bool Create(IRefCount *pAIObj, const SGDBObjectDesc *pDesc, int nSeason, int nFrameIndex, float fHP, interface IVisObjBuilder *pVOB, IObjectsDB *pGDB) override;
-  bool Create(IRefCount *pAIObj, const char *pszName, interface IVisObjBuilder *pVOB) override;
+  bool STDCALL Create(IRefCount *pAIObj, const SGDBObjectDesc *pDesc, int nSeason, int nFrameIndex, float fHP, interface IVisObjBuilder *pVOB, IObjectsDB *pGDB) override;
+  bool STDCALL Create(IRefCount *pAIObj, const char *pszName, interface IVisObjBuilder *pVOB) override;
   // placement
-  void SetPlacement(const CVec3 &vPos, const WORD &wDir) override;
-  void GetPlacement(CVec3 *pvPos, WORD *pwDir) override;
+  void STDCALL SetPlacement(const CVec3 &vPos, const WORD &wDir) override;
+  void STDCALL GetPlacement(CVec3 *pvPos, WORD *pwDir) override;
   // stats functions
-  const SGDBObjectDesc * GetDesc() const override { return pDesc; }
-  const SHPObjectRPGStats * GetRPG() const override { return pRPG; }
+  const SGDBObjectDesc * STDCALL GetDesc() const override { return pDesc; }
+  const SHPObjectRPGStats * STDCALL GetRPG() const override { return pRPG; }
   // AI object retrieving
-  IRefCount * GetAIObj() override { return pAIObj; }
-  IRefCount * GetParentAIObj() override { return nullptr; }
+  IRefCount * STDCALL GetAIObj() override { return pAIObj; }
+  IRefCount * STDCALL GetParentAIObj() override { return nullptr; }
   // get status for mission status bar
-  void GetStatus(struct SMissionStatusObject *pStatus) const override {}
+  void STDCALL GetStatus(struct SMissionStatusObject *pStatus) const override {}
   // get actions, which this object can perform or actions, thi object can be acted with
-  void GetActions(CUserActions *pActions, EActionsType eActions) const override {}
+  void STDCALL GetActions(CUserActions *pActions, EActionsType eActions) const override {}
   // common updates
-  void AIUpdatePlacement(const SAINotifyPlacement &placement, const NTimer::STime &currTime, IScene *pScene) override;
-  bool AIUpdateRPGStats(const SAINotifyRPGStats &stats, IVisObjBuilder *pVOB, IScene *pScene) override { return true; }
-  int AIUpdateActions(const struct SAINotifyAction &action, const NTimer::STime &currTime, IVisObjBuilder *pVOB, IScene *pScene, interface IClientAckManager *pAckManager) override;
-  void AIUpdateHit(const struct SAINotifyHitInfo &hit, const NTimer::STime &currTime, IScene *pScene, IVisObjBuilder *pVOB) override {}
+  void STDCALL AIUpdatePlacement(const SAINotifyPlacement &placement, const NTimer::STime &currTime, IScene *pScene) override;
+  bool STDCALL AIUpdateRPGStats(const SAINotifyRPGStats &stats, IVisObjBuilder *pVOB, IScene *pScene) override { return true; }
+  int STDCALL AIUpdateActions(const struct SAINotifyAction &action, const NTimer::STime &currTime, IVisObjBuilder *pVOB, IScene *pScene, interface IClientAckManager *pAckManager) override;
+  void STDCALL AIUpdateHit(const struct SAINotifyHitInfo &hit, const NTimer::STime &currTime, IScene *pScene, IVisObjBuilder *pVOB) override {}
   // visiting
-  void Visit(IMapObjVisitor *pVisitor) override;
+  void STDCALL Visit(IMapObjVisitor *pVisitor) override;
 };
 
 // //////////////////////////////////////////////////////////// 

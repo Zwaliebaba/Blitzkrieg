@@ -33,7 +33,7 @@ namespace NMain
 
 inline float MakeGammaValue(const variant_t &var) { return (static_cast<float>(var) - 50.0f) / 50.0f; }
 
-bool NMain::SwitchGame(bool bOn)
+bool STDCALL NMain::SwitchGame(bool bOn)
 {
   if (bOn)
   {
@@ -65,7 +65,7 @@ bool NMain::SwitchGame(bool bOn)
   return false;
 }
 
-bool NMain::Initialize(HWND hWnd3D, HWND nWndInput, HWND hWndSound, bool bGame)
+bool STDCALL NMain::Initialize(HWND hWnd3D, HWND nWndInput, HWND hWndSound, bool bGame)
 {
   // register main object factory
   GetSLS()->AddFactory(GetMainObjectFactory());
@@ -228,9 +228,9 @@ bool NMain::Initialize(HWND hWnd3D, HWND nWndInput, HWND hWndSound, bool bGame)
   return true;
 }
 
-bool NMain::IsInitialized() { return bInitialized; }
+bool STDCALL NMain::IsInitialized() { return bInitialized; }
 
-bool NMain::Finalize()
+bool STDCALL NMain::Finalize()
 {
   GetSingleton<ISFX>()->Done();
   GetSingleton<ITransceiver>()->Done();
@@ -240,7 +240,7 @@ bool NMain::Finalize()
   return false;
 }
 
-bool NMain::CanLaunch()
+bool STDCALL NMain::CanLaunch()
 {
 #if defined(_DO_ASSERT) || defined(_DO_ASSERT_SLOW)
   // check for remote drive - not allowed to run from!

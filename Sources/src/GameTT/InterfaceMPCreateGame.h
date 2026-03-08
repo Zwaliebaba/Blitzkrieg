@@ -32,14 +32,14 @@ private:
 
   NInput::CCommandRegistrator commandMsgs;
   CInterfaceMPCreateGame() : CInterfaceMultiplayerScreen("InterMission") {}
-  bool ProcessMessage(const SGameMessage &msg) override;
+  bool STDCALL ProcessMessage(const SGameMessage &msg) override;
 
   void OnSelectionChanged();
   void PrepareMapsList();
   void CreateGame();
 
 public:
-  bool Init() override;
+  bool STDCALL Init() override;
 
   void Create(/* ECreateGameMode */ int eMode);
 };
@@ -60,5 +60,5 @@ class CICMultyplayerCreateGame : public CInterfaceCommandBase<CInterfaceMPCreate
 public:
   CICMultyplayerCreateGame() : eType(0) {}
 
-  void Configure(const char *pszConfig) override { if (pszConfig) eType = NStr::ToInt(pszConfig); }
+  void STDCALL Configure(const char *pszConfig) override { if (pszConfig) eType = NStr::ToInt(pszConfig); }
 };

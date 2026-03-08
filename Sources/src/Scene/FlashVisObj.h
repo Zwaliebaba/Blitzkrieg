@@ -31,28 +31,28 @@ public:
   }
 
   // drawing
-  bool Draw(interface IGFX *pGFX) override { return false; }
+  bool STDCALL Draw(interface IGFX *pGFX) override { return false; }
   // visiting
-  void Visit(interface ISceneVisitor *pVisitor, int nType = -1) override;
+  void STDCALL Visit(interface ISceneVisitor *pVisitor, int nType = -1) override;
   // update state
-  bool Update(const NTimer::STime &time, bool bForced = false) override;
+  bool STDCALL Update(const NTimer::STime &time, bool bForced = false) override;
   // placement
-  void SetDirection(const int nDirection) override {}
-  void SetPosition(const CVec3 &pos) override { spriteInfo.pos = pos; }
-  void SetPlacement(const CVec3 &pos, const int nDir) override { SetPosition(pos); }
-  const CVec3 & GetPosition() const override { return spriteInfo.pos; }
-  int GetDirection() const override { return 0; }
+  void STDCALL SetDirection(const int nDirection) override {}
+  void STDCALL SetPosition(const CVec3 &pos) override { spriteInfo.pos = pos; }
+  void STDCALL SetPlacement(const CVec3 &pos, const int nDir) override { SetPosition(pos); }
+  const CVec3 & STDCALL GetPosition() const override { return spriteInfo.pos; }
+  int STDCALL GetDirection() const override { return 0; }
   // opacity & color
-  void SetOpacity(BYTE opacity) override { SetAlpha(opacity); }
-  void SetColor(DWORD color) override { spriteInfo.color = (spriteInfo.color & 0xff000000) | (color & 0x00ffffff); }
-  void SetSpecular(DWORD color) override {}
+  void STDCALL SetOpacity(BYTE opacity) override { SetAlpha(opacity); }
+  void STDCALL SetColor(DWORD color) override { spriteInfo.color = (spriteInfo.color & 0xff000000) | (color & 0x00ffffff); }
+  void STDCALL SetSpecular(DWORD color) override {}
   // selection / selection test
-  void Select(EVisObjSelectionState state) override {}
-  EVisObjSelectionState GetSelectionState() const override { return SGVOSS_UNSELECTED; }
-  bool IsHit(const SHMatrix &matTransform, const CVec2 &point, CVec2 *pShift) override { return false; }
-  bool IsHit(const SHMatrix &matTransform, const RECT &rect) override { return false; }
+  void STDCALL Select(EVisObjSelectionState state) override {}
+  EVisObjSelectionState STDCALL GetSelectionState() const override { return SGVOSS_UNSELECTED; }
+  bool STDCALL IsHit(const SHMatrix &matTransform, const CVec2 &point, CVec2 *pShift) override { return false; }
+  bool STDCALL IsHit(const SHMatrix &matTransform, const RECT &rect) override { return false; }
   //
-  void Setup(const NTimer::STime &_timeStart, const NTimer::STime &_timeDuration, const int nPower, const DWORD _dwColor) override
+  void STDCALL Setup(const NTimer::STime &_timeStart, const NTimer::STime &_timeDuration, const int nPower, const DWORD _dwColor) override
   {
     timeStart = _timeStart;
     timeDuration = _timeDuration;

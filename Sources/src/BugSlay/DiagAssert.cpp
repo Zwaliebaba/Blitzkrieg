@@ -52,7 +52,7 @@ static void DoStackTrace(LPTSTR szString, DWORD dwSize, DWORD dwNumSkip);
 /* ////////////////////////////////////////////////////////////////////
                              */
 
-DWORD SetDiagAssertOptions(DWORD dwOpts)
+DWORD STDCALL SetDiagAssertOptions(DWORD dwOpts)
 {
   if (DA_USEDEFAULTS == dwOpts) return DA_USEDEFAULTS;
   DWORD dwOld = g_DiagAssertOptions;
@@ -61,14 +61,14 @@ DWORD SetDiagAssertOptions(DWORD dwOpts)
 }
 
 // //////////////////////////////////////////////////////////// 
-BOOL AddDiagAssertModule(HMODULE hMod)
+BOOL STDCALL AddDiagAssertModule(HMODULE hMod)
 {
   g_HMODVector.push_back(hMod);
   return TRUE;
 }
 
 // //////////////////////////////////////////////////////////// 
-BOOL DiagAssert(DWORD dwOverrideOpts, LPCTSTR szMsg, LPCSTR szFile, DWORD dwLine)
+BOOL STDCALL DiagAssert(DWORD dwOverrideOpts, LPCTSTR szMsg, LPCSTR szFile, DWORD dwLine)
 {
   // The buffer used for the final message text.
   static TCHAR szBuff[DIAGASSERT_BUFFSIZE];
@@ -172,7 +172,7 @@ BOOL DiagAssert(DWORD dwOverrideOpts, LPCTSTR szMsg, LPCSTR szFile, DWORD dwLine
 }
 
 // //////////////////////////////////////////////////////////// 
-void DiagOutput(LPCTSTR szFmt, ...)
+void STDCALL DiagOutput(LPCTSTR szFmt, ...)
 {
   // Never corrupt the last error value.
   DWORD dwLastError = GetLastError();
@@ -190,7 +190,7 @@ void DiagOutput(LPCTSTR szFmt, ...)
 }
 
 // //////////////////////////////////////////////////////////// 
-static DWORD WINAPI GetModBase(HANDLE hProcess, DWORD dwAddr)
+static DWORD STDCALL GetModBase(HANDLE hProcess, DWORD dwAddr)
 {
   // Check in the symbol engine first.
   IMAGEHLP_MODULE stIHM;

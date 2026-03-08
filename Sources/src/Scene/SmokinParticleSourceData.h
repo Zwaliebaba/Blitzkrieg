@@ -36,14 +36,14 @@ public:
   int nUpdateStep;// number of milliseconds between updates
   //
 
-  void SwapData(ISharedResource *pResource) override;
+  void STDCALL SwapData(ISharedResource *pResource) override;
   // internal container clearing
-  void ClearInternalContainer() override {}
-  bool Load(bool bPreLoad = false) override;
+  void STDCALL ClearInternalContainer() override {}
+  bool STDCALL Load(bool bPreLoad = false) override;
   //
-  int operator&(IStructureSaver &ss) override;
-  virtual int operator&(IDataTree &ss);
-  virtual void InitIntegrals();
+  int STDCALL operator&(IStructureSaver &ss) override;
+  virtual int STDCALL operator&(IDataTree &ss);
+  virtual void STDCALL InitIntegrals();
 };
 
 #endif

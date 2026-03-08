@@ -11,7 +11,7 @@ class CInterfaceCustomList : public CInterfaceBaseList
 {
   OBJECT_NORMAL_METHODS(CInterfaceCustomList);
   //
-  bool ProcessMessage(const SGameMessage &msg) override;
+  bool STDCALL ProcessMessage(const SGameMessage &msg) override;
   void FillListFromCurrentDir() override;
 
 protected:

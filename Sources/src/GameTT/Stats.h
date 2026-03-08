@@ -35,7 +35,7 @@ public:
     OBJECT_NORMAL_METHODS(CSorter);
 
   public:
-    bool operator()(int nSortColumn, const IUIListRow *pRow1, const IUIListRow *pRow2, bool bForward) const override;
+    bool STDCALL operator()(int nSortColumn, const IUIListRow *pRow1, const IUIListRow *pRow2, bool bForward) const override;
   };
 
   using CPlayerFullInfo = std::pair<CPtr<IPlayerScenarioInfo>, CPtr<IScenarioStatistics>>;
@@ -135,7 +135,7 @@ private:
   bool bLastFullScreen;// variable for the operation of curtains, if true then the last time the full screen interface was displayed
 
   //
-  bool ProcessMessage(const SGameMessage &msg) override;
+  bool STDCALL ProcessMessage(const SGameMessage &msg) override;
   // disable explicit destruction
   ~CInterfaceStats() override;
 
@@ -154,9 +154,9 @@ private:
   void OnDemoversionExit();
 
 public:
-  bool Init() override;
-  void Done() override;
-  void OnGetFocus(bool bFocus) override;
+  bool STDCALL Init() override;
+  void STDCALL Done() override;
+  void STDCALL OnGetFocus(bool bFocus) override;
   void Create(int nStatsType);
 };
 
@@ -172,7 +172,7 @@ class CICStats : public CInterfaceCommandBase<CInterfaceStats, MISSION_INTERFACE
   CICStats() {}
 
 public:
-  void Configure(const char *pszConfig) override;
+  void STDCALL Configure(const char *pszConfig) override;
 };
 
 #endif		// __IM_STATS_H__

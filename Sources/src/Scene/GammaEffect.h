@@ -19,13 +19,13 @@ class CGammaEffect : public CTRefCount<IGammaEffect>
 
 public:
   // update object
-  bool Update(const NTimer::STime &time, bool bForced = false) override;
+  bool STDCALL Update(const NTimer::STime &time, bool bForced = false) override;
   // drawing
-  bool Draw(interface IGFX *pGFX) override;
+  bool STDCALL Draw(interface IGFX *pGFX) override;
   // visiting
-  void Visit(interface ISceneVisitor *pVisitor, int nType = -1) override;
+  void STDCALL Visit(interface ISceneVisitor *pVisitor, int nType = -1) override;
   //
-  void Init(float fGammaR, float fGammaG, float fGammaB,
+  void STDCALL Init(float fGammaR, float fGammaG, float fGammaB,
                     const NTimer::STime &timeStart, const NTimer::STime &timeDuration) override;
 };
 
@@ -46,11 +46,11 @@ public:
     : vOriginal(VNULL3), timeStart(0), timeDuration(0) {}
 
   // update object
-  bool Update(const NTimer::STime &time, bool bForced = false) override;
+  bool STDCALL Update(const NTimer::STime &time, bool bForced = false) override;
   // drawing
-  bool Draw(interface IGFX *pGFX) override;
+  bool STDCALL Draw(interface IGFX *pGFX) override;
   // visiting
-  void Visit(interface ISceneVisitor *pVisitor, int nType = -1) override;
+  void STDCALL Visit(interface ISceneVisitor *pVisitor, int nType = -1) override;
 };
 
 #endif // __GAMMAEFFECT_H__

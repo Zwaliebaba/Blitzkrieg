@@ -23,7 +23,7 @@ class CInterfaceMPChat : public CInterfaceMultiplayerScreen, public IWhisper
   CPtr<SUIChatPlayerInfo> pCurEdittedInfo;// current friend
   NTimer::STime timeLastAwayPressed;
   bool bAwayPressed;
-  bool ProcessMessage(const SGameMessage &msg) override;
+  bool STDCALL ProcessMessage(const SGameMessage &msg) override;
   CInterfaceMPChat() : CInterfaceMultiplayerScreen("InterMission"), timeLastAwayPressed(0), bAwayPressed(false) {}
 
   void SendTextFromEditBox(bool bWhisper = false);
@@ -33,11 +33,11 @@ class CInterfaceMPChat : public CInterfaceMultiplayerScreen, public IWhisper
   void ShowPlayerInfo(SUIChatPlayerInfo *pInfo);
   void OnPlayerInfoOk();
   void AddPlayer(SUIChatPlayerInfo *pInfo);
-  bool StepLocal(bool bAppActive) override;
+  bool STDCALL StepLocal(bool bAppActive) override;
 
 public:
-  bool Init() override;
-  void StartInterface() override;
+  bool STDCALL Init() override;
+  void STDCALL StartInterface() override;
 
   // IWhisper
   const wchar_t *GetDestinationName() override;

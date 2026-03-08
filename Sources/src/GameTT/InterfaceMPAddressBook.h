@@ -23,7 +23,7 @@ class CInterfaceMPAddressBook : public CInterfaceMultiplayerScreen
   IUIDialog *pDialogAskAddress;
   IUIDialog *pDialogWaitForConnection;
   //
-  bool ProcessMessage(const SGameMessage &msg) override;
+  bool STDCALL ProcessMessage(const SGameMessage &msg) override;
   ~CInterfaceMPAddressBook() override {}
   bool ProcessMPCommand(const SToUICommand &cmd);
 
@@ -41,10 +41,10 @@ protected:
   CInterfaceMPAddressBook() : CInterfaceMultiplayerScreen("InterMission"), pDialogAskAddress(nullptr), pDialogWaitForConnection(nullptr) {}
 
 public:
-  bool Init() override;
-  void Done() override;
-  void StartInterface() override;
-  void OnGetFocus(bool bFocus) override;
+  bool STDCALL Init() override;
+  void STDCALL Done() override;
+  void STDCALL StartInterface() override;
+  void STDCALL OnGetFocus(bool bFocus) override;
 };
 
 class CICMPAddressBook : public CInterfaceCommandBase<CInterfaceMPAddressBook, MISSION_INTERFACE_ADDRESS_BOOK>
@@ -57,7 +57,7 @@ class CICMPAddressBook : public CInterfaceCommandBase<CInterfaceMPAddressBook, M
   CICMPAddressBook() {}
 
 public:
-  void Configure(const char *pszConfig) override {}
+  void STDCALL Configure(const char *pszConfig) override {}
 };
 
 #endif // __INTERFACEMPADDRESSBOOK_H__

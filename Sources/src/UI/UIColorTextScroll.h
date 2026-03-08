@@ -57,18 +57,18 @@ public:
   CUIColorTextScroll() : nCurrentYSize(0) {}
   ~CUIColorTextScroll() override {}
 
-  virtual void AppendMessage(const wchar_t *pszCaption, const wchar_t *pszMessage,
+  virtual void STDCALL AppendMessage(const wchar_t *pszCaption, const wchar_t *pszMessage,
                                      enum IUIColorTextScroll::EColorEntrys color);
 
-  void SetWindowText(int nState, const wchar_t *pszText) override;
+  void STDCALL SetWindowText(int nState, const wchar_t *pszText) override;
 
   // serializing...
-  int operator&(IDataTree &ss) override;
-  void Reposition(const CTRect<float> &rcParent) override;
+  int STDCALL operator&(IDataTree &ss) override;
+  void STDCALL Reposition(const CTRect<float> &rcParent) override;
 
   // drawing
-  void Draw(IGFX *pGFX) override;
-  void Visit(interface ISceneVisitor *pVisitor) override;
+  void STDCALL Draw(IGFX *pGFX) override;
+  void STDCALL Visit(interface ISceneVisitor *pVisitor) override;
 };
 
 class CUIColorTextScrollBridge : public IUIColorTextScroll, public CUIColorTextScroll
@@ -77,7 +77,7 @@ class CUIColorTextScrollBridge : public IUIColorTextScroll, public CUIColorTextS
   DECLARE_SUPER(CUIColorTextScroll);
   DEFINE_UICONTAINER_BRIDGE;
 
-  void AppendMessage(const wchar_t *pszCaption, const wchar_t *pszMessage,
+  void STDCALL AppendMessage(const wchar_t *pszCaption, const wchar_t *pszMessage,
                              const enum EColorEntrys color = E_COLOR_DEFAULT) override { CSuper::AppendMessage(pszCaption, pszMessage, color); }
 };
 

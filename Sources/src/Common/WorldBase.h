@@ -309,16 +309,16 @@ public:
   // mission start
   void Start();
   // set climate-geographical zone settings
-  virtual void SetSeason(int _nSeason);
-  virtual int GetSeason() { return nSeason; }
+  virtual void STDCALL SetSeason(int _nSeason);
+  virtual int STDCALL GetSeason() { return nSeason; }
   const char *GetSeasonName() const;
 
   // startup initialization
-  virtual void Init(ISingleton *pSingleton);
+  virtual void STDCALL Init(ISingleton *pSingleton);
   // remove all from all!!!
-  virtual void Clear();
+  virtual void STDCALL Clear();
   // general world update from AI
-  virtual void Update(const NTimer::STime &currTime);
+  virtual void STDCALL Update(const NTimer::STime &currTime);
   // manipulation
   void MoveObject(IVisObj *pObj, const CVec3 &vPos);
   //

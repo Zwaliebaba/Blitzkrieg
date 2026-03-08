@@ -92,50 +92,50 @@ public:
   // 
   // help screens tracker part
   //
-  bool IsHelpCalled(int nInterfaceTypeID, int nHelpNumber) const override;
-  void HelpCalled(int nInterfaceTypeID, int nHelpNumber) override;
+  bool STDCALL IsHelpCalled(int nInterfaceTypeID, int nHelpNumber) const override;
+  void STDCALL HelpCalled(int nInterfaceTypeID, int nHelpNumber) override;
   //
   // cutscenes availability
   //
-  void AddCutScene(const std::string &szCutSceneName) override;
-  int GetNumCutScenes() const override;
-  const std::string & GetCutScene(int nIndex) const override;
+  void STDCALL AddCutScene(const std::string &szCutSceneName) override;
+  int STDCALL GetNumCutScenes() const override;
+  const std::string & STDCALL GetCutScene(int nIndex) const override;
   //
   // templates usage statistics
   //
-  void AddUsedTemplate(const std::string &rszTemplate, int nTemplateWeight, const std::string &rszGraph, int nGraphWeight, int nAngle, int nAngleWeight) override;
-  int GetUsedTemplates(const std::string &rszTemplate) override;
-  int GetUsedTemplateGraphs(const std::string &rszTemplate, const std::string &rszGraph) override;
+  void STDCALL AddUsedTemplate(const std::string &rszTemplate, int nTemplateWeight, const std::string &rszGraph, int nGraphWeight, int nAngle, int nAngleWeight) override;
+  int STDCALL GetUsedTemplates(const std::string &rszTemplate) override;
+  int STDCALL GetUsedTemplateGraphs(const std::string &rszTemplate, const std::string &rszGraph) override;
   // 0...3
-  int GetUsedAngles(int nAngle) override;
+  int STDCALL GetUsedAngles(int nAngle) override;
   //
   // user relationships - for chat
   //
-  void SetChatRelation(const wchar_t *pwszNick, enum EPlayerRelation nRelation) override;
-  const enum EPlayerRelation GetChatRelation(const wchar_t *pwszNick) override;
+  void STDCALL SetChatRelation(const wchar_t *pwszNick, enum EPlayerRelation nRelation) override;
+  const enum EPlayerRelation STDCALL GetChatRelation(const wchar_t *pwszNick) override;
   //
   // current MOD
   //
-  void SetMOD(const std::string &_szMOD) override;
-  const std::string & GetMOD() const override;
+  void STDCALL SetMOD(const std::string &_szMOD) override;
+  const std::string & STDCALL GetMOD() const override;
   //
   // loads counters, based on GUID for each mission
   //
-  void RegisterLoad(const GUID &guid) override;
-  int GetLoadCounter(const GUID &guid) const override;
+  void STDCALL RegisterLoad(const GUID &guid) override;
+  int STDCALL GetLoadCounter(const GUID &guid) const override;
 
   //
   // user values ​​(stored in profile)
   //
-  void AddVar(const char *pszValueName, int nValue) override;
-  int GetVar(const char *pszValueName, int nDefValue) const override;
-  void RemoveVar(const char *pszValueName) override;
+  void STDCALL AddVar(const char *pszValueName, int nValue) override;
+  int STDCALL GetVar(const char *pszValueName, int nDefValue) const override;
+  void STDCALL RemoveVar(const char *pszValueName) override;
   //
   // serialization & repair
   //
-  bool IsChanged() const override;
-  void SerializeConfig(IDataTree *pSS) override;
-  void Repair(IDataTree *pSS, bool bToDefault) override;
+  bool STDCALL IsChanged() const override;
+  void STDCALL SerializeConfig(IDataTree *pSS) override;
+  void STDCALL Repair(IDataTree *pSS, bool bToDefault) override;
 };
 
 #endif // __USERPROFILE_H__

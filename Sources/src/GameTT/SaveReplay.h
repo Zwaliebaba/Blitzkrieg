@@ -13,18 +13,18 @@ class CInterfaceSaveReplay : public CInterfaceInterMission
   NInput::CCommandRegistrator commandMsgs;
   std::string szSaveReplayFile;
   //
-  bool ProcessMessage(const SGameMessage &msg) override;
+  bool STDCALL ProcessMessage(const SGameMessage &msg) override;
   // disable explicit destruction
   ~CInterfaceSaveReplay() override;
   CInterfaceSaveReplay() : CInterfaceInterMission("InterMission") {}
   void CheckEnableOk() const;
 
   void OnSave();
-  void OnGetFocus(bool bFocus) override;
+  void STDCALL OnGetFocus(bool bFocus) override;
 
 public:
-  bool Init() override;
-  void StartInterface() override;
+  bool STDCALL Init() override;
+  void STDCALL StartInterface() override;
 };
 
 class CICSaveReplay : public CInterfaceCommandBase<CInterfaceSaveReplay, MISSION_INTERFACE_SAVE_REPLAY>

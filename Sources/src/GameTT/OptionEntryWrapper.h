@@ -50,24 +50,24 @@ public:
 
   // interface IUISetOptionsToUI
   // use tempBuffer
-  void SetSelectionOption(const std::vector<SOptionDropListValue> &szSelections, int nDefault) override;
-  void SetSliderOption(int nMin, int nMax, int nDefault) override;
-  void SetTextOption(const wchar_t *pszEntry) override;
-  void SetTextNumericOption(int nEntry) override;
-  void SetTextGameSpyOption(const wchar_t *pszEntry) override;
+  void STDCALL SetSelectionOption(const std::vector<SOptionDropListValue> &szSelections, int nDefault) override;
+  void STDCALL SetSliderOption(int nMin, int nMax, int nDefault) override;
+  void STDCALL SetTextOption(const wchar_t *pszEntry) override;
+  void STDCALL SetTextNumericOption(int nEntry) override;
+  void STDCALL SetTextGameSpyOption(const wchar_t *pszEntry) override;
 
-  void ResetSelection() override;
-  void ResetSlider() override;
-  void ResetTextEntry() override;
-  void ResetTextGameSpyEntry() override;
-  void ResetNumericEntry() override;
+  void STDCALL ResetSelection() override;
+  void STDCALL ResetSlider() override;
+  void STDCALL ResetTextEntry() override;
+  void STDCALL ResetTextGameSpyEntry() override;
+  void STDCALL ResetNumericEntry() override;
 
   // interface IUIGetOptionsFromUI
-  int GetSelectionOption() const override;
-  int GetSliderOption() const override;
-  const wchar_t * GetTextOption() const override;
-  const wchar_t * GetTextGameSpyOption() const override;
-  const int GetTextNumericOption() const override;
+  int STDCALL GetSelectionOption() const override;
+  int STDCALL GetSliderOption() const override;
+  const wchar_t * STDCALL GetTextOption() const override;
+  const wchar_t * STDCALL GetTextGameSpyOption() const override;
+  const int STDCALL GetTextNumericOption() const override;
 };
 
 using OptionDescs = std::list<SOptionDesc>;
@@ -91,7 +91,7 @@ public:
   COptionsListWrapper() {}
   COptionsListWrapper(DWORD _dwFlags, IUIListControl *_pList, int _nIDToStartFrom, IOptionSystem *pSystem = nullptr, bool bDisableChange = false);
   COptionsListWrapper(IUIListControl *_pList, OptionDescs &optionDescs, int _nIDToStartFrom, IOptionSystem *pSystem = nullptr, bool bDisableChange = false);
-  virtual bool ProcessMessage(const SGameMessage &msg);
+  virtual bool STDCALL ProcessMessage(const SGameMessage &msg);
 
   void Apply();
   void ToDefault();

@@ -20,14 +20,14 @@ struct STempBufferAutomatic
 
 static STempBufferAutomatic tempinitautomagic;
 
-void * GetTempRawBuffer_Hook(int nSize, int nIndex)
+void * STDCALL GetTempRawBuffer_Hook(int nSize, int nIndex)
 {
   NI_ASSERT_SLOW_TF(nIndex < 10, "Can use only 10 temp buffers", return 0);
   tempbuffers[nIndex].reserve(nSize);
   return &(tempbuffers[nIndex][0]);
 }
 #ifdef __REDUCED_SINGLETON__
-typedef void * (*GETTEMPRAWBUFFER_HOOK)(int nAmount, int nBufferIndex);
+typedef void * (STDCALL *GETTEMPRAWBUFFER_HOOK)(int nAmount, int nBufferIndex);
 GETTEMPRAWBUFFER_HOOK g_pfnGlobalGetTempRawBuffer = GetTempRawBuffer_Hook;
 #endif // __REDUCED_SINGLETON__
 
@@ -39,17 +39,17 @@ class CSingleton : public ISingleton
 public:
   CSingleton();
   // register singleton object for global access
-  bool Register(int nID, IRefCount *pObj) override;
+  bool STDCALL Register(int nID, IRefCount *pObj) override;
   // unregister singleton object by ID
-  bool UnRegister(int nID) override;
+  bool STDCALL UnRegister(int nID) override;
   // unregister singleton object by pointer
-  bool UnRegister(IRefCount *pObj) override;
+  bool STDCALL UnRegister(IRefCount *pObj) override;
   // get singleton object by ID
-  IRefCount * Get(int nID) override;
+  IRefCount * STDCALL Get(int nID) override;
   // get all registered objects
-  int GetAllObjects(IRefCount ***pBuffer, int *pnBufferSize) override;
+  int STDCALL GetAllObjects(IRefCount ***pBuffer, int *pnBufferSize) override;
   // done - release all objects
-  void Done() override { objects.clear(); }
+  void STDCALL Done() override { objects.clear(); }
 };
 
 CSingleton::CSingleton()
@@ -70,7 +70,7 @@ CSingleton::CSingleton()
 }
 
 CSingleton theSingleton;
-ISingleton * GetSingletonGlobal_Hook() { return &theSingleton; }
+ISingleton * STDCALL GetSingletonGlobal_Hook() { return &theSingleton; }
 
 #ifdef __REDUCED_SINGLETON__
 ISingleton *g_pGlobalSingleton = &theSingleton;

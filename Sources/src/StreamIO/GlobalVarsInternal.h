@@ -15,7 +15,7 @@ public:
   CGlobalVars2();
   ~CGlobalVars2() override {}
   //
-  IGlobalVarsIterator * CreateIterator() const override;
+  IGlobalVarsIterator * STDCALL CreateIterator() const override;
 };
 
 struct SGlobalVarsSorter

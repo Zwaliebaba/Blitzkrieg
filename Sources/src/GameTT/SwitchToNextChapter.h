@@ -13,14 +13,14 @@ class CInterfaceNextChapter : public CInterfaceInterMission
   NInput::CCommandRegistrator commandMsgs;
   bool bAllowStay;// allow stay in surrent chapter
   //
-  bool ProcessMessage(const SGameMessage &msg) override;
+  bool STDCALL ProcessMessage(const SGameMessage &msg) override;
   // disable explicit destruction
   ~CInterfaceNextChapter() override;
   CInterfaceNextChapter();
 
 public:
-  bool Init() override;
-  void StartInterface() override;
+  bool STDCALL Init() override;
+  void STDCALL StartInterface() override;
 };
 
 class CICNextChapter : public CInterfaceCommandBase<IInterfaceBase, MISSION_INTERFACE_NEXT_CHAPTER>

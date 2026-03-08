@@ -29,9 +29,9 @@ namespace NBugSlayer
 };
 
 // //////////////////////////////////////////////////////////// 
-void NBugSlayer::AddEmergencyCommand(IBaseCommand *pCommand) { emergencyCommands.push_back(pCommand); }
-void NBugSlayer::RemoveAllEmergencyCommands() { emergencyCommands.clear(); }
-void NBugSlayer::ExecuteEmergencyCommands() { for (auto it = emergencyCommands.begin(); it != emergencyCommands.end(); ++it) { if ((*it) != nullptr) (*it)->Do(); } }
+void STDCALL NBugSlayer::AddEmergencyCommand(IBaseCommand *pCommand) { emergencyCommands.push_back(pCommand); }
+void STDCALL NBugSlayer::RemoveAllEmergencyCommands() { emergencyCommands.clear(); }
+void STDCALL NBugSlayer::ExecuteEmergencyCommands() { for (auto it = emergencyCommands.begin(); it != emergencyCommands.end(); ++it) { if ((*it) != nullptr) (*it)->Do(); } }
 // //////////////////////////////////////////////////////////// 
 // Sets up the symbols for functions in the debug file.
 // //////////////////////////////////////////////////////////// 
@@ -152,7 +152,7 @@ void NBugSlayer::AddIgnore(const char *pszFunctionName, const char *pszFileName,
 // //////////////////////////////////////////////////////////// 
 void NBugSlayer::RemoveIgnore(SIgnoresEntry *pEntry) { ignores.remove(*pEntry); }
 // //////////////////////////////////////////////////////////// 
-EBSUReport NBugSlayer::ReportAssert(const char *pszCondition, const char *pszDescription,
+EBSUReport STDCALL NBugSlayer::ReportAssert(const char *pszCondition, const char *pszDescription,
                                             const char *pszFileName, int nLineNumber, bool bForceMode)
 {
   // first, check for ignore
@@ -196,7 +196,7 @@ EBSUReport NBugSlayer::ReportAssert(const char *pszCondition, const char *pszDes
 }
 
 // //////////////////////////////////////////////////////////// 
-EBSUReport NBugSlayer::ReportAssertHR(HRESULT dxrval, const char *pszDescription,
+EBSUReport STDCALL NBugSlayer::ReportAssertHR(HRESULT dxrval, const char *pszDescription,
                                               const char *pszFileName, int nLineNumber, bool bForceMode)
 {
   char buff[1024];
@@ -205,7 +205,7 @@ EBSUReport NBugSlayer::ReportAssertHR(HRESULT dxrval, const char *pszDescription
 }
 
 // //////////////////////////////////////////////////////////// 
-LONG CrashHandlerFilter(EXCEPTION_POINTERS *pExPtrs)
+LONG STDCALL CrashHandlerFilter(EXCEPTION_POINTERS *pExPtrs)
 {
   // first, get stack trace...
   CCallStackEntryList entries;
