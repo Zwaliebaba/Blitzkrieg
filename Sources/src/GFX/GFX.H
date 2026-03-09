@@ -279,7 +279,7 @@ interface IGFX : IRefCount
 
   // gamma ramp
   virtual bool STDCALL SetGammaRamp(const SGFXGammaRamp &ramp, bool bCalibrate) = 0;
-  virtual bool STDCALL GetGammaRamp(const SGFXGammaRamp *pRamp) = 0;
+  virtual bool STDCALL GetGammaRamp(SGFXGammaRamp *pRamp) = 0;
   virtual void STDCALL SetGammaCorrectionValues(float fBrightness, float fContrast, float fGamma) = 0;
   virtual void STDCALL GetGammaCorrectionValues(float *pfBrightness, float *pfContrast, float *pfGamma) = 0;
 

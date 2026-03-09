@@ -516,7 +516,6 @@ void CSoundScene::CStreamingSounds::Init(const std::string &_szPartyName)
   NStr::ToLower(szPartyName);
 
   CMusicSettingsList settingsForLoad;
-  CMusicSettingsList settings;
 
   CPtr<IDataStream> pStream = GetSingleton<IDataStorage>()->OpenStream("MusicSettings.xml", STREAM_ACCESS_READ);
   if (pStream)
@@ -540,7 +539,7 @@ void CSoundScene::CStreamingSounds::Init(const std::string &_szPartyName)
   CPtr<CPlayList> pIdle = new CPlayList;
   CPtr<CPlayList> pCombat = new CPlayList;
 
-  if (settings.end() != current)
+  if (settingsForLoad.end() != current)
   {
     for (int i = 0; i < current->second.combat.size(); ++i) pCombat->AddMelody(current->second.combat[i]);
 

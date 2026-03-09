@@ -116,8 +116,9 @@ class CGraphicsEngine : public IGFX
   // last formats for flushing
   DWORD dwLastTempBufferFormat;
   DWORD dwLastVertexShader;
-  // RSes and TSSes tracker
-  CStateChangesTracker sctRS, sctTSS[8];
+  // RSes, TSSes and sampler states tracker
+  static constexpr int kMaxTextureStages = 8;
+  CStateChangesTracker sctRS, sctTSS[kMaxTextureStages], sctSS[kMaxTextureStages];
   // textures tracker
   std::vector<IGFXBaseTexture *> usedtextures;
   // CRAP{ for shaders testing
@@ -142,18 +143,22 @@ class CGraphicsEngine : public IGFX
   bool FindDepthStencilFormat(int nBPP, int nStencil);
   bool FillPresentationParams(int nWidth, int nHeight, int nBPP, int nStencilBPP, EGFXFullscreen eFullscreen, int nFreq);
   bool ResetDevice();
+  void InitDefaultDeviceStates();
   void DestroyAllObjects();
   void ReCreateAllObjects();
   bool SetViewTransform(const CVec3 &ptX, const CVec3 &ptY, const CVec3 &ptZ, const CVec3 &ptO);
   void SetRenderState(D3DRENDERSTATETYPE state, int nValue);
-  void SetTextureStageState(DWORD stage, int type, int value);
+  void SetTextureStageState(DWORD stage, D3DTEXTURESTAGESTATETYPE type, DWORD value);
+  void SetSamplerState(DWORD stage, D3DSAMPLERSTATETYPE type, DWORD value);
   void ApplyRenderStates();
   void ApplyTextureStageStates();
+  void ApplySamplerStates();
 
   void ApplyStates()
   {
     ApplyRenderStates();
     ApplyTextureStageStates();
+    ApplySamplerStates();
   }
 
   void ClearStates();
@@ -172,7 +177,7 @@ class CGraphicsEngine : public IGFX
   //
   void ForceFlushTempBuffers();
   //
-  void SetVertexShader(DWORD dwFVF);
+  void SetFVF(DWORD dwFVF);
   // create empty geometry (vertex/index) buffer for 'nNumElements' elements with required format.
   // last 3 parameters are fake and required only for correct templpate instantiation due to MSVC bug
   struct SVBCreator
@@ -344,7 +349,7 @@ public:
 
   // gamma ramp
   bool STDCALL SetGammaRamp(const SGFXGammaRamp &ramp, bool bCalibrate) override;
-  bool STDCALL GetGammaRamp(const SGFXGammaRamp *pRamp) override;
+  bool STDCALL GetGammaRamp(SGFXGammaRamp *pRamp) override;
   void STDCALL SetGammaCorrectionValues(float fBrightness, float fContrast, float fGamma) override;
   void STDCALL GetGammaCorrectionValues(float *pfBrightness, float *pfContrast, float *pfGamma) override;
 

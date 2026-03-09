@@ -1,7 +1,6 @@
-#ifndef __INPUT_H__
-#define __INPUT_H__
-
 #pragma once
+
+#pragma comment(lib, "dxguid.lib")
 
 enum
 {
@@ -118,5 +117,3 @@ interface IInput : IRefCount
   virtual bool STDCALL SetTextMode(EInputTextMode eMode) = 0;
   virtual void STDCALL SetCodePage(int nCodePage) = 0;
 };
-
-#endif // __INPUT_H__

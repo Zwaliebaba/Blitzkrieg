@@ -179,7 +179,7 @@ void CSuspendedUpdates::GetRecalled(const EActionNotify &eAction, SSuspendedUpda
 
 void CSuspendedUpdates::UpdateVisibleTiles(const std::unordered_set<SVector, STilesHash> &tilesSet, std::unordered_set<SVector, STilesHash> *pCoverTiles)
 {
-  for (auto visTilesIter = tilesSet.begin(); visTilesIter != visibleTiles.end(); ++visTilesIter)
+  for (auto visTilesIter = tilesSet.begin(); visTilesIter != tilesSet.end(); ++visTilesIter)
   {
     const SVector tile = *visTilesIter;
     const int nCellX = tile.x / N_CELL_SIZE;

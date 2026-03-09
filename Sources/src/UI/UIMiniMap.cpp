@@ -91,10 +91,10 @@ void CUIMiniMap::CreateMiniMapTextures()
   {
     // Create textures of the required size
     pWarFog = _pGFX->CreateTexture(GetNextPow2(terrainSize.x), GetNextPow2(terrainSize.y), 1, GFXPF_ARGB4444, GFXD_SYSMEM);
-    pWarFogTexture = _pGFX->CreateTexture(GetNextPow2(terrainSize.x), GetNextPow2(terrainSize.y), 1, GFXPF_ARGB4444, GFXD_STATIC);
+    pWarFogTexture = _pGFX->CreateTexture(GetNextPow2(terrainSize.x), GetNextPow2(terrainSize.y), 1, GFXPF_ARGB4444, GFXD_DYNAMIC);
 
     pInstantObjects = _pGFX->CreateTexture(GetNextPow2(static_cast<int>(wndRect.right - wndRect.left)), GetNextPow2(static_cast<int>(wndRect.bottom - wndRect.top)), 1, GFXPF_ARGB4444, GFXD_SYSMEM);
-    pInstantObjectsTexture = _pGFX->CreateTexture(GetNextPow2(static_cast<int>(wndRect.right - wndRect.left)), GetNextPow2(static_cast<int>(wndRect.bottom - wndRect.top)), 1, GFXPF_ARGB4444, GFXD_STATIC);
+    pInstantObjectsTexture = _pGFX->CreateTexture(GetNextPow2(static_cast<int>(wndRect.right - wndRect.left)), GetNextPow2(static_cast<int>(wndRect.bottom - wndRect.top)), 1, GFXPF_ARGB4444, GFXD_DYNAMIC);
 
     // Initializing textures for video memory
     if (pWarFog)

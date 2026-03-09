@@ -1,39 +1,14 @@
 #include "StdAfx.h"
-
 #include "GraphicsEngine.h"
-
-#include "../Image/Image.h"
-
-#include "Texture.h"
-#include "GeometryBuffer.h"
-#include "GeometryMesh.h"
-#include "Text.h"
-
-#include "TextureManager.h"
-#include "GeometryManager.h"
-
 #include "GFXHelper.h"
 #include "GFXTypes.h"
-
-#include "VideoCheck.h"
-
-// DX8 texture stage state values that were moved to sampler states in DX9
-// These compatibility defines allow DX8 code to compile with DX9
-#ifndef D3DTSS_ADDRESSU
-#define D3DTSS_ADDRESSU 13
-#endif
-#ifndef D3DTSS_ADDRESSV
-#define D3DTSS_ADDRESSV 14
-#endif
-#ifndef D3DTSS_MAGFILTER
-#define D3DTSS_MAGFILTER 16
-#endif
-#ifndef D3DTSS_MINFILTER
-#define D3DTSS_MINFILTER 17
-#endif
-#ifndef D3DTSS_MIPFILTER
-#define D3DTSS_MIPFILTER 18
-#endif
+#include "GeometryBuffer.h"
+#include "GeometryManager.h"
+#include "GeometryMesh.h"
+#include "Text.h"
+#include "Texture.h"
+#include "TextureManager.h"
+#include "../Image/Image.h"
 
 int CGraphicsEngine::operator&(IStructureSaver &ss)
 {
@@ -620,6 +595,19 @@ static const SNameFormat formatsDXT[] =
     {nullptr, D3DFMT_UNKNOWN}
 };
 
+void CGraphicsEngine::InitDefaultDeviceStates()
+{
+  for (int i = 0; i < adapter.capsHWDevice.MaxSimultaneousTextures; ++i)
+  {
+    pD3DDevice->SetSamplerState(i, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
+    pD3DDevice->SetSamplerState(i, D3DSAMP_MINFILTER, D3DTEXF_POINT);
+  }
+  SetRenderState(D3DRS_ALPHABLENDENABLE, true);
+  SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+  SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+  SetRenderState(D3DRS_LIGHTING, false);
+}
+
 bool CGraphicsEngine::ResetDevice()
 {
   OutputDebugString("*** [DIAG] ResetDevice: entering...\n");
@@ -668,18 +656,7 @@ bool CGraphicsEngine::ResetDevice()
     }
     // initial setup
     ChangeViewport(displaymode.Width, displaymode.Height);
-    // CRAP{ this must be set up by the shader
-    for (int i = 0; i < adapter.capsHWDevice.MaxSimultaneousTextures; ++i)
-    {
-      pD3DDevice->SetSamplerState(i, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
-      pD3DDevice->SetSamplerState(i, D3DSAMP_MINFILTER, D3DTEXF_POINT);
-    }
-    SetRenderState(D3DRS_ALPHABLENDENABLE, true);
-    SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-    SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-    SetRenderState(D3DRS_LIGHTING, false);
-    // SetRenderState( D3DRS_ZENABLE, D3DZB_FALSE );
-    // CRAP}
+    InitDefaultDeviceStates();
   }
   else
   {
@@ -692,18 +669,7 @@ bool CGraphicsEngine::ResetDevice()
     // NI_ASSERTHR_TF( dxrval, "Can't reset D3D device", return false );
     // initial setup
     ChangeViewport(displaymode.Width, displaymode.Height);
-    // CRAP{ this must be set up by the shader
-    for (int i = 0; i < adapter.capsHWDevice.MaxSimultaneousTextures; ++i)
-    {
-      pD3DDevice->SetSamplerState(i, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
-      pD3DDevice->SetSamplerState(i, D3DSAMP_MINFILTER, D3DTEXF_POINT);
-    }
-    SetRenderState(D3DRS_ALPHABLENDENABLE, true);
-    SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-    SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-    SetRenderState(D3DRS_LIGHTING, false);
-    // SetRenderState( D3DRS_ZENABLE, D3DZB_FALSE );
-    // CRAP}
+    InitDefaultDeviceStates();
     ReCreateAllObjects();
     // re-setup all transform matrices
     SHMatrix matrix = matProjection;
@@ -1032,22 +998,14 @@ void CGraphicsEngine::SetRenderState(D3DRENDERSTATETYPE state, int nValue)
    */
 }
 
-void CGraphicsEngine::SetTextureStageState(DWORD stage, int type, int value)
+void CGraphicsEngine::SetTextureStageState(DWORD stage, D3DTEXTURESTAGESTATETYPE type, DWORD value)
 {
-  // DX9: Filter and address modes moved to sampler states
-  // Handle the legacy DX8 texture stage state values that now must use SetSamplerState
-  if (type == D3DTSS_ADDRESSU)
-    pD3DDevice->SetSamplerState(stage, D3DSAMP_ADDRESSU, value);
-  else if (type == D3DTSS_ADDRESSV)
-    pD3DDevice->SetSamplerState(stage, D3DSAMP_ADDRESSV, value);
-  else if (type == D3DTSS_MAGFILTER)
-    pD3DDevice->SetSamplerState(stage, D3DSAMP_MAGFILTER, value);
-  else if (type == D3DTSS_MINFILTER)
-    pD3DDevice->SetSamplerState(stage, D3DSAMP_MINFILTER, value);
-  else if (type == D3DTSS_MIPFILTER)
-    pD3DDevice->SetSamplerState(stage, D3DSAMP_MIPFILTER, value);
-  else
-    pD3DDevice->SetTextureStageState(stage, D3DTEXTURESTAGESTATETYPE(type), value);
+  pD3DDevice->SetTextureStageState(stage, type, value);
+}
+
+void CGraphicsEngine::SetSamplerState(DWORD stage, D3DSAMPLERSTATETYPE type, DWORD value)
+{
+  pD3DDevice->SetSamplerState(stage, type, value);
 }
 
 void CGraphicsEngine::ApplyRenderStates()
@@ -1062,7 +1020,7 @@ void CGraphicsEngine::ApplyRenderStates()
 
 void CGraphicsEngine::ApplyTextureStageStates()
 {
-  for (int i = 0; i < 8; ++i)
+  for (int i = 0; i < kMaxTextureStages; ++i)
   {
     for (auto it = sctTSS[i].begin(); it != sctTSS[i].end(); ++it)
     {
@@ -1073,11 +1031,25 @@ void CGraphicsEngine::ApplyTextureStageStates()
   }
 }
 
+void CGraphicsEngine::ApplySamplerStates()
+{
+  for (int i = 0; i < kMaxTextureStages; ++i)
+  {
+    for (auto it = sctSS[i].begin(); it != sctSS[i].end(); ++it)
+    {
+      pD3DDevice->SetSamplerState(i, D3DSAMPLERSTATETYPE((*it)->type), (*it)->dwNeedValue);
+      (*it)->dwCurrValue = (*it)->dwNeedValue;
+    }
+    sctSS[i].clear();
+  }
+}
+
 void CGraphicsEngine::ClearStates()
 {
   ApplyStates();
   sctRS.ClearStates();
-  for (int i = 0; i < 8; ++i) sctTSS[i].ClearStates();
+  for (int i = 0; i < kMaxTextureStages; ++i) sctTSS[i].ClearStates();
+  for (int i = 0; i < kMaxTextureStages; ++i) sctSS[i].ClearStates();
   usedtextures.clear();
 }
 
@@ -1324,10 +1296,16 @@ IGFXVertices *CGraphicsEngine::CreateVertices(int nNumElements, DWORD dwFormat, 
   bool bAllocated = pBuffer->AllocateRange(nNumElements, &range);
   NI_ASSERT_SLOW_T(bAllocated, NStr::Format("Can't allocate vertex block for %d elements of %d format", nNumElements, dwFormat));
   // wrap buffer to CVertices
-  pVertices = pVertices == nullptr ? new CVertices() : pVertices;
+  const bool bNewlyAllocated = (pVertices == nullptr);
+  pVertices = bNewlyAllocated ? new CVertices() : pVertices;
   NI_ASSERT_TF(pVertices != 0, "Can't create vertices", return 0);
   auto pVerts = dynamic_cast<CVertices *>(pVertices);
-  NI_ASSERT_TF(pVerts != 0, "vertices of unknown type - use object factory to create proper vertices", return 0);
+  if (pVerts == 0)
+  {
+    if (bNewlyAllocated) delete pVertices;
+    NI_ASSERT_TF(0, "vertices of unknown type - use object factory to create proper vertices", return 0);
+    return 0;
+  }
   pVerts->Init(pBuffer, GFXPrimitiveToD3D(type), range);
   //
   return pVertices;
@@ -1353,10 +1331,16 @@ IGFXIndices *CGraphicsEngine::CreateIndices(int nNumElements, DWORD dwFormat, EG
   bool bAllocated = pBuffer->AllocateRange(nNumElements, &range);
   NI_ASSERT_SLOW_T(bAllocated, NStr::Format("Can't allocate index block for %d elements of %d format", nNumElements, dwFormat));
   // wrap buffer to CIndices
-  pIndices = pIndices == nullptr ? new CIndices() : pIndices;
+  const bool bNewlyAllocated = (pIndices == nullptr);
+  pIndices = bNewlyAllocated ? new CIndices() : pIndices;
   NI_ASSERT_TF(pIndices != 0, "Can't create indices", return 0);
   auto pInds = dynamic_cast<CIndices *>(pIndices);
-  NI_ASSERT_TF(pInds != 0, "indices of unknown type - use object factory to create proper indices", return 0);
+  if (pInds == 0)
+  {
+    if (bNewlyAllocated) delete pIndices;
+    NI_ASSERT_TF(0, "indices of unknown type - use object factory to create proper indices", return 0);
+    return 0;
+  }
   pInds->Init(pBuffer, GFXPrimitiveToD3D(type), range);
   //
   return pIndices;
@@ -1483,6 +1467,7 @@ IGFXTexture *CGraphicsEngine::CreateTexture(int nSizeX, int nSizeY, int nNumMipL
         dxrval = pD3DDevice->CreateTexture(nSizeX, nSizeY, nNumMipLevels, 0, GFXPixelFormatToD3D(format), pool, pD3DTexture.GetAddr(), nullptr);
       }
     }
+    ++nTryCounter;
   }
   NI_ASSERTHR_TF(dxrval, NStr::Format("Can't create texture %d:%d with %d mips of %d format", nSizeX, nSizeY, nNumMipLevels, format), return 0);
   //
@@ -1562,8 +1547,8 @@ bool CGraphicsEngine::UpdateTexture(IGFXTexture *pSrcTexture, IGFXTexture *pDstT
 // **
 // ************************************************************************************************************************ //
 
-// set vertex shader and force flush temp buffers, if shader has changed
-void CGraphicsEngine::SetVertexShader(DWORD dwFVF) { pD3DDevice->SetFVF(dwFVF); }
+// set FVF and force flush temp buffers, if FVF has changed
+void CGraphicsEngine::SetFVF(DWORD dwFVF) { pD3DDevice->SetFVF(dwFVF); }
 
 // low-level render range function
 // just DrawPrimitive or DrawIndexedPrimitive (and set streaming source and indices)
@@ -1640,7 +1625,7 @@ bool CGraphicsEngine::Draw(IGFXVertices *pVerts, IGFXIndices *pInds)
   if (dwLastVertexShader != dwFVF) ForceFlushTempBuffers();
   dwLastVertexShader = dwFVF;
   //
-  SetVertexShader(dwFVF);
+  SetFVF(dwFVF);
   // render with current setup
   D3DPRIMITIVETYPE d3dptPrimitiveType = pIndices != nullptr ? pIndices->GetPrimitiveType() : pVertices->GetPrimitiveType();
   // statistics about the data, gathered to rendering
@@ -1691,7 +1676,7 @@ bool CGraphicsEngine::DrawTemp()
   }
   //
   const DWORD dwFVF = pTVB->GetFormat();
-  SetVertexShader(dwFVF);
+  SetFVF(dwFVF);
   HRESULT dxrval = RenderRange(pTVB->GetInternalContainer(), pTVB->GetRangeStart(), pTVB->GetNumElements(),
                                pTVB->GetElementSize(), pIB, nFirstIndex, nNumPrimitives, d3dptPrimitiveType);
   pTVB = 0;
@@ -1827,10 +1812,10 @@ bool CGraphicsEngine::SetGammaRamp(const SGFXGammaRamp &ramp, bool bCalibrate)
   return true;
 }
 
-bool CGraphicsEngine::GetGammaRamp(const SGFXGammaRamp *pRamp)
+bool CGraphicsEngine::GetGammaRamp(SGFXGammaRamp *pRamp)
 {
   // DX9: GetGammaRamp requires swap chain index (0) as first parameter
-  pD3DDevice->GetGammaRamp(0, const_cast<D3DGAMMARAMP *>(reinterpret_cast<const D3DGAMMARAMP *>(pRamp)));
+  pD3DDevice->GetGammaRamp(0, reinterpret_cast<D3DGAMMARAMP *>(pRamp));
   return true;
 }
 
@@ -1888,6 +1873,8 @@ bool CGraphicsEngine::SetShadingEffect(int nEffect)
     for (CShader::CShadesList::const_iterator it = shadevals.rses.begin(); it != shadevals.rses.end(); ++it) SetRenderState(D3DRENDERSTATETYPE(it->first), it->second);
     // texture stage states
     for (int i = 0; i < shadevals.tsses.size(); ++i) { for (CShader::CShadesList::const_iterator it = shadevals.tsses[i].begin(); it != shadevals.tsses[i].end(); ++it) SetTextureStageState(i, D3DTEXTURESTAGESTATETYPE(it->first), it->second); }
+    // sampler states
+    for (int i = 0; i < shadevals.ssses.size(); ++i) { for (CShader::CShadesList::const_iterator it = shadevals.ssses[i].begin(); it != shadevals.ssses[i].end(); ++it) SetSamplerState(i, D3DSAMPLERSTATETYPE(it->first), it->second); }
     //
     return true;
   }
@@ -1914,8 +1901,8 @@ bool CGraphicsEngine::SetShadingEffect(int nEffect)
       SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
       SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
 
-      SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_POINT);
-      SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_POINT);
+      SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
+      SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_POINT);
       break;
     case 2: // mesh model rendering: no alpha blend and alpha check
       // alpha ref check
@@ -1930,8 +1917,8 @@ bool CGraphicsEngine::SetShadingEffect(int nEffect)
       SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
       SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
       SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
-      SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-      SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
+      SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+      SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
       break;
     case 3: // sprite model rendering: alpha blend and alpha check 1
       // alpha ref check
@@ -1953,8 +1940,8 @@ bool CGraphicsEngine::SetShadingEffect(int nEffect)
       SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
       SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
 
-      SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_POINT);
-      SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_POINT);
+      SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
+      SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_POINT);
       break;
     case 4:
       SetRenderState(D3DRS_ALPHATESTENABLE, false);
@@ -1979,8 +1966,8 @@ bool CGraphicsEngine::SetShadingEffect(int nEffect)
       SetTextureStageState(2, D3DTSS_COLOROP, D3DTOP_DISABLE);
       SetTextureStageState(2, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
 
-      SetTextureStageState(1, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-      SetTextureStageState(1, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
+      SetSamplerState(1, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+      SetSamplerState(1, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
       break;
     case 5:
       SetRenderState(D3DRS_ALPHATESTENABLE, false);
@@ -2007,8 +1994,8 @@ bool CGraphicsEngine::SetShadingEffect(int nEffect)
       SetTextureStageState(2, D3DTSS_COLOROP, D3DTOP_DISABLE);
       SetTextureStageState(2, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
 
-      SetTextureStageState(1, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-      SetTextureStageState(1, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
+      SetSamplerState(1, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+      SetSamplerState(1, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
       break;
     case 6:
       SetRenderState(D3DRS_STENCILENABLE, true);
@@ -2037,8 +2024,8 @@ bool CGraphicsEngine::SetShadingEffect(int nEffect)
       SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE);
       SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
       SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
-      SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-      SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
+      SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+      SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
       break;
     case 9: // just texture with multiply
       SetRenderState(D3DRS_ALPHABLENDENABLE, true);
@@ -2052,8 +2039,8 @@ bool CGraphicsEngine::SetShadingEffect(int nEffect)
       SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
       SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
 
-      SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-      SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
+      SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+      SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
       break;
     case 10: // particles. 
       // depth buffer write off
@@ -2077,8 +2064,8 @@ bool CGraphicsEngine::SetShadingEffect(int nEffect)
       SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
       SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
 
-      SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-      SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
+      SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+      SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
       break;
     case 11:
       // depth buffer write off
@@ -2106,8 +2093,8 @@ bool CGraphicsEngine::SetShadingEffect(int nEffect)
       SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
       SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
 
-      SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-      SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
+      SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+      SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
       break;
     case 13:
       SetRenderState(D3DRS_ALPHATESTENABLE, true);
@@ -2145,8 +2132,8 @@ bool CGraphicsEngine::SetShadingEffect(int nEffect)
       SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
       SetRenderState(D3DRS_ZWRITEENABLE, false);
 
-      SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_POINT);
-      SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_POINT);
+      SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
+      SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_POINT);
       break;
     case 15:
       // alpha ref check
@@ -2161,8 +2148,8 @@ bool CGraphicsEngine::SetShadingEffect(int nEffect)
       SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
       SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG2);
       SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE);
-      SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-      SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
+      SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+      SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
       SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
       SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
       break;
@@ -2177,8 +2164,8 @@ bool CGraphicsEngine::SetShadingEffect(int nEffect)
       SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
       SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
       SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE);
-      SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-      SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
+      SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+      SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
       SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
       SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
       break;
@@ -2195,14 +2182,14 @@ bool CGraphicsEngine::SetShadingEffect(int nEffect)
       SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
       SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
       SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
-      SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-      SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
-      SetTextureStageState(0, D3DTSS_ADDRESSU, D3DTADDRESS_CLAMP);
-      SetTextureStageState(0, D3DTSS_ADDRESSV, D3DTADDRESS_CLAMP);
+      SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+      SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+      SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
+      SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
       break;
     case 18: // turn off video rendering addressing mode
-      SetTextureStageState(0, D3DTSS_ADDRESSU, D3DTADDRESS_WRAP);
-      SetTextureStageState(0, D3DTSS_ADDRESSV, D3DTADDRESS_WRAP);
+      SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);
+      SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
       break;
     case 100:
       SetRenderState(D3DRS_ALPHABLENDENABLE, true);
@@ -2224,8 +2211,8 @@ bool CGraphicsEngine::SetShadingEffect(int nEffect)
       SetTextureStageState(2, D3DTSS_COLOROP, D3DTOP_DISABLE);
       SetTextureStageState(2, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
 
-      SetTextureStageState(1, D3DTSS_MAGFILTER, D3DTEXF_POINT);
-      SetTextureStageState(1, D3DTSS_MINFILTER, D3DTEXF_POINT);
+      SetSamplerState(1, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
+      SetSamplerState(1, D3DSAMP_MINFILTER, D3DTEXF_POINT);
       break;
     case 101: // terrain with noise rendering
       // alpha ref check
@@ -2246,10 +2233,10 @@ bool CGraphicsEngine::SetShadingEffect(int nEffect)
       SetTextureStageState(1, D3DTSS_COLORARG2, D3DTA_CURRENT);
       SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
       SetTextureStageState(1, D3DTSS_ALPHAARG1, D3DTA_CURRENT);
-      SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-      SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
-      SetTextureStageState(1, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-      SetTextureStageState(1, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
+      SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+      SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+      SetSamplerState(1, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+      SetSamplerState(1, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
       SetTextureStageState(2, D3DTSS_COLOROP, D3DTOP_DISABLE);
       SetTextureStageState(2, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
       break;
@@ -2273,10 +2260,10 @@ bool CGraphicsEngine::SetShadingEffect(int nEffect)
       SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
       SetTextureStageState(1, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
 
-      SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-      SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
-      SetTextureStageState(1, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-      SetTextureStageState(1, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
+      SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+      SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+      SetSamplerState(1, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+      SetSamplerState(1, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
 
       SetTextureStageState(2, D3DTSS_COLOROP, D3DTOP_DISABLE);
       SetTextureStageState(2, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
@@ -2292,8 +2279,8 @@ bool CGraphicsEngine::SetShadingEffect(int nEffect)
       SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
       SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
 
-      SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-      SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
+      SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+      SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
 
       SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
       SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
@@ -2319,10 +2306,10 @@ bool CGraphicsEngine::SetShadingEffect(int nEffect)
       SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
       SetTextureStageState(1, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
 
-      SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-      SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
-      SetTextureStageState(1, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-      SetTextureStageState(1, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
+      SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+      SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+      SetSamplerState(1, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+      SetSamplerState(1, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
 
       SetTextureStageState(2, D3DTSS_COLOROP, D3DTOP_DISABLE);
       SetTextureStageState(2, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
@@ -2360,8 +2347,8 @@ bool CGraphicsEngine::SetShadingEffect(int nEffect)
       SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
       SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
 
-      SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_POINT);
-      SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_POINT);
+      SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
+      SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_POINT);
       break;
     case 112: // mesh shadow
       // alpha ref check
@@ -2381,8 +2368,8 @@ bool CGraphicsEngine::SetShadingEffect(int nEffect)
       SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE);
       SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
       SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
-      SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-      SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
+      SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+      SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
       break;
     case 113: // shadow rendering with stencil check (post-setup)
       SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
@@ -2414,8 +2401,8 @@ bool CGraphicsEngine::SetShadingEffect(int nEffect)
       SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
       SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
 
-      SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-      SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
+      SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+      SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
       break;
     case 300:
       // Clear the stencil buffer
@@ -2484,8 +2471,8 @@ bool CGraphicsEngine::SetShadingEffect(int nEffect)
       SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
       SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
 
-      SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-      SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
+      SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+      SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
       break;
     case 304:
       SetTextureStageState(0, D3DTSS_TEXTURETRANSFORMFLAGS, D3DTTFF_DISABLE);
@@ -2554,8 +2541,8 @@ void CGraphicsEngine::SetupShaders()
     shader.SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
     shader.SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
 
-    shader.SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_POINT);
-    shader.SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_POINT);
+    shader.SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
+    shader.SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_POINT);
   }
   // mesh model rendering: no alpha blend and alpha check
   {
@@ -2571,8 +2558,8 @@ void CGraphicsEngine::SetupShaders()
     shader.SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
     shader.SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
     shader.SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
-    shader.SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-    shader.SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
+    shader.SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+    shader.SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
     shader.SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
     shader.SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
   }
@@ -2598,8 +2585,8 @@ void CGraphicsEngine::SetupShaders()
     shader.SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
     shader.SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
 
-    shader.SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_POINT);
-    shader.SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_POINT);
+    shader.SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
+    shader.SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_POINT);
   }
   //
   {
@@ -2627,8 +2614,8 @@ void CGraphicsEngine::SetupShaders()
     shader.SetTextureStageState(2, D3DTSS_COLOROP, D3DTOP_DISABLE);
     shader.SetTextureStageState(2, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
 
-    shader.SetTextureStageState(1, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-    shader.SetTextureStageState(1, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
+    shader.SetSamplerState(1, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+    shader.SetSamplerState(1, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
   }
   //
   {
@@ -2658,8 +2645,8 @@ void CGraphicsEngine::SetupShaders()
     shader.SetTextureStageState(2, D3DTSS_COLOROP, D3DTOP_DISABLE);
     shader.SetTextureStageState(2, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
 
-    shader.SetTextureStageState(1, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-    shader.SetTextureStageState(1, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
+    shader.SetSamplerState(1, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+    shader.SetSamplerState(1, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
   }
   //
   {
@@ -2693,8 +2680,8 @@ void CGraphicsEngine::SetupShaders()
     shader.SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE);
     shader.SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
     shader.SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
-    shader.SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-    shader.SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
+    shader.SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+    shader.SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
   }
   // just texture with multiply
   {
@@ -2711,8 +2698,8 @@ void CGraphicsEngine::SetupShaders()
     shader.SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
     shader.SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
 
-    shader.SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-    shader.SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
+    shader.SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+    shader.SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
   }
   // particles. 
   {
@@ -2738,8 +2725,8 @@ void CGraphicsEngine::SetupShaders()
     shader.SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
     shader.SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
 
-    shader.SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-    shader.SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
+    shader.SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+    shader.SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
   }
   {
     CShader &shader = shaders[11];
@@ -2769,8 +2756,8 @@ void CGraphicsEngine::SetupShaders()
     shader.SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
     shader.SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
 
-    shader.SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-    shader.SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
+    shader.SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+    shader.SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
   }
   {
     CShader &shader = shaders[13];
@@ -2810,8 +2797,8 @@ void CGraphicsEngine::SetupShaders()
     shader.SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
     shader.SetRenderState(D3DRS_ZWRITEENABLE, false);
 
-    shader.SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_POINT);
-    shader.SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_POINT);
+    shader.SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
+    shader.SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_POINT);
   }
   {
     CShader &shader = shaders[15];
@@ -2827,8 +2814,8 @@ void CGraphicsEngine::SetupShaders()
     shader.SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
     shader.SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG2);
     shader.SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE);
-    shader.SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-    shader.SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
+    shader.SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+    shader.SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
     shader.SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
     shader.SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
   }
@@ -2844,8 +2831,8 @@ void CGraphicsEngine::SetupShaders()
     shader.SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
     shader.SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
     shader.SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE);
-    shader.SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-    shader.SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
+    shader.SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+    shader.SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
     shader.SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
     shader.SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
   }
@@ -2864,16 +2851,16 @@ void CGraphicsEngine::SetupShaders()
     shader.SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
     shader.SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
     shader.SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
-    shader.SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-    shader.SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
-    shader.SetTextureStageState(0, D3DTSS_ADDRESSU, D3DTADDRESS_CLAMP);
-    shader.SetTextureStageState(0, D3DTSS_ADDRESSV, D3DTADDRESS_CLAMP);
+    shader.SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+    shader.SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+    shader.SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
+    shader.SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
   }
   // turn off video rendering addressing mode
   {
     CShader &shader = shaders[18];
-    shader.SetTextureStageState(0, D3DTSS_ADDRESSU, D3DTADDRESS_WRAP);
-    shader.SetTextureStageState(0, D3DTSS_ADDRESSV, D3DTADDRESS_WRAP);
+    shader.SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);
+    shader.SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
   }
   // video with alpha rendering
   {
@@ -2894,10 +2881,10 @@ void CGraphicsEngine::SetupShaders()
     shader.SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
     shader.SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
     shader.SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
-    shader.SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-    shader.SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
-    shader.SetTextureStageState(0, D3DTSS_ADDRESSU, D3DTADDRESS_CLAMP);
-    shader.SetTextureStageState(0, D3DTSS_ADDRESSV, D3DTADDRESS_CLAMP);
+    shader.SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+    shader.SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+    shader.SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
+    shader.SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
   }
   // multiply - for tracks rendering
   {
@@ -2919,8 +2906,8 @@ void CGraphicsEngine::SetupShaders()
     shader.SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
     shader.SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
     shader.SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
-    shader.SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-    shader.SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
+    shader.SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+    shader.SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
   }
   // minimap rendering
   {
@@ -2943,10 +2930,10 @@ void CGraphicsEngine::SetupShaders()
     shader.SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE);
     shader.SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
     shader.SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
-    shader.SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-    shader.SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
-    shader.SetTextureStageState(0, D3DTSS_ADDRESSU, D3DTADDRESS_CLAMP);
-    shader.SetTextureStageState(0, D3DTSS_ADDRESSV, D3DTADDRESS_CLAMP);
+    shader.SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+    shader.SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+    shader.SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
+    shader.SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
   }
   {
     CShader &shader = shaders[22];
@@ -2975,8 +2962,8 @@ void CGraphicsEngine::SetupShaders()
     shader.SetTextureStageState(1, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
     shader.SetTextureStageState(2, D3DTSS_COLOROP, D3DTOP_DISABLE);
     shader.SetTextureStageState(2, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
-    shader.SetTextureStageState(1, D3DTSS_MAGFILTER, D3DTEXF_POINT);
-    shader.SetTextureStageState(1, D3DTSS_MINFILTER, D3DTEXF_POINT);
+    shader.SetSamplerState(1, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
+    shader.SetSamplerState(1, D3DSAMP_MINFILTER, D3DTEXF_POINT);
   }
   // terrain with noise rendering
   {
@@ -2999,10 +2986,10 @@ void CGraphicsEngine::SetupShaders()
     shader.SetTextureStageState(1, D3DTSS_COLORARG2, D3DTA_CURRENT);
     shader.SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
     shader.SetTextureStageState(1, D3DTSS_ALPHAARG1, D3DTA_CURRENT);
-    shader.SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-    shader.SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
-    shader.SetTextureStageState(1, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-    shader.SetTextureStageState(1, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
+    shader.SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+    shader.SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+    shader.SetSamplerState(1, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+    shader.SetSamplerState(1, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
     shader.SetTextureStageState(2, D3DTSS_COLOROP, D3DTOP_DISABLE);
     shader.SetTextureStageState(2, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
   }
@@ -3027,10 +3014,10 @@ void CGraphicsEngine::SetupShaders()
     shader.SetTextureStageState(1, D3DTSS_COLORARG1, D3DTA_CURRENT);
     shader.SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
     shader.SetTextureStageState(1, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
-    shader.SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-    shader.SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
-    shader.SetTextureStageState(1, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-    shader.SetTextureStageState(1, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
+    shader.SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+    shader.SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+    shader.SetSamplerState(1, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+    shader.SetSamplerState(1, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
     shader.SetTextureStageState(2, D3DTSS_COLOROP, D3DTOP_DISABLE);
     shader.SetTextureStageState(2, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
   }
@@ -3045,8 +3032,8 @@ void CGraphicsEngine::SetupShaders()
     shader.SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
     shader.SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
     shader.SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
-    shader.SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-    shader.SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
+    shader.SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+    shader.SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
     shader.SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
     shader.SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
   }
@@ -3072,10 +3059,10 @@ void CGraphicsEngine::SetupShaders()
     shader.SetTextureStageState(1, D3DTSS_COLORARG1, D3DTA_CURRENT);
     shader.SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
     shader.SetTextureStageState(1, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
-    shader.SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-    shader.SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
-    shader.SetTextureStageState(1, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-    shader.SetTextureStageState(1, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
+    shader.SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+    shader.SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+    shader.SetSamplerState(1, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+    shader.SetSamplerState(1, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
     shader.SetTextureStageState(2, D3DTSS_COLOROP, D3DTOP_DISABLE);
     shader.SetTextureStageState(2, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
   }
@@ -3115,8 +3102,8 @@ void CGraphicsEngine::SetupShaders()
     shader.SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE);
     shader.SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
     shader.SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
-    shader.SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_POINT);
-    shader.SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_POINT);
+    shader.SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
+    shader.SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_POINT);
   }
   // mesh shadow
   {
@@ -3138,8 +3125,8 @@ void CGraphicsEngine::SetupShaders()
     shader.SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE);
     shader.SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
     shader.SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
-    shader.SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-    shader.SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
+    shader.SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+    shader.SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
   }
   // shadow rendering with stencil check (post-setup)
   {
@@ -3169,8 +3156,8 @@ void CGraphicsEngine::SetupShaders()
     shader.SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE);
     shader.SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
     shader.SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
-    shader.SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-    shader.SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
+    shader.SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+    shader.SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
   }
   {
     CShader &shader = shaders[300];
@@ -3235,11 +3222,8 @@ void CGraphicsEngine::SetupShaders()
     shader.SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE);
     shader.SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
     shader.SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
-    shader.SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-    shader.SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
-  }
-  {
-    CShader &shader = shaders[304];
+    shader.SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+    shader.SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
   }
   {
     CShader &shader = shaders[304];
