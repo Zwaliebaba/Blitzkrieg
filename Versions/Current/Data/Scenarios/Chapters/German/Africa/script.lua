@@ -22,7 +22,7 @@ local bScenario = GetIGlobalVar("Mission.scenarios\\scenariomissions\\german\\af
 		EnableMission("scenarios\\scenariomissions\\german\\africa\\1");
 	end;
 
-	if ( strMissionName == "scenarios\scenariomissions\german\africa\1") then
+	if ( strMissionName == "scenarios\\scenariomissions\\german\\africa\\1") then
 		EnableChapter("scenarios\\chapters\\german\\barbarossa\\1");
 --Medal Conditions(Africa)
 		AddMedal("Medals\\German\\Africa\\1", 1);

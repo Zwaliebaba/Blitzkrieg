@@ -490,6 +490,18 @@ int CScenarioTracker2::SOpponentDesc::operator&(IDataTree &ss)
 // **
 // ************************************************************************************************************************ //
 
+static std::string EscapeLuaBackslashes(const std::string &str)
+{
+  std::string result;
+  result.reserve(str.size());
+  for (char c : str)
+  {
+    if (c == '\\') result += "\\\\";
+    else result += c;
+  }
+  return result;
+}
+
 bool CScenarioTracker2::LoadChapterScript(const std::string &szScriptFileName)
 {
   if (pChapterScript) delete pChapterScript;
@@ -983,7 +995,7 @@ bool CScenarioTracker2::StartChapter(const std::string &_szChapterName)
   {
     if (LoadChapterScript(pStats->szScript) != false)
     {
-      pChapterScript->DoString(NStr::Format("return EnterChapter(\"%s\")", szCurrChapter.c_str()));
+      pChapterScript->DoString(NStr::Format("return EnterChapter(\"%s\")", EscapeLuaBackslashes(szCurrChapter).c_str()));
       const int nNumRetArgs = pChapterScript->GetTop();
       pChapterScript->Pop(nNumRetArgs);
       ProcessScriptChanges(false);
@@ -1171,7 +1183,7 @@ void CScenarioTracker2::FinishMission(const EMissionFinishStatus eStatus)
           // run script about gain level
           if (pUserPlayer && pUserPlayer->IsGainLevel()) pChapterScript->DoString(NStr::Format("return PlayerGainLevel(%d)", pUserPlayer->GetRankInfo().nRankNumber));
           // run main script
-          pChapterScript->DoString(NStr::Format("return MissionFinished(\"%s\")", szCurrMission.c_str()));
+          pChapterScript->DoString(NStr::Format("return MissionFinished(\"%s\")", EscapeLuaBackslashes(szCurrMission).c_str()));
           const int nNumRetArgs = pChapterScript->GetTop();
           pChapterScript->Pop(nNumRetArgs);
           ProcessScriptChanges(true);

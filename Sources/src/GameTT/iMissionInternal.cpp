@@ -1318,10 +1318,13 @@ bool CInterfaceMission::NewMission(const std::string &_szMapName, bool _bCycledL
   pProgress->Step();// 4
 
   // set current mission to scenario tracker
+  NStr::DebugTrace("*** [MISSION] StartMission...\n");
   GetSingleton<IScenarioTracker>()->StartMission(GetGlobalVar("Mission.Current.Name", "UNKNOWN"));
 
+  NStr::DebugTrace("*** [MISSION] AddSounds...\n");
   mapinfo.AddSounds(&(mapinfo.soundsList), CMapInfo::SOUND_TYPE_BITS_RIVERS);
 
+  NStr::DebugTrace("*** [MISSION] Camera setup...\n");
   vCameraStartPos = mapinfo.vCameraAnchor;
   {
     const int nUserPlayer = GetSingleton<IScenarioTracker>()->GetUserPlayerID();
@@ -1336,9 +1339,12 @@ bool CInterfaceMission::NewMission(const std::string &_szMapName, bool _bCycledL
 
   pProgress->Step();// 5
   //
+  NStr::DebugTrace("*** [MISSION] AILogic::Init...\n");
   pAILogic->Init(mapinfo, pProgress);
+  NStr::DebugTrace("*** [MISSION] AILogic::Init done\n");
   pProgress->Step();// 11
   // create and init terrain
+  NStr::DebugTrace("*** [MISSION] Terrain load...\n");
   ITerrain *pTerrain = CreateTerrain();
   pTerrain->Load(szTerrainName.c_str(), mapinfo.terrain);
   GetSingleton<IScene>()->SetTerrain(pTerrain);
@@ -1346,9 +1352,11 @@ bool CInterfaceMission::NewMission(const std::string &_szMapName, bool _bCycledL
   CTRect<long> rcScreen = pGFX->GetScreenRect();
   pCursor->SetPos(rcScreen.Width() / 2, rcScreen.Height() / 2);
   // resume AI logic after initialization
+  NStr::DebugTrace("*** [MISSION] AILogic::Resume...\n");
   pAILogic->Resume();
   //
   // create world
+  NStr::DebugTrace("*** [MISSION] World init...\n");
   pWorld = CreateObject<IWorldClient>(MISSION_WORLD);
   pWorld->Init(GetSingletonGlobal());
   pWorld->Start();
@@ -1408,9 +1416,11 @@ bool CInterfaceMission::NewMission(const std::string &_szMapName, bool _bCycledL
   // CRAP}
   //
   // initialization of sounds from the card
+  NStr::DebugTrace("*** [MISSION] InitMapSounds...\n");
   if (mapinfo.soundsList.size()) pScene->InitMapSounds(&mapinfo.soundsList.front(), mapinfo.soundsList.size());
 
   // Initializing music inside the game
+  NStr::DebugTrace("*** [MISSION] InitMusic...\n");
   pScene->InitMusic(GetSingleton<IScenarioTracker>()->GetUserPlayer()->GetGeneralSide());
   // add mission bonus
   RemoveGlobalVar("Mission.Current.Bonus");
@@ -1446,6 +1456,7 @@ bool CInterfaceMission::NewMission(const std::string &_szMapName, bool _bCycledL
     pScene->SetMissionScreen(pUIScreen);
   }
   // let's go into the game
+  NStr::DebugTrace("*** [MISSION] SetSoundSceneMode + final steps...\n");
   pScene->SetSoundSceneMode(ESSM_INGAME);
   pProgress->Step();// 12
   pProgress->Stop();
@@ -1461,6 +1472,7 @@ bool CInterfaceMission::NewMission(const std::string &_szMapName, bool _bCycledL
   // minimum difficulty (trough campaign)
   GetSingleton<IScenarioTracker>()->UpdateMinimumDifficulty();
   //
+  NStr::DebugTrace("*** [MISSION] NewMission complete\n");
   return true;
 }
 

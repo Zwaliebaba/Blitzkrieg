@@ -43,19 +43,13 @@ void CICPlayMovie::Configure(const char *pszConfig)
 
 void CICPlayMovie::PostCreate(IMainLoop *pML, CPlayMovieInterface *pInterface)
 {
-  if (GetGlobalVar("novideo", 0) != 0)
-  {
-    CPtr<CPlayMovieInterface> pInt = pInterface;
-    pInterface->Done();
-    if (nNextICTypeID != 0) pML->Command(nNextICTypeID, szNextICConfig.c_str());
-    else pML->Command(MAIN_COMMAND_EXIT_GAME, nullptr);
-  }
-  else
-  {
-    pInterface->LoadMovieSequence((szSequenceName + ".xml").c_str());
-    pInterface->SetNextInterface(nNextICTypeID, szNextICConfig);
-    pML->PushInterface(pInterface);
-  }
+  NStr::DebugTrace("*** [MOVIE] PostCreate: calling Done() on CPlayMovieInterface\n");
+  CPtr<CPlayMovieInterface> pInt = pInterface;
+  pInterface->Done();
+  NStr::DebugTrace("*** [MOVIE] PostCreate: Done() returned. Issuing next command (typeID=0x%x)\n", nNextICTypeID);
+  if (nNextICTypeID != 0) pML->Command(nNextICTypeID, szNextICConfig.c_str());
+  else pML->Command(MAIN_COMMAND_EXIT_GAME, nullptr);
+  NStr::DebugTrace("*** [MOVIE] PostCreate: command queued, returning\n");
 }
 
 // ************************************************************************************************************************ //
@@ -111,6 +105,7 @@ void CPlayMovieInterface::SetNextInterface(const int nTypeID, const std::string 
 
 bool CPlayMovieInterface::Init()
 {
+  NStr::DebugTrace("*** [MOVIE] CPlayMovieInterface::Init() enter\n");
   CInterfaceScreenBase::Init();
   movieMsgs.Init(pInput, movieCommands);
   SetBindSection("play_movies");
@@ -118,13 +113,16 @@ bool CPlayMovieInterface::Init()
   pScene->RemoveSceneObject(nullptr);
   // turn haze off
   while (pScene->ToggleShow(SCENE_SHOW_HAZE) != false);
+  NStr::DebugTrace("*** [MOVIE] CPlayMovieInterface::Init() done\n");
   return true;
 }
 
 void CPlayMovieInterface::Done()
 {
+  NStr::DebugTrace("*** [MOVIE] CPlayMovieInterface::Done() enter\n");
   CInterfaceScreenBase::Done();
   GetSingleton<ICursor>()->Show(true);
+  NStr::DebugTrace("*** [MOVIE] CPlayMovieInterface::Done() done\n");
 }
 
 bool CPlayMovieInterface::ProcessMessage(const SGameMessage &msg)
@@ -145,6 +143,7 @@ bool CPlayMovieInterface::ProcessMessage(const SGameMessage &msg)
 
 void CPlayMovieInterface::Step(bool bAppActive)
 {
+  NStr::DebugTrace("*** [MOVIE] WARNING: CPlayMovieInterface::Step() called - should not happen!\n");
   CInterfaceScreenBase::Step(bAppActive);
   StartNextInterface();
 }

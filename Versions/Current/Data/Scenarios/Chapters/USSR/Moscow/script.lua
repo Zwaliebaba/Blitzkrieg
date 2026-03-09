@@ -14,7 +14,7 @@ local bScenario = GetIGlobalVar("Mission.scenarios\\scenariomissions\\ussr\\mosc
 		EnableMission("scenarios\\scenariomissions\\ussr\\moscow\\1");
 	end;
 
-	if ( strMissionName == "scenarios\scenariomissions\ussr\moscow\1") then
+	if ( strMissionName == "scenarios\\scenariomissions\\ussr\\moscow\\1") then
 		EnableChapter("scenarios\\chapters\\ussr\\stalingrad\\1");
 	end;
 --Medal Conditions(GoldMedal)

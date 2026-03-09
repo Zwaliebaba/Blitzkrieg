@@ -18,7 +18,7 @@ local bScenario = GetIGlobalVar("Mission.scenarios\\scenariomissions\\allies\\to
 		EnableMission("scenarios\\scenariomissions\\allies\\tobruk\\1");
 	end;
 
-	if ( strMissionName == "scenarios\scenariomissions\allies\tobruk\1") then
+	if ( strMissionName == "scenarios\\scenariomissions\\allies\\tobruk\\1") then
 		EnableChapter("scenarios\\chapters\\allies\\tunis\\1");
 --Medal Conditions(Gcross)
 		if (GetStatisticsValue(3, 0) <= 400) then

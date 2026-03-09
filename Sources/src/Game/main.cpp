@@ -473,7 +473,7 @@ void ProcessCommandLine(LPSTR lpCmdLine, SCmdParams *pCmdParams)
   pCmdParams->nStencilBPP = 0;
   pCmdParams->nFreq = 0;
   pCmdParams->bUseDXT = false;
-  pCmdParams->eFullscreenMode = GFXFS_FULLSCREEN;
+  pCmdParams->eFullscreenMode = GFXFS_WINDOWED;
   pCmdParams->szBindName = "bind.cfg";
   pCmdParams->bMultiplayer = false;
   pCmdParams->bCycledLaunch = false;

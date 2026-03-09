@@ -18,7 +18,7 @@ local bScenario = GetIGlobalVar("Mission.scenarios\\scenariomissions\\ussr\\ruma
 
 local iStat = GetStatisticsValue(17, 2); -- time elapsed
 
-	if ( strMissionName == "scenarios\scenariomissions\ussr\rumania\1") then
+	if ( strMissionName == "scenarios\\scenariomissions\\ussr\\rumania\\1") then
 		EnableChapter("scenarios\\chapters\\ussr\\german\\1");
 --Medal conditions(Redstar)
 		AddMedal("Medals\\USSR\\Redstar\\1", 4);

@@ -145,6 +145,7 @@ CEntrenchment::CEntrenchment(IRefCount **segments, const int nLen, CFullEntrench
   SetUniqueId();
 
   insiders.clear();
+  iter = insiders.end();
   fireplaces.reserve(0);
 
   float fLengthAhead = -1, fLengthBack = 0.0f, fWidth = 0.0f;

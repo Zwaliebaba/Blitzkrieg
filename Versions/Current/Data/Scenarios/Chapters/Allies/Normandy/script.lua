@@ -20,7 +20,7 @@ local bScenario = GetIGlobalVar("Mission.scenarios\\scenariomissions\\allies\\no
 		EnableMission("scenarios\\scenariomissions\\allies\\normandy\\1");
 	end;
 
-	if ( strMissionName == "scenarios\scenariomissions\allies\normandy\1") then
+	if ( strMissionName == "scenarios\\scenariomissions\\allies\\normandy\\1") then
 		EnableChapter("scenarios\\chapters\\allies\\ardennes\\1");
 --Medal Conditions(Medal of honour)
 		if (GetStatisticsValue(19, 0) == 0) then -- objective failed

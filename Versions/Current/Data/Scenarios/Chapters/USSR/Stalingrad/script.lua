@@ -19,7 +19,7 @@ local bScenario = GetIGlobalVar("Mission.scenarios\\scenariomissions\\ussr\\stal
 		EnableMission("scenarios\\scenariomissions\\ussr\\stalingrad\\1");
 	end;
 
-	if ( strMissionName == "scenarios\scenariomissions\ussr\stalingrad\1") then
+	if ( strMissionName == "scenarios\\scenariomissions\\ussr\\stalingrad\\1") then
 		EnableChapter("scenarios\\chapters\\ussr\\kursk\\1");
 --Medal conditions(for Stalingrad)
 		AddMedal("Medals\\USSR\\Stalingrad\\1", 1);

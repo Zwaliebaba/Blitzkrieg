@@ -16,7 +16,7 @@ local bScenario = GetIGlobalVar("Mission.scenarios\\scenariomissions\\german\\ba
 		EnableMission("scenarios\\scenariomissions\\german\\barbarossa\\1");
 	end;
 
-	if ( strMissionName == "scenarios\scenariomissions\german\barbarossa\1") then
+	if ( strMissionName == "scenarios\\scenariomissions\\german\\barbarossa\\1") then
 		EnableChapter("scenarios\\chapters\\german\\typhoon\\1");
 	end;
 --Medal Conditions(Iron Cross)

@@ -15,7 +15,7 @@ local bScenario = GetIGlobalVar("Mission.scenarios\\scenariomissions\\allies\\tu
 		EnableMission("scenarios\\scenariomissions\\allies\\tunis\\1");
 	end;
 
-	if ( strMissionName == "scenarios\scenariomissions\allies\tunis\1") then
+	if ( strMissionName == "scenarios\\scenariomissions\\allies\\tunis\\1") then
 		EnableChapter("scenarios\\chapters\\allies\\italy\\1");
 --Medal Conditions(Africa)
 		AddMedal ("Medals\\Allies\\EAM_company\\1", 2);

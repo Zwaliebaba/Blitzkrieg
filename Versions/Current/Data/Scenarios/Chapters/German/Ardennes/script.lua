@@ -57,7 +57,7 @@ local var = GetNumMissions(0, 0);
 	end;
 
 -- end of campaign
-	if ( strMissionName == "scenarios\scenariomissions\german\ardennes\1") then
+	if ( strMissionName == "scenarios\\scenariomissions\\german\\ardennes\\1") then
 		FinishCampaign();
 	end;
 

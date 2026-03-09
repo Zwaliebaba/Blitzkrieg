@@ -20,7 +20,7 @@ local bScenario = GetIGlobalVar("Mission.scenarios\\scenariomissions\\ussr\\germ
 	end;
 
 -- end of campaign
-	if ( strMissionName == "scenarios\scenariomissions\ussr\germany\1") then
+	if ( strMissionName == "scenarios\\scenariomissions\\ussr\\germany\\1") then
 		FinishCampaign();
 	end;
 end;

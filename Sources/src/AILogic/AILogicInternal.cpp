@@ -812,17 +812,20 @@ void CAILogic::Init(const SLoadMapInfo &mapInfo, IProgressHook *pProgress)
   // 0xa001f
   _control87(_EM_INVALID | _EM_ZERODIVIDE | _EM_OVERFLOW | _EM_UNDERFLOW | _EM_INEXACT | _EM_DENORMAL | _PC_24, 0xfffff);
 
+  NStr::DebugTrace("*** [AI] Init: theDipl.Load...\n");
   theDipl.Load(mapInfo.diplomacies);
 
   theCheats.SetWarFog(strlen(GetGlobalVar("warfog")) == 0);
   theCheats.SetLoadObjects(strlen(GetGlobalVar("noobjects")) == 0);
 
+  NStr::DebugTrace("*** [AI] Init: theStaticMap.LoadMap...\n");
   theStaticMap.LoadMap(mapInfo.terrain, theCheats.GetLoadObjects());
   theStatObjs.Init(theStaticMap.GetSizeX(), theStaticMap.GetSizeY());
 
   if (pProgress)// 6
     pProgress->Step();
 
+  NStr::DebugTrace("*** [AI] Init: theMPInfo + theUnitCreation + CommonInit + scripts...\n");
   theMPInfo.Init();
 
   theUnitCreation.Init(mapInfo.unitCreation);
@@ -835,22 +838,29 @@ void CAILogic::Init(const SLoadMapInfo &mapInfo, IProgressHook *pProgress)
   theUnitCreation.Init(mapInfo.unitCreation);
   // before loading units, remember who is the mobile reserve
   // - do not change the order
+  NStr::DebugTrace("*** [AI] Init: LoadAvailableTrucks...\n");
   LoadAvailableTrucks();
+  NStr::DebugTrace("*** [AI] Init: LoadScenarioUnits...\n");
   LoadScenarioUnits(mapInfo, &linksInfo);
   if (pProgress) pProgress->Step();// 7
+  NStr::DebugTrace("*** [AI] Init: LoadUnits...\n");
   LoadUnits(mapInfo, &linksInfo);
 
+  NStr::DebugTrace("*** [AI] Init: LoadEntrenchments...\n");
   LoadEntrenchments(mapInfo.entrenchments);
+  NStr::DebugTrace("*** [AI] Init: LoadBridges...\n");
   LoadBridges(mapInfo.bridges);
 
   if (pProgress) pProgress->Step();// 8
 
   // initialize all maxes on the map
+  NStr::DebugTrace("*** [AI] Init: UpdateMaxes...\n");
   for (int i = 1; i < 16; i *= 2) theStaticMap.UpdateMaxesForAddedStObject(0, theStaticMap.GetSizeX() - 1, 0, theStaticMap.GetSizeY() - 1, i);
   theStaticMap.UpdateMaxesForAddedStObject(0, theStaticMap.GetSizeX() - 1, 0, theStaticMap.GetSizeY() - 1, AI_CLASS_ANY);
 
   // theStatObjs.UpdateAllPartiesStorages( true, false );
   //
+  NStr::DebugTrace("*** [AI] Init: InitLinks + InitReservePositions...\n");
   InitLinks(linksInfo);
   reservePositions = mapInfo.reservePositionsList;
   InitReservePositions();
@@ -858,6 +868,7 @@ void CAILogic::Init(const SLoadMapInfo &mapInfo, IProgressHook *pProgress)
   // init general
   if (!theDipl.IsNetGame())
   {
+    NStr::DebugTrace("*** [AI] Init: theSupremeBeing.Init (CGlobalIter)...\n");
     std::list<CCommonUnit *> pUnits;
     for (CGlobalIter iter(0, ANY_PARTY); !iter.IsFinished(); iter.Iterate()) pUnits.push_back(*iter);
 
@@ -866,6 +877,7 @@ void CAILogic::Init(const SLoadMapInfo &mapInfo, IProgressHook *pProgress)
   }
 
   // -- end order do not change
+  NStr::DebugTrace("*** [AI] Init: InitStartCommands + scripts.Load...\n");
   startCmds = mapInfo.startCommandsList;
   InitStartCommands();
 
@@ -874,10 +886,12 @@ void CAILogic::Init(const SLoadMapInfo &mapInfo, IProgressHook *pProgress)
 
   if (pProgress) pProgress->Step();// 9
 
+  NStr::DebugTrace("*** [AI] Init: theWarFog.ProcessAllNewUnits...\n");
   theWarFog.ProcessAllNewUnits();
 
   if (pProgress) pProgress->Step();// 10
 
+  NStr::DebugTrace("*** [AI] Init: Segment...\n");
   UpdateCheckSum(false);
   GetSingleton<ICommandsHistory>()->CheckStartMapCheckSum(checkSum);
   // ///////////////////////////////////
@@ -888,6 +902,7 @@ void CAILogic::Init(const SLoadMapInfo &mapInfo, IProgressHook *pProgress)
 
   bNetGameStarted = false;
   if (theDipl.IsNetGame()) updater.AddFeedBack(SAIFeedBack(EFB_OBJECTIVE_CHANGED, 0xff << 8));
+  NStr::DebugTrace("*** [AI] Init: done\n");
 }
 
 void CAILogic::InitEditor(const STerrainInfo &terrainInfo)

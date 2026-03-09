@@ -24,7 +24,7 @@ local num = GetIGlobalVar( "RandomMissions.Count", 0);
 		SetIGlobalVar( "RandomMissions.Count", num);
 	end;
 
-	if ( strMissionName == "scenarios\scenariomissions\allies\france\1") then
+	if ( strMissionName == "scenarios\\scenariomissions\\allies\\france\\1") then
 		EnableChapter("scenarios\\chapters\\allies\\tobruk\\1");
 		SetIGlobalVar( "ItsSecondChapterAndThreeRandomMissions", 0);
 	end;

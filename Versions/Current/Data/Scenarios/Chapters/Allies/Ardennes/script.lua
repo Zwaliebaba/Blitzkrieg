@@ -18,7 +18,7 @@ local bScenario = GetIGlobalVar("Mission.scenarios\\scenariomissions\\allies\\ar
 	end;
 
 -- end of campaign
-	if ( strMissionName == "scenarios\scenariomissions\allies\ardennes\1") then
+	if ( strMissionName == "scenarios\\scenariomissions\\allies\\ardennes\\1") then
 		FinishCampaign();
 	end;
 

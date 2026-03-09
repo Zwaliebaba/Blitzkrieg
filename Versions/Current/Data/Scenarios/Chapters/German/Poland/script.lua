@@ -29,13 +29,13 @@ end;
 function MissionFinished( strMissionName )
 local bScenario = GetIGlobalVar("Mission.scenarios\\scenariomissions\\german\\poland\\1.Finished", 0);
 
-	if ( strMissionName == "scenarios\scenariomissions\german\intro\1") then
+	if ( strMissionName == "scenarios\\scenariomissions\\german\\intro\\1") then
 		EnableMission("scenarios\\scenariomissions\\german\\poland\\1");
 -- allow scenario mission further
 		SetUserProfileVar( "ScenarioTutorial.Passed", 1 );
 	end;
 
-	if ( strMissionName == "scenarios\scenariomissions\german\poland\1") then
+	if ( strMissionName == "scenarios\\scenariomissions\\german\\poland\\1") then
 		EnableChapter("scenarios\\chapters\\german\\france\\1");
 --Medal Conditions
 		AddMedal("Medals\\German\\kvz3\\1", 0);

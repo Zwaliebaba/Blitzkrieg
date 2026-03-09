@@ -18,7 +18,7 @@ local bScenario = GetIGlobalVar("Mission.scenarios\\scenariomissions\\ussr\\ukra
 
 local iStat = GetStatisticsValue(17, 2); -- time elapsed
 
-	if ( strMissionName == "scenarios\scenariomissions\ussr\ukraine\1") then
+	if ( strMissionName == "scenarios\\scenariomissions\\ussr\\ukraine\\1") then
 		EnableChapter("scenarios\\chapters\\ussr\\rumania\\1");
 --Medal Conditions(Kutuzov)
 		if (( (iStat <= 60) and (iStat >= 40)) and (HasMedal ("Medals\\USSR\\Kut3\\1") == 0)) then

@@ -28,13 +28,13 @@ end;
 function MissionFinished( strMissionName )
 local bScenario = GetIGlobalVar("Mission.scenarios\\scenariomissions\\ussr\\finland\\1.Finished", 0);
 
-	if ( strMissionName == "scenarios\scenariomissions\ussr\intro\1") then
+	if ( strMissionName == "scenarios\\scenariomissions\\ussr\\intro\\1") then
 		EnableMission("scenarios\\scenariomissions\\ussr\\finland\\1");
 -- allow scenario mission further
 		SetUserProfileVar( "ScenarioTutorial.Passed", 1 );
 	end;
 
-	if ( strMissionName == "scenarios\scenariomissions\ussr\finland\1") then
+	if ( strMissionName == "scenarios\\scenariomissions\\ussr\\finland\\1") then
 		EnableChapter("scenarios\\chapters\\ussr\\leningrad\\1");
 -- Medal Conditions(Redbanner)
 		AddMedal("Medals\\USSR\\redflag\\1", 0);

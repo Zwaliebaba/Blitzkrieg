@@ -19,7 +19,7 @@ local bScenario = GetIGlobalVar("Mission.scenarios\\scenariomissions\\allies\\it
 		EnableMission("scenarios\\scenariomissions\\allies\\italy\\1");
 	end;
 
-	if ( strMissionName == "scenarios\scenariomissions\allies\italy\1") then
+	if ( strMissionName == "scenarios\\scenariomissions\\allies\\italy\\1") then
 		EnableChapter("scenarios\\chapters\\allies\\normandy\\1");
 --Medal Conditions(Bronzestar)
 		if (GetStatisticsValue(1, 0) >= 3000) then

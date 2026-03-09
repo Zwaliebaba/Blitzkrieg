@@ -69,7 +69,7 @@ protected:
   void SoldierDamaged(class CSoldier *pUnit) override {}
 
 public:
-  CEntrenchment() {}
+  CEntrenchment() : nBusyFireplaces(0) { iter = insiders.end(); }
   CEntrenchment(IRefCount **segments, int nLen, class CFullEntrenchment *pFullEntrenchment);
 
   const SHPObjectRPGStats *GetStats() const override { return pStats; }

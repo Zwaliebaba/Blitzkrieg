@@ -28,14 +28,18 @@ protected:
 public:
   void STDCALL Exec(IMainLoop *pML) override
   {
+    NStr::DebugTrace("*** [CMD] Exec: PreCreate for %s (typeID=0x%x)\\n", typeid(*this).name(), NInterfaceTypeID);
     PreCreate(pML);
     //
     TInterface *pInterface = CreateObject<TInterface>(NInterfaceTypeID);
+    NStr::DebugTrace("*** [CMD] Exec: Init + ClearResources + StartInterface\\n");
     pInterface->Init();
     pML->ClearResources();
     pInterface->StartInterface();
     //
+    NStr::DebugTrace("*** [CMD] Exec: PostCreate\\n");
     PostCreate(pML, pInterface);
+    NStr::DebugTrace("*** [CMD] Exec: done\\n");
   }
 
   //

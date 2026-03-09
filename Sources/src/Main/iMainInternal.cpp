@@ -339,6 +339,7 @@ void CMainLoop::ClearResources(const bool bClearAll)
 
 void CMainLoop::ResetStack()
 {
+  NStr::DebugTrace("*** [MAINLOOP] ResetStack (stack size=%d)\n", interfaces.size());
   while (!interfaces.empty())
   {
     interfaces.back()->OnGetFocus(false);
@@ -352,6 +353,7 @@ void CMainLoop::ResetStack()
 
 void CMainLoop::SetInterface(IInterfaceBase *pNewInterface)
 {
+  NStr::DebugTrace("*** [MAINLOOP] SetInterface: %s\n", typeid(*pNewInterface).name());
   NI_ASSERT_T(pNewInterface->IsValid(), NStr::Format("Invalid Interface of class \"%s\"", typeid(*pNewInterface).name()));
   ResetStack();
   interfaces.push_back(pNewInterface);
@@ -360,6 +362,7 @@ void CMainLoop::SetInterface(IInterfaceBase *pNewInterface)
 
 void CMainLoop::PushInterface(IInterfaceBase *pNewInterface)
 {
+  NStr::DebugTrace("*** [MAINLOOP] PushInterface: %s (stack size before=%d)\n", typeid(*pNewInterface).name(), interfaces.size());
   NI_ASSERT_T(pNewInterface->IsValid(), NStr::Format("Invalid Interface of class \"%s\"", typeid(*pNewInterface).name()));
   if (!interfaces.empty()) interfaces.back()->OnGetFocus(false);
   interfaces.push_back(pNewInterface);
@@ -368,8 +371,10 @@ void CMainLoop::PushInterface(IInterfaceBase *pNewInterface)
 
 void CMainLoop::PopInterface()
 {
+  NStr::DebugTrace("*** [MAINLOOP] PopInterface (stack size before=%d)\n", interfaces.size());
   if (!interfaces.empty())
   {
+    NStr::DebugTrace("*** [MAINLOOP] PopInterface: removing %s\n", typeid(*interfaces.back()).name());
     interfaces.back()->OnGetFocus(false);
     interfaces.back()->Done();
     interfaces.pop_back();
@@ -573,7 +578,11 @@ void CMainLoop::OnMultiplayerStateCommand(const SGameMessage &msg)
   }
 }
 
-void CMainLoop::Command(IInterfaceCommand *pCmd) { cmds.push_back(pCmd); }
+void CMainLoop::Command(IInterfaceCommand *pCmd)
+{
+  NStr::DebugTrace("*** [MAINLOOP] Command queued: %s (cmds.size=%d)\n", pCmd ? typeid(*pCmd).name() : "nullptr", cmds.size());
+  cmds.push_back(pCmd);
+}
 
 void CMainLoop::Command(int nCommandID, const char *pszConfiguration)
 {
@@ -667,6 +676,7 @@ bool CMainLoop::StepApp(bool bActive)
   // execute interface (overlord) commands
   CInterfaceCommandsList delayedCommands;
   const NTimer::STime timeAbs = timeGetTime();
+  NStr::DebugTrace("*** [MAINLOOP] StepApp: processing cmds (count=%d, interfaces=%d)\\n", cmds.size(), interfaces.size());
   while (!cmds.empty())
   {
     CPtr<IInterfaceCommand> pCmd = cmds.front();
@@ -739,7 +749,13 @@ bool CMainLoop::StepApp(bool bActive)
   /* // check for timeout update
    */
   // do step for all interfaces
-  for (auto it = interfaces.rbegin(); it != interfaces.rend(); ++it) (*it)->Step(bActive);
+  NStr::DebugTrace("*** [MAINLOOP] StepApp: stepping %d interfaces\\n", interfaces.size());
+  for (auto it = interfaces.rbegin(); it != interfaces.rend(); ++it)
+  {
+    NStr::DebugTrace("*** [MAINLOOP] StepApp: stepping %s\\n", typeid(**it).name());
+    (*it)->Step(bActive);
+  }
+  NStr::DebugTrace("*** [MAINLOOP] StepApp: all steps done\\n");
   // save movie frame (if it is)
   if (bActive)
   {
@@ -847,25 +863,8 @@ void CProgressScreen::Stop()
 
 void CProgressScreen::SetNumSteps(const int nRange, const float fPercentage)
 {
-  if (nNumFrames == 0)
-  {
-    nNumSteps = nRange > 1 ? nRange : 1;
-    nCurrentStep = 1;
-    NI_ASSERT_SLOW_T(false, "Can't set num steps for progress screen - init it first!");
-  }
-  else if (nNumSteps == 0)
-  {
-    nNumSteps = nRange > 1 ? nRange : 1;
-    nCurrentStep = 1;
-    nMaxFrame = nNumFrames * fPercentage;
-  }
-  else
-  {
-    nMaxFrame = nNumFrames * fPercentage;
-    const float fCurrPercentage = static_cast<float>(nCurrFrame) / static_cast<float>(nNumFrames);
-    nNumSteps = nRange;
-    nCurrentStep = fCurrPercentage * nRange;
-  }
+  nNumSteps = nRange > 1 ? nRange : 1;
+  nCurrentStep = 1;
 }
 
 void CProgressScreen::Step()

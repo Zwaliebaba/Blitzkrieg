@@ -18,7 +18,7 @@ local bScenario = GetIGlobalVar("Mission.scenarios\\scenariomissions\\ussr\\kurs
 local kills = GetStatisticsValue(2, 2); -- AIprice
 local looses = GetStatisticsValue(4, 2); -- AIprice
 
-	if ( strMissionName == "scenarios\scenariomissions\ussr\kursk\1") then
+	if ( strMissionName == "scenarios\\scenariomissions\\ussr\\kursk\\1") then
 		EnableChapter("scenarios\\chapters\\ussr\\ukraine\\1");
 --Medal Conditions(Suvorov)
 		if ( (kills/(looses + 1)) >= 4) then
