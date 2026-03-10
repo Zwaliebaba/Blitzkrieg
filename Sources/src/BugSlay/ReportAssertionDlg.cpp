@@ -212,7 +212,7 @@ bool ReportAssertionDlgProcCommand(HWND hwndDlg, WORD wCtrlID, WORD wNotifCode, 
         }
       }
     }
-      EndDialog(hwndDlg, IDC_ASSERTION_CONTINUE);
+      EndDialog(hwndDlg, IDC_ASSERTION_IGNORE);
       return true;
     case IDC_ASSERTION_EMERGENCY:
       NBugSlayer::ExecuteEmergencyCommands();
