@@ -1304,7 +1304,7 @@ void CScene::DrawMarkers()
       pGFX->DrawTemp();
     }
   }
-  for (auto it = clickMarkers.begin(); it != clickMarkers.end(); ++it)
+  for (auto it = clickMarkers.begin(); it != clickMarkers.end();)
   {
     const float fStage = static_cast<float>(GetSingleton<IGameTimer>()->GetAbsTime() - it->nStartTime) / nMarkerLifetime;
     if (fStage > 1 || fStage < 0) { it = clickMarkers.erase(it); }
@@ -1335,6 +1335,7 @@ void CScene::DrawMarkers()
       vertices[16].Setup(vPos.x, vPos.y + fOuterRadius, vPos.z, dwColor);
       vertices[17].Setup(vPos.x, vPos.y + fInnerRadius, vPos.z, dwColor);
       pGFX->DrawTemp();
+      ++it;
     }
   }
 }

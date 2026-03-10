@@ -114,7 +114,6 @@ namespace NWinFrame
         SetActive(wParam != 0);
         break;
       case WM_ACTIVATE:
-        // if ( !(HIWORD(wParam)) ) // if window is not minimized
       {
         switch (LOWORD(wParam))
         {
@@ -122,14 +121,12 @@ namespace NWinFrame
           case WA_ACTIVE:
             SetActive(true);
             NMain::SwitchGame(true);
-            // NSysKeys::EnableSystemKeys( false, hInstance );
             break;
-          case WA_INACTIVE: // deactivate window
-            SetActive(false);
-            NMain::SwitchGame(false);
-            ClipCursor(nullptr);
-            // NSysKeys::EnableSystemKeys( true, hInstance );
-            break;
+          //case WA_INACTIVE: // deactivate window
+          //  SetActive(false);
+          //  NMain::SwitchGame(false);
+          //  ClipCursor(nullptr);
+          //  break;
         }
       }
       break;
@@ -276,7 +273,7 @@ namespace NWinFrame
     cs.hwndParent = nullptr;
     cs.x = 0;
     cs.y = 0;
-    cs.style = WS_POPUP;// | 
+    cs.style = WS_OVERLAPPEDWINDOW;// regular window with title bar, borders, and system menu
     cs.lpszName = szAppTitleName.c_str();
     cs.lpszClass = LPCSTR(atomWndClassName);
     cs.dwExStyle = 0;

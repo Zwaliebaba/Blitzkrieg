@@ -48,6 +48,9 @@ EBSUReport __cdecl ShowAssertionDlg(HINSTANCE hInstance, HWND hWnd,
   g_hInstance = hInstance;
   // remember old cursor before dialog box call
   HCURSOR hCursor = GetCursor();
+  // release cursor confinement so dialog buttons are clickable
+  ClipCursor(nullptr);
+  ShowCursor(TRUE);
   // fill start parameters and execute dialog
   SAssertionDlgParams params(pszFileName, nLineNumber, pszCondition, pszDescription, entries, ignores, pszExtInfo);
   int nRetVal = DialogBoxParam(hInstance,

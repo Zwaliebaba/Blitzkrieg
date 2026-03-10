@@ -54,7 +54,7 @@
 //
 using int64 = __int64;// due to lack of 'long long' type support
 using QWORD = unsigned __int64;// quadra word
-#define for if(false); else for					// to achieve standard variable scope resolving, declared inside 'for'
+
 #define STDCALL __stdcall								// to use with interface function calls
 // define 'interface' keyword
 #ifndef interface
