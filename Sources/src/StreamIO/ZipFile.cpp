@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "pch.h"
 #include "ZipFile.h"
 #include <functional>
 #include <zlib.h>

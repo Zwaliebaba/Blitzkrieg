@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "pch.h"
 // ReportObjectiveStateChanged
 #include "../Input/Input.h"
 #include "../Main/iMainCommands.h"

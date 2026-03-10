@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "pch.h"
 #include "UIColorTextScroll.h"
 
 int CUIColorTextScroll::CColorTextEntry::operator&(IStructureSaver &ss)

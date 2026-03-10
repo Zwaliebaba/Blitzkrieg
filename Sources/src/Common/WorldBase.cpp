@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "pch.h"
 #include "WorldBase.h"
 #include <typeinfo>
 #include "../AILogic/AITypes.h"

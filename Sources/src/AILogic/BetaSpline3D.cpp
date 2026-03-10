@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "pch.h"
 #include "BetaSpline3D.h"
 
 // Source: "The Beginnings of Computer Graphics" edited by Shikin E.V.

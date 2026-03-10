@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "pch.h"
 
 #include "Win32Random.h"
 

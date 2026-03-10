@@ -162,7 +162,8 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <LinkDLL>true</LinkDLL>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Windows</SubSystem>      <OutputFile>.\Profiler\GFX.dll</OutputFile>
+      <SubSystem>Windows</SubSystem>
+      <OutputFile>.\Profiler\GFX.dll</OutputFile>
       <ImportLibrary>.\Profiler\GFX.lib</ImportLibrary>
       <AdditionalOptions> /FIXED:NO</AdditionalOptions>
       <AdditionalDependencies>d3d8.lib;dxguid.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -211,7 +212,8 @@
       <SubSystem>Windows</SubSystem>
       <OutputFile>.\FastDebug\GFX.dll</OutputFile>
       <ImportLibrary>.\FastDebug\GFX.lib</ImportLibrary>
-      <AdditionalDependencies>d3d8.lib;dxguid.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>    </Link>
+      <AdditionalDependencies>d3d8.lib;dxguid.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -261,7 +263,8 @@
       <SubSystem>Windows</SubSystem>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <ImportLibrary>.\Debug\GFX.lib</ImportLibrary>
-      <AdditionalDependencies>dxguid.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>    </Link>
+      <AdditionalDependencies>dxguid.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='BetaRelease|Win32'">
     <ClCompile>
@@ -305,7 +308,8 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <LinkDLL>true</LinkDLL>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Windows</SubSystem>      <OutputFile>.\BetaRelease\GFX.dll</OutputFile>
+      <SubSystem>Windows</SubSystem>
+      <OutputFile>.\BetaRelease\GFX.dll</OutputFile>
       <ImportLibrary>.\BetaRelease\GFX.lib</ImportLibrary>
       <AdditionalOptions> /FIXED:NO</AdditionalOptions>
       <AdditionalDependencies>d3d8.lib;dxguid.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -354,7 +358,8 @@
       <SubSystem>Windows</SubSystem>
       <OutputFile>.\Release\GFX.dll</OutputFile>
       <ImportLibrary>.\Release\GFX.lib</ImportLibrary>
-      <AdditionalDependencies>d3d8.lib;dxguid.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>    </Link>
+      <AdditionalDependencies>d3d8.lib;dxguid.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Clipping.cpp">
@@ -381,7 +386,7 @@
     <ClCompile Include="GFXTextVisitors.cpp">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'"> /Zm150   /Zm150 </AdditionalOptions>
     </ClCompile>
-<ClCompile Include="GraphicsEngine.cpp">
+    <ClCompile Include="GraphicsEngine.cpp">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'"> /Zm150   /Zm150 </AdditionalOptions>
     </ClCompile>
     <ClCompile Include="RangeAllocs.cpp">
@@ -390,13 +395,13 @@
     <ClCompile Include="Shader.cpp">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'"> /Zm150   /Zm150 </AdditionalOptions>
     </ClCompile>
-    <ClCompile Include="StdAfx.cpp">
+    <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Profiler|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Profiler|Win32'">StdAfx.h</PrecompiledHeaderFile>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='FastDebug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='FastDebug|Win32'">StdAfx.h</PrecompiledHeaderFile>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">StdAfx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch.h</PrecompiledHeaderFile>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'"> /Zm150   /Zm150 </AdditionalOptions>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='BetaRelease|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='BetaRelease|Win32'">StdAfx.h</PrecompiledHeaderFile>
@@ -433,7 +438,7 @@
     <ClInclude Include="RangeAllocs.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Specific.h" />
-    <ClInclude Include="StdAfx.h" />
+    <ClInclude Include="pch.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureManager.h" />

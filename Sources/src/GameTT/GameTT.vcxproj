@@ -166,7 +166,8 @@
       <SubSystem>Windows</SubSystem>
       <OutputFile>.\Release\GameTT.dll</OutputFile>
       <ImportLibrary>.\Release\GameTT.lib</ImportLibrary>
-      <AdditionalDependencies>version.lib;winmm.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>    </Link>
+      <AdditionalDependencies>version.lib;winmm.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Profiler|Win32'">
     <ClCompile>
@@ -209,7 +210,8 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <LinkDLL>true</LinkDLL>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Windows</SubSystem>      <OutputFile>.\Profiler\GameTT.dll</OutputFile>
+      <SubSystem>Windows</SubSystem>
+      <OutputFile>.\Profiler\GameTT.dll</OutputFile>
       <ImportLibrary>.\Profiler\GameTT.lib</ImportLibrary>
       <AdditionalOptions> /FIXED:NO</AdditionalOptions>
       <AdditionalDependencies>vtuneapi.lib;version.lib;winmm.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -258,7 +260,8 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <LinkDLL>true</LinkDLL>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Windows</SubSystem>      <OutputFile>.\BetaRelease\GameTT.dll</OutputFile>
+      <SubSystem>Windows</SubSystem>
+      <OutputFile>.\BetaRelease\GameTT.dll</OutputFile>
       <ImportLibrary>.\BetaRelease\GameTT.lib</ImportLibrary>
       <AdditionalOptions> /FIXED:NO</AdditionalOptions>
       <AdditionalDependencies>version.lib;winmm.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -308,7 +311,8 @@
       <SubSystem>Windows</SubSystem>
       <OutputFile>.\FastDebug\GameTT.dll</OutputFile>
       <ImportLibrary>.\FastDebug\GameTT.lib</ImportLibrary>
-      <AdditionalDependencies>version.lib;winmm.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>    </Link>
+      <AdditionalDependencies>version.lib;winmm.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -326,7 +330,7 @@
       <AssemblerListingLocation>.\Debug\</AssemblerListingLocation>
       <PrecompiledHeaderOutputFile>.\Debug\GameTT.pch</PrecompiledHeaderOutputFile>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>StdAfx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <ObjectFileName>.\Debug\</ObjectFileName>
       <ProgramDataBaseFileName>.\Debug\</ProgramDataBaseFileName>
       <AdditionalOptions> /Zm300 </AdditionalOptions>
@@ -359,7 +363,8 @@
       <SubSystem>Windows</SubSystem>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <ImportLibrary>.\Debug\GameTT.lib</ImportLibrary>
-      <AdditionalDependencies>version.lib;winmm.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>    </Link>
+      <AdditionalDependencies>version.lib;winmm.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AckManager.cpp">
@@ -460,7 +465,7 @@
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='FastDebug|Win32'"> /Zm200   /Zm200 </AdditionalOptions>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'"> /Zm300   /Zm300 </AdditionalOptions>
     </ClCompile>
-<ClCompile Include="iMissionInternal.cpp">
+    <ClCompile Include="iMissionInternal.cpp">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'"> /Zm200   /Zm200 </AdditionalOptions>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Profiler|Win32'"> /Zm200   /Zm200 </AdditionalOptions>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='BetaRelease|Win32'"> /Zm200   /Zm200 </AdditionalOptions>
@@ -733,7 +738,7 @@
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='FastDebug|Win32'"> /Zm200   /Zm200 </AdditionalOptions>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'"> /Zm300   /Zm300 </AdditionalOptions>
     </ClCompile>
-    <ClCompile Include="StdAfx.cpp">
+    <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">StdAfx.h</PrecompiledHeaderFile>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'"> /Zm200   /Zm200 </AdditionalOptions>
@@ -747,7 +752,7 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='FastDebug|Win32'">StdAfx.h</PrecompiledHeaderFile>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='FastDebug|Win32'"> /Zm200   /Zm200 </AdditionalOptions>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">StdAfx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch.h</PrecompiledHeaderFile>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'"> /Zm300   /Zm300 </AdditionalOptions>
     </ClCompile>
     <ClCompile Include="SwitchToNextChapter.cpp">
@@ -885,7 +890,7 @@
     <ClInclude Include="SingleMedal.h" />
     <ClInclude Include="Specific.h" />
     <ClInclude Include="Stats.h" />
-    <ClInclude Include="StdAfx.h" />
+    <ClInclude Include="pch.h" />
     <ClInclude Include="SwitchToNextChapter.h" />
     <ClInclude Include="TotalEncyclopedia.h" />
     <ClInclude Include="TutorialList.h" />

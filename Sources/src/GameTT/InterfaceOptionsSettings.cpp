@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "pch.h"
 
 #include "InterfaceOptionsSettings.h"
 #include "../StreamIO/OptionSystem.h"

@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "pch.h"
 // ------------------------------------------------------------------- setters
 
 void GRect::set(GPoint p0, GPoint p1)

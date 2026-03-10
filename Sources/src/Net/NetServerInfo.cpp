@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "pch.h"
 #include "NetServerInfo.h"
 #include "NetDriverConsts.h"
 

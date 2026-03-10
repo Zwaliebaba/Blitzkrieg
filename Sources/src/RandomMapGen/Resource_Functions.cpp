@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "pch.h"
 #include "IB_Types.h"
 #include "Resource_Types.h"
 

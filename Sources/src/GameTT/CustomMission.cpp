@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "pch.h"
 
 #include "../RandomMapGen/MapInfo_Types.h"
 #include "../RandomMapGen/Resource_Types.h"

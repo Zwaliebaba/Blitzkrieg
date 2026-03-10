@@ -163,7 +163,8 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <LinkDLL>true</LinkDLL>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Windows</SubSystem>      <OutputFile>.\Profiler\Scene.dll</OutputFile>
+      <SubSystem>Windows</SubSystem>
+      <OutputFile>.\Profiler\Scene.dll</OutputFile>
       <ImportLibrary>.\Profiler\Scene.lib</ImportLibrary>
       <AdditionalOptions> /FIXED:NO</AdditionalOptions>
       <AdditionalDependencies>winmm.lib;binkw32.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -213,7 +214,8 @@
       <SubSystem>Windows</SubSystem>
       <OutputFile>.\Release\Scene.dll</OutputFile>
       <ImportLibrary>.\Release\Scene.lib</ImportLibrary>
-      <AdditionalDependencies>winmm.lib;binkw32.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>    </Link>
+      <AdditionalDependencies>winmm.lib;binkw32.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='FastDebug|Win32'">
     <ClCompile>
@@ -259,7 +261,8 @@
       <SubSystem>Windows</SubSystem>
       <OutputFile>.\FastDebug\Scene.dll</OutputFile>
       <ImportLibrary>.\FastDebug\Scene.lib</ImportLibrary>
-      <AdditionalDependencies>winmm.lib;binkw32.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>    </Link>
+      <AdditionalDependencies>winmm.lib;binkw32.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -278,7 +281,7 @@
       <AssemblerListingLocation>.\Debug\</AssemblerListingLocation>
       <PrecompiledHeaderOutputFile>.\Debug\Scene.pch</PrecompiledHeaderOutputFile>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>StdAfx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <ObjectFileName>.\Debug\</ObjectFileName>
       <ProgramDataBaseFileName>.\Debug\</ProgramDataBaseFileName>
       <AdditionalOptions> /Zm200 </AdditionalOptions>
@@ -311,7 +314,8 @@
       <SubSystem>Windows</SubSystem>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <ImportLibrary>.\Debug\Scene.lib</ImportLibrary>
-      <AdditionalDependencies>winmm.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>    </Link>
+      <AdditionalDependencies>winmm.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='BetaRelease|Win32'">
     <ClCompile>
@@ -356,7 +360,8 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <LinkDLL>true</LinkDLL>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Windows</SubSystem>      <OutputFile>.\BetaRelease\Scene.dll</OutputFile>
+      <SubSystem>Windows</SubSystem>
+      <OutputFile>.\BetaRelease\Scene.dll</OutputFile>
       <ImportLibrary>.\BetaRelease\Scene.lib</ImportLibrary>
       <AdditionalOptions> /FIXED:NO</AdditionalOptions>
       <AdditionalDependencies>winmm.lib;binkw32.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -476,7 +481,7 @@
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'"> /Zm200   /Zm200 </AdditionalOptions>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='BetaRelease|Win32'"> /Zm150   /Zm150 </AdditionalOptions>
     </ClCompile>
-<ClCompile Include="Icon.cpp">
+    <ClCompile Include="Icon.cpp">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Profiler|Win32'"> /Zm150   /Zm150 </AdditionalOptions>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'"> /Zm150   /Zm150 </AdditionalOptions>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='FastDebug|Win32'"> /Zm150   /Zm150 </AdditionalOptions>
@@ -651,7 +656,7 @@
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'"> /Zm200   /Zm200 </AdditionalOptions>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='BetaRelease|Win32'"> /Zm150   /Zm150 </AdditionalOptions>
     </ClCompile>
-    <ClCompile Include="StdAfx.cpp">
+    <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Profiler|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Profiler|Win32'">StdAfx.h</PrecompiledHeaderFile>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Profiler|Win32'"> /Zm150   /Zm150 </AdditionalOptions>
@@ -662,7 +667,7 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='FastDebug|Win32'">StdAfx.h</PrecompiledHeaderFile>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='FastDebug|Win32'"> /Zm150   /Zm150 </AdditionalOptions>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">StdAfx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch.h</PrecompiledHeaderFile>
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'"> /Zm200   /Zm200 </AdditionalOptions>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='BetaRelease|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='BetaRelease|Win32'">StdAfx.h</PrecompiledHeaderFile>
@@ -785,7 +790,7 @@
     <ClInclude Include="SpriteVisObj.h" />
     <ClInclude Include="SquadVisObj.h" />
     <ClInclude Include="StatSystem.h" />
-    <ClInclude Include="StdAfx.h" />
+    <ClInclude Include="pch.h" />
     <ClInclude Include="Terrain.h" />
     <ClInclude Include="TerrainBuilder.h" />
     <ClInclude Include="TerrainInternal.h" />

@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "pch.h"
 
 #include "../Main/Transceiver.h"
 #include "../Main/GameStats.h"

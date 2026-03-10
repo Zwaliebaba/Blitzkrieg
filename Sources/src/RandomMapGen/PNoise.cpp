@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "pch.h"
 #include "PNoise.h"
 #include "../streamIO/RandomGen.h"
 

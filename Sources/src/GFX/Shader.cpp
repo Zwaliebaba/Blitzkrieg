@@ -1,3 +1,3 @@
-#include "StdAfx.h"
+#include "pch.h"
 
 #include "Shader.h"

@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "pch.h"
 
 #include "iMainCommands.h"
 #include "SinglePlayerTransceiver.h"

@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "pch.h"
 #include "../GameTT/iMission.h"
 #include "../Main/GameStats.h"
 #include "UIMessages.h"

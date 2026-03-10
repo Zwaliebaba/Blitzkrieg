@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "pch.h"
 #include "HPTimer.h"
 // /////////////////////////
 using namespace NHPTimer;

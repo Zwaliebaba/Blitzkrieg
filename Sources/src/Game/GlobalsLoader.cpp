@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "pch.h"
 
 using GETTEMPRAWBUFFER_HOOK = void* (STDCALL *)(int nAmount, int nBufferIndex);
 

@@ -169,7 +169,8 @@
       <SubSystem>Windows</SubSystem>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <ImportLibrary>.\Debug\Image.lib</ImportLibrary>
-      <AdditionalDependencies>odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>    </Link>
+      <AdditionalDependencies>odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='FastDebug|Win32'">
     <ClCompile>
@@ -214,7 +215,8 @@
       <SubSystem>Windows</SubSystem>
       <OutputFile>.\FastDebug\Image.dll</OutputFile>
       <ImportLibrary>.\FastDebug\Image.lib</ImportLibrary>
-      <AdditionalDependencies>s3tc.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>    </Link>
+      <AdditionalDependencies>s3tc.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -259,7 +261,8 @@
       <SubSystem>Windows</SubSystem>
       <OutputFile>.\Release\Image.dll</OutputFile>
       <ImportLibrary>.\Release\Image.lib</ImportLibrary>
-      <AdditionalDependencies>s3tc.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>    </Link>
+      <AdditionalDependencies>s3tc.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='BetaRelease|Win32'">
     <ClCompile>
@@ -303,7 +306,8 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <LinkDLL>true</LinkDLL>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Windows</SubSystem>      <OutputFile>.\BetaRelease\Image.dll</OutputFile>
+      <SubSystem>Windows</SubSystem>
+      <OutputFile>.\BetaRelease\Image.dll</OutputFile>
       <ImportLibrary>.\BetaRelease\Image.lib</ImportLibrary>
       <AdditionalOptions> /FIXED:NO</AdditionalOptions>
       <AdditionalDependencies>s3tc.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -349,7 +353,8 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <LinkDLL>true</LinkDLL>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Windows</SubSystem>      <OutputFile>.\Profiler\Image.dll</OutputFile>
+      <SubSystem>Windows</SubSystem>
+      <OutputFile>.\Profiler\Image.dll</OutputFile>
       <ImportLibrary>.\Profiler\Image.lib</ImportLibrary>
       <AdditionalOptions> /FIXED:NO</AdditionalOptions>
       <AdditionalDependencies>s3tc.lib;odbc32.lib;odbccp32.lib;comsupp.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -366,10 +371,10 @@
     <ClInclude Include="ImageReal.h" />
     <ClInclude Include="ImageTGA.h" />
     <ClInclude Include="Specific.h" />
-    <ClInclude Include="StdAfx.h" />
+    <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
-<ClCompile Include="ImageBMP.cpp" />
+    <ClCompile Include="ImageBMP.cpp" />
     <ClCompile Include="ImageMMP.cpp" />
     <ClCompile Include="ImageObjectFactory.cpp" />
     <ClCompile Include="ImagePNG.cpp" />
@@ -378,9 +383,9 @@
     <ClCompile Include="ImageScale.cpp" />
     <ClCompile Include="ImageTGA.cpp" />
     <ClCompile Include="RectsComposition.cpp" />
-    <ClCompile Include="StdAfx.cpp">
+    <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">StdAfx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch.h</PrecompiledHeaderFile>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='FastDebug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='FastDebug|Win32'">StdAfx.h</PrecompiledHeaderFile>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

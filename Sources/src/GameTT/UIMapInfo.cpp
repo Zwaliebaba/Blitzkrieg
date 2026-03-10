@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "pch.h"
 
 #include "UIMapInfo.h"
 #include "../RandomMapGen/Resource_Types.h"

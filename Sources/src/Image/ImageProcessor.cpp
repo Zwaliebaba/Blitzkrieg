@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "pch.h"
 #include "ImageProcessor.h"
 #include "ImageBMP.h"
 #include "ImagePNG.h"

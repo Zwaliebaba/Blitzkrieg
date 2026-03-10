@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "pch.h"
 // #include "..\Misc\Spline.h"
 // #include "..\AILogic\AILogic.h"
 // #include "..\Formats\fmtTerrain.h"

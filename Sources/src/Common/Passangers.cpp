@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "pch.h"
 
 #include "Passangers.h"
 #include "../Common/Icons.h"

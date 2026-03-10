@@ -1,7 +1,7 @@
 /* ----------------------------------------------------------------------
         */
 // //////////////////////////////////////////////////////////// 
-#include "StdAfx.h"
+#include "pch.h"
 #include "BugSlayer.h"
 // The project internal header file.
 #include "Internal.h"

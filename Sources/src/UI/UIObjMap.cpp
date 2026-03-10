@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "pch.h"
 
 #include "../gfx/gfxhelper.h"
 #include "UIObjMap.h"

@@ -1,17 +1,12 @@
-#include "StdAfx.h"
-
-#include "SceneInternal.h"
-
+#include "pch.h"
 #include <float.h>
-
-#include "MeshVisObj.h"
-#include "FrameSelection.h"
-#include "../GFX/GFXHelper.h"
 #include "DrawVisitor.h"
 #include "FastSinCos.h"
-#include "../Formats/fmtMap.h"
-#include "../Misc/Win32Random.h"
+#include "SceneInternal.h"
 #include "SoundScene.h"
+#include "../Formats/fmtMap.h"
+#include "../GFX/GFXHelper.h"
+#include "../Misc/Win32Random.h"
 
 #define MESH_SHADOW_DENSITY 0.5f
 

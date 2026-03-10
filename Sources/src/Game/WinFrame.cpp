@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "pch.h"
 #include <mmsystem.h>
 #include "WinFrame.h"
 #include "../Misc/Win32Helper.h"

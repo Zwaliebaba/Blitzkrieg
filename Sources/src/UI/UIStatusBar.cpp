@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "pch.h"
 #include "UIStatusBar.h"
 
 static constexpr int ICON_WIDTH = 14;

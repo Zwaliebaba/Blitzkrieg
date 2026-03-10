@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "pch.h"
 #include "OptionsConvert.h"
 #include "OptionSystemInternal.h"
 #include "../Main/TextSystem.h"

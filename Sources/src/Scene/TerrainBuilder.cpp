@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "pch.h"
 
 #include "../GFX/GFX.h"
 #include "../GFX/GFXHelper.h"

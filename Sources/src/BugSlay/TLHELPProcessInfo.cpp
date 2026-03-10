@@ -1,7 +1,7 @@
 /* ----------------------------------------------------------------------
         */
 
-#include "StdAfx.h"
+#include "pch.h"
 #include "BugSlayer.h"
 #include "TLHELP32.h"
 #include "Internal.h"

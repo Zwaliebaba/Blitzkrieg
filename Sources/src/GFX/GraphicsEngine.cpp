@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "pch.h"
 #include "GraphicsEngine.h"
 #include "GFXHelper.h"
 #include "GFXTypes.h"

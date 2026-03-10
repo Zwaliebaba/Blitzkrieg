@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "pch.h"
 #include "PlayerSkill.h"
 #include "../StreamIO/RandomGen.h"
 #include "../Misc/Win32Random.h"

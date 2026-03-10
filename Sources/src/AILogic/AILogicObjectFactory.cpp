@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "pch.h"
 
 #include "AILogicObjectFactory.h"
 #include "AILogicInternal.h"

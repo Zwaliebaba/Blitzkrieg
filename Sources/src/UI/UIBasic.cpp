@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "pch.h"
 #include "../Main/TextSystem.h"
 #include "UIBasic.h"
 #include "UIBasicM.h"

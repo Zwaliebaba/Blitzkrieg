@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "pch.h"
 #include "NetObjectFactory.h"
 #include "NetA4.h"
 

@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "pch.h"
 
 #include "KeyBasedParticleSource.h"
 #include "../Misc/Win32Random.h"

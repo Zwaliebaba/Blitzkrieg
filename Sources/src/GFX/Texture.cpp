@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "pch.h"
 
 #include "Texture.h"
 #include "../Image/Image.h"

@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "pch.h"
 
 #include "../Anim/Animation.h"
 #include "fmtAnimation.h"

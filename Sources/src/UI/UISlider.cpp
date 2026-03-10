@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "pch.h"
 #include "../GameTT/CommonId.h"
 #include "UISlider.h"
 #include "UIMessages.h"

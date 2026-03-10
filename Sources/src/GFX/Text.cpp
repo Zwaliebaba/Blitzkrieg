@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "pch.h"
 #include "Text.h"
 #include "../Formats/fmtFont.h"
 #include "GFXTextVisitors.h"

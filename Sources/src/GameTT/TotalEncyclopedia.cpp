@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "pch.h"
 #include "TotalEncyclopedia.h"
 #include <functional>
 #include "CommonId.h"

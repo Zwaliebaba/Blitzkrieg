@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "pch.h"
 
 #define _DO_ASSERT_SLOW 1
 #include "BugSlayer.h"

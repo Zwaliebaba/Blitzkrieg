@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "pch.h"
 #include <comdef.h>
 #include "UIBasic.h"
 #include "UIBasicM.h"

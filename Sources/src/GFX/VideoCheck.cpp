@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "pch.h"
 #include "VideoCheck.h"
 #include <d3d9.h>
 

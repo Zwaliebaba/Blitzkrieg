@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "pch.h"
 
 #include "../Scene/SmokinParticleSourceData.h"
 #include "../Scene/PFX.h"

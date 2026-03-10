@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "pch.h"
 
 #include "../Misc/Win32Helper.h"
 #include "../Misc/FileUtils.h"

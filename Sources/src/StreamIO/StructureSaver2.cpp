@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "pch.h"
 #include "StructureSaver2.h"
 #include <typeinfo>
 #include "ProgressHook.h"

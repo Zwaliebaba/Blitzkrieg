@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "pch.h"
 // ////////////////////
 constexpr int N_SIZE = 0x20000000;
 constexpr int N_WAYS = 16;

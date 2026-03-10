@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "pch.h"
 #include "TerrainGenerator.h"
 #include "PNoise.h"
 #include "../StreamIO/RandomGen.h"

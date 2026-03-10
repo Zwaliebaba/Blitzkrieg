@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "pch.h"
 #include "../main//gamestats.h"
 #include "../main//gamedb.h"
 #include "UIMessages.h"

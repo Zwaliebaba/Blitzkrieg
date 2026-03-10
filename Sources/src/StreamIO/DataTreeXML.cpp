@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "pch.h"
 #include "DataTreeXML.h"
 #include "../StreamIO/StreamAdaptor.h"
 #include <ocidl.h>

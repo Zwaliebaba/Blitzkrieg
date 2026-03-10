@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "pch.h"
 
 #include "MapObject.h"
 #include "../Common/Actions.h"

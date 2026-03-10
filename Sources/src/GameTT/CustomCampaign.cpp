@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "pch.h"
 
 #include "../Main/GameStats.h"
 #include "../Main/ScenarioTracker.h"

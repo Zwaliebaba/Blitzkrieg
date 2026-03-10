@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "pch.h"
 static constexpr char LOCAL_FILE[] = __FILE__;
 
 #include <stdio.h>
