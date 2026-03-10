@@ -3,7 +3,7 @@
 // linkID update happens here
 // UPDATE_LINK_ID
 
-#include "stdafx.h"
+#include "pch.h"
 
 #include "MapInfo_Types.h"
 #include "../Formats/fmtTerrain.h"

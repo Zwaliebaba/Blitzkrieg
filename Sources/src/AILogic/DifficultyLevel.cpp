@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "pch.h"
 
 #include "DifficultyLevel.h"
 #include "Diplomacy.h"

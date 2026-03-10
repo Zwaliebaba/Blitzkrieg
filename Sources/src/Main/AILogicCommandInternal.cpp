@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "pch.h"
 #include "AILogicCommandInternal.h"
 #include "iMainCommands.h"
 #include "Transceiver.h"

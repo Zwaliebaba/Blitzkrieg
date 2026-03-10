@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "pch.h"
 
 #include "ArtilleryStates.h"
 #include "SerializeOwner.h"

@@ -2,7 +2,7 @@
 //
 // /////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "pch.h"
 #include "MultiplayerGamesList.h"
 #include "WorldClient.h"
 #include "MuliplayerToUIConsts.h"

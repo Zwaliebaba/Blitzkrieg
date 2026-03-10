@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "pch.h"
 
 // standard viewing angle
 const WORD SConsts::STANDART_VIS_ANGLE = 32768;

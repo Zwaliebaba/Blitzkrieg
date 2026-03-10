@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "pch.h"
 
 #include "GroupLogic.h"
 #include "Commands.h"

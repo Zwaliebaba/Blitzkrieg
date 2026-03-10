@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "pch.h"
 
 #include "GameCreationMessages.h"
 #include "../GameTT/MultiplayerCommandManager.h"

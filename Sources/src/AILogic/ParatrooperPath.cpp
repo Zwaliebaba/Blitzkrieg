@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "pch.h"
 
 #include "ParatrooperPath.h"
 #include "AIStaticMap.h"

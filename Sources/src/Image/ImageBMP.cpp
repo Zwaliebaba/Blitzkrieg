@@ -1,5 +1,4 @@
 #include "pch.h"
-
 #include "ImageBMP.h"
 
 enum EBitmapCompression

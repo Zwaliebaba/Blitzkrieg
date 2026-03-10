@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "pch.h"
 
 #include "Cheats.h"
 #include "Diplomacy.h"

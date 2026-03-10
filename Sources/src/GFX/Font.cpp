@@ -1,5 +1,4 @@
 #include "pch.h"
-
 #include "Font.h"
 
 template<class TYPE>

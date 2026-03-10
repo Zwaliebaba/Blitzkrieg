@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "pch.h"
 
 #include "StaticObjectsIters.h"
 #include "StaticObject.h"

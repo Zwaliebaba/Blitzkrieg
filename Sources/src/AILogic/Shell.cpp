@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "pch.h"
 #include "Shell.h"
 #include "AIStaticMap.h"
 #include "AIUnit.h"

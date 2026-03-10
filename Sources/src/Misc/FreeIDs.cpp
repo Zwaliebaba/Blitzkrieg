@@ -2,7 +2,7 @@
 
 #include "FreeIDs.h"
 
-#include "stdafx.h"
+#include "pch.h"
 
 // **********************************************************************
 // *CFreeIds*

@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "pch.h"
 
 #include "Guns.h"
 #include "GunsInternal.h"

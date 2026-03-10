@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "pch.h"
 
 #include "CollisionInternal.h"
 #include "SerializeOwner.h"

@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "pch.h"
 
 #include "MapInfo_Types.h"
 #include "../formats/FmtTerrain.h"

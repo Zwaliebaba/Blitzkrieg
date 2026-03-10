@@ -1,8 +1,6 @@
-#include "stdAfx.h"
+#include "pch.h"
 #include "Winbase.h"
 #include "Mmsystem.h"
-
-
 #include "StreamFadeOff.h"
 
 DWORD WINAPI TheThreadProc(LPVOID lpParameter)

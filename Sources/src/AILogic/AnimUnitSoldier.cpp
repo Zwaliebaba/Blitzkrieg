@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "pch.h"
 
 #include "AnimUnitSoldier.h"
 #include "Soldier.h"

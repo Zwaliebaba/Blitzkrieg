@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "pch.h"
 
 #include "IB_Types.h"
 #include "../Formats/fmtTerrain.h"

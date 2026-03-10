@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "pch.h"
 
 #include "SoldierStates.h"
 #include "InBuildingStates.h"

@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "pch.h"
 
 #include "CommonStates.h"
 #include "Guns.h"
