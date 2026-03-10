@@ -30,7 +30,7 @@ class CMainLoop : public IMainLoop
   CPtr<IAILogic> pAILogic;
   //
   CInterfaceCommandsList cmds;// interface (inter-frame) commands
-  CInterfacesList interfaces;// interfaces
+  CInterfacesList m_interfaces;// interfaces
   CManagersList managers;// data managers (for save/load)
   bool bAppIsActive;// is app active
   bool bWireFrame;// wireframe mode

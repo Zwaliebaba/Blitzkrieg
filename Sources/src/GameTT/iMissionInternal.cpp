@@ -283,8 +283,11 @@ void CInterfaceMission::CTimeoutDialog::ProcessMessage(const SGameMessage &msg, 
         IText *pText = GetSingleton<ITextManager>()->GetString("Textes\\UI\\Mission\\TimeoutDialog\\message_timeout");
         pButtonCancel->EnableWindow(pScenarioTracker->GetUserPlayerID() == msg.nParam);
         std::wstring szMessage = pScenarioTracker->GetPlayer(msg.nParam)->GetName();
-        szMessage += L" ";
-        szMessage += pText->GetString();
+        if (pText)
+        {
+          szMessage += L" ";
+          szMessage += pText->GetString();
+        }
         pMessage->SetWindowText(0, szMessage.c_str());
         pDialog->ShowWindow(UI_SW_SHOW);
         auto pPlayerLagged = checked_cast<IUIDialog *>(pUIScreen->GetChildByID(E_MULTIPLAYER_PLAYER_LAGGED_DIALOG));
@@ -336,7 +339,6 @@ void CInterfaceMission::CPlayerLaggedDialog::CDialogStateLagged::AddPlayer(const
 
   if (players.IsEmpty())
   {
-    auto pDialog = checked_cast<IUIDialog *>(pUIScreen->GetChildByID(E_MULTIPLAYER_PLAYER_LAGGED_DIALOG));
     Show(pUIScreen);
   }
   IUIListRow *pRow = players.Add(new SPlayerLaggedInfo(nPlayer, nTime));
@@ -398,7 +400,6 @@ void CInterfaceMission::CPlayerLaggedDialog::CDialogStateLoading::AddPlayer(cons
 
   if (players.IsEmpty())
   {
-    auto pDialog = checked_cast<IUIDialog *>(pUIScreen->GetChildByID(E_MULTIPLAYER_PLAYER_LOADING_DIALOG));
     Show(pUIScreen);
   }
   IUIListRow *pRow = players.Add(new SPlayerLoadingInfo(nPlayer));
@@ -429,7 +430,7 @@ void CInterfaceMission::CPlayerLaggedDialog::ProcessMessage(const SGameMessage &
   switch (msg.nEventID)
   {
     case MC_MP_LAG_FINISHED:
-      if (pState && pState->GetName() == EWM_LAG) pState->RemovePlayer(msg.nParam, pUIScreen);
+      if (pState && pState->GetName() == EWM_LAG) pState->RemovePlayer(nPlayer, pUIScreen);
 
       break;
     case MC_MP_LAG_STARTED:
@@ -446,14 +447,14 @@ void CInterfaceMission::CPlayerLaggedDialog::ProcessMessage(const SGameMessage &
     case MC_MP_DROP_LAGGED_PLAYER:
       if (pState && pState->GetName() == EWM_LAG)
       {
-        pState->RemovePlayer(msg.nParam, pUIScreen);
-        IPlayerScenarioInfo *pPlayer = GetSingleton<IScenarioTracker>()->GetPlayer(msg.nParam);
+        pState->RemovePlayer(nPlayer, pUIScreen);
+        IPlayerScenarioInfo *pPlayer = GetSingleton<IScenarioTracker>()->GetPlayer(nPlayer);
         GetSingleton<ITransceiver>()->CommandClientDropPlayer(pPlayer->GetName().c_str());
       }
 
       break;
     case MC_MP_PLAYER_LOAD_FINISHED:
-      if (pState && pState->GetName() == EWM_LOADING) pState->RemovePlayer(msg.nParam, pUIScreen);
+      if (pState && pState->GetName() == EWM_LOADING) pState->RemovePlayer(nPlayer, pUIScreen);
 
       break;
     case MC_MP_PLAYER_LOAD_STARTED:
@@ -1076,7 +1077,7 @@ bool FindNextPoint(SPolylineSample *pRes, const SPolylineSample &curr, const flo
   vPos.Lerp(curr.fCoeff, points[curr.nFirst], points[curr.nLast]);
   int nNextIndex = curr.nLast;
   const float fLen2 = fabs2(fLen);
-  while ((fabs2(vPos - points[nNextIndex]) < fLen2) && (nNextIndex < points.size())) ++nNextIndex;
+  while ((nNextIndex < points.size()) && (fabs2(vPos - points[nNextIndex]) < fLen2)) ++nNextIndex;
   if (nNextIndex == points.size()) return false;
   //
   const CVec3 vFrom = curr.nLast == nNextIndex ? vPos : points[nNextIndex - 1];
@@ -1085,7 +1086,7 @@ bool FindNextPoint(SPolylineSample *pRes, const SPolylineSample &curr, const flo
   const CVec3 vVec = vTo - vFrom;
   //
   float fCurrCoeff;
-  for (fCurrCoeff = fStartCoeff; fCurrCoeff < 1.0f; fCurrCoeff += 0.01f) { if (fabs2(vFrom + fCurrCoeff * vVec) >= fLen2) break; }
+  for (fCurrCoeff = fStartCoeff; fCurrCoeff < 1.0f; fCurrCoeff += 0.01f) { if (fabs2(vPos - (vFrom + fCurrCoeff * vVec)) >= fLen2) break; }
   //
   pRes->nFirst = nNextIndex - 1;
   pRes->nLast = nNextIndex;

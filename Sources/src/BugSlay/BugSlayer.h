@@ -1,6 +1,3 @@
-#ifndef __BUGSLAYER_H__
-#define __BUGSLAYER_H__
-
 #pragma once
 
 #include <imagehlp.h>
@@ -209,5 +206,3 @@ if ( (static_cast<DWORD>(x) & 0x80000000) != 0 )                                
 #define NI_FORCE_ASSERT( x, user_text, statement, bForce )    {  }
 #define NI_FORCE_ASSERT_HR( x, user_text, statement, bForce ) {  }
 #endif // defined( _DO_ASSERT ) || 
-
-#endif // __BUGSLAYER_H__

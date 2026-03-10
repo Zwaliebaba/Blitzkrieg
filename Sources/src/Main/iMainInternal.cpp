@@ -167,10 +167,10 @@ CMainLoop::CMainLoop()
 
 CMainLoop::~CMainLoop()
 {
-  while (!interfaces.empty())
+  while (!m_interfaces.empty())
   {
-    interfaces.back()->Done();
-    interfaces.pop_back();
+    m_interfaces.back()->Done();
+    m_interfaces.pop_back();
   }
 }
 
@@ -189,14 +189,14 @@ void CMainLoop::Serialize(IStructureSaver *pSS, IProgressHook *pHook)
   // serialize commands
   saver.Add(1, &cmds);
   // serialize interfaces
-  saver.Add(2, &interfaces);
+  saver.Add(2, &m_interfaces);
   // step hook
   if (pHook) pHook->Step();// 1
   //
   if (saver.IsReading())
   {
     // init interfaces
-    for (auto i = interfaces.begin(); i != interfaces.end(); ++i) (*i)->Init();
+    for (auto i = m_interfaces.begin(); i != m_interfaces.end(); ++i) (*i)->Init();
   }
   // serialize global objects
   // scene
@@ -339,12 +339,12 @@ void CMainLoop::ClearResources(const bool bClearAll)
 
 void CMainLoop::ResetStack()
 {
-  NStr::DebugTrace("*** [MAINLOOP] ResetStack (stack size=%d)\n", interfaces.size());
-  while (!interfaces.empty())
+  NStr::DebugTrace("*** [MAINLOOP] ResetStack (stack size=%d)\n", m_interfaces.size());
+  while (!m_interfaces.empty())
   {
-    interfaces.back()->OnGetFocus(false);
-    interfaces.back()->Done();
-    interfaces.pop_back();
+    m_interfaces.back()->OnGetFocus(false);
+    m_interfaces.back()->Done();
+    m_interfaces.pop_back();
   }
   // clear all managers data
   GetSingleton<IScene>()->Clear();
@@ -356,39 +356,39 @@ void CMainLoop::SetInterface(IInterfaceBase *pNewInterface)
   NStr::DebugTrace("*** [MAINLOOP] SetInterface: %s\n", typeid(*pNewInterface).name());
   NI_ASSERT_T(pNewInterface->IsValid(), NStr::Format("Invalid Interface of class \"%s\"", typeid(*pNewInterface).name()));
   ResetStack();
-  interfaces.push_back(pNewInterface);
+  m_interfaces.push_back(pNewInterface);
   pNewInterface->OnGetFocus(true);
 }
 
 void CMainLoop::PushInterface(IInterfaceBase *pNewInterface)
 {
-  NStr::DebugTrace("*** [MAINLOOP] PushInterface: %s (stack size before=%d)\n", typeid(*pNewInterface).name(), interfaces.size());
+  NStr::DebugTrace("*** [MAINLOOP] PushInterface: %s (stack size before=%d)\n", typeid(*pNewInterface).name(), m_interfaces.size());
   NI_ASSERT_T(pNewInterface->IsValid(), NStr::Format("Invalid Interface of class \"%s\"", typeid(*pNewInterface).name()));
-  if (!interfaces.empty()) interfaces.back()->OnGetFocus(false);
-  interfaces.push_back(pNewInterface);
+  if (!m_interfaces.empty()) m_interfaces.back()->OnGetFocus(false);
+  m_interfaces.push_back(pNewInterface);
   pNewInterface->OnGetFocus(true);
 }
 
 void CMainLoop::PopInterface()
 {
-  NStr::DebugTrace("*** [MAINLOOP] PopInterface (stack size before=%d)\n", interfaces.size());
-  if (!interfaces.empty())
+  NStr::DebugTrace("*** [MAINLOOP] PopInterface (stack size before=%d)\n", m_interfaces.size());
+  if (!m_interfaces.empty())
   {
-    NStr::DebugTrace("*** [MAINLOOP] PopInterface: removing %s\n", typeid(*interfaces.back()).name());
-    interfaces.back()->OnGetFocus(false);
-    interfaces.back()->Done();
-    interfaces.pop_back();
+    NStr::DebugTrace("*** [MAINLOOP] PopInterface: removing %s\n", typeid(*m_interfaces.back()).name());
+    m_interfaces.back()->OnGetFocus(false);
+    m_interfaces.back()->Done();
+    m_interfaces.pop_back();
   }
   //
-  if (!interfaces.empty()) interfaces.back()->OnGetFocus(true);
+  if (!m_interfaces.empty()) m_interfaces.back()->OnGetFocus(true);
   // clear unreferenced resources
   ClearResources(false);
 }
 
 IInterfaceBase *CMainLoop::GetInterface() const
 {
-  if (interfaces.empty()) return nullptr;
-  return interfaces.back();
+  if (m_interfaces.empty()) return nullptr;
+  return m_interfaces.back();
 }
 
 static int nShotIndex = 0;
@@ -546,7 +546,7 @@ void CMainLoop::OnMultiplayerStateCommand(const SGameMessage &msg)
         pBuffer->Write(CONSOLE_STREAM_CHAT, szOutput.c_str(), 0xffff0000);
       }
       GetSingleton<IScene>()->AddSound("Int_information", VNULL3, SFX_INTERFACE, SAM_ADD_N_FORGET);
-      pTransceiver->CommandClientDropPlayer(pPlayerInfo->GetName().c_str());
+      if (pPlayerInfo) pTransceiver->CommandClientDropPlayer(pPlayerInfo->GetName().c_str());
     }
 
     break;
@@ -573,8 +573,6 @@ void CMainLoop::OnMultiplayerStateCommand(const SGameMessage &msg)
     case 7: // some players are out of sync from all
       pInput->AddMessage(SGameMessage(MC_LOCAL_PLAYER_OUT_OF_SYNC));
       break;
-
-      break;
   }
 }
 
@@ -599,7 +597,8 @@ void CMainLoop::Command(int nCommandID, const char *pszConfiguration)
 bool GetFileVersion(const std::string &szFileName, VS_FIXEDFILEINFO *pVersionInfo)
 {
   char pszLocalFileName[2048];
-  strcpy(pszLocalFileName, szFileName.c_str());
+  strncpy(pszLocalFileName, szFileName.c_str(), sizeof(pszLocalFileName) - 1);
+  pszLocalFileName[sizeof(pszLocalFileName) - 1] = '\0';
   DWORD dwLength = 0;
   const int nVersionSize = GetFileVersionInfoSize(pszLocalFileName, &dwLength);
   if (nVersionSize == 0) return false;
@@ -648,7 +647,7 @@ void ParseWorldStreamCommands()
       // main build version
       ReportMainModuleVersion(pCB);
     }
-    else if (szStrings[0] == "dumpvars") { GetSingleton<IGlobalVars>()->DumpVars(szStrings[1].c_str()); }
+    else if (szStrings[0] == "dumpvars") { GetSingleton<IGlobalVars>()->DumpVars(szStrings.size() > 1 ? szStrings[1].c_str() : ""); }
     else returncommands.push_back(pszCommand);
   }
   // add unprocessed commands
@@ -676,7 +675,7 @@ bool CMainLoop::StepApp(bool bActive)
   // execute interface (overlord) commands
   CInterfaceCommandsList delayedCommands;
   const NTimer::STime timeAbs = timeGetTime();
-  NStr::DebugTrace("*** [MAINLOOP] StepApp: processing cmds (count=%d, interfaces=%d)\\n", cmds.size(), interfaces.size());
+  NStr::DebugTrace("*** [MAINLOOP] StepApp: processing cmds (count=%d, interfaces=%d)\\n", cmds.size(), m_interfaces.size());
   while (!cmds.empty())
   {
     CPtr<IInterfaceCommand> pCmd = cmds.front();
@@ -693,13 +692,13 @@ bool CMainLoop::StepApp(bool bActive)
   // re-store delayed commands
   for (auto it = delayedCommands.begin(); it != delayedCommands.end(); ++it) cmds.push_back(*it);
   // check for empty interfaces stack
-  if (interfaces.empty())
+  if (m_interfaces.empty())
   {
-    NI_ASSERT_T(!interfaces.empty(), "Can't perform execution more: empty interfaces stack... leaving...");
+    NI_ASSERT_T(!m_interfaces.empty(), "Can't perform execution more: empty interfaces stack... leaving...");
     NBugSlayer::RemoveAllEmergencyCommands();
     return false;
   }
-  NI_ASSERT_T(interfaces.back()->IsValid(), NStr::Format("Invalid Interface of class \"%s\"", typeid(*interfaces.back()).name()));
+  NI_ASSERT_T(m_interfaces.back()->IsValid(), NStr::Format("Invalid Interface of class \"%s\"", typeid(*m_interfaces.back()).name()));
   // parse WORLD commands from console
   ParseWorldStreamCommands();
   // update game timer
@@ -722,18 +721,18 @@ bool CMainLoop::StepApp(bool bActive)
   {
     // process text messages
     STextMessage textMessage;
-    while (pInput->GetTextMessage(&textMessage)) interfaces.back()->ProcessTextMessage(textMessage);
+    while (pInput->GetTextMessage(&textMessage)) m_interfaces.back()->ProcessTextMessage(textMessage);
     // process main messages
     SGameMessage msg;
     while (pInput->GetMessage(&msg))
     {
       // ProcessTimeoutMsg( msg );
-      interfaces.back()->ProcessUIMessage(msg);
-      while (interfaces.back()->GetMessage(&msg)) ProcessStandardMsgs(msg);
+      m_interfaces.back()->ProcessUIMessage(msg);
+      while (m_interfaces.back()->GetMessage(&msg)) ProcessStandardMsgs(msg);
     }
     // make UI self-generated messages processing
     msg.nEventID = -1;
-    if (interfaces.back()->ProcessUIMessage(msg)) { while (interfaces.back()->GetMessage(&msg)) ProcessStandardMsgs(msg); }
+    if (m_interfaces.back()->ProcessUIMessage(msg)) { while (m_interfaces.back()->GetMessage(&msg)) ProcessStandardMsgs(msg); }
   }
   else
   {
@@ -749,8 +748,8 @@ bool CMainLoop::StepApp(bool bActive)
   /* // check for timeout update
    */
   // do step for all interfaces
-  NStr::DebugTrace("*** [MAINLOOP] StepApp: stepping %d interfaces\\n", interfaces.size());
-  for (auto it = interfaces.rbegin(); it != interfaces.rend(); ++it)
+  NStr::DebugTrace("*** [MAINLOOP] StepApp: stepping %d interfaces\\n", m_interfaces.size());
+  for (auto it = m_interfaces.rbegin(); it != m_interfaces.rend(); ++it)
   {
     NStr::DebugTrace("*** [MAINLOOP] StepApp: stepping %s\\n", typeid(**it).name());
     (*it)->Step(bActive);
@@ -956,6 +955,7 @@ void CProgressScreen::SetText(const SProgressMovieInfo *pInfo)
 
 void CProgressScreen::Recover()
 {
+  if (!pGFXText) return;
   switch (nFontSize)
   {
     case 0:

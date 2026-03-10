@@ -3,12 +3,7 @@
 
 #ifndef _MEMDUMPERVALIDATOR_H
 #define _MEMDUMPERVALIDATOR_H
-// //////////////////////////////////////////////////////////// 
-// This file should not be included directly, include Bugslayer.h
-// instead.
-#ifndef __BUGSLAYER_H__
-#error "Include BugSlayer.h instead of this file directly!"
-#endif  // __BUGSLAYER_H__
+
 // Include the main header.
 #include "MSJDBG.h"
 // //////////////////////////////////////////////////////////// 
